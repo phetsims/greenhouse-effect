@@ -1,2 +1,8 @@
 heat-lamp.png author=PhET
 photon-100.png author=PhET
+flashlight2.png author=PhET
+microwave-photon.png author=PhET
+microwave-transmitter.png author=PhET
+photon-660.png author=PhET
+thin2.png author=PhET
+uv_light_2.png author=PhET
