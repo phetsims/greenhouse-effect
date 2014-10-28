@@ -50,17 +50,6 @@ define( function( require ) {
   // photons pass through.
   var SINGLE_MOLECULE_POSITION = new Vector2( 0, 0 );
 
-  // Constants that define the size of the containment area, which is the rectangle that surrounds the molecule(s).
-  var CONTAINMENT_AREA_WIDTH = 3100;   // In picometers.
-  var CONTAINMENT_AREA_HEIGHT = 3000;  // In picometers.
-  var CONTAINMENT_AREA_CENTER = new Vector2( 0, 0 );
-  var CONTAINMENT_AREA_RECT = new Rectangle(
-      CONTAINMENT_AREA_CENTER.x - CONTAINMENT_AREA_WIDTH / 2,
-      CONTAINMENT_AREA_CENTER.y - CONTAINMENT_AREA_HEIGHT / 2,
-    CONTAINMENT_AREA_WIDTH,
-    CONTAINMENT_AREA_HEIGHT
-  );
-
   // Defaults for photon emission periods.
   var DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds of sim time.
 
