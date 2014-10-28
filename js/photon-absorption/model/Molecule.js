@@ -559,7 +559,8 @@ define( function( require ) {
     },
 
     /**
-     * Notify the event listener that a photon has been emitted from this molecule.
+     * Notify the event listener that a photon has been emitted from this molecule by adding the photon to the photons
+     * observable array.
      *
      * @param {Photon} photon - The emitted photon
      * @param {PhotonAbsorptionModel} model - The model which gets the notification.
