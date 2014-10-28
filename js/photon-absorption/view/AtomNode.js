@@ -63,7 +63,7 @@ define( function( require ) {
 
     /**
      * Highlight this atom to represent that it is in an excited state.
-     * @param {Boolean} highlighted
+     * @param {boolean} highlighted
      */
     setHighlighted: function( highlighted ) {
       if ( highlighted ) {

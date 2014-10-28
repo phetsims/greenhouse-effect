@@ -69,7 +69,7 @@ define( function( require ) {
      * not multiple times.
      *
      * @param {Photon} photon
-     * @return {Boolean} absorbed
+     * @return {boolean} absorbed
      */
     queryAndAbsorbPhoton: function( photon ) {
       // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to

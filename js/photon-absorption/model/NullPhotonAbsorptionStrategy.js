@@ -41,7 +41,7 @@ define( function( require ) {
      * This strategy never absorbs.
      *
      * @param {Photon} photon - The photon being queried for absorption.
-     * @return {Boolean}
+     * @return {boolean}
      */
     queryAndAbsorbPhoton: function( photon ) {
       return false;

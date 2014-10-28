@@ -122,7 +122,7 @@ define( function( require ) {
     /**
      * Checks to see if a photon has been absorbed.
      *
-     * @return {Boolean}
+     * @return {boolean}
      */
     isPhotonAbsorbed: function() {
       // If there is an active non-null photon absorption strategy, it indicates that a photon has been absorbed.
@@ -184,7 +184,7 @@ define( function( require ) {
     /**
      * Determine if the molecule is currently vibrating.
      *
-     * @return {Boolean} vibrating
+     * @return {boolean} vibrating
      */
     isVibrating: function() {
       return this.vibrating;
@@ -219,7 +219,7 @@ define( function( require ) {
     /**
      * Set the molecule state to vibrating.
      *
-     * @param {Boolean} vibration
+     * @param {boolean} vibration
      **/
     setVibrating: function( vibration ) {
       this.vibrating = vibration;
@@ -228,7 +228,7 @@ define( function( require ) {
     /**
      * Determine if this molecule is currently rotating.
      *
-     * @return {Boolean}
+     * @return {boolean}
      **/
     isRotating: function() {
       return this.rotating;
@@ -237,7 +237,7 @@ define( function( require ) {
     /**
      * Set the current molecule state to rotating.
      *
-     * @param {Boolean} rotating
+     * @param {boolean} rotating
      **/
     setRotating: function( rotating ) {
       this.rotating = rotating;
@@ -246,7 +246,7 @@ define( function( require ) {
     /**
      * Set the molecule rotation direction to Clockwise.
      *
-     * @param {Boolean} rotationDirectionClockwise
+     * @param {boolean} rotationDirectionClockwise
      **/
     setRotationDirectionClockwise: function( rotationDirectionClockwise ) {
       this.rotationDirectionClockwise = rotationDirectionClockwise;
@@ -350,7 +350,7 @@ define( function( require ) {
      * electrons has moved to a higher orbit.  In this simulation, it is generally depicted by having the molecule
      * appear to glow.
      *
-     * @param {Boolean} highElectronicEnergyState
+     * @param {boolean} highElectronicEnergyState
      **/
     setHighElectronicEnergyState: function( highElectronicEnergyState ) {
       this.highElectronicEnergyStateProperty.set( highElectronicEnergyState );
@@ -359,7 +359,7 @@ define( function( require ) {
     /**
      * Determine if the Molecule is in a high energy state.
      *
-     * @return {Boolean} highElectronEnergyState
+     * @return {boolean} highElectronEnergyState
      **/
     isHighElectronicEnergyState: function() {
       return this.highElectronicEnergyStateProperty.get();
@@ -390,7 +390,7 @@ define( function( require ) {
      * Determine if a photon is marked to be passed through this molecule.
      *
      * @param {Photon} photon
-     * @return {Boolean}
+     * @return {boolean}
      **/
     isPhotonMarkedForPassThrough: function( photon ) {
       // Use indexOf to see if the photon exists in the list.
@@ -420,7 +420,7 @@ define( function( require ) {
      * is set so that it can control the molecule's post-absorption behavior.
      *
      * @param {Photon} photon - The photon offered for absorption.
-     * @return {Boolean} absorbPhoton
+     * @return {boolean} absorbPhoton
      **/
     queryAbsorbPhoton: function( photon ) {
 
