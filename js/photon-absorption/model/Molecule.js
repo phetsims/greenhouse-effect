@@ -393,8 +393,8 @@ define( function( require ) {
      * @return {Boolean}
      **/
     isPhotonMarkedForPassThrough: function( photon ) {
-      // If the photon does not appear in the passThroughPhotonList, return false.
-      return !(this.passThroughPhotonList.indexOf( photon ) === -1);
+      // Use indexOf to see if the photon exists in the list.
+      return this.passThroughPhotonList.indexOf( photon ) > -1;
     },
 
     /**
