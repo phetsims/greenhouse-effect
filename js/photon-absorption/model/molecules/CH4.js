@@ -107,7 +107,7 @@ define( function( require ) {
      * Set the vibration behavior for this CH4 molecule. Initialize and set center of gravity position offsets for the
      * composing atoms in its vibration cycle.
      *
-     * @param {Number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+     * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
      */
     setVibration: function( vibrationRadians ) {
 

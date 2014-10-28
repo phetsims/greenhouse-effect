@@ -193,7 +193,7 @@ define( function( require ) {
     /**
      * Advance the molecule one step in time.
      *
-     * @param {Number} dt - The change in time.
+     * @param {number} dt - The change in time.
      **/
     step: function( dt ) {
       this.activePhotonAbsorptionStrategy.step( dt );
@@ -275,8 +275,8 @@ define( function( require ) {
      * configuration, and it will cause the individual molecules to be located such that the center of gravity is in
      * the specified location.  The relative orientation of the atoms that comprise the molecules will not be changed.
      *
-     * @param {Number} x - the x location to set
-     * @param {Number} y - the y location to set
+     * @param {number} x - the x location to set
+     * @param {number} y - the y location to set
      **/
     setCenterOfGravityPos: function( x, y ) {
       if ( this.centerOfGravityProperty.get().x !== x || this.centerOfGravityProperty.get().y !== y ) {
@@ -298,7 +298,7 @@ define( function( require ) {
     /**
      * Set the angle, in terms of radians from 0 to 2*PI, where this molecule is in its vibration cycle.
      *
-     * @param {Number} vibrationRadians - The angle describing where this molecule is in its vibration.
+     * @param {number} vibrationRadians - The angle describing where this molecule is in its vibration.
      **/
     setVibration: function( vibrationRadians ) {
       this.currentVibrationRadians = vibrationRadians;
@@ -307,7 +307,7 @@ define( function( require ) {
     /**
      * Advance the vibration by the prescribed radians.
      *
-     * @param {Number} deltaRadians - Change of vibration angle in radians.
+     * @param {number} deltaRadians - Change of vibration angle in radians.
      **/
     advanceVibration: function( deltaRadians ) {
       this.currentVibrationRadians += deltaRadians;
@@ -317,7 +317,7 @@ define( function( require ) {
     /**
      * Rotate the molecule about the center of gravity by the specified number of radians.
      *
-     * @param {Number} deltaRadians - Change in radians of the Molecule's angle about the center of Gravity.
+     * @param {number} deltaRadians - Change in radians of the Molecule's angle about the center of Gravity.
      **/
     rotate: function( deltaRadians ) {
       this.setRotation( ( this.currentRotationRadians + deltaRadians ) % ( Math.PI * 2 ) );
@@ -339,7 +339,7 @@ define( function( require ) {
     /**
      * Get this Molecules current rotation angle in Radians.
      *
-     * @return {Number} currentRotationRadians - The current angle of rotation.
+     * @return {number} currentRotationRadians - The current angle of rotation.
      **/
     getRotation: function() {
       return this.currentRotationRadians;
@@ -504,7 +504,7 @@ define( function( require ) {
     /**
      * Cause the atom to emit a photon of the specified wavelength.
      *
-     * @param {Number} wavelength
+     * @param {number} wavelength
      **/
     emitNewPhoton: function( wavelength ) {
       this.emitPhoton( new Photon( wavelength ) );
@@ -533,8 +533,8 @@ define( function( require ) {
     /**
      * Set the velocity of this molecule from vector components.
      *
-     * @param {Number} vx - The x component of the velocity vector.
-     * @param {Number} vy - The y component of the velocity vector.
+     * @param {number} vx - The x component of the velocity vector.
+     * @param {number} vy - The y component of the velocity vector.
      **/
     setVelocity: function( vx, vy ) {
       this.setVelocityVec( new Vector2( vx, vy ) );

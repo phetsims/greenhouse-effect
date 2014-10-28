@@ -38,8 +38,8 @@ define( function( require ) {
     /**
      * Set the velocity of this photon from vector components.
      *
-     * @param {Number} vx - The x component of the velocity vector.
-     * @param {Number} vy - The y component of the velocity vector.
+     * @param {number} vx - The x component of the velocity vector.
+     * @param {number} vy - The y component of the velocity vector.
      */
     setVelocity: function( vx, vy ) {
       this.vx = vx;
@@ -49,7 +49,7 @@ define( function( require ) {
     /**
      * Get the wavelength of this photon.
      *
-     * @return {Number} wavelength
+     * @return {number} wavelength
      */
     getWavelength: function() {
       return this.wavelength;
@@ -67,8 +67,8 @@ define( function( require ) {
     /**
      * Set the location of this Photon from vector components.
      *
-     * @param {Number} x - The x component of the position vector.
-     * @param {Number} y - The y component of the positino vector.
+     * @param {number} x - The x component of the position vector.
+     * @param {number} y - The y component of the positino vector.
      */
     setLocation: function( x, y ) {
       this.locationProperty.set( new Vector2( x, y ) );
@@ -77,7 +77,7 @@ define( function( require ) {
     /**
      * Change the state of this photon by stepping it in time.
      *
-     * @param {Number} dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
       this.locationProperty.set( new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt ) );

@@ -130,7 +130,7 @@ define( function( require ) {
     /**
      * Advance the molecules one step in time.  Called by the animation loop.
      *
-     * @param {Number} dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
 
@@ -243,7 +243,7 @@ define( function( require ) {
     /**
      * Set the wavelength of the photon to be emitted.
      *
-     * @param {Number} freq
+     * @param {number} freq
      */
     setEmittedPhotonWavelength: function( freq ) {
 
@@ -256,7 +256,7 @@ define( function( require ) {
     /**
      * Get the wavelength of the emitted photon.
      *
-     * @returns {Number}
+     * @returns {number}
      */
     getEmittedPhotonWavelength: function() {
       return this.photonWavelength;
@@ -274,7 +274,7 @@ define( function( require ) {
     /**
      * Set the emission period, i.e. the time between photons.
      *
-     * @param {Number} photonEmissionPeriod - Period between photons in milliseconds.
+     * @param {number} photonEmissionPeriod - Period between photons in milliseconds.
      */
     setPhotonEmissionPeriod: function( photonEmissionPeriod ) {
 
@@ -310,7 +310,7 @@ define( function( require ) {
     /**
      * Get the period between photon emissions.
      *
-     * @return {Number} - Period between photons in milliseconds.
+     * @return {number} - Period between photons in milliseconds.
      */
     getPhotonEmissionPeriod: function() {
       return this.photonEmissionPeriodTarget;

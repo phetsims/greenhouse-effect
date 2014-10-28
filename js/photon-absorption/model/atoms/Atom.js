@@ -20,8 +20,8 @@ define( function( require ) {
    * parameter describing the atom's location.
    *
    * @param {Color} representationColor - The desired color of the atom
-   * @param {Number} radius - The radius of the model atom
-   * @param {Number} mass - Mass of this atom
+   * @param {number} radius - The radius of the model atom
+   * @param {number} mass - Mass of this atom
    * @constructor
    */
   function Atom( representationColor, radius, mass ) {
@@ -61,8 +61,8 @@ define( function( require ) {
     /**
      * Set the position of this atom from point coordinates.
      *
-     * @param {Number} x - The desired x coordinate of this atom
-     * @param {Number} y - The desired y coordinate of this atom
+     * @param {number} x - The desired x coordinate of this atom
+     * @param {number} y - The desired y coordinate of this atom
      */
     setPosition: function( x, y ) {
       if ( this.positionProperty.get.x !== x || this.positionProperty.get.y !== y ) {
@@ -82,7 +82,7 @@ define( function( require ) {
     /**
      * Get the radius of this atom.
      *
-     * @return {Number} radius - The radius of this atom
+     * @return {number} radius - The radius of this atom
      */
     getRadius: function() {
       return this.radius;
@@ -91,7 +91,7 @@ define( function( require ) {
     /**
      * Get the mass of this atom.
      *
-     * @return {Number} mass - The mass of this atom.
+     * @return {number} mass - The mass of this atom.
      */
     getMass: function() {
       return this.mass;

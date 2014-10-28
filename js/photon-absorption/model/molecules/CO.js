@@ -72,7 +72,7 @@ define( function( require ) {
      * Define vibration behavior of carbon monoxide.  Set the current angle of vibration,
      * get the vibration offsets, and update the atom positions.
      *
-     * @param {Number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+     * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
      */
     setVibration: function( vibrationRadians ) {
 

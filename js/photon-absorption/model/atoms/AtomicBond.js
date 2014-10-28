@@ -59,7 +59,7 @@ define( function( require ) {
     /**
      * Get the number of atomic bonds between the two atoms.
      *
-     * @return {Number} bondCount
+     * @return {number} bondCount
      */
     getBondCount: function() {
       return this.bondCount;

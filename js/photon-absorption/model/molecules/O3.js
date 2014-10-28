@@ -121,7 +121,7 @@ define( function( require ) {
      * Set the vibration behavior for this O3 molecule.  Sets the O3 molecule to a vibrating state then
      * calculates and sets the new position for each atom in the molecule.
      *
-     * @param {Number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+     * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
      */
     setVibration: function( vibrationRadians ) {
 

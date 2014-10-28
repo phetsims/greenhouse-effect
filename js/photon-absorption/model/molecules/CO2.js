@@ -78,7 +78,7 @@ define( function( require ) {
      * Set the vibration behavior for this CO2 molecule. Initialize and set center of gravity position offsets for the
      * composing atoms.
      *
-     * @param {Number} vibrationRadians Where this molecule is in its vibration cycle in radians.
+     * @param {number} vibrationRadians Where this molecule is in its vibration cycle in radians.
      */
     setVibration: function( vibrationRadians ) {
 

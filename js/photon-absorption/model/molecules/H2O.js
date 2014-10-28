@@ -96,7 +96,7 @@ define( function( require ) {
      * Set the vibration behavior for this water molecule.  Set the current angle in vibration cycle, update center of
      * gravity offsets, and update the atom positions.
      *
-     * @param {Number} vibrationRadians - The current angle of the vibration cycle in radians.
+     * @param {number} vibrationRadians - The current angle of the vibration cycle in radians.
      */
     setVibration: function( vibrationRadians ) {
 

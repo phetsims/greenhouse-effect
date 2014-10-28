@@ -30,7 +30,7 @@ define( function( require ) {
   /**
    * Constructor for the photon emitter node.
    *
-   * @param {Number} wi dth - Desired width of the emitter image in screen coords. Height is based off image aspect ratio.
+   * @param {number} wi dth - Desired width of the emitter image in screen coords. Height is based off image aspect ratio.
    * @param { ModelViewTransform2 } mvt
    * @param {PhotonAbsorptionModel} model
    * @constructor
@@ -68,7 +68,7 @@ define( function( require ) {
     /**
      * Set the appropriate image based on the current setting for the wavelength of the emitted photons.
      *
-     * @param {Number} flashlightWidth
+     * @param {number} flashlightWidth
      */
     updateImage: function( flashlightWidth ) {
 

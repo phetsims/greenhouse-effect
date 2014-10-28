@@ -31,7 +31,7 @@ define( function( require ) {
     /**
      * Step method for the null absorption strategy.  This does nothing.
      *
-     * @param {Number} dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
       // Does nothing.

@@ -34,7 +34,7 @@ define( function( require ) {
      * The time step function for the photon holding strategy. Holds on to the photon until the countdown time is zero
      * and the re-emits the photon.
      *
-     * @param {Number} dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
 
