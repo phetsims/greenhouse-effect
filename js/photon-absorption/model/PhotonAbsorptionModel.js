@@ -151,7 +151,7 @@ define( function( require ) {
     /**
      * Check if it is time to emit any photons from the photon emitter.
      *
-     * @param { Number } dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     checkEmissionTimer: function( dt ) {
 
@@ -169,11 +169,11 @@ define( function( require ) {
     /**
      * Step the photons in time.
      *
-     * @param { Number } dt - The incremental times step.
+     * @param {number} dt - The incremental times step.
      */
     stepPhotons: function( dt ) {
 
-      dt *= 1000; // convert from miliseconds.
+      dt *= 1000; // convert from milliseconds.
       var photonsToRemove = [];
       for ( var photon = 0; photon < this.photons.length; photon++ ) {
         // See if any of the molecules wish to absorb this photon.
@@ -191,7 +191,7 @@ define( function( require ) {
     /**
      * Step the molecules one step in time.
      *
-     * @param { Number } dt - The incremental time step.
+     * @param {number} dt - The incremental time step.
      */
     stepMolecules: function( dt ) {
 
@@ -435,7 +435,7 @@ define( function( require ) {
     /**
      * Get the initial starting position of a single molecule.
      *
-     * @return {Array}
+     * @return {Vector2}
      */
     getSingleMoleculePosition: function() {
       return SINGLE_MOLECULE_POSITION;
