@@ -319,7 +319,7 @@ define( function( require ) {
     /**
      * Set the current photon target, and remove the old value.
      *
-     * @param {String} photonTarget - The string constant which represents the desired photon target.
+     * @param {string} photonTarget - The string constant which represents the desired photon target.
      */
     setPhotonTarget: function( photonTarget ) {
 
