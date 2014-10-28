@@ -326,9 +326,8 @@ define( function( require ) {
     /**
      * Set the rotation angle of the Molecule in radians.
      *
-     * @param { Number } radians
+     * @param {number} radians
      **/
-
     setRotation: function( radians ) {
       if ( radians !== this.currentRotationRadians ) {
         this.currentRotationRadians = radians;
@@ -337,7 +336,7 @@ define( function( require ) {
     },
 
     /**
-     * Get this Molecules current rotation angle in Radians.
+     * Get this Molecule's current rotation angle in Radians.
      *
      * @return {number} currentRotationRadians - The current angle of rotation.
      **/
@@ -584,8 +583,8 @@ define( function( require ) {
     /**
      * Get the instantaneous position destination of this molecule as a vector.
      *
-     * @param { Vector2 } startPt - The initial position of the object.
-     * @return { Vector2 } - The instantaneous destination of this object as a vector.
+     * @param {Vector2} startPt - The initial position of the object.
+     * @return {Vector2} - The instantaneous destination of this object as a vector.
      */
     getDestination: function( startPt ) {
       return startPt.plus( this.velocity );
