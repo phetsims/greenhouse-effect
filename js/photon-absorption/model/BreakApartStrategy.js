@@ -17,7 +17,7 @@ define( function( require ) {
   /**
    * Constructor for the break apart strategy.
    *
-   * @param { Molecule } molecule - The molecule which will use this strategy.
+   * @param {Molecule} molecule - The molecule which will use this strategy.
    * @constructor
    */
   function BreakApartStrategy( molecule ) {

@@ -18,7 +18,7 @@ define( function( require ) {
   /**
    * Constructor for the excitation strategy.
    *
-   * @param { Molecule } molecule - The molecule which will use this strategy.
+   * @param {Molecule} molecule - The molecule which will use this strategy.
    * @constructor
    */
   function ExcitationStrategy( molecule ) {

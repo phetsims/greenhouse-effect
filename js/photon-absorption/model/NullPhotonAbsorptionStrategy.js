@@ -16,7 +16,7 @@ define( function( require ) {
   /**
    * Constructor for the null absorption strategy.  This strategy does nothing.
    *
-   * @param { Molecule } molecule - The molecule which will use this strategy.
+   * @param {Molecule} molecule - The molecule which will use this strategy.
    * @constructor
    */
   function NullPhotonAbsorptionStrategy( molecule ) {

@@ -27,7 +27,7 @@ define( function( require ) {
   /**
    * Constructor for photon absorption strategy.
    *
-   * @param { Molecule } molecule - The molecule which will use this strategy.
+   * @param {Molecule} molecule - The molecule which will use this strategy.
    * @constructor
    */
   function PhotonAbsorptionStrategy( molecule ) {

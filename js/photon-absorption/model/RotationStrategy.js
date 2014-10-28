@@ -22,7 +22,7 @@ define( function( require ) {
   /**
    * Constructor for a rotation strategy.
    *
-   * @param { Molecule } molecule - The molecule which will use this strategy.
+   * @param {Molecule} molecule - The molecule which will use this strategy.
    * @constructor
    */
   function RotationStrategy( molecule ) {
