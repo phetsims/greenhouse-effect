@@ -412,7 +412,7 @@ define( function( require ) {
      * @return {Array} - Array with elements of type AtomicBond containing the atomic bonds constructing this molecule.
      **/
     getAtomicBonds: function() {
-      return  this.atomicBonds.slice();
+      return this.atomicBonds.slice();
     },
 
     /**
