@@ -33,9 +33,9 @@ define( function( require ) {
   /**
    * Constructor for an emission rate control slider.
    *
-   * @param { PhotonAbsorptionModel} model
-   * @param { Color } color
-   * @param { Object } options
+   * @param {PhotonAbsorptionModel} model
+   * @param {Color} color
+   * @param {Object} options
    * @constructor
    */
   function EmissionRateControlSliderNode( model, color, options ) {

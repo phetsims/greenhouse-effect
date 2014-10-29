@@ -76,7 +76,7 @@ define( function( require ) {
     },
 
     updatePosition: function() {
-      this.translation = ( this.mvt.modelToViewPosition( this.atom.getPositionRef() ) );
+      this.translation = this.mvt.modelToViewPosition( this.atom.getPositionRef() );
     }
 
   } );
