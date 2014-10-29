@@ -18,16 +18,16 @@ define( function( require ) {
   /**
    * Constructor for a molecule node.
    *
-   * @param { Molecule } molecule
-   * @param { ModelViewTransform2 } mvt
+   * @param {Molecule} molecule
+   * @param {ModelViewTransform2} mvt
    * @constructor
    */
   function MoleculeNode( molecule, mvt ) {
 
-    /// supertype constructor
+    // supertype constructor
     Node.call( this );
 
-    // Cary this node through the scope in nested functions.
+    // Carry this node through the scope in nested functions.
     var thisNode = this;
     this.mvt = mvt;
 
