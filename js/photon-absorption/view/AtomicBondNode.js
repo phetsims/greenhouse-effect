@@ -26,8 +26,8 @@ define( function( require ) {
   /**
    * Constructor for an atomic bond node.
    *
-   * @param { AtomicBond} atomicBond
-   * @param { ModelViewTransform2 } mvt
+   * @param {AtomicBond} atomicBond
+   * @param {ModelViewTransform2} mvt
    * @constructor
    */
 
@@ -42,7 +42,7 @@ define( function( require ) {
     // supertype constructor
     Node.call( this );
 
-    // Cary this node through the scope in nested functions.
+    // Carry this node through the scope in nested functions.
     var thisNode = this;
 
     // Calculate the width to use for the bond representation(s).

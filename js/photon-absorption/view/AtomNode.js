@@ -21,8 +21,8 @@ define( function( require ) {
   /**
    * Constructor for an atom node.
    *
-   * @param { Atom } atom
-   * @param { ModelViewTransform2 }mvt
+   * @param {Atom} atom
+   * @param {ModelViewTransform2} mvt
    * @constructor
    */
   function AtomNode( atom, mvt ) {
@@ -30,7 +30,7 @@ define( function( require ) {
     // supertype constructor
     Node.call( this );
 
-    // Cary this node through the scope in nested functions.
+    // Carry this node through the scope in nested functions.
     var thisNode = this;
 
     // Instance Data
@@ -46,7 +46,7 @@ define( function( require ) {
     this.highlightNode.setOpacity( 0.6 );
 
     // Represent the atom as a shaded sphere node.
-    var atomNode = new ShadedSphereNode( transformedRadius * 2, {mainColor: this.atom.representationColor } );
+    var atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
     thisNode.addChild( atomNode );
     thisNode.addChild( this.highlightNode );
 
