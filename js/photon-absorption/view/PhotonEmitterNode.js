@@ -30,8 +30,8 @@ define( function( require ) {
   /**
    * Constructor for the photon emitter node.
    *
-   * @param {number} wi dth - Desired width of the emitter image in screen coords. Height is based off image aspect ratio.
-   * @param { ModelViewTransform2 } mvt
+   * @param {number} width - Desired width of the emitter image in screen coords. Height is based off image aspect ratio.
+   * @param {ModelViewTransform2} mvt
    * @param {PhotonAbsorptionModel} model
    * @constructor
    */

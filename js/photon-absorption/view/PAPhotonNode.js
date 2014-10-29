@@ -25,8 +25,8 @@ define( function( require ) {
   /**
    * Constructor for a photon node.
    *
-   * @param { Photon } photon
-   * @param { ModelViewTransform2 } mvt
+   * @param {Photon} photon
+   * @param {ModelViewTransform2} mvt
    * @constructor
    */
   function PAPhotonNode( photon, mvt ) {
@@ -34,7 +34,7 @@ define( function( require ) {
     // supertype constructor
     Node.call( this );
 
-    // Cary this node through the scope in nested functions.
+    // Carry this node through the scope in nested functions.
     var thisNode = this;
 
     this.photon = photon;
