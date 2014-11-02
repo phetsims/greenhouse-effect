@@ -35,16 +35,10 @@ define( function( require ) {
   function NitrogenAtom( options ) {
 
     // Supertype constructor
-    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS );
-
-    options = _.extend( {
-      // defaults
-      positionProperty: new Property( new Vector2( 0, 0 ) ) // position of the atom
-    }, options );
+    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS, options );
 
     this.options = options;
     this.uniqueID = 'nitrogen' + instanceCount++;
-    this.positionProperty = options.positionProperty;
 
   }
 
