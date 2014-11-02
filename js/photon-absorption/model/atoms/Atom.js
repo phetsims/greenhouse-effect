@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
+  var PropertySet = require( 'AXON/PropertySet' );
 
   /**
    * Constructor for the Atom.  Allows one to specify the color, radius, and mass of this atom as well as an optional
@@ -27,7 +27,9 @@ define( function( require ) {
   function Atom( representationColor, radius, mass ) {
 
     // Supertype constructor
-    Property.call( this, { position: new Vector2( 0, 0 ) } );
+    PropertySet.call( this, {
+      position: new Vector2( 0, 0 )
+    } );
 
     // Instance Variables
     this.representationColor = representationColor;
@@ -36,7 +38,7 @@ define( function( require ) {
 
   }
 
-  return inherit( Property, Atom, {
+  return inherit( PropertySet, Atom, {
 
     /**
      * Get the position of this Atom.
