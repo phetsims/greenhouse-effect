@@ -35,19 +35,12 @@ define( function( require ) {
    * Constructor for a Methane molecule.
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function CH4( model, options ) {
+  function CH4( model ) {
 
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // initial center of gravity position of the molecule
-    }, options );
-    this.options = options;
 
     // Instance data for the CH4 molecule.
     this.carbonAtom = new CarbonAtom();
@@ -76,9 +69,6 @@ define( function( require ) {
 
     // Set the initial offsets.
     this.initializeAtomOffsets();
-
-    // Set the initial COG position.
-    this.setCenterOfGravityPos( this.inititialCenterOfGravityPos );
 
   }
 

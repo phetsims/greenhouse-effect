@@ -32,19 +32,12 @@ define( function( require ) {
    * Constructor for a carbon dioxide molecule.
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function CO2( model, options ) {
+  function CO2( model ) {
 
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // initial center of gravity position of the molecule
-    }, options );
-    this.options = options;
 
     // Instance data for the carbon dioxide molecule
     this.carbonAtom = new CarbonAtom();
@@ -52,7 +45,6 @@ define( function( require ) {
     this.oxygenAtom2 = new OxygenAtom();
     this.carbonOxygenBond1 = new AtomicBond( this.carbonAtom, this.oxygenAtom1, { bondCount: 2 } );
     this.carbonOxygenBond2 = new AtomicBond( this.carbonAtom, this.oxygenAtom2, { bondCount: 2 } );
-    this.initialCenterOfGravityPos = options.initialCenterOfGravityPos;
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );
@@ -66,9 +58,6 @@ define( function( require ) {
 
     // Set the initial offsets
     this.initializeAtomOffsets();
-
-    // Set the initial COG position.
-    this.setCenterOfGravityPosVec( this.initialCenterOfGravityPos );
 
   }
 

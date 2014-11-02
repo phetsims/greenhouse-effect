@@ -46,18 +46,11 @@ define( function( require ) {
    * Constructor for an ozone molecule.
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function O3( model, options ) {
+  function O3( model ) {
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // center of gravity position for the molecule
-    }, options );
-    this.options = options;
 
     this.model = model;
 
@@ -65,7 +58,6 @@ define( function( require ) {
     this.centerOxygenAtom = new OxygenAtom();
     this.leftOxygenAtom = new OxygenAtom();
     this.rightOxygenAtom = new OxygenAtom();
-    this.initialCenterOfGravityPos = options.initialCenterOfGravityPos;
 
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
     this.doubleBondOnRight = RAND.nextBoolean();
@@ -95,9 +87,6 @@ define( function( require ) {
 
     // Set the initial offsets.
     this.initializeAtomOffsets();
-
-    // Set the initial center of gravity position.
-    this.setCenterOfGravityPosVec( this.initialCenterOfGravityPos );
 
   }
 

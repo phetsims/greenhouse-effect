@@ -34,19 +34,12 @@ define( function( require ) {
    * Constructor for a water molecule.
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function H20( model, options ) {
+  function H20( model ) {
 
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // Initial center of gravity position of the molecule
-    }, options );
-    this.options = options;
 
     // Instance Data
     this.oxygenAtom = new OxygenAtom();
@@ -57,7 +50,6 @@ define( function( require ) {
     this.totalMoleculeMass = this.oxygenAtom.mass + ( 2 * this.hydrogenAtom1.mass );
     this.initialOxygenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.hydrogenAtom1.mass ) / this.totalMoleculeMass );
     this.initialHydrogenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialOxygenVerticalOffset );
-    this.initialCenterOfGravityPos = options.initialCenterOfGravityPos;
 
     // Configure the base class.
     this.addAtom( this.oxygenAtom );
@@ -72,9 +64,6 @@ define( function( require ) {
 
     // Set the initial offsets.
     this.initializeAtomOffsets();
-
-    // Set the initial center of gravity position.
-    this.setCenterOfGravityPosVec( this.initialCenterOfGravityPos );
 
   }
 

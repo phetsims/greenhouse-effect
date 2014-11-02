@@ -23,25 +23,17 @@ define( function( require ) {
    * Constructor for an oxygen molecule
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function O2( model, options ) {
+  function O2( model ) {
 
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // center of gravity position for the molecule
-    }, options );
-    this.options = options;
 
     // Instance data for the nitrogen molecule
     this.oxygenAtom1 = new OxygenAtom();
     this.oxygenAtom2 = new OxygenAtom();
     this.oxygenOxygenBond = new AtomicBond( this.oxygenAtom1, this.oxygenAtom2, { bondCount: 2 } );
-    this.initialCenterOfGravityPos = options.initialCenterOfGravityPos;
 
     // Configure the base class.
     this.addAtom( this.oxygenAtom1 );
@@ -50,9 +42,6 @@ define( function( require ) {
 
     // Set the initial offsets
     this.initializeAtomOffsets();
-
-    // Set the initial COG position.
-    this.setCenterOfGravityPosVec( this.initialCenterOfGravityPos );
 
   }
 

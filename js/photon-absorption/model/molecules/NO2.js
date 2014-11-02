@@ -44,18 +44,11 @@ define( function( require ) {
    * Constructor for a nitrogen dioxide molecule.
    *
    * @param { PhotonAbsorptionModel } model - The model which holds this molecule
-   * @param { Object } options
    * @constructor
    */
-  function NO2( model, options ) {
+  function NO2( model ) {
     // Supertype constructor
     Molecule.call( this, model );
-
-    options = _.extend( {
-      // defaults
-      initialCenterOfGravityPos: new Vector2( 0, 0 ) // center of gravity position of this molecule
-    }, options );
-    this.options = options;
 
     this.model = model;
 
@@ -67,7 +60,6 @@ define( function( require ) {
     this.initialNitrogenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
     this.initialOxygenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );
     this.initialOxygenHorizontalOffset = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
-    this.initialCenterOfGravityPos = options.initialCenterOfGravityPos;
 
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
     this.doubleBondOnRight = RAND.nextBoolean();
@@ -98,9 +90,6 @@ define( function( require ) {
 
     // Set the initial offsets.
     this.initializeAtomOffsets();
-
-    // Set the initial center of gravity position.
-    this.setCenterOfGravityPosVec( this.initialCenterOfGravityPos );
 
   }
 
