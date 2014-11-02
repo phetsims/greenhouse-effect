@@ -29,15 +29,13 @@ define( function( require ) {
    * Constructor for a carbon atom.  There is an optional Vector2 parameter
    * which specifies the location of this carbon atom.
    *
-   * @param {Object} [options]
    * @constructor
    */
-  function CarbonAtom( options ) {
+  function CarbonAtom() {
 
     // Supertype constructor
-    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS, options );
+    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS );
 
-    this.options = options;
     this.uniqueID = 'carbon' + instanceCount++
 
   }

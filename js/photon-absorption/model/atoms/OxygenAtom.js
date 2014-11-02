@@ -29,14 +29,12 @@ define( function( require ) {
    * Constructor for an Oxygen atom.  There is an optional Vector2 parameter
    * which specifies the location of this Oxygen atom.
    *
-   * @param {Object} [options]
    * @constructor
    */
-  function OxygenAtom( options ) {
+  function OxygenAtom() {
     // Supertype constructor
-    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS, options );
+    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS );
 
-    this.options = options;
     this.uniqueID = 'oxygen' + instanceCount++;
 
   }

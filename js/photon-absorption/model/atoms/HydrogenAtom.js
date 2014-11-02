@@ -29,15 +29,13 @@ define( function( require ) {
    * Constructor for a Hydrogen atom.  There is an optional Vector2 parameter
    * which specifies the location of this Hydrogen atom.
    *
-   * @param {Object} [options]
    * @constructor
    */
-  function HydrogenAtom( options ) {
+  function HydrogenAtom() {
 
     // Supertype constructor
-    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS, options );
+    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS );
 
-    this.options = options;
     this.uniqueID = 'hydrogen' + instanceCount++;
 
   }
