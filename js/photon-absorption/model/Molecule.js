@@ -45,10 +45,6 @@ define( function( require ) {
     this.atoms = []; // Elements are of type Atoms
     this.atomicBonds = []; // Elements are of type AtomicBonds
 
-    // This is basically the location of the molecule, but it is specified as the center of gravity since a molecule is
-    // a composite object.
-    this.centerOfGravity = new Vector2();
-
     // Structure of the molecule in terms of offsets from the center of gravity.  These indicate the atom's position in
     // the "relaxed" (i.e. non-vibrating), non-rotated state.
     this.initialAtomCogOffsets = {}; // Object contains keys of the atom's uniqueID and values of type Vector2
