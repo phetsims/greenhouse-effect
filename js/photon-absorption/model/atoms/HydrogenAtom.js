@@ -35,7 +35,7 @@ define( function( require ) {
   function HydrogenAtom( options ) {
 
     // Supertype constructor
-    Atom.call( this, options );
+    Atom.call( this, REPRESENTATION_COLOR, RADIUS, MASS );
 
     options = _.extend( {
       // defaults
@@ -44,9 +44,6 @@ define( function( require ) {
 
     this.options = options;
     this.uniqueID = 'hydrogen' + instanceCount++;
-    this.representationColor = REPRESENTATION_COLOR;
-    this.radius = RADIUS;
-    this.mass = MASS;
     this.positionProperty = options.positionProperty;
 
   }
