@@ -26,8 +26,7 @@ define( function( require ) {
   var instanceCount = 0; // Base count for the unique ID of this atom.
 
   /**
-   * Constructor for a carbon atom.  There is an optional Vector2 parameter
-   * which specifies the location of this carbon atom.
+   * Constructor for a carbon atom.
    *
    * @constructor
    */

@@ -26,8 +26,7 @@ define( function( require ) {
   var instanceCount = 0; // Base count for the unique ID of this atom.
 
   /**
-   * Constructor for a Nitrogen atom.  There is an optional Vector2 parameter
-   * which specifies the location of this Nitrogen atom.
+   * Constructor for a Nitrogen atom.
    *
    * @constructor
    */

@@ -26,8 +26,7 @@ define( function( require ) {
   var instanceCount = 0; // Base count for unique ID of this atom.
 
   /**
-   * Constructor for a Hydrogen atom.  There is an optional Vector2 parameter
-   * which specifies the location of this Hydrogen atom.
+   * Constructor for a Hydrogen atom.
    *
    * @constructor
    */
