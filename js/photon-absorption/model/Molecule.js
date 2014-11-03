@@ -22,10 +22,11 @@ define( function( require ) {
   // Class Data
   //------------------------------------------------------------------------
   var PHOTON_EMISSION_SPEED = 3; // Picometers per second.
-  var PHOTON_ABSORPTION_DISTANCE = 100;
+  var PHOTON_ABSORPTION_DISTANCE = 100; // Distance where the molecule begins to query photon for absorption.
   var VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
   var ROTATION_RATE = 1.1;  // Revolutions per second of sim time.
   var ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
+  var PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
 
   /**
    * Constructor for a molecule.
@@ -73,7 +74,6 @@ define( function( require ) {
     // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
     // likely be tested at many time steps as the photon moves past the molecule, and we don't want to keep deciding
     // about the same photon.
-    this.PASS_THROUGH_PHOTON_LIST_SIZE = 10;
     this.passThroughPhotonList = []; // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
 
     // The current point within this molecule's vibration sequence.
