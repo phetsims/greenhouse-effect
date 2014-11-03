@@ -45,7 +45,7 @@ define( function( require ) {
   /**
    * Constructor for an ozone molecule.
    *
-   * @param { PhotonAbsorptionModel } model - The model which holds this molecule
+   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
   function O3( model ) {

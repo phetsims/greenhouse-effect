@@ -31,7 +31,7 @@ define( function( require ) {
   /**
    * Constructor for a carbon dioxide molecule.
    *
-   * @param { PhotonAbsorptionModel } model - The model which holds this molecule
+   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
   function CO2( model ) {

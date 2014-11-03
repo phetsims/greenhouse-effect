@@ -23,7 +23,7 @@ define( function( require ) {
   /**
    * Constructor for a molecule of nitrogen.
    *
-   * @param { PhotonAbsorptionModel } model - The model which holds this molecule
+   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
   function N2( model ) {

@@ -22,7 +22,7 @@ define( function( require ) {
   /**
    * Constructor for an oxygen molecule
    *
-   * @param { PhotonAbsorptionModel } model - The model which holds this molecule
+   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
   function O2( model ) {
