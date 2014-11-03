@@ -374,7 +374,7 @@ define( function( require ) {
      * @param {Photon} photon - The photon to be passed through.
      **/
     markPhotonForPassThrough: function( photon ) {
-      if ( this.passThroughPhotonList.length >= this.PASS_THROUGH_PHOTON_LIST_SIZE ) {
+      if ( this.passThroughPhotonList.length >= PASS_THROUGH_PHOTON_LIST_SIZE ) {
         // Make room for this photon be deleting the oldest one.
         this.passThroughPhotonList.shift();
       }
