@@ -16,8 +16,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
 
   /**
-   * Constructor for the Atom.  Allows one to specify the color, radius, and mass of this atom as well as an optional
-   * parameter describing the atom's location.
+   * Constructor for the Atom.  Allows one to specify the color, radius, and mass of this atom.
    *
    * @param {Color} representationColor - The desired color of the atom
    * @param {number} radius - The radius of the model atom
