@@ -394,7 +394,7 @@ define( function( require ) {
     /**
      * Get the active molecules in this photonAbsorption model.  Returns a new array object holding those molecules.
      *
-     * @returns {Array} activeMolecules
+     * @returns {Array.<Molecule>} activeMolecules
      */
     getMolecules: function() {
       return this.activeMolecules.getArray().slice(0);

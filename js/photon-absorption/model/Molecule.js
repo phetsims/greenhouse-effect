@@ -395,7 +395,7 @@ define( function( require ) {
     /**
      * Create a new array containing the atoms which compose this molecule.
      *
-     * @return {Array} - Array with elements of type Atom containing the atoms which compose this molecule.
+     * @return {Array.<Atom>} - Array containing the atoms which compose this molecule.
      **/
     getAtoms: function() {
       return this.atoms.slice( 0 );
@@ -404,7 +404,7 @@ define( function( require ) {
     /**
      * Create a new array containing this Molecules atomic bonds.
      *
-     * @return {Array} - Array with elements of type AtomicBond containing the atomic bonds constructing this molecule.
+     * @return {Array.<AtomicBond>} - Array containing the atomic bonds constructing this molecule.
      **/
     getAtomicBonds: function() {
       return this.atomicBonds.slice();
