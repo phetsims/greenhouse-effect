@@ -38,7 +38,7 @@ define( function( require ) {
   function PhotonEmitterNode( width, mvt, model ) {
 
     // Supertype constructor
-    Node.call( this, { photonWavelength: WavelengthConstants.VISIBLE_WAVELENGTH} );
+    Node.call( this );
 
     // Cary this node through the scope in nested functions.
     var thisNode = this;
