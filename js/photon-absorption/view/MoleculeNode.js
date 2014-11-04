@@ -58,9 +58,6 @@ define( function( require ) {
 
     } );
 
-    // Make sure the highlighting is correct when the simulation starts.
-    molecule.trigger( 'electronicEnergyStateChanged' );
-
   }
 
   return inherit( Node, MoleculeNode );
