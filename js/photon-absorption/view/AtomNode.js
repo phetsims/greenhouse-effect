@@ -55,8 +55,6 @@ define( function( require ) {
       thisNode.updatePosition();
     } );
 
-    // Set initial positions.
-    this.updatePosition();
   }
 
   return inherit( Node, AtomNode, {
