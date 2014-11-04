@@ -54,11 +54,9 @@ define( function( require ) {
     this.backgroundRect = new Rectangle(
         -this.emissionRateControlSlider.options.thumbSize.width / 2,
         -this.emissionRateControlSlider.options.thumbSize.height / 2,
-        this.emissionRateControlSlider.options.trackSize.width +
-        this.emissionRateControlSlider.options.thumbSize.width,
-        this.emissionRateControlSlider.options.trackSize.height +
-        this.emissionRateControlSlider.options.thumbSize.height,
-      0, 0, { stroke: '#c0b9b9' } );
+        this.emissionRateControlSlider.options.trackSize.width + this.emissionRateControlSlider.options.thumbSize.width,
+        this.emissionRateControlSlider.options.trackSize.height + this.emissionRateControlSlider.options.thumbSize.height,
+      { stroke: '#c0b9b9' } );
 
     // Create the default background box for this node.
     this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
