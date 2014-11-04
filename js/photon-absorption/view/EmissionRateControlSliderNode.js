@@ -35,18 +35,12 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} model
    * @param {Color} color
-   * @param {Object} options
    * @constructor
    */
-  function EmissionRateControlSliderNode( model, color, options ) {
+  function EmissionRateControlSliderNode( model, color ) {
 
     // Supertype constructor
     Node.call( this );
-
-    options = _.extend( {
-      position: new Vector2( 0, 0 ) // position of the emission rate control slider
-    }, options );
-    this.options = options;
 
     var thisNode = this;
     var thisModel = model;
