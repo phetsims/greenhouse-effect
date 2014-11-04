@@ -51,8 +51,17 @@ define( function( require ) {
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
       { thumbSize: emissionControlSliderSize, trackSize: new Dimension2( 50, 1 ) } );
 
+    this.backgroundRect = new Rectangle(
+        -this.emissionRateControlSlider.options.thumbSize.width / 2,
+        -this.emissionRateControlSlider.options.thumbSize.height / 2,
+        this.emissionRateControlSlider.options.trackSize.width +
+        this.emissionRateControlSlider.options.thumbSize.width,
+        this.emissionRateControlSlider.options.trackSize.height +
+        this.emissionRateControlSlider.options.thumbSize.height,
+      0, 0, { stroke: '#c0b9b9' } );
+
     // Create the default background box for this node.
-    this.setBackgroundRectangle( new Color( 255, 85, 0 ) );
+    this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
 
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
@@ -100,16 +109,16 @@ define( function( require ) {
       // Update the color of the slider.
       if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.IR_WAVELENGTH ) {
         // This is the rgb for PhetColorScheme.RED_COLORBLIND which tested well.
-        this.setBackgroundRectangle( new Color( 255, 85, 0 ) );
+        this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
       }
       else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.VISIBLE_WAVELENGTH ) {
-        this.setBackgroundRectangle( Color.YELLOW );
+        this.setBackgroundRectColor( Color.YELLOW );
       }
       else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.UV_WAVELENGTH ) {
-        this.setBackgroundRectangle( new Color( 200, 0, 200 ) );
+        this.setBackgroundRectColor( new Color( 200, 0, 200 ) );
       }
       else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.MICRO_WAVELENGTH ) {
-        this.setBackgroundRectangle( new Color( 200, 200, 200 ) );
+        this.setBackgroundRectColor( new Color( 200, 200, 200 ) );
       }
       else {
         console.error( "Error: Unrecognized photon." );
@@ -117,22 +126,14 @@ define( function( require ) {
     },
 
     /**
-     * Set the parameters of the background rectangle for teh emission rate control slider.
+     * Set the base color of the background rectangle for the emission rate control slider.
      *
      * @param {Color} baseColor - The base color for the background rectangle which holds the slider.
      */
-    // Set the parameters of the background rectangle for the emission rate control slider.
-    setBackgroundRectangle: function( baseColor ) {
+    setBackgroundRectColor: function( baseColor ) {
       var rectHeight = this.emissionRateControlSlider.height;
       var rectWidth = this.emissionRateControlSlider.width;
-      this.backgroundRect = new Rectangle( -this.emissionRateControlSlider.options.thumbSize.width / 2,
-          -this.emissionRateControlSlider.options.thumbSize.height / 2,
-          this.emissionRateControlSlider.options.trackSize.width +
-          this.emissionRateControlSlider.options.thumbSize.width,
-          this.emissionRateControlSlider.options.trackSize.height +
-          this.emissionRateControlSlider.options.thumbSize.height,
-        0, 0, { fill: new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'black' ).addColorStop( 1, baseColor ),
-          stroke: '#c0b9b9' } );
+      this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'black' ).addColorStop( 1, baseColor );
     }
   } );
 
