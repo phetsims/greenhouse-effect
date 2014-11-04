@@ -45,12 +45,6 @@ define( function( require ) {
 
     this.model = model;
     this.mvt = mvt;
-
-    // Create the layers on which the other nodes will be placed.
-    this.emitterImageLayer = new Node();
-    this.addChild( this.emitterImageLayer );
-    this.emissionControlSliderLayer = new Node();
-    this.addChild( this.emissionControlSliderLayer );
     this.emitterImageWidth = width;
 
     // Listen to model for events that may cause this node to change emitted wavelength.
@@ -70,8 +64,7 @@ define( function( require ) {
     updateImage: function( flashlightWidth ) {
 
       // Clear any existing image.
-      this.emitterImageLayer.removeAllChildren();
-      this.emissionControlSliderLayer.removeAllChildren();
+      this.removeAllChildren();
 
       // Create the flashlight image node, setting the offset such that the center right side of the image is the
       // origin.  This assumes that photons will be emitted horizontally and to the right.
@@ -99,8 +92,8 @@ define( function( require ) {
           this.photonEmitterImage.getCenterY() - this.emissionRateControlSliderNode.getCenterY() / 2 ) );
 
       // Add the children to this node.
-      this.emitterImageLayer.addChild( this.photonEmitterImage );
-      this.emissionControlSliderLayer.addChild( this.emissionRateControlSliderNode );
+      this.addChild( this.photonEmitterImage );
+      this.addChild( this.emissionRateControlSliderNode );
 
     }
   } );
