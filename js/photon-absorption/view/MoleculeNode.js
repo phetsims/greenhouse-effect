@@ -31,14 +31,11 @@ define( function( require ) {
     var thisNode = this;
     this.mvt = mvt;
 
-    // Hold the atom count to carry through scope of nested functions.
-    this.atomCount = 0;
-
     // Instance Data
     thisNode.atomLayer = new Node();
     thisNode.bondLayer = new Node();
+    thisNode.addChild( thisNode.bondLayer ); // Order the bond layer first so that atomic bonds are behind atoms in view
     thisNode.addChild( thisNode.atomLayer );
-    thisNode.addChild( thisNode.bondLayer );
 
     // Create nodes and add the atoms which compose this molecule to the atomLayer.
     for ( var atom = 0; atom < molecule.getAtoms().length; atom++ ) {
@@ -60,9 +57,6 @@ define( function( require ) {
       }
 
     } );
-
-    // Move the bond layer behind the atoms.
-    this.bondLayer.moveToBack();
 
     // Make sure the highlighting is correct when the simulation starts.
     molecule.trigger( 'electronicEnergyStateChanged' );
