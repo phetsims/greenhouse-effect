@@ -1,8 +1,8 @@
 // Copyright 2002-2014, University of Colorado
 
 /**
- * Node that represents a photon in the view.  'PA' in the title stands for Photon Absorption as it is a member of the
- * photon-absorption common files.
+ * Node that represents a photon in the view.  'PA' in the object name stands for Photon Absorption as it is a member of
+ * the photon-absorption common files.
  *
  * @author John Blanco
  * @author Jesse Greenberg
