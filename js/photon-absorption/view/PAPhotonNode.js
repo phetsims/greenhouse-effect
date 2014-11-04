@@ -50,9 +50,9 @@ define( function( require ) {
 
     // Lookup the image file that corresponds to the wavelength and add a centered image.
     assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.getWavelength() ) );
-    this.photonImage = new Image( mapWavelengthToImageName[ this.photon.getWavelength() ]);
+    var photonImage = new Image( mapWavelengthToImageName[ this.photon.getWavelength() ]);
 
-    this.addChild( this.photonImage );
+    this.addChild( photonImage );
 
     // Observe position changes.
     photon.locationProperty.link( function() {

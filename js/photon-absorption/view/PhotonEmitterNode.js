@@ -35,7 +35,7 @@ define( function( require ) {
    * @param {PhotonAbsorptionModel} model
    * @constructor
    */
-  function PhotonEmitterNode( width, mvt, model ) {
+  function PhotonEmitterNode( width, model ) {
 
     // Supertype constructor
     Node.call( this );
@@ -44,12 +44,10 @@ define( function( require ) {
     var thisNode = this;
 
     this.model = model;
-    this.mvt = mvt;
-    this.emitterImageWidth = width;
 
     // Listen to model for events that may cause this node to change emitted wavelength.
     model.photonWavelengthProperty.link( function() {
-      thisNode.updateImage( thisNode.emitterImageWidth );
+      thisNode.updateImage( width );
     } );
 
   }

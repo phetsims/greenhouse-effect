@@ -47,9 +47,9 @@ define( function( require ) {
     this.model = model;
     this.color = color;
 
-    this.emissionControlSliderSize = new Dimension2( 10, 15 ); // This may be adjusted as needed for best look.
+    var emissionControlSliderSize = new Dimension2( 10, 15 ); // This may be adjusted as needed for best look.
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: this.emissionControlSliderSize, trackSize: new Dimension2( 50, 1 ) } );
+      { thumbSize: emissionControlSliderSize, trackSize: new Dimension2( 50, 1 ) } );
 
     // Create the default background box for this node.
     this.setBackgroundRectangle( new Color( 255, 85, 0 ) );
