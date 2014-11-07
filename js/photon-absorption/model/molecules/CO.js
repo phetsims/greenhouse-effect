@@ -39,12 +39,11 @@ define( function( require ) {
     // Instance Data
     this.carbonAtom = new CarbonAtom();
     this.oxygenAtom = new OxygenAtom();
-    this.carbonOxygenBond = new AtomicBond( this.carbonAtom, this.oxygenAtom, { bondCount: 3 } );
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );
     this.addAtom( this.oxygenAtom );
-    this.addAtomicBond( this.carbonOxygenBond );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom, { bondCount: 3 } ) );
 
     // Set up the photon wavelengths to absorb
     this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );

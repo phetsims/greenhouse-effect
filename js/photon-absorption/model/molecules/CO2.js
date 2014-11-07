@@ -43,15 +43,13 @@ define( function( require ) {
     this.carbonAtom = new CarbonAtom();
     this.oxygenAtom1 = new OxygenAtom();
     this.oxygenAtom2 = new OxygenAtom();
-    this.carbonOxygenBond1 = new AtomicBond( this.carbonAtom, this.oxygenAtom1, { bondCount: 2 } );
-    this.carbonOxygenBond2 = new AtomicBond( this.carbonAtom, this.oxygenAtom2, { bondCount: 2 } );
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );
     this.addAtom( this.oxygenAtom1 );
     this.addAtom( this.oxygenAtom2 );
-    this.addAtomicBond( this.carbonOxygenBond1 );
-    this.addAtomicBond( this.carbonOxygenBond2 );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom1, { bondCount: 2 } ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom2, { bondCount: 2 } ) );
 
     // Set up the photon wavelengths to absorb.
     this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );

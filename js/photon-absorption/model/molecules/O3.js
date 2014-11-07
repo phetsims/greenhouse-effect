@@ -62,23 +62,21 @@ define( function( require ) {
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
     this.doubleBondOnRight = RAND.nextBoolean();
 
-    // Create the bond structure.  O3 has a type of bond where each O-O has essentially 1.5 bonds, so we randomly choose
-    // one side to sho two bonds and another to show one.
-    if ( this.doubleBondOnRight ) {
-      this.leftOxygenOxygenBond = new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 1 } );
-      this.rightOxygenOxygenBond = new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 2 } );
-    }
-    else {
-      this.leftOxygenOxygenBond = new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 2 } );
-      this.rightOxygenOxygenBond = new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 1 } );
-    }
-
     // Configure the base class.
     this.addAtom( this.centerOxygenAtom );
     this.addAtom( this.leftOxygenAtom );
     this.addAtom( this.rightOxygenAtom );
-    this.addAtomicBond( this.leftOxygenOxygenBond );
-    this.addAtomicBond( this.rightOxygenOxygenBond );
+
+    // Create the bond structure.  O3 has a type of bond where each O-O has essentially 1.5 bonds, so we randomly choose
+    // one side to sho two bonds and another to show one.
+    if ( this.doubleBondOnRight ) {
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
+    }
+    else {
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
+    }
 
     // Set up the photon wavelengths to absorb.
     this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );

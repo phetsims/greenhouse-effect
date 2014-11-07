@@ -38,7 +38,6 @@ define( function( require ) {
     this.molecule = molecule;
 
     // Variables involved in the holding and re-emitting of photons.
-    this.absorbedPhoton = new Photon();
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
   }
@@ -59,7 +58,6 @@ define( function( require ) {
      * overrides should also call this one.
      */
     reset: function() {
-      this.absorbedPhoton = null;
       this.isPhotonAbsorbed = false;
       this.photonHoldCountdownTime = 0;
     },

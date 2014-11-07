@@ -45,8 +45,6 @@ define( function( require ) {
     this.oxygenAtom = new OxygenAtom();
     this.hydrogenAtom1 = new HydrogenAtom();
     this.hydrogenAtom2 = new HydrogenAtom();
-    this.oxygenHydrogenBond1 = new AtomicBond( this.oxygenAtom, this.hydrogenAtom1, { bondCount: 1 } );
-    this.oxygenHydrogenBond2 = new AtomicBond( this.oxygenAtom, this.hydrogenAtom2, { bondCount: 1 } );
     this.totalMoleculeMass = this.oxygenAtom.mass + ( 2 * this.hydrogenAtom1.mass );
     this.initialOxygenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.hydrogenAtom1.mass ) / this.totalMoleculeMass );
     this.initialHydrogenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialOxygenVerticalOffset );
@@ -55,8 +53,8 @@ define( function( require ) {
     this.addAtom( this.oxygenAtom );
     this.addAtom( this.hydrogenAtom1 );
     this.addAtom( this.hydrogenAtom2 );
-    this.addAtomicBond( this.oxygenHydrogenBond1 );
-    this.addAtomicBond( this.oxygenHydrogenBond2 );
+    this.addAtomicBond( new AtomicBond( this.oxygenAtom, this.hydrogenAtom1, { bondCount: 1 } ) );
+    this.addAtomicBond( new AtomicBond( this.oxygenAtom, this.hydrogenAtom2, { bondCount: 1 } ) );
 
     // Set up the photon wavelengths to absorb.
     this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );

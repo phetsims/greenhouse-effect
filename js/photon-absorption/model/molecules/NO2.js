@@ -64,23 +64,22 @@ define( function( require ) {
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
     this.doubleBondOnRight = RAND.nextBoolean();
 
-    // Create the bond structure.  NO2 has a type of bond where each N-O has essentially 1.5 bonds, so we randomly
-    // choose one side to show two bonds and another to show one.
-    if ( this.doubleBondOnRight ) {
-      this.rightNitrogenOxygenBond = new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 2 } );
-      this.leftNitrogenOxygenBond = new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 1 } );
-    }
-    else {
-      this.rightNitrogenOxygenBond = new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 1 } );
-      this.leftNitrogenOxygenBond = new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 2 } );
-    }
-
     // Configure the base class.
     this.addAtom( this.nitrogenAtom );
     this.addAtom( this.rightOxygenAtom );
     this.addAtom( this.leftOxygenAtom );
-    this.addAtomicBond( this.rightNitrogenOxygenBond );
-    this.addAtomicBond( this.leftNitrogenOxygenBond );
+
+    // Create the bond structure.  NO2 has a type of bond where each N-O has essentially 1.5 bonds, so we randomly
+    // choose one side to show two bonds and another to show one.
+    if ( this.doubleBondOnRight ) {
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
+    }
+    else {
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
+    }
+
 
     // Set up the photon wavelengths to absorb.
     this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );

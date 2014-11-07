@@ -34,12 +34,11 @@ define( function( require ) {
     // Instance Data
     this.nitrogenAtom = new NitrogenAtom();
     this.oxygenAtom = new OxygenAtom();
-    this.nitrogenOxygenBond = new AtomicBond( this.nitrogenAtom, this.oxygenAtom, { bondCount: 2 } );
 
     // Configure the base class.
     this.addAtom( this.nitrogenAtom );
     this.addAtom( this.oxygenAtom );
-    this.addAtomicBond( this.nitrogenOxygenBond );
+    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.oxygenAtom, { bondCount: 2 } ) );
 
     // Set up the photon wavelengths to absorb.
 

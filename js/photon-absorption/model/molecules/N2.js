@@ -34,12 +34,11 @@ define( function( require ) {
     // Instance data for the nitrogen molecule
     this.nitrogenAtom1 = new NitrogenAtom();
     this.nitrogenAtom2 = new NitrogenAtom();
-    this.nitrogenNitrogenBond = new AtomicBond( this.nitrogenAtom1, this.nitrogenAtom2, { bondCount: 3 } );
 
     // Configure the base class.
     this.addAtom( this.nitrogenAtom1 );
     this.addAtom( this.nitrogenAtom2 );
-    this.addAtomicBond( this.nitrogenNitrogenBond );
+    this.addAtomicBond( new AtomicBond( this.nitrogenAtom1, this.nitrogenAtom2, { bondCount: 3 } ) );
 
     // Set the initial offsets
     this.initializeAtomOffsets();
