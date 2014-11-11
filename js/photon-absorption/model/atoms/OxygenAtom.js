@@ -13,9 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Color = require( 'SCENERY/util/Color' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  var Property = require( 'AXON/Property' );
 
   // Model data for the Oxygen atom.
   var REPRESENTATION_COLOR = new Color( 255, 85, 0 ); // Reddish color that also looks good in colorblind tests
@@ -23,7 +21,7 @@ define( function( require ) {
   var RADIUS = 73;     // In picometers.
 
   // Static Data
-  var instanceCount = 0; // Base count for the unique ID of this atom
+  var instanceCount = 0; // Base count for the unique ID of this atomC
 
   /**
    * Constructor for an Oxygen atom.

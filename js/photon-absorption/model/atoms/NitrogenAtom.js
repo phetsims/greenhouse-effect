@@ -13,9 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Color = require( 'SCENERY/util/Color' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  var Property = require( 'AXON/Property' );
 
   // Model data for the Nitrogen atom
   var REPRESENTATION_COLOR = Color.BLUE;
