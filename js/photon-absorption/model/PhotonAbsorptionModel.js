@@ -35,9 +35,8 @@ define( function( require ) {
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
 
-  //----------------------------------------------------------------------------
-  // Class Data
-  //----------------------------------------------------------------------------
+  // constants
+
   // Constants that control where and how photons are emitted.
   var PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
   var PHOTON_EMISSION_ANGLE_RANGE = Math.PI / 2;

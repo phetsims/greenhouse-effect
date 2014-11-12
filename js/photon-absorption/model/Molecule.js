@@ -18,9 +18,7 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PropertySet = require( 'AXON/PropertySet' );
 
-  //------------------------------------------------------------------------
-  // Class Data
-  //------------------------------------------------------------------------
+  // constants
   var PHOTON_EMISSION_SPEED = 3; // Picometers per second.
   var PHOTON_ABSORPTION_DISTANCE = 100; // Distance where the molecule begins to query photon for absorption.
   var VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
