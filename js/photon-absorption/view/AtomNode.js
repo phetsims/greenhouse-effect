@@ -43,7 +43,7 @@ define( function( require ) {
     // Create a color gradient which is used when the molecule enters an excitation state.
     var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, Color.YELLOW ).addColorStop( 1, Color.BLACK );
     this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } );
-    this.highlightNode.setOpacity( 0.6 );
+    this.highlightNode.opacity = 0.6;
 
     // Represent the atom as a shaded sphere node.
     var atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );

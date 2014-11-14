@@ -80,14 +80,14 @@ define( function( require ) {
       }
 
       // Translate center and scale the emitter image
-      this.photonEmitterImage.scale( flashlightWidth / this.photonEmitterImage.getWidth() );
-      this.photonEmitterImage.setCenter( new Vector2( 0, 0 ) );
+      this.photonEmitterImage.scale( flashlightWidth / this.photonEmitterImage.width );
+      this.photonEmitterImage.center = new Vector2( 0, 0 );
       this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, new Color( 0, 85, 0 ) );
 
       // Add the emission rate control slider to the correct location on the photon emitter.
-      this.emissionRateControlSliderNode.setCenter( new Vector2(
-          this.photonEmitterImage.getCenterX() - this.emissionRateControlSliderNode.getCenterX() / 2,
-          this.photonEmitterImage.getCenterY() - this.emissionRateControlSliderNode.getCenterY() / 2 ) );
+      this.emissionRateControlSliderNode.center = new Vector2(
+          this.photonEmitterImage.centerX - this.emissionRateControlSliderNode.centerX / 2,
+          this.photonEmitterImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
 
       // Add the children to this node.
       this.addChild( this.photonEmitterImage );
