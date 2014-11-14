@@ -109,6 +109,12 @@ define( function( require ) {
 
     },
 
+    /**
+     * Set the photon absorption strategy for this molecule for a given photon wavelength.
+     *
+     * @param {number} wavelength - wavelength attributed to this absorption strategy.
+     * @param {PhotonAbsorptionStrategy} strategy
+     */
     setPhotonAbsorptionStrategy: function( wavelength, strategy ) {
       this.mapWavelengthToAbsorptionStrategy[ wavelength ] = strategy;
     },
