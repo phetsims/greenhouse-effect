@@ -52,7 +52,7 @@ define( function( require ) {
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      thisNode.updatePosition();
+      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.getPositionRef() );
     } );
 
   }
@@ -71,10 +71,6 @@ define( function( require ) {
       else {
         this.removeChild( this.highlightNode );
       }
-    },
-
-    updatePosition: function() {
-      this.translation = this.mvt.modelToViewPosition( this.atom.getPositionRef() );
     }
 
   } );

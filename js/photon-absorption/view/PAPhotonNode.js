@@ -56,18 +56,10 @@ define( function( require ) {
 
     // Observe position changes.
     photon.locationProperty.link( function() {
-      thisNode.updatePosition();
+      // Set overall position.
+      thisNode.center = thisNode.mvt.modelToViewPosition( thisNode.photon.getLocation() );
     } );
   }
 
-  return inherit( Node, PAPhotonNode, {
-
-    /**
-     * Update the position of this photon.
-     */
-    updatePosition: function() {
-      // Set overall position.
-      this.center = this.mvt.modelToViewPosition( this.photon.getLocation() );
-    }
-  } );
+  return inherit( Node, PAPhotonNode );
 } );
