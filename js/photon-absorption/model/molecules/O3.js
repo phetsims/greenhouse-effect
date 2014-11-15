@@ -112,7 +112,7 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      this.currentVibrationRadians = vibrationRadians;
       var multFactor = Math.sin( vibrationRadians );
       var maxCenterOxygenDisplacement = 30;
       var maxOuterOxygenDisplacement = 15;
@@ -156,13 +156,11 @@ define( function( require ) {
             ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
         singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
       }
-      diatomicOxygenMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) );
-      singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) );
+      diatomicOxygenMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
+      singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
 
       // Add these constituent molecules to the constituent list.
-      this.addConstituentMolecule( diatomicOxygenMolecule );
-      this.addConstituentMolecule( singleOxygenMolecule );
-
+      this.constituentMolecules.push( diatomicOxygenMolecule, singleOxygenMolecule );
     }
   } );
 } );

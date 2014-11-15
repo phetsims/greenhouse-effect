@@ -67,7 +67,7 @@ define( function( require ) {
       if ( sliderProportion === 0 ) {
         model.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       }
-      else if ( model.getPhotonTarget() === 'CONFIGURABLE_ATMOSPHERE' ) {
+      else if ( model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
         // Note the implicit conversion from frequency to period in the following line.
         model.setPhotonEmissionPeriod( (MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion) );
       }
@@ -92,29 +92,29 @@ define( function( require ) {
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
       var mappedFrequency;
-      if ( this.model.getPhotonTarget() === 'CONFIGURABLE_ATMOSPHERE' ) {
+      if ( this.model.photonTargetProperty.get() === 'CONFIGURABLE_ATMOSPHERE' ) {
         mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
-                                      this.model.getPhotonEmissionPeriod() * SLIDER_RANGE );
+                                      this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
       }
       else {
         mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET /
-                                      this.model.getPhotonEmissionPeriod() * SLIDER_RANGE );
+                                      this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
       }
 
       this.emissionRateControlSlider.valueProperty = mappedFrequency;
 
       // Update the color of the slider.
-      if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.IR_WAVELENGTH ) {
+      if ( this.model.photonWavelength === WavelengthConstants.IR_WAVELENGTH ) {
         // This is the rgb for PhetColorScheme.RED_COLORBLIND which tested well.
         this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.VISIBLE_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
         this.setBackgroundRectColor( Color.YELLOW );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.UV_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.UV_WAVELENGTH ) {
         this.setBackgroundRectColor( new Color( 200, 0, 200 ) );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.MICRO_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
         this.setBackgroundRectColor( new Color( 200, 200, 200 ) );
       }
       else {

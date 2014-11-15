@@ -46,7 +46,7 @@ define( function( require ) {
     var thisNode = this;
 
     // Calculate the width to use for the bond representation(s).
-    this.averageAtomRadius = mvt.modelToViewDeltaX( ( atomicBond.getAtom1().getRadius() + atomicBond.getAtom2().getRadius() ) / 2 );
+    this.averageAtomRadius = mvt.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
 
     // Create the initial representation.
     this.initializeRepresentation();
@@ -54,7 +54,7 @@ define( function( require ) {
     // Link the atomic bond view node to the model.
     this.atomicBond.atom1.positionProperty.link( function() {
       thisNode.updateRepresentation();
-    });
+    } );
 
   }
 
@@ -72,7 +72,7 @@ define( function( require ) {
       var bond2; // Second bond shared by the atoms.
       var bond3; // Third bond shared by the atoms.
 
-      switch( this.atomicBond.getBondCount() ) {
+      switch( this.atomicBond.bondCount ) {
         case 1:
           bondWidth = BOND_WIDTH_PROPORTION_SINGLE * this.averageAtomRadius;
           bond1 = new Line( {lineWidth: bondWidth, stroke: BOND_COLOR } );
@@ -121,24 +121,24 @@ define( function( require ) {
       var angle; // An angle used to describe the offset vector.
       var transformedRadius; // A position required to calculate the offset vector.
 
-      switch( this.atomicBond.getBondCount() ) {
+      switch( this.atomicBond.bondCount ) {
 
         case 1:
 
           // Single bond, so connect it from the center of one atom to the center of the other
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.getAtom1().getPositionRef() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.getAtom2().getPositionRef() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
           this.atomicBonds[0].setLine( p1.x, p1.y, p2.x, p2.y );
           break;
 
         case 2:
 
           // Double bond.
-          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.getAtom1().getRadius(),
-            this.atomicBond.getAtom2().getRadius() ) );
+          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
+            this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.getAtom1().getPositionRef() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.getAtom2().getPositionRef() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius / 3, angle );
@@ -152,11 +152,11 @@ define( function( require ) {
         case 3:
 
           // Triple bond.
-          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.getAtom1().getRadius(),
-            this.atomicBond.getAtom2().getRadius() ) );
+          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
+            this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.getAtom1().getPositionRef() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.getAtom2().getPositionRef() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius * 0.6, angle );
@@ -169,7 +169,7 @@ define( function( require ) {
           break;
 
         default:
-          console.error( " - Error: Can't represent bond number, value = " + this.atomicBond.getBondCount() );
+          console.error( " - Error: Can't represent bond number, value = " + this.atomicBond.bondCount );
           assert && assert( false );
           break;
 

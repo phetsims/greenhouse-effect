@@ -102,9 +102,9 @@ define( function( require ) {
       this.activePhotonAbsorptionStrategy.reset();
       this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
       this.absorbtionHysteresisCountdownTime = 0;
-      this.setVibrating( false );
-      this.setVibration( 0 );
-      this.setRotating( false );
+      this.vibrating = false;
+      this.currentVibrationRadians = 0;
+      this.rotating = false;
       this.setRotation( 0 );
 
     },
@@ -171,26 +171,6 @@ define( function( require ) {
     },
 
     /**
-     * Add a "constituent molecule" to this molecule's list.  Constituent molecules are what this molecule will break
-     * into if it breaks apart. Note that this does NOT check for any sort of conservation of atoms, so use this
-     * carefully or weird break apart behaviors could result.
-     *
-     * @param {Molecule} molecule
-     **/
-    addConstituentMolecule: function( molecule ) {
-      this.constituentMolecules.push( molecule );
-    },
-
-    /**
-     * Determine if the molecule is currently vibrating.
-     *
-     * @return {boolean} vibrating
-     */
-    isVibrating: function() {
-      return this.vibrating;
-    },
-
-    /**
      * Advance the molecule one step in time.
      *
      * @param {number} dt - The change in time.
@@ -217,57 +197,12 @@ define( function( require ) {
     },
 
     /**
-     * Set the molecule state to vibrating.
-     *
-     * @param {boolean} vibration
-     **/
-    setVibrating: function( vibration ) {
-      this.vibrating = vibration;
-    },
-
-    /**
-     * Determine if this molecule is currently rotating.
-     *
-     * @return {boolean}
-     **/
-    isRotating: function() {
-      return this.rotating;
-    },
-
-    /**
-     * Set the current molecule state to rotating.
-     *
-     * @param {boolean} rotating
-     **/
-    setRotating: function( rotating ) {
-      this.rotating = rotating;
-    },
-
-    /**
-     * Set the molecule rotation direction to Clockwise.
-     *
-     * @param {boolean} rotationDirectionClockwise
-     **/
-    setRotationDirectionClockwise: function( rotationDirectionClockwise ) {
-      this.rotationDirectionClockwise = rotationDirectionClockwise;
-    },
-
-    /**
      * Create a new Vector2 describing the location of this molecules center of gravity.
      *
      * @return {Vector2}
      **/
     getCenterOfGravityPos: function() {
       return new Vector2( this.centerOfGravityProperty.get().x, this.centerOfGravityProperty.get().y );
-    },
-
-    /**
-     * Get the location of this molecules center of gravity.
-     *
-     * @return {Vector2} - centerOfGravity
-     **/
-    getCenterOfGravityPosRef: function() {
-      return this.centerOfGravityProperty.get();
     },
 
     /**
@@ -296,12 +231,12 @@ define( function( require ) {
     },
 
     /**
-     * Set the angle, in terms of radians from 0 to 2*PI, where this molecule is in its vibration cycle.
-     *
-     * @param {number} vibrationRadians - The angle describing where this molecule is in its vibration.
-     **/
-    setVibration: function( vibrationRadians ) {
-      this.currentVibrationRadians = vibrationRadians;
+     * Placeholder for setVibration function.  This should be implemented in descendant molecules that have vibration
+     * strategies.
+     */
+    setVibration: function() {
+      console.error( " Error: setVibraiton invoked on a molecule for which the action is not implemented." );
+      assert && assert( false );
     },
 
     /**
@@ -336,35 +271,6 @@ define( function( require ) {
     },
 
     /**
-     * Get this Molecule's current rotation angle in Radians.
-     *
-     * @return {number} currentRotationRadians - The current angle of rotation.
-     **/
-    getRotation: function() {
-      return this.currentRotationRadians;
-    },
-
-    /**
-     * Enable/disable a molecule's high electronic energy state, which in the real world is a state where one or more
-     * electrons has moved to a higher orbit.  In this simulation, it is generally depicted by having the molecule
-     * appear to glow.
-     *
-     * @param {boolean} highElectronicEnergyState
-     **/
-    setHighElectronicEnergyState: function( highElectronicEnergyState ) {
-      this.highElectronicEnergyStateProperty.set( highElectronicEnergyState );
-    },
-
-    /**
-     * Determine if the Molecule is in a high energy state.
-     *
-     * @return {boolean} highElectronEnergyState
-     **/
-    isHighElectronicEnergyState: function() {
-      return this.highElectronicEnergyStateProperty.get();
-    },
-
-    /**
      * Cause the molecule to dissociate, i.e. to break apart.
      **/
     breakApart: function() {
@@ -392,7 +298,7 @@ define( function( require ) {
      * @return {boolean}
      **/
     isPhotonMarkedForPassThrough: function( photon ) {
-      // Use indexOf to see if the photon exists in the list.
+      // Use indexOf to see if the photon exists in the list. If the photon is not in the list, indexOf will return -1.
       return this.passThroughPhotonList.indexOf( photon ) > -1;
     },
 
@@ -411,7 +317,7 @@ define( function( require ) {
      * @return {Array.<AtomicBond>} - Array containing the atomic bonds constructing this molecule.
      **/
     getAtomicBonds: function() {
-      return this.atomicBonds.slice();
+      return this.atomicBonds.slice( 0 );
     },
 
     /**
@@ -427,11 +333,11 @@ define( function( require ) {
 
       if ( !this.isPhotonAbsorbed() &&
            this.absorbtionHysteresisCountdownTime <= 0 &&
-           photon.getLocation().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
+           photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?
-        var candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.getWavelength() ];
+        var candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
         if ( typeof candidateAbsorptionStrategy !== "undefined" ) {
           // Yes, there is a strategy available for this wavelength.
           // Ask it if it wants the photon.
@@ -450,15 +356,6 @@ define( function( require ) {
       }
 
       return absorbPhoton;
-    },
-
-    /**
-     * Set the photon absorption strategy for this molecule.
-     *
-     * @param {PhotonAbsorptionStrategy} activeStrategy - The strategy to be set.
-     **/
-    setActiveStrategy: function( activeStrategy ) {
-      this.activePhotonAbsorptionStrategy = activeStrategy;
     },
 
     /**
@@ -492,8 +389,8 @@ define( function( require ) {
       var emissionAngle = Math.random() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
-      var centerOfGravityPosRef = this.getCenterOfGravityPosRef();
-      photonToEmit.setLocation( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
+      var centerOfGravityPosRef = this.centerOfGravityProperty.get();
+      photonToEmit.locationProperty.set( new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y ) );
       this.emittedPhotonProperty.set( photonToEmit );
       this.absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
       this.notifyPhotonEmitted( photonToEmit, this.photonAbsorptionModel );
@@ -530,34 +427,6 @@ define( function( require ) {
     },
 
     /**
-     * Set the velocity of this molecule from vector components.
-     *
-     * @param {number} vx - The x component of the velocity vector.
-     * @param {number} vy - The y component of the velocity vector.
-     **/
-    setVelocity: function( vx, vy ) {
-      this.setVelocityVec( new Vector2( vx, vy ) );
-    },
-
-    /**
-     * Set the velocity of this molecule from a velocity vector.
-     *
-     * @param {Vector2} newVelocity - The velocity vector representing this molecules velocity.
-     **/
-    setVelocityVec: function( newVelocity ) {
-      this.velocity.set( newVelocity );
-    },
-
-    /**
-     * Get a the velocity vector of this molecule.
-     *
-     * @return {Vector2} velocity - The velocity vector of this molecule.
-     */
-    getVelocity: function() {
-      return this.velocity;
-    },
-
-    /**
      * Notify the event listener that a photon has been emitted from this molecule by adding the photon to the photons
      * observable array.
      *
@@ -574,10 +443,6 @@ define( function( require ) {
      */
     initializeAtomOffsets: function() {
       throw new Error( 'initializeAtomOffsets should be implemented in descendant molecules.' );
-    },
-
-    getBreakApartConstituents: function() {
-      return this.constituentMolecules;
     },
 
     /**

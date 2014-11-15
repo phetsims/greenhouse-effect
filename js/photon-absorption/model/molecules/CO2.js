@@ -26,7 +26,7 @@ define( function( require ) {
   // are calculated such that the actual center of gravity should remain
   // constant.
   var CARBON_MAX_DEFLECTION = 40;
-  var OXYGEN_MAX_DEFLECTION = new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / ( 2 * new OxygenAtom().getMass() );
+  var OXYGEN_MAX_DEFLECTION = new CarbonAtom().mass * CARBON_MAX_DEFLECTION / ( 2 * new OxygenAtom().mass );
 
   /**
    * Constructor for a carbon dioxide molecule.
@@ -69,7 +69,7 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      this.currentVibrationRadians = vibrationRadians;
       var multFactor = Math.sin( vibrationRadians );
       this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, multFactor * CARBON_MAX_DEFLECTION ) );
       this.addInitialAtomCogOffset( this.oxygenAtom1, new Vector2( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );

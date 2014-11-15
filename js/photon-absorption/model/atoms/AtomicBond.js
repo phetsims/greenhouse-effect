@@ -36,34 +36,5 @@ define( function( require ) {
 
   }
 
-  return inherit( Object, AtomicBond, {
-
-    /**
-     * Get the first atom in this atomic bond.
-     *
-     * @return {Atom} atom1
-     */
-    getAtom1: function() {
-      return this.atom1;
-    },
-
-    /**
-     * Get the second atom in this atomic bond.
-     *
-     * @return {Atom} atom2
-     */
-    getAtom2: function() {
-      return this.atom2;
-    },
-
-    /**
-     * Get the number of atomic bonds between the two atoms.
-     *
-     * @return {number} bondCount
-     */
-    getBondCount: function() {
-      return this.bondCount;
-    }
-
-  } );
+  return inherit( Object, AtomicBond );
 } );

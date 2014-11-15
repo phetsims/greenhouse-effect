@@ -31,12 +31,12 @@ define( function( require ) {
   return inherit( PhotonHoldStrategy, ExcitationStrategy, {
 
     photonAbsorbed: function() {
-      this.getMolecule().setHighElectronicEnergyState( true );
+      this.molecule.highElectronicEnergyStateProperty.set( true );
     },
 
     reemitPhoton: function() {
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.getMolecule().setHighElectronicEnergyState( false );
+      this.molecule.highElectronicEnergyStateProperty.set( false );
     }
   } );
 } );

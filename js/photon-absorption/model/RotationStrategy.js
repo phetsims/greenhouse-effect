@@ -41,8 +41,8 @@ define( function( require ) {
      */
     photonAbsorbed: function() {
 
-      this.getMolecule().setRotationDirectionClockwise( RAND.nextBoolean() );
-      this.getMolecule().setRotating( true );
+      this.molecule.rotationDirectionClockwise = RAND.nextBoolean();
+      this.molecule.rotating = true;
 
     },
 
@@ -52,7 +52,7 @@ define( function( require ) {
     reemitPhoton: function() {
 
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.getMolecule().setRotating( false );
+      this.molecule.rotating = false;
 
     }
 

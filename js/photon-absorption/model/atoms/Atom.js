@@ -39,15 +39,6 @@ define( function( require ) {
   return inherit( PropertySet, Atom, {
 
     /**
-     * Get the position of this Atom.
-     *
-     * @return {Vector2} - The position vector of this atom.
-     */
-    getPositionRef: function() {
-      return this.positionProperty.get();
-    },
-
-    /**
      * Set the position of this atom from a single vector.
      *
      * @param {Vector2} position - The desired position of this atom as a Vector
@@ -68,33 +59,6 @@ define( function( require ) {
       if ( this.positionProperty.get.x !== x || this.positionProperty.get.y !== y ) {
         this.positionProperty.set( new Vector2( x, y ) );
       }
-    },
-
-    /**
-     * Get the representation color of this atom.
-     *
-     * @return {Color} representationColor - The color representing this atom
-     */
-    getRepresentationColor: function() {
-      return this.representationColor;
-    },
-
-    /**
-     * Get the radius of this atom.
-     *
-     * @return {number} radius - The radius of this atom
-     */
-    getRadius: function() {
-      return this.radius;
-    },
-
-    /**
-     * Get the mass of this atom.
-     *
-     * @return {number} mass - The mass of this atom.
-     */
-    getMass: function() {
-      return this.mass;
     }
   } );
 } );

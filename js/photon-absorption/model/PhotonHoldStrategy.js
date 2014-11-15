@@ -49,8 +49,8 @@ define( function( require ) {
      **/
     reemitPhoton: function() {
 
-      this.getMolecule().emitNewPhoton( this.absorbedWavelength );
-      this.getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( this.getMolecule() ) );
+      this.molecule.emitNewPhoton( this.absorbedWavelength );
+      this.molecule.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this.molecule );
       this.isPhotonAbsorbed = false;
 
     },
@@ -66,7 +66,7 @@ define( function( require ) {
 
       var absorbed = PhotonAbsorptionStrategy.prototype.queryAndAbsorbPhoton.call( this, photon );
       if ( absorbed ) {
-        this.absorbedWavelength = photon.getWavelength();
+        this.absorbedWavelength = photon.wavelength;
         this.photonAbsorbed();
       }
       return absorbed;

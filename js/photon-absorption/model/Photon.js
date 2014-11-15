@@ -28,8 +28,8 @@ define( function( require ) {
     PropertySet.call( this, { location: new Vector2( 0, 0 ) } );
 
     this.wavelength = wavelength;
-    this.vx = 0;
-    this.vy = 0;
+    this.vx = 0; // x component of the photon velocity
+    this.vy = 0; // y component of the photon velocity
 
   }
 
@@ -44,34 +44,6 @@ define( function( require ) {
     setVelocity: function( vx, vy ) {
       this.vx = vx;
       this.vy = vy;
-    },
-
-    /**
-     * Get the wavelength of this photon.
-     *
-     * @return {number} wavelength
-     */
-    getWavelength: function() {
-      return this.wavelength;
-    },
-
-    /**
-     * Get the location of this Photon.
-     *
-     * @return {Vector2} location
-     */
-    getLocation: function() {
-      return this.locationProperty.get();
-    },
-
-    /**
-     * Set the location of this Photon from vector components.
-     *
-     * @param {number} x - The x component of the position vector.
-     * @param {number} y - The y component of the positino vector.
-     */
-    setLocation: function( x, y ) {
-      this.locationProperty.set( new Vector2( x, y ) );
     },
 
     /**

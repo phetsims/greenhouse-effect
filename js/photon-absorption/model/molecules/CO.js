@@ -64,7 +64,7 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      this.currentVibrationRadians = vibrationRadians;
       var multFactor = Math.sin( vibrationRadians );
       this.getVibrationAtomOffset( this.carbonAtom ).setXY( VIBRATION_MAGNITUDE * multFactor, 0 );
       this.getVibrationAtomOffset( this.oxygenAtom ).setXY( -VIBRATION_MAGNITUDE * multFactor, 0 );

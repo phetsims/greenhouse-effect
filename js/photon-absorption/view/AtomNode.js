@@ -38,7 +38,7 @@ define( function( require ) {
     thisNode.mvt = mvt;
 
     // Scale the radius to the mvt.
-    var transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
+    var transformedRadius = mvt.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
     var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, Color.YELLOW ).addColorStop( 1, Color.BLACK );
@@ -52,7 +52,7 @@ define( function( require ) {
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.getPositionRef() );
+      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.positionProperty.get() );
     } );
 
   }

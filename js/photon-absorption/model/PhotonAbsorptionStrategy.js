@@ -44,15 +44,6 @@ define( function( require ) {
   return inherit( Object, PhotonAbsorptionStrategy, {
 
     /**
-     * Return the molecule associated with the strategy.
-     *
-     * @returns {Molecule}
-     */
-    getMolecule: function() {
-      return this.molecule;
-    },
-
-    /**
      * Reset the strategy.  In most cases, this will need to be overridden in the descendant classes, but those
      * overrides should also call this one.
      */

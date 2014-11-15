@@ -87,7 +87,7 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      this.currentVibrationRadians = vibrationRadians;
       var multFactor = Math.sin( vibrationRadians );
       var maxOxygenDisplacement = 3;
       var maxHydrogenDisplacement = 18;

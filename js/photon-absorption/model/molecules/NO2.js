@@ -116,7 +116,7 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      this.currentVibrationRadians = vibrationRadians;
       var multFactor = Math.sin( vibrationRadians );
       var maxNitrogenDisplacement = 30;
       var maxOxygenDisplacement = 15;
@@ -160,14 +160,13 @@ define( function( require ) {
         breakApartAngle = Math.PI / 2 + Math.random() * Math.PI / 4;
         nitrogenMonoxideMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.nitrogenAtom ).x + this.getInitialAtomCogOffset( this.leftOxygenAtom ).x ) / 2,
             ( this.getInitialAtomCogOffset( this.nitrogenAtom ).y + this.getInitialAtomCogOffset( this.leftOxygenAtom ).y ) / 2 );
-        singleOxygenMolecule.setCenterOfGravityPos( this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset );
+        singleOxygenMolecule.setCenterOfGravityPos(   this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset );
       }
-      nitrogenMonoxideMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) );
-      singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) );
+      nitrogenMonoxideMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
+      singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
 
       // Add these constituent molecules to the constituent list.
-      this.addConstituentMolecule( nitrogenMonoxideMolecule );
-      this.addConstituentMolecule( singleOxygenMolecule );
+      this.constituentMolecules.push( nitrogenMonoxideMolecule, singleOxygenMolecule );
     }
   } );
 } );

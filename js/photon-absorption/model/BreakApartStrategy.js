@@ -36,8 +36,8 @@ define( function( require ) {
      */
     step: function() {
       // Basically, all this strategy does is to instruct the molecule to break apart, then reset the strategy.
-      this.getMolecule().breakApart();
-      this.getMolecule().setActiveStrategy( new NullPhotonAbsorptionStrategy( this.getMolecule() ) );
+      this.molecule.breakApart();
+      this.molecule.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this.molecule );
     }
 
   } );

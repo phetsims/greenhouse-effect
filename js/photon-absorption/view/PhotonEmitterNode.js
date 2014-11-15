@@ -66,16 +66,16 @@ define( function( require ) {
 
       // Create the flashlight image node, setting the offset such that the center right side of the image is the
       // origin.  This assumes that photons will be emitted horizontally and to the right.
-      if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.IR_WAVELENGTH ) {
+      if ( this.model.photonWavelength === WavelengthConstants.IR_WAVELENGTH ) {
         this.photonEmitterImage = new Image( heatLampImage );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.VISIBLE_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
         this.photonEmitterImage = new Image( flashlight2Image );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.UV_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.UV_WAVELENGTH ) {
         this.photonEmitterImage = new Image( uvLight2 );
       }
-      else if ( this.model.getEmittedPhotonWavelength() === WavelengthConstants.MICRO_WAVELENGTH ) {
+      else if ( this.model.photonWavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
         this.photonEmitterImage = new Image( microwaveTransmitter );
       }
 

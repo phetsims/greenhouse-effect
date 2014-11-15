@@ -223,7 +223,7 @@ define( function( require ) {
     emitPhoton: function() {
 
       var photon = new Photon( this.photonWavelength );
-      photon.setLocation( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y );
+      photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
       if ( this.photonTargetProperty.get() === 'CONFIGURABLE_ATMOSPHERE' ) {
         // Photons can be emitted at an angle.  In order to get a more
@@ -240,7 +240,7 @@ define( function( require ) {
     },
 
     /**
-     * Set the wavelength of the photon to be emitted.
+     * Set the wavelength of the photon to be emitted if desired frequency is not equal to the current value.
      *
      * @param {number} freq
      */
@@ -250,15 +250,6 @@ define( function( require ) {
         // Set the new value and send out notification of change to listeners.
         this.photonWavelength = freq;
       }
-    },
-
-    /**
-     * Get the wavelength of the emitted photon.
-     *
-     * @returns {number}
-     */
-    getEmittedPhotonWavelength: function() {
-      return this.photonWavelength;
     },
 
     /**
@@ -298,24 +289,6 @@ define( function( require ) {
     },
 
     /**
-     * Get the current photon target.
-     *
-     * @returns {Property}
-     */
-    getPhotonTarget: function() {
-      return this.photonTargetProperty.get();
-    },
-
-    /**
-     * Get the period between photon emissions.
-     *
-     * @return {number} - Period between photons in milliseconds.
-     */
-    getPhotonEmissionPeriod: function() {
-      return this.photonEmissionPeriodTarget;
-    },
-
-    /**
      * Set the current photon target, and remove the old value.
      *
      * @param {string} photonTarget - The string constant which represents the desired photon target.
@@ -333,7 +306,7 @@ define( function( require ) {
       this.photonTargetProperty.set( photonTarget );
 
       // Remove the old photon target(s).
-      this.removeOldTarget();
+      this.activeMolecules.clear(); // Clear the old active molecules array
 
       // Add the new photon target(s).
       var newMolecule = new Molecule( this );
@@ -397,20 +370,6 @@ define( function( require ) {
      */
     getMolecules: function() {
       return this.activeMolecules.getArray().slice(0);
-    },
-
-    /**
-     * Remove all photons in this PhotonAbsorptionModel
-     */
-    removeAllPhotons: function() {
-      this.photons.clear();
-    },
-
-    /**
-     * Remove the old photon target by clearing the array of active molecules in this PhotonAbsorptionModel.
-     */
-    removeOldTarget: function() {
-      this.activeMolecules.clear(); // Clear the old active molecules array
     },
 
     /**
