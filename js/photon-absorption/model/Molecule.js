@@ -393,8 +393,7 @@ define( function( require ) {
       photonToEmit.locationProperty.set( new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y ) );
       this.emittedPhotonProperty.set( photonToEmit );
       this.absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-      this.notifyPhotonEmitted( photonToEmit, this.photonAbsorptionModel );
-
+      this.photonAbsorptionModel.photons.add( photonToEmit );
     },
 
     /**
@@ -424,17 +423,6 @@ define( function( require ) {
           this.atomsByID[uniqueID].positionProperty.set( new Vector2( this.centerOfGravityProperty.get().x + atomOffset.x, this.centerOfGravityProperty.get().y + atomOffset.y ) );
         }
       }
-    },
-
-    /**
-     * Notify the event listener that a photon has been emitted from this molecule by adding the photon to the photons
-     * observable array.
-     *
-     * @param {Photon} photon - The emitted photon
-     * @param {PhotonAbsorptionModel} model - The model which gets the notification.
-     */
-    notifyPhotonEmitted: function( photon, model ) {
-      model.photons.add( photon );
     },
 
     /**
