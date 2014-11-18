@@ -34,6 +34,7 @@ define( function( require ) {
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
+  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
 
   // constants
 
@@ -70,13 +71,6 @@ define( function( require ) {
       play: true // is the sim running or paused
     } );
 
-    // Choices of targets for the photons.
-    // We may not technically need these strings to be enumerated here and accessed in an array, but it serves as a
-    // good point to document what all the possible types are.
-    this.photonTargets = ['SINGLE_CO_MOLECULE', 'SINGLE_CO2_MOLECULE', 'SINGLE_H2O_MOLECULE', 'SINGLE_CH4_MOLECULE',
-      'SINGLE_N2O_MOLECULE', 'SINGLE_N2_MOLECULE', 'SINGLE_NO2_MOLECULE', 'SINGLE_O2_MOLECULE', 'SINGLE_O3_MOLECULE',
-      'CONFIGURABLE_ATMOSPHERE'];
-
     this.photons = new ObservableArray(); //Elements are of type Photon
     this.activeMolecules = new ObservableArray(); // Elements are of type Molecule.
 
@@ -91,10 +85,6 @@ define( function( require ) {
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD;
     this.previousEmissionAngle = 0;
-
-    // Collection that contains the molecules that make up the configurable atmosphere.  Used in Greenhouse Gas
-    // Simulation.
-    this.configurableAtmosphereMolecules = []; // Elements are of type Molecule.
 
   }
 
@@ -117,9 +107,6 @@ define( function( require ) {
       this.setPhotonTarget( this.initialPhotonTarget );
       this.setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
       this.setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
-
-      // Reset the configurable atmosphere.
-      this.resetConfigurableAtmosphere();
 
       // Reset all associated properties.
       PropertySet.prototype.reset.call( this );
@@ -225,15 +212,6 @@ define( function( require ) {
       var photon = new Photon( this.photonWavelength );
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
-      if ( this.photonTargetProperty.get() === 'CONFIGURABLE_ATMOSPHERE' ) {
-        // Photons can be emitted at an angle.  In order to get a more
-        // even spread, we alternate emitting with an up or down angle.
-        emissionAngle = Math.random() * PHOTON_EMISSION_ANGLE_RANGE / 2;
-        if ( this.previousEmissionAngle > 0 ) {
-          emissionAngle = -emissionAngle;
-        }
-        this.previousEmissionAngle = emissionAngle;
-      }
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ),
           PHOTON_VELOCITY * Math.sin( emissionAngle ) );
       this.photons.add( photon );
@@ -295,13 +273,6 @@ define( function( require ) {
      */
     setPhotonTarget: function( photonTarget ) {
 
-      // If switching to the configurable atmosphere, photon emission is turned off (if it is happening).  This is done
-      // because it just looks better.
-      if ( photonTarget === "CONFIGURABLE_ATMOSPHERE" || this.photonTargetProperty.get() === "CONFIGURABLE_ATMOSPHERE" ) {
-        this.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
-        this.removeAllPhotons();
-      }
-
       // Update to the new value.
       this.photonTargetProperty.set( photonTarget );
 
@@ -311,50 +282,39 @@ define( function( require ) {
       // Add the new photon target(s).
       var newMolecule = new Molecule( this );
       switch( photonTarget ) {
-        case "SINGLE_CO_MOLECULE":
+        case PhotonTarget.SINGLE_CO_MOLECULE:
           newMolecule = new CO( this, {initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_CO2_MOLECULE":
+        case PhotonTarget.SINGLE_CO2_MOLECULE:
           newMolecule = new CO2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_H2O_MOLECULE":
+        case PhotonTarget.SINGLE_H2O_MOLECULE:
           newMolecule = new H2O( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_CH4_MOLECULE":
-          newMolecule = new CH4( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case "SINGLE_N2_MOLECULE":
+        case PhotonTarget.SINGLE_N2_MOLECULE:
           newMolecule = new N2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_O2_MOLECULE":
+        case PhotonTarget.SINGLE_O2_MOLECULE:
           newMolecule = new O2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_O3_MOLECULE":
+        case PhotonTarget.SINGLE_O3_MOLECULE:
           newMolecule = new O3( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 
-        case "SINGLE_NO2_MOLECULE":
+        case PhotonTarget.SINGLE_NO2_MOLECULE:
           newMolecule = new NO2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
-          break;
-
-        case "CONFIGURABLE_ATMOSPHERE":
-          // Add references for all the molecules in the configurable
-          // atmosphere to the "active molecules" list.
-          this.activeMolecules.addAll( this.configurableAtmosphereMolecules );
           break;
 
         default:
@@ -369,7 +329,7 @@ define( function( require ) {
      * @returns {Array.<Molecule>} activeMolecules
      */
     getMolecules: function() {
-      return this.activeMolecules.getArray().slice(0);
+      return this.activeMolecules.getArray().slice( 0 );
     },
 
     /**
@@ -381,13 +341,6 @@ define( function( require ) {
 
       var currentTarget = this.photonTargetProperty.get();
       this.setPhotonTarget( currentTarget );
-    },
-
-    /**
-     * Reset the configurable atmosphere by adding the initial levels of all gases.
-     */
-    resetConfigurableAtmosphere: function() {
-      assert && assert( this.photonTargetProperty.get() !== 'CONFIGURABLE_ATMOSPHERE' );
     },
 
     /**
