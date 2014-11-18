@@ -104,21 +104,22 @@ define( function( require ) {
       this.emissionRateControlSlider.valueProperty = mappedFrequency;
 
       // Update the color of the slider.
-      if ( this.model.photonWavelength === WavelengthConstants.IR_WAVELENGTH ) {
+      var wavelength = this.model.photonWavelength;
+      if ( wavelength === WavelengthConstants.IR_WAVELENGTH ) {
         // This is the rgb for PhetColorScheme.RED_COLORBLIND which tested well.
         this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
       }
-      else if ( this.model.photonWavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
+      else if ( wavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
         this.setBackgroundRectColor( Color.YELLOW );
       }
-      else if ( this.model.photonWavelength === WavelengthConstants.UV_WAVELENGTH ) {
+      else if ( wavelength === WavelengthConstants.UV_WAVELENGTH ) {
         this.setBackgroundRectColor( new Color( 200, 0, 200 ) );
       }
-      else if ( this.model.photonWavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
+      else if ( wavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
         this.setBackgroundRectColor( new Color( 200, 200, 200 ) );
       }
       else {
-        console.error( "Error: Unrecognized photon." );
+        throw new Error('unrecognized photon wavelength: ' + wavelength );
       }
     },
 
