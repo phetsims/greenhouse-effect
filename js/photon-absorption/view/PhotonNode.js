@@ -1,8 +1,7 @@
 // Copyright 2002-2014, University of Colorado
 
 /**
- * Node that represents a photon in the view.  'PA' in the object name stands for Photon Absorption as it is a member of
- * the photon-absorption common files.
+ * Node that represents a photon in the view.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -37,7 +36,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} mvt
    * @constructor
    */
-  function PAPhotonNode( photon, mvt ) {
+  function PhotonNode( photon, mvt ) {
 
     // supertype constructor
     Node.call( this );
@@ -61,5 +60,5 @@ define( function( require ) {
     } );
   }
 
-  return inherit( Node, PAPhotonNode );
+  return inherit( Node, PhotonNode );
 } );
