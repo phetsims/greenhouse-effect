@@ -46,15 +46,18 @@ define( function( require ) {
     this.model = model;
     this.color = color;
 
-    var emissionControlSliderSize = new Dimension2( 10, 15 ); // This may be adjusted as needed for best look.
+    // The following define the dimensions of the HSlider and can be adjusted as needed for best look.
+    var controlSliderThumbSize = new Dimension2( 10, 15 );
+    var controlSliderTrackSize = new Dimension2( 50, 1 );
+
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: emissionControlSliderSize, trackSize: new Dimension2( 50, 1 ) } );
+      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize } );
 
     this.backgroundRect = new Rectangle(
-        -this.emissionRateControlSlider.options.thumbSize.width / 2,
-        -this.emissionRateControlSlider.options.thumbSize.height / 2,
-        this.emissionRateControlSlider.options.trackSize.width + this.emissionRateControlSlider.options.thumbSize.width,
-        this.emissionRateControlSlider.options.trackSize.height + this.emissionRateControlSlider.options.thumbSize.height,
+        -controlSliderThumbSize.width / 2,
+        -controlSliderThumbSize.height / 2,
+        controlSliderTrackSize.width + controlSliderThumbSize.width,
+        controlSliderTrackSize.height + controlSliderThumbSize.height,
       { stroke: '#c0b9b9' } );
 
     // Create the default background box for this node.
