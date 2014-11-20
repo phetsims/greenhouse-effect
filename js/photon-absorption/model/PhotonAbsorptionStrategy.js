@@ -44,8 +44,7 @@ define( function( require ) {
   return inherit( Object, PhotonAbsorptionStrategy, {
 
     /**
-     * Reset the strategy.  In most cases, this will need to be overridden in the descendant classes, but those
-     * overrides should also call this one.
+     * Reset the strategy.
      */
     reset: function() {
       this.isPhotonAbsorbed = false;
