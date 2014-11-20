@@ -49,7 +49,7 @@ define( function( require ) {
      **/
     reemitPhoton: function() {
 
-      this.molecule.emitNewPhoton( this.absorbedWavelength );
+      this.molecule.emitPhoton( this.absorbedWavelength );
       this.molecule.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this.molecule );
       this.isPhotonAbsorbed = false;
 

@@ -380,12 +380,12 @@ define( function( require ) {
     },
 
     /**
-     * Emit the specified photon in a random direction
+     * Emit a photon of the specified wavelength in a random direction.
      *
-     * @param {Photon} photonToEmit - The photon to be emitted.
+     * @param {number} wavelength - The photon to be emitted.
      **/
-    emitPhoton: function( photonToEmit ) {
-
+    emitPhoton: function( wavelength ) {
+      var photonToEmit = new Photon( wavelength)
       var emissionAngle = Math.random() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
@@ -393,15 +393,6 @@ define( function( require ) {
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
       this.absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
       this.photonAbsorptionModel.photons.add( photonToEmit );
-    },
-
-    /**
-     * Cause the atom to emit a photon of the specified wavelength.
-     *
-     * @param {number} wavelength
-     **/
-    emitNewPhoton: function( wavelength ) {
-      this.emitPhoton( new Photon( wavelength ) );
     },
 
     /**
