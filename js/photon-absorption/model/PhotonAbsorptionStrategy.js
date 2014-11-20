@@ -62,7 +62,7 @@ define( function( require ) {
     queryAndAbsorbPhoton: function( photon ) {
       // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
       // actually do it.  This essentially simulates the quantum nature of the absorption.
-      var absorbed = (!this.isPhotonAbsorbed) && ( Math.random() < this.photonAbsorptionProbabilityProperty.get() );
+      var absorbed = (!this.isPhotonAbsorbed) && ( Math.random() < this.photonAbsorptionProbabilityProperty.value );
       if ( absorbed ) {
         this.isPhotonAbsorbed = true;
         this.photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + Math.random() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );

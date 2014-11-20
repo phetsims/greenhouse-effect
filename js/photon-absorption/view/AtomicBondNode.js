@@ -126,8 +126,8 @@ define( function( require ) {
         case 1:
 
           // Single bond, so connect it from the center of one atom to the center of the other
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
           this.atomicBonds[0].setLine( p1.x, p1.y, p2.x, p2.y );
           break;
 
@@ -137,8 +137,8 @@ define( function( require ) {
           transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
             this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius / 3, angle );
@@ -155,8 +155,8 @@ define( function( require ) {
           transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
             this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
+          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius * 0.6, angle );

@@ -52,7 +52,7 @@ define( function( require ) {
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.positionProperty.get() );
+      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.position );
     } );
 
   }

@@ -66,7 +66,7 @@ define( function( require ) {
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
     model.emissionFrequencyProperty.link( function() {
-      var sliderProportion = thisModel.emissionFrequencyProperty.get() / SLIDER_RANGE;
+      var sliderProportion = thisModel.emissionFrequency / SLIDER_RANGE;
       if ( sliderProportion === 0 ) {
         model.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       }
@@ -95,7 +95,7 @@ define( function( require ) {
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
       var mappedFrequency;
-      if ( this.model.photonTargetProperty.get() === 'CONFIGURABLE_ATMOSPHERE' ) {
+      if ( this.model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
         mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
                                       this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
       }
@@ -104,7 +104,7 @@ define( function( require ) {
                                       this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
       }
 
-      this.emissionRateControlSlider.valueProperty = mappedFrequency;
+      this.emissionRateControlSlider.value = mappedFrequency;
 
       // Update the color of the slider.
       var wavelength = this.model.photonWavelength;

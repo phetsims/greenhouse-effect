@@ -272,7 +272,7 @@ define( function( require ) {
     setPhotonTarget: function( photonTarget ) {
 
       // Update to the new value.
-      this.photonTargetProperty.set( photonTarget );
+      this.photonTarget = photonTarget;
 
       // Remove the old photon target(s).
       this.activeMolecules.clear(); // Clear the old active molecules array
@@ -336,8 +336,7 @@ define( function( require ) {
      * original condition.
      */
     restorePhotonTarget: function() {
-
-      var currentTarget = this.photonTargetProperty.get();
+      var currentTarget = this.photonTarget;
       this.setPhotonTarget( currentTarget );
     },
 

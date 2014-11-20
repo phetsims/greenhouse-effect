@@ -52,7 +52,7 @@ define( function( require ) {
      * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
-      this.locationProperty.set( new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt ) );
+      this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
     }
 
   } );

@@ -56,7 +56,7 @@ define( function( require ) {
     // Observe position changes.
     photon.locationProperty.link( function() {
       // Set overall position.
-      thisNode.center = thisNode.mvt.modelToViewPosition( thisNode.photon.locationProperty.get() );
+      thisNode.center = thisNode.mvt.modelToViewPosition( thisNode.photon.location );
     } );
   }
 
