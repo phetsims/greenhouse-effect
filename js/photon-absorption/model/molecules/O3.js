@@ -18,7 +18,7 @@ define( function( require ) {
   var BreakApartStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/BreakApartStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
   var O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
 
@@ -52,9 +52,9 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance Data
-    this.centerOxygenAtom = new OxygenAtom();
-    this.leftOxygenAtom = new OxygenAtom();
-    this.rightOxygenAtom = new OxygenAtom();
+    this.centerOxygenAtom = Atom.oxygen();
+    this.leftOxygenAtom = Atom.oxygen();
+    this.rightOxygenAtom = Atom.oxygen();
 
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
     this.doubleBondOnRight = RAND.nextBoolean();

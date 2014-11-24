@@ -18,8 +18,7 @@ define( function( require ) {
   var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
-  var HydrogenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/HydrogenAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
 
   // Model Data for the water molecule
   // These constants define the initial shape of the water atom.  The angle between the atoms is intended to be correct,
@@ -41,9 +40,9 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance Data
-    this.oxygenAtom = new OxygenAtom();
-    this.hydrogenAtom1 = new HydrogenAtom();
-    this.hydrogenAtom2 = new HydrogenAtom();
+    this.oxygenAtom = Atom.oxygen();
+    this.hydrogenAtom1 = Atom.hydrogen();
+    this.hydrogenAtom2 = Atom.hydrogen();
     this.totalMoleculeMass = this.oxygenAtom.mass + ( 2 * this.hydrogenAtom1.mass );
     this.initialOxygenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.hydrogenAtom1.mass ) / this.totalMoleculeMass );
     this.initialHydrogenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialOxygenVerticalOffset );

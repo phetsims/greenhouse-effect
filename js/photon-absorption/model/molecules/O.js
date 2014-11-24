@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
 
   /**
    * Constructor for a single atom of oxygen.
@@ -27,7 +27,7 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance Data
-    this.oxygenAtom = new OxygenAtom();
+    this.oxygenAtom = Atom.oxygen();
 
     // Configure the base class.
     this.addAtom( this.oxygenAtom );

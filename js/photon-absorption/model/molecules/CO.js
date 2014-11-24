@@ -18,8 +18,7 @@ define( function( require ) {
   var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var CarbonAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/CarbonAtom' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
 
   // Model Data for the carbon monoxide molecule
   var INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
@@ -36,8 +35,8 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance Data
-    this.carbonAtom = new CarbonAtom();
-    this.oxygenAtom = new OxygenAtom();
+    this.carbonAtom = Atom.carbon();
+    this.oxygenAtom = Atom.oxygen();
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );

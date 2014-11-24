@@ -15,9 +15,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var CarbonAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/CarbonAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var HydrogenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/HydrogenAtom' );
   var PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
 
   // Model Data for Methane
@@ -42,11 +41,11 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance data for the CH4 molecule.
-    this.carbonAtom = new CarbonAtom();
-    this.hydrogenAtom1 = new HydrogenAtom();
-    this.hydrogenAtom2 = new HydrogenAtom();
-    this.hydrogenAtom3 = new HydrogenAtom();
-    this.hydrogenAtom4 = new HydrogenAtom();
+    this.carbonAtom = Atom.carbon();
+    this.hydrogenAtom1 = Atom.hydrogen();
+    this.hydrogenAtom2 = Atom.hydrogen();
+    this.hydrogenAtom3 = Atom.hydrogen();
+    this.hydrogenAtom4 = Atom.hydrogen();
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );
@@ -110,10 +109,10 @@ define( function( require ) {
             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
 
         // Position the carbon atom so that the center of mass of the molecule remains the same.
-        var carbonXPos = -( HydrogenAtom.mass / CarbonAtom.mass ) *
+        var carbonXPos = -( this.hydrogenAtom1.mass / this.carbonAtom.mass ) *
                          ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).getX() + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).getX() +
                            this.getInitialAtomCogOffset( this.hydrogenAtom3 ).getX() + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).getX() );
-        var carbonYPos = -( HydrogenAtom.mass / CarbonAtom.mass ) *
+        var carbonYPos = -( this.hydrogenAtom1.mass / this.carbonAtom.mass ) *
                          ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).getY() + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).getY() +
                            this.getInitialAtomCogOffset( this.hydrogenAtom3 ).getY() + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).getY() );
         this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( carbonXPos, carbonYPos ) );

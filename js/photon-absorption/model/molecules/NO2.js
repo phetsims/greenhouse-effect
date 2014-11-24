@@ -19,8 +19,7 @@ define( function( require ) {
   var BreakApartStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/BreakApartStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
-  var NitrogenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/NitrogenAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
   var NO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO' );
   var O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O' );
 
@@ -50,9 +49,9 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance Data
-    this.nitrogenAtom = new NitrogenAtom();
-    this.rightOxygenAtom = new OxygenAtom();
-    this.leftOxygenAtom = new OxygenAtom();
+    this.nitrogenAtom = Atom.nitrogen();
+    this.rightOxygenAtom = Atom.oxygen();
+    this.leftOxygenAtom = Atom.oxygen();
     this.totalMoleculeMass = this.nitrogenAtom.mass + ( 2 * this.rightOxygenAtom.mass );
     this.initialNitrogenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
     this.initialOxygenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );

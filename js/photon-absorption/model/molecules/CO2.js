@@ -14,8 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var OxygenAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/OxygenAtom' );
-  var CarbonAtom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/CarbonAtom' );
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
 
@@ -26,7 +25,7 @@ define( function( require ) {
   // are calculated such that the actual center of gravity should remain
   // constant.
   var CARBON_MAX_DEFLECTION = 40;
-  var OXYGEN_MAX_DEFLECTION = new CarbonAtom().mass * CARBON_MAX_DEFLECTION / ( 2 * new OxygenAtom().mass );
+  var OXYGEN_MAX_DEFLECTION = Atom.carbon().mass * CARBON_MAX_DEFLECTION / ( 2 * Atom.oxygen().mass );
 
   /**
    * Constructor for a carbon dioxide molecule.
@@ -39,9 +38,9 @@ define( function( require ) {
     Molecule.call( this );
 
     // Instance data for the carbon dioxide molecule
-    this.carbonAtom = new CarbonAtom();
-    this.oxygenAtom1 = new OxygenAtom();
-    this.oxygenAtom2 = new OxygenAtom();
+    this.carbonAtom = Atom.carbon();
+    this.oxygenAtom1 = Atom.oxygen();
+    this.oxygenAtom2 = Atom.oxygen();
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );

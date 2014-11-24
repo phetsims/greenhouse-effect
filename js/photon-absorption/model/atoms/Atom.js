@@ -64,5 +64,13 @@ define( function( require ) {
         this.positionProperty.set( new Vector2( x, y ) );
       }
     }
+  }, {
+
+    // @static factory functions, for creating specific atoms
+    carbon: function() { return new Atom( 'gray', 77, 12.011 ); },
+    hydrogen: function() { return new Atom( 'white', 37, 1 ); },
+    nitrogen: function() { return new Atom( 'blue', 75, 14.00674 ); },
+    oxygen: function() { return new Atom( 'rgb(255, 85, 0)', 73, 12.011 ); }
   } );
+
 } );
