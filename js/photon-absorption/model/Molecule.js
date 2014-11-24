@@ -29,10 +29,9 @@ define( function( require ) {
   /**
    * Constructor for a molecule.
    *
-   * @param { PhotonAbsorptionModel } model - The model which will add this molecule to its observable array.
    * @constructor
    */
-  function Molecule( model ) {
+  function Molecule() {
 
     PropertySet.call( this, {
       emittedPhoton: null,
@@ -84,12 +83,6 @@ define( function( require ) {
     this.vibrating = false;
     this.rotating = false;
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
-
-    // List of constituent molecules. This comes into play only when the molecule breaks apart, which many of the
-    // molecules never do.
-    this.constituentMolecules = []; // Elements of type Molecule
-
-    this.photonAbsorptionModel = model;
 
   }
 
@@ -385,14 +378,14 @@ define( function( require ) {
      * @param {number} wavelength - The photon to be emitted.
      **/
     emitPhoton: function( wavelength ) {
-      var photonToEmit = new Photon( wavelength)
+      var photonToEmit = new Photon( wavelength );
       var emissionAngle = Math.random() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
       var centerOfGravityPosRef = this.centerOfGravity;
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
       this.absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-      this.photonAbsorptionModel.photons.add( photonToEmit );
+      this.trigger( 'photonEmitted', photonToEmit );
     },
 
     /**

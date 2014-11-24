@@ -43,14 +43,11 @@ define( function( require ) {
   /**
    * Constructor for a nitrogen dioxide molecule.
    *
-   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
-  function NO2( model ) {
+  function NO2() {
     // Supertype constructor
-    Molecule.call( this, model );
-
-    this.model = model;
+    Molecule.call( this );
 
     // Instance Data
     this.nitrogenAtom = new NitrogenAtom();
@@ -135,14 +132,10 @@ define( function( require ) {
      */
     breakApart: function() {
 
-      // Remove this NO2 molecule from the photonAbsorptionModel's list of active molecules.
-      this.model.activeMolecules.remove( this );
-
       // Create the constituent molecules that result from breaking apart and add them to the activeMolecules observable array.
-      var nitrogenMonoxideMolecule = new NO( this.model );
-      var singleOxygenMolecule = new O( this.model );
-      this.model.activeMolecules.add( nitrogenMonoxideMolecule );
-      this.model.activeMolecules.add( singleOxygenMolecule );
+      var nitrogenMonoxideMolecule = new NO();
+      var singleOxygenMolecule = new O();
+      this.trigger( 'brokeApart', nitrogenMonoxideMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules.  These are set up mostly to look good, and
       // their directions and velocities have little if anything to do with any physical rules of atomic dissociation.
@@ -165,8 +158,6 @@ define( function( require ) {
       nitrogenMonoxideMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
       singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
 
-      // Add these constituent molecules to the constituent list.
-      this.constituentMolecules.push( nitrogenMonoxideMolecule, singleOxygenMolecule );
     }
   } );
 } );

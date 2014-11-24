@@ -22,13 +22,12 @@ define( function( require ) {
   /**
    * Constructor for an oxygen molecule
    *
-   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
-  function O2( model ) {
+  function O2() {
 
     // Supertype constructor
-    Molecule.call( this, model );
+    Molecule.call( this );
 
     // Instance data for the nitrogen molecule
     this.oxygenAtom1 = new OxygenAtom();

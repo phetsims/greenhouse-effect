@@ -34,13 +34,12 @@ define( function( require ) {
   /**
    * Constructor for a Methane molecule.
    *
-   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
-  function CH4( model ) {
+  function CH4() {
 
     // Supertype constructor
-    Molecule.call( this, model );
+    Molecule.call( this );
 
     // Instance data for the CH4 molecule.
     this.carbonAtom = new CarbonAtom();

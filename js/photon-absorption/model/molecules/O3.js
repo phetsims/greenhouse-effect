@@ -45,14 +45,11 @@ define( function( require ) {
   /**
    * Constructor for an ozone molecule.
    *
-   * @param {PhotonAbsorptionModel} model - The model which holds this molecule
    * @constructor
    */
-  function O3( model ) {
+  function O3() {
     // Supertype constructor
-    Molecule.call( this, model );
-
-    this.model = model;
+    Molecule.call( this );
 
     // Instance Data
     this.centerOxygenAtom = new OxygenAtom();
@@ -128,15 +125,10 @@ define( function( require ) {
      */
     breakApart: function() {
 
-      // Remove this O3 molecule from the the photon absorption model's list of active molecules.
-      this.model.activeMolecules.remove( this );
-
-      // Create the constituent molecules that result from breaking apart and add them to the active molecules
-      // observable array.
-      var diatomicOxygenMolecule = new O2( this.model );
-      var singleOxygenMolecule = new O( this.model );
-      this.model.activeMolecules.add( diatomicOxygenMolecule );
-      this.model.activeMolecules.add( singleOxygenMolecule );
+      // Create the constituent molecules that result from breaking apart.
+      var diatomicOxygenMolecule = new O2();
+      var singleOxygenMolecule = new O();
+      this.trigger( 'brokeApart', diatomicOxygenMolecule, singleOxygenMolecule);
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
       // directions and velocities have little if anything to do with any physical rules of atomic dissociation.
@@ -159,8 +151,6 @@ define( function( require ) {
       diatomicOxygenMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
       singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
 
-      // Add these constituent molecules to the constituent list.
-      this.constituentMolecules.push( diatomicOxygenMolecule, singleOxygenMolecule );
     }
   } );
 } );

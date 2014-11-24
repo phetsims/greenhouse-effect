@@ -271,6 +271,8 @@ define( function( require ) {
      */
     setPhotonTarget: function( photonTarget ) {
 
+      var thisModel = this;
+
       // Update to the new value.
       this.photonTarget = photonTarget;
 
@@ -319,6 +321,21 @@ define( function( require ) {
           console.error( "Error: Unhandled photon target." );
           break;
       }
+
+      // Emit a new photon from this molecule after absorption.
+      newMolecule.on( 'photonEmitted', function( photon ) {
+        thisModel.photons.add( photon );
+      } );
+
+      // Break apart into constituent molecules.
+      newMolecule.on( 'brokeApart', function( constituentMolecule1, constituentMolecule2 ) {
+        // Remove the molecule from the photonAbsorptionModel's list of active molecules.
+        thisModel.activeMolecules.remove( this );
+        // Add the constituent molecules to the photonAbsorptionModel.
+        thisModel.activeMolecules.add( constituentMolecule1 );
+        thisModel.activeMolecules.add( constituentMolecule2 );
+      } );
+
     },
 
     /**
