@@ -15,6 +15,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
 
+  // Static data
+  var instanceCount = 0; // Base count for the unique ID of this atom.
+
   /**
    * Constructor for the Atom.  Allows one to specify the color, radius, and mass of this atom.
    *
@@ -33,6 +36,7 @@ define( function( require ) {
     this.representationColor = representationColor;
     this.radius = radius;
     this.mass = mass;
+    this.uniqueID = instanceCount++;
 
   }
 
