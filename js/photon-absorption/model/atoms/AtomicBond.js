@@ -20,7 +20,6 @@ define( function( require ) {
    * @param {Atom} atom2 - Atom involved in the bond
    * @param {Object} [options]
    * @constructor
-   *
    */
   function AtomicBond( atom1, atom2, options ) {
 
@@ -28,7 +27,6 @@ define( function( require ) {
       // defaults
       bondCount: 1 // Indicates whether this is a single, double, triple, etc. bond.
     }, options );
-    this.options = options;
 
     this.atom1 = atom1;
     this.atom2 = atom2;
