@@ -17,7 +17,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var HSlider = require( 'SUN/HSlider' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var Color = require( 'SCENERY/util/Color' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -61,7 +60,7 @@ define( function( require ) {
       { stroke: '#c0b9b9' } );
 
     // Create the default background box for this node.
-    this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
+    this.setBackgroundRectColor( 'rgb(255, 85, 0)' );
 
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
@@ -110,19 +109,19 @@ define( function( require ) {
       var wavelength = this.model.photonWavelength;
       if ( wavelength === WavelengthConstants.IR_WAVELENGTH ) {
         // This is the rgb for PhetColorScheme.RED_COLORBLIND which tested well.
-        this.setBackgroundRectColor( new Color( 255, 85, 0 ) );
+        this.setBackgroundRectColor( 'rgb(255, 85, 0)' );
       }
       else if ( wavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
-        this.setBackgroundRectColor( Color.YELLOW );
+        this.setBackgroundRectColor( 'yellow' );
       }
       else if ( wavelength === WavelengthConstants.UV_WAVELENGTH ) {
-        this.setBackgroundRectColor( new Color( 200, 0, 200 ) );
+        this.setBackgroundRectColor( 'rgb(200, 0, 200)' );
       }
       else if ( wavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
-        this.setBackgroundRectColor( new Color( 200, 200, 200 ) );
+        this.setBackgroundRectColor( 'rgb(200, 200, 200)' );
       }
       else {
-        throw new Error('unrecognized photon wavelength: ' + wavelength );
+        throw new Error( 'unrecognized photon wavelength: ' + wavelength );
       }
     },
 

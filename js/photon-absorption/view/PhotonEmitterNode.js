@@ -18,7 +18,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Color = require( 'SCENERY/util/Color' );
   var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
 
   // images
@@ -82,7 +81,7 @@ define( function( require ) {
       // Translate center and scale the emitter image
       this.photonEmitterImage.scale( flashlightWidth / this.photonEmitterImage.width );
       this.photonEmitterImage.center = new Vector2( 0, 0 );
-      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, new Color( 0, 85, 0 ) );
+      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)' );
 
       // Add the emission rate control slider to the correct location on the photon emitter.
       this.emissionRateControlSliderNode.center = new Vector2(

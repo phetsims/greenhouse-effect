@@ -15,13 +15,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Color = require( 'SCENERY/util/Color' );
 
   // Constants that control the width of the bond representation with with respect to the average atom radius.
   var BOND_WIDTH_PROPORTION_SINGLE = 0.45;
   var BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
   var BOND_WIDTH_PROPORTION_TRIPLE = 0.24;
-  var BOND_COLOR = new Color( 0, 200, 0 );
+  var BOND_COLOR = 'rgb(0, 200, 0)';
 
   /**
    * Constructor for an atomic bond node.
