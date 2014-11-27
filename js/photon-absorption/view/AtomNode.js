@@ -21,10 +21,10 @@ define( function( require ) {
    * Constructor for an atom node.
    *
    * @param {Atom} atom
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function AtomNode( atom, mvt ) {
+  function AtomNode( atom, modelViewTransform ) {
 
     // supertype constructor
     Node.call( this );
@@ -34,10 +34,10 @@ define( function( require ) {
 
     // Instance Data
     thisNode.atom = atom;
-    thisNode.mvt = mvt;
+    thisNode.modelViewTransform= modelViewTransform;
 
-    // Scale the radius to the mvt.
-    var transformedRadius = mvt.modelToViewDeltaX( atom.radius );
+    // Scale the radius to the modelViewTransform.
+    var transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
     var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'black' );
@@ -51,7 +51,7 @@ define( function( require ) {
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      thisNode.translation = thisNode.mvt.modelToViewPosition( thisNode.atom.position );
+      thisNode.translation = thisNode.modelViewTransform.modelToViewPosition( thisNode.atom.position );
     } );
 
   }

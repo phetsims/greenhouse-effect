@@ -33,10 +33,10 @@ define( function( require ) {
    * Constructor for a photon node.
    *
    * @param {Photon} photon
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function PhotonNode( photon, mvt ) {
+  function PhotonNode( photon, modelViewTransform ) {
 
     // supertype constructor
     Node.call( this );
@@ -45,7 +45,7 @@ define( function( require ) {
     var thisNode = this;
 
     this.photon = photon;
-    this.mvt = mvt;
+    this.modelViewTransform = modelViewTransform;
 
     // Lookup the image file that corresponds to the wavelength and add a centered image.
     assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
@@ -56,7 +56,7 @@ define( function( require ) {
     // Observe position changes.
     photon.locationProperty.link( function() {
       // Set overall position.
-      thisNode.center = thisNode.mvt.modelToViewPosition( thisNode.photon.location );
+      thisNode.center = thisNode.modelViewTransform.modelToViewPosition( thisNode.photon.location );
     } );
   }
 

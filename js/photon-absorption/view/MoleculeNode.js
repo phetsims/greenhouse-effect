@@ -19,17 +19,17 @@ define( function( require ) {
    * Constructor for a molecule node.
    *
    * @param {Molecule} molecule
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function MoleculeNode( molecule, mvt ) {
+  function MoleculeNode( molecule, modelViewTransform ) {
 
     // supertype constructor
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
     var thisNode = this;
-    this.mvt = mvt;
+    this.modelViewTransform = modelViewTransform;
 
     // Instance Data
     var atomLayer = new Node();
@@ -39,14 +39,14 @@ define( function( require ) {
 
     // Create nodes and add the atoms which compose this molecule to the atomLayer.
     for ( var atom = 0; atom < molecule.getAtoms().length; atom++ ) {
-      this.atomNode = new AtomNode( molecule.getAtoms()[atom], thisNode.mvt );
+      this.atomNode = new AtomNode( molecule.getAtoms()[atom], thisNode.modelViewTransform );
       atomLayer.addChild( this.atomNode );
     }
 
     // Create and add the atomic bonds which form the structure of this molecule to the bondLayer
     var atomicBonds = molecule.getAtomicBonds();
     for ( var i = 0; i < atomicBonds.length; i++ ) {
-      bondLayer.addChild( new AtomicBondNode( atomicBonds[i], this.mvt ) );
+      bondLayer.addChild( new AtomicBondNode( atomicBonds[i], this.modelViewTransform ) );
     }
 
     // Link the high energy state to the property in the model.

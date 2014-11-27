@@ -26,16 +26,16 @@ define( function( require ) {
    * Constructor for an atomic bond node.
    *
    * @param {AtomicBond} atomicBond
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
 
-  function AtomicBondNode( atomicBond, mvt ) {
+  function AtomicBondNode( atomicBond, modelViewTransform ) {
     assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
 
     // Instance Data
     this.atomicBond = atomicBond;
-    this.mvt = mvt;
+    this.modelViewTransform = modelViewTransform;
     this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
 
     // supertype constructor
@@ -45,7 +45,7 @@ define( function( require ) {
     var thisNode = this;
 
     // Calculate the width to use for the bond representation(s).
-    this.averageAtomRadius = mvt.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
+    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
 
     // Create the initial representation.
     this.initializeRepresentation();
@@ -125,19 +125,19 @@ define( function( require ) {
         case 1:
 
           // Single bond, so connect it from the center of one atom to the center of the other
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
+          p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.position );
           this.atomicBonds[0].setLine( p1.x, p1.y, p2.x, p2.y );
           break;
 
         case 2:
 
           // Double bond.
-          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
+          transformedRadius = this.modelViewTransform.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
             this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
+          p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.position );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius / 3, angle );
@@ -151,11 +151,11 @@ define( function( require ) {
         case 3:
 
           // Triple bond.
-          transformedRadius = this.mvt.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
+          transformedRadius = this.modelViewTransform.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
             this.atomicBond.atom2.radius ) );
           // Get the center points of the two atoms.
-          p1 = this.mvt.modelToViewPosition( this.atomicBond.atom1.position );
-          p2 = this.mvt.modelToViewPosition( this.atomicBond.atom2.position );
+          p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.position );
+          p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.position );
           angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
           // Create a vector that will act as the offset from the center point to the origin of the bond line.
           offsetVector = Vector2.createPolar( transformedRadius * 0.6, angle );
