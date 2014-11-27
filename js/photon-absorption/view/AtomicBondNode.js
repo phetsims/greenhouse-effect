@@ -31,7 +31,7 @@ define( function( require ) {
    */
 
   function AtomicBondNode( atomicBond, mvt ) {
-    assert && assert( atomicBond.getBondCount() > 0 && atomicBond.getBondCount() <= 3 );  // Only single through triple bonds currently supported.
+    assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
 
     // Instance Data
     this.atomicBond = atomicBond;
