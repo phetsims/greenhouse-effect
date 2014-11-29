@@ -57,7 +57,7 @@ define( function( require ) {
   /**
    * Constructor for a photon absorption model.
    *
-   * @param { Number } initialPhotonTarget - wavelength of the initial photon target.
+   * @param {string} initialPhotonTarget - Initial molecule which the photon gets fired at.
    * @constructor
    */
   function PhotonAbsorptionModel( initialPhotonTarget ) {
