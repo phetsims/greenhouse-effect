@@ -74,10 +74,8 @@ define( function( require ) {
 
     // The photon target is the thing that the photons are shot at, and based on its particular nature, it may or may
     // not absorb some of the photons.
-    this.initialPhotonTarget = initialPhotonTarget;
-
     // Set the initial photon target to the molecule.
-    this.setPhotonTarget( this.initialPhotonTarget );
+    this.setPhotonTarget( initialPhotonTarget );
 
     // Variables that control periodic photon emission.
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
@@ -94,7 +92,7 @@ define( function( require ) {
     reset: function() {
 
       // Remove any photons that are currently in transit.
-      this.removeAllPhotons();
+      this.photons.clear();
 
       // Reset all active molecules, which will stop any vibrations.
       for ( var molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
@@ -102,7 +100,7 @@ define( function( require ) {
       }
 
       // Set default values.
-      this.setPhotonTarget( this.initialPhotonTarget );
+      this.photonTargetProperty.reset();
       this.setEmittedPhotonWavelength( DEFAULT_EMITTED_PHOTON_WAVELENGTH );
       this.setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
 
