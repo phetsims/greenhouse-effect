@@ -65,17 +65,12 @@ define( function( require ) {
     PropertySet.call( this, {
       emissionFrequency: 0,
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
-      photonTarget: initialPhotonTarget,
+      photonTarget: initialPhotonTarget, // molecule that photons are fired at
       play: true // is the sim running or paused
     } );
 
     this.photons = new ObservableArray(); //Elements are of type Photon
     this.activeMolecules = new ObservableArray(); // Elements are of type Molecule.
-
-    // The photon target is the thing that the photons are shot at, and based on its particular nature, it may or may
-    // not absorb some of the photons.
-    // Set the initial photon target to the molecule.
-    this.setPhotonTarget( initialPhotonTarget );
 
     // Variables that control periodic photon emission.
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
@@ -263,16 +258,15 @@ define( function( require ) {
     },
 
     /**
-     * Set the current photon target, and remove the old value.
+     * Update the active molecule to the current photon target.  Clear the old array of active molecules, create a new
+     * molecule, and then add it to the active molecules array.  Add listeners to the molecule that check for when
+     * the molecule should emit a photon or break apart into constituents.
      *
      * @param {string} photonTarget - The string constant which represents the desired photon target.
      */
-    setPhotonTarget: function( photonTarget ) {
+    updateActiveMolecule: function( photonTarget ) {
 
       var thisModel = this;
-
-      // Update to the new value.
-      this.photonTarget = photonTarget;
 
       // Remove the old photon target(s).
       this.activeMolecules.clear(); // Clear the old active molecules array
@@ -346,13 +340,12 @@ define( function( require ) {
     },
 
     /**
-     * This method restores the photon target to whatever it is currently set to.  This may seem nonsensical, and in
-     * some cases it is, but it is useful in cases where an atom has broken apart and needs to be restored to its
-     * original condition.
+     * This method restores the active molecule.  This may seem nonsensical, and in some cases it is, but it is useful
+     * in cases where an atom has broken apart and needs to be restored to its original condition.
      */
-    restorePhotonTarget: function() {
+    restoreActiveMolecule: function() {
       var currentTarget = this.photonTarget;
-      this.setPhotonTarget( currentTarget );
+      this.updateActiveMolecule( currentTarget );
     },
 
     /**
