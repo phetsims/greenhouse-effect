@@ -64,8 +64,8 @@ define( function( require ) {
 
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
-    model.emissionFrequencyProperty.link( function() {
-      var sliderProportion = thisModel.emissionFrequency / SLIDER_RANGE;
+    model.emissionFrequencyProperty.link( function( emissionFrequency ) {
+      var sliderProportion = emissionFrequency / SLIDER_RANGE;
       if ( sliderProportion === 0 ) {
         model.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       }
