@@ -29,7 +29,6 @@ define( function( require ) {
 
     // Supertype constructor
     PhotonHoldStrategy.call( this, molecule );
-    this.molecule = molecule;
 
   }
 
