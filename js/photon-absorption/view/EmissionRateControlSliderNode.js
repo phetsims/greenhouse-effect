@@ -41,7 +41,6 @@ define( function( require ) {
     Node.call( this );
 
     var thisNode = this;
-    var thisModel = model;
     this.model = model;
     this.color = color;
 
