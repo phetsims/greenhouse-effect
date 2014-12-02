@@ -72,7 +72,7 @@ define( function( require ) {
     // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
     // likely be tested at many time steps as the photon moves past the molecule, and we don't want to keep deciding
     // about the same photon.
-    this.passThroughPhotonList = []; // @privateArray will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
+    this.passThroughPhotonList = []; // @private Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
 
     // The current point within this molecule's vibration sequence.
     this.currentVibrationRadians = 0;
