@@ -35,7 +35,7 @@ define( function( require ) {
 
     // Instance Data
     this.atomicBond = atomicBond;
-    this.modelViewTransform = modelViewTransform;
+    this.modelViewTransform = modelViewTransform; // @private
     this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
 
     // supertype constructor
@@ -45,7 +45,7 @@ define( function( require ) {
     var thisNode = this;
 
     // Calculate the width to use for the bond representation(s).
-    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
+    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 ); // @private
 
     // Create the initial representation.
     this.initializeRepresentation();
@@ -63,6 +63,7 @@ define( function( require ) {
      * Draw the initial lines which represent the atomic bonds.  This function should only be called once.  Drawing the
      * lines a single time should provide a performance benefit.  This will also set the bond width for the lines for
      * each case of 1, 2, or 3 atomic bonds.
+     * @private
      */
     initializeRepresentation: function() {
 
@@ -111,6 +112,7 @@ define( function( require ) {
     /**
      * Update the atomic bond positions by setting the end points of line to the positions of the
      * atoms which share the bond.
+     * @private
      */
     updateRepresentation: function() {
 

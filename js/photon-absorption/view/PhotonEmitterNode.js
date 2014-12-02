@@ -41,7 +41,7 @@ define( function( require ) {
     // Cary this node through the scope in nested functions.
     var thisNode = this;
 
-    this.model = model;
+    this.model = model; // @private
 
     // Listen to model for events that may cause this node to change emitted wavelength.
     model.photonWavelengthProperty.link( function() {
@@ -56,6 +56,7 @@ define( function( require ) {
      * Set the appropriate image based on the current setting for the wavelength of the emitted photons.
      *
      * @param {number} flashlightWidth
+     * @private
      */
     updateImage: function( flashlightWidth ) {
 

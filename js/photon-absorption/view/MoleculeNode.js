@@ -29,7 +29,7 @@ define( function( require ) {
 
     // Carry this node through the scope in nested functions.
     var thisNode = this;
-    this.modelViewTransform = modelViewTransform;
+    this.modelViewTransform = modelViewTransform; // @private
 
     // Instance Data
     var atomLayer = new Node();

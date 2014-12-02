@@ -41,22 +41,22 @@ define( function( require ) {
     Node.call( this );
 
     var thisNode = this;
-    this.model = model;
-    this.color = color;
+    this.model = model; // @private
+    this.color = color; // @private
 
     // The following define the dimensions of the HSlider and can be adjusted as needed for best look.
     var controlSliderThumbSize = new Dimension2( 10, 15 );
     var controlSliderTrackSize = new Dimension2( 50, 1 );
 
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize } );
+      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize } ); // @private
 
     this.backgroundRect = new Rectangle(
         -controlSliderThumbSize.width / 2,
         -controlSliderThumbSize.height / 2,
         controlSliderTrackSize.width + controlSliderThumbSize.width,
         controlSliderTrackSize.height + controlSliderThumbSize.height,
-      { stroke: '#c0b9b9' } );
+      { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.
     this.setBackgroundRectColor( 'rgb(255, 85, 0)' );
@@ -87,6 +87,7 @@ define( function( require ) {
     /**
      * Update function for the control slider node.  Sets the value property of the slider and the background color
      * of the rectangle which holds the HSlider.
+     * @private
      */
     update: function() {
 
@@ -128,6 +129,7 @@ define( function( require ) {
      * Set the base color of the background rectangle for the emission rate control slider.
      *
      * @param {Color} baseColor - The base color for the background rectangle which holds the slider.
+     * @private
      */
     setBackgroundRectColor: function( baseColor ) {
       var rectHeight = this.emissionRateControlSlider.height;

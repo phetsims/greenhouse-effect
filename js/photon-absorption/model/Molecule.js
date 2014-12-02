@@ -40,38 +40,39 @@ define( function( require ) {
     } );
 
     // Atoms and bonds that form this molecule.
-    this.atoms = []; // Elements are of type Atoms
-    this.atomicBonds = []; // Elements are of type AtomicBonds
+    this.atoms = []; // @private Elements are of type Atoms
+    this.atomicBonds = []; // @private Elements are of type AtomicBonds
 
     // Structure of the molecule in terms of offsets from the center of gravity.  These indicate the atom's position in
     // the "relaxed" (i.e. non-vibrating), non-rotated state.
-    this.initialAtomCogOffsets = {}; // Object contains keys of the atom's uniqueID and values of type Vector2
+    this.initialAtomCogOffsets = {}; // @private Object contains keys of the atom's uniqueID and values of type Vector2
 
     // Vibration offsets - these represent the amount of deviation from the initial (a.k.a relaxed) configuration for
     // each molecule.
-    this.vibrationAtomOffsets = {}; // Object contains keys of the atom's uniqueID and values of type Vector2
+    this.vibrationAtomOffsets = {}; // @private Object contains keys of the atom's uniqueID and values of type Vector2
 
     //  Map containing the atoms which compose this molecule.  Allows us to call on each atom by their unique ID.
-    this.atomsByID = {};  // Objects contains keys of the atom's uniqueID, and values of type atom.
+    this.atomsByID = {};  // @private Objects contains keys of the atom's uniqueID, and values of type atom.
 
     // Velocity for this molecule.
     this.velocity = new Vector2();
 
     // Map that matches photon wavelengths to photon absorption strategies. The strategies contained in this structure
     // define whether the molecule can absorb a given photon and, if it does absorb it, how it will react.
-    this.mapWavelengthToAbsorptionStrategy = {}; // Object will contain keys of type Number and values of type PhotonAbsorptionStrategy
+    // Object will contain keys of type Number and values of type PhotonAbsorptionStrategy
+    this.mapWavelengthToAbsorptionStrategy = {}; // @private
 
     // Currently active photon absorption strategy, active because a photon was absorbed that activated it.
     this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
 
     // Variable that prevents reabsorption for a while after emitting a photon.
-    this.absorbtionHysteresisCountdownTime = 0;
+    this.absorbtionHysteresisCountdownTime = 0; // @private
 
     // The "pass through photon list" keeps track of photons that were not absorbed due to random probability
     // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
     // likely be tested at many time steps as the photon moves past the molecule, and we don't want to keep deciding
     // about the same photon.
-    this.passThroughPhotonList = []; // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
+    this.passThroughPhotonList = []; // @privateArray will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
 
     // The current point within this molecule's vibration sequence.
     this.currentVibrationRadians = 0;

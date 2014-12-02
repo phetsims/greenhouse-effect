@@ -33,15 +33,15 @@ define( function( require ) {
     var thisNode = this;
 
     // Instance Data
-    thisNode.atom = atom;
-    thisNode.modelViewTransform= modelViewTransform;
+    thisNode.atom = atom; // @private
+    thisNode.modelViewTransform = modelViewTransform; // @private
 
     // Scale the radius to the modelViewTransform.
     var transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
     var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'black' );
-    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } );
+    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
     this.highlightNode.opacity = 0.6;
 
     // Represent the atom as a shaded sphere node.
