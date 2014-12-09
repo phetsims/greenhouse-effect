@@ -146,7 +146,7 @@ define( function( require ) {
      **/
     getInitialAtomCogOffset: function( atom ) {
       if ( !(atom.uniqueID in this.initialAtomCogOffsets) ) {
-        console.log( " - Warning: Attempt to get initial COG offset for atom that is not in molecule." );
+        console.log( ' - Warning: Attempt to get initial COG offset for atom that is not in molecule.' );
       }
       return this.initialAtomCogOffsets[atom.uniqueID];
     },
@@ -159,7 +159,7 @@ define( function( require ) {
      */
     getVibrationAtomOffset: function( atom ) {
       if ( !(atom.uniqueID in this.vibrationAtomOffsets) ) {
-        console.log( " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule." );
+        console.log( ' - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.' );
       }
       return this.vibrationAtomOffsets[atom.uniqueID];
     },
@@ -229,7 +229,7 @@ define( function( require ) {
      * strategies.
      */
     setVibration: function() {
-      console.error( " Error: setVibraiton invoked on a molecule for which the action is not implemented." );
+      console.error( ' Error: setVibraiton invoked on a molecule for which the action is not implemented.' );
       assert && assert( false );
     },
 
@@ -268,7 +268,7 @@ define( function( require ) {
      * Cause the molecule to dissociate, i.e. to break apart.
      **/
     breakApart: function() {
-      console.error( " Error: breakApart invoked on a molecule for which the action is not implemented." );
+      console.error( ' Error: breakApart invoked on a molecule for which the action is not implemented.' );
       assert && assert( false );
     },
 
@@ -332,7 +332,7 @@ define( function( require ) {
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?
         var candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
-        if ( typeof candidateAbsorptionStrategy !== "undefined" ) {
+        if ( typeof candidateAbsorptionStrategy !== 'undefined' ) {
           // Yes, there is a strategy available for this wavelength.
           // Ask it if it wants the photon.
           if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ) {
@@ -411,7 +411,7 @@ define( function( require ) {
 
     /**
      * Initialize the offsets from the center of gravity for each atom within this molecule.  This should be in the
-     * "relaxed" (i.e. non-vibrating) state.
+     * 'relaxed' (i.e. non-vibrating) state.
      */
     initializeAtomOffsets: function() {
       throw new Error( 'initializeAtomOffsets should be implemented in descendant molecules.' );

@@ -310,7 +310,7 @@ define( function( require ) {
           break;
 
         default:
-          console.error( "Error: Unhandled photon target." );
+          console.error( 'Error: Unhandled photon target.' );
           break;
       }
 

@@ -73,7 +73,7 @@ define( function( require ) {
     },
 
     photonAbsorbed: function() {
-      console.error( "Error: photonAbsorbed function should be implemented by descendant absorption strategies.");
+      console.error( 'Error: photonAbsorbed function should be implemented by descendant absorption strategies.' );
     }
 
   } );
