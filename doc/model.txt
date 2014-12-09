@@ -1,0 +1,26 @@
+General:
+
+Molecules And Light Screen:
+
+        The model describes the interaction between photons and a molecules.  In general, a photon emitter fires a
+        photon at a molecule with which it will or will not interact.  Whether or not a photon interacts with a given
+        molecule is determined by fundamental aspects of nature.
+
+        This model is composed of a photon emitter, photons, and molecules.  The molecules are modeled with constituent
+        atoms and atomic bonds.
+
+        The photon emitter, photons, and molecules are contained in an isolated window on the screen called the
+        ObservationWindow.  This is where the user observes all photon and molecule interactions.  The flashlight
+        looking object in the center left of the observation window is the photon emitter.
+
+        A molecule can have many different absorption strategies which describe how it will interact with a given
+        photon.  The possible options are BreakApartStrategy, which causes the molecule to break apart into two or more
+        constituent molecules, ExcitationStrategy, which causes the molecule to enter an excited state,
+        RotationStrategy, which causes the molecule to rotate, VibrationStrategy, which causes the molecule to vibrate,
+        and NullPhotonAbsorptionStrategy, which represents no interaction between the photon and molecule.
+
+        The user can decide which molecule to observe with the MoleculeSelectionPanel.  The possible Molecules are
+        carbon monoxide, carbon dioxide, water, nitrogen gas, nitrogen dioxide, oxygen gas, and ozone.  The user can
+        also select photons of a specific wavelength with the QuadEmissionFrequencyControlPanel.  Possible wavelengths
+        are described by sections of the electromagnetic spectrum and the choices are microwave, infrared, visible, and
+        ultraviolet.
