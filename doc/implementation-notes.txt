@@ -24,17 +24,3 @@ ObservationWindow, specifically ( 275, 150 ).
 
 In the QuadEmissionFrequencyControlPanel, an identity transform is used because spatial elements are not relevant.
 Nodes are simply added to the control panel as visual descriptions of what the control panel does.
-
-I find that I frequently need to change the rendering order and layout of nodes.
-To make that easier, node constructors typically have this structure:
-
-    function MyNode(...) {
-
-        // instantiate nodes
-
-        // set rendering order (addChild)
-
-        // do layout
-
-        // register observers
-    }
