@@ -226,7 +226,7 @@ define( function( require ) {
     function createExponentialLabel( value ) {
 
       var superscript = Math.round( log10( value ) );
-      return new SubSupText( "10<sup>" + superscript + "</sup>", {
+      return new SubSupText( '10<sup>' + superscript + '</sup>', {
         font: TICK_MARK_FONT,
         supScale: 0.65,
         supYOffset: 1} );
