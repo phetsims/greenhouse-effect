@@ -38,7 +38,7 @@ define( function( require ) {
   var radioBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.radioBandLabel' );
   var microwaveBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.microwaveBandLabel' );
   var infraredBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.infraredBandLabel' );
-  var ultraVioletBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.ultraVioletBandLabel' );
+  var ultravioletBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.ultravioletBandLabel' );
   var xrayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.xrayBandLabel' );
   var gammaRayBandLabel = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.gammaRayBandLabel' );
   var visibleBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.visibleBandLabel' );
@@ -356,7 +356,7 @@ define( function( require ) {
     addBandLabel( 1E9, 3E11, microwaveBandLabelString );
     addBandDivider( 3E11 );
     addBandLabel( 3E11, 6E14, infraredBandLabelString );
-    addBandLabel( 1E15, 8E15, ultraVioletBandLabelString );
+    addBandLabel( 1E15, 8E15, ultravioletBandLabelString );
     addBandDivider( 1E16 );
     addBandLabel( 1E16, 1E19, xrayBandLabelString );
     addBandDivider( 1E19 );
