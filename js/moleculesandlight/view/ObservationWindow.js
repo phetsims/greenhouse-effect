@@ -25,7 +25,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // strings
-  var returnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/buttonNode.returnMolecule' );
+  var returnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/buttonNode.ReturnMolecule' );
 
   // constants
   var PHOTON_EMITTER_WIDTH = 125;

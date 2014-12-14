@@ -33,11 +33,11 @@ define( function( require ) {
   var uvLight2 = require( 'image!MOLECULES_AND_LIGHT/uv_light_2.png' );
 
   // strings
-  var microwaveString = require( 'string!MOLECULES_AND_LIGHT/microwave' );
-  var infraredString = require( 'string!MOLECULES_AND_LIGHT/infrared' );
-  var visibleString = require( 'string!MOLECULES_AND_LIGHT/visible' );
-  var ultravioletString = require( 'string!MOLECULES_AND_LIGHT/ultraviolet' );
-  var higherEnergyString = require( 'string!MOLECULES_AND_LIGHT/higherEnergy' );
+  var microwaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
+  var infraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
+  var visibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
+  var ultravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
+  var higherEnergyString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.HigherEnergy' );
 
   // Description data for the 'Energy Arrow'
   var ARROW_LENGTH = 200;
