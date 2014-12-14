@@ -45,6 +45,22 @@ define( function( require ) {
   var cyclesPerSecondUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.cyclesPerSecondUnits' );
   var metersUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.metersUnits' );
 
+  // shared constants
+  var LABEL_FONT = new PhetFont( 16 );
+  var SUBSECTION_WIDTH = 490; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
+
+  // constants for LabeledSpectrumNode
+  var STRIP_HEIGHT = 65;
+  var MIN_FREQUENCY = 1E3;
+  var MAX_FREQUENCY = 1E21;
+  var TICK_MARK_HEIGHT = 8;
+  var TICK_MARK_FONT = new PhetFont( 11 );
+
+  // constants for labeledArrow
+  var ARROW_HEAD_HEIGHT = 40;
+  var ARROW_HEAD_WIDTH = 40;
+  var ARROW_TAIL_WIDTH = 25;
+
   /**
    * Class that contains the diagram of the EM spectrum.  This class includes the arrows, the spectrum strip, the
    * wavelength indicator, etc.  In other words, it is the top level node within which the constituent parts that make
@@ -54,9 +70,6 @@ define( function( require ) {
    */
   function SpectrumDiagram() {
 
-    var OVERALL_DIMENSIONS = new Dimension2( 550, 440 );
-    var HORIZONTAL_INSET = 30;
-
     var children = [];
 
     // Add the title.
@@ -65,7 +78,7 @@ define( function( require ) {
 
     // Add the frequency arrow.
     var frequencyArrow = new LabeledArrow(
-      ( OVERALL_DIMENSIONS.width - HORIZONTAL_INSET * 2 ),
+      SUBSECTION_WIDTH,
       'right',
       frequencyArrowLabelString,
       'white',
@@ -74,12 +87,12 @@ define( function( require ) {
     children.push( frequencyArrow );
 
     // Add the spectrum portion.
-    var spectrum = new LabeledSpectrumNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+    var spectrum = new LabeledSpectrumNode();
     children.push( spectrum );
 
     // Add the wavelength arrow.
     var wavelengthArrow = new LabeledArrow(
-      ( OVERALL_DIMENSIONS.width - HORIZONTAL_INSET * 2 ),
+      SUBSECTION_WIDTH,
       'left',
       wavelengthArrowLabelString,
       'white',
@@ -88,7 +101,7 @@ define( function( require ) {
     children.push( wavelengthArrow );
 
     // Add the diagram that depicts the wave that gets shorter.
-    var decreasingWavelengthNode = new ChirpNode( OVERALL_DIMENSIONS.width - 2 * HORIZONTAL_INSET );
+    var decreasingWavelengthNode = new ChirpNode();
     children.push( decreasingWavelengthNode );
 
     LayoutBox.call( this, { orientation: 'vertical', children: children, spacing: 15 } );
@@ -107,11 +120,6 @@ define( function( require ) {
    * @constructor
    */
   function LabeledArrow( length, orientation, captionText, leftColor, rightColor ) {
-
-    var ARROW_HEAD_HEIGHT = 40;
-    var ARROW_HEAD_WIDTH = 40;
-    var ARROW_TAIL_WIDTH = 25;
-    var LABEL_FONT = new PhetFont( 16 );
 
     var Orientation = {
       POINTING_LEFT: 'left',
@@ -171,168 +179,17 @@ define( function( require ) {
    * Class that depicts the frequencies and wavelengths of the EM spectrum and labels the subsections
    * (e.g. "Infrared").
    *
-   * @param {number} width
    * @constructor
    */
-  function LabeledSpectrumNode( width ) {
+  function LabeledSpectrumNode() {
 
     // Supertype constructor
     Node.call( this );
     var thisNode = this;
 
-    // Define the functions used for the labeled spectrum node.
-    /**
-     * Add a tick mark for the specified frequency.  Frequency tick marks go on top of the strip.
-     *
-     * @param {number} frequency
-     * @param {boolean} addLabel - Whether or not a label should be added to the tick mark.
-     */
-    function addFrequencyTickMark( frequency, addLabel ) {
-      // Create and add the tick mark line.
-      var tickMarkNode = new Line( 0, 0, 0, -TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
-      tickMarkNode.centerBottom = new Vector2( getOffsetFromFrequency( frequency ), strip.top );
-      thisNode.addChild( tickMarkNode );
-
-      if ( addLabel ) {
-        // Create and add the label.
-        var label = createExponentialLabel( frequency );
-        // Calculate x offset for label.  Allows the base number of the label to centered with the tick mark.
-        var xOffset = new Text( '10', { font: TICK_MARK_FONT } ).width / 2;
-        label.leftCenter = new Vector2( tickMarkNode.centerX - xOffset, tickMarkNode.top - label.height / 2 );
-        thisNode.addChild( label );
-      }
-    }
-
-    /**
-     * Convert the given frequency to an offset from the left edge of the spectrum strip.
-     *
-     * @param {number} frequency - Frequency in Hz.
-     * @return {number}
-     */
-    function getOffsetFromFrequency( frequency ) {
-      assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
-      var logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
-      var logarithmicFrequency = log10( frequency );
-      return ( logarithmicFrequency - log10( MIN_FREQUENCY ) ) / logarithmicRange * stripWidth;
-    }
-
-    /**
-     * Create a label for the tick marks on the spectrum diagram.
-     *
-     * @param {number} value -  Wavelength or frequency to be described by the label.
-     * @return {SubSupText}
-     */
-    function createExponentialLabel( value ) {
-
-      var superscript = Math.round( log10( value ) );
-      return new SubSupText( '10<sup>' + superscript + '</sup>', {
-        font: TICK_MARK_FONT,
-        supScale: 0.65,
-        supYOffset: 1} );
-    }
-
-    /**
-     * Add a tick mark for the specified wavelength.  Wavelength tick marks go on the bottom of the strip.
-     *
-     * @param {number} wavelength
-     * @param {boolean} addLabel
-     */
-    function addWavelengthTickMark( wavelength, addLabel ) {
-
-      // Create and add the tick mark line.
-      var tickMarkNode = new Line( 0, 0, 0, TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
-      tickMarkNode.centerTop = new Vector2( getOffsetFromWavelength( wavelength ), strip.bottom );
-      thisNode.addChild( tickMarkNode );
-      if ( addLabel ) {
-        // Create and add the label.
-        var label = createExponentialLabel( wavelength );
-        // Calculate x offset for label.  Allows the base number of the label to be centered with the tick mark.
-        label.center = new Vector2( tickMarkNode.centerX, tickMarkNode.top + label.height + 2 );
-        thisNode.addChild( label );
-      }
-    }
-
-    /**
-     * Add a label to a band which sections the spectrum diagram.  Using LayoutBox will format the strings so that new
-     * lines do not need to be coded with HTML.
-     *
-     * @param {number} lowEndFrequency
-     * @param {number} highEndFrequency
-     * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
-     */
-    function addBandLabel( lowEndFrequency, highEndFrequency, labelString ) {
-      // Argument validation.
-      assert && assert( highEndFrequency >= lowEndFrequency );
-
-      // Set up values needed for calculations.
-      var leftBoundaryX = getOffsetFromFrequency( lowEndFrequency );
-      var rightBoundaryX = getOffsetFromFrequency( highEndFrequency );
-      var width = rightBoundaryX - leftBoundaryX;
-      var centerX = leftBoundaryX + width / 2;
-
-      // Place the strings into a layout box.
-//      var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 3 } );
-
-      // Create and add the label.
-      var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT } );
-      thisNode.addChild( labelText );
-
-      if ( ( labelText.width + 10 ) > width ) {
-        // Scale the label to fit with a little bit of padding on each side.
-        labelText.scale( width / ( labelText.width + 10 ) );
-      }
-      labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
-    }
-
-    /**
-     * Add a "band divider" at the given frequency.  A band divider is a dotted line that spans the spectrum strip in
-     * the vertical direction.
-     *
-     * @param {number} frequency
-     */
-    function addBandDivider( frequency ) {
-      var drawDividerSegment = function() { return new Line( 0, 0, 0, STRIP_HEIGHT / 9, { stroke: 'black', lineWidth: 2 } ); };
-      for ( var i = 0; i < 5; i++ ) {
-        var dividerSegment = drawDividerSegment();
-        dividerSegment.centerTop = new Vector2( getOffsetFromFrequency( frequency ), 2 * i * STRIP_HEIGHT / 9 );
-        thisNode.addChild( dividerSegment );
-      }
-    }
-
-    /**
-     * Convert the given wavelength to an offset from the left edge of the spectrum strip.  The frequency of an
-     * electromagnetic wave is equal to the speed of light divided by the wavelength.
-     *
-     * @param wavelength - wavelength in meters
-     * @returns {number}
-     */
-    function getOffsetFromWavelength( wavelength ) {
-      // The constant 299792458 is equal to the speed of light in meters per second.
-      return getOffsetFromFrequency( 299792458 / wavelength );
-    }
-
-    /**
-     * Calculate the log base 10 of a value.
-     *
-     * @param value
-     * @returns {number}
-     */
-    function log10( value ) {
-      return Math.log( value ) / Math.LN10;
-    }
-
-    var STRIP_HEIGHT = 65;
-    var MIN_FREQUENCY = 1E3;
-    var MAX_FREQUENCY = 1E21;
-    var TICK_MARK_HEIGHT = 8;
-    var TICK_MARK_FONT = new PhetFont( 11 );
-    var LABEL_FONT = new PhetFont( 16 );
-
-    var stripWidth = width;
-
     // Create the "strip", which is the solid background portions that contains the different bands and that has tick
     // marks on the top and bottom.
-    var strip = new Rectangle( 0, 0, stripWidth, STRIP_HEIGHT, {
+    var strip = new Rectangle( 0, 0, SUBSECTION_WIDTH, STRIP_HEIGHT, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
       stroke: 'black' } );
@@ -341,26 +198,26 @@ define( function( require ) {
     // Add the frequency tick marks to the top of the spectrum strip.
     for ( var i = 4; i <= 20; i++ ) {
       var includeFrequencyLabel = ( i % 2 === 0 );
-      addFrequencyTickMark( Math.pow( 10, i ), includeFrequencyLabel );
+      addFrequencyTickMark( thisNode, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
     }
 
     // Add the wavelength tick marks to the bottom of the spectrum.
     for ( var j = -12; j <= 4; j++ ) {
       var includeWavelengthLabel = ( j % 2 === 0 );
-      addWavelengthTickMark( Math.pow( 10, j ), includeWavelengthLabel );
+      addWavelengthTickMark( thisNode, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
     }
 
     // Add the various bands.
-    addBandLabel( 1E3, 1E9, radioBandLabelString );
-    addBandDivider( 1E9 );
-    addBandLabel( 1E9, 3E11, microwaveBandLabelString );
-    addBandDivider( 3E11 );
-    addBandLabel( 3E11, 6E14, infraredBandLabelString );
-    addBandLabel( 1E15, 8E15, ultravioletBandLabelString );
-    addBandDivider( 1E16 );
-    addBandLabel( 1E16, 1E19, xrayBandLabelString );
-    addBandDivider( 1E19 );
-    addBandLabel( 1E19, 1E21, gammaRayBandLabel );
+    addBandLabel( thisNode, 1E3, 1E9, radioBandLabelString );
+    addBandDivider( thisNode, 1E9 );
+    addBandLabel( thisNode, 1E9, 3E11, microwaveBandLabelString );
+    addBandDivider( thisNode, 3E11 );
+    addBandLabel( thisNode, 3E11, 6E14, infraredBandLabelString );
+    addBandLabel( thisNode, 1E15, 8E15, ultravioletBandLabelString );
+    addBandDivider( thisNode, 1E16 );
+    addBandLabel( thisNode, 1E16, 1E19, xrayBandLabelString );
+    addBandDivider( thisNode, 1E19 );
+    addBandLabel( thisNode, 1E19, 1E21, gammaRayBandLabel );
 
     // Add the visible spectrum.
     var visSpectrumWidth = Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -385,12 +242,156 @@ define( function( require ) {
 
     // Add the units.
     var frequencyUnits = new Text( cyclesPerSecondUnitsString, { font: LABEL_FONT } );
-    frequencyUnits.leftCenter = new Vector2( stripWidth, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
+    frequencyUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
     this.addChild( frequencyUnits );
     var wavelengthUnits = new Text( metersUnitsString, { font: LABEL_FONT } );
-    wavelengthUnits.leftCenter = new Vector2( stripWidth, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
+    wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
 
+  }
+
+  // functions for LabeledSpectrumNode
+  /**
+   * Convert the given frequency to an offset from the left edge of the spectrum strip.
+   *
+   * @param {number} frequency - Frequency in Hz.
+   * @return {number}
+   */
+  function getOffsetFromFrequency( frequency ) {
+    assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
+    var logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
+    var logarithmicFrequency = log10( frequency );
+    return ( logarithmicFrequency - log10( MIN_FREQUENCY ) ) / logarithmicRange * SUBSECTION_WIDTH;
+  }
+
+  /**
+   * Create a label for the tick marks on the spectrum diagram.
+   *
+   * @param {number} value -  Wavelength or frequency to be described by the label.
+   * @return {SubSupText}
+   */
+  function createExponentialLabel( value ) {
+
+    var superscript = Math.round( log10( value ) );
+    return new SubSupText( '10<sup>' + superscript + '</sup>', {
+      font: TICK_MARK_FONT,
+      supScale: 0.65,
+      supYOffset: 1} );
+  }
+
+  /**
+   * Convert the given wavelength to an offset from the left edge of the spectrum strip.  The frequency of an
+   * electromagnetic wave is equal to the speed of light divided by the wavelength.
+   *
+   * @param {number} wavelength - wavelength in meters
+   * @returns {number}
+   */
+  function getOffsetFromWavelength( wavelength ) {
+    // The constant 299792458 is equal to the speed of light in meters per second.
+    return getOffsetFromFrequency( 299792458 / wavelength );
+  }
+
+  /**
+   * Calculate the log base 10 of a value.
+   *
+   * @param value
+   * @returns {number}
+   */
+  function log10( value ) {
+    return Math.log( value ) / Math.LN10;
+  }
+
+  /**
+   * Add a tick mark for the specified frequency.  Frequency tick marks go on top of the strip.
+   *
+   * @param {LabeledSpectrumNode} thisNode
+   * @param {number} frequency
+   * @param {boolean} addLabel - Whether or not a label should be added to the tick mark.
+   * @param {number} bottom - bottom y position of the tick mark.  x position calculated with getOffsetFromFrequency()
+   */
+  function addFrequencyTickMark( thisNode, frequency, bottom, addLabel ) {
+    // Create and add the tick mark line.
+    var tickMarkNode = new Line( 0, 0, 0, -TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
+    tickMarkNode.centerBottom = new Vector2( getOffsetFromFrequency( frequency ), bottom );
+    thisNode.addChild( tickMarkNode );
+
+    if ( addLabel ) {
+      // Create and add the label.
+      var label = createExponentialLabel( frequency );
+      // Calculate x offset for label.  Allows the base number of the label to centered with the tick mark.
+      var xOffset = new Text( '10', { font: TICK_MARK_FONT } ).width / 2;
+      label.leftCenter = new Vector2( tickMarkNode.centerX - xOffset, tickMarkNode.top - label.height / 2 );
+      thisNode.addChild( label );
+    }
+  }
+
+  /**
+   * Add a tick mark for the specified wavelength.  Wavelength tick marks go on the bottom of the strip.
+   *
+   * @param {LabeledSpectrumNode} thisNode
+   * @param {number} wavelength
+   * * @param {number} top
+   * @param {boolean} addLabel
+   */
+  function addWavelengthTickMark( thisNode, wavelength, top, addLabel ) {
+
+    // Create and add the tick mark line.
+    var tickMarkNode = new Line( 0, 0, 0, TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
+    tickMarkNode.centerTop = new Vector2( getOffsetFromWavelength( wavelength ), top );
+    thisNode.addChild( tickMarkNode );
+    if ( addLabel ) {
+      // Create and add the label.
+      var label = createExponentialLabel( wavelength );
+      // Calculate x offset for label.  Allows the base number of the label to be centered with the tick mark.
+      label.center = new Vector2( tickMarkNode.centerX, tickMarkNode.top + label.height + 2 );
+      thisNode.addChild( label );
+    }
+  }
+
+  /**
+   * Add a label to a band which sections the spectrum diagram.  Using LayoutBox will format the strings so that new
+   * lines do not need to be coded with HTML.
+   *
+   * @param {LabeledSpectrumNode} thisNode
+   * @param {number} lowEndFrequency
+   * @param {number} highEndFrequency
+   * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
+   */
+  function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString ) {
+    // Argument validation.
+    assert && assert( highEndFrequency >= lowEndFrequency );
+
+    // Set up values needed for calculations.
+    var leftBoundaryX = getOffsetFromFrequency( lowEndFrequency );
+    var rightBoundaryX = getOffsetFromFrequency( highEndFrequency );
+    var width = rightBoundaryX - leftBoundaryX;
+    var centerX = leftBoundaryX + width / 2;
+
+    // Create and add the label.
+    var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT } );
+    thisNode.addChild( labelText );
+
+    if ( ( labelText.width + 10 ) > width ) {
+      // Scale the label to fit with a little bit of padding on each side.
+      labelText.scale( width / ( labelText.width + 10 ) );
+    }
+    labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
+  }
+
+  /**
+   * Add a "band divider" at the given frequency.  A band divider is a dotted line that spans the spectrum strip in
+   * the vertical direction.
+   *
+   * @param{LabeledSpectrumNode} thisNode
+   * @param {number} frequency
+   */
+  function addBandDivider( thisNode, frequency ) {
+    var drawDividerSegment = function() { return new Line( 0, 0, 0, STRIP_HEIGHT / 9, { stroke: 'black', lineWidth: 2 } ); };
+    for ( var i = 0; i < 5; i++ ) {
+      var dividerSegment = drawDividerSegment();
+      dividerSegment.centerTop = new Vector2( getOffsetFromFrequency( frequency ), 2 * i * STRIP_HEIGHT / 9 );
+      thisNode.addChild( dividerSegment );
+    }
   }
 
   inherit( Node, LabeledSpectrumNode );
@@ -399,14 +400,13 @@ define( function( require ) {
    *  Class that depicts a wave that gets progressively shorter in wavelength from left to right, which is called a
    *  chirp.
    *
-   *  @param {number} width - Width of the bounding box that holds the chirp.
    *  @constructor
    */
-  function ChirpNode( width ) {
+  function ChirpNode() {
 
     // Create and add the boundary and background.
-    var boundingBoxHeight = width * 0.1; // Arbitrary, adjust as needed.
-    Rectangle.call( this, 0, 0, width, boundingBoxHeight, {
+    var boundingBoxHeight = SUBSECTION_WIDTH* 0.1; // Arbitrary, adjust as needed.
+    Rectangle.call( this, 0, 0, SUBSECTION_WIDTH, boundingBoxHeight, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
       stroke: 'black'
@@ -416,8 +416,8 @@ define( function( require ) {
     chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.
     var numPointsOnLine = 2000;
     for ( var i = 0; i < numPointsOnLine; i++ ) {
-      var x = i * ( width / (numPointsOnLine - 1) );
-      var t = x / width;
+      var x = i * ( SUBSECTION_WIDTH / (numPointsOnLine - 1) );
+      var t = x / SUBSECTION_WIDTH;
 
       var f0 = 1;
       var k = 2;
@@ -430,7 +430,6 @@ define( function( require ) {
     }
 
     this.addChild( new Path( chirpShape, { lineWidth: 2, stroke: 'black' } ) );
-    return this;
 
   }
 
