@@ -170,7 +170,6 @@ define( function( require ) {
 
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
     RectangularPushButton.call( this, { content: content, listener: null } );
-
   }
 
   inherit( RectangularPushButton, CloseButton );
@@ -247,8 +246,9 @@ define( function( require ) {
     var wavelengthUnits = new Text( metersUnitsString, { font: LABEL_FONT } );
     wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
-
   }
+
+  inherit( Node, LabeledSpectrumNode );
 
   // functions for LabeledSpectrumNode
   /**
@@ -394,8 +394,6 @@ define( function( require ) {
     }
   }
 
-  inherit( Node, LabeledSpectrumNode );
-
   /**
    *  Class that depicts a wave that gets progressively shorter in wavelength from left to right, which is called a
    *  chirp.
@@ -430,7 +428,6 @@ define( function( require ) {
     }
 
     this.addChild( new Path( chirpShape, { lineWidth: 2, stroke: 'black' } ) );
-
   }
 
   inherit( Rectangle, ChirpNode );
