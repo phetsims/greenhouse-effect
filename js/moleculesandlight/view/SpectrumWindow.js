@@ -16,7 +16,6 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
