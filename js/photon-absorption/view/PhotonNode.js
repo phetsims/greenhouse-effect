@@ -49,7 +49,7 @@ define( function( require ) {
 
     // Lookup the image file that corresponds to the wavelength and add a centered image.
     assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
-    var photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ]);
+    var photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ] );
 
     this.addChild( photonImage );
 

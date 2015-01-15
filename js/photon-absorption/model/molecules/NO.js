@@ -15,7 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
 
   // Model Data for the nitrogen monoxide molecule.
   var INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.

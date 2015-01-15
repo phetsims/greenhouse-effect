@@ -39,14 +39,14 @@ define( function( require ) {
 
     // Create nodes and add the atoms which compose this molecule to the atomLayer.
     for ( var atom = 0; atom < molecule.getAtoms().length; atom++ ) {
-      this.atomNode = new AtomNode( molecule.getAtoms()[atom], thisNode.modelViewTransform );
+      this.atomNode = new AtomNode( molecule.getAtoms()[ atom ], thisNode.modelViewTransform );
       atomLayer.addChild( this.atomNode );
     }
 
     // Create and add the atomic bonds which form the structure of this molecule to the bondLayer
     var atomicBonds = molecule.getAtomicBonds();
     for ( var i = 0; i < atomicBonds.length; i++ ) {
-      bondLayer.addChild( new AtomicBondNode( atomicBonds[i], this.modelViewTransform ) );
+      bondLayer.addChild( new AtomicBondNode( atomicBonds[ i ], this.modelViewTransform ) );
     }
 
     // Link the high energy state to the property in the model.

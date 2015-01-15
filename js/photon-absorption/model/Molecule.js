@@ -148,7 +148,7 @@ define( function( require ) {
       if ( !(atom.uniqueID in this.initialAtomCogOffsets) ) {
         console.log( ' - Warning: Attempt to get initial COG offset for atom that is not in molecule.' );
       }
-      return this.initialAtomCogOffsets[atom.uniqueID];
+      return this.initialAtomCogOffsets[ atom.uniqueID ];
     },
 
     /**
@@ -161,7 +161,7 @@ define( function( require ) {
       if ( !(atom.uniqueID in this.vibrationAtomOffsets) ) {
         console.log( ' - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.' );
       }
-      return this.vibrationAtomOffsets[atom.uniqueID];
+      return this.vibrationAtomOffsets[ atom.uniqueID ];
     },
 
     /**
@@ -359,9 +359,9 @@ define( function( require ) {
      **/
     addAtom: function( atom ) {
       this.atoms.push( atom );
-      this.initialAtomCogOffsets[atom.uniqueID] = new Vector2( 0, 0 );
-      this.vibrationAtomOffsets[atom.uniqueID] = new Vector2( 0, 0 );
-      this.atomsByID[atom.uniqueID] = atom;
+      this.initialAtomCogOffsets[ atom.uniqueID ] = new Vector2( 0, 0 );
+      this.vibrationAtomOffsets[ atom.uniqueID ] = new Vector2( 0, 0 );
+      this.atomsByID[ atom.uniqueID ] = atom;
     },
 
     /**
@@ -397,14 +397,14 @@ define( function( require ) {
 
       for ( var uniqueID in this.initialAtomCogOffsets ) {
         if ( this.initialAtomCogOffsets.hasOwnProperty( uniqueID ) ) {
-          var atomOffset = new Vector2( this.initialAtomCogOffsets[uniqueID].x, this.initialAtomCogOffsets[uniqueID].y );
+          var atomOffset = new Vector2( this.initialAtomCogOffsets[ uniqueID ].x, this.initialAtomCogOffsets[ uniqueID ].y );
           // Add the vibration, if any exists.
-          atomOffset.add( this.vibrationAtomOffsets[uniqueID] );
+          atomOffset.add( this.vibrationAtomOffsets[ uniqueID ] );
           // Rotate.
           atomOffset.rotate( this.currentRotationRadians );
           // Set location based on combination of offset and current center
           // of gravity.
-          this.atomsByID[uniqueID].position = new Vector2( this.centerOfGravity.x + atomOffset.x, this.centerOfGravity.y + atomOffset.y );
+          this.atomsByID[ uniqueID ].position = new Vector2( this.centerOfGravity.x + atomOffset.x, this.centerOfGravity.y + atomOffset.y );
         }
       }
     },

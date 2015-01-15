@@ -18,7 +18,7 @@ define( function( require ) {
   var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
 
   // Model Data for the water molecule
   // These constants define the initial shape of the water atom.  The angle between the atoms is intended to be correct,
@@ -91,9 +91,9 @@ define( function( require ) {
       var maxHydrogenDisplacement = 18;
       this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, this.initialOxygenVerticalOffset - multFactor * maxOxygenDisplacement ) );
       this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-          this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );
+        this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );
       this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-          this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );
+        this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );
       this.updateAtomPositions();
 
     }

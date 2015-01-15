@@ -52,10 +52,10 @@ define( function( require ) {
       { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize } ); // @private
 
     this.backgroundRect = new Rectangle(
-        -controlSliderThumbSize.width / 2,
-        -controlSliderThumbSize.height / 2,
-        controlSliderTrackSize.width + controlSliderThumbSize.width,
-        controlSliderTrackSize.height + controlSliderThumbSize.height,
+      -controlSliderThumbSize.width / 2,
+      -controlSliderThumbSize.height / 2,
+      controlSliderTrackSize.width + controlSliderThumbSize.width,
+      controlSliderTrackSize.height + controlSliderThumbSize.height,
       { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.

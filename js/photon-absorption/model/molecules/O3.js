@@ -18,7 +18,7 @@ define( function( require ) {
   var BreakApartStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/BreakApartStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom');
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
   var O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
 
@@ -128,7 +128,7 @@ define( function( require ) {
       // Create the constituent molecules that result from breaking apart.
       var diatomicOxygenMolecule = new O2();
       var singleOxygenMolecule = new O();
-      this.trigger( 'brokeApart', diatomicOxygenMolecule, singleOxygenMolecule);
+      this.trigger( 'brokeApart', diatomicOxygenMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
       // directions and velocities have little if anything to do with any physical rules of atomic dissociation.
@@ -137,7 +137,7 @@ define( function( require ) {
       if ( this.doubleBondOnRight ) {
         diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
         diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.rightOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
-            ( this.getInitialAtomCogOffset( this.centerOxygenAtom ).y + this.getInitialAtomCogOffset( this.rightOxygenAtom ).y ) / 2 );
+          ( this.getInitialAtomCogOffset( this.centerOxygenAtom ).y + this.getInitialAtomCogOffset( this.rightOxygenAtom ).y ) / 2 );
         breakApartAngle = Math.PI / 4 + Math.random() * Math.PI / 4;
         singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
       }
@@ -145,7 +145,7 @@ define( function( require ) {
         diatomicOxygenMolecule.rotate( diatomicMoleculeRotationAngle );
         breakApartAngle = Math.PI / 2 + Math.random() * Math.PI / 4;
         diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
-            ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
+          ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
         singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
       }
       diatomicOxygenMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );

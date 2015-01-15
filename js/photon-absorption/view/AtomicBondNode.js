@@ -75,7 +75,7 @@ define( function( require ) {
       switch( this.atomicBond.bondCount ) {
         case 1:
           bondWidth = BOND_WIDTH_PROPORTION_SINGLE * this.averageAtomRadius;
-          bond1 = new Line( {lineWidth: bondWidth, stroke: BOND_COLOR } );
+          bond1 = new Line( { lineWidth: bondWidth, stroke: BOND_COLOR } );
           this.atomicBonds.push( bond1 );
           this.addChild( bond1 );
           break;
@@ -129,7 +129,7 @@ define( function( require ) {
           // Single bond, so connect it from the center of one atom to the center of the other
           p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.position );
           p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.position );
-          this.atomicBonds[0].setLine( p1.x, p1.y, p2.x, p2.y );
+          this.atomicBonds[ 0 ].setLine( p1.x, p1.y, p2.x, p2.y );
           break;
 
         case 2:
@@ -145,9 +145,9 @@ define( function( require ) {
           offsetVector = Vector2.createPolar( transformedRadius / 3, angle );
 
           // Draw the bonds.
-          this.atomicBonds[0].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
+          this.atomicBonds[ 0 ].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
           offsetVector.rotate( Math.PI );
-          this.atomicBonds[1].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
+          this.atomicBonds[ 1 ].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
           break;
 
         case 3:
@@ -163,10 +163,10 @@ define( function( require ) {
           offsetVector = Vector2.createPolar( transformedRadius * 0.6, angle );
 
           // Draw the bonds.
-          this.atomicBonds[0].setLine( p1.x, p1.y, p2.x, p2.y );
-          this.atomicBonds[1].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
+          this.atomicBonds[ 0 ].setLine( p1.x, p1.y, p2.x, p2.y );
+          this.atomicBonds[ 1 ].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
           offsetVector.rotate( Math.PI );
-          this.atomicBonds[2].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
+          this.atomicBonds[ 2 ].setLine( p1.x + offsetVector.x, p1.y - offsetVector.y, p2.x + offsetVector.x, p2.y - offsetVector.y );
           break;
 
         default:

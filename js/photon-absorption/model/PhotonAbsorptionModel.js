@@ -175,7 +175,7 @@ define( function( require ) {
       dt *= 1000; // convert from milliseconds.
       var moleculesToStep = this.activeMolecules.getArray().slice( 0 );
       for ( var molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
-        moleculesToStep[molecule].step( dt );
+        moleculesToStep[ molecule ].step( dt );
       }
     },
 
@@ -204,7 +204,7 @@ define( function( require ) {
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ),
-          PHOTON_VELOCITY * Math.sin( emissionAngle ) );
+        PHOTON_VELOCITY * Math.sin( emissionAngle ) );
       this.photons.add( photon );
     },
 
@@ -275,7 +275,7 @@ define( function( require ) {
       var newMolecule = new Molecule( this );
       switch( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
-          newMolecule = new CO( this, {initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new CO( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
           this.activeMolecules.add( newMolecule );
           break;
 

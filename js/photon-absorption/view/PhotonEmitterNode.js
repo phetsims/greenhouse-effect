@@ -85,8 +85,8 @@ define( function( require ) {
 
       // Add the emission rate control slider to the correct location on the photon emitter.
       this.emissionRateControlSliderNode.center = new Vector2(
-          this.photonEmitterImage.centerX - this.emissionRateControlSliderNode.centerX / 2,
-          this.photonEmitterImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
+        this.photonEmitterImage.centerX - this.emissionRateControlSliderNode.centerX / 2,
+        this.photonEmitterImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
 
       // Add the children to this node.
       this.addChild( this.photonEmitterImage );
