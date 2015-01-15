@@ -191,7 +191,8 @@ define( function( require ) {
     var strip = new Rectangle( 0, 0, SUBSECTION_WIDTH, STRIP_HEIGHT, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
-      stroke: 'black' } );
+      stroke: 'black'
+    } );
     this.addChild( strip );
 
     // Add the frequency tick marks to the top of the spectrum strip.
@@ -276,7 +277,8 @@ define( function( require ) {
     return new SubSupText( '10<sup>' + superscript + '</sup>', {
       font: TICK_MARK_FONT,
       supScale: 0.65,
-      supYOffset: 1} );
+      supYOffset: 1
+    } );
   }
 
   /**
@@ -403,7 +405,7 @@ define( function( require ) {
   function ChirpNode() {
 
     // Create and add the boundary and background.
-    var boundingBoxHeight = SUBSECTION_WIDTH* 0.1; // Arbitrary, adjust as needed.
+    var boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
     Rectangle.call( this, 0, 0, SUBSECTION_WIDTH, boundingBoxHeight, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
@@ -443,7 +445,7 @@ define( function( require ) {
      * Use ScreenView, to help center and scale content. Renderer must be specified here because the window is added
      * directly to the scene, instead of to some other node that already has svg renderer.
      */
-    ScreenView.call( this, {renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 )} );
+    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
     var children = [
       new SpectrumDiagram(),
@@ -457,7 +459,8 @@ define( function( require ) {
         centerY: this.layoutBounds.centerY,
         xMargin: 20,
         yMargin: 20,
-        fill: 'rgb(233, 236,  174)' } )
+        fill: 'rgb(233, 236,  174)'
+      } )
     );
   }
 

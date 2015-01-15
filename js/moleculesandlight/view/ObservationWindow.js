@@ -41,7 +41,7 @@ define( function( require ) {
   function ObservationWindow( photonAbsorptionModel, modelViewTransform ) {
 
     // Supertype constructor
-    Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, {fill: 'black'} );
+    Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, { fill: 'black' } );
 
     var thisWindow = this;
     var thisModel = photonAbsorptionModel;
@@ -75,10 +75,10 @@ define( function( require ) {
 
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
     this.clipArea = new Shape().roundRect(
-        this.left - this.frameLineWidth,
-        this.top - this.frameLineWidth,
-        this.width + ( 2 * this.frameLineWidth ),
-        this.height + ( 2 * this.frameLineWidth ),
+      this.left - this.frameLineWidth,
+      this.top - this.frameLineWidth,
+      this.width + ( 2 * this.frameLineWidth ),
+      this.height + ( 2 * this.frameLineWidth ),
       CORNER_RADIUS, CORNER_RADIUS ); // @private
 
     // Add the button for restoring molecules that break apart.

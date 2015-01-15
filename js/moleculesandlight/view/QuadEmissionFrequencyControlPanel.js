@@ -133,7 +133,8 @@ define( function( require ) {
       stroke: ARROW_COLOR,
       headHeight: ARROW_HEAD_HEIGHT,
       headWidth: ARROW_HEAD_WIDTH,
-      tailWidth: ARROW_TAIL_WIDTH } );
+      tailWidth: ARROW_TAIL_WIDTH
+    } );
 
     // Scale the text below the arrow node. Max text length is the arrow tail length minus twice the head width.
     if ( energyText.width > ARROW_LENGTH - 2 * ARROW_HEAD_WIDTH ) {

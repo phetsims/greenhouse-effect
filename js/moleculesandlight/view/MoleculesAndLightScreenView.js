@@ -76,7 +76,7 @@ define( function( require ) {
       {
         listener: function() { photonAbsorptionModel.reset(); },
         bottom: this.layoutBounds.bottom - 15,
-        right: this.layoutBounds.right - 15,
+        right:  this.layoutBounds.right - 15,
         radius: 18
       } );
     this.addChild( resetAllButton );
@@ -84,7 +84,7 @@ define( function( require ) {
     // Add play/pause button.
     var playPauseButton = new PlayPauseButton( photonAbsorptionModel.playProperty,
       {
-        bottom: moleculeControlPanel.bottom + 60,
+        bottom:  moleculeControlPanel.bottom + 60,
         centerX: moleculeControlPanel.centerX - 25,
         radius: 23
       } );
@@ -105,7 +105,7 @@ define( function( require ) {
     // Add the button for displaying the electromagnetic spectrum.
     // Scale down the button content when it gets too large.  This is here to support translations.  Max width of this
     // button is the width of the molecule control panel minus twice the default x margin of a rectangular push button.
-    var buttonContent = new Text( buttonCaptionString, {font: new PhetFont( 18 ) } );
+    var buttonContent = new Text( buttonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( (moleculeControlPanel.width - 16 ) / buttonContent.width );
     }
@@ -134,16 +134,18 @@ define( function( require ) {
     updateSpectrumWindowVisibility: function( spectrumWindow ) {
       // Renderer must be specified here because the plane is added directly to the scene (instead of to some other node
       // that already has svg renderer)
-      var plane = new Plane( {fill: 'black', opacity: 0.3, renderer: 'svg'} );
+      var plane = new Plane( { fill: 'black', opacity: 0.3, renderer: 'svg' } );
       this.addChild( plane );
       this.addChild( spectrumWindow );
 
-      var spectrumWindowListener = {up: function() {
-        spectrumWindow.removeInputListener( spectrumWindowListener );
-        plane.addInputListener( spectrumWindowListener );
-        spectrumWindow.detach();
-        plane.detach();
-      }};
+      var spectrumWindowListener = {
+        up: function() {
+          spectrumWindow.removeInputListener( spectrumWindowListener );
+          plane.addInputListener( spectrumWindowListener );
+          spectrumWindow.detach();
+          plane.detach();
+        }
+      };
 
       spectrumWindow.addInputListener( spectrumWindowListener );
       plane.addInputListener( spectrumWindowListener );
