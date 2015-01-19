@@ -21,10 +21,10 @@ define( function( require ) {
   var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
 
   // images
-  var heatLampImage = require( 'image!MOLECULES_AND_LIGHT/heat-lamp.png' );
-  var flashlight2Image = require( 'image!MOLECULES_AND_LIGHT/flashlight2.png' );
-  var microwaveTransmitter = require( 'image!MOLECULES_AND_LIGHT/microwave-transmitter.png' );
-  var uvLight2 = require( 'image!MOLECULES_AND_LIGHT/uv_light_2.png' );
+  var heatLampImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
+  var flashlight2Image = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
+  var microwaveTransmitter = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
+  var uvLight2 = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
 
   /**
    * Constructor for the photon emitter node.
