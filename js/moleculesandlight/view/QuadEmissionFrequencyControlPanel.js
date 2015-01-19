@@ -48,7 +48,7 @@ define( function( require ) {
 
   // Create a layout box which holds a single panel of this control panel.
   function createRadioButtonContent( emitterImage, photonNode ) {
-    emitterImage.scale( 0.15 ); // Scale emitter image to fit in the panel, scale factor determined empirically.
+    emitterImage.scale( 0.05 ); // Scale emitter image to fit in the panel, scale factor determined empirically.
     return new LayoutBox( { orientation: 'horizontal', spacing: 10, children: [ emitterImage, photonNode ] } );
   }
 
@@ -104,7 +104,7 @@ define( function( require ) {
         baseColor: 'black',
         selectedStroke: 'rgb(47, 101,209)',
         deselectedLineWidth: 0,
-        buttonContentXMargin: 0,
+        buttonContentXMargin: 5,
         buttonContentYMargin: 8,
         selectedLineWidth: 3,
         cornerRadius: 7
