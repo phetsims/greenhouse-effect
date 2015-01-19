@@ -84,8 +84,9 @@ define( function( require ) {
       this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)' );
 
       // Add the emission rate control slider to the correct location on the photon emitter.
+      var xOffset = 10; // x offset necessary to fit the slider correctly on the microwave emitter.
       this.emissionRateControlSliderNode.center = new Vector2(
-        this.photonEmitterImage.centerX - this.emissionRateControlSliderNode.centerX / 2,
+        this.photonEmitterImage.centerX - this.emissionRateControlSliderNode.centerX / 2 - xOffset,
         this.photonEmitterImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
 
       // Add the children to this node.
