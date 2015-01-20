@@ -64,13 +64,9 @@ define( function( require ) {
     var photonEmitterLayer = new Node();
     this.addChild( photonEmitterLayer );
 
-    // Create and add the photon emitter.  A black rectangle is layered underneath the emitter so photons are not
-    // visible until they are beyond the right bound of the emitter.
+    // Create and add the photon emitter.
     var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel );
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
-    // Make sure the rectangle does not clip photons excessively beyond the right bound of the emitter.
-    var coverRectangle = new Rectangle( photonEmitterNode.bounds.erode( 20 ), { fill: 'black' } );
-    photonEmitterLayer.addChild( coverRectangle );
     photonEmitterLayer.addChild( photonEmitterNode );
 
     // Add the frame around the observation window.
