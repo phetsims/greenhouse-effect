@@ -33,8 +33,12 @@ define( function( require ) {
     this.innerColor = innerColor; // @private
     this.outerColor = outerColor; // @private
 
-    CanvasNode.call( this );
+    // Set the canvas bounds to the observation window dilated by the desired line width.
+    var canvasBounds = observationWindow.bounds.dilated( lineWidth );
+
+    CanvasNode.call( this, { canvasBounds: canvasBounds } );
     this.invalidatePaint();
+
   }
 
   return inherit( CanvasNode, WindowFrameNode, {
