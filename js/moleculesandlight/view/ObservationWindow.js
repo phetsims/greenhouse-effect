@@ -99,7 +99,7 @@ define( function( require ) {
       }
     } ); // @private
 
-    this.restoreMoleculeButtonNode.rightTop = ( new Vector2( this.width - 10, 10 ) );
+    this.restoreMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
 
     this.addChild( this.restoreMoleculeButtonNode );
 
