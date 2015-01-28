@@ -75,10 +75,10 @@ define( function( require ) {
 
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
     this.clipArea = new Shape().roundRect(
-      this.left - this.frameLineWidth,
-      this.top - this.frameLineWidth,
-      this.width + ( 2 * this.frameLineWidth ),
-      this.height + ( 2 * this.frameLineWidth ),
+      this.left,
+      this.top,
+      this.width,
+      this.height,
       CORNER_RADIUS, CORNER_RADIUS ); // @private
 
     // Add the button for restoring molecules that break apart.
@@ -155,6 +155,10 @@ define( function( require ) {
       thisWindow.restoreButtonVisibleProperty.set( false );
     } );
 
+    this.restoreButtonVisibleProperty.link( function() {
+      thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
+    })
+
   }
 
   return inherit( Rectangle, ObservationWindow, {
@@ -174,7 +178,6 @@ define( function( require ) {
           break;
         }
       }
-      this.restoreMoleculeButtonNode.visible = this.restoreButtonVisibleProperty.get();
       this.photonAbsorptionModel.activeMolecules.removeAll( moleculesToRemove );
     },
 
