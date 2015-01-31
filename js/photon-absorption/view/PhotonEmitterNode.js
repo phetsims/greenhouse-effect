@@ -23,8 +23,8 @@ define( function( require ) {
   // images
   var heatLampImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
   var flashlight2Image = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
-  var microwaveTransmitter = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
-  var uvLight2 = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
+  var microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
+  var uvLightImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
 
   /**
    * Constructor for the photon emitter node.
@@ -72,10 +72,10 @@ define( function( require ) {
         this.photonEmitterImage = new Image( flashlight2Image );
       }
       else if ( this.model.photonWavelength === WavelengthConstants.UV_WAVELENGTH ) {
-        this.photonEmitterImage = new Image( uvLight2 );
+        this.photonEmitterImage = new Image( uvLightImage );
       }
       else if ( this.model.photonWavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
-        this.photonEmitterImage = new Image( microwaveTransmitter );
+        this.photonEmitterImage = new Image( microwaveTransmitterImage );
       }
 
       // Translate center and scale the emitter image
