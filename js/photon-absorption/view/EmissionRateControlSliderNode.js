@@ -49,7 +49,7 @@ define( function( require ) {
     var controlSliderTrackSize = new Dimension2( 50, 1 );
 
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize } ); // @private
+      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize, thumbFillEnabled: 'rgb(0, 203, 230)' } ); // @private
 
     this.backgroundRect = new Rectangle(
       -controlSliderThumbSize.width / 2,
