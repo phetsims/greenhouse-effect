@@ -157,7 +157,7 @@ define( function( require ) {
 
     this.restoreButtonVisibleProperty.link( function() {
       thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
-    })
+    });
 
   }
 
