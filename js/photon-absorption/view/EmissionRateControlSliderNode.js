@@ -46,7 +46,7 @@ define( function( require ) {
 
     // The following define the dimensions of the HSlider and can be adjusted as needed for best look.
     var controlSliderThumbSize = new Dimension2( 10, 18 );
-    var controlSliderTrackSize = new Dimension2( 50, 1 );
+    var controlSliderTrackSize = new Dimension2( 50, 0.25 );
 
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
       { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize, thumbFillEnabled: 'rgb(0, 203, 230)' } ); // @private
