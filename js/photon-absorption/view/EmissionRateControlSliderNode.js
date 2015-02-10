@@ -20,7 +20,11 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
+  // Size of the slider thumb;
+  var THUMB_SIZE = new Dimension2( 10, 16 );
   // Maximum value for slider range.
   var SLIDER_RANGE = 100;
 
@@ -48,14 +52,36 @@ define( function( require ) {
     var controlSliderThumbSize = new Dimension2( 10, 18 );
     var controlSliderTrackSize = new Dimension2( 50, 0.25 );
 
+    // Draw the desired thumb shape of the slider.
+    var thumbShape = new Shape();
+    thumbShape.moveTo( 0, 0 ); // Top left corner of the thumb.
+    thumbShape.horizontalLineTo( THUMB_SIZE.width * 0.75 );
+    thumbShape.lineTo( THUMB_SIZE.width, THUMB_SIZE.height * 0.33 );
+    thumbShape.verticalLineTo( THUMB_SIZE.height * 0.66 );
+    thumbShape.lineTo( THUMB_SIZE.width * 0.75, THUMB_SIZE.height );
+    thumbShape.horizontalLineTo( 0 );
+    thumbShape.close();
+
+    var thumbNode = new Path( thumbShape, {
+      lineWidth: 1,
+      lineJoin: 'bevel',
+      stroke: 'black',
+      fill: 'rgb(0, 203, 230)'
+    } );
+
+    // Draw three lines along the vertical of the thumbNode.
+    for( var n = 1; n < 4; n++ ){
+      thumbNode.addChild( new Path( Shape.lineSegment( n*THUMB_SIZE.width/5, THUMB_SIZE.height/5, n*THUMB_SIZE.width/5, 4*THUMB_SIZE.height/5 ),{ stroke: 'black', lineWidth: 1 } ) );
+    }
+
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize, thumbFillEnabled: 'rgb(0, 203, 230)' } ); // @private
+      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize, thumbFillEnabled: 'rgb(0, 203, 230)', thumbNode: thumbNode} ); // @private
 
     this.backgroundRect = new Rectangle(
-      -controlSliderThumbSize.width / 2,
-      -controlSliderThumbSize.height / 4,
-      controlSliderTrackSize.width + controlSliderThumbSize.width,
-      controlSliderTrackSize.height + controlSliderThumbSize.height / 2,
+        -controlSliderThumbSize.width / 2,
+        -controlSliderThumbSize.height / 4,
+        controlSliderTrackSize.width + controlSliderThumbSize.width,
+        controlSliderTrackSize.height + controlSliderThumbSize.height / 2,
       { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.
@@ -80,6 +106,7 @@ define( function( require ) {
 
     this.addChild( this.backgroundRect );
     this.addChild( this.emissionRateControlSlider );
+
   }
 
   return inherit( Node, EmissionRateControlSliderNode, {
@@ -134,7 +161,7 @@ define( function( require ) {
     setBackgroundRectColor: function( baseColor ) {
       var rectHeight = this.emissionRateControlSlider.height;
       var rectWidth = this.emissionRateControlSlider.width;
-      this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'black' ).addColorStop( 1, baseColor );
+      this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
     }
   } );
 
