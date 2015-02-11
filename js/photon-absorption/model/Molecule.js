@@ -97,9 +97,9 @@ define( function( require ) {
       this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
       this.absorbtionHysteresisCountdownTime = 0;
       this.vibrating = false;
-      this.currentVibrationRadians = 0;
       this.rotating = false;
       this.setRotation( 0 );
+      this.setVibration( 0 );
 
     },
 
