@@ -22,11 +22,11 @@ define( function( require ) {
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
-  // Size of the slider thumb;
-  var THUMB_SIZE = new Dimension2( 10, 16 );
-  // Maximum value for slider range.
-  var SLIDER_RANGE = 100;
+  var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
+  var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
+  var SLIDER_RANGE = 100; // maximum value for slider range
 
   // Minima for photon emission periods.
   var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
@@ -48,40 +48,14 @@ define( function( require ) {
     this.model = model; // @private
     this.color = color; // @private
 
-    // The following define the dimensions of the HSlider and can be adjusted as needed for best look.
-    var controlSliderThumbSize = new Dimension2( 10, 18 );
-    var controlSliderTrackSize = new Dimension2( 50, 0.25 );
-
-    // Draw the desired thumb shape of the slider.
-    var thumbShape = new Shape();
-    thumbShape.moveTo( 0, 0 ); // Top left corner of the thumb.
-    thumbShape.horizontalLineTo( THUMB_SIZE.width * 0.75 );
-    thumbShape.lineTo( THUMB_SIZE.width, THUMB_SIZE.height * 0.33 );
-    thumbShape.verticalLineTo( THUMB_SIZE.height * 0.66 );
-    thumbShape.lineTo( THUMB_SIZE.width * 0.75, THUMB_SIZE.height );
-    thumbShape.horizontalLineTo( 0 );
-    thumbShape.close();
-
-    var thumbNode = new Path( thumbShape, {
-      lineWidth: 1,
-      lineJoin: 'bevel',
-      stroke: 'black',
-      fill: 'rgb(0, 203, 230)'
-    } );
-
-    // Draw three lines along the vertical of the thumbNode.
-    for( var n = 1; n < 4; n++ ){
-      thumbNode.addChild( new Path( Shape.lineSegment( n*THUMB_SIZE.width/5, THUMB_SIZE.height/5, n*THUMB_SIZE.width/5, 4*THUMB_SIZE.height/5 ),{ stroke: 'black', lineWidth: 1 } ) );
-    }
-
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { thumbSize: controlSliderThumbSize, trackSize: controlSliderTrackSize, thumbFillEnabled: 'rgb(0, 203, 230)', thumbNode: thumbNode} ); // @private
+      { trackSize: TRACK_SIZE, thumbFillEnabled: 'rgb(0, 203, 230)', thumbNode: new EmissionRateThumbNode() } ); // @private
 
     this.backgroundRect = new Rectangle(
-        -controlSliderThumbSize.width / 2,
-        -controlSliderThumbSize.height / 4,
-        controlSliderTrackSize.width + controlSliderThumbSize.width,
-        controlSliderTrackSize.height + controlSliderThumbSize.height / 2,
+        -THUMB_SIZE.width / 2,
+        -THUMB_SIZE.height / 4,
+        TRACK_SIZE.width + THUMB_SIZE.width,
+        TRACK_SIZE.height + THUMB_SIZE.height / 2,
       { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.
@@ -109,7 +83,7 @@ define( function( require ) {
 
   }
 
-  return inherit( Node, EmissionRateControlSliderNode, {
+  inherit( Node, EmissionRateControlSliderNode, {
 
     /**
      * Update function for the control slider node.  Sets the value property of the slider and the background color
@@ -165,4 +139,56 @@ define( function( require ) {
     }
   } );
 
+  /**
+   * Constructor for the thumb node used in this control slider.  The shape is a partial octagon with three horizontal
+   * lines near the center to simulate grippable notches on the thumb.  Notice that highlighting is not linked to any
+   * property because the control slider will always be enabled for the sim 'Molecules and Light'.
+   * @constructor
+   */
+  function EmissionRateThumbNode() {
+
+    var thisNode = this;
+
+    // draw the partial octagon shape of the slider.
+    var thumbShape = new Shape();
+    thumbShape.moveTo( 0, 0 ); // Top left corner of the thumb.
+    thumbShape.horizontalLineTo( THUMB_SIZE.width * 0.75 );
+    thumbShape.lineTo( THUMB_SIZE.width, THUMB_SIZE.height * 0.33 );
+    thumbShape.verticalLineTo( THUMB_SIZE.height * 0.66 );
+    thumbShape.lineTo( THUMB_SIZE.width * 0.75, THUMB_SIZE.height );
+    thumbShape.horizontalLineTo( 0 );
+    thumbShape.close();
+
+    // supertype constructor
+    Path.call( this, thumbShape, {
+      lineWidth: 1,
+      lineJoin: 'bevel',
+      stroke: 'black',
+      fill: 'rgb(0, 203, 230)'
+    } );
+
+    // draw three lines along the vertical of the thumbNode.
+    for ( var n = 1; n < 4; n++ ) {
+      thisNode.addChild( new Path( Shape.lineSegment(
+        ( n * THUMB_SIZE.width / 5),
+        ( THUMB_SIZE.height / 5 ),
+        ( n * THUMB_SIZE.width / 5 ),
+        ( 4 * THUMB_SIZE.height / 5 ) ), { stroke: 'black', lineWidth: 1 } ) );
+    }
+
+    // highlight thumb on pointer over
+    thisNode.addInputListener( new ButtonListener( {
+      over: function( event ) {
+        thisNode.fill = 'rgb(80,250,255)';
+      },
+      up: function( event ) {
+        thisNode.fill = 'rgb(0, 203, 230)';
+      }
+    } ) );
+  }
+
+  inherit( Path, EmissionRateThumbNode );
+
+  return EmissionRateControlSliderNode
 } );
+
