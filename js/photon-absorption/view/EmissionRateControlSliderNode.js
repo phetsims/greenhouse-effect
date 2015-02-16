@@ -189,6 +189,6 @@ define( function( require ) {
 
   inherit( Path, EmissionRateThumbNode );
 
-  return EmissionRateControlSliderNode
+  return EmissionRateControlSliderNode;
 } );
 
