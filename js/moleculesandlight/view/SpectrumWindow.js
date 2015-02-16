@@ -10,11 +10,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var Panel = require( 'SUN/Panel' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -29,6 +26,8 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
+  var Dialog = require( 'JOIST/Dialog' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
 
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
@@ -441,11 +440,7 @@ define( function( require ) {
    */
   function SpectrumWindow() {
 
-    /*
-     * Use ScreenView, to help center and scale content. Renderer must be specified here because the window is added
-     * directly to the scene, instead of to some other node that already has svg renderer.
-     */
-    ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    var thisWindow = this;
 
     var children = [
       new SpectrumDiagram(),
@@ -454,15 +449,36 @@ define( function( require ) {
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
 
-    this.addChild( new Panel( content, {
-        centerX: this.layoutBounds.centerX,
-        centerY: this.layoutBounds.centerY,
-        xMargin: 20,
-        yMargin: 20,
-        fill: 'rgb(233, 236,  174)'
-      } )
-    );
+    // define a layout strategy for the spectrum window to set position in global coordinates.  Identical to default
+    // layout strategy in Dialog except that it checks for null sim bounds. ChirpNode is expensive in draw time so
+    // spectrumWindow is constructed once in MoleculesAndLightScreenView before sim bounds are set to optimize load
+    // time.
+    var layoutStrategy = function() {
+      var simBounds = window.phet.joist.sim.bounds;
+      // if simBounds are null, return without setting center.
+      if( simBounds !== null ){
+        thisWindow.setScaleMagnitude( 1.3 );
+        thisWindow.center = simBounds.center;
+      }
+    };
+
+    Dialog.call( this, content, {
+      modal: true,
+      hasCloseButton: false,
+
+      // focusable so it can be dismissed
+      focusable: true,
+
+      // define strategy to set center and scale
+      layoutStrategy: layoutStrategy
+    } );
+
+    // close it on a click
+    this.addInputListener( new ButtonListener( {
+      fire: thisWindow.hide.bind( thisWindow )
+    } ) );
+
   }
 
-  return inherit( ScreenView, SpectrumWindow );
+  return inherit( Dialog, SpectrumWindow );
 } );

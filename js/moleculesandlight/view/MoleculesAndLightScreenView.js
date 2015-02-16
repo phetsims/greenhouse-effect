@@ -28,7 +28,6 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SpectrumWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindow' );
-  var Plane = require( 'SCENERY/nodes/Plane' );
 
   // strings
   var buttonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
@@ -48,8 +47,6 @@ define( function( require ) {
   function MoleculesAndLightScreenView( photonAbsorptionModel ) {
 
     ScreenView.call( this, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
-
-    var thisScreenView = this;
 
     var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
@@ -76,7 +73,7 @@ define( function( require ) {
       {
         listener: function() { photonAbsorptionModel.reset(); },
         bottom: this.layoutBounds.bottom - 15,
-        right:  this.layoutBounds.right - 15,
+        right: this.layoutBounds.right - 15,
         radius: 18
       } );
     this.addChild( resetAllButton );
@@ -84,7 +81,7 @@ define( function( require ) {
     // Add play/pause button.
     var playPauseButton = new PlayPauseButton( photonAbsorptionModel.playProperty,
       {
-        bottom:  moleculeControlPanel.bottom + 60,
+        bottom: moleculeControlPanel.bottom + 60,
         centerX: moleculeControlPanel.centerX - 25,
         radius: 23
       } );
@@ -99,7 +96,8 @@ define( function( require ) {
       } );
     this.addChild( stepButton );
 
-    // Window that displays the EM spectrum upon request.
+    // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
+    // drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     var spectrumWindow = new SpectrumWindow();
 
     // Add the button for displaying the electromagnetic spectrum.
@@ -112,7 +110,7 @@ define( function( require ) {
     var showSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(98, 173, 205)',
-      listener: function() { thisScreenView.updateSpectrumWindowVisibility( spectrumWindow ); }
+      listener: function() { spectrumWindow.show(); }
     } );
     showSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
     this.addChild( showSpectrumButton );
@@ -122,36 +120,6 @@ define( function( require ) {
     this.addChild( moleculeControlPanel );
   }
 
-  return inherit( ScreenView, MoleculesAndLightScreenView, {
-
-    /**
-     * Update the spectrum window visibility.  The spectrum window has behavior which is identical to the about dialog
-     * window, and this code is heavily borrowed from AboutDialog.js.
-     *
-     * @param {SpectrumWindow} spectrumWindow - The spectrum window whose visibility should be updated.
-     * @private
-     */
-    updateSpectrumWindowVisibility: function( spectrumWindow ) {
-      // Renderer must be specified here because the plane is added directly to the scene (instead of to some other node
-      // that already has svg renderer)
-      var plane = new Plane( { fill: 'black', opacity: 0.3, renderer: 'svg' } );
-      this.addChild( plane );
-      this.addChild( spectrumWindow );
-
-      var spectrumWindowListener = {
-        up: function() {
-          spectrumWindow.removeInputListener( spectrumWindowListener );
-          plane.addInputListener( spectrumWindowListener );
-          spectrumWindow.detach();
-          plane.detach();
-        }
-      };
-
-      spectrumWindow.addInputListener( spectrumWindowListener );
-      plane.addInputListener( spectrumWindowListener );
-
-    }
-
-  } );
-
+  return inherit( ScreenView, MoleculesAndLightScreenView );
 } );
+
