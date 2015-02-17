@@ -460,9 +460,11 @@ define( function( require ) {
     // time.
     var layoutStrategy = function( dialog, simBounds, screenBounds, scale ) {
       var simBounds = window.phet.joist.sim.bounds;
+
       // if simBounds are null, return without setting center.
       if ( simBounds !== null ) {
-        //thisWindow.setScaleMagnitude( 1.3 );
+
+        // Update the location of the dialog (size is set in Sim.js)
         thisWindow.center = simBounds.center.times( 1.0 / scale );
       }
     };
