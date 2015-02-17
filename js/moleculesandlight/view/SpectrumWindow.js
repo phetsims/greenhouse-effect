@@ -387,7 +387,12 @@ define( function( require ) {
    * @param {number} frequency
    */
   function addBandDivider( thisNode, frequency ) {
-    var drawDividerSegment = function() { return new Line( 0, 0, 0, STRIP_HEIGHT / 9, { stroke: 'black', lineWidth: 2 } ); };
+    var drawDividerSegment = function() {
+      return new Line( 0, 0, 0, STRIP_HEIGHT / 9, {
+        stroke: 'black',
+        lineWidth: 2
+      } );
+    };
     for ( var i = 0; i < 5; i++ ) {
       var dividerSegment = drawDividerSegment();
       dividerSegment.centerTop = new Vector2( getOffsetFromFrequency( frequency ), 2 * i * STRIP_HEIGHT / 9 );
@@ -453,12 +458,12 @@ define( function( require ) {
     // layout strategy in Dialog except that it checks for null sim bounds. ChirpNode is expensive in draw time so
     // spectrumWindow is constructed once in MoleculesAndLightScreenView before sim bounds are set to optimize load
     // time.
-    var layoutStrategy = function() {
+    var layoutStrategy = function( dialog, simBounds, screenBounds, scale ) {
       var simBounds = window.phet.joist.sim.bounds;
       // if simBounds are null, return without setting center.
-      if( simBounds !== null ){
-        thisWindow.setScaleMagnitude( 1.3 );
-        thisWindow.center = simBounds.center;
+      if ( simBounds !== null ) {
+        //thisWindow.setScaleMagnitude( 1.3 );
+        thisWindow.center = simBounds.center.times( 1.0 / scale );
       }
     };
 
