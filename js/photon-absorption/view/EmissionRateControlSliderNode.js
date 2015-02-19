@@ -51,10 +51,12 @@ define( function( require ) {
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
       { trackSize: TRACK_SIZE, thumbFillEnabled: 'rgb(0, 203, 230)', thumbNode: new EmissionRateThumbNode() } ); // @private
 
+    // width of the background rectangle is larger than the slider to accentuate the thumb.
+    var backgroundOffset = 4;
     this.backgroundRect = new Rectangle(
-        -THUMB_SIZE.width / 2,
+        -THUMB_SIZE.width / 2 - backgroundOffset,
         -THUMB_SIZE.height / 4,
-        TRACK_SIZE.width + THUMB_SIZE.width,
+        TRACK_SIZE.width + THUMB_SIZE.width + 8,
         TRACK_SIZE.height + THUMB_SIZE.height / 2,
       { stroke: '#c0b9b9' } ); // @private
 
