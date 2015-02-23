@@ -454,12 +454,11 @@ define( function( require ) {
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
 
-    // define a layout strategy for the spectrum window to set position in global coordinates.  Identical to default
+    // Define a layout strategy for the spectrum window to set position in global coordinates.  Identical to default
     // layout strategy in Dialog except that it checks for null sim bounds. ChirpNode is expensive in draw time so
     // spectrumWindow is constructed once in MoleculesAndLightScreenView before sim bounds are set to optimize load
     // time.
-    var layoutStrategy = function( dialog, simBounds, screenBounds, scale ) {
-      var simBounds = window.phet.joist.sim.bounds;
+    var layoutStrategy = function( window, simBounds, screenBounds, scale ) {
 
       // if simBounds are null, return without setting center.
       if ( simBounds !== null ) {
