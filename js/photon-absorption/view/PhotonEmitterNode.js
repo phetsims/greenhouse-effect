@@ -54,7 +54,7 @@ define( function( require ) {
 
     // update brightness of emitter bulb upon changes to photon emission frequency
     model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      thisNode.updateImageOpacity( thisNode.model.photonWavelength, emissionFrequency/100 );
+      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency/100 );
     });
 
   }
@@ -93,18 +93,18 @@ define( function( require ) {
         this.photonEmitterOnImage = new Image( microwaveTransmitterImage );
       }
 
-      // scale and center the 'off' image and set opacity of the 'on' image - no 'off' image for microwave emitter
-      if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
-        this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
-        this.photonEmitterOffImage.center = new Vector2( 0, 0 );
-        this.photonEmitterOnImage.setOpacity( emissionFrequency/100 );
-        this.addChild( this.photonEmitterOffImage );
-      }
-
       // scale the on image by the desired width of the emitter and add to top
       this.photonEmitterOnImage.scale( emitterWidth / this.photonEmitterOnImage.width );
       this.photonEmitterOnImage.center = new Vector2( 0, 0 );
       this.addChild( this.photonEmitterOnImage );
+
+      // scale, center, and set opacity of 'off' image - no 'off' image for microwave emitter
+      if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
+        this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
+        this.photonEmitterOffImage.center = new Vector2( 0, 0 );
+        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency/100 );
+        this.addChild( this.photonEmitterOffImage );
+      }
 
       // create the photon emission rate control slider
       this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)' );
@@ -118,9 +118,16 @@ define( function( require ) {
 
     },
 
-    updateImageOpacity: function( photonWavelength, opacity ) {
+    /**
+     * Update transparency of the 'off' emitter image.  The opacity of the off emitter is set because this seems to
+     * perform better.  See issue #90.
+     *
+     * @param {number} photonWavelength
+     * @param {number} emissionFrequency
+     */
+    updateOffImageOpacity: function( photonWavelength, emissionFrequency ) {
       if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ){
-        this.photonEmitterOnImage.setOpacity( opacity );
+        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency );
       }
     }
 
