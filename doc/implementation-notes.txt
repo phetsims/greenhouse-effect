@@ -1,13 +1,5 @@
 Implementation notes for 'Molecules and Light' sim
 
-This implementation was ported from the Java version of this sim.  The original simulation can be found at
-https://phet.colorado.edu/en/simulation/molecules-and-light
-
-Code for the Java version can be found at
-https://phet.unfuddle.com/a#/session/new?reference=https%3A//phet.unfuddle.com/a%23/repositories/23262/browse%3Fpath%3D/trunk
-Enter “username: guest” and “password: guest”.
-Follow the file path /trunk/simulations-java/simulations/molecules-and-light
-
 'Molecules and Light' is a single screen sim.  The Java version of this simulation shared a significant amount of code
 with the sim 'The Greenhouse Effect'.  When 'The Greenhouse Effect' sim is ported, a lot of the code will be shared with
 this sim so the directory structure of 'Molecules and Light' is set up to support this.
