@@ -14,6 +14,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // Static data
   var instanceCount = 0; // Base count for the unique ID of this atom.
@@ -70,7 +71,7 @@ define( function( require ) {
     carbon: function() { return new Atom( 'gray', 77, 12.011 ); },
     hydrogen: function() { return new Atom( 'white', 37, 1 ); },
     nitrogen: function() { return new Atom( 'blue', 75, 14.00674 ); },
-    oxygen: function() { return new Atom( 'rgb(255, 85, 0)', 73, 12.011 ); }
+    oxygen: function() { return new Atom( PhetColorScheme.RED_COLORBLIND, 73, 12.011 ); }
   } );
 
 } );

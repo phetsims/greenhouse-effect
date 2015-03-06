@@ -23,6 +23,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Path = require( 'SCENERY/nodes/Path' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
@@ -61,7 +62,7 @@ define( function( require ) {
       { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.
-    this.setBackgroundRectColor( 'rgb(255, 85, 0)' );
+    this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
@@ -111,8 +112,7 @@ define( function( require ) {
       // Update the color of the slider.
       var wavelength = this.model.photonWavelength;
       if ( wavelength === WavelengthConstants.IR_WAVELENGTH ) {
-        // This is the rgb for PhetColorScheme.RED_COLORBLIND which tested well.
-        this.setBackgroundRectColor( 'rgb(255, 85, 0)' );
+        this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND ); // This tested well.
       }
       else if ( wavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
         this.setBackgroundRectColor( 'yellow' );
