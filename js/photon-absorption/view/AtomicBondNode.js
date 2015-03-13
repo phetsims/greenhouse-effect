@@ -50,8 +50,11 @@ define( function( require ) {
     // Create the initial representation.
     this.initializeRepresentation();
 
-    // Link the atomic bond view node to the model.
+    // Link the atomic bond view node to the model.  Atomic bonds must be updated when either atom changes position.
     this.atomicBond.atom1.positionProperty.link( function() {
+      thisNode.updateRepresentation();
+    } );
+    this.atomicBond.atom2.positionProperty.link( function() {
       thisNode.updateRepresentation();
     } );
 
