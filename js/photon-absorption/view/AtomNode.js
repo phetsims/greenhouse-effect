@@ -14,8 +14,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  // NOTE: The following modules are temporarily commented out so that sim passes through linting program in
+  // testing state. See NOTES below.
+//  var Circle = require( 'SCENERY/nodes/Circle' );
+//  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
 
   /**
    * Constructor for an atom node.
