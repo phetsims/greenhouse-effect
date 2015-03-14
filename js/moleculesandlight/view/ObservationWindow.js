@@ -81,6 +81,10 @@ define( function( require ) {
       this.height,
       CORNER_RADIUS, CORNER_RADIUS ); // @private
 
+    // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
+    // clipping area so that particles have a chance to cleanly slide out of the window before being removed.
+    this.particleRemovalBounds = this.clipArea.bounds.copy().dilate( 20 );
+
     // Add the button for restoring molecules that break apart.
     var buttonContent = new Text( returnMoleculeString, { font: new PhetFont( 13 ) } );
     // If necessary, scale the button content for translation purposes.  Max button width is half the width of the
@@ -164,7 +168,7 @@ define( function( require ) {
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
       //  thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
       thisWindow.restoreMoleculeButtonNode.opacity = thisWindow.restoreButtonVisibleProperty.get() ? 0.99 : 0;
-    });
+    } );
 
   }
 
@@ -179,7 +183,7 @@ define( function( require ) {
 
       var moleculesToRemove = [];
       for ( var molecule = 0; molecule < this.photonAbsorptionModel.activeMolecules.length; molecule++ ) {
-        if ( !this.containsPointSelf( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.activeMolecules.get( molecule ).getCenterOfGravityPos() ) ) ) {
+        if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.activeMolecules.get( molecule ).getCenterOfGravityPos() ) ) ) {
           moleculesToRemove.push( this.photonAbsorptionModel.activeMolecules.get( molecule ) );
           this.restoreButtonVisibleProperty.set( true );
           break;
@@ -197,7 +201,7 @@ define( function( require ) {
 
       var photonsToRemove = [];
       for ( var photon = 0; photon < this.photonAbsorptionModel.photons.length; photon++ ) {
-        if ( !this.containsPointSelf( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).locationProperty.get() ) ) ) {
+        if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).locationProperty.get() ) ) ) {
           photonsToRemove.push( this.photonAbsorptionModel.photons.get( photon ) );
         }
       }
