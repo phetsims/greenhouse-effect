@@ -14,10 +14,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
-  // NOTE: The following modules are temporarily commented out so that sim passes through linting program in
-  // testing state. See NOTES below.
-//  var Circle = require( 'SCENERY/nodes/Circle' );
-//  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
 
   /**
    * Constructor for an atom node.
@@ -42,15 +40,13 @@ define( function( require ) {
     var transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
-    // NOTE: This code is temporarily commented out to test performance with halo gradients completely removed.
-//    var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'black' );
-//    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
-//    this.highlightNode.opacity = 0.6;
+    var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
+    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
 
     // Represent the atom as a shaded sphere node.
     var atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
     thisNode.addChild( atomNode );
-//    thisNode.addChild( this.highlightNode );
+    thisNode.addChild( this.highlightNode );
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
@@ -66,16 +62,13 @@ define( function( require ) {
      * @param {boolean} highlighted
      */
     setHighlighted: function( highlighted ) {
-      // NOTE: This code temporarily commented out to test performance with halo gradients completely removed.
-//      if ( highlighted ) {
-//        this.addChild( this.highlightNode );
-//        this.highlightNode.moveToBack();
-//      }
-//      else {
-//        this.removeChild( this.highlightNode );
-//      }
+      if ( highlighted ) {
+        this.addChild( this.highlightNode );
+        this.highlightNode.moveToBack();
+      }
+      else {
+        this.removeChild( this.highlightNode );
+      }
     }
-
   } );
-
 } );
