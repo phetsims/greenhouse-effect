@@ -149,18 +149,21 @@ define( function( require ) {
      * @param {number} dt - The incremental times step.
      */
     stepPhotons: function( dt ) {
-
+      var self = this;
       dt *= 1000; // convert from milliseconds.
       var photonsToRemove = [];
-      for ( var photon = 0; photon < this.photons.length; photon++ ) {
-        // See if any of the molecules wish to absorb this photon.
-        for ( var molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
-          if ( this.activeMolecules.get( molecule ).queryAbsorbPhoton( this.photons.get( photon ) ) ) {
-            photonsToRemove.push( this.photons.get( photon ) );
+
+      // check for possible interaction between each photon and molecule
+      this.photons.forEach( function( photon ) {
+        self.activeMolecules.forEach( function( molecule ) {
+          if ( molecule.queryAbsorbPhoton( photon ) ) {
+            // the photon was absorbed, so put it on the removal list
+            photonsToRemove.push( photon );
           }
-        }
-        this.photons.get( photon ).step( dt );
-      }
+        } );
+        photon.step( dt );
+      } );
+
       // Remove any photons that were marked for removal.
       this.photons.removeAll( photonsToRemove );
     },
@@ -199,12 +202,10 @@ define( function( require ) {
      * which will decide whether a given photon should be absorbed.
      */
     emitPhoton: function() {
-
       var photon = new Photon( this.photonWavelength );
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
-      photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ),
-        PHOTON_VELOCITY * Math.sin( emissionAngle ) );
+      photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
       this.photons.add( photon );
     },
 
@@ -214,7 +215,6 @@ define( function( require ) {
      * @param {number} freq
      */
     setEmittedPhotonWavelength: function( freq ) {
-
       if ( this.photonWavelength !== freq ) {
         // Set the new value and send out notification of change to listeners.
         this.photonWavelength = freq;
@@ -327,7 +327,6 @@ define( function( require ) {
         thisModel.activeMolecules.add( constituentMolecule1 );
         thisModel.activeMolecules.add( constituentMolecule2 );
       } );
-
     },
 
     /**
