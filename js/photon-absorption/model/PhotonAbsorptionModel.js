@@ -113,15 +113,14 @@ define( function( require ) {
 
       if ( this.play ) {
 
-        // Check if it is time to emit any photons.
-        this.checkEmissionTimer( dt );
-
         // Step the photons, marking and removing any that have moved beyond the model
         this.stepPhotons( dt );
 
+        // Check if it is time to emit any photons.
+        this.checkEmissionTimer( dt );
+
         // Step the molecules.
         this.stepMolecules( dt );
-
       }
     },
 
@@ -137,7 +136,7 @@ define( function( require ) {
         this.photonEmissionCountdownTimer -= dt;
         if ( this.photonEmissionCountdownTimer <= 0 ) {
           // Time to emit.
-          this.emitPhoton();
+          this.emitPhoton( Math.abs( this.photonEmissionCountdownTimer ) );
           this.photonEmissionCountdownTimer = this.photonEmissionPeriodTarget;
         }
       }
@@ -200,10 +199,13 @@ define( function( require ) {
     /**
      * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target,
      * which will decide whether a given photon should be absorbed.
+     * @param advanceAmount - amout of time that the photon should be "advanced" from its starting location.  This
+     * makes it possible to make the emission stream look more constant in cases where there was a long delay between
+     * frames.
      */
-    emitPhoton: function() {
+    emitPhoton: function( advanceAmount ) {
       var photon = new Photon( this.photonWavelength );
-      photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x, PHOTON_EMISSION_LOCATION.y ) );
+      photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
       this.photons.add( photon );
