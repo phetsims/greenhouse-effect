@@ -83,7 +83,6 @@ define( function( require ) {
 
     this.addChild( this.backgroundRect );
     this.addChild( this.emissionRateControlSlider );
-
   }
 
   inherit( Node, EmissionRateControlSliderNode, {
@@ -187,6 +186,9 @@ define( function( require ) {
         thisNode.fill = 'rgb(0, 203, 230)';
       }
     } ) );
+
+    // make this easier to grab in touch environments
+    this.touchArea = this.localBounds.dilatedXY( 20, 20 );
   }
 
   inherit( Path, EmissionRateThumbNode );
