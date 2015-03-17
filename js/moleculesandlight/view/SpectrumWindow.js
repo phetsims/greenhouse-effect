@@ -418,7 +418,7 @@ define( function( require ) {
 
     var chirpShape = new Shape();
     chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.
-    var numPointsOnLine = 2000;
+    var numPointsOnLine = 1500;
     for ( var i = 0; i < numPointsOnLine; i++ ) {
       var x = i * ( SUBSECTION_WIDTH / (numPointsOnLine - 1) );
       var t = x / SUBSECTION_WIDTH;
@@ -430,10 +430,19 @@ define( function( require ) {
 
       var y = ( sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
       chirpShape.lineTo( x, y );
-
     }
 
-    this.addChild( new Path( chirpShape, { lineWidth: 2, stroke: 'black' } ) );
+    // Create the chirp node, but create it first with a null shape, then override computeShapeBounds, then set the
+    // shape.  This makes the creation of this node far faster.
+    var chirpNode = new Path( null, {
+      lineWidth: 2,
+      stroke: 'black',
+      lineJoin: 'bevel'
+    } );
+    chirpNode.computeShapeBounds = function() { return chirpShape.bounds.dilated( 4 ) };
+    chirpNode.shape = chirpShape;
+
+    this.addChild( chirpNode );
   }
 
   inherit( Rectangle, ChirpNode );
