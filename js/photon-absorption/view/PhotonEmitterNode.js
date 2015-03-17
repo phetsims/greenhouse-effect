@@ -119,17 +119,19 @@ define( function( require ) {
     },
 
     /**
-     * Update transparency of the 'off' emitter image.  The opacity of the off emitter is set because this seems to
-     * perform better.  See issue #90.
+     * Update transparency of the 'off' emitter image.  The opacity of the off emitter is used because this seems to
+     * perform better than using the on emitter.  See issue #90.
      *
      * @param {number} photonWavelength
      * @param {number} emissionFrequency
      */
     updateOffImageOpacity: function( photonWavelength, emissionFrequency ) {
       if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ){
-        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency );
+        // TODO: For performance reasons, a max opacity value of 0.99 is used instead of making the image fully opaque.
+        // This is a workaround for a Scenery issue, see https://github.com/phetsims/scenery/issues/404.  The
+        // workaround can be removed once the Scenery issue is resolved, but performance should be re-verified.
+        this.photonEmitterOffImage.opacity = Math.min( 1 - emissionFrequency, 0.99 );
       }
     }
-
   } );
 } );
