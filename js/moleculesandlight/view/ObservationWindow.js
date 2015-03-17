@@ -163,7 +163,7 @@ define( function( require ) {
     this.restoreButtonVisibleProperty.link( function() {
       // TODO: The following is a workaround for an issue where changing the visibility of the button was causing
       // performance issues.  Setting the opacity values, and never making it 100% opaque, gets rid of this delay.
-      // This will be fixed eventually in Scenery, and at this time the workaround code can be removed.  When
+      // This will be fixed eventually in Scenery, and at that time the workaround code can be removed.  When
       // removing it, make sure to also remove the code that sets the original opacity value of this button.  See
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
       //  thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
