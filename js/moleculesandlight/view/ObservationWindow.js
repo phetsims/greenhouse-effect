@@ -21,7 +21,6 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var WindowFrameNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/WindowFrameNode' );
   var Shape = require( 'KITE/Shape' );
 
   // strings
@@ -68,10 +67,6 @@ define( function( require ) {
     var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel );
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
     photonEmitterLayer.addChild( photonEmitterNode );
-
-    // Add the frame around the observation window.
-    var windowFrame = new WindowFrameNode( this, this.frameLineWidth, '#BED0E7', '#4070CE' );
-    this.addChild( windowFrame );
 
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
     this.clipArea = new Shape().roundRect(

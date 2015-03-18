@@ -25,16 +25,16 @@ define( function( require ) {
    * @param {string} outerColor - boundary color along the outer edge of the window frame.
    * @constructor
    */
-  function WindowFrameNode( observationWindow, lineWidth, innerColor, outerColor ) {
+  function WindowFrameNode( observationWindow, innerColor, outerColor ) {
 
     // Set inputs as class variables so they can be used in canvas methods.
     this.observationWindow = observationWindow; // @private
-    this.lineWidth = lineWidth; // @private
+    this.lineWidth = observationWindow.frameLineWidth; // @private
     this.innerColor = innerColor; // @private
     this.outerColor = outerColor; // @private
 
     // Set the canvas bounds to the observation window dilated by the desired line width.
-    var canvasBounds = observationWindow.bounds.dilated( lineWidth );
+    var canvasBounds = observationWindow.bounds.dilated( this.lineWidth );
 
     CanvasNode.call( this, { canvasBounds: canvasBounds } );
     this.invalidatePaint();

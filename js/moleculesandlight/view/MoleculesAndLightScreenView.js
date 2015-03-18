@@ -28,6 +28,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SpectrumWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindow' );
+  var WindowFrameNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/WindowFrameNode' );
 
   // strings
   var buttonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
@@ -58,7 +59,14 @@ define( function( require ) {
     // absorption model.
     var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform );
     this.addChild( observationWindow );
+
+    // Create the window frame node that borders the observation window.
+    var windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
+    this.addChild( windowFrameNode );
+
+    // Set positions of the observation window and window frame.
     observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
+    windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
     // Create the control panel for photon emission frequency.
     var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel );
