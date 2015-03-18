@@ -439,7 +439,7 @@ define( function( require ) {
       stroke: 'black',
       lineJoin: 'bevel'
     } );
-    chirpNode.computeShapeBounds = function() { return chirpShape.bounds.dilated( 4 ) };
+    chirpNode.computeShapeBounds = function() { return chirpShape.bounds.dilated( 4 ); };
     chirpNode.shape = chirpShape;
 
     this.addChild( chirpNode );
