@@ -151,7 +151,9 @@ define( function( require ) {
         buttonContentYMargin: 5.25,
         selectedStroke: 'white',
         deselectedLineWidth: 0,
-        cornerRadius: 7
+        cornerRadius: 7,
+        xTouchExpansion: 0,
+        yTouchExpansion: 0
       } );
 
     Panel.call( this, radioButtons, { fill: 'black' } );
