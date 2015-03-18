@@ -167,6 +167,14 @@ define( function( require ) {
       // removing it, make sure to also remove the code that sets the original opacity value of this button.  See
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
       //  thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
+      if( thisWindow.restoreButtonVisibleProperty.get() ){
+        thisWindow.restoreMoleculeButtonNode.opacity = 0.99;
+        thisWindow.restoreMoleculeButtonNode.pickable = true;
+      }
+      else{
+        thisWindow.restoreMoleculeButtonNode.opacity = 0;
+        thisWindow.restoreMoleculeButtonNode.pickable = false;
+      }
       thisWindow.restoreMoleculeButtonNode.opacity = thisWindow.restoreButtonVisibleProperty.get() ? 0.99 : 0;
     } );
 
