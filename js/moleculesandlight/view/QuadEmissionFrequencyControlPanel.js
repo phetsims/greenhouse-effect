@@ -27,10 +27,10 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
 
   // images
-  var heatLampImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
-  var flashlight2Image = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
-  var microwaveTransmitter = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
-  var uvLight2 = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
+  var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
+  var flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
+  var microwaveTransmitter = require( 'mipmap!MOLECULES_AND_LIGHT/microwave-source.png' );
+  var uvLight2 = require( 'mipmap!MOLECULES_AND_LIGHT/uv-source.png' );
 
   // strings
   var microwaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
