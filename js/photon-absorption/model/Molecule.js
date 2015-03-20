@@ -227,10 +227,12 @@ define( function( require ) {
     /**
      * Placeholder for setVibration function.  This should be implemented in descendant molecules that have vibration
      * strategies.
+     *
+     * @param {number} vibrationRadians
      */
-    setVibration: function() {
-      console.error( ' Error: setVibraiton invoked on a molecule for which the action is not implemented.' );
-      assert && assert( false );
+    setVibration: function( vibrationRadians ) {
+      // Implements no vibration by default, override in descendant classes as needed.
+      this.currentVibrationRadians = vibrationRadians;
     },
 
     /**
