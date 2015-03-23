@@ -97,19 +97,6 @@ define( function( require ) {
       }
     ];
 
-    var radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent,
-      {
-        orientation: 'horizontal',
-        spacing: 15,
-        baseColor: 'black',
-        selectedStroke: 'rgb(47, 101,209)',
-        deselectedLineWidth: 0,
-        buttonContentXMargin: 5,
-        buttonContentYMargin: 8,
-        selectedLineWidth: 3,
-        cornerRadius: 7
-      } );
-
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
     var panelWidth = _.max( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
@@ -125,6 +112,19 @@ define( function( require ) {
         content.label.scale( scaleFactor );
       } );
     }
+
+    var radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent,
+      {
+        orientation: 'horizontal',
+        spacing: 15,
+        baseColor: 'black',
+        selectedStroke: 'rgb(47, 101,209)',
+        deselectedLineWidth: 0,
+        buttonContentXMargin: 5,
+        buttonContentYMargin: 8,
+        selectedLineWidth: 3,
+        cornerRadius: 7
+      } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
     var energyText = new Text( higherEnergyString, { font: new PhetFont( 19 ) } );
