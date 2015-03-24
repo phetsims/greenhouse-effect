@@ -21,7 +21,7 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Shape = require( 'KITE/Shape' );
+//  var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
 
   // strings
   var returnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
@@ -68,17 +68,21 @@ define( function( require ) {
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
+    // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
+    // Safari specific SVG bug caused by clipping.  Once we discover the cause of this bug, the clipping area can
+    // replace the layered rectangle in MoleculesAndLightScreenView.  See
+    // https://github.com/phetsims/molecules-and-light/issues/105 and https://github.com/phetsims/scenery/issues/412.
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
-    this.clipArea = new Shape().roundRect(
-      this.left,
-      this.top,
-      this.width,
-      this.height,
-      CORNER_RADIUS, CORNER_RADIUS ); // @private
+//    this.clipArea = new Shape().roundRect(
+//      this.left,
+//      this.top,
+//      this.width,
+//      this.height,
+//      CORNER_RADIUS, CORNER_RADIUS ); // @private
 
     // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
     // clipping area so that particles have a chance to cleanly slide out of the window before being removed.
-    this.particleRemovalBounds = this.clipArea.bounds.copy().dilate( 20 );
+    this.particleRemovalBounds = this.bounds.copy().dilate( 20 );
 
     // Add the button for restoring molecules that break apart.
     var buttonContent = new Text( returnMoleculeString, { font: new PhetFont( 13 ) } );
@@ -162,11 +166,11 @@ define( function( require ) {
       // removing it, make sure to also remove the code that sets the original opacity value of this button.  See
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
       //  thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
-      if( thisWindow.restoreButtonVisibleProperty.get() ){
+      if ( thisWindow.restoreButtonVisibleProperty.get() ) {
         thisWindow.restoreMoleculeButtonNode.opacity = 0.99;
         thisWindow.restoreMoleculeButtonNode.pickable = true;
       }
-      else{
+      else {
         thisWindow.restoreMoleculeButtonNode.opacity = 0;
         thisWindow.restoreMoleculeButtonNode.pickable = false;
       }
