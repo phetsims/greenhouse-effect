@@ -43,3 +43,8 @@ The sim randomly picks a single resonance structure for NO2 and O3 rather than s
 
 For the case in which absorbance does occur, the probability is simply set to 50% so that students experience the idea
 that not every photon will be absorbed. In reality, the probabilities vary with wavelength and molecule identity.
+
+Interaction between rotation and photodissociation is simplified, specifically, if a molecule is rotated by one
+frequency of light, and then another freqiency is used to cause photodissociation, the molecule breaks apart as though
+it was in its original orientation, and not the rotated orientation.  This was done in order to make the dissociated
+pieces leave the screen in a consistent way, and also to simplify the implementation.
