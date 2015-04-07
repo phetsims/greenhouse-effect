@@ -131,7 +131,10 @@ define( function( require ) {
       this.trigger( 'brokeApart', diatomicOxygenMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
-      // directions and velocities have little if anything to do with any physical rules of atomic dissociation.
+      // directions and velocities have little if anything to do with any physical rules of atomic dissociation.  If
+      // the molecule happens to have been rotated before breaking apart, it is rotated back to the initial orientation
+      // before dissociation.  This keeps things simple, and makes the products go off the top and bottom of the window
+      // instead of potentially going back towards the photon source.  See issue #110.
       var diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) );
       var breakApartAngle;
       if ( this.doubleBondOnRight ) {
