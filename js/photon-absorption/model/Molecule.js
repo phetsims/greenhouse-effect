@@ -1,4 +1,4 @@
-//  Copyright 2002-2014, University of Colorado
+// Copyright 2002-2014, University of Colorado
 
 /**
  * A model for a particular molecule.  This, by its nature, is essentially a composition of other objects, generally
