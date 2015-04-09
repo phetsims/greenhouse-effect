@@ -1,4 +1,4 @@
-//  Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2002-2014, University of Colorado Boulder
 
 /**
  * Control panel for the "Molecules and Light" sim.  Allows the user to select which molecule is being simulated.

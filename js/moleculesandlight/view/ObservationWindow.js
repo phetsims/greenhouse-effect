@@ -1,4 +1,4 @@
-//  Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2002-2014, University of Colorado Boulder
 
 /**
  * Window for Molecules And Light which holds the photon emitter, photons, and molecules of the photon absorption model.
