@@ -58,15 +58,20 @@ define( function( require ) {
    * Constructor for a photon absorption model.
    *
    * @param {string} initialPhotonTarget - Initial molecule which the photon gets fired at.
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function PhotonAbsorptionModel( initialPhotonTarget ) {
+  function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
     PropertySet.call( this, {
       emissionFrequency: 0,
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
       photonTarget: initialPhotonTarget, // molecule that photons are fired at
       play: true // is the sim running or paused
+    }, {
+      tandemSet: {
+        photonWavelength: tandem.createTandem( 'photonWavelength' )
+      }
     } );
 
     this.photons = new ObservableArray(); //Elements are of type Photon
