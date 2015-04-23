@@ -51,9 +51,10 @@ define( function( require ) {
    * Constructor for the screen view of Molecules and Light.
    *
    * @param {PhotonAbsorptionModel} photonAbsorptionModel
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function MoleculesAndLightScreenView( photonAbsorptionModel ) {
+  function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
 
@@ -89,7 +90,7 @@ define( function( require ) {
     windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
     // Create the control panel for photon emission frequency.
-    var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel );
+    var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem );
     photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel

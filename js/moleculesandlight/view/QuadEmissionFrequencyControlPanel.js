@@ -56,9 +56,10 @@ define( function( require ) {
    * Constructor for the control panel of emitted photon frequency.
    *
    * @param {PhotonAbsorptionModel} photonAbsorptionModel
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function QuadEmissionFrequencyControlPanel( photonAbsorptionModel ) {
+  function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
 
     // Supertype constructor
     Node.call( this );
@@ -78,22 +79,26 @@ define( function( require ) {
       {
         node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
         value: WavelengthConstants.MICRO_WAVELENGTH,
-        label: new Text( microwaveString, { font: labelFont } )
+        label: new Text( microwaveString, { font: labelFont } ),
+        tandem: tandem.createTandem( 'microwaveRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
         value: WavelengthConstants.IR_WAVELENGTH,
-        label: new Text( infraredString, { font: labelFont } )
+        label: new Text( infraredString, { font: labelFont } ),
+        tandem: tandem.createTandem( 'infraredRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
         value: WavelengthConstants.VISIBLE_WAVELENGTH,
-        label: new Text( visibleString, { font: labelFont } )
+        label: new Text( visibleString, { font: labelFont } ),
+        tandem: tandem.createTandem( 'visibleRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
         value: WavelengthConstants.UV_WAVELENGTH,
-        label: new Text( ultravioletString, { font: labelFont } )
+        label: new Text( ultravioletString, { font: labelFont } ),
+        tandem: tandem.createTandem( 'ultravioletRadioButton' )
       }
     ];
 

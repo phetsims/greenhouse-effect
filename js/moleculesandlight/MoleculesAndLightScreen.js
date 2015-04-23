@@ -15,14 +15,18 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var titleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.name' );
 
   function MoleculesAndLightScreen() {
+
+    var tandem = new Tandem( 'moleculesAndLightScreen' );
+
     Screen.call( this, titleString, null /* no icon, single-screen sim */,
-      function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE ); },
-      function( model ) { return new MoleculesAndLightScreenView( model ); },
+      function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem ); },
+      function( model ) { return new MoleculesAndLightScreenView( model, tandem ); },
       { backgroundColor: '#C5D6E8' }
     );
   }
