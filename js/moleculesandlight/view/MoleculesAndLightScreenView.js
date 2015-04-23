@@ -94,7 +94,7 @@ define( function( require ) {
     photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel
-    var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel );
+    var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem );
     moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.

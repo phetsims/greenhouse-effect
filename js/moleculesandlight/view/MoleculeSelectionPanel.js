@@ -63,9 +63,10 @@ define( function( require ) {
    * Constructor for a Molecules and Light control panel.
    *
    * @param { PhotonAbsorptionModel } model - The model controlled by this panel.
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function MoleculeSelectionPanel( model ) {
+  function MoleculeSelectionPanel( model, tandem ) {
 
     var scaleFactor = 1; // Scale factor of the text in this control panel.  Value gets updated as panels are created.
 
@@ -110,31 +111,38 @@ define( function( require ) {
     var radioButtonContent = [
       {
         node: createRadioButtonContent( carbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_CO_MOLECULE
+        value: PhotonTarget.SINGLE_CO_MOLECULE,
+        tandem: tandem.createTandem( 'singleCOMoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( nitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_N2_MOLECULE
+        value: PhotonTarget.SINGLE_N2_MOLECULE,
+        tandem: tandem.createTandem( 'singleN2MoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( oxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_O2_MOLECULE
+        value: PhotonTarget.SINGLE_O2_MOLECULE,
+        tandem: tandem.createTandem( 'singleO2MoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( carbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_CO2_MOLECULE
+        value: PhotonTarget.SINGLE_CO2_MOLECULE,
+        tandem: tandem.createTandem( 'singleCO2MoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( waterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_H2O_MOLECULE
+        value: PhotonTarget.SINGLE_H2O_MOLECULE,
+        tandem: tandem.createTandem( 'singleH2OMoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( nitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_NO2_MOLECULE
+        value: PhotonTarget.SINGLE_NO2_MOLECULE,
+        tandem: tandem.createTandem( 'singleNO2MoleculeRadioButton' )
       },
       {
         node: createRadioButtonContent( ozoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_O3_MOLECULE
+        value: PhotonTarget.SINGLE_O3_MOLECULE,
+        tandem: tandem.createTandem( 'singleO3MoleculeRadioButton' )
       }
     ];
 
