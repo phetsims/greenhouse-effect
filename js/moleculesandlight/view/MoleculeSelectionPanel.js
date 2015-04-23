@@ -143,18 +143,17 @@ define( function( require ) {
       _.each( textList, function( text ) { text.scale( scaleFactor ); } );
     }
 
-    var radioButtons = new RadioButtonGroup( model.photonTargetProperty, radioButtonContent,
-      {
-        spacing: 1.75,
-        baseColor: 'black',
-        buttonContentXMargin: 0,
-        buttonContentYMargin: 5.25,
-        selectedStroke: 'white',
-        deselectedLineWidth: 0,
-        cornerRadius: 7,
-        xTouchExpansion: 0,
-        yTouchExpansion: 0
-      } );
+    var radioButtons = new RadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
+      spacing: 1.75,
+      baseColor: 'black',
+      buttonContentXMargin: 0,
+      buttonContentYMargin: 5.25,
+      selectedStroke: 'white',
+      deselectedLineWidth: 0,
+      cornerRadius: 7,
+      xTouchExpansion: 0,
+      yTouchExpansion: 0
+    } );
 
     Panel.call( this, radioButtons, { fill: 'black' } );
 
