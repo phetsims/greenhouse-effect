@@ -70,7 +70,10 @@ define( function( require ) {
       play: true // is the sim running or paused
     }, {
       tandemSet: {
-        photonWavelength: tandem.createTandem( 'photonWavelength' )
+        emissionFrequency: tandem.createTandem( 'emissionFrequency' ),
+        photonWavelength: tandem.createTandem( 'photonWavelength' ),
+        photonTarget: tandem.createTandem( 'photonTarget' ),
+        play: tandem.createTandem( 'running' )
       }
     } );
 
