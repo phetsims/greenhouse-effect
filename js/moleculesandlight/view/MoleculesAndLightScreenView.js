@@ -108,21 +108,21 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // Add play/pause button.
-    var playPauseButton = new PlayPauseButton( photonAbsorptionModel.playProperty,
-      {
-        bottom: moleculeControlPanel.bottom + 60,
-        centerX: moleculeControlPanel.centerX - 25,
-        radius: 23
-      } );
+    var playPauseButton = new PlayPauseButton( photonAbsorptionModel.playProperty, {
+      bottom: moleculeControlPanel.bottom + 60,
+      centerX: moleculeControlPanel.centerX - 25,
+      radius: 23,
+      tandem: tandem.createTandem( 'playPauseButton' )
+    } );
     this.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
-    var stepButton = new StepButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.playProperty,
-      {
-        centerY: playPauseButton.centerY,
-        centerX: moleculeControlPanel.centerX + 25,
-        radius: 15
-      } );
+    var stepButton = new StepButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.playProperty, {
+      centerY: playPauseButton.centerY,
+      centerX: moleculeControlPanel.centerX + 25,
+      radius: 15,
+      tandem: tandem.createTandem( 'stepButton' )
+    } );
     this.addChild( stepButton );
 
     // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
