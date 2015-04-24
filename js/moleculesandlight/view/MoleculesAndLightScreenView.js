@@ -98,13 +98,13 @@ define( function( require ) {
     moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.
-    var resetAllButton = new ResetAllButton(
-      {
-        listener: function() { photonAbsorptionModel.reset(); },
-        bottom: this.layoutBounds.bottom - 15,
-        right: this.layoutBounds.right - 15,
-        radius: 18
-      } );
+    var resetAllButton = new ResetAllButton( {
+      listener: function() { photonAbsorptionModel.reset(); },
+      bottom: this.layoutBounds.bottom - 15,
+      right: this.layoutBounds.right - 15,
+      radius: 18,
+      tandem: tandem.createTandem( 'resetAllButton' )
+    } );
     this.addChild( resetAllButton );
 
     // Add play/pause button.
