@@ -163,7 +163,7 @@ define( function( require ) {
    * close whenever the user clicks in the molecules and light screen view ( as in AboutDialog ).  This means that no
    * closing listener is necessary.
    *
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function CloseButton( tandem ) {
@@ -451,7 +451,7 @@ define( function( require ) {
   /**
    * Constructor for the Spectrum Window.  Loads all subclass objects into a vertical layout box.
    *
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function SpectrumWindow( tandem ) {

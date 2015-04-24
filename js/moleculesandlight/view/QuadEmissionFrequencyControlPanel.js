@@ -56,7 +56,7 @@ define( function( require ) {
    * Constructor for the control panel of emitted photon frequency.
    *
    * @param {PhotonAbsorptionModel} photonAbsorptionModel
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {

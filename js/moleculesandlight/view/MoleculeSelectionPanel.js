@@ -63,7 +63,7 @@ define( function( require ) {
    * Constructor for a Molecules and Light control panel.
    *
    * @param { PhotonAbsorptionModel } model - The model controlled by this panel.
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function MoleculeSelectionPanel( model, tandem ) {
