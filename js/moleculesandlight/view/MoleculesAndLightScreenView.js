@@ -66,7 +66,7 @@ define( function( require ) {
 
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform );
+    var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem );
     this.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.

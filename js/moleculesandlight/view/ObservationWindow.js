@@ -35,9 +35,10 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} photonAbsorptionModel
    * @param {ModelViewTransform2} modelViewTransform
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function ObservationWindow( photonAbsorptionModel, modelViewTransform ) {
+  function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) {
 
     // Supertype constructor
     Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, { fill: 'black' } );
@@ -64,7 +65,7 @@ define( function( require ) {
     this.addChild( photonEmitterLayer );
 
     // Create and add the photon emitter.
-    var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel );
+    var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem );
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
