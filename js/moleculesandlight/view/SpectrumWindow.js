@@ -163,12 +163,13 @@ define( function( require ) {
    * close whenever the user clicks in the molecules and light screen view ( as in AboutDialog ).  This means that no
    * closing listener is necessary.
    *
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function CloseButton() {
+  function CloseButton( tandem ) {
 
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
-    RectangularPushButton.call( this, { content: content, listener: null } );
+    RectangularPushButton.call( this, { content: content, listener: null, tandem: tandem } );
   }
 
   inherit( RectangularPushButton, CloseButton );
@@ -450,15 +451,16 @@ define( function( require ) {
   /**
    * Constructor for the Spectrum Window.  Loads all subclass objects into a vertical layout box.
    *
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function SpectrumWindow() {
+  function SpectrumWindow( tandem ) {
 
     var thisWindow = this;
 
     var children = [
       new SpectrumDiagram(),
-      new CloseButton()
+      new CloseButton( tandem.createTandem( 'closeLightSpectrumButton' ) )
     ];
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );

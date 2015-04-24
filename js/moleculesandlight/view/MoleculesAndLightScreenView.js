@@ -127,7 +127,7 @@ define( function( require ) {
 
     // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
     // drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
-    var spectrumWindow = new SpectrumWindow();
+    var spectrumWindow = new SpectrumWindow( tandem );
 
     // Add the button for displaying the electromagnetic spectrum.
     // Scale down the button content when it gets too large.  This is here to support translations.  Max width of this
@@ -139,7 +139,8 @@ define( function( require ) {
     var showSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(98, 173, 205)',
-      listener: function() { spectrumWindow.show(); }
+      listener: function() { spectrumWindow.show(); },
+      tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
     showSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
     this.addChild( showSpectrumButton );
