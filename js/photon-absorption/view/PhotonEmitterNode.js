@@ -35,9 +35,10 @@ define( function( require ) {
    *
    * @param {number} width - Desired width of the emitter image in screen coords.
    * @param {PhotonAbsorptionModel} model
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function PhotonEmitterNode( width, model ) {
+  function PhotonEmitterNode( width, model, tandem ) {
 
     // supertype constructor
     Node.call( this );
@@ -49,13 +50,14 @@ define( function( require ) {
 
     // update the photon emitter upon changes to the photon wavelength
     model.photonWavelengthProperty.link( function( photonWavelength ) {
-      thisNode.updateImage( width, photonWavelength, thisNode.model.emissionFrequency );
-    });
+      var emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
+      thisNode.updateImage( width, photonWavelength, thisNode.model.emissionFrequency, tandem, emitterTandemName );
+    } );
 
     // update brightness of emitter bulb upon changes to photon emission frequency
     model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency/100 );
-    });
+      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency / 100 );
+    } );
 
   }
 
@@ -71,7 +73,7 @@ define( function( require ) {
      * @param {number} emissionFrequency
      * @private
      */
-    updateImage: function( emitterWidth, photonWavelength, emissionFrequency ) {
+    updateImage: function( emitterWidth, photonWavelength, emissionFrequency, tandem, emitterTandemName ) {
 
       // remove any existing children
       this.removeAllChildren();
@@ -99,21 +101,23 @@ define( function( require ) {
       this.addChild( this.photonEmitterOnImage );
 
       // scale, center, and set opacity of 'off' image - no 'off' image for microwave emitter
-      if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
+      if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
         this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
         this.photonEmitterOffImage.center = new Vector2( 0, 0 );
-        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency/100 );
+        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency / 100 );
         this.addChild( this.photonEmitterOffImage );
       }
 
+      this.emissionRateControlSliderNode && this.emissionRateControlSliderNode.dispose();
+
       // create the photon emission rate control slider
-      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)' );
+      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)', tandem.createTandem( emitterTandemName + 'Slider' ) );
 
       // add the slider to the correct location on the photon emitter
       var xOffset = 12; // x offset necessary to fit the slider correctly on the microwave emitter.
       this.emissionRateControlSliderNode.center = new Vector2(
-          this.photonEmitterOffImage.centerX - this.emissionRateControlSliderNode.centerX / 2 - xOffset,
-          this.photonEmitterOffImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
+        this.photonEmitterOffImage.centerX - this.emissionRateControlSliderNode.centerX / 2 - xOffset,
+        this.photonEmitterOffImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
       this.addChild( this.emissionRateControlSliderNode );
 
     },
@@ -126,7 +130,7 @@ define( function( require ) {
      * @param {number} emissionFrequency
      */
     updateOffImageOpacity: function( photonWavelength, emissionFrequency ) {
-      if( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ){
+      if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
         // TODO: For performance reasons, a max opacity value of 0.99 is used instead of making the image fully opaque.
         // This is a workaround for a Scenery issue, see https://github.com/phetsims/scenery/issues/404.  The
         // workaround can be removed once the Scenery issue is resolved, but performance should be re-verified.

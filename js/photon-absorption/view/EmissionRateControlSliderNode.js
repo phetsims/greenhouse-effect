@@ -38,9 +38,10 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} model
    * @param {Color} color
+   * @param {Tandem} tandem - support for exporting elements from the sim
    * @constructor
    */
-  function EmissionRateControlSliderNode( model, color ) {
+  function EmissionRateControlSliderNode( model, color, tandem ) {
 
     // Supertype constructor
     Node.call( this );
@@ -49,16 +50,20 @@ define( function( require ) {
     this.model = model; // @private
     this.color = color; // @private
 
-    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE },
-      { trackSize: TRACK_SIZE, thumbFillEnabled: 'rgb(0, 203, 230)', thumbNode: new EmissionRateThumbNode() } ); // @private
+    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE }, {
+      trackSize: TRACK_SIZE,
+      thumbFillEnabled: 'rgb(0, 203, 230)',
+      thumbNode: new EmissionRateThumbNode(),
+      tandem: tandem
+    } ); // @private
 
     // width of the background rectangle is larger than the slider to accentuate the thumb.
     var backgroundOffset = 4;
     this.backgroundRect = new Rectangle(
-        -THUMB_SIZE.width / 2 - backgroundOffset,
-        -THUMB_SIZE.height / 4,
-        TRACK_SIZE.width + THUMB_SIZE.width + 8,
-        TRACK_SIZE.height + THUMB_SIZE.height / 2,
+      -THUMB_SIZE.width / 2 - backgroundOffset,
+      -THUMB_SIZE.height / 4,
+      TRACK_SIZE.width + THUMB_SIZE.width + 8,
+      TRACK_SIZE.height + THUMB_SIZE.height / 2,
       { stroke: '#c0b9b9' } ); // @private
 
     // Create the default background box for this node.
@@ -86,6 +91,9 @@ define( function( require ) {
   }
 
   inherit( Node, EmissionRateControlSliderNode, {
+    dispose: function() {
+      this.emissionRateControlSlider.dispose();
+    },
 
     /**
      * Update function for the control slider node.  Sets the value property of the slider and the background color
@@ -178,20 +186,29 @@ define( function( require ) {
     }
 
     // highlight thumb on pointer over
-    thisNode.addInputListener( new ButtonListener( {
+    var buttonListener = new ButtonListener( {
       over: function( event ) {
         thisNode.fill = 'rgb(80,250,255)';
       },
       up: function( event ) {
         thisNode.fill = 'rgb(0, 203, 230)';
       }
-    } ) );
+    } );
+    thisNode.addInputListener( buttonListener );
 
     // make this easier to grab in touch environments
     this.touchArea = this.localBounds.dilatedXY( 20, 20 );
+
+    this.disposeEmissionRateThumbNode = function() {
+      thisNode.removeInputListener( buttonListener );
+    };
   }
 
-  inherit( Path, EmissionRateThumbNode );
+  inherit( Path, EmissionRateThumbNode, {
+    dispose: function() {
+      this.disposeEmissionRateThumbNode();
+    }
+  } );
 
   return EmissionRateControlSliderNode;
 } );
