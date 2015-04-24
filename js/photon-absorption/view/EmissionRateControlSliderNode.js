@@ -38,7 +38,7 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} model
    * @param {Color} color
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function EmissionRateControlSliderNode( model, color, tandem ) {

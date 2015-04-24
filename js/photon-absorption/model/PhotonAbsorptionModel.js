@@ -58,7 +58,7 @@ define( function( require ) {
    * Constructor for a photon absorption model.
    *
    * @param {string} initialPhotonTarget - Initial molecule which the photon gets fired at.
-   * @param {Tandem} tandem - support for exporting elements from the sim
+   * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
   function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
