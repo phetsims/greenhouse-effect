@@ -15,15 +15,16 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var titleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.name' );
 
-  function MoleculesAndLightScreen() {
-
-    var tandem = new Tandem( 'moleculesAndLightScreen' );
-
+  /**
+   *
+   * @param {Tandem} tandem - support for exporting instances from the sim
+   * @constructor
+   */
+  function MoleculesAndLightScreen( tandem ) {
     Screen.call( this, titleString, null /* no icon, single-screen sim */,
       function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem ); },
       function( model ) { return new MoleculesAndLightScreenView( model, tandem ); },
