@@ -77,7 +77,7 @@ define( function( require ) {
       }
     } );
 
-    this.photons = new ObservableArray(); //Elements are of type Photon
+    this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); //Elements are of type Photon
     this.activeMolecules = new ObservableArray(); // Elements are of type Molecule.
 
     // Variables that control periodic photon emission.
