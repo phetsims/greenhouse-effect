@@ -54,9 +54,9 @@ define( function( require ) {
     this.addChild( photonImage );
 
     // Observe position changes.
-    photon.locationProperty.link( function() {
+    photon.locationProperty.link( function( location ) {
       // Set overall position.
-      thisNode.center = thisNode.modelViewTransform.modelToViewPosition( thisNode.photon.location );
+      thisNode.center = thisNode.modelViewTransform.modelToViewPosition( location );
     } );
   }
 
