@@ -40,42 +40,41 @@ define( function( require ) {
 
   return inherit( PropertySet, Photon, {
 
-    /**
-     * Set the velocity of this photon from vector components.
-     *
-     * @param {number} vx - The x component of the velocity vector.
-     * @param {number} vy - The y component of the velocity vector.
-     */
-    setVelocity: function( vx, vy ) {
-      this.vx = vx;
-      this.vy = vy;
+      /**
+       * Set the velocity of this photon from vector components.
+       *
+       * @param {number} vx - The x component of the velocity vector.
+       * @param {number} vy - The y component of the velocity vector.
+       */
+      setVelocity: function( vx, vy ) {
+        this.vx = vx;
+        this.vy = vy;
+      },
+
+      /**
+       * Change the state of this photon by stepping it in time.
+       *
+       * @param {number} dt - The incremental time step.
+       */
+      step: function( dt ) {
+        this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
+      },
+
+      toJSON: function() {
+        return {
+          location: this.location.toJSON(),
+          velocity: new Vector2( this.vx, this.vy ),
+          wavelength: this.wavelength
+        };
+      }
     },
-
-    /**
-     * Change the state of this photon by stepping it in time.
-     *
-     * @param {number} dt - The incremental time step.
-     */
-    step: function( dt ) {
-      this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
-    },
-
-    toJSON: function() {
-      return {
-        x: this.location.x,
-        y: this.location.y,
-        vx: this.vx,
-        vy: this.vy,
-        wavelength: this.wavelength
-      };
-    }
-  }, {
-
-    fromJSON: function( json ) {
-      var p = new Photon( json.wavelength );
-      p.setVelocity( json.vx, json.vy );
-      p.location = new Vector2( json.x, json.y );
-      return p;
-    }
-  } );
+    // statics
+    {
+      fromJSON: function( json ) {
+        var p = new Photon( json.wavelength );
+        p.location = json.location;
+        p.setVelocity( json.velocity.x, json.velocity.y );
+        return p;
+      }
+    } );
 } );
