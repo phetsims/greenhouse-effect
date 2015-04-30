@@ -33,6 +33,11 @@ define( function( require ) {
 
   }
 
+  // We must make Photon available to together.js for deserializing instances
+  window.phet = window.phet || {};
+  window.phet.moleculesAndLight = window.phet.moleculesAndLight || {};
+  window.phet.moleculesAndLight.Photon = Photon;
+
   return inherit( PropertySet, Photon, {
 
     /**
@@ -53,7 +58,24 @@ define( function( require ) {
      */
     step: function( dt ) {
       this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
-    }
+    },
 
+    toJSON: function() {
+      return {
+        x: this.location.x,
+        y: this.location.y,
+        vx: this.vx,
+        vy: this.vy,
+        wavelength: this.wavelength
+      };
+    }
+  }, {
+
+    fromJSON: function( json ) {
+      var p = new Photon( json.wavelength );
+      p.setVelocity( json.vx, json.vy );
+      p.location = new Vector2( json.x, json.y );
+      return p;
+    }
   } );
 } );
