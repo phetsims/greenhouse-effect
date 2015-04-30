@@ -131,7 +131,6 @@ define( function( require ) {
     // Set up the event listeners for adding and removing photons.
     photonAbsorptionModel.photons.addItemAddedListener( function( addedPhoton ) {
       var photonNode = new PhotonNode( addedPhoton, thisWindow.modelViewTransform );
-      photonNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
       photonLayer.addChild( photonNode );
 
       // Watch photon positions and determine if photon should be removed from window.
