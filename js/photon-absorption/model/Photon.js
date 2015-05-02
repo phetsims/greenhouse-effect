@@ -60,9 +60,9 @@ define( function( require ) {
         this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
       },
 
-      toJSON: function() {
+      toStateObject: function() {
         return {
-          location: this.location.toJSON(),
+          location: this.location.toStateObject(),
           velocity: new Vector2( this.vx, this.vy ),
           wavelength: this.wavelength
         };
@@ -70,7 +70,7 @@ define( function( require ) {
     },
     // statics
     {
-      fromJSON: function( json ) {
+      fromStateObject: function( json ) {
         var p = new Photon( json.wavelength );
         p.location = json.location;
         p.setVelocity( json.velocity.x, json.velocity.y );
