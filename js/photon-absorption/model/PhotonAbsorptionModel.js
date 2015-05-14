@@ -83,8 +83,6 @@ define( function( require ) {
     // Variables that control periodic photon emission.
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD;
-    this.previousEmissionAngle = 0;
-
   }
 
   return inherit( PropertySet, PhotonAbsorptionModel, {
