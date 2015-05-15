@@ -27,10 +27,10 @@ define( function( require ) {
   var PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
 
   // utility method used for serialization
-  function serializeArray( array ){
+  function serializeArray( array ) {
     var serializedArray = [];
-    array.forEach( function( arrayElement ){
-      serializedArray.push( arrayElement.toStateObject())
+    array.forEach( function( arrayElement ) {
+      serializedArray.push( arrayElement.toStateObject() );
     } );
   }
 
@@ -442,9 +442,9 @@ define( function( require ) {
     },
 
     // serialization support
-    toStateObject: function(){
-      var atomsArray = [];
-      this.atoms.forEach
+    toStateObject: function() {
+      //var atomsArray = [];
+      //this.atoms.forEach
       return {
         emittedPhoton: this.emittedPhoton ? this.emittedPhoton.toStateObject : null,
         highElectronicEnergyState: this.highElectronicEnergyState,
@@ -457,7 +457,7 @@ define( function( require ) {
   }, {
 
     // deserialization support
-    fromStateObject: function( stateObject ){
+    fromStateObject: function( stateObject ) {
 
     }
   } );
