@@ -44,7 +44,6 @@ define( function( require ) {
     Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, { fill: 'black' } );
 
     var thisWindow = this;
-    var thisModel = photonAbsorptionModel;
     this.modelViewTransform = modelViewTransform; // @private
     this.photonAbsorptionModel = photonAbsorptionModel; // @private
 
@@ -108,25 +107,31 @@ define( function( require ) {
 
     this.addChild( this.restoreMoleculeButtonNode );
 
-    // Set up an event listener for adding and removing molecules.
-    photonAbsorptionModel.activeMolecules.addItemAddedListener( function( addedMolecule ) {
-      var moleculeNode = new MoleculeNode( addedMolecule, thisWindow.modelViewTransform ); //Create the molecule node.
+    // function for adding a molecule to this window and hooking up a removal listener
+    function addMoleculeToWindow( molecule ){
+      var moleculeNode = new MoleculeNode( molecule, thisWindow.modelViewTransform ); //Create the molecule node.
       moleculeLayer.addChild( moleculeNode );
 
       // Determine if it is time to remove molecule and update restore molecule button visibility.
       var centerOfGravityObserver = function() {
         thisWindow.moleculeCheckBounds();
       };
-      addedMolecule.centerOfGravityProperty.link( centerOfGravityObserver );
+      molecule.centerOfGravityProperty.link( centerOfGravityObserver );
 
       photonAbsorptionModel.activeMolecules.addItemRemovedListener( function removalListener( removedMolecule ) {
-        if ( removedMolecule === addedMolecule ) {
-          addedMolecule.centerOfGravityProperty.unlink( centerOfGravityObserver );
+        if ( removedMolecule === molecule ) {
+          molecule.centerOfGravityProperty.unlink( centerOfGravityObserver );
           moleculeLayer.removeChild( moleculeNode );
           photonAbsorptionModel.activeMolecules.removeItemRemovedListener( removalListener );
         }
       } );
-    } );
+    }
+
+    // Add the initial molecules.
+    photonAbsorptionModel.activeMolecules.forEach( addMoleculeToWindow );
+
+    // Set up an event listener for adding and removing molecules.
+    photonAbsorptionModel.activeMolecules.addItemAddedListener( addMoleculeToWindow );
 
     // Set up the event listeners for adding and removing photons.
     photonAbsorptionModel.photons.addItemAddedListener( function( addedPhoton ) {
@@ -146,12 +151,6 @@ define( function( require ) {
           photonAbsorptionModel.photons.removeItemRemovedListener( removalListener );
         }
       } );
-    } );
-
-    // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
-    // listeners for the activeMolecules observable array have been implemented.
-    photonAbsorptionModel.photonTargetProperty.link( function() {
-      thisModel.updateActiveMolecule( thisModel.photonTarget );
     } );
 
     // If a new molecule is chosen with the molecule control panel, remove the "Restore Molecule" button.
