@@ -63,6 +63,8 @@ define( function( require ) {
    */
   function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
+    var thisModel = this;
+
     PropertySet.call( this, {
       emissionFrequency: 0,
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
@@ -79,6 +81,12 @@ define( function( require ) {
 
     this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); //Elements are of type Photon
     this.activeMolecules = new ObservableArray(); // Elements are of type Molecule.
+
+    // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
+    // listeners for the activeMolecules observable array have been implemented.
+    thisModel.photonTargetProperty.link( function() {
+      thisModel.updateActiveMolecule( thisModel.photonTarget );
+    } );
 
     // Variables that control periodic photon emission.
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
@@ -107,7 +115,6 @@ define( function( require ) {
 
       // Reset all associated properties.
       PropertySet.prototype.reset.call( this );
-
     },
 
     /**
