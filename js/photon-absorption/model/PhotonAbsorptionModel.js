@@ -80,7 +80,7 @@ define( function( require ) {
     } );
 
     this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); //Elements are of type Photon
-    this.activeMolecules = new ObservableArray(); // Elements are of type Molecule.
+    this.activeMolecules = new ObservableArray( { tandem: tandem.createTandem( 'molecules' ) } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.

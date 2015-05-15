@@ -34,5 +34,11 @@ define( function( require ) {
 
   }
 
-  return inherit( Object, AtomicBond );
+  return inherit( Object, AtomicBond, {
+
+    // serialization support
+    toStateObject: function(){
+    // TODO: Implement.
+  }
+  } );
 } );

@@ -26,6 +26,14 @@ define( function( require ) {
   var ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
   var PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
 
+  // utility method used for serialization
+  function serializeArray( array ){
+    var serializedArray = [];
+    array.forEach( function( arrayElement ){
+      serializedArray.push( arrayElement.toStateObject())
+    } );
+  }
+
   /**
    * Constructor for a molecule.
    *
@@ -84,8 +92,12 @@ define( function( require ) {
     this.vibrating = false;
     this.rotating = false;
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
-
   }
+
+  // We must make Molecule available to together.js for deserializing instances
+  window.phet = window.phet || {};
+  window.phet.moleculesAndLight = window.phet.moleculesAndLight || {};
+  window.phet.moleculesAndLight.Molecule = Molecule;
 
   return inherit( PropertySet, Molecule, {
     /**
@@ -427,7 +439,26 @@ define( function( require ) {
      */
     getDestination: function( startPt ) {
       return startPt.plus( this.velocity );
-    }
+    },
 
+    // serialization support
+    toStateObject: function(){
+      var atomsArray = [];
+      this.atoms.forEach
+      return {
+        emittedPhoton: this.emittedPhoton ? this.emittedPhoton.toStateObject : null,
+        highElectronicEnergyState: this.highElectronicEnergyState,
+        centerOfGravity: this.centerOfGravity.toStateObject(),
+        atoms: serializeArray( this.atoms ),
+        atomicBonds: serializeArray( this.atomicBonds ),
+
+      };
+    }
+  }, {
+
+    // deserialization support
+    fromStateObject: function( stateObject ){
+
+    }
   } );
 } );

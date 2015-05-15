@@ -38,7 +38,6 @@ define( function( require ) {
     this.radius = radius;
     this.mass = mass;
     this.uniqueID = instanceCount++;
-
   }
 
   return inherit( PropertySet, Atom, {
@@ -64,10 +63,16 @@ define( function( require ) {
       if ( this.positionProperty.get.x !== x || this.positionProperty.get.y !== y ) {
         this.positionProperty.set( new Vector2( x, y ) );
       }
+    },
+
+    // serialization support
+    toStateObject: function(){
+      // TODO: Implement.
     }
+
   }, {
 
-    // @static factory functions, for creating specific atoms
+    // @static factory functions for creating specific atoms
     carbon: function() { return new Atom( 'gray', 77, 12.011 ); },
     hydrogen: function() { return new Atom( 'white', 37, 1 ); },
     nitrogen: function() { return new Atom( 'blue', 75, 14.00674 ); },
