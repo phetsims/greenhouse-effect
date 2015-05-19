@@ -38,7 +38,11 @@ define( function( require ) {
 
     // serialization support
     toStateObject: function(){
-    // TODO: Implement.
+      return {
+        bondCount: this.bondCount,
+        atom1ID: this.atom1.uniqueID,
+        atom2ID: this.atom2.uniqueID
+      };
   }
   } );
 } );

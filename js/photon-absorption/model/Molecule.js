@@ -1,8 +1,8 @@
 // Copyright 2002-2014, University of Colorado
 
 /**
- * A model for a particular molecule.  This, by its nature, is essentially a composition of other objects, generally
- * atoms and atomic bonds.
+ * Base type for molecules.  This, by its nature, is essentially a composition of other objects, generally atoms and
+ * atomic bonds.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -12,6 +12,8 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
@@ -32,6 +34,19 @@ define( function( require ) {
     array.forEach( function( arrayElement ) {
       serializedArray.push( arrayElement.toStateObject() );
     } );
+    return serializedArray;
+  }
+
+  // utility method for finding atom with the specified ID in a list
+  function findAtomWithID( atomArray, id ){
+    for ( var i = 0; i < atomArray.length; i++ ){
+      if ( atomArray[ i ].uniqueID === id ){
+        return atomArray[ i ];
+      }
+    }
+
+    // ID not found
+    return null;
   }
 
   /**
@@ -42,7 +57,6 @@ define( function( require ) {
   function Molecule() {
 
     PropertySet.call( this, {
-      emittedPhoton: null,
       highElectronicEnergyState: false,
       centerOfGravity: new Vector2( 0, 0 )
     } );
@@ -74,7 +88,7 @@ define( function( require ) {
     this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
 
     // Variable that prevents reabsorption for a while after emitting a photon.
-    this.absorbtionHysteresisCountdownTime = 0; // @private
+    this.absorptionHysteresisCountdownTime = 0; // @private
 
     // The "pass through photon list" keeps track of photons that were not absorbed due to random probability
     // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
@@ -94,7 +108,7 @@ define( function( require ) {
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
   }
 
-  // We must make Molecule available to together.js for deserializing instances
+  // We must make Molecule available to together.js for deserializing instances.
   window.phet = window.phet || {};
   window.phet.moleculesAndLight = window.phet.moleculesAndLight || {};
   window.phet.moleculesAndLight.Molecule = Molecule;
@@ -107,7 +121,7 @@ define( function( require ) {
 
       this.activePhotonAbsorptionStrategy.reset();
       this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
-      this.absorbtionHysteresisCountdownTime = 0;
+      this.absorptionHysteresisCountdownTime = 0;
       this.vibrating = false;
       this.rotating = false;
       this.setRotation( 0 );
@@ -184,8 +198,8 @@ define( function( require ) {
     step: function( dt ) {
       this.activePhotonAbsorptionStrategy.step( dt );
 
-      if ( this.absorbtionHysteresisCountdownTime >= 0 ) {
-        this.absorbtionHysteresisCountdownTime -= dt;
+      if ( this.absorptionHysteresisCountdownTime >= 0 ) {
+        this.absorptionHysteresisCountdownTime -= dt;
       }
 
       if ( this.vibrating ) {
@@ -340,7 +354,7 @@ define( function( require ) {
       var absorbPhoton = false;
 
       if ( !this.isPhotonAbsorbed() &&
-           this.absorbtionHysteresisCountdownTime <= 0 &&
+           this.absorptionHysteresisCountdownTime <= 0 &&
            photon.location.distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
@@ -399,7 +413,7 @@ define( function( require ) {
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
       var centerOfGravityPosRef = this.centerOfGravity;
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
-      this.absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
+      this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
       this.trigger( 'photonEmitted', photonToEmit );
     },
 
@@ -443,15 +457,20 @@ define( function( require ) {
 
     // serialization support
     toStateObject: function() {
-      //var atomsArray = [];
-      //this.atoms.forEach
+      // This serializes the minimum set of attributes necessary to deserialize when provided back.  I (jblanco) am not
+      // absolutely certain that this is everything needed, so feel free to add some of the other attributes if needed.
       return {
-        emittedPhoton: this.emittedPhoton ? this.emittedPhoton.toStateObject : null,
         highElectronicEnergyState: this.highElectronicEnergyState,
         centerOfGravity: this.centerOfGravity.toStateObject(),
         atoms: serializeArray( this.atoms ),
         atomicBonds: serializeArray( this.atomicBonds ),
-
+        velocity: this.velocity.toStateObject(),
+        absorptionHysteresisCountdownTime: this.absorptionHysteresisCountdownTime,
+        currentVibrationRadians: this.currentVibrationRadians,
+        currentRotationRadians: this.currentRotationRadians,
+        vibrating: this.vibrating,
+        rotating: this.rotating,
+        rotationDirectionClockwise: this.rotationDirectionClockwise
       };
     }
   }, {
@@ -459,6 +478,32 @@ define( function( require ) {
     // deserialization support
     fromStateObject: function( stateObject ) {
 
+      // Create a molecule that is basically blank.
+      var molecule = new Molecule();
+
+      // Fill in the straightforward stuff
+      molecule.highElectronicEnergyState = stateObject.highElectronicEnergyState;
+      molecule.centerOfGravity = stateObject.centerOfGravity;
+      molecule.velocity = Vector2.fromStateObject( stateObject.velocity );
+      molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
+      molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
+      molecule.currentRotationRadians = stateObject.currentRotationRadians;
+      molecule.vibrating = stateObject.vibrating;
+      molecule.rotating = stateObject.rotating;
+      molecule.rotationDirectionClockwise = stateObject.rotationDirectionClockwise;
+
+      // add the atoms
+      molecule.atoms = _.map( stateObject.atoms, function( atom ){ return Atom.fromStateObject( atom ) } );
+
+      // add the bonds
+      stateObject.atomicBonds.forEach( function( bondStateObject ){
+        var atom1 = findAtomWithID( molecule.atoms, bondStateObject.atom1ID );
+        var atom2 = findAtomWithID( molecule.atoms, bondStateObject.atom2ID );
+        assert && assert( atom1 && atom2, 'Error: Couldn\'t match atom ID in bond with atoms in molecule' );
+        molecule.addAtomicBond( new AtomicBond( atom1, atom2, { bondCount: bondStateObject.bondCount } ) );
+      });
+
+      return molecule;
     }
   } );
 } );

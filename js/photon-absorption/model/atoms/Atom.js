@@ -20,24 +20,30 @@ define( function( require ) {
   var instanceCount = 0; // Base count for the unique ID of this atom.
 
   /**
-   * Constructor for the Atom.  Allows one to specify the color, radius, and mass of this atom.
+   * Constructor for creating an individual atom.  This is generally invoked using factory methods for specify atoms.
    *
    * @param {string} representationColor - The desired color of the atom
    * @param {number} radius - The radius of the model atom
    * @param {number} mass - Mass of this atom
+   * @param {Object} options
    * @constructor
    */
-  function Atom( representationColor, radius, mass ) {
+  function Atom( representationColor, radius, mass, options ) {
+
+    options = _.extend( {
+      initialPosition: Vector2.ZERO,
+      idOverride: null // used to override the generation of an ID, used only for deserialization
+    }, options );
 
     PropertySet.call( this, {
-      position: new Vector2( 0, 0 )
+      position: options.initialPosition
     } );
 
     // Instance Variables
     this.representationColor = representationColor;
     this.radius = radius;
     this.mass = mass;
-    this.uniqueID = instanceCount++;
+    this.uniqueID = options.idOverride || instanceCount++;
   }
 
   return inherit( PropertySet, Atom, {
@@ -66,17 +72,30 @@ define( function( require ) {
     },
 
     // serialization support
-    toStateObject: function(){
-      // TODO: Implement.
+    toStateObject: function() {
+      return {
+        representationColor: this.representationColor,
+        radius: this.radius,
+        mass: this.mass,
+        uniqueID: this.uniqueID,
+        position: this.positionProperty.value.toStateObject()
+      };
     }
-
   }, {
 
     // @static factory functions for creating specific atoms
-    carbon: function() { return new Atom( 'gray', 77, 12.011 ); },
-    hydrogen: function() { return new Atom( 'white', 37, 1 ); },
-    nitrogen: function() { return new Atom( 'blue', 75, 14.00674 ); },
-    oxygen: function() { return new Atom( PhetColorScheme.RED_COLORBLIND, 73, 12.011 ); }
+    carbon: function() { return new Atom( 'gray', 77, 12.011, {} ); },
+    hydrogen: function() { return new Atom( 'white', 37, 1, {} ); },
+    nitrogen: function() { return new Atom( 'blue', 75, 14.00674, {} ); },
+    oxygen: function() { return new Atom( PhetColorScheme.RED_COLORBLIND.toCSS(), 73, 12.011, {} ); },
+
+    // support for deserialization
+    fromStateObject: function( stateObject ) {
+      return new Atom( stateObject.representationColor, stateObject.radius, stateObject.mass, {
+        idOverride: stateObject.uniqueID,
+        initialPosition: Vector2.fromStateObject( stateObject.position )
+      } );
+    }
   } );
 
 } );

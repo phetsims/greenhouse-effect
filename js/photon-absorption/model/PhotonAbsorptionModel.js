@@ -287,7 +287,7 @@ define( function( require ) {
       this.activeMolecules.clear(); // Clear the old active molecules array
 
       // Add the new photon target(s).
-      var newMolecule = new Molecule( this );
+      var newMolecule;
       switch( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
           newMolecule = new CO( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
@@ -325,7 +325,7 @@ define( function( require ) {
           break;
 
         default:
-          console.error( 'Error: Unhandled photon target.' );
+          throw new Error( 'Error: Unhandled photon target.' );
           break;
       }
 
