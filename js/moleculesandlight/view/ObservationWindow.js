@@ -51,7 +51,9 @@ define( function( require ) {
     this.frameLineWidth = 5;
 
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
-    this.restoreButtonVisibleProperty = new Property( false ); // @private
+    this.returnMoleculeButtonVisibleProperty = new Property( false, {
+      tandem: tandem.createTandem( 'returnMoleculeButtonVisible' )
+    } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
     var moleculeLayer = new Node();
@@ -92,23 +94,23 @@ define( function( require ) {
     if ( buttonContent.width > maxButtonWidth ) {
       buttonContent.scale( maxButtonWidth / buttonContent.width );
     }
-    this.restoreMoleculeButtonNode = new RectangularPushButton( {
+    this.returnMoleculeButtonNode = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(247, 151, 34)',
       opacity: 0.99,
       listener: function() {
         photonAbsorptionModel.restoreActiveMolecule();
-        thisWindow.restoreButtonVisibleProperty.set( false );
+        thisWindow.returnMoleculeButtonVisibleProperty.set( false );
         thisWindow.moleculeCheckBounds();
       }
     } ); // @private
 
-    this.restoreMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
+    this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
 
-    this.addChild( this.restoreMoleculeButtonNode );
+    this.addChild( this.returnMoleculeButtonNode );
 
     // function for adding a molecule to this window and hooking up a removal listener
-    function addMoleculeToWindow( molecule ){
+    function addMoleculeToWindow( molecule ) {
       var moleculeNode = new MoleculeNode( molecule, thisWindow.modelViewTransform ); //Create the molecule node.
       moleculeLayer.addChild( moleculeNode );
 
@@ -155,25 +157,25 @@ define( function( require ) {
 
     // If a new molecule is chosen with the molecule control panel, remove the "Restore Molecule" button.
     this.photonAbsorptionModel.photonTargetProperty.link( function() {
-      thisWindow.restoreButtonVisibleProperty.set( false );
+      thisWindow.returnMoleculeButtonVisibleProperty.set( false );
     } );
 
-    this.restoreButtonVisibleProperty.link( function() {
+    this.returnMoleculeButtonVisibleProperty.link( function() {
       // TODO: The following is a workaround for an issue where changing the visibility of the button was causing
       // performance issues.  Setting the opacity values, and never making it 100% opaque, gets rid of this delay.
       // This will be fixed eventually in Scenery, and at that time the workaround code can be removed.  When
       // removing it, make sure to also remove the code that sets the original opacity value of this button.  See
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
-      //  thisWindow.restoreMoleculeButtonNode.visible = thisWindow.restoreButtonVisibleProperty.get();
-      if ( thisWindow.restoreButtonVisibleProperty.get() ) {
-        thisWindow.restoreMoleculeButtonNode.opacity = 0.99;
-        thisWindow.restoreMoleculeButtonNode.pickable = true;
+      // previous code: thisWindow.returnMoleculeButtonNode.visible = thisWindow.returnMoleculeButtonVisibleProperty.get();
+      if ( thisWindow.returnMoleculeButtonVisibleProperty.get() ) {
+        thisWindow.returnMoleculeButtonNode.opacity = 0.99;
+        thisWindow.returnMoleculeButtonNode.pickable = true;
       }
       else {
-        thisWindow.restoreMoleculeButtonNode.opacity = 0;
-        thisWindow.restoreMoleculeButtonNode.pickable = false;
+        thisWindow.returnMoleculeButtonNode.opacity = 0;
+        thisWindow.returnMoleculeButtonNode.pickable = false;
       }
-      thisWindow.restoreMoleculeButtonNode.opacity = thisWindow.restoreButtonVisibleProperty.get() ? 0.99 : 0;
+      thisWindow.returnMoleculeButtonNode.opacity = thisWindow.returnMoleculeButtonVisibleProperty.get() ? 0.99 : 0;
     } );
 
   }
@@ -191,7 +193,7 @@ define( function( require ) {
       for ( var molecule = 0; molecule < this.photonAbsorptionModel.activeMolecules.length; molecule++ ) {
         if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.activeMolecules.get( molecule ).getCenterOfGravityPos() ) ) ) {
           moleculesToRemove.push( this.photonAbsorptionModel.activeMolecules.get( molecule ) );
-          this.restoreButtonVisibleProperty.set( true );
+          this.returnMoleculeButtonVisibleProperty.set( true );
           break;
         }
       }
