@@ -499,7 +499,6 @@ define( function( require ) {
 
   return inherit( Dialog, SpectrumWindow, {
     hide: function(){
-      debugger;
       Dialog.prototype.hide.call( this );
     }
   } );
