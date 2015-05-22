@@ -493,7 +493,7 @@ define( function( require ) {
       molecule.rotationDirectionClockwise = stateObject.rotationDirectionClockwise;
 
       // add the atoms
-      molecule.atoms = _.map( stateObject.atoms, function( atom ){ return Atom.fromStateObject( atom ) } );
+      molecule.atoms = _.map( stateObject.atoms, function( atom ){ return Atom.fromStateObject( atom ); } );
 
       // add the bonds
       stateObject.atomicBonds.forEach( function( bondStateObject ){
