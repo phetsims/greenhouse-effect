@@ -128,13 +128,7 @@ define( function( require ) {
 
     // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
     // drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
-    var spectrumWindow = new SpectrumWindow( tandem );
-
-    // Use a property that will be hooked to a button to control the visibility of the spectrum window.  This is done
-    // to support external setting of state, otherwise the button could show the window directly.
-    var spectrumWindowShowingProperty = new Property( false, {
-      tandem: tandem.createTandem( 'spectrumWindowShowing' )
-    } );
+    var spectrumWindow = new SpectrumWindow( tandem.createTandem( 'spectrumWindow' ) );
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
@@ -148,17 +142,11 @@ define( function( require ) {
       baseColor: 'rgb(98, 173, 205)',
       listener: function() {
         spectrumWindow.show();
-        spectrumWindowShowingProperty.value = true;
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
     showSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
     this.addChild( showSpectrumButton );
-
-    // Wire up the property that controls showing/hiding of the spectrum window
-    spectrumWindowShowingProperty.link( function( windowShowing ){
-
-    } );
 
     // Add the nodes in the order necessary for correct layering.
     this.addChild( photonEmissionControlPanel );

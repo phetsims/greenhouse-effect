@@ -28,6 +28,7 @@ define( function( require ) {
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Dialog = require( 'JOIST/Dialog' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var Property = require( 'AXON/Property' );
 
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
@@ -460,7 +461,7 @@ define( function( require ) {
 
     var children = [
       new SpectrumDiagram(),
-      new CloseButton( tandem.createTandem( 'closeLightSpectrumButton' ) )
+      new CloseButton( tandem.createTandem( 'close' ) )
     ];
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
@@ -495,11 +496,26 @@ define( function( require ) {
       fire: thisWindow.hide.bind( thisWindow )
     } ) );
 
+    // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
+    // remotely.  This is done primarily for together support.  TODO: Move into the Dialog type?
+    this.shownProperty = new Property( false, { tandem: tandem.createTandem( 'shown' ) } );
+
+    this.shownProperty.lazyLink( function( shown ){
+      if ( shown ){
+        Dialog.prototype.show.call( thisWindow );
+      }
+      else{
+        Dialog.prototype.hide.call( thisWindow );
+      }
+    } );
   }
 
   return inherit( Dialog, SpectrumWindow, {
     hide: function(){
-      Dialog.prototype.hide.call( this );
+      this.shownProperty.value = false;
+    },
+    show: function(){
+      this.shownProperty.value = true;
     }
   } );
 } );
