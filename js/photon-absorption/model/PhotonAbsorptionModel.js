@@ -42,10 +42,6 @@ define( function( require ) {
   // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
   var PHOTON_VELOCITY = 3.0;
 
-  // Location used when a single molecule is sitting in the area where the
-  // photons pass through.
-  var SINGLE_MOLECULE_POSITION = new Vector2( 0, 0 );
-
   // Defaults for photon emission periods.
   var DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds of sim time.
 
@@ -289,37 +285,37 @@ define( function( require ) {
       var newMolecule;
       switch( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
-          newMolecule = new CO( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new CO();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_CO2_MOLECULE:
-          newMolecule = new CO2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new CO2();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_H2O_MOLECULE:
-          newMolecule = new H2O( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new H2O();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_N2_MOLECULE:
-          newMolecule = new N2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new N2();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_O2_MOLECULE:
-          newMolecule = new O2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new O2();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_O3_MOLECULE:
-          newMolecule = new O3( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new O3();
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_NO2_MOLECULE:
-          newMolecule = new NO2( this, { initialCenterOfGravityPos: SINGLE_MOLECULE_POSITION } );
+          newMolecule = new NO2();
           this.activeMolecules.add( newMolecule );
           break;
 
@@ -358,15 +354,6 @@ define( function( require ) {
     restoreActiveMolecule: function() {
       var currentTarget = this.photonTarget;
       this.updateActiveMolecule( currentTarget );
-    },
-
-    /**
-     * Get the initial starting position of a single molecule.
-     *
-     * @return {Vector2}
-     */
-    getSingleMoleculePosition: function() {
-      return SINGLE_MOLECULE_POSITION;
     }
 
   } );
