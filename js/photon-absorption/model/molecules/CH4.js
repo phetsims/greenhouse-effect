@@ -33,12 +33,13 @@ define( function( require ) {
   /**
    * Constructor for a Methane molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function CH4() {
+  function CH4( options ) {
 
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance data for the CH4 molecule.
     this.carbonAtom = Atom.carbon();

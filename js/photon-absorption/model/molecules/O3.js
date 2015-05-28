@@ -45,11 +45,13 @@ define( function( require ) {
   /**
    * Constructor for an ozone molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function O3() {
+  function O3( options ) {
+
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance Data
     this.centerOxygenAtom = Atom.oxygen();

@@ -42,11 +42,13 @@ define( function( require ) {
   /**
    * Constructor for a nitrogen dioxide molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function NO2() {
+  function NO2( options ) {
+
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance Data
     this.nitrogenAtom = Atom.nitrogen();

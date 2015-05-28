@@ -52,13 +52,18 @@ define( function( require ) {
   /**
    * Constructor for a molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function Molecule() {
+  function Molecule( options ) {
+
+    options = _.extend( {
+      initialPosition: Vector2.ZERO
+    }, options );
 
     PropertySet.call( this, {
       highElectronicEnergyState: false,
-      centerOfGravity: new Vector2( 0, 0 )
+      centerOfGravity: options.initialPosition
     } );
 
     // Atoms and bonds that form this molecule.

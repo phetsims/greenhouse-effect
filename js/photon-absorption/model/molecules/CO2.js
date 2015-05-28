@@ -30,12 +30,13 @@ define( function( require ) {
   /**
    * Constructor for a carbon dioxide molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function CO2() {
+  function CO2( options ) {
 
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance data for the carbon dioxide molecule
     this.carbonAtom = Atom.carbon();

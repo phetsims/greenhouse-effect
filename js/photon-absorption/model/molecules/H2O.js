@@ -32,12 +32,13 @@ define( function( require ) {
   /**
    * Constructor for a water molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function H20() {
+  function H20( options ) {
 
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance Data
     this.oxygenAtom = Atom.oxygen();

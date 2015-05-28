@@ -27,12 +27,13 @@ define( function( require ) {
   /**
    * Constructor for a carbon monoxide molecule.
    *
+   * @param {Object} options
    * @constructor
    */
-  function CO() {
+  function CO( options ) {
 
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance Data
     this.carbonAtom = Atom.carbon();

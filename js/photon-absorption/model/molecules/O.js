@@ -19,12 +19,13 @@ define( function( require ) {
   /**
    * Constructor for a single atom of oxygen.
    *
+   * @param {Object} options
    * @constructor
    */
-  function O() {
+  function O( options ) {
 
     // Supertype constructor
-    Molecule.call( this );
+    Molecule.call( this, options );
 
     // Instance Data
     this.oxygenAtom = Atom.oxygen();
