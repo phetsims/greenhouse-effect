@@ -119,6 +119,13 @@ define( function( require ) {
      */
     step: function( dt ) {
 
+      // Reject large dt values that often result from returning to this sim when it has been hidden, e.g. when another
+      // tab was open in the browser or the browser was minimized.  The nominal dt value is based on 60 fps and is
+      // 1/60 = 0.016667 sec.
+      if ( dt > 0.2 ){
+        return;
+      }
+
       if ( this.play ) {
 
         // Step the photons, marking and removing any that have moved beyond the model
