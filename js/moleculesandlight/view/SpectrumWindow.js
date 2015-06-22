@@ -29,6 +29,7 @@ define( function( require ) {
   var Dialog = require( 'JOIST/Dialog' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
+  var Util = require( 'DOT/Util' );
 
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
@@ -221,7 +222,7 @@ define( function( require ) {
     addBandLabel( thisNode, 1E19, 1E21, gammaRayBandLabel );
 
     // Add the visible spectrum.
-    var visSpectrumWidth = Math.round( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
+    var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
     var visibleSpectrum = new SpectrumNode( visSpectrumWidth, STRIP_HEIGHT - strip.lineWidth, 380, 780, 1 );
     visibleSpectrum.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
     visibleSpectrum.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
@@ -274,7 +275,7 @@ define( function( require ) {
    */
   function createExponentialLabel( value ) {
 
-    var superscript = Math.round( log10( value ) );
+    var superscript = Util.roundSymmetric( log10( value ) );
     return new SubSupText( '10<sup>' + superscript + '</sup>', {
       font: TICK_MARK_FONT,
       supScale: 0.65,
