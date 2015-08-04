@@ -27,7 +27,6 @@ define( function( require ) {
 
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
-  var SLIDER_RANGE = 100; // maximum value for slider range
 
   // Minima for photon emission periods.
   var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
@@ -38,10 +37,11 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} model
    * @param {Color} color
+   * @param {Property.<number>} emissionFrequencyProperty - photon emission frequency
    * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
-  function EmissionRateControlSliderNode( model, color, tandem ) {
+  function EmissionRateControlSliderNode( model, color, emissionFrequencyProperty, tandem ) {
 
     // Supertype constructor
     Node.call( this );
@@ -50,7 +50,7 @@ define( function( require ) {
     this.model = model; // @private
     this.color = color; // @private
 
-    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: SLIDER_RANGE }, {
+    this.emissionRateControlSlider = new HSlider( emissionFrequencyProperty, { min: 0, max: 1 }, {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
       thumbNode: new EmissionRateThumbNode(),
@@ -71,18 +71,17 @@ define( function( require ) {
 
     // Listen to the model for events that may cause this node to change state.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
-    model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      var sliderProportion = emissionFrequency / SLIDER_RANGE;
-      if ( sliderProportion === 0 ) {
+    emissionFrequencyProperty.link( function( emissionFrequency ) {
+      if ( emissionFrequency === 0 ) {
         model.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       }
       else if ( model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
         // Note the implicit conversion from frequency to period in the following line.
-        model.setPhotonEmissionPeriod( (MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / sliderProportion) );
+        model.setPhotonEmissionPeriod( ( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / emissionFrequency ) );
       }
       else {
         // Note the implicit conversion from frequency to period in the following line.
-        model.setPhotonEmissionPeriod( (MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / sliderProportion) );
+        model.setPhotonEmissionPeriod( ( MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / emissionFrequency ) );
       }
     } );
 
@@ -107,11 +106,11 @@ define( function( require ) {
       var mappedFrequency;
       if ( this.model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
         mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
-                                      this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
+                                      this.model.photonEmissionPeriodTarget );
       }
       else {
         mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET /
-                                      this.model.photonEmissionPeriodTarget * SLIDER_RANGE );
+                                      this.model.photonEmissionPeriodTarget );
       }
 
       this.emissionRateControlSlider.value = mappedFrequency;

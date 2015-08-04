@@ -61,13 +61,11 @@ define( function( require ) {
     var thisModel = this;
 
     PropertySet.call( this, {
-      emissionFrequency: 0,
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
       photonTarget: initialPhotonTarget, // molecule that photons are fired at
       play: true // is the sim running or paused
     }, {
       tandemSet: {
-        emissionFrequency: tandem.createTandem( 'emissionFrequency' ),
         photonWavelength: tandem.createTandem( 'photonWavelength' ),
         photonTarget: tandem.createTandem( 'photonTarget' ),
         play: tandem.createTandem( 'running' )

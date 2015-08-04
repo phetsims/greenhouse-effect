@@ -20,6 +20,7 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Vector2 = require( 'DOT/Vector2' );
   var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
+  var Property = require( 'AXON/Property' );
 
   // images
   var heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
@@ -47,16 +48,17 @@ define( function( require ) {
     var thisNode = this;
 
     this.model = model; // @private
+    this.emissionFrequencyProperty = new Property( 0 ); // frequency of photon emission
 
     // update the photon emitter upon changes to the photon wavelength
     model.photonWavelengthProperty.link( function( photonWavelength ) {
       var emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
-      thisNode.updateImage( width, photonWavelength, thisNode.model.emissionFrequency, tandem, emitterTandemName );
+      thisNode.updateImage( width, photonWavelength, thisNode.emissionFrequencyProperty.value, tandem, emitterTandemName );
     } );
 
     // update brightness of emitter bulb upon changes to photon emission frequency
-    model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency / 100 );
+    this.emissionFrequencyProperty.link( function( emissionFrequency ) {
+      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency );
     } );
 
   }
@@ -104,14 +106,15 @@ define( function( require ) {
       if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
         this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
         this.photonEmitterOffImage.center = new Vector2( 0, 0 );
-        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency / 100 );
+        this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency );
         this.addChild( this.photonEmitterOffImage );
       }
 
       this.emissionRateControlSliderNode && this.emissionRateControlSliderNode.dispose();
 
       // create the photon emission rate control slider
-      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)', tandem.createTandem( emitterTandemName + 'Slider' ) );
+      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)',
+        this.emissionFrequencyProperty, tandem.createTandem( emitterTandemName + 'Slider' ) );
 
       // add the slider to the correct location on the photon emitter
       var xOffset = 12; // x offset necessary to fit the slider correctly on the microwave emitter.
