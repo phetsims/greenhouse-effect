@@ -28,20 +28,15 @@ define( function( require ) {
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
 
-  // Minima for photon emission periods.
-  var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
-  var MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET = 100;
-
   /**
    * Constructor for an emission rate control slider.
    *
    * @param {PhotonAbsorptionModel} model
    * @param {Color} color
-   * @param {Property.<number>} emissionFrequencyProperty - photon emission frequency
    * @param {Tandem} tandem - support for exporting instances from the sim
    * @constructor
    */
-  function EmissionRateControlSliderNode( model, color, emissionFrequencyProperty, tandem ) {
+  function EmissionRateControlSliderNode( model, color, tandem ) {
 
     // Supertype constructor
     Node.call( this );
@@ -50,7 +45,9 @@ define( function( require ) {
     this.model = model; // @private
     this.color = color; // @private
 
-    this.emissionRateControlSlider = new HSlider( emissionFrequencyProperty, { min: 0, max: 1 }, {
+    // Create the slider.  Frequency mapped from 0 to 1 so that there is a direct map to PhotonEmitterNode 'on' image
+    // opacity.
+    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: 1 }, {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
       thumbNode: new EmissionRateThumbNode(),
@@ -69,21 +66,8 @@ define( function( require ) {
     // Create the default background box for this node.
     this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
-    // Listen to the model for events that may cause this node to change state.
+    // Update layout and color when photon wavelength changes.
     model.photonWavelengthProperty.link( function() { thisNode.update(); } );
-    emissionFrequencyProperty.link( function( emissionFrequency ) {
-      if ( emissionFrequency === 0 ) {
-        model.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
-      }
-      else if ( model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
-        // Note the implicit conversion from frequency to period in the following line.
-        model.setPhotonEmissionPeriod( ( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET / emissionFrequency ) );
-      }
-      else {
-        // Note the implicit conversion from frequency to period in the following line.
-        model.setPhotonEmissionPeriod( ( MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / emissionFrequency ) );
-      }
-    } );
 
     this.addChild( this.backgroundRect );
     this.addChild( this.emissionRateControlSlider );
@@ -103,17 +87,7 @@ define( function( require ) {
 
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
-      var mappedFrequency;
-      if ( this.model.photonTarget === 'CONFIGURABLE_ATMOSPHERE' ) {
-        mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
-                                      this.model.photonEmissionPeriodTarget );
-      }
-      else {
-        mappedFrequency = Math.round( MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET /
-                                      this.model.photonEmissionPeriodTarget );
-      }
-
-      this.emissionRateControlSlider.value = mappedFrequency;
+      this.emissionRateControlSlider.value = this.model.getSingleTargetFrequencyFromPeriod();
 
       // Update the color of the slider.
       var wavelength = this.model.photonWavelength;

@@ -49,6 +49,9 @@ define( function( require ) {
   var DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
   var INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
 
+  // Minima for photon emission periods.
+  var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
+
   /**
    * Constructor for a photon absorption model.
    *
@@ -61,11 +64,13 @@ define( function( require ) {
     var thisModel = this;
 
     PropertySet.call( this, {
+      emissionFrequency: 0,
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
       photonTarget: initialPhotonTarget, // molecule that photons are fired at
       play: true // is the sim running or paused
     }, {
       tandemSet: {
+        emissionFrequency: tandem.createTandem( 'emissionFrequency' ),
         photonWavelength: tandem.createTandem( 'photonWavelength' ),
         photonTarget: tandem.createTandem( 'photonTarget' ),
         play: tandem.createTandem( 'running' )
@@ -79,6 +84,17 @@ define( function( require ) {
     // listeners for the activeMolecules observable array have been implemented.
     thisModel.photonTargetProperty.link( function() {
       thisModel.updateActiveMolecule( thisModel.photonTarget );
+    } );
+
+    // Set the photon emission period from the emission frequency.
+    this.emissionFrequencyProperty.link( function( emissionFrequency ) {
+      if ( emissionFrequency === 0 ) {
+        thisModel.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
+      }
+      else {
+        var singleTargetPeriodFrequency = thisModel.getSingleTargetPeriodFromFrequency( emissionFrequency );
+        thisModel.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
+      }
     } );
 
     // Variables that control periodic photon emission.
@@ -244,6 +260,26 @@ define( function( require ) {
     getPhotonEmissionLocation: function() {
       return PHOTON_EMISSION_LOCATION;
     },
+
+    /**
+     * Map the emission frequency to emission period.
+     *
+     * @param {number} emissionFrequency
+     * @returns {number}
+     */
+    getSingleTargetPeriodFromFrequency: function( emissionFrequency ) {
+      return MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / emissionFrequency;
+    },
+
+    /**
+     * Map the emission period to emission frequency for this photon emission period target.
+     *
+     * @returns {number}
+     */
+    getSingleTargetFrequencyFromPeriod: function() {
+      return MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / this.photonEmissionPeriodTarget;
+    },
+
 
     /**
      * Set the emission period, i.e. the time between photons.
