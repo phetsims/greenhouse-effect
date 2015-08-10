@@ -33,7 +33,7 @@ define( function( require ) {
   var INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2.0 / 3.0 * INITIAL_MOLECULE_HEIGHT;
   var INITIAL_OXYGEN_VERTICAL_OFFSET = -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
   var INITIAL_OXYGEN_HORIZONTAL_OFFSET = INITIAL_MOLECULE_WIDTH / 2;
-  var BREAK_APART_VELOCITY = 3.0;
+  var BREAK_APART_VELOCITY = 3000;
 
   //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
   var RAND = {
@@ -153,8 +153,14 @@ define( function( require ) {
           ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
         singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
       }
-      diatomicOxygenMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
-      singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
+      diatomicOxygenMolecule.velocity.set(
+        new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ),
+          BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) )
+      );
+      singleOxygenMolecule.velocity.set(
+        new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ),
+          -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) )
+      );
 
     }
   } );

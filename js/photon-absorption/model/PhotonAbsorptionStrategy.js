@@ -20,8 +20,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
 
-  var MIN_PHOTON_HOLD_TIME = 600; // Milliseconds of sim time.
-  var MAX_PHOTON_HOLD_TIME = 1200; // Milliseconds of sim time.
+  var MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
+  var MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time
 
   /**
    * Constructor for photon absorption strategy.

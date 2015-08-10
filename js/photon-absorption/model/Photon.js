@@ -68,6 +68,7 @@ define( function( require ) {
         };
       }
     },
+
     // statics
     {
       fromStateObject: function( json ) {

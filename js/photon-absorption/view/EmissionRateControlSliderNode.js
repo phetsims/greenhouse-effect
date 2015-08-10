@@ -1,9 +1,7 @@
 // Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Node that implements the slider that is used to control the emission rate of photons.  The slider will update its
- * background color based on the emission wavelength, and will adjust its position as the corresponding setting in the
- * model changes.
+ * Node that implements a slider that is used to control the emission rate of photons.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -25,6 +23,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
+  // constants
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
 

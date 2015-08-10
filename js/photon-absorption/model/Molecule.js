@@ -21,11 +21,11 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
 
   // constants
-  var PHOTON_EMISSION_SPEED = 3; // Picometers per second.
+  var PHOTON_EMISSION_SPEED = 3000; // Picometers per second.
   var PHOTON_ABSORPTION_DISTANCE = 100; // Distance where the molecule begins to query photon for absorption.
   var VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
   var ROTATION_RATE = 1.1;  // Revolutions per second of sim time.
-  var ABSORPTION_HYSTERESIS_TIME = 200; // Milliseconds of sim time.
+  var ABSORPTION_HYSTERESIS_TIME = 0.2; // seconds
   var PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
 
   // utility method used for serialization
@@ -198,7 +198,7 @@ define( function( require ) {
     /**
      * Advance the molecule one step in time.
      *
-     * @param {number} dt - The change in time.
+     * @param {number} dt - delta time, in seconds
      **/
     step: function( dt ) {
       this.activePhotonAbsorptionStrategy.step( dt );
@@ -208,16 +208,15 @@ define( function( require ) {
       }
 
       if ( this.vibrating ) {
-        this.advanceVibration( dt * VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
+        this.advanceVibration( dt * VIBRATION_FREQUENCY * 2 * Math.PI );
       }
 
       if ( this.rotating ) {
         var directionMultiplier = this.rotationDirectionClockwise ? -1 : 1;
-        this.rotate( dt * ROTATION_RATE / 1000 * 2 * Math.PI * directionMultiplier );
+        this.rotate( dt * ROTATION_RATE * 2 * Math.PI * directionMultiplier );
       }
 
       // Do any linear movement that is required.
-      this.setCenterOfGravityPosVec( this.getDestination( this.centerOfGravity ) );
       this.setCenterOfGravityPos( this.centerOfGravity.x + this.velocity.x * dt, this.centerOfGravity.y + this.velocity.y * dt );
     },
 
@@ -448,16 +447,6 @@ define( function( require ) {
      */
     initializeAtomOffsets: function() {
       throw new Error( 'initializeAtomOffsets should be implemented in descendant molecules.' );
-    },
-
-    /**
-     * Get the instantaneous position destination of this molecule as a vector.
-     *
-     * @param {Vector2} startPt - The initial position of the object.
-     * @return {Vector2} - The instantaneous destination of this object as a vector.
-     */
-    getDestination: function( startPt ) {
-      return startPt.plus( this.velocity );
     },
 
     // serialization support

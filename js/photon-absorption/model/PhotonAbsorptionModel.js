@@ -19,38 +19,38 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
-  var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  var PropertySet = require( 'AXON/PropertySet' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
-  // constants
+  // ------- constants -------------
 
   // Constants that control where and how photons are emitted.
   var PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
 
   // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
-  var PHOTON_VELOCITY = 3.0;
+  var PHOTON_VELOCITY = 3000; // picometers/second
 
   // Defaults for photon emission periods.
   var DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds of sim time.
 
   // Default values for various parameters that weren't already covered.
   var DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
-  var INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
+  var INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
 
-  // Minima for photon emission periods.
-  var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
+  // Minimum for photon emission periods.
+  var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 
   /**
    * Constructor for a photon absorption model.
@@ -64,7 +64,7 @@ define( function( require ) {
     var thisModel = this;
 
     PropertySet.call( this, {
-      emissionFrequency: 0,
+      emissionFrequency: 0, // in Hz
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
       photonTarget: initialPhotonTarget, // molecule that photons are fired at
       play: true // is the sim running or paused
@@ -77,7 +77,7 @@ define( function( require ) {
       }
     } );
 
-    this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); //Elements are of type Photon
+    this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( { tandem: tandem.createTandem( 'molecules' ) } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
@@ -98,8 +98,8 @@ define( function( require ) {
     } );
 
     // Variables that control periodic photon emission.
-    this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY;
-    this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD;
+    this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
+    this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
   }
 
   return inherit( PropertySet, PhotonAbsorptionModel, {
@@ -156,11 +156,10 @@ define( function( require ) {
     /**
      * Check if it is time to emit any photons from the photon emitter.
      *
-     * @param {number} dt - The incremental time step.
+     * @param {number} dt - the incremental time step, in seconds
      */
     checkEmissionTimer: function( dt ) {
 
-      dt *= 1000; // convert from milliseconds.
       if ( this.photonEmissionCountdownTimer !== Number.POSITIVE_INFINITY ) {
         this.photonEmissionCountdownTimer -= dt;
         if ( this.photonEmissionCountdownTimer <= 0 ) {
@@ -174,11 +173,10 @@ define( function( require ) {
     /**
      * Step the photons in time.
      *
-     * @param {number} dt - The incremental times step.
+     * @param {number} dt - the incremental times step, in seconds
      */
     stepPhotons: function( dt ) {
       var self = this;
-      dt *= 1000; // convert from milliseconds.
       var photonsToRemove = [];
 
       // check for possible interaction between each photon and molecule
@@ -203,7 +201,6 @@ define( function( require ) {
      */
     stepMolecules: function( dt ) {
 
-      dt *= 1000; // convert from milliseconds.
       var moleculesToStep = this.activeMolecules.getArray().slice( 0 );
       for ( var molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
         moleculesToStep[ molecule ].step( dt );
@@ -279,7 +276,6 @@ define( function( require ) {
     getSingleTargetFrequencyFromPeriod: function() {
       return MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / this.photonEmissionPeriodTarget;
     },
-
 
     /**
      * Set the emission period, i.e. the time between photons.

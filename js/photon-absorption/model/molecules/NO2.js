@@ -30,7 +30,7 @@ define( function( require ) {
   var NITROGEN_OXYGEN_BOND_LENGTH = 180;
   var INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
   var INITIAL_MOLECULE_HEIGHT = NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
-  var BREAK_APART_VELOCITY = 3.0;
+  var BREAK_APART_VELOCITY = 3000;
 
   //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
   var RAND = {
@@ -161,7 +161,6 @@ define( function( require ) {
       }
       nitrogenMonoxideMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
       singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
-
     }
   } );
 } );
