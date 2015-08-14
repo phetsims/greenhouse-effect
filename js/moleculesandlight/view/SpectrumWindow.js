@@ -49,6 +49,7 @@ define( function( require ) {
   // shared constants
   var LABEL_FONT = new PhetFont( 16 );
   var SUBSECTION_WIDTH = 490; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
+  var MAX_UNITS_WIDTH = SUBSECTION_WIDTH / 10; // maximum width of units text, necessary for long translated units strings.
 
   // constants for LabeledSpectrumNode
   var STRIP_HEIGHT = 65;
@@ -73,8 +74,11 @@ define( function( require ) {
 
     var children = [];
 
-    // Add the title.
+    // Add the title and scale for translations.
     var title = new Text( spectrumWindowTitleString, { font: new PhetFont( 30 ) } );
+    if ( title.width > SUBSECTION_WIDTH ) {
+      title.scale( SUBSECTION_WIDTH / title.width );
+    }
     children.push( title );
 
     // Add the frequency arrow.
@@ -170,7 +174,11 @@ define( function( require ) {
    */
   function CloseButton( tandem ) {
 
+    // create content and scale for translations.
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
+    if ( content.width > SUBSECTION_WIDTH ) {
+      content.scale( SUBSECTION_WIDTH / content.width );
+    }
     RectangularPushButton.call( this, { content: content, listener: null, tandem: tandem } );
   }
 
@@ -228,10 +236,13 @@ define( function( require ) {
     visibleSpectrum.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
     this.addChild( visibleSpectrum );
 
-    // Add the label for the visible band.
+    // Add the label for the visible band.  Scale it down for translations.
     var visibleBandLabel = new Text( visibleBandLabelString, { font: new PhetFont( 12 ) } );
     var visibleBandCenterX = visibleSpectrum.centerX;
-    visibleBandLabel.center = new Vector2( visibleBandCenterX, -35 );
+    if ( visibleBandLabel.width > strip.width / 2 ) {
+      visibleBandLabel.scale( ( strip.width / 2 ) / visibleBandLabel.width );
+    }
+    visibleBandLabel.center = new Vector2( visibleBandCenterX, -35 ); // TODO: 35?
     this.addChild( visibleBandLabel );
 
     // Add the arrow that connects the visible band label to the visible band itself.
@@ -242,11 +253,19 @@ define( function( require ) {
     } );
     this.addChild( visibleBandArrow );
 
-    // Add the units.
+    // Add the units and scale for translations
+    var scaleUnits = function( text ) {
+      if ( text.width > MAX_UNITS_WIDTH ) {
+        text.scale( MAX_UNITS_WIDTH / text.width );
+      }
+    };
     var frequencyUnits = new Text( cyclesPerSecondUnitsString, { font: LABEL_FONT } );
+    scaleUnits( frequencyUnits );
     frequencyUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
     this.addChild( frequencyUnits );
+
     var wavelengthUnits = new Text( metersUnitsString, { font: LABEL_FONT } );
+    scaleUnits( wavelengthUnits );
     wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
   }
@@ -501,21 +520,21 @@ define( function( require ) {
     // remotely.  This is done primarily for together support.  TODO: Move into the Dialog type?
     this.shownProperty = new Property( false, { tandem: tandem.createTandem( 'shown' ) } );
 
-    this.shownProperty.lazyLink( function( shown ){
-      if ( shown ){
+    this.shownProperty.lazyLink( function( shown ) {
+      if ( shown ) {
         Dialog.prototype.show.call( thisWindow );
       }
-      else{
+      else {
         Dialog.prototype.hide.call( thisWindow );
       }
     } );
   }
 
   return inherit( Dialog, SpectrumWindow, {
-    hide: function(){
+    hide: function() {
       this.shownProperty.value = false;
     },
-    show: function(){
+    show: function() {
       this.shownProperty.value = true;
     }
   } );
