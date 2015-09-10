@@ -17,7 +17,7 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
 
   // strings
-  var titleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.name' );
+  var titleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.title' );
 
   /**
    * @param {Tandem} tandem - support for exporting instances from the sim
