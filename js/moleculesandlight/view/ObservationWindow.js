@@ -84,7 +84,7 @@ define( function( require ) {
 
     // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
     // clipping area so that particles have a chance to cleanly slide out of the window before being removed.
-    this.particleRemovalBounds = this.bounds.copy().dilate( 20 );
+    this.particleRemovalBounds = this.bounds.copy().dilate( 20 ); // @private
 
     // Add the button for restoring molecules that break apart.
     var buttonContent = new Text( returnMoleculeString, { font: new PhetFont( 13 ) } );
@@ -94,6 +94,7 @@ define( function( require ) {
     if ( buttonContent.width > maxButtonWidth ) {
       buttonContent.scale( maxButtonWidth / buttonContent.width );
     }
+    // @private
     this.returnMoleculeButtonNode = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(247, 151, 34)',
@@ -103,7 +104,7 @@ define( function( require ) {
         thisWindow.returnMoleculeButtonVisibleProperty.set( false );
         thisWindow.moleculeCheckBounds();
       }
-    } ); // @private
+    } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
 
