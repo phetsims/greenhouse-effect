@@ -54,11 +54,13 @@ define( function( require ) {
     Molecule.call( this, options );
 
     // Instance Data
+    // @private
     this.centerOxygenAtom = Atom.oxygen();
     this.leftOxygenAtom = Atom.oxygen();
     this.rightOxygenAtom = Atom.oxygen();
 
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
+    // @private
     this.doubleBondOnRight = RAND.nextBoolean();
 
     // Configure the base class.

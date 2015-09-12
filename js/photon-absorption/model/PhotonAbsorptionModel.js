@@ -63,6 +63,7 @@ define( function( require ) {
 
     var thisModel = this;
 
+    // @public
     PropertySet.call( this, {
       emissionFrequency: 0, // in Hz
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
@@ -77,6 +78,7 @@ define( function( require ) {
       }
     } );
 
+    // @public
     this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( { tandem: tandem.createTandem( 'molecules' ) } ); // Elements are of type Molecule.
 

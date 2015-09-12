@@ -32,6 +32,7 @@ define( function( require ) {
     Molecule.call( this, options );
 
     // Instance Data
+    // @private
     this.nitrogenAtom = Atom.nitrogen();
     this.oxygenAtom = Atom.oxygen();
 

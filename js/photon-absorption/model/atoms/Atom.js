@@ -35,11 +35,12 @@ define( function( require ) {
       idOverride: null // used to override the generation of an ID, used only for deserialization
     }, options );
 
+    // @public
     PropertySet.call( this, {
       position: options.initialPosition
     } );
 
-    // Instance Variables
+    // @public (read-only)
     this.representationColor = representationColor;
     this.radius = radius;
     this.mass = mass;

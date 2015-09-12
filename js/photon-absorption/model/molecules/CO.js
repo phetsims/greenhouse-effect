@@ -35,7 +35,7 @@ define( function( require ) {
     // Supertype constructor
     Molecule.call( this, options );
 
-    // Instance Data
+    // @private
     this.carbonAtom = Atom.carbon();
     this.oxygenAtom = Atom.oxygen();
 

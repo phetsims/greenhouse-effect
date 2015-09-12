@@ -41,7 +41,7 @@ define( function( require ) {
     // Supertype constructor
     Molecule.call( this, options );
 
-    // Instance data for the CH4 molecule.
+    // Instance data for the CH4 molecule - @private
     this.carbonAtom = Atom.carbon();
     this.hydrogenAtom1 = Atom.hydrogen();
     this.hydrogenAtom2 = Atom.hydrogen();

@@ -51,6 +51,7 @@ define( function( require ) {
     Molecule.call( this, options );
 
     // Instance Data
+    // @private
     this.nitrogenAtom = Atom.nitrogen();
     this.rightOxygenAtom = Atom.oxygen();
     this.leftOxygenAtom = Atom.oxygen();
@@ -60,6 +61,7 @@ define( function( require ) {
     this.initialOxygenHorizontalOffset = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
 
     // Tracks the side on which the double bond is shown.  More on this where it is initialized.
+    // @private
     this.doubleBondOnRight = RAND.nextBoolean();
 
     // Configure the base class.

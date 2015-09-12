@@ -33,9 +33,9 @@ define( function( require ) {
   function AtomicBondNode( atomicBond, modelViewTransform ) {
     assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
 
-    // Instance Data
+    // @private
     this.atomicBond = atomicBond;
-    this.modelViewTransform = modelViewTransform; // @private
+    this.modelViewTransform = modelViewTransform;
     this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
 
     // supertype constructor
@@ -44,8 +44,9 @@ define( function( require ) {
     // Carry this node through the scope in nested functions.
     var thisNode = this;
 
-    // Calculate the width to use for the bond representation(s).
-    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 ); // @private
+    // Calculate the width to use for the bond representation(s) // @private
+
+    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
 
     // Create the initial representation.
     this.initializeRepresentation();

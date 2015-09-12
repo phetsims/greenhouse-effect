@@ -44,6 +44,7 @@ define( function( require ) {
     // Carry this node through the scope in nested functions.
     var thisNode = this;
 
+    // @private
     this.photon = photon;
     this.modelViewTransform = modelViewTransform;
 

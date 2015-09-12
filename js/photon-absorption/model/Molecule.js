@@ -38,9 +38,9 @@ define( function( require ) {
   }
 
   // utility method for finding atom with the specified ID in a list
-  function findAtomWithID( atomArray, id ){
-    for ( var i = 0; i < atomArray.length; i++ ){
-      if ( atomArray[ i ].uniqueID === id ){
+  function findAtomWithID( atomArray, id ) {
+    for ( var i = 0; i < atomArray.length; i++ ) {
+      if ( atomArray[ i ].uniqueID === id ) {
         return atomArray[ i ];
       }
     }
@@ -81,7 +81,7 @@ define( function( require ) {
     //  Map containing the atoms which compose this molecule.  Allows us to call on each atom by their unique ID.
     this.atomsByID = {};  // @private Objects contains keys of the atom's uniqueID, and values of type atom.
 
-    // Velocity for this molecule.
+    // @public Velocity for this molecule.
     this.velocity = new Vector2();
 
     // Map that matches photon wavelengths to photon absorption strategies. The strategies contained in this structure
@@ -90,24 +90,30 @@ define( function( require ) {
     this.mapWavelengthToAbsorptionStrategy = {}; // @private
 
     // Currently active photon absorption strategy, active because a photon was absorbed that activated it.
+    // @public
     this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
 
     // Variable that prevents reabsorption for a while after emitting a photon.
-    this.absorptionHysteresisCountdownTime = 0; // @private
+    // @private
+    this.absorptionHysteresisCountdownTime = 0;
 
     // The "pass through photon list" keeps track of photons that were not absorbed due to random probability
     // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
     // likely be tested at many time steps as the photon moves past the molecule, and we don't want to keep deciding
     // about the same photon.
-    this.passThroughPhotonList = []; // @private Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
+    // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
+    // @private
+    this.passThroughPhotonList = [];
 
     // The current point within this molecule's vibration sequence.
-    this.currentVibrationRadians = 0;
+    this.currentVibrationRadians = 0; // @public
 
     // The amount of rotation currently applied to this molecule.  This is relative to its original, non-rotated state.
-    this.currentRotationRadians = 0;
+    this.currentRotationRadians = 0; // @public
+
 
     // Boolean values that track whether the molecule is vibrating or rotating.
+    // @public
     this.vibrating = false;
     this.rotating = false;
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
@@ -487,15 +493,15 @@ define( function( require ) {
       molecule.rotationDirectionClockwise = stateObject.rotationDirectionClockwise;
 
       // add the atoms
-      molecule.atoms = _.map( stateObject.atoms, function( atom ){ return Atom.fromStateObject( atom ); } );
+      molecule.atoms = _.map( stateObject.atoms, function( atom ) { return Atom.fromStateObject( atom ); } );
 
       // add the bonds
-      stateObject.atomicBonds.forEach( function( bondStateObject ){
+      stateObject.atomicBonds.forEach( function( bondStateObject ) {
         var atom1 = findAtomWithID( molecule.atoms, bondStateObject.atom1ID );
         var atom2 = findAtomWithID( molecule.atoms, bondStateObject.atom2ID );
         assert && assert( atom1 && atom2, 'Error: Couldn\'t match atom ID in bond with atoms in molecule' );
         molecule.addAtomicBond( new AtomicBond( atom1, atom2, { bondCount: bondStateObject.bondCount } ) );
-      });
+      } );
 
       return molecule;
     }

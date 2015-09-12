@@ -28,6 +28,7 @@ define( function( require ) {
     Molecule.call( this, options );
 
     // Instance Data
+    // @private
     this.oxygenAtom = Atom.oxygen();
 
     // Configure the base class.

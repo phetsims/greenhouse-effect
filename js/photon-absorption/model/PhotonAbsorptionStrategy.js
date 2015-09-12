@@ -32,11 +32,12 @@ define( function( require ) {
   function PhotonAbsorptionStrategy( molecule ) {
 
     // Property that contains the probability that a given photon will be absorbed.
-    this.photonAbsorptionProbabilityProperty = new Property( 0.5 );
+    this.photonAbsorptionProbabilityProperty = new Property( 0.5 ); // @private
 
-    this.molecule = molecule;
+    this.molecule = molecule; // @protected
 
     // Variables involved in the holding and re-emitting of photons.
+    // @protected
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
   }

@@ -27,6 +27,7 @@ define( function( require ) {
 
     PropertySet.call( this, { location: new Vector2( 0, 0 ) } );
 
+    // @private
     this.wavelength = wavelength;
     this.vx = 0; // x component of the photon velocity
     this.vy = 0; // y component of the photon velocity
