@@ -72,10 +72,10 @@ define( function( require ) {
 
     // statics
     {
-      fromStateObject: function( json ) {
-        var p = new Photon( json.wavelength );
-        p.location = json.location;
-        p.setVelocity( json.velocity.x, json.velocity.y );
+      fromStateObject: function( stateObject ) {
+        var p = new Photon( stateObject.wavelength );
+        p.location = stateObject.location;
+        p.setVelocity( stateObject.velocity.x, stateObject.velocity.y );
         return p;
       }
     } );
