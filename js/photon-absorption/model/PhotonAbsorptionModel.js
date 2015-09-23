@@ -36,7 +36,7 @@ define( function( require ) {
 
   // ------- constants -------------
 
-  // Constants that control where and how photons are emitted.
+  // constants that control where and how photons are emitted.
   var PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
 
   // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
