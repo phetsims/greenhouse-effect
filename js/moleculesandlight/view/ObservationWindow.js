@@ -35,7 +35,7 @@ define( function( require ) {
    *
    * @param {PhotonAbsorptionModel} photonAbsorptionModel
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {Tandem} tandem - support for exporting instances from the sim
+   * @param {Tandem} tandem
    * @constructor
    */
   function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) {

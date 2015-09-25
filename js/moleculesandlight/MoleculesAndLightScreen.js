@@ -20,7 +20,7 @@ define( function( require ) {
   var titleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.title' );
 
   /**
-   * @param {Tandem} tandem - support for exporting instances from the sim
+   * @param {Tandem} tandem
    * @constructor
    */
   function MoleculesAndLightScreen( tandem ) {
