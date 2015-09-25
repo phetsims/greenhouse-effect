@@ -35,7 +35,7 @@ define( function( require ) {
    *
    * @param {number} width - Desired width of the emitter image in screen coords.
    * @param {PhotonAbsorptionModel} model
-   * @param {Tandem} tandem - support for exporting instances from the sim
+   * @param {Tandem} tandem
    * @constructor
    */
   function PhotonEmitterNode( width, model, tandem ) {
