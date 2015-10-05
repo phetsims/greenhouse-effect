@@ -1,4 +1,4 @@
-// Copyright 2002-2014, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Class that represents a single atom of oxygen in the model.  I hate to name a class "O", but it is necessary for

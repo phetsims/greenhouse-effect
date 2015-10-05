@@ -1,4 +1,4 @@
-// Copyright 2002-2014, University of Colorado Boulder
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Model for Molecules and Light.  It is called PhotonAbsorptionModel because it came from the original Java version

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Ported from the original file Photon.java.  This will model a particular photon.  Primarily keeps track of

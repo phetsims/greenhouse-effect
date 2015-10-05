@@ -1,4 +1,4 @@
-// Copyright 2002-2014, University of Colorado
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Base type for molecules.  This, by its nature, is essentially a composition of other objects, generally atoms and
