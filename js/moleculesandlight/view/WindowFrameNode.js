@@ -141,7 +141,7 @@ define( function( require ) {
           finalAngle = 2 * Math.PI;
           break;
         default:
-          console.error( "Corner must be one of 'topLeft', 'topRight', 'bottomLeft', 'bottomRight'." );
+          console.error( 'Corner must be one of \'topLeft\', \'topRight\', \'bottomLeft\', \'bottomRight\'.' );
           break;
       }
 
@@ -199,7 +199,7 @@ define( function( require ) {
           grad = context.createLinearGradient( x, y, x + width, y );
           break;
         default:
-          console.error( "Side must be one of 'top', 'bottom', 'left', or 'right'" );
+          console.error( 'Side must be one of \'top\', \'bottom\', \'left\', or \'right\'' );
           break;
       }
 
