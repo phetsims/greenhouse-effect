@@ -51,9 +51,9 @@ define( function( require ) {
       // Draw the top section of the window frame
       this.drawFrameSide(
         'top',
-        this.observationWindow.rectArcWidth,
+        this.observationWindow.cornerXRadius,
         -this.lineWidth,
-        ( this.observationWindow.rectWidth - 2 * this.observationWindow.rectArcWidth ),
+        ( this.observationWindow.rectWidth - 2 * this.observationWindow.cornerXRadius ),
         this.lineWidth,
         context
       );
@@ -61,9 +61,9 @@ define( function( require ) {
       // Draw the bottom section of the window frame.
       this.drawFrameSide(
         'bottom',
-        this.observationWindow.rectArcWidth,
+        this.observationWindow.cornerXRadius,
         this.observationWindow.rectHeight,
-        ( this.observationWindow.rectWidth - 2 * this.observationWindow.rectArcWidth ),
+        ( this.observationWindow.rectWidth - 2 * this.observationWindow.cornerXRadius ),
         this.lineWidth,
         context );
 
@@ -71,42 +71,42 @@ define( function( require ) {
       this.drawFrameSide(
         'left',
         -this.lineWidth,
-        this.observationWindow.rectArcHeight,
+        this.observationWindow.cornerYRadius,
         this.lineWidth,
-        ( this.observationWindow.rectHeight - 2 * this.observationWindow.rectArcHeight ),
+        ( this.observationWindow.rectHeight - 2 * this.observationWindow.cornerYRadius ),
         context );
 
       // Draw the right section of the window frame.
       this.drawFrameSide(
         'right',
         this.observationWindow.rectWidth,
-        this.observationWindow.rectArcHeight,
+        this.observationWindow.cornerYRadius,
         this.lineWidth,
-        ( this.observationWindow.rectHeight - 2 * this.observationWindow.rectArcHeight ),
+        ( this.observationWindow.rectHeight - 2 * this.observationWindow.cornerYRadius ),
         context );
 
       // Draw the top left corner of the window frame.
       this.drawFrameCorner(
         'topLeft',
-        new Vector2( this.observationWindow.rectArcWidth, this.observationWindow.rectArcHeight ),
+        new Vector2( this.observationWindow.cornerXRadius, this.observationWindow.cornerYRadius ),
         context );
 
       // Draw the bottom left corner of the window frame.
       this.drawFrameCorner(
         'bottomLeft',
-        new Vector2( this.observationWindow.rectArcWidth, this.observationWindow.rectHeight - this.observationWindow.rectArcHeight ),
+        new Vector2( this.observationWindow.cornerXRadius, this.observationWindow.rectHeight - this.observationWindow.cornerYRadius ),
         context );
 
       // Draw the bottom right corner of the window frame.
       this.drawFrameCorner(
         'bottomRight',
-        new Vector2( this.observationWindow.rectWidth - this.observationWindow.rectArcWidth, this.observationWindow.rectHeight - this.observationWindow.rectArcHeight ),
+        new Vector2( this.observationWindow.rectWidth - this.observationWindow.cornerXRadius, this.observationWindow.rectHeight - this.observationWindow.cornerYRadius ),
         context );
 
       // Draw the top right corner of the window frame.
       this.drawFrameCorner(
         'topRight',
-        new Vector2( this.observationWindow.rectWidth - this.observationWindow.rectArcWidth, this.observationWindow.rectArcHeight ),
+        new Vector2( this.observationWindow.rectWidth - this.observationWindow.cornerXRadius, this.observationWindow.cornerYRadius ),
         context );
     },
 
@@ -147,11 +147,11 @@ define( function( require ) {
 
       // Draw the corner of the frame with canvas arc.
       context.beginPath(); // Begin and clear the path drawing context.
-      context.arc( radialCenter.x, radialCenter.y, this.observationWindow.rectArcWidth + this.lineWidth / 2, initialAngle, finalAngle, false );
+      context.arc( radialCenter.x, radialCenter.y, this.observationWindow.cornerXRadius + this.lineWidth / 2, initialAngle, finalAngle, false );
 
       // Create the radial gradient for the arc on the corner.
-      var grad = context.createRadialGradient( radialCenter.x, radialCenter.y, this.observationWindow.rectArcWidth,
-        radialCenter.x, radialCenter.y, this.lineWidth + this.observationWindow.rectArcWidth );
+      var grad = context.createRadialGradient( radialCenter.x, radialCenter.y, this.observationWindow.cornerXRadius,
+        radialCenter.x, radialCenter.y, this.lineWidth + this.observationWindow.cornerXRadius );
       grad.addColorStop( 0, this.innerColor );
       grad.addColorStop( 1, this.outerColor );
       context.strokeStyle = grad;
