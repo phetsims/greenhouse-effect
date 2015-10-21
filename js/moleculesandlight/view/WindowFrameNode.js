@@ -43,10 +43,9 @@ define( function( require ) {
 
   return inherit( CanvasNode, WindowFrameNode, {
 
-    // @param {CanvasContextWrapper} wrapper
+    // @param {CanvasRenderingContext2D} context
     // @private
-    paintCanvas: function( wrapper ) {
-      var context = wrapper.context;
+    paintCanvas: function( context ) {
 
       // Draw the top section of the window frame
       this.drawFrameSide(
