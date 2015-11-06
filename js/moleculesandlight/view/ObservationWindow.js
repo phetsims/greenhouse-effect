@@ -24,7 +24,7 @@ define( function( require ) {
 //  var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
 
   // strings
-  var returnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
+  var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
 
   // constants
   var PHOTON_EMITTER_WIDTH = 125;
@@ -87,7 +87,7 @@ define( function( require ) {
     this.particleRemovalBounds = this.bounds.copy().dilate( 20 ); // @private
 
     // Add the button for restoring molecules that break apart.
-    var buttonContent = new Text( returnMoleculeString, { font: new PhetFont( 13 ) } );
+    var buttonContent = new Text( buttonNodeReturnMoleculeString, { font: new PhetFont( 13 ) } );
     // If necessary, scale the button content for translation purposes.  Max button width is half the width of the
     // observation window.
     var maxButtonWidth = this.width / 2;

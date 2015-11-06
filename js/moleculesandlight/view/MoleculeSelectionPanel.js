@@ -32,14 +32,14 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  var carbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
-  var nitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
-  var oxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
-  var carbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
-  var nitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
-  var ozoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
-  var waterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
-  var molecularNamePattern = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
+  var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
+  var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
+  var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
+  var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
+  var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
+  var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
+  var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
+  var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
@@ -85,7 +85,7 @@ define( function( require ) {
       var backgroundRectangle = new Rectangle( 0, 0, 215, 0 );
 
       // Create text label for the molecule name.  Use StringUtils to order chemical names and formulas as desired.
-      var moleculeNameString = StringUtils.format( molecularNamePattern, moleculeName, moleculeFormula );
+      var moleculeNameString = StringUtils.format( molecularNamePatternString, moleculeName, moleculeFormula );
       var molecularName = new SubSupText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
       textList.push( molecularName );
       molecularName.centerY = backgroundRectangle.centerY;
@@ -110,37 +110,37 @@ define( function( require ) {
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     var radioButtonContent = [
       {
-        node: createRadioButtonContent( carbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelCarbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO_MOLECULE,
         tandem: tandem.createTandem( 'singleCOMoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( nitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelNitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_N2_MOLECULE,
         tandem: tandem.createTandem( 'singleN2MoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( oxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelOxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O2_MOLECULE,
         tandem: tandem.createTandem( 'singleO2MoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( carbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelCarbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO2_MOLECULE,
         tandem: tandem.createTandem( 'singleCO2MoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( waterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_H2O_MOLECULE,
         tandem: tandem.createTandem( 'singleH2OMoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( nitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelNitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_NO2_MOLECULE,
         tandem: tandem.createTandem( 'singleNO2MoleculeRadioButton' )
       },
       {
-        node: createRadioButtonContent( ozoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
+        node: createRadioButtonContent( controlPanelOzoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O3_MOLECULE,
         tandem: tandem.createTandem( 'singleO3MoleculeRadioButton' )
       }

@@ -32,7 +32,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
 
   // strings
-  var buttonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
+  var spectrumWindowButtonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -132,7 +132,7 @@ define( function( require ) {
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
-    var buttonContent = new Text( buttonCaptionString, { font: new PhetFont( 18 ) } );
+    var buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( (moleculeControlPanel.width - 16 ) / buttonContent.width );
     }

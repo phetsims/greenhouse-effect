@@ -33,11 +33,11 @@ define( function( require ) {
   var uvLight2 = require( 'mipmap!MOLECULES_AND_LIGHT/uv-source.png' );
 
   // strings
-  var microwaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
-  var infraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
-  var visibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
-  var ultravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
-  var higherEnergyString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.HigherEnergy' );
+  var quadWavelengthSelectorMicrowaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
+  var quadWavelengthSelectorInfraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
+  var quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
+  var quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
+  var quadWavelengthSelectorHigherEnergyString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.HigherEnergy' );
 
   // Description data for the 'Energy Arrow'
   var ARROW_LENGTH = 200;
@@ -79,25 +79,25 @@ define( function( require ) {
       {
         node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
         value: WavelengthConstants.MICRO_WAVELENGTH,
-        label: new Text( microwaveString, { font: labelFont } ),
+        label: new Text( quadWavelengthSelectorMicrowaveString, { font: labelFont } ),
         tandem: tandem.createTandem( 'microwaveRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
         value: WavelengthConstants.IR_WAVELENGTH,
-        label: new Text( infraredString, { font: labelFont } ),
+        label: new Text( quadWavelengthSelectorInfraredString, { font: labelFont } ),
         tandem: tandem.createTandem( 'infraredRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
         value: WavelengthConstants.VISIBLE_WAVELENGTH,
-        label: new Text( visibleString, { font: labelFont } ),
+        label: new Text( quadWavelengthSelectorVisibleString, { font: labelFont } ),
         tandem: tandem.createTandem( 'visibleRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
         value: WavelengthConstants.UV_WAVELENGTH,
-        label: new Text( ultravioletString, { font: labelFont } ),
+        label: new Text( quadWavelengthSelectorUltravioletString, { font: labelFont } ),
         tandem: tandem.createTandem( 'ultravioletRadioButton' )
       }
     ];
@@ -131,7 +131,7 @@ define( function( require ) {
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
-    var energyText = new Text( higherEnergyString, { font: new PhetFont( 19 ) } );
+    var energyText = new Text( quadWavelengthSelectorHigherEnergyString, { font: new PhetFont( 19 ) } );
     var energyArrow = new ArrowNode( 0, 0, ARROW_LENGTH, 0, {
       fill: ARROW_COLOR,
       stroke: ARROW_COLOR,
