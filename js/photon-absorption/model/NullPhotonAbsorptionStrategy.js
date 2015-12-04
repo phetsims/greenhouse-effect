@@ -12,6 +12,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for the null absorption strategy.  This strategy does nothing.
@@ -25,6 +26,8 @@ define( function( require ) {
     PhotonAbsorptionStrategy.call( this, molecule );
 
   }
+
+  moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
 
   return inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
 

@@ -16,6 +16,7 @@ define( function( require ) {
   var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for an atom node.
@@ -53,6 +54,8 @@ define( function( require ) {
       thisNode.translation = thisNode.modelViewTransform.modelToViewPosition( thisNode.atom.position );
     } );
   }
+
+  moleculesAndLight.register( 'AtomNode', AtomNode );
 
   return inherit( Node, AtomNode, {
 

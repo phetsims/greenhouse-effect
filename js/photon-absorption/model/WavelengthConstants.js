@@ -6,10 +6,13 @@
  * @author Jesse Greenberg (Phet Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function() {
+define( function( require ) {
   'use strict';
 
-  return {
+  // modules
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+
+  var WavelengthConstants = {
     SUNLIGHT_WAVELENGTH: 400E-9, // Ported from the original JAVA version, but not used in Molecules And Light
     MICRO_WAVELENGTH: 20,
     IR_WAVELENGTH: 850E-9,
@@ -30,4 +33,8 @@ define( function() {
              assert( false, 'unknown' );
     }
   };
+
+  moleculesAndLight.register( 'WavelengthConstants', WavelengthConstants );
+
+  return WavelengthConstants;
 } );

@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for the break apart strategy.
@@ -26,6 +27,8 @@ define( function( require ) {
     PhotonAbsorptionStrategy.call( this, molecule );
 
   }
+
+  moleculesAndLight.register( 'BreakApartStrategy', BreakApartStrategy );
 
   return inherit( PhotonAbsorptionStrategy, BreakApartStrategy, {
 

@@ -19,6 +19,7 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // Model Data for the water molecule
   // These constants define the initial shape of the water atom.  The angle between the atoms is intended to be correct,
@@ -35,7 +36,7 @@ define( function( require ) {
    * @param {Object} options
    * @constructor
    */
-  function H20( options ) {
+  function H2O( options ) {
 
     // Supertype constructor
     Molecule.call( this, options );
@@ -65,7 +66,9 @@ define( function( require ) {
 
   }
 
-  return inherit( Molecule, H20, {
+  moleculesAndLight.register( 'H2O', H2O );
+
+  return inherit( Molecule, H2O, {
 
     /**
      * Initialize and set the initial center of gravity  locations for each atom in this molecule.

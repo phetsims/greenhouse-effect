@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var AtomNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomNode' );
   var AtomicBondNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomicBondNode' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for a molecule node.
@@ -59,6 +60,8 @@ define( function( require ) {
     } );
 
   }
+
+  moleculesAndLight.register( 'MoleculeNode', MoleculeNode );
 
   return inherit( Node, MoleculeNode );
 

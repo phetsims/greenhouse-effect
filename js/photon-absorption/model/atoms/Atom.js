@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // Static data
   var instanceCount = 0; // Base count for the unique ID of this atom.
@@ -46,6 +47,8 @@ define( function( require ) {
     this.mass = mass;
     this.uniqueID = options.idOverride || instanceCount++;
   }
+
+  moleculesAndLight.register( 'Atom', Atom );
 
   return inherit( PropertySet, Atom, {
 

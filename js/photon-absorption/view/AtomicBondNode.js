@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Vector2 = require( 'DOT/Vector2' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // constants that control the width of the bond representation with with respect to the average atom radius.
   var BOND_WIDTH_PROPORTION_SINGLE = 0.45;
@@ -60,6 +61,8 @@ define( function( require ) {
     } );
 
   }
+
+  moleculesAndLight.register( 'AtomicBondNode', AtomicBondNode );
 
   return inherit( Node, AtomicBondNode, {
 

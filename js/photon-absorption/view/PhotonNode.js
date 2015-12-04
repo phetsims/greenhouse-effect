@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // images
   var microwavePhotonImage = require( 'image!MOLECULES_AND_LIGHT/microwave-photon.png' );
@@ -60,6 +61,8 @@ define( function( require ) {
       thisNode.center = thisNode.modelViewTransform.modelToViewPosition( location );
     } );
   }
+
+  moleculesAndLight.register( 'PhotonNode', PhotonNode );
 
   return inherit( Node, PhotonNode );
 } );

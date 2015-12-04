@@ -19,6 +19,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   var MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
   var MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time
@@ -41,6 +42,8 @@ define( function( require ) {
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
   }
+
+  moleculesAndLight.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
 
   return inherit( Object, PhotonAbsorptionStrategy, {
 

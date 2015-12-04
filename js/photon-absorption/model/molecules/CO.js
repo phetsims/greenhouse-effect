@@ -19,6 +19,7 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // Model Data for the carbon monoxide molecule
   var INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
@@ -52,6 +53,8 @@ define( function( require ) {
     this.initializeAtomOffsets();
 
   }
+
+  moleculesAndLight.register( 'CO', CO );
 
   return inherit( Molecule, CO, {
 

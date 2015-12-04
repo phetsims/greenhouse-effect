@@ -33,6 +33,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // ------- constants -------------
 
@@ -103,6 +104,8 @@ define( function( require ) {
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
   }
+
+  moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
   return inherit( PropertySet, PhotonAbsorptionModel, {
 

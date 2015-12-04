@@ -9,6 +9,8 @@
 define( function( require ) {
   'use strict';
 
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+
   var PhotonTarget = {
     SINGLE_CO_MOLECULE: 'SINGLE_CO_MOLECULE',
     SINGLE_N2_MOLECULE: 'SINGLE_N2_MOLECULE',
@@ -21,6 +23,8 @@ define( function( require ) {
 
   // verify that enum is immutable, without the runtime penalty in production code
   if ( assert ) { Object.freeze( PhotonTarget ); }
+
+  moleculesAndLight.register( 'PhotonTarget', PhotonTarget );
 
   return PhotonTarget;
 } );

@@ -15,6 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for a single atom of oxygen.
@@ -38,6 +39,8 @@ define( function( require ) {
     this.initializeAtomOffsets();
 
   }
+
+  moleculesAndLight.register( 'O', O );
 
   return inherit( Molecule, O, {
 

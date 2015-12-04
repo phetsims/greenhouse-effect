@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for an Atomic Bond between two atoms.
@@ -34,6 +35,8 @@ define( function( require ) {
     this.bondCount = options.bondCount;
 
   }
+
+  moleculesAndLight.register( 'AtomicBond', AtomicBond );
 
   return inherit( Object, AtomicBond, {
 

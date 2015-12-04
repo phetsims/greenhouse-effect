@@ -22,6 +22,7 @@ define( function( require ) {
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
   var NO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO' );
   var O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // Model data for the NO2 molecule
   // These constants define the initial shape of the NO2 atom.  The angle between the atoms is intended to be correct,
@@ -91,6 +92,8 @@ define( function( require ) {
     this.initializeAtomOffsets();
 
   }
+
+  moleculesAndLight.register( 'NO2', NO2 );
 
   return inherit( Molecule, NO2, {
 

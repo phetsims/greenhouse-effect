@@ -20,6 +20,7 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Vector2 = require( 'DOT/Vector2' );
   var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // images
   var heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
@@ -60,6 +61,8 @@ define( function( require ) {
     } );
 
   }
+
+  moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
 
   return inherit( Node, PhotonEmitterNode, {
 

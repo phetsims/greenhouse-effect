@@ -16,6 +16,7 @@ define( function( require ) {
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // Model data for nitrogen molecule
   var INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
@@ -45,6 +46,8 @@ define( function( require ) {
     this.initializeAtomOffsets();
 
   }
+
+  moleculesAndLight.register( 'N2', N2 );
 
   return inherit( Molecule, N2, {
 
