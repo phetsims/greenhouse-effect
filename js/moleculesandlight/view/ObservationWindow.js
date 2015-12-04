@@ -21,7 +21,8 @@ define( function( require ) {
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-//  var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
+  // var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // strings
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
@@ -180,6 +181,8 @@ define( function( require ) {
     } );
 
   }
+
+  moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
 
   return inherit( Rectangle, ObservationWindow, {
 

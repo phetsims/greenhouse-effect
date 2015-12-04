@@ -30,6 +30,7 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
@@ -112,6 +113,8 @@ define( function( require ) {
     LayoutBox.call( this, { orientation: 'vertical', children: children, spacing: 15 } );
   }
 
+  moleculesAndLight.register( 'SpectrumDiagram', SpectrumDiagram );
+
   inherit( LayoutBox, SpectrumDiagram );
 
   /**
@@ -162,6 +165,8 @@ define( function( require ) {
 
   }
 
+  moleculesAndLight.register( 'LabeledArrow', LabeledArrow );
+
   inherit( ArrowNode, LabeledArrow );
 
   /**
@@ -181,6 +186,8 @@ define( function( require ) {
     }
     RectangularPushButton.call( this, { content: content, listener: null, tandem: tandem } );
   }
+
+  moleculesAndLight.register( 'CloseButton', CloseButton );
 
   inherit( RectangularPushButton, CloseButton );
 
@@ -529,6 +536,8 @@ define( function( require ) {
       }
     } );
   }
+
+  moleculesAndLight.register( 'SpectrumWindow', SpectrumWindow );
 
   return inherit( Dialog, SpectrumWindow, {
     hide: function() {

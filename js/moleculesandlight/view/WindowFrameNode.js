@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Vector2 = require( 'DOT/Vector2' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for the molecules and light window frame. This is a border around the observation window.  Similar
@@ -40,6 +41,8 @@ define( function( require ) {
     this.invalidatePaint();
 
   }
+
+  moleculesAndLight.register( 'WindowFrameNode', WindowFrameNode );
 
   return inherit( CanvasNode, WindowFrameNode, {
 

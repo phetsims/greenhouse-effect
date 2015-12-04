@@ -25,6 +25,7 @@ define( function( require ) {
   var PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // images
   var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
@@ -155,6 +156,8 @@ define( function( require ) {
     this.addChild( energyArrow );
     this.addChild( energyText );
   }
+
+  moleculesAndLight.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );
 
   return inherit( Node, QuadEmissionFrequencyControlPanel );
 } );

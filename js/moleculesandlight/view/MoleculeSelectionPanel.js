@@ -30,6 +30,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // strings
   var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
@@ -167,5 +168,8 @@ define( function( require ) {
 
   }
 
+  moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
+
   return inherit( Panel, MoleculeSelectionPanel );
+
 } );
