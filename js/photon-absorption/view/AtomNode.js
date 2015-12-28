@@ -64,7 +64,7 @@ define( function( require ) {
      * @param {boolean} highlighted
      */
     setHighlighted: function( highlighted ) {
-      if ( highlighted && !this.isChild( this.highlightNode ) ) {
+      if ( highlighted && !this.hasChild( this.highlightNode ) ) {
         // add the highlight halo the first time it is needed (i.e. lazily) for better performance.
         this.addChild( this.highlightNode );
         this.highlightNode.moveToBack();
