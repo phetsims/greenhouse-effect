@@ -16,6 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
    * Constructor for a photon.
@@ -31,13 +32,9 @@ define( function( require ) {
     this.wavelength = wavelength;
     this.vx = 0; // x component of the photon velocity
     this.vy = 0; // y component of the photon velocity
-
   }
 
-  // We must make Photon available to together.js for deserializing instances
-  window.phet = window.phet || {};
-  window.phet.moleculesAndLight = window.phet.moleculesAndLight || {};
-  window.phet.moleculesAndLight.Photon = Photon;
+  moleculesAndLight.register( 'Photon', Photon );
 
   return inherit( PropertySet, Photon, {
 

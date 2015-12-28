@@ -19,6 +19,7 @@ define( function( require ) {
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // constants
   var PHOTON_EMISSION_SPEED = 3000; // Picometers per second.
@@ -119,10 +120,7 @@ define( function( require ) {
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
   }
 
-  // We must make Molecule available to together.js for deserializing instances.
-  window.phet = window.phet || {};
-  window.phet.moleculesAndLight = window.phet.moleculesAndLight || {};
-  window.phet.moleculesAndLight.Molecule = Molecule;
+  moleculesAndLight.register( 'Molecule', Molecule );
 
   return inherit( PropertySet, Molecule, {
     /**
