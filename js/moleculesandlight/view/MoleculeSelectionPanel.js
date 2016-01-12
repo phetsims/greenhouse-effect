@@ -160,8 +160,8 @@ define( function( require ) {
       selectedStroke: 'white',
       deselectedLineWidth: 0,
       cornerRadius: 7,
-      xTouchExpansion: 0,
-      yTouchExpansion: 0
+      touchAreaXDilation: 0,
+      touchAreaYDilation: 0
     } );
 
     Panel.call( this, radioButtons, { fill: 'black' } );
