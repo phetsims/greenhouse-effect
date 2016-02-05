@@ -524,7 +524,7 @@ define( function( require ) {
     } ) );
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
-    // remotely.  This is done primarily for together support.  TODO: Move into the Dialog type?
+    // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
     this.shownProperty = new Property( false, { tandem: tandem.createTandem( 'shown' ) } );
 
     this.shownProperty.lazyLink( function( shown ) {
