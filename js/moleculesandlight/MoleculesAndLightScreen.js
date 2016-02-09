@@ -26,9 +26,11 @@ define( function( require ) {
    */
   function MoleculesAndLightScreen( tandem ) {
     Screen.call( this, moleculesAndLightTitleString, null /* no icon, single-screen sim */,
-      function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem ); },
-      function( model ) { return new MoleculesAndLightScreenView( model, tandem ); },
-      { backgroundColor: '#C5D6E8' }
+      function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem.createTandem( 'model' ) ); },
+      function( model ) { return new MoleculesAndLightScreenView( model, tandem.createTandem( 'view' ) ); }, {
+        backgroundColor: '#C5D6E8',
+        tandem: tandem
+      }
     );
   }
 

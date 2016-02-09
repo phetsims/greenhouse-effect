@@ -67,7 +67,7 @@ define( function( require ) {
 
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem );
+    var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
     this.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
@@ -91,11 +91,11 @@ define( function( require ) {
     windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
     // Create the control panel for photon emission frequency.
-    var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem );
+    var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
     photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel
-    var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem );
+    var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
     moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.
@@ -109,7 +109,7 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // Add play/pause button.
-    var playPauseButton = new PlayPauseButton( photonAbsorptionModel.playProperty, {
+    var playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
       bottom: moleculeControlPanel.bottom + 60,
       centerX: moleculeControlPanel.centerX - 25,
       radius: 23,
@@ -118,7 +118,7 @@ define( function( require ) {
     this.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
-    var stepButton = new StepButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.playProperty, {
+    var stepButton = new StepButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.runningProperty, {
       centerY: playPauseButton.centerY,
       centerX: moleculeControlPanel.centerX + 25,
       radius: 15,
@@ -137,7 +137,7 @@ define( function( require ) {
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( (moleculeControlPanel.width - 16 ) / buttonContent.width );
     }
-    var showSpectrumButton = new RectangularPushButton( {
+    var showLightSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(98, 173, 205)',
       listener: function() {
@@ -145,8 +145,8 @@ define( function( require ) {
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
-    showSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
-    this.addChild( showSpectrumButton );
+    showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
+    this.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
     this.addChild( photonEmissionControlPanel );

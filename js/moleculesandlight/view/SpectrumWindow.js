@@ -488,7 +488,7 @@ define( function( require ) {
 
     var children = [
       new SpectrumDiagram(),
-      new CloseButton( tandem.createTandem( 'close' ) )
+      new CloseButton( tandem.createTandem( 'closeButton' ) )
     ];
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );

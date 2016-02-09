@@ -67,7 +67,7 @@ define( function( require ) {
     this.addChild( photonEmitterLayer );
 
     // Create and add the photon emitter.
-    var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem );
+    var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
