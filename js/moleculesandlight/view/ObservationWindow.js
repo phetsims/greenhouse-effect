@@ -53,7 +53,7 @@ define( function( require ) {
 
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new Property( false, {
-      tandem: tandem.createTandem( 'returnMoleculeButtonVisible' )
+      tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
