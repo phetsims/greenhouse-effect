@@ -74,6 +74,8 @@ define( function( require ) {
      * @param {number} emitterWidth
      * @param {number} photonWavelength - wavelength of emitted photon to determine if a new control slider needs to be added
      * @param {number} emissionFrequency
+     * @param {Tandem} tandem
+     * @param {string} emitterTandemName
      * @private
      */
     updateImage: function( emitterWidth, photonWavelength, emissionFrequency, tandem, emitterTandemName ) {
