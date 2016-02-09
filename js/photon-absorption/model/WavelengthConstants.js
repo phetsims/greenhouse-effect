@@ -21,8 +21,8 @@ define( function( require ) {
     DEBUG_WAVELENGTH: 1,
 
     // Given a wavelength, look up the tandem name for an emitter
-    // This is required because the simulation is driven by the wavelength value.  If this code is too instances
-    // unmaintainable, we could rewrite the sim to use Emitter instances, each of which has a wavelength and a tandem name
+    // This is required because the simulation is driven by the wavelength value.  If this code is too unmaintainable,
+    // we could rewrite the sim to use Emitter instances, each of which has a wavelength and a tandem name
     // See, for example: PhotonEmitterNode
     getTandemName: function( wavelength ) {
       return wavelength === this.SUNLIGHT_WAVELENGTH ? 'sunlight' :
