@@ -69,13 +69,13 @@ define( function( require ) {
       emissionFrequency: 0, // in Hz
       photonWavelength: WavelengthConstants.IR_WAVELENGTH,
       photonTarget: initialPhotonTarget, // molecule that photons are fired at
-      play: true // is the sim running or paused
+      running: true // is the sim running or paused
     }, {
       tandemSet: {
         emissionFrequency: tandem.createTandem( 'emissionFrequencyProperty' ),
         photonWavelength: tandem.createTandem( 'photonWavelengthProperty' ),
         photonTarget: tandem.createTandem( 'photonTargetProperty' ),
-        play: tandem.createTandem( 'runningProperty' )
+        running: tandem.createTandem( 'runningProperty' )
       }
     } );
 
@@ -145,7 +145,7 @@ define( function( require ) {
         return;
       }
 
-      if ( this.play ) {
+      if ( this.running ) {
 
         // Step the photons, marking and removing any that have moved beyond the model
         this.stepPhotons( dt );
