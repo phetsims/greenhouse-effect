@@ -158,6 +158,7 @@ define( function( require ) {
       buttonContentXMargin: 0,
       buttonContentYMargin: 5.25,
       selectedStroke: 'white',
+      deselectedStroke: 'black',
       deselectedLineWidth: 0,
       cornerRadius: 7,
       touchAreaXDilation: 0,
