@@ -177,14 +177,18 @@ define( function( require ) {
    * @param {Tandem} tandem
    * @constructor
    */
-  function CloseButton( tandem ) {
+  function CloseButton( dialog, tandem ) {
 
     // create content and scale for translations.
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
     if ( content.width > SUBSECTION_WIDTH ) {
       content.scale( SUBSECTION_WIDTH / content.width );
     }
-    RectangularPushButton.call( this, { content: content, listener: null, tandem: tandem } );
+
+    var closeListener = function() {
+      Dialog.prototype.hide.call( dialog );
+    };
+    RectangularPushButton.call( this, { content: content, listener: closeListener, tandem: tandem } );
   }
 
   moleculesAndLight.register( 'CloseButton', CloseButton );
@@ -488,7 +492,7 @@ define( function( require ) {
 
     var children = [
       new SpectrumDiagram(),
-      new CloseButton( tandem.createTandem( 'closeButton' ) )
+      new CloseButton( thisWindow, tandem.createTandem( 'closeButton' ) )
     ];
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
