@@ -26,6 +26,7 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
   // images
   var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
@@ -80,25 +81,36 @@ define( function( require ) {
       {
         node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
         value: WavelengthConstants.MICRO_WAVELENGTH,
-        label: new Text( quadWavelengthSelectorMicrowaveString, { font: labelFont } ),
+        label: new TandemText( quadWavelengthSelectorMicrowaveString, {
+          font: labelFont, tandem: tandem.createTandem( 'microwaveRadioButtonLabel' )
+        } ),
         tandem: tandem.createTandem( 'microwaveRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
         value: WavelengthConstants.IR_WAVELENGTH,
-        label: new Text( quadWavelengthSelectorInfraredString, { font: labelFont } ),
+        label: new TandemText( quadWavelengthSelectorInfraredString, {
+          font: labelFont,
+          tandem: tandem.createTandem( 'infraredRadioButtonLabel' )
+        } ),
         tandem: tandem.createTandem( 'infraredRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
         value: WavelengthConstants.VISIBLE_WAVELENGTH,
-        label: new Text( quadWavelengthSelectorVisibleString, { font: labelFont } ),
+        label: new TandemText( quadWavelengthSelectorVisibleString, {
+          font: labelFont,
+          tandem: tandem.createTandem( 'visibleRadioButtonLabel' )
+        } ),
         tandem: tandem.createTandem( 'visibleRadioButton' )
       },
       {
         node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
         value: WavelengthConstants.UV_WAVELENGTH,
-        label: new Text( quadWavelengthSelectorUltravioletString, { font: labelFont } ),
+        label: new TandemText( quadWavelengthSelectorUltravioletString, {
+          font: labelFont,
+          tandem: tandem.createTandem( 'ultravioletRadioButtonLabel' )
+        } ),
         tandem: tandem.createTandem( 'ultravioletRadioButton' )
       }
     ];
