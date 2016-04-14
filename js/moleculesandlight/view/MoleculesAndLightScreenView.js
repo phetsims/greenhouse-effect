@@ -24,7 +24,7 @@ define( function( require ) {
   var ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
-  var StepButton = require( 'SCENERY_PHET/buttons/StepButton' );
+  var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SpectrumWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindow' );
@@ -118,7 +118,7 @@ define( function( require ) {
     this.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
-    var stepButton = new StepButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.runningProperty, {
+    var stepButton = new StepForwardButton( function() { photonAbsorptionModel.manualStep(); }, photonAbsorptionModel.runningProperty, {
       centerY: playPauseButton.centerY,
       centerX: moleculeControlPanel.centerX + 25,
       radius: 15,
