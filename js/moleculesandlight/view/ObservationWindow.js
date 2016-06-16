@@ -104,7 +104,8 @@ define( function( require ) {
         photonAbsorptionModel.restoreActiveMolecule();
         thisWindow.returnMoleculeButtonVisibleProperty.set( false );
         thisWindow.moleculeCheckBounds();
-      }
+      },
+      tandem: tandem.createTandem( 'returnMoleculeButton' )
     } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
