@@ -113,6 +113,7 @@ define( function( require ) {
       bottom: moleculeControlPanel.bottom + 60,
       centerX: moleculeControlPanel.centerX - 25,
       radius: 23,
+      touchAreaDilation: 5,
       tandem: tandem.createTandem( 'playPauseButton' )
     } );
     this.addChild( playPauseButton );
@@ -122,6 +123,7 @@ define( function( require ) {
       centerY: playPauseButton.centerY,
       centerX: moleculeControlPanel.centerX + 25,
       radius: 15,
+      touchAreaDilation: 5,
       tandem: tandem.createTandem( 'stepButton' )
     } );
     this.addChild( stepButton );
@@ -140,6 +142,8 @@ define( function( require ) {
     var showLightSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(98, 173, 205)',
+      touchAreaXDilation: 7,
+      touchAreaYDilation: 7,
       listener: function() {
         spectrumWindow.show();
       },
@@ -157,4 +161,3 @@ define( function( require ) {
 
   return inherit( ScreenView, MoleculesAndLightScreenView );
 } );
-

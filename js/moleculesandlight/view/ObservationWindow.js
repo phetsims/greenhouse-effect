@@ -100,6 +100,8 @@ define( function( require ) {
       content: buttonContent,
       baseColor: 'rgb(247, 151, 34)',
       opacity: 0.99,
+      touchAreaXDilation: 7,
+      touchAreaYDilation: 7,
       listener: function() {
         photonAbsorptionModel.restoreActiveMolecule();
         thisWindow.returnMoleculeButtonVisibleProperty.set( false );
