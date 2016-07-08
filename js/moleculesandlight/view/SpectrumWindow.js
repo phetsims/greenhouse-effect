@@ -171,8 +171,7 @@ define( function( require ) {
 
   /**
    * Create a button which closes the spectrum window.  As of right now the behavior of the spectrum window is to
-   * close whenever the user clicks in the molecules and light screen view ( as in AboutDialog ).  This means that no
-   * closing listener is necessary.
+   * close whenever the user clicks in the molecules and light screen view ( as in AboutDialog ).
    *
    * @param {Tandem} tandem
    * @constructor
