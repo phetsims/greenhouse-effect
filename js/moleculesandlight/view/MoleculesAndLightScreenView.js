@@ -132,11 +132,15 @@ define( function( require ) {
 
     // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
     // drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
-    var spectrumWindow = new SpectrumWindow( tandem.createTandem( 'spectrumWindow' ) );
+    // @private
+    this.createSpectrumWindow = function() {
+      this.spectrumWindow = new SpectrumWindow( tandem.createTandem( 'spectrumWindow' ) ); // @private
+    };
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
+    var self = this;
     var buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( (moleculeControlPanel.width - 16 ) / buttonContent.width );
@@ -147,7 +151,7 @@ define( function( require ) {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        spectrumWindow.show();
+        self.spectrumWindow.show();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
@@ -161,5 +165,22 @@ define( function( require ) {
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
 
-  return inherit( ScreenView, MoleculesAndLightScreenView );
+  return inherit( ScreenView, MoleculesAndLightScreenView, {
+
+    /**
+     * Step function for the view
+     *
+     * @param  {type} dt description
+     * @return {type}    description
+     */
+    step: function( dt ) {
+
+      // if the spectrum window hasn't been created yet, try to create it on this frame
+      // spectrum window is only created once so that we don't have to draw the nodes in the dialog
+      // every time it is shown, which takes a noticeable amount of time on tablets
+      if( !this.spectrumWindow ) {
+        this.createSpectrumWindow();
+      }
+    }
+  } );
 } );
