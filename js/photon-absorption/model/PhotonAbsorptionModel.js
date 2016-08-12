@@ -35,6 +35,14 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TMolecule = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TMolecule' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var TObservableArray = require( 'ifphetio!PHET_IO/types/axon/TObservableArray' );
+  var TPhoton = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhoton' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+
   // ------- constants -------------
 
   // constants that control where and how photons are emitted.
@@ -76,12 +84,24 @@ define( function( require ) {
         photonWavelength: tandem.createTandem( 'photonWavelengthProperty' ),
         photonTarget: tandem.createTandem( 'photonTargetProperty' ),
         running: tandem.createTandem( 'runningProperty' )
+      },
+      phetioValueTypeSet: {
+        emissionFrequency: TNumber( { units: 'hertz' } ),
+        photonWavelength: TNumber( { units: 'meters' } ),
+        photonTarget: TString,
+        running: TBoolean
       }
     } );
 
     // @public
-    this.photons = new ObservableArray( { tandem: tandem.createTandem( 'photons' ) } ); // Elements are of type Photon
-    this.activeMolecules = new ObservableArray( { tandem: tandem.createTandem( 'molecules' ) } ); // Elements are of type Molecule.
+    this.photons = new ObservableArray( {
+      tandem: tandem.createTandem( 'photons' ),
+      phetioValueType: TObservableArray( TPhoton )
+    } ); // Elements are of type Photon
+    this.activeMolecules = new ObservableArray( {
+      tandem: tandem.createTandem( 'molecules' ),
+      phetioValueType: TObservableArray( TMolecule )
+    } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
@@ -93,8 +113,7 @@ define( function( require ) {
     this.emissionFrequencyProperty.link( function( emissionFrequency ) {
       if ( emissionFrequency === 0 ) {
         thisModel.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
-      }
-      else {
+      } else {
         var singleTargetPeriodFrequency = thisModel.getSingleTargetPeriodFromFrequency( emissionFrequency );
         thisModel.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
       }
@@ -141,7 +160,7 @@ define( function( require ) {
       // Reject large dt values that often result from returning to this sim when it has been hidden, e.g. when another
       // tab was open in the browser or the browser was minimized.  The nominal dt value is based on 60 fps and is
       // 1/60 = 0.016667 sec.
-      if ( dt > 0.2 ){
+      if ( dt > 0.2 ) {
         return;
       }
 
@@ -325,7 +344,7 @@ define( function( require ) {
 
       // Add the new photon target(s).
       var newMolecule;
-      switch( photonTarget ) {
+      switch ( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
           newMolecule = new CO();
           this.activeMolecules.add( newMolecule );
