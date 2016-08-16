@@ -96,11 +96,11 @@ define( function( require ) {
     // @public
     this.photons = new ObservableArray( {
       tandem: tandem.createTandem( 'photons' ),
-      phetioValueType: TObservableArray( TPhoton )
+      phetioValueType: TPhoton
     } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( {
       tandem: tandem.createTandem( 'molecules' ),
-      phetioValueType: TObservableArray( TMolecule )
+      phetioValueType: TMolecule
     } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
