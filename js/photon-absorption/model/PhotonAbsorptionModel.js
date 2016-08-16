@@ -39,7 +39,6 @@ define( function( require ) {
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TMolecule = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TMolecule' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-  var TObservableArray = require( 'ifphetio!PHET_IO/types/axon/TObservableArray' );
   var TPhoton = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhoton' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
