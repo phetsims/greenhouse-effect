@@ -24,6 +24,9 @@ define( function( require ) {
   // var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
   // strings
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
 
@@ -53,7 +56,8 @@ define( function( require ) {
 
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new Property( false, {
-      tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
+      tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' ),
+      phetioValueType: TBoolean
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.

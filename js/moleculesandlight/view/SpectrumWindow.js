@@ -32,6 +32,9 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
   var spectrumWindowFrequencyArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.frequencyArrowLabel' );
@@ -512,7 +515,10 @@ define( function( require ) {
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
     // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
-    this.shownProperty = new Property( false, { tandem: tandem.createTandem( 'shownProperty' ) } );
+    this.shownProperty = new Property( false, {
+      tandem: tandem.createTandem( 'shownProperty' ),
+      phetioValueType: TBoolean
+    } );
 
     this.shownProperty.lazyLink( function( shown ) {
       if ( shown ) {

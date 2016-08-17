@@ -28,6 +28,9 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
+  // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+
   // images
   var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
   var flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
@@ -84,7 +87,8 @@ define( function( require ) {
         label: new TandemText( quadWavelengthSelectorMicrowaveString, {
           font: labelFont, tandem: tandem.createTandem( 'microwaveRadioButtonLabel' )
         } ),
-        tandem: tandem.createTandem( 'microwaveRadioButton' )
+        tandem: tandem.createTandem( 'microwaveRadioButton' ),
+        phetioValueType: TBoolean
       },
       {
         node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
@@ -93,7 +97,8 @@ define( function( require ) {
           font: labelFont,
           tandem: tandem.createTandem( 'infraredRadioButtonLabel' )
         } ),
-        tandem: tandem.createTandem( 'infraredRadioButton' )
+        tandem: tandem.createTandem( 'infraredRadioButton' ),
+        phetioValueType: TBoolean
       },
       {
         node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
@@ -102,7 +107,8 @@ define( function( require ) {
           font: labelFont,
           tandem: tandem.createTandem( 'visibleRadioButtonLabel' )
         } ),
-        tandem: tandem.createTandem( 'visibleRadioButton' )
+        tandem: tandem.createTandem( 'visibleRadioButton' ),
+        phetioValueType: TBoolean
       },
       {
         node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
@@ -111,7 +117,8 @@ define( function( require ) {
           font: labelFont,
           tandem: tandem.createTandem( 'ultravioletRadioButtonLabel' )
         } ),
-        tandem: tandem.createTandem( 'ultravioletRadioButton' )
+        tandem: tandem.createTandem( 'ultravioletRadioButton' ),
+        phetioValueType: TBoolean
       }
     ];
 
