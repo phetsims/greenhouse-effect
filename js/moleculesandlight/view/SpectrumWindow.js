@@ -31,6 +31,7 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Dimension2 = require( 'DOT/Dimension2' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -244,7 +245,7 @@ define( function( require ) {
 
     // Add the visible spectrum.
     var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
-    var visibleSpectrum = new SpectrumNode( visSpectrumWidth, STRIP_HEIGHT - strip.lineWidth, 380, 780, 1 );
+    var visibleSpectrum = new SpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
     visibleSpectrum.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
     visibleSpectrum.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
     this.addChild( visibleSpectrum );
