@@ -17,15 +17,12 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
-  // strings
-  var moleculesAndLightTitleString = require( 'string!MOLECULES_AND_LIGHT/molecules-and-light.title' );
-
   /**
    * @param {Tandem} tandem
    * @constructor
    */
   function MoleculesAndLightScreen( tandem ) {
-    Screen.call( this, moleculesAndLightTitleString, null /* no icon, single-screen sim */,
+    Screen.call( this,
       function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem.createTandem( 'model' ) ); },
       function( model ) { return new MoleculesAndLightScreenView( model, tandem.createTandem( 'view' ) ); }, {
         backgroundColor: '#C5D6E8',
