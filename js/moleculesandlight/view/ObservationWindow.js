@@ -47,7 +47,7 @@ define( function( require ) {
     // Supertype constructor
     Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, { fill: 'black' } );
 
-    var thisWindow = this;
+    var self = this;
     this.modelViewTransform = modelViewTransform; // @private
     this.photonAbsorptionModel = photonAbsorptionModel; // @private
 
@@ -108,8 +108,8 @@ define( function( require ) {
       touchAreaYDilation: 7,
       listener: function() {
         photonAbsorptionModel.restoreActiveMolecule();
-        thisWindow.returnMoleculeButtonVisibleProperty.set( false );
-        thisWindow.moleculeCheckBounds();
+        self.returnMoleculeButtonVisibleProperty.set( false );
+        self.moleculeCheckBounds();
       },
       tandem: tandem.createTandem( 'returnMoleculeButton' )
     } );
@@ -120,12 +120,12 @@ define( function( require ) {
 
     // function for adding a molecule to this window and hooking up a removal listener
     function addMoleculeToWindow( molecule ) {
-      var moleculeNode = new MoleculeNode( molecule, thisWindow.modelViewTransform ); //Create the molecule node.
+      var moleculeNode = new MoleculeNode( molecule, self.modelViewTransform ); //Create the molecule node.
       moleculeLayer.addChild( moleculeNode );
 
       // Determine if it is time to remove molecule and update restore molecule button visibility.
       var centerOfGravityObserver = function() {
-        thisWindow.moleculeCheckBounds();
+        self.moleculeCheckBounds();
       };
       molecule.centerOfGravityProperty.link( centerOfGravityObserver );
 
@@ -146,12 +146,12 @@ define( function( require ) {
 
     // Set up the event listeners for adding and removing photons.
     photonAbsorptionModel.photons.addItemAddedListener( function( addedPhoton ) {
-      var photonNode = new PhotonNode( addedPhoton, thisWindow.modelViewTransform );
+      var photonNode = new PhotonNode( addedPhoton, self.modelViewTransform );
       photonLayer.addChild( photonNode );
 
       // Watch photon positions and determine if photon should be removed from window.
       var photonPositionObserver = function() {
-        thisWindow.photonCheckBounds();
+        self.photonCheckBounds();
       };
       addedPhoton.locationProperty.link( photonPositionObserver );
 
@@ -166,7 +166,7 @@ define( function( require ) {
 
     // If a new molecule is chosen with the molecule control panel, remove the "Restore Molecule" button.
     this.photonAbsorptionModel.photonTargetProperty.link( function() {
-      thisWindow.returnMoleculeButtonVisibleProperty.set( false );
+      self.returnMoleculeButtonVisibleProperty.set( false );
     } );
 
     this.returnMoleculeButtonVisibleProperty.link( function() {
@@ -176,15 +176,15 @@ define( function( require ) {
       // removing it, make sure to also remove the code that sets the original opacity value of this button.  See
       // https://github.com/phetsims/molecules-and-light/issues/98 and https://github.com/phetsims/scenery/issues/404.
       // previous code: thisWindow.returnMoleculeButtonNode.visible = thisWindow.returnMoleculeButtonVisibleProperty.get();
-      if ( thisWindow.returnMoleculeButtonVisibleProperty.get() ) {
-        thisWindow.returnMoleculeButtonNode.opacity = 0.99;
-        thisWindow.returnMoleculeButtonNode.pickable = true;
+      if ( self.returnMoleculeButtonVisibleProperty.get() ) {
+        self.returnMoleculeButtonNode.opacity = 0.99;
+        self.returnMoleculeButtonNode.pickable = true;
       }
       else {
-        thisWindow.returnMoleculeButtonNode.opacity = 0;
-        thisWindow.returnMoleculeButtonNode.pickable = false;
+        self.returnMoleculeButtonNode.opacity = 0;
+        self.returnMoleculeButtonNode.pickable = false;
       }
-      thisWindow.returnMoleculeButtonNode.opacity = thisWindow.returnMoleculeButtonVisibleProperty.get() ? 0.99 : 0;
+      self.returnMoleculeButtonNode.opacity = self.returnMoleculeButtonVisibleProperty.get() ? 0.99 : 0;
     } );
 
   }

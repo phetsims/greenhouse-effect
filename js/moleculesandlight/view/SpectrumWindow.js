@@ -208,7 +208,7 @@ define( function( require ) {
 
     // Supertype constructor
     Node.call( this );
-    var thisNode = this;
+    var self = this;
 
     // Create the "strip", which is the solid background portions that contains the different bands and that has tick
     // marks on the top and bottom.
@@ -222,26 +222,26 @@ define( function( require ) {
     // Add the frequency tick marks to the top of the spectrum strip.
     for ( var i = 4; i <= 20; i++ ) {
       var includeFrequencyLabel = ( i % 2 === 0 );
-      addFrequencyTickMark( thisNode, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
+      addFrequencyTickMark( self, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
     }
 
     // Add the wavelength tick marks to the bottom of the spectrum.
     for ( var j = -12; j <= 4; j++ ) {
       var includeWavelengthLabel = ( j % 2 === 0 );
-      addWavelengthTickMark( thisNode, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
+      addWavelengthTickMark( self, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
     }
 
     // Add the various bands.
-    addBandLabel( thisNode, 1E3, 1E9, spectrumWindowRadioBandLabelString );
-    addBandDivider( thisNode, 1E9 );
-    addBandLabel( thisNode, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString );
-    addBandDivider( thisNode, 3E11 );
-    addBandLabel( thisNode, 3E11, 6E14, spectrumWindowInfraredBandLabelString );
-    addBandLabel( thisNode, 1E15, 8E15, spectrumWindowUltravioletBandLabelString );
-    addBandDivider( thisNode, 1E16 );
-    addBandLabel( thisNode, 1E16, 1E19, spectrumWindowXrayBandLabelString );
-    addBandDivider( thisNode, 1E19 );
-    addBandLabel( thisNode, 1E19, 1E21, spectrumWindowGammaRayBandLabelString );
+    addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString );
+    addBandDivider( self, 1E9 );
+    addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString );
+    addBandDivider( self, 3E11 );
+    addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString );
+    addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString );
+    addBandDivider( self, 1E16 );
+    addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString );
+    addBandDivider( self, 1E19 );
+    addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString );
 
     // Add the visible spectrum.
     var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -491,11 +491,11 @@ define( function( require ) {
    */
   function SpectrumWindow( tandem ) {
 
-    var thisWindow = this;
+    var self = this;
 
     var children = [
       new SpectrumDiagram(),
-      new CloseButton( thisWindow, tandem.createTandem( 'closeButton' ) )
+      new CloseButton( self, tandem.createTandem( 'closeButton' ) )
     ];
 
     var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
@@ -511,7 +511,7 @@ define( function( require ) {
 
     // close it on a click
     this.addInputListener( new ButtonListener( {
-      fire: thisWindow.hide.bind( thisWindow )
+      fire: self.hide.bind( self )
     } ) );
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
@@ -523,10 +523,10 @@ define( function( require ) {
 
     this.shownProperty.lazyLink( function( shown ) {
       if ( shown ) {
-        Dialog.prototype.show.call( thisWindow );
+        Dialog.prototype.show.call( self );
       }
       else {
-        Dialog.prototype.hide.call( thisWindow );
+        Dialog.prototype.hide.call( self );
       }
     } );
   }
