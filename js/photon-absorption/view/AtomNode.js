@@ -31,11 +31,11 @@ define( function( require ) {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var thisNode = this;
+    var self = this;
 
     // Instance Data
-    thisNode.atom = atom; // @private
-    thisNode.modelViewTransform = modelViewTransform; // @private
+    self.atom = atom; // @private
+    self.modelViewTransform = modelViewTransform; // @private
 
     // Scale the radius to the modelViewTransform.
     var transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
@@ -47,11 +47,11 @@ define( function( require ) {
 
     // Represent the atom as a shaded sphere node.
     var atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
-    thisNode.addChild( atomNode );
+    self.addChild( atomNode );
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      thisNode.translation = thisNode.modelViewTransform.modelToViewPosition( thisNode.atom.position );
+      self.translation = self.modelViewTransform.modelToViewPosition( self.atom.position );
     } );
   }
 

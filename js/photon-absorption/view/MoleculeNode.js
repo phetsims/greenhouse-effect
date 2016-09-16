@@ -29,18 +29,18 @@ define( function( require ) {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var thisNode = this;
+    var self = this;
     this.modelViewTransform = modelViewTransform; // @private
 
     // Instance Data
     var atomLayer = new Node();
     var bondLayer = new Node();
-    thisNode.addChild( bondLayer ); // Order the bond layer first so that atomic bonds are behind atoms in view
-    thisNode.addChild( atomLayer );
+    self.addChild( bondLayer ); // Order the bond layer first so that atomic bonds are behind atoms in view
+    self.addChild( atomLayer );
 
     // Create nodes and add the atoms which compose this molecule to the atomLayer.
     for ( var atom = 0; atom < molecule.getAtoms().length; atom++ ) {
-      this.atomNode = new AtomNode( molecule.getAtoms()[ atom ], thisNode.modelViewTransform );
+      this.atomNode = new AtomNode( molecule.getAtoms()[ atom ], self.modelViewTransform );
       atomLayer.addChild( this.atomNode );
     }
 

@@ -69,7 +69,7 @@ define( function( require ) {
    */
   function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
-    var thisModel = this;
+    var self = this;
 
     // @public
     PropertySet.call( this, {
@@ -104,17 +104,17 @@ define( function( require ) {
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
-    thisModel.photonTargetProperty.link( function() {
-      thisModel.updateActiveMolecule( thisModel.photonTarget );
+    self.photonTargetProperty.link( function() {
+      self.updateActiveMolecule( self.photonTarget );
     } );
 
     // Set the photon emission period from the emission frequency.
     this.emissionFrequencyProperty.link( function( emissionFrequency ) {
       if ( emissionFrequency === 0 ) {
-        thisModel.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
+        self.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       } else {
-        var singleTargetPeriodFrequency = thisModel.getSingleTargetPeriodFromFrequency( emissionFrequency );
-        thisModel.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
+        var singleTargetPeriodFrequency = self.getSingleTargetPeriodFromFrequency( emissionFrequency );
+        self.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
       }
     } );
 
@@ -336,7 +336,7 @@ define( function( require ) {
      */
     updateActiveMolecule: function( photonTarget ) {
 
-      var thisModel = this;
+      var self = this;
 
       // Remove the old photon target(s).
       this.activeMolecules.clear(); // Clear the old active molecules array
@@ -385,16 +385,16 @@ define( function( require ) {
 
       // Emit a new photon from this molecule after absorption.
       newMolecule.on( 'photonEmitted', function( photon ) {
-        thisModel.photons.add( photon );
+        self.photons.add( photon );
       } );
 
       // Break apart into constituent molecules.
       newMolecule.on( 'brokeApart', function( constituentMolecule1, constituentMolecule2 ) {
         // Remove the molecule from the photonAbsorptionModel's list of active molecules.
-        thisModel.activeMolecules.remove( this );
+        self.activeMolecules.remove( this );
         // Add the constituent molecules to the photonAbsorptionModel.
-        thisModel.activeMolecules.add( constituentMolecule1 );
-        thisModel.activeMolecules.add( constituentMolecule2 );
+        self.activeMolecules.add( constituentMolecule1 );
+        self.activeMolecules.add( constituentMolecule2 );
       } );
     },
 

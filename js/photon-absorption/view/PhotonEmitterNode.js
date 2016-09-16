@@ -45,19 +45,19 @@ define( function( require ) {
     Node.call( this );
 
     // carry this through scope
-    var thisNode = this;
+    var self = this;
 
     this.model = model; // @private
 
     // update the photon emitter upon changes to the photon wavelength
     model.photonWavelengthProperty.link( function( photonWavelength ) {
       var emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
-      thisNode.updateImage( width, photonWavelength, model.emissionFrequencyProperty.value, tandem, emitterTandemName );
+      self.updateImage( width, photonWavelength, model.emissionFrequencyProperty.value, tandem, emitterTandemName );
     } );
 
     // update brightness of emitter bulb upon changes to photon emission frequency
     model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      thisNode.updateOffImageOpacity( thisNode.model.photonWavelength, emissionFrequency );
+      self.updateOffImageOpacity( self.model.photonWavelength, emissionFrequency );
     } );
 
   }

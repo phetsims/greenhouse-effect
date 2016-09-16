@@ -41,7 +41,7 @@ define( function( require ) {
     // Supertype constructor
     Node.call( this );
 
-    var thisNode = this;
+    var self = this;
     this.model = model; // @private
     this.color = color; // @private
 
@@ -67,7 +67,7 @@ define( function( require ) {
     this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
     // Update layout and color when photon wavelength changes.
-    model.photonWavelengthProperty.link( function() { thisNode.update(); } );
+    model.photonWavelengthProperty.link( function() { self.update(); } );
 
     this.addChild( this.backgroundRect );
     this.addChild( this.emissionRateControlSlider );
@@ -131,7 +131,7 @@ define( function( require ) {
    */
   function EmissionRateThumbNode() {
 
-    var thisNode = this;
+    var self = this;
 
     // draw the partial octagon shape of the slider.
     var thumbShape = new Shape();
@@ -153,7 +153,7 @@ define( function( require ) {
 
     // draw three lines along the vertical of the thumbNode.
     for ( var n = 1; n < 4; n++ ) {
-      thisNode.addChild( new Path(
+      self.addChild( new Path(
         Shape.lineSegment(
           n * THUMB_SIZE.width / 5,
           THUMB_SIZE.height / 5,
@@ -168,19 +168,19 @@ define( function( require ) {
     // highlight thumb on pointer over
     var buttonListener = new ButtonListener( {
       over: function( event ) {
-        thisNode.fill = 'rgb(80,250,255)';
+        self.fill = 'rgb(80,250,255)';
       },
       up: function( event ) {
-        thisNode.fill = 'rgb(0, 203, 230)';
+        self.fill = 'rgb(0, 203, 230)';
       }
     } );
-    thisNode.addInputListener( buttonListener );
+    self.addInputListener( buttonListener );
 
     // make this easier to grab in touch environments
     this.touchArea = this.localBounds.dilatedXY( 20, 20 );
 
     this.disposeEmissionRateThumbNode = function() {
-      thisNode.removeInputListener( buttonListener );
+      self.removeInputListener( buttonListener );
     };
   }
 

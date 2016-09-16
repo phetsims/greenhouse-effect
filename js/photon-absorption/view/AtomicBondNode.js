@@ -43,7 +43,7 @@ define( function( require ) {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var thisNode = this;
+    var self = this;
 
     // Calculate the width to use for the bond representation(s) // @private
 
@@ -54,10 +54,10 @@ define( function( require ) {
 
     // Link the atomic bond view node to the model.  Atomic bonds must be updated when either atom changes position.
     this.atomicBond.atom1.positionProperty.link( function() {
-      thisNode.updateRepresentation();
+      self.updateRepresentation();
     } );
     this.atomicBond.atom2.positionProperty.link( function() {
-      thisNode.updateRepresentation();
+      self.updateRepresentation();
     } );
 
   }

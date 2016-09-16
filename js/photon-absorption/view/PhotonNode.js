@@ -43,7 +43,7 @@ define( function( require ) {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var thisNode = this;
+    var self = this;
 
     // @private
     this.photon = photon;
@@ -58,7 +58,7 @@ define( function( require ) {
     // Observe position changes.
     photon.locationProperty.link( function( location ) {
       // Set overall position.
-      thisNode.center = thisNode.modelViewTransform.modelToViewPosition( location );
+      self.center = self.modelViewTransform.modelToViewPosition( location );
     } );
   }
 
