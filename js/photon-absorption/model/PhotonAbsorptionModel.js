@@ -71,26 +71,38 @@ define( function( require ) {
 
     var self = this;
 
-    // @public
-    PropertySet.call( this, {
-      emissionFrequency: 0, // in Hz
-      photonWavelength: WavelengthConstants.IR_WAVELENGTH,
-      photonTarget: initialPhotonTarget, // molecule that photons are fired at
-      running: true // is the sim running or paused
-    }, {
-      tandemSet: {
-        emissionFrequency: tandem.createTandem( 'emissionFrequencyProperty' ),
-        photonWavelength: tandem.createTandem( 'photonWavelengthProperty' ),
-        photonTarget: tandem.createTandem( 'photonTargetProperty' ),
-        running: tandem.createTandem( 'runningProperty' )
+    var properties = {
+
+      // @public
+      emissionFrequency: {
+        value: 0, // Hz
+        tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
+        emissionFrequency: TNumber( { units: 'hertz' } )
       },
-      phetioValueTypeSet: {
-        emissionFrequency: TNumber( { units: 'hertz' } ),
-        photonWavelength: TNumber( { units: 'meters' } ),
-        photonTarget: TString,
-        running: TBoolean
+
+      // @public
+      photonWavelength: {
+        value: WavelengthConstants.IR_WAVELENGTH, // nm
+        tandem: tandem.createTandem( 'photonWavelengthProperty' ),
+        emissionFrequency: TNumber( { units: 'meters' } )
+      },
+
+      // @public molecule that photons are fired at
+      photonTarget: {
+        value: initialPhotonTarget,
+        tandem: tandem.createTandem( 'photonTargetProperty' ),
+        emissionFrequency: TString
+      },
+
+      // @public is the sim running or paused?
+      running: {
+        value: true,
+        tandem: tandem.createTandem( 'runningProperty' ),
+        emissionFrequency: TBoolean
       }
-    } );
+    };
+
+    PropertySet.call( this, null, null, properties );
 
     // @public
     this.photons = new ObservableArray( {
