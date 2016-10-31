@@ -77,28 +77,28 @@ define( function( require ) {
       emissionFrequency: {
         value: 0, // Hz
         tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
-        emissionFrequency: TNumber( { units: 'hertz' } )
+        phetioValueType: TNumber( { units: 'hertz' } )
       },
 
       // @public
       photonWavelength: {
         value: WavelengthConstants.IR_WAVELENGTH, // nm
         tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-        emissionFrequency: TNumber( { units: 'meters' } )
+        phetioValueType: TNumber( { units: 'meters' } )
       },
 
       // @public molecule that photons are fired at
       photonTarget: {
         value: initialPhotonTarget,
         tandem: tandem.createTandem( 'photonTargetProperty' ),
-        emissionFrequency: TString
+        phetioValueType: TString
       },
 
       // @public is the sim running or paused?
       running: {
         value: true,
         tandem: tandem.createTandem( 'runningProperty' ),
-        emissionFrequency: TBoolean
+        phetioValueType: TBoolean
       }
     };
 
