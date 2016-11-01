@@ -84,7 +84,14 @@ define( function( require ) {
       photonWavelength: {
         value: WavelengthConstants.IR_WAVELENGTH, // nm
         tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-        phetioValueType: TNumber( { units: 'meters' } )
+        phetioValueType: TNumber( {
+          units: 'meters', values: [
+            WavelengthConstants.MICRO_WAVELENGTH,
+            WavelengthConstants.IR_WAVELENGTH,
+            WavelengthConstants.VISIBLE_WAVELENGTH,
+            WavelengthConstants.UV_WAVELENGTH
+          ]
+        } )
       },
 
       // @public molecule that photons are fired at
@@ -124,7 +131,8 @@ define( function( require ) {
     this.emissionFrequencyProperty.link( function( emissionFrequency ) {
       if ( emissionFrequency === 0 ) {
         self.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
-      } else {
+      }
+      else {
         var singleTargetPeriodFrequency = self.getSingleTargetPeriodFromFrequency( emissionFrequency );
         self.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
       }
@@ -355,7 +363,7 @@ define( function( require ) {
 
       // Add the new photon target(s).
       var newMolecule;
-      switch ( photonTarget ) {
+      switch( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
           newMolecule = new CO();
           this.activeMolecules.add( newMolecule );
