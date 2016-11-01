@@ -28,9 +28,6 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
 
-  // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-
   // images
   var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
   var flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
