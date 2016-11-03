@@ -115,7 +115,7 @@ define( function( require ) {
     /**
      * Draw a corner of the window frame.
      *
-     * @param {String} corner - String describing desired corner of the window frame.
+     * @param {string} corner - String describing desired corner of the window frame.
      * @param {Vector2} radialCenter - Position vector of the radial center of the frame corner.
      * @param {CanvasRenderingContext2D} context - Context for the canvas methods.
      * @private
@@ -166,7 +166,7 @@ define( function( require ) {
      * Function which creates the sections of the frame that span the width.  These sections are the top and
      * bottom of the border.
      *
-     * @param {String} side - String which specifies desired side of the window frame.
+     * @param {string} side - String which specifies desired side of the window frame.
      * @param {number} x - x position of the upper left corner (left bound)
      * @param {number} y - y position of the upper left corner (top bound)
      * @param {number} width - Width of the rectangle to the right of the upper left corner
