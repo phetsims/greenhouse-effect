@@ -419,6 +419,9 @@ define( function( require ) {
           throw new Error( 'Error: Unhandled photon target.' );
       }
 
+      // Set the photonGroupTandem so that photons created by the molecule can be registered for PhET-iO
+      newMolecule.photonGroupTandem = this.photonGroupTandem;
+
       // Emit a new photon from this molecule after absorption.
       newMolecule.on( 'photonEmitted', function( photon ) {
         self.photons.add( photon );

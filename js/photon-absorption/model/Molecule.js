@@ -118,6 +118,9 @@ define( function( require ) {
     this.vibrating = false;
     this.rotating = false;
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
+
+    // @public, set by PhotonAbsorptionModel
+    this.photonGroupTandem = null;
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
@@ -415,7 +418,7 @@ define( function( require ) {
      * @param {number} wavelength - The photon to be emitted.
      **/
     emitPhoton: function( wavelength ) {
-      var photonToEmit = new Photon( wavelength );
+      var photonToEmit = new Photon( wavelength, this.photonGroupTandem.createNextTandem() );
       var emissionAngle = Math.random() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
