@@ -41,6 +41,7 @@ define( function( require ) {
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TPhoton = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhoton' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var TPhotonAbsorptionModel = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhotonAbsorptionModel' );
 
   // ------- constants -------------
 
@@ -70,6 +71,9 @@ define( function( require ) {
   function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
     var self = this;
+
+    // @private
+    this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
     var properties = {
 
@@ -141,6 +145,8 @@ define( function( require ) {
     // Variables that control periodic photon emission.
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
+
+    tandem.addInstance( this, TPhotonAbsorptionModel );
   }
 
   moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
@@ -235,6 +241,16 @@ define( function( require ) {
 
       // Remove any photons that were marked for removal.
       this.photons.removeAll( photonsToRemove );
+      for ( var i = 0; i < photonsToRemove.length; i++ ) {
+        photonsToRemove[ i ].dispose();
+      }
+    },
+
+    clearPhotons: function() {
+      for ( var i = 0; i < this.photons.length; i++ ) {
+        this.photons.get( i ).dispose();
+      }
+      this.photons.clear();
     },
 
     /**
@@ -268,12 +284,12 @@ define( function( require ) {
     /**
      * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target,
      * which will decide whether a given photon should be absorbed.
-     * @param advanceAmount - amout of time that the photon should be "advanced" from its starting location.  This
+     * @param advanceAmount - amount of time that the photon should be "advanced" from its starting location.  This
      * makes it possible to make the emission stream look more constant in cases where there was a long delay between
      * frames.
      */
     emitPhoton: function( advanceAmount ) {
-      var photon = new Photon( this.photonWavelength );
+      var photon = new Photon( this.photonWavelength, this.photonGroupTandem.createNextTandem() );
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
