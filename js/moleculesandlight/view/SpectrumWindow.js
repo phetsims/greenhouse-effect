@@ -75,7 +75,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function SpectrumDiagram() {
+  function SpectrumDiagram( tandem ) {
 
     var children = [];
 
@@ -92,12 +92,13 @@ define( function( require ) {
       'right',
       spectrumWindowFrequencyArrowLabelString,
       'white',
-      'rgb(5, 255,  255)'
+      'rgb(5, 255,  255)',
+      tandem.createTandem( 'frequencyArrow' )
     );
     children.push( frequencyArrow );
 
     // Add the spectrum portion.
-    var spectrum = new LabeledSpectrumNode();
+    var spectrum = new LabeledSpectrumNode( tandem.createTandem( 'spectrum' ) );
     children.push( spectrum );
 
     // Add the wavelength arrow.
@@ -106,7 +107,8 @@ define( function( require ) {
       'left',
       spectrumWindowWavelengthArrowLabelString,
       'white',
-      'rgb(255, 5, 255)'
+      'rgb(255, 5, 255)',
+      tandem.createTandem( 'wavelengthArrow' )
     );
     children.push( wavelengthArrow );
 
@@ -131,7 +133,7 @@ define( function( require ) {
    * @param {string} rightColor
    * @constructor
    */
-  function LabeledArrow( length, orientation, captionText, leftColor, rightColor ) {
+  function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem ) {
 
     var Orientation = {
       POINTING_LEFT: 'left',
@@ -155,7 +157,8 @@ define( function( require ) {
       headWidth: ARROW_HEAD_WIDTH,
       tailWidth: ARROW_TAIL_WIDTH,
       fill: gradientPaint,
-      lineWidth: 2
+      lineWidth: 2,
+      tandem: tandem
     } );
 
     // Create and add the textual label.  Scale it so that it can handle translations.  Max label length is the arrow
@@ -204,7 +207,7 @@ define( function( require ) {
    *
    * @constructor
    */
-  function LabeledSpectrumNode() {
+  function LabeledSpectrumNode( tandem ) {
 
     // Supertype constructor
     Node.call( this );
@@ -263,7 +266,8 @@ define( function( require ) {
     var visibleBandArrow = new ArrowNode( visibleBandCenterX, visibleBandLabel.bottom, visibleBandCenterX, -5, {
       tailWidth: 2,
       headWidth: 7,
-      headHeight: 7
+      headHeight: 7,
+      tandem: tandem.createTandem( 'visibleBandArrow' )
     } );
     this.addChild( visibleBandArrow );
 
@@ -494,7 +498,7 @@ define( function( require ) {
     var self = this;
 
     var children = [
-      new SpectrumDiagram(),
+      new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' )),
       new CloseButton( self, tandem.createTandem( 'closeButton' ) )
     ];
 

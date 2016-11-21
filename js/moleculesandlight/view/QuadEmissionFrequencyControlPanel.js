@@ -146,7 +146,8 @@ define( function( require ) {
       stroke: ARROW_COLOR,
       headHeight: ARROW_HEAD_HEIGHT,
       headWidth: ARROW_HEAD_WIDTH,
-      tailWidth: ARROW_TAIL_WIDTH
+      tailWidth: ARROW_TAIL_WIDTH,
+      tandem: tandem.createTandem( 'energyArrow' )
     } );
 
     // Scale the text below the arrow node. Max text length is the arrow tail length minus twice the head width.
