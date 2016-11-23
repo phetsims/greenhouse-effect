@@ -506,11 +506,7 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false,
-
-      // focusable so it can be dismissed
-      focusable: true
-
+      hasCloseButton: false
     } );
 
     // close it on a click
