@@ -170,8 +170,7 @@ define( function( require ) {
     /**
      * Step function for the view
      *
-     * @param  {type} dt description
-     * @return {type}    description
+     * @param  {number} dt description
      */
     step: function( dt ) {
 
