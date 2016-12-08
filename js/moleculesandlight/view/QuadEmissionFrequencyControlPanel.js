@@ -137,7 +137,7 @@ define( function( require ) {
       buttonContentYMargin: 8,
       selectedLineWidth: 3,
       cornerRadius: 7,
-      tandem: tandem.createTandem('radioButtonGroup')
+      tandem: tandem.createTandem('RadioButtonGroup')
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
