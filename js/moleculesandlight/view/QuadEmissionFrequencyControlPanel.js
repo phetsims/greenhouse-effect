@@ -84,7 +84,7 @@ define( function( require ) {
         font: labelFont,
         tandem: tandem.createTandem( 'microwaveRadioButtonLabel' )
       } ),
-      tandem: tandem.createTandem( 'microwaveRadioButton' )
+      tandemName: 'microwaveRadioButton'
     }, {
       node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
       value: WavelengthConstants.IR_WAVELENGTH,
@@ -92,7 +92,7 @@ define( function( require ) {
         font: labelFont,
         tandem: tandem.createTandem( 'infraredRadioButtonLabel' )
       } ),
-      tandem: tandem.createTandem( 'infraredRadioButton' )
+      tandemName:  'infraredRadioButton'
     }, {
       node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
@@ -100,7 +100,7 @@ define( function( require ) {
         font: labelFont,
         tandem: tandem.createTandem( 'visibleRadioButtonLabel' )
       } ),
-      tandem: tandem.createTandem( 'visibleRadioButton' )
+      tandemName: 'visibleRadioButton'
     }, {
       node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
       value: WavelengthConstants.UV_WAVELENGTH,
@@ -108,7 +108,7 @@ define( function( require ) {
         font: labelFont,
         tandem: tandem.createTandem( 'ultravioletRadioButtonLabel' )
       } ),
-      tandem: tandem.createTandem( 'ultravioletRadioButton' )
+      tandemName:'ultravioletRadioButton'
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.
@@ -136,7 +136,8 @@ define( function( require ) {
       buttonContentXMargin: 5,
       buttonContentYMargin: 8,
       selectedLineWidth: 3,
-      cornerRadius: 7
+      cornerRadius: 7,
+      tandem: tandem.createTandem('radioButtonGroup')
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
