@@ -235,16 +235,16 @@ define( function( require ) {
     }
 
     // Add the various bands.
-    addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString );
+    addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString, tandem.createTandem( 'radioBandLabel' ) );
     addBandDivider( self, 1E9 );
-    addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString );
+    addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString, tandem.createTandem( 'microwaveBandLabel' ) );
     addBandDivider( self, 3E11 );
-    addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString );
-    addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString );
+    addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString, tandem.createTandem( 'infraredBandLabel' ) );
+    addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString, tandem.createTandem( 'ultravioletBandLabel' ) );
     addBandDivider( self, 1E16 );
-    addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString );
+    addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString, tandem.createTandem( 'xrayBandLabel' ) );
     addBandDivider( self, 1E19 );
-    addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString );
+    addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
 
     // Add the visible spectrum.
     var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -398,7 +398,7 @@ define( function( require ) {
    * @param {number} highEndFrequency
    * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
    */
-  function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString ) {
+  function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString, tandem ) {
     // Argument validation.
     assert && assert( highEndFrequency >= lowEndFrequency );
 
@@ -409,7 +409,7 @@ define( function( require ) {
     var centerX = leftBoundaryX + width / 2;
 
     // Create and add the label.
-    var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT } );
+    var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
     thisNode.addChild( labelText );
 
     if ( ( labelText.width + 10 ) > width ) {
@@ -498,7 +498,7 @@ define( function( require ) {
     var self = this;
 
     var children = [
-      new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' )),
+      new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' ) ),
       new CloseButton( self, tandem.createTandem( 'closeButton' ) )
     ];
 
