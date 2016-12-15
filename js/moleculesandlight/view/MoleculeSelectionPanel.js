@@ -163,7 +163,7 @@ define( function( require ) {
       cornerRadius: 7,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
-      tandem: tandem.createTandem('RadioButtonGroup')
+      tandem: tandem.createTandem('radioButtonGroup')
     } );
 
     Panel.call( this, radioButtons, { fill: 'black' } );
