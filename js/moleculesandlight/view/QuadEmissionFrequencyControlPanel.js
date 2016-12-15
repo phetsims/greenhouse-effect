@@ -77,38 +77,45 @@ define( function( require ) {
     // Load the radio button content into an array of object literals which holds the node, label string, and
     // value for each button.
     var labelFont = new PhetFont( 18 );
+
+    // This is sort of hack to pass through the tandem of the radioButtonGroupMember to its child.
+    var microwaveTandemName = 'microwaveRadioButton';
+    var infraredTandemName = 'infraredRadioButton';
+    var visibleTandemName = 'visibleRadioButton';
+    var ultravioletTandemName = 'ultravioletRadioButton';
+    var radioButtonGroupTandem = tandem.createTandem('radioButtonGroup');
     var radioButtonContent = [ {
       node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new TandemText( quadWavelengthSelectorMicrowaveString, {
         font: labelFont,
-        tandem: tandem.createTandem( 'microwaveRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem(microwaveTandemName).createTandem( 'microwaveRadioButtonLabel' )
       } ),
-      tandemName: 'microwaveRadioButton'
+      tandemName: microwaveTandemName
     }, {
       node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
       value: WavelengthConstants.IR_WAVELENGTH,
       label: new TandemText( quadWavelengthSelectorInfraredString, {
         font: labelFont,
-        tandem: tandem.createTandem( 'infraredRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem(infraredTandemName).createTandem( 'infraredRadioButtonLabel' )
       } ),
-      tandemName:  'infraredRadioButton'
+      tandemName:  infraredTandemName
     }, {
       node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new TandemText( quadWavelengthSelectorVisibleString, {
         font: labelFont,
-        tandem: tandem.createTandem( 'visibleRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem(visibleTandemName).createTandem( 'visibleRadioButtonLabel' )
       } ),
-      tandemName: 'visibleRadioButton'
+      tandemName: visibleTandemName
     }, {
       node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
       value: WavelengthConstants.UV_WAVELENGTH,
       label: new TandemText( quadWavelengthSelectorUltravioletString, {
         font: labelFont,
-        tandem: tandem.createTandem( 'ultravioletRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem(ultravioletTandemName).createTandem( 'ultravioletRadioButtonLabel' )
       } ),
-      tandemName:'ultravioletRadioButton'
+      tandemName: ultravioletTandemName
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.
@@ -137,7 +144,7 @@ define( function( require ) {
       buttonContentYMargin: 8,
       selectedLineWidth: 3,
       cornerRadius: 7,
-      tandem: tandem.createTandem('radioButtonGroup')
+      tandem: radioButtonGroupTandem
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
