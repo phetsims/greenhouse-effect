@@ -506,7 +506,8 @@ define( function( require ) {
 
     Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false
+      hasCloseButton: false,
+      tandem: tandem
     } );
 
     // close it on a click
