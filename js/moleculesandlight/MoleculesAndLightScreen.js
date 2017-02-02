@@ -17,7 +17,6 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Property = require( 'AXON/Property' );
-  var Color = require( 'SCENERY/util/Color' );
 
   /**
    * @param {Tandem} tandem
@@ -27,7 +26,7 @@ define( function( require ) {
     Screen.call( this,
       function() { return new PhotonAbsorptionModel( PhotonTarget.SINGLE_CO_MOLECULE, tandem.createTandem( 'model' ) ); },
       function( model ) { return new MoleculesAndLightScreenView( model, tandem.createTandem( 'view' ) ); }, {
-        backgroundColorProperty: new Property( Color.toColor( '#C5D6E8' ) ),
+        backgroundColorProperty: new Property( '#C5D6E8' ),
         tandem: tandem
       }
     );
