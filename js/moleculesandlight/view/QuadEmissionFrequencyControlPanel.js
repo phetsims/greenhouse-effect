@@ -120,7 +120,7 @@ define( function( require ) {
 
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
-    var panelWidth = _.max( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
+    var panelWidth = _.maxBy( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
     // Calculate the minimum scale factor that must be applied to each label. Ensures constant font size for all labels.
     var scaleFactor = 1;
     _.each( radioButtonContent, function( content ) {
