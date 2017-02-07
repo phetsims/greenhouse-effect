@@ -38,13 +38,15 @@ define( function( require ) {
       }
     } );
 
+    var self = this;
+
     // @private
     this.wavelength = wavelength;
     this.vx = 0; // x component of the photon velocity
     this.vy = 0; // y component of the photon velocity
 
     this.disposePhoton = function() {
-      tandem && tandem.removeInstance( this );
+      tandem && tandem.removeInstance( self );
     };
 
     // Photons in the play area are instrumented, those in the control panel (for icons) are not.
