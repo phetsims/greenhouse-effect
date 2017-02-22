@@ -78,6 +78,7 @@ define( function( require ) {
   inherit( Node, EmissionRateControlSliderNode, {
     dispose: function() {
       this.emissionRateControlSlider.dispose();
+      Node.prototype.dispose.call( this );
     },
 
     /**
