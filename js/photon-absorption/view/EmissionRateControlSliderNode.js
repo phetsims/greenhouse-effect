@@ -189,6 +189,7 @@ define( function( require ) {
   inherit( Path, EmissionRateThumbNode, {
     dispose: function() {
       this.disposeEmissionRateThumbNode();
+      Path.prototype.dispose.call( this );
     }
   } );
 
