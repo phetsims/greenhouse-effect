@@ -19,7 +19,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // phet-io modules
-  var TPhoton = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhoton' );
+  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   /**

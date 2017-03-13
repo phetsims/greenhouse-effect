@@ -37,11 +37,11 @@ define( function( require ) {
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-  var TMolecule = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TMolecule' );
+  var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-  var TPhoton = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhoton' );
+  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
-  var TPhotonAbsorptionModel = require( 'ifphetio!PHET_IO/simulations/molecules-and-light/TPhotonAbsorptionModel' );
+  var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
 
   // ------- constants -------------
 
