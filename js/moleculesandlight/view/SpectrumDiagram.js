@@ -16,7 +16,6 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Line = require( 'SCENERY/nodes/Line' );
@@ -26,21 +25,14 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
-  var Dialog = require( 'JOIST/Dialog' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Property = require( 'AXON/Property' );
   var Util = require( 'DOT/Util' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Dimension2 = require( 'DOT/Dimension2' );
-
-  // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
 
   // strings
   var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
   var spectrumWindowFrequencyArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.frequencyArrowLabel' );
   var spectrumWindowWavelengthArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.wavelengthArrowLabel' );
-  var spectrumWindowCloseString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.close' );
   var spectrumWindowRadioBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.radioBandLabel' );
   var spectrumWindowMicrowaveBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.microwaveBandLabel' );
   var spectrumWindowInfraredBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.infraredBandLabel' );
@@ -121,7 +113,11 @@ define( function( require ) {
 
   moleculesAndLight.register( 'SpectrumDiagram', SpectrumDiagram );
 
-  inherit( LayoutBox, SpectrumDiagram );
+  inherit( LayoutBox, SpectrumDiagram, {}, {
+
+    // @static
+    SUBSECTION_WIDTH: SUBSECTION_WIDTH
+  } );
 
   /**
    * Constructor for the labeled arrow in the spectrum window.
@@ -175,31 +171,6 @@ define( function( require ) {
   moleculesAndLight.register( 'LabeledArrow', LabeledArrow );
 
   inherit( ArrowNode, LabeledArrow );
-
-  /**
-   * Create a button which closes the spectrum window.  As of right now the behavior of the spectrum window is to
-   * close whenever the user clicks in the molecules and light screen view ( as in AboutDialog ).
-   *
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function CloseButton( dialog, tandem ) {
-
-    // create content and scale for translations.
-    var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
-    if ( content.width > SUBSECTION_WIDTH ) {
-      content.scale( SUBSECTION_WIDTH / content.width );
-    }
-
-    var closeListener = function() {
-      Dialog.prototype.hide.call( dialog );
-    };
-    RectangularPushButton.call( this, { content: content, listener: closeListener, tandem: tandem } );
-  }
-
-  moleculesAndLight.register( 'CloseButton', CloseButton );
-
-  inherit( RectangularPushButton, CloseButton );
 
   /**
    * Class that depicts the frequencies and wavelengths of the EM spectrum and labels the subsections
@@ -487,59 +458,5 @@ define( function( require ) {
 
   inherit( Rectangle, ChirpNode );
 
-  /**
-   * Constructor for the Spectrum Window.  Loads all subclass objects into a vertical layout box.
-   *
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function SpectrumWindow( tandem ) {
-
-    var self = this;
-
-    var children = [
-      new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' ) ),
-      new CloseButton( self, tandem.createTandem( 'closeButton' ) )
-    ];
-
-    var content = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
-
-    Dialog.call( this, content, {
-      modal: true,
-      hasCloseButton: false,
-      tandem: tandem
-    } );
-
-    // close it on a click
-    this.addInputListener( new ButtonListener( {
-      fire: self.hide.bind( self )
-    } ) );
-
-    // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
-    // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
-    this.shownProperty = new Property( false, {
-      tandem: tandem.createTandem( 'shownProperty' ),
-      phetioValueType: TBoolean
-    } );
-
-    this.shownProperty.lazyLink( function( shown ) {
-      if ( shown ) {
-        Dialog.prototype.show.call( self );
-      }
-      else {
-        Dialog.prototype.hide.call( self );
-      }
-    } );
-  }
-
-  moleculesAndLight.register( 'SpectrumWindow', SpectrumWindow );
-
-  return inherit( Dialog, SpectrumWindow, {
-    hide: function() {
-      this.shownProperty.value = false;
-    },
-    show: function() {
-      this.shownProperty.value = true;
-    }
-  } );
+  return SpectrumDiagram;
 } );

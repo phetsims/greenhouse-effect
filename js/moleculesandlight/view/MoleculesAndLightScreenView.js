@@ -27,7 +27,8 @@ define( function( require ) {
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var SpectrumWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindow' );
+  var SpectrumWindowDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindowDialog' );
+  var SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
   var WindowFrameNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/WindowFrameNode' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -130,13 +131,10 @@ define( function( require ) {
     } );
     this.addChild( stepButton );
 
-    // Window that displays the EM spectrum upon request.  Constructed once here so that time is not waisted
-    // drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
+    // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
+    // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     // @private
-    var self = this;
-    this.createSpectrumWindow = function() {
-      self.spectrumWindow = new SpectrumWindow( tandem.createTandem( 'spectrumWindow' ) ); // @private
-    };
+    var spectrumDiagram = new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' ) );
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
@@ -151,7 +149,7 @@ define( function( require ) {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        self.spectrumWindow.show();
+        new SpectrumWindowDialog( spectrumDiagram, tandem.createTandem( 'spectrumWindowDialog' ) ).show();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
@@ -165,21 +163,5 @@ define( function( require ) {
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
 
-  return inherit( ScreenView, MoleculesAndLightScreenView, {
-
-    /**
-     * Step function for the view
-     *
-     * @param  {number} dt description
-     */
-    step: function( dt ) {
-
-      // if the spectrum window hasn't been created yet, try to create it on this frame
-      // spectrum window is only created once so that we don't have to draw the nodes in the dialog
-      // every time it is shown, which takes a noticeable amount of time on tablets
-      if( !this.spectrumWindow ) {
-        this.createSpectrumWindow();
-      }
-    }
-  } );
+  return inherit( ScreenView, MoleculesAndLightScreenView );
 } );
