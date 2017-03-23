@@ -40,9 +40,10 @@ define( function( require ) {
   function SpectrumWindowDialog( mainContent, tandem ) {
 
     // format the main content with a close button
+    var closeButton = new CloseButton( this, tandem.createTandem( 'closeButton' ) );
     var children = [
       mainContent,
-      new CloseButton( this, tandem.createTandem( 'closeButton' ) )
+      closeButton
     ];
     var layoutBox = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
 
@@ -54,9 +55,10 @@ define( function( require ) {
 
     // close it on a click
     var self = this;
-    this.addInputListener( new ButtonListener( {
+    var buttonListener = new ButtonListener( {
       fire: self.hide.bind( self )
-    } ) );
+    } );
+    this.addInputListener( buttonListener );
 
     // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
     // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
@@ -65,14 +67,30 @@ define( function( require ) {
       phetioValueType: TBoolean
     } );
 
-    this.shownProperty.lazyLink( function( shown ) {
+    var shownListener = function( shown ) {
       if ( shown ) {
         Dialog.prototype.show.call( self );
       }
       else {
         Dialog.prototype.hide.call( self );
+
+        // dispose the dialog, removing listeners and tandem instances
+        self.dispose();
       }
-    } );
+    };
+    this.shownProperty.lazyLink( shownListener );
+
+    // @private - make eligible for garbage collection, and remove tandems
+    this.disposeSpectrumWindowDialog = function() {
+      self.removeInputListener( buttonListener );
+      self.shownProperty.unlink( shownListener );
+
+      // remove the tandem attached to the shown property
+      self.shownProperty.dispose();
+
+      // dispose the close button
+      closeButton.dispose();
+    };
   }
 
   moleculesAndLight.register( 'SpectrumWindowDialog', SpectrumWindowDialog );
@@ -83,6 +101,15 @@ define( function( require ) {
     },
     show: function() {
       this.shownProperty.value = true;
+    },
+
+    /**
+     * Make eligible for garbage collection
+     * @public
+     */
+    dispose: function() {
+      this.disposeSpectrumWindowDialog();
+      Dialog.prototype.dispose && Dialog.prototype.dispose.call( this );
     }
   } );
 
@@ -96,6 +123,8 @@ define( function( require ) {
    */
   function CloseButton( dialog, tandem ) {
 
+    var self = this;
+
     // create content and scale for translations.
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
     if ( content.width > SpectrumDiagram.SUBSECTION_WIDTH ) {
@@ -106,11 +135,26 @@ define( function( require ) {
       Dialog.prototype.hide.call( dialog );
     };
     RectangularPushButton.call( this, { content: content, listener: closeListener, tandem: tandem } );
+
+    // @private - remove tandem instances
+    this.disposeCloseButton = function() {
+      tandem.removeInstance( self );
+    };
   }
 
   moleculesAndLight.register( 'CloseButton', CloseButton );
 
-  inherit( RectangularPushButton, CloseButton );
+  inherit( RectangularPushButton, CloseButton, {
+
+    /**
+     * Make eligible for garbage collection.
+     * @public
+     */
+    dispose: function() {
+      this.disposeCloseButton();
+      RectangularPushButton.prototype.dispose && RectangularPushButton.prototype.dispose.call( this );
+    }
+  } );
 
   return SpectrumWindowDialog;
 } );
