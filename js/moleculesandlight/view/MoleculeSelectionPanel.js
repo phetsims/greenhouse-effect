@@ -26,7 +26,7 @@ define( function( require ) {
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var RichText = require( 'SCENERY_PHET/RichText' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -87,7 +87,7 @@ define( function( require ) {
 
       // Create text label for the molecule name.  Use StringUtils to order chemical names and formulas as desired.
       var moleculeNameString = StringUtils.format( molecularNamePatternString, moleculeName, moleculeFormula );
-      var molecularName = new SubSupText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
+      var molecularName = new RichText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
       textList.push( molecularName );
       molecularName.centerY = backgroundRectangle.centerY;
       molecularName.left = backgroundRectangle.left + 10;
