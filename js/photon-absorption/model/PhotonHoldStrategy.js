@@ -63,7 +63,7 @@ define( function( require ) {
      * photon.
      *
      * @param {Photon} photon
-     * @return {boolean} absorbed
+     * @returns {boolean} absorbed
      **/
     queryAndAbsorbPhoton: function( photon ) {
 

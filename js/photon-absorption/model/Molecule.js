@@ -154,7 +154,7 @@ define( function( require ) {
     /**
      * Checks to see if a photon has been absorbed.
      *
-     * @return {boolean}
+     * @returns {boolean}
      */
     isPhotonAbsorbed: function() {
       // If there is an active non-null photon absorption strategy, it indicates that a photon has been absorbed.
@@ -180,7 +180,7 @@ define( function( require ) {
      * Get the initial offset from the molecule's center of gravity (COG) for the specified atom.
      *
      * @param {Atom} atom
-     * @return {Vector2}
+     * @returns {Vector2}
      **/
     getInitialAtomCogOffset: function( atom ) {
       if ( !(atom.uniqueID in this.initialAtomCogOffsets) ) {
@@ -193,7 +193,7 @@ define( function( require ) {
      * Get the current vibration offset from the molecule's center of gravity (COG) for the specified molecule.
      *
      * @param {Atom} atom
-     * @return {Vector2} - Vector representing location of vibration offset from molecule's center of gravity.
+     * @returns {Vector2} - Vector representing location of vibration offset from molecule's center of gravity.
      */
     getVibrationAtomOffset: function( atom ) {
       if ( !(atom.uniqueID in this.vibrationAtomOffsets) ) {
@@ -230,7 +230,7 @@ define( function( require ) {
     /**
      * Create a new Vector2 describing the location of this molecules center of gravity.
      *
-     * @return {Vector2}
+     * @returns {Vector2}
      **/
     getCenterOfGravityPos: function() {
       return new Vector2( this.centerOfGravity.x, this.centerOfGravity.y );
@@ -328,7 +328,7 @@ define( function( require ) {
      * Determine if a photon is marked to be passed through this molecule.
      *
      * @param {Photon} photon
-     * @return {boolean}
+     * @returns {boolean}
      **/
     isPhotonMarkedForPassThrough: function( photon ) {
       // Use indexOf to see if the photon exists in the list. If the photon is not in the list, indexOf will return -1.
@@ -338,7 +338,7 @@ define( function( require ) {
     /**
      * Create a new array containing the atoms which compose this molecule.
      *
-     * @return {Array.<Atom>} - Array containing the atoms which compose this molecule.
+     * @returns {Array.<Atom>} - Array containing the atoms which compose this molecule.
      **/
     getAtoms: function() {
       return this.atoms.slice( 0 );
@@ -347,7 +347,7 @@ define( function( require ) {
     /**
      * Create a new array containing this Molecules atomic bonds.
      *
-     * @return {Array.<AtomicBond>} - Array containing the atomic bonds constructing this molecule.
+     * @returns {Array.<AtomicBond>} - Array containing the atomic bonds constructing this molecule.
      **/
     getAtomicBonds: function() {
       return this.atomicBonds.slice( 0 );
@@ -358,7 +358,7 @@ define( function( require ) {
      * is set so that it can control the molecule's post-absorption behavior.
      *
      * @param {Photon} photon - The photon offered for absorption.
-     * @return {boolean} absorbPhoton
+     * @returns {boolean} absorbPhoton
      **/
     queryAbsorbPhoton: function( photon ) {
 
