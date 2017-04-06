@@ -266,7 +266,7 @@ define( function( require ) {
    * Convert the given frequency to an offset from the left edge of the spectrum strip.
    *
    * @param {number} frequency - Frequency in Hz.
-   * @return {number}
+   * @returns {number}
    */
   function getOffsetFromFrequency( frequency ) {
     assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
@@ -279,7 +279,7 @@ define( function( require ) {
    * Create a label for the tick marks on the spectrum diagram.
    *
    * @param {number} value -  Wavelength or frequency to be described by the label.
-   * @return {SubSupText}
+   * @returns {SubSupText}
    */
   function createExponentialLabel( value ) {
 
