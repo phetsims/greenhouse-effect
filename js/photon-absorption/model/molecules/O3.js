@@ -39,7 +39,7 @@ define( function( require ) {
   //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
   var RAND = {
     nextBoolean: function() {
-      return Math.random() < 0.50;
+      return phet.joist.random.nextDouble() < 0.50;
     }
   };
 
@@ -148,12 +148,12 @@ define( function( require ) {
         diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
         diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.rightOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
           ( this.getInitialAtomCogOffset( this.centerOxygenAtom ).y + this.getInitialAtomCogOffset( this.rightOxygenAtom ).y ) / 2 );
-        breakApartAngle = Math.PI / 4 + Math.random() * Math.PI / 4;
+        breakApartAngle = Math.PI / 4 + phet.joist.random.nextDouble() * Math.PI / 4;
         singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
       }
       else {
         diatomicOxygenMolecule.rotate( diatomicMoleculeRotationAngle );
-        breakApartAngle = Math.PI / 2 + Math.random() * Math.PI / 4;
+        breakApartAngle = Math.PI / 2 + phet.joist.random.nextDouble() * Math.PI / 4;
         diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
           ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
         singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );

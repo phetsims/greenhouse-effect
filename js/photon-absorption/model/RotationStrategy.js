@@ -16,7 +16,7 @@ define( function( require ) {
   //Random boolean generator.
   var RAND = {
     nextBoolean: function() {
-      return Math.random() < 0.50;
+      return phet.joist.random.nextDouble() < 0.50;
     }
   };
 

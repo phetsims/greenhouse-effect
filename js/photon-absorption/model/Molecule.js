@@ -419,7 +419,7 @@ define( function( require ) {
      **/
     emitPhoton: function( wavelength ) {
       var photonToEmit = new Photon( wavelength, this.photonGroupTandem.createNextTandem() );
-      var emissionAngle = Math.random() * Math.PI * 2;
+      var emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
       var centerOfGravityPosRef = this.centerOfGravity;
