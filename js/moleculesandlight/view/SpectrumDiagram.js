@@ -20,7 +20,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Vector2 = require( 'DOT/Vector2' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var RichText = require( 'SCENERY_PHET/RichText' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -279,12 +279,12 @@ define( function( require ) {
    * Create a label for the tick marks on the spectrum diagram.
    *
    * @param {number} value -  Wavelength or frequency to be described by the label.
-   * @returns {SubSupText}
+   * @returns {RichText}
    */
   function createExponentialLabel( value ) {
 
     var superscript = Util.roundSymmetric( log10( value ) );
-    return new SubSupText( '10<sup>' + superscript + '</sup>', {
+    return new RichText( '10<sup>' + superscript + '</sup>', {
       font: TICK_MARK_FONT,
       supScale: 0.65,
       supYOffset: 1
