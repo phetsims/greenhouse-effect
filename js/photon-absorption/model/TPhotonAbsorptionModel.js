@@ -21,6 +21,7 @@ define( function( require ) {
   };
 
   phetioInherit( TObject, 'TPhotonAbsorptionModel', TPhotonAbsorptionModel, {}, {
+      documentation: 'The model for Photon Absorption',
       clearChildInstances: function( instance ) {
         instance.clearPhotons();
         // instance.chargedParticles.clear();

@@ -21,7 +21,7 @@ define( function( require ) {
   };
 
   phetioInherit( Object, 'TPhoton', TPhoton, {}, {
-
+    documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
         vx: TNumber().fromStateObject( stateObject.vx ),
