@@ -68,10 +68,22 @@ define( function( require ) {
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
     // nodes do not correspond to anything in the model.  They are just visual elements of the control panel.
     var identityTransform = ModelViewTransform2.createIdentity();
-    var microwavePhotonNode = new PhotonNode( new Photon( WavelengthConstants.MICRO_WAVELENGTH ), identityTransform );
-    var infraredPhotonNode = new PhotonNode( new Photon( WavelengthConstants.IR_WAVELENGTH ), identityTransform );
-    var visiblePhotonNode = new PhotonNode( new Photon( WavelengthConstants.VISIBLE_WAVELENGTH ), identityTransform );
-    var ultravioletPhotonNode = new PhotonNode( new Photon( WavelengthConstants.UV_WAVELENGTH ), identityTransform );
+    var microwavePhotonNode = new PhotonNode(
+      new Photon( WavelengthConstants.MICRO_WAVELENGTH, tandem.createTandem( 'microwavePhotonNode' ) ),
+      identityTransform
+    );
+    var infraredPhotonNode = new PhotonNode(
+      new Photon( WavelengthConstants.IR_WAVELENGTH, tandem.createTandem( 'infraredPhotonNode' ) ),
+      identityTransform
+    );
+    var visiblePhotonNode = new PhotonNode(
+      new Photon( WavelengthConstants.VISIBLE_WAVELENGTH, tandem.createTandem( 'visiblePhotonNode' ) ),
+      identityTransform
+    );
+    var ultravioletPhotonNode = new PhotonNode(
+      new Photon( WavelengthConstants.UV_WAVELENGTH, tandem.createTandem( 'ultravioletPhotonNode' ) ),
+      identityTransform
+    );
 
     // Load the radio button content into an array of object literals which holds the node, label string, and
     // value for each button.
@@ -82,13 +94,13 @@ define( function( require ) {
     var infraredTandemName = 'infraredRadioButton';
     var visibleTandemName = 'visibleRadioButton';
     var ultravioletTandemName = 'ultravioletRadioButton';
-    var radioButtonGroupTandem = tandem.createTandem('radioButtonGroup');
+    var radioButtonGroupTandem = tandem.createTandem( 'radioButtonGroup' );
     var radioButtonContent = [ {
       node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem(microwaveTandemName).createTandem( 'microwaveRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabel' )
       } ),
       tandemName: microwaveTandemName
     }, {
@@ -96,15 +108,15 @@ define( function( require ) {
       value: WavelengthConstants.IR_WAVELENGTH,
       label: new Text( quadWavelengthSelectorInfraredString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem(infraredTandemName).createTandem( 'infraredRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabel' )
       } ),
-      tandemName:  infraredTandemName
+      tandemName: infraredTandemName
     }, {
       node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new Text( quadWavelengthSelectorVisibleString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem(visibleTandemName).createTandem( 'visibleRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabel' )
       } ),
       tandemName: visibleTandemName
     }, {
@@ -112,7 +124,7 @@ define( function( require ) {
       value: WavelengthConstants.UV_WAVELENGTH,
       label: new Text( quadWavelengthSelectorUltravioletString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem(ultravioletTandemName).createTandem( 'ultravioletRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabel' )
       } ),
       tandemName: ultravioletTandemName
     } ];
