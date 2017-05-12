@@ -23,7 +23,8 @@ define( function( require ) {
   /**
    * Constructor for a photon.
    *
-   * @param { Number } wavelength
+   * @param {Number} wavelength
+   * @param {Tandem} tandem
    * @constructor
    */
   function Photon( wavelength, tandem ) {
@@ -31,7 +32,7 @@ define( function( require ) {
     PropertySet.call( this, null, {
       location: {
         value: new Vector2( 0, 0 ),
-        tandem: tandem && tandem.createTandem( 'locationProperty' ),
+        tandem: tandem.createTandem( 'locationProperty' ),
         phetioValueType: TVector2
       }
     } );
