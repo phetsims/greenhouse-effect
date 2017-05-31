@@ -51,7 +51,9 @@ define( function( require ) {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
       thumbNode: new EmissionRateThumbNode(),
-      tandem: tandem
+      tandem: tandem,
+      numberDecimalPlaces: 1,
+      keyboardStep: 0.1
     } ); // @private
 
     // width of the background rectangle is larger than the slider to accentuate the thumb.
