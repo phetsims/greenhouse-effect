@@ -13,10 +13,16 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
-  var TMolecule = function( instance, phetioID ) {
+  /**
+   *
+   * @param instance
+   * @param phetioID
+   * @constructor
+   */
+  function TMolecule( instance, phetioID ) {
     assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
     Object.call( this, instance, phetioID );
-  };
+  }
 
   phetioInherit( Object, 'TMolecule', TMolecule, {}, {
 

@@ -14,11 +14,16 @@ define( function( require ) {
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
 
-  // Instrumented to help restore charged particles.
-  var TPhotonAbsorptionModel = function( instance, phetioID ) {
+  /**
+   * Instrumented to help restore charged particles.
+   * @param instance
+   * @param phetioID
+   * @constructor
+   */
+  function TPhotonAbsorptionModel( instance, phetioID ) {
     assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
     TObject.call( this, instance, phetioID );
-  };
+  }
 
   phetioInherit( TObject, 'TPhotonAbsorptionModel', TPhotonAbsorptionModel, {}, {
       documentation: 'The model for Photon Absorption',

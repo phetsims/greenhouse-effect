@@ -15,10 +15,16 @@ define( function( require ) {
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
-  var TPhoton = function( instance, phetioID ) {
+  /**
+   *
+   * @param instance
+   * @param phetioID
+   * @constructor
+   */
+  function TPhoton( instance, phetioID ) {
     assertInstanceOf( instance, phet.moleculesAndLight.Photon );
     TObject.call( this, instance, phetioID );
-  };
+  }
 
   phetioInherit( Object, 'TPhoton', TPhoton, {}, {
     documentation: 'A Photon',
