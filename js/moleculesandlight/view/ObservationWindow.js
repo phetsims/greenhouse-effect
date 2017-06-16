@@ -185,6 +185,10 @@ define( function( require ) {
         self.returnMoleculeButtonNode.pickable = false;
       }
       self.returnMoleculeButtonNode.opacity = self.returnMoleculeButtonVisibleProperty.get() ? 0.99 : 0;
+
+      // a11y
+      // remove return molecule button from keyboard focus order if it's not visible
+      self.returnMoleculeButtonNode.setFocusable( self.returnMoleculeButtonVisibleProperty.get() );
     } );
 
   }
