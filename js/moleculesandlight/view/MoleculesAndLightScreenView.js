@@ -159,6 +159,9 @@ define( function( require ) {
     // Add the nodes in the order necessary for correct layering.
     this.addChild( photonEmissionControlPanel );
     this.addChild( moleculeControlPanel );
+
+    // a11y
+    this.accessibleOrder = [observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
   }
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );

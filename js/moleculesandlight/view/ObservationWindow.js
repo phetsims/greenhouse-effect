@@ -191,6 +191,17 @@ define( function( require ) {
       self.returnMoleculeButtonNode.setFocusable( self.returnMoleculeButtonVisibleProperty.get() );
     } );
 
+    // TODO: investigate rendering parallel DOM prior to scene graph
+    // below listener fails since the property's listener is called before the parallel DOM is created
+    // a11y
+    this.returnMoleculeButtonVisibleProperty.lazyLink( function() {
+
+      // move focus to the emission control slider
+      if ( !self.returnMoleculeButtonNode.focusable ) {
+        photonEmitterNode.emissionRateControlSliderNode.emissionRateControlSlider.focus();
+      }
+    } );
+
   }
 
   moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
