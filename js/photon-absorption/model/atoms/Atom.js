@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require ( 'AXON/Property' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
@@ -37,20 +37,21 @@ define( function( require ) {
     }, options );
 
     // @public
-    PropertySet.call( this, {
-      position: options.initialPosition
-    } );
+    this.positionProperty = new Property( options.initialPosition, options );
 
     // @public (read-only)
     this.representationColor = representationColor;
     this.radius = radius;
     this.mass = mass;
     this.uniqueID = options.idOverride || instanceCount++;
+
+    // PropertySet deprecation check
+    Property.preventGetSet( this, 'position' );
   }
 
   moleculesAndLight.register( 'Atom', Atom );
 
-  return inherit( PropertySet, Atom, {
+  return inherit( Object, Atom, {
 
     /**
      * Set the position of this atom from a single vector.
@@ -58,7 +59,7 @@ define( function( require ) {
      * @param {Vector2} position - The desired position of this atom as a Vector
      */
     setPositionVec: function( position ) {
-      if ( this.positionProperty !== position ) {
+      if ( this.positionProperty.get() !== position ) {
         this.positionProperty.set( position );
       }
     },
@@ -70,7 +71,7 @@ define( function( require ) {
      * @param {number} y - The desired y coordinate of this atom
      */
     setPosition: function( x, y ) {
-      if ( this.positionProperty.get.x !== x || this.positionProperty.get.y !== y ) {
+      if ( this.positionProperty.get().x !== x || this.positionProperty.get().y !== y ) {
         this.positionProperty.set( new Vector2( x, y ) );
       }
     },
@@ -82,7 +83,7 @@ define( function( require ) {
         radius: this.radius,
         mass: this.mass,
         uniqueID: this.uniqueID,
-        position: this.positionProperty.value.toStateObject()
+        position: this.positionProperty.get().toStateObject()
       };
     }
   }, {

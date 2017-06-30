@@ -443,7 +443,7 @@ define( function( require ) {
           atomOffset.rotate( this.currentRotationRadians );
           // Set location based on combination of offset and current center
           // of gravity.
-          this.atomsByID[ uniqueID ].position = new Vector2( this.centerOfGravity.x + atomOffset.x, this.centerOfGravity.y + atomOffset.y );
+          this.atomsByID[ uniqueID ].positionProperty.set( new Vector2( this.centerOfGravity.x + atomOffset.x, this.centerOfGravity.y + atomOffset.y ) );
         }
       }
     },

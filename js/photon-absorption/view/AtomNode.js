@@ -51,7 +51,7 @@ define( function( require ) {
 
     // Link the model position to the position of this node.
     this.atom.positionProperty.link( function() {
-      self.translation = self.modelViewTransform.modelToViewPosition( self.atom.position );
+      self.translation = self.modelViewTransform.modelToViewPosition( self.atom.positionProperty.get() );
     } );
   }
 
