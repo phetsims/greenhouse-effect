@@ -366,7 +366,7 @@ define( function( require ) {
 
       if ( !this.isPhotonAbsorbed() &&
            this.absorptionHysteresisCountdownTime <= 0 &&
-           photon.location.distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
+           photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?

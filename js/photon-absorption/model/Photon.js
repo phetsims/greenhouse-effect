@@ -15,7 +15,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var TVector2 = require( 'DOT/TVector2' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
@@ -29,13 +29,10 @@ define( function( require ) {
    */
   function Photon( wavelength, tandem ) {
 
-    PropertySet.call( this, null, {
-      location: {
-        value: new Vector2( 0, 0 ),
-        tandem: tandem.createTandem( 'locationProperty' ),
-        phetioValueType: TVector2
-      }
-    } );
+    this.locationProperty = new Property( new Vector2( 0, 0 ), {
+      tandem: tandem.createTandem( 'locationProperty' ),
+      phetioValueType: TVector2
+    });
 
     var self = this;
 
@@ -54,11 +51,11 @@ define( function( require ) {
 
   moleculesAndLight.register( 'Photon', Photon );
 
-  return inherit( PropertySet, Photon, {
+  return inherit( Object, Photon, {
 
     dispose: function() {
-      this.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
-      PropertySet.prototype.dispose.call( this );
+      this.locationProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
+      this.locationProperty.dispose();
       this.disposePhoton();
     },
 
@@ -79,7 +76,7 @@ define( function( require ) {
      * @param {number} dt - The incremental time step.
      */
     step: function( dt ) {
-      this.location = new Vector2( this.location.x + this.vx * dt, this.location.y + this.vy * dt );
+      this.locationProperty.set( new Vector2( this.locationProperty.get().x + this.vx * dt, this.locationProperty.get().y + this.vy * dt ) );
     }
   } );
 } );
