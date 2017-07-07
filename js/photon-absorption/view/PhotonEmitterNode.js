@@ -57,7 +57,7 @@ define( function( require ) {
 
     // update brightness of emitter bulb upon changes to photon emission frequency
     model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-      self.updateOffImageOpacity( self.model.photonWavelength, emissionFrequency );
+      self.updateOffImageOpacity( self.model.photonWavelengthProperty.get(), emissionFrequency );
     } );
 
   }

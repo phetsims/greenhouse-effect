@@ -30,7 +30,8 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -75,45 +76,34 @@ define( function( require ) {
     // @private
     this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
-    var properties = {
+    // @public
+    this.emissionFrequencyProperty = new Property( 0, {
+      tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
+      phetioValueType: TNumber( { units: 'hertz' } )
+    });
 
-      // @public
-      emissionFrequency: {
-        value: 0, // Hz
-        tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
-        phetioValueType: TNumber( { units: 'hertz' } )
-      },
+    // @public
+    this.photonWavelengthProperty = new Property( WavelengthConstants.IR_WAVELENGTH, {
+      tandem: tandem.createTandem( 'photonWavelengthProperty' ),
+      phetioValueType: TNumber( {
+        units: 'meters', values: [
+          WavelengthConstants.MICRO_WAVELENGTH,
+          WavelengthConstants.IR_WAVELENGTH,
+          WavelengthConstants.VISIBLE_WAVELENGTH,
+          WavelengthConstants.UV_WAVELENGTH
+        ]
+      } )
+    } );
 
-      // @public
-      photonWavelength: {
-        value: WavelengthConstants.IR_WAVELENGTH, // nm
-        tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-        phetioValueType: TNumber( {
-          units: 'meters', values: [
-            WavelengthConstants.MICRO_WAVELENGTH,
-            WavelengthConstants.IR_WAVELENGTH,
-            WavelengthConstants.VISIBLE_WAVELENGTH,
-            WavelengthConstants.UV_WAVELENGTH
-          ]
-        } )
-      },
+    this.photonTargetProperty = new Property( initialPhotonTarget, {
+      tandem: tandem.createTandem( 'photonTargetProperty' ),
+      phetioValueType: TString
+    } );
 
-      // @public molecule that photons are fired at
-      photonTarget: {
-        value: initialPhotonTarget,
-        tandem: tandem.createTandem( 'photonTargetProperty' ),
-        phetioValueType: TString
-      },
-
-      // @public is the sim running or paused?
-      running: {
-        value: true,
-        tandem: tandem.createTandem( 'runningProperty' ),
-        phetioValueType: TBoolean
-      }
-    };
-
-    PropertySet.call( this, null, properties );
+    this.runningProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'runningProperty' )
+      // phetioValueType: TBoolean
+    } );
 
     // @public
     this.photons = new ObservableArray( {
@@ -128,7 +118,7 @@ define( function( require ) {
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
     self.photonTargetProperty.link( function() {
-      self.updateActiveMolecule( self.photonTarget );
+      self.updateActiveMolecule( self.photonTargetProperty.get() );
     } );
 
     // Set the photon emission period from the emission frequency.
@@ -151,7 +141,7 @@ define( function( require ) {
 
   moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
-  return inherit( PropertySet, PhotonAbsorptionModel, {
+  return inherit( Object, PhotonAbsorptionModel, {
 
     /**
      * Reset the model to its initial state.
@@ -172,7 +162,10 @@ define( function( require ) {
       this.setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
 
       // Reset all associated properties.
-      PropertySet.prototype.reset.call( this );
+      this.emissionFrequencyProperty.reset();
+      this.photonWavelengthProperty.reset();
+      this.runningProperty.reset();
+      this.photonTargetProperty.reset();
     },
 
     /**
@@ -189,7 +182,7 @@ define( function( require ) {
         return;
       }
 
-      if ( this.running ) {
+      if ( this.runningProperty.get() ) {
 
         // Step the photons, marking and removing any that have moved beyond the model
         this.stepPhotons( dt );
@@ -289,7 +282,7 @@ define( function( require ) {
      * frames.
      */
     emitPhoton: function( advanceAmount ) {
-      var photon = new Photon( this.photonWavelength, this.photonGroupTandem.createNextTandem() );
+      var photon = new Photon( this.photonWavelengthProperty.get(), this.photonGroupTandem.createNextTandem() );
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_LOCATION.y ) );
       var emissionAngle = 0; // Straight to the right.
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
@@ -302,9 +295,9 @@ define( function( require ) {
      * @param {number} freq
      */
     setEmittedPhotonWavelength: function( freq ) {
-      if ( this.photonWavelength !== freq ) {
+      if ( this.photonWavelengthProperty.get() !== freq ) {
         // Set the new value and send out notification of change to listeners.
-        this.photonWavelength = freq;
+        this.photonWavelengthProperty.set( freq );
       }
     },
 
@@ -423,17 +416,18 @@ define( function( require ) {
       newMolecule.photonGroupTandem = this.photonGroupTandem;
 
       // Emit a new photon from this molecule after absorption.
-      newMolecule.on( 'photonEmitted', function( photon ) {
+      newMolecule.photonEmittedEmitter.addListener( function( photon ) {
         self.photons.add( photon );
       } );
 
       // Break apart into constituent molecules.
-      newMolecule.on( 'brokeApart', function( constituentMolecule1, constituentMolecule2 ) {
+      newMolecule.brokeApartEmitter.addListener( function( constituentMolecule1, constituentMolecule2 ) {
         // Remove the molecule from the photonAbsorptionModel's list of active molecules.
-        self.activeMolecules.remove( this );
+        self.activeMolecules.remove( newMolecule );
         // Add the constituent molecules to the photonAbsorptionModel.
         self.activeMolecules.add( constituentMolecule1 );
         self.activeMolecules.add( constituentMolecule2 );
+
       } );
     },
 
@@ -451,7 +445,7 @@ define( function( require ) {
      * in cases where an atom has broken apart and needs to be restored to its original condition.
      */
     restoreActiveMolecule: function() {
-      var currentTarget = this.photonTarget;
+      var currentTarget = this.photonTargetProperty.get();
       this.updateActiveMolecule( currentTarget );
     }
 

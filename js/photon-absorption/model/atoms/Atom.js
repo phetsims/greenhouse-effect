@@ -44,9 +44,6 @@ define( function( require ) {
     this.radius = radius;
     this.mass = mass;
     this.uniqueID = options.idOverride || instanceCount++;
-
-    // PropertySet deprecation check
-    Property.preventGetSet( this, 'position' );
   }
 
   moleculesAndLight.register( 'Atom', Atom );

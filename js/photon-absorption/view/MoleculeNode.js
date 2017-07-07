@@ -54,7 +54,7 @@ define( function( require ) {
     molecule.highElectronicEnergyStateProperty.link( function() {
       for ( var i = 0; i < atomLayer.children.length; i++ ) {
         var atomNode = atomLayer.getChildAt( i );
-        atomNode.setHighlighted( molecule.highElectronicEnergyState );
+        atomNode.setHighlighted( molecule.highElectronicEnergyStateProperty.get() );
       }
 
     } );

@@ -68,8 +68,15 @@ define( function( require ) {
     // Create the default background box for this node.
     this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
+    this.photonWavelengthListener = function() {
+      // check if the current node is disposed
+      if ( !self.isDisposed() ){
+        self.update();
+      }
+    };
+
     // Update layout and color when photon wavelength changes.
-    model.photonWavelengthProperty.link( function() { self.update(); } );
+    model.photonWavelengthProperty.link( this.photonWavelengthListener );
 
     this.addChild( this.backgroundRect );
     this.addChild( this.emissionRateControlSlider );
@@ -79,6 +86,8 @@ define( function( require ) {
 
   inherit( Node, EmissionRateControlSliderNode, {
     dispose: function() {
+      // debugger;
+      this.model.photonWavelengthProperty.unlink( this.photonWavelengthListener );
       this.emissionRateControlSlider.dispose();
       Node.prototype.dispose.call( this );
     },
@@ -89,13 +98,13 @@ define( function( require ) {
      * @private
      */
     update: function() {
-
+      // debugger;
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
       this.emissionRateControlSlider.value = this.model.getSingleTargetFrequencyFromPeriod();
 
       // Update the color of the slider.
-      var wavelength = this.model.photonWavelength;
+      var wavelength = this.model.photonWavelengthProperty.get();
       if ( wavelength === WavelengthConstants.IR_WAVELENGTH ) {
         this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND ); // This tested well.
       }

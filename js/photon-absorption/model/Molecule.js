@@ -14,11 +14,13 @@ define( function( require ) {
   // modules
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  var Emitter = require( 'AXON/Emitter' );
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var Property = require( 'AXON/Property' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // constants
@@ -62,10 +64,8 @@ define( function( require ) {
       initialPosition: Vector2.ZERO
     }, options );
 
-    PropertySet.call( this, {
-      highElectronicEnergyState: false,
-      centerOfGravity: options.initialPosition
-    } );
+    this.highElectronicEnergyStateProperty = new BooleanProperty( false );
+    this.centerOfGravityProperty = new Property( options.initialPosition );
 
     // Atoms and bonds that form this molecule.
     this.atoms = []; // @private Elements are of type Atoms
@@ -121,16 +121,23 @@ define( function( require ) {
 
     // @public, set by PhotonAbsorptionModel
     this.photonGroupTandem = null;
+
+    // @public Emitter for 'photonEmitted'
+    this.photonEmittedEmitter = new Emitter();
+
+    // @public Emitter for 'brokeApart' event
+    this.brokeApartEmitter = new Emitter();
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
 
-  return inherit( PropertySet, Molecule, {
+  return inherit( Object, Molecule, {
     /**
      * Reset the molecule.  Any photons that have been absorbed are forgotten, and any vibration is reset.
      **/
     reset: function() {
-
+      this.highElectronicEnergyStateProperty.reset();
+      this.centerOfGravityProperty.reset();
       this.activePhotonAbsorptionStrategy.reset();
       this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
       this.absorptionHysteresisCountdownTime = 0;
@@ -224,7 +231,7 @@ define( function( require ) {
       }
 
       // Do any linear movement that is required.
-      this.setCenterOfGravityPos( this.centerOfGravity.x + this.velocity.x * dt, this.centerOfGravity.y + this.velocity.y * dt );
+      this.setCenterOfGravityPos( this.centerOfGravityProperty.get().x + this.velocity.x * dt, this.centerOfGravityProperty.get().y + this.velocity.y * dt );
     },
 
     /**
@@ -233,7 +240,7 @@ define( function( require ) {
      * @returns {Vector2}
      **/
     getCenterOfGravityPos: function() {
-      return new Vector2( this.centerOfGravity.x, this.centerOfGravity.y );
+      return new Vector2( this.centerOfGravityProperty.get().x, this.centerOfGravityProperty.get().y );
     },
 
     /**
@@ -245,8 +252,8 @@ define( function( require ) {
      * @param {number} y - the y location to set
      **/
     setCenterOfGravityPos: function( x, y ) {
-      if ( this.centerOfGravity.x !== x || this.centerOfGravity.y !== y ) {
-        this.centerOfGravity = new Vector2( x, y );
+      if ( this.centerOfGravityProperty.get().x !== x || this.centerOfGravityProperty.get().y !== y ) {
+        this.centerOfGravityProperty.set( new Vector2( x, y ) );
         this.updateAtomPositions();
       }
     },
@@ -422,10 +429,11 @@ define( function( require ) {
       var emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
-      var centerOfGravityPosRef = this.centerOfGravity;
+      var centerOfGravityPosRef = this.centerOfGravityProperty.get();
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
       this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-      this.trigger( 'photonEmitted', photonToEmit );
+      this.photonEmittedEmitter.emit1( photonToEmit )
+      // this.trigger( 'photonEmitted', photonToEmit );
     },
 
     /**
@@ -443,7 +451,7 @@ define( function( require ) {
           atomOffset.rotate( this.currentRotationRadians );
           // Set location based on combination of offset and current center
           // of gravity.
-          this.atomsByID[ uniqueID ].positionProperty.set( new Vector2( this.centerOfGravity.x + atomOffset.x, this.centerOfGravity.y + atomOffset.y ) );
+          this.atomsByID[ uniqueID ].positionProperty.set( new Vector2( this.centerOfGravityProperty.get().x + atomOffset.x, this.centerOfGravityProperty.get().y + atomOffset.y ) );
         }
       }
     },
@@ -461,8 +469,8 @@ define( function( require ) {
       // This serializes the minimum set of attributes necessary to deserialize when provided back.  I (jblanco) am not
       // absolutely certain that this is everything needed, so feel free to add some of the other attributes if needed.
       return {
-        highElectronicEnergyState: this.highElectronicEnergyState,
-        centerOfGravity: this.centerOfGravity.toStateObject(),
+        highElectronicEnergyState: this.highElectronicEnergyStateProperty.get(),
+        centerOfGravity: this.centerOfGravityProperty.get().toStateObject(),
         atoms: serializeArray( this.atoms ),
         atomicBonds: serializeArray( this.atomicBonds ),
         velocity: this.velocity.toStateObject(),
@@ -483,8 +491,8 @@ define( function( require ) {
       var molecule = new Molecule();
 
       // Fill in the straightforward stuff
-      molecule.highElectronicEnergyState = stateObject.highElectronicEnergyState;
-      molecule.centerOfGravity = stateObject.centerOfGravity;
+      molecule.highElectronicEnergyStateProperty.set( stateObject.highElectronicEnergyState );
+      molecule.centerOfGravityProperty.set( stateObject.centerOfGravity );
       molecule.velocity = Vector2.fromStateObject( stateObject.velocity );
       molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
       molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
