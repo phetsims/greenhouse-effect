@@ -37,7 +37,6 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );

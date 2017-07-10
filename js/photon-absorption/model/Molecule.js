@@ -432,7 +432,7 @@ define( function( require ) {
       var centerOfGravityPosRef = this.centerOfGravityProperty.get();
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
       this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
-      this.photonEmittedEmitter.emit1( photonToEmit )
+      this.photonEmittedEmitter.emit1( photonToEmit );
       // this.trigger( 'photonEmitted', photonToEmit );
     },
 
