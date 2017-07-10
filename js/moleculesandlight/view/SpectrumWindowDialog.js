@@ -72,8 +72,10 @@ define( function( require ) {
         Dialog.prototype.show.call( self );
       }
       else {
-        // hide (and dispose) the dialog
+        // hide the dialog
         Dialog.prototype.hide.call( self );
+
+        self.dispose();
       }
     };
     this.shownProperty.lazyLink( shownListener );
