@@ -72,10 +72,8 @@ define( function( require ) {
         Dialog.prototype.show.call( self );
       }
       else {
+        // hide (and dispose) the dialog
         Dialog.prototype.hide.call( self );
-
-        // dispose the dialog, removing listeners and tandem instances
-        self.dispose();
       }
     };
     this.shownProperty.lazyLink( shownListener );
