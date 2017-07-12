@@ -136,6 +136,9 @@ define( function( require ) {
     // @private
     var spectrumDiagram = new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' ) );
 
+    // the spectrum dialog, created lazily because Dialog requires sim bounds during construction
+    var dialog = null;
+
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
@@ -149,7 +152,10 @@ define( function( require ) {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        new SpectrumWindowDialog( spectrumDiagram, tandem.createTandem( 'spectrumWindowDialog' ) ).show();
+        if ( !dialog ) {
+          dialog = new SpectrumWindowDialog( spectrumDiagram, tandem.createTandem( 'spectrumWindowDialog' ) );
+        }
+        dialog.show();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );

@@ -74,8 +74,6 @@ define( function( require ) {
       else {
         // hide the dialog
         Dialog.prototype.hide.call( self );
-
-        self.dispose();
       }
     };
     this.shownProperty.lazyLink( shownListener );
@@ -109,7 +107,7 @@ define( function( require ) {
      */
     dispose: function() {
       this.disposeSpectrumWindowDialog();
-      Dialog.prototype.dispose && Dialog.prototype.dispose.call( this );
+      Dialog.prototype.dispose.call( this );
     }
   } );
 
