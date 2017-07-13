@@ -15,6 +15,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var HSlider = require( 'SUN/HSlider' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var FocusOverlay = require( 'SCENERY/overlays/FocusOverlay' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -55,6 +56,21 @@ define( function( require ) {
       numberDecimalPlaces: 1,
       keyboardStep: 0.1
     } ); // @private
+
+    // a11y
+    // create custom focus highlight with gray bg and thumb on top
+    var customFocusHighlight = Rectangle.bounds( this.emissionRateControlSlider.focusHighlight.bounds.dilated( 2 ), {
+      fill: '#ababab',
+      stroke: FocusOverlay.innerFocusColor,
+      lineWidth: 4
+      // children: [ customFocusHighlightThumb ]
+    });
+
+    var customFocusHighlightThumb = new EmissionRateThumbNode();
+    customFocusHighlightThumb.center = customFocusHighlight.center;
+    customFocusHighlight.addChild( customFocusHighlightThumb );
+
+    this.emissionRateControlSlider.setFocusHighlight( customFocusHighlight );
 
     // width of the background rectangle is larger than the slider to accentuate the thumb.
     var backgroundOffset = 4;
