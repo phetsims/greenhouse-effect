@@ -35,15 +35,17 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Node} mainContent - content for the dialog
+   * @param {RectangularPushButton} spectrumWindowButton - the button that opens the dialog
    * @param {Tandem} tandem
    */
-  function SpectrumWindowDialog( mainContent, tandem ) {
+  function SpectrumWindowDialog( mainContent, spectrumWindowButton, tandem ) {
 
-    // format the main content with a close button
-    var closeButton = new CloseButton( this, tandem.createTandem( 'closeButton' ) );
+    // @public (read-only) - format the main content with a close button, public so that we can focus
+    // the button when the dialog is open
+    this.closeButton = new CloseButton( this, spectrumWindowButton, tandem.createTandem( 'closeButton' ) );
     var children = [
       mainContent,
-      closeButton
+      this.closeButton
     ];
     var layoutBox = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
 
@@ -87,7 +89,7 @@ define( function( require ) {
       self.shownProperty.dispose();
 
       // dispose the close button
-      closeButton.dispose();
+      self.closeButton.dispose();
     };
   }
 
@@ -119,7 +121,7 @@ define( function( require ) {
    * @param {Tandem} tandem
    * @constructor
    */
-  function CloseButton( dialog, tandem ) {
+  function CloseButton( dialog, spectrumWindowButton, tandem ) {
 
     var self = this;
 
@@ -132,7 +134,17 @@ define( function( require ) {
     var closeListener = function() {
       dialog.hide();
     };
-    RectangularPushButton.call( this, { content: content, listener: closeListener, tandem: tandem } );
+    var accessibleCloseListener = function() {
+
+      // if (and only if) closed with the keyboard, we want focus to the button that opens the dialog
+      spectrumWindowButton.focus();
+    };
+    RectangularPushButton.call( this, {
+      content: content,
+      listener: closeListener,
+      accessibleFire: accessibleCloseListener,
+      tandem: tandem
+    } );
 
     // @private - remove tandem instances
     this.disposeCloseButton = function() {

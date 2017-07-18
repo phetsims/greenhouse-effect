@@ -153,9 +153,15 @@ define( function( require ) {
       touchAreaYDilation: 7,
       listener: function() {
         if ( !dialog ) {
-          dialog = new SpectrumWindowDialog( spectrumDiagram, tandem.createTandem( 'spectrumWindowDialog' ) );
+          dialog = new SpectrumWindowDialog( spectrumDiagram, showLightSpectrumButton, tandem.createTandem( 'spectrumWindowDialog' ) );
         }
         dialog.show();
+      },
+      accessibleFire: function() {
+
+        // if (and only if) the dialog is opened with the keyboard, send focus directly to the close button
+        assert && assert( dialog, 'No dialog was created, nothing to focus.' );
+        dialog.closeButton.focus();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' )
     } );
