@@ -130,7 +130,7 @@ define( function( require ) {
     }
 
     var closeListener = function() {
-      Dialog.prototype.hide.call( dialog );
+      dialog.hide();
     };
     RectangularPushButton.call( this, { content: content, listener: closeListener, tandem: tandem } );
 
