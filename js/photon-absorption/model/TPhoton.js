@@ -26,7 +26,7 @@ define( function( require ) {
     TObject.call( this, instance, phetioID );
   }
 
-  phetioInherit( Object, 'TPhoton', TPhoton, {}, {
+  phetioInherit( TObject, 'TPhoton', TPhoton, {}, {
     documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
