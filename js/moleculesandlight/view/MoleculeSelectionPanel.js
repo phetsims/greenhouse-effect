@@ -26,7 +26,7 @@ define( function( require ) {
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RichText = require( 'SCENERY_PHET/RichText' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
