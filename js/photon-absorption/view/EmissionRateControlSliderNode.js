@@ -17,6 +17,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var FocusOverlay = require( 'SCENERY/overlays/FocusOverlay' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
@@ -48,13 +49,16 @@ define( function( require ) {
 
     // Create the slider.  Frequency mapped from 0 to 1 so that there is a direct map to PhotonEmitterNode 'on' image
     // opacity.
-    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, { min: 0, max: 1 }, {
+    var sliderRange = new Range( 0, 1 );
+    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
       thumbNode: new EmissionRateThumbNode(),
       tandem: tandem,
       numberDecimalPlaces: 1,
-      keyboardStep: 0.1
+      keyboardStep: sliderRange.getLength() / 10,
+      shiftKeyboardStep: sliderRange.getLength() / 20,
+      pageKeyboardStep: sliderRange.getLength() / 5
     } ); // @private
 
     // a11y
