@@ -19,28 +19,29 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var Property = require( 'AXON/Property' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var inherit = require( 'PHET_CORE/inherit' );
 
   // phet-io modules
-  var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
+  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
 
   // ------- constants -------------
@@ -76,22 +77,22 @@ define( function( require ) {
     this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
     // @public
-    this.emissionFrequencyProperty = new Property( 0, {
+    this.emissionFrequencyProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
-      phetioValueType: TNumber( { units: 'hertz' } )
-    });
+      units: 'hertz'
+    } );
 
     // @public
     this.photonWavelengthProperty = new Property( WavelengthConstants.IR_WAVELENGTH, {
       tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-      phetioValueType: TNumber( {
-        units: 'meters', values: [
-          WavelengthConstants.MICRO_WAVELENGTH,
-          WavelengthConstants.IR_WAVELENGTH,
-          WavelengthConstants.VISIBLE_WAVELENGTH,
-          WavelengthConstants.UV_WAVELENGTH
-        ]
-      } )
+      units: 'meters',
+      validValues: [
+        WavelengthConstants.MICRO_WAVELENGTH,
+        WavelengthConstants.IR_WAVELENGTH,
+        WavelengthConstants.VISIBLE_WAVELENGTH,
+        WavelengthConstants.UV_WAVELENGTH
+      ],
+      phetioValueType: TNumber
     } );
 
     this.photonTargetProperty = new Property( initialPhotonTarget, {

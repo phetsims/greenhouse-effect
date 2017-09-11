@@ -30,17 +30,17 @@ define( function( require ) {
     documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
-        vx: TNumber().fromStateObject( stateObject.vx ),
-        vy: TNumber().fromStateObject( stateObject.vy ),
-        wavelength: TNumber().fromStateObject( stateObject.wavelength )
+        vx: TNumber.fromStateObject( stateObject.vx ),
+        vy: TNumber.fromStateObject( stateObject.vy ),
+        wavelength: TNumber.fromStateObject( stateObject.wavelength )
       };
     },
 
     toStateObject: function( value ) {
       return {
-        vx: TNumber().toStateObject( value.vx ),
-        vy: TNumber().toStateObject( value.vy ),
-        wavelength: TNumber().toStateObject( value.wavelength )
+        vx: TNumber.toStateObject( value.vx ),
+        vy: TNumber.toStateObject( value.vy ),
+        wavelength: TNumber.toStateObject( value.wavelength )
       };
     }
   } );
