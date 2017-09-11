@@ -13,15 +13,15 @@ define( function( require ) {
   // modules
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Node = require( 'SCENERY/nodes/Node' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   // images
   var microwavePhotonImage = require( 'image!MOLECULES_AND_LIGHT/microwave-photon.png' );
+  var photon100Image = require( 'image!MOLECULES_AND_LIGHT/photon-100.png' );
   var photon660Image = require( 'image!MOLECULES_AND_LIGHT/photon-660.png' );
   var thin2Image = require( 'image!MOLECULES_AND_LIGHT/thin2.png' );
-  var photon100Image = require( 'image!MOLECULES_AND_LIGHT/photon-100.png' );
 
   // Map of photon wavelengths to visual images used for representing them.
   var mapWavelengthToImageName = {};

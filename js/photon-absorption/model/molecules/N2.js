@@ -11,12 +11,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // Model data for nitrogen molecule
   var INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.

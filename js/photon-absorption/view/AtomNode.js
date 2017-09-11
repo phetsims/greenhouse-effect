@@ -11,12 +11,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
 
   /**
    * Constructor for an atom node.

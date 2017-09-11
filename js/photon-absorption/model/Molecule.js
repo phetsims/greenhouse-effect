@@ -14,14 +14,14 @@ define( function( require ) {
   // modules
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Emitter = require( 'AXON/Emitter' );
-  var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Property = require( 'AXON/Property' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var PHOTON_EMISSION_SPEED = 3000; // Picometers per second.

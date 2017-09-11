@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var AtomNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomNode' );
   var AtomicBondNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomicBondNode' );
+  var AtomNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomNode' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   /**
    * Constructor for a molecule node.

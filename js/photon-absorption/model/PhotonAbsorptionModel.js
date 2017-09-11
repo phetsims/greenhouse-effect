@@ -20,29 +20,29 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var Property = require( 'AXON/Property' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var inherit = require( 'PHET_CORE/inherit' );
 
   // phet-io modules
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
 
   // ------- constants -------------
 

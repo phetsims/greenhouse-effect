@@ -11,20 +11,20 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var HSlider = require( 'SUN/HSlider' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var FocusOverlay = require( 'SCENERY/overlays/FocusOverlay' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  var HSlider = require( 'SUN/HSlider' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var Shape = require( 'KITE/Shape' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb

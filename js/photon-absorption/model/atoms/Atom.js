@@ -11,11 +11,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Vector2 = require( 'DOT/Vector2' );
   var Property = require ( 'AXON/Property' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // Static data
   var instanceCount = 0; // Base count for the unique ID of this atom.

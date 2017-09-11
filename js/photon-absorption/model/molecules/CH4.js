@@ -11,13 +11,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // Model Data for Methane
   var INITIAL_CARBON_HYDROGEN_DISTANCE = 170; // In picometers.

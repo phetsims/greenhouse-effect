@@ -12,8 +12,8 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
   /**
    *

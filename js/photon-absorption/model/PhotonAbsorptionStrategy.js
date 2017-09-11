@@ -18,8 +18,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Property = require( 'AXON/Property' );
 
   var MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
   var MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time

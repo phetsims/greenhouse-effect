@@ -14,22 +14,22 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
   var Image = require( 'SCENERY/nodes/Image' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
-  var heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
-  var flashlightOnImage = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
-  var microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
-  var uvLightOnImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
-  var heatLampOffImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source-off.png' );
   var flashlightOffImage = require( 'image!MOLECULES_AND_LIGHT/flashlight-off.png' );
+  var flashlightOnImage = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
+  var heatLampOffImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source-off.png' );
+  var heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
+  var microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
   var uvLightOffImage = require( 'image!MOLECULES_AND_LIGHT/uv-source-off.png' );
+  var uvLightOnImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
 
   /**
    * Constructor for the photon emitter node.
