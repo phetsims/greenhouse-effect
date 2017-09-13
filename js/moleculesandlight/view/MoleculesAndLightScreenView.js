@@ -58,7 +58,10 @@ define( function( require ) {
    */
   function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 768, 504 ) } );
+    ScreenView.call( this, {
+      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
+      tandem: tandem
+    } );
 
     var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
@@ -173,7 +176,7 @@ define( function( require ) {
     this.addChild( moleculeControlPanel );
 
     // a11y
-    this.accessibleOrder = [observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
+    this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
   }
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
