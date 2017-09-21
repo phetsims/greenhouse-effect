@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2017, University of Colorado Boulder
 
 /**
  * Photon absorption strategy that causes a molecule to vibrate after absorbing a photon, and re-emit the photon after
