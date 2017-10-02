@@ -175,10 +175,6 @@ define( function( require ) {
     this.returnMoleculeButtonVisibleProperty.link( function() {
       // hide the return molecule button
       self.returnMoleculeButtonNode.visible = self.returnMoleculeButtonVisibleProperty.get();
-
-      // a11y
-      // remove return molecule button from keyboard focus order if it's not visible
-      self.returnMoleculeButtonNode.setFocusable( self.returnMoleculeButtonVisibleProperty.get() );
     } );
   }
 
