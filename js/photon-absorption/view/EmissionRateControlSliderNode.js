@@ -11,9 +11,10 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var FocusOverlay = require( 'SCENERY/overlays/FocusOverlay' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -29,6 +30,8 @@ define( function( require ) {
   // constants
   var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
+  var THUMB_RECTANGLE_WIDTH = 30; // a background rectangle behind the thumb, made visible when the slider has focus
+  var THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
 
   /**
    * Constructor for an emission rate control slider.
@@ -50,10 +53,11 @@ define( function( require ) {
     // Create the slider.  Frequency mapped from 0 to 1 so that there is a direct map to PhotonEmitterNode 'on' image
     // opacity.
     var sliderRange = new Range( 0, 1 );
+    var sliderThumb = new EmissionRateThumbNode();
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
-      thumbNode: new EmissionRateThumbNode(),
+      thumbNode: sliderThumb,
       tandem: tandem,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
@@ -61,20 +65,19 @@ define( function( require ) {
       pageKeyboardStep: sliderRange.getLength() / 5
     } ); // @private
 
+    var sliderBounds = sliderThumb.backgroundRectangle.bounds;
+    var parentBounds = sliderThumb.localToParentBounds( sliderBounds );
+    this.emissionRateControlSlider.focusHighlight = new FocusHighlightPath( Shape.bounds( parentBounds ) );
+
     // a11y
-    // create custom focus highlight with gray bg and thumb on top
-    var customFocusHighlight = Rectangle.bounds( this.emissionRateControlSlider.focusHighlight.bounds.dilated( 2 ), {
-      fill: '#ababab',
-      stroke: FocusOverlay.innerFocusColor,
-      lineWidth: 4
-      // children: [ customFocusHighlightThumb ]
-    });
-
-    var customFocusHighlightThumb = new EmissionRateThumbNode();
-    customFocusHighlightThumb.center = customFocusHighlight.center;
-    customFocusHighlight.addChild( customFocusHighlightThumb );
-
-    this.emissionRateControlSlider.setFocusHighlight( customFocusHighlight );
+    this.emissionRateControlSlider.addAccessibleInputListener( {
+      focus: function() {
+        sliderThumb.backgroundRectangle.visible = true;
+      },
+      blur: function() {
+        sliderThumb.backgroundRectangle.visible = false;
+      }
+    } );
 
     // width of the background rectangle is larger than the slider to accentuate the thumb.
     var backgroundOffset = 4;
@@ -163,7 +166,7 @@ define( function( require ) {
    */
   function EmissionRateThumbNode() {
 
-    var self = this;
+    Node.call( this );
 
     // draw the partial octagon shape of the slider.
     var thumbShape = new Shape();
@@ -175,17 +178,28 @@ define( function( require ) {
     thumbShape.horizontalLineTo( 0 );
     thumbShape.close();
 
+    // @public (a11y) - so it can be made invisible, helps focus highlight stand out
+    this.backgroundRectangle = Rectangle.bounds( new Bounds2( 0, 0, THUMB_RECTANGLE_WIDTH, THUMB_RECTANGLE_HEIGHT ), {
+      fill: '#ababab',
+      visible: false // not visible until slider is focused
+    } );
+
     // supertype constructor
-    Path.call( this, thumbShape, {
+    var thumbPath = new Path( thumbShape, {
       lineWidth: 1,
       lineJoin: 'bevel',
       stroke: 'black',
       fill: 'rgb(0, 203, 230)'
     } );
 
+    thumbPath.center = this.backgroundRectangle.center;
+
+    this.addChild( this.backgroundRectangle );
+    this.addChild( thumbPath );
+
     // draw three lines along the vertical of the thumbNode.
     for ( var n = 1; n < 4; n++ ) {
-      self.addChild( new Path(
+      thumbPath.addChild( new Path(
         Shape.lineSegment(
           n * THUMB_SIZE.width / 5,
           THUMB_SIZE.height / 5,
@@ -200,25 +214,25 @@ define( function( require ) {
     // highlight thumb on pointer over
     var buttonListener = new ButtonListener( {
       over: function( event ) {
-        self.fill = 'rgb(80,250,255)';
+        thumbPath.fill = 'rgb(80,250,255)';
       },
       up: function( event ) {
-        self.fill = 'rgb(0, 203, 230)';
+        thumbPath.fill = 'rgb(0, 203, 230)';
       }
     } );
-    self.addInputListener( buttonListener );
+    thumbPath.addInputListener( buttonListener );
 
     // make this easier to grab in touch environments
-    this.touchArea = this.localBounds.dilatedXY( 20, 20 );
+    this.touchArea = thumbPath.bounds.dilatedXY( 20, 20 );
 
     this.disposeEmissionRateThumbNode = function() {
-      self.removeInputListener( buttonListener );
+      thumbPath.removeInputListener( buttonListener );
     };
   }
 
   moleculesAndLight.register( 'EmissionRateThumbNode', EmissionRateThumbNode );
 
-  inherit( Path, EmissionRateThumbNode, {
+  inherit( Node, EmissionRateThumbNode, {
     dispose: function() {
       this.disposeEmissionRateThumbNode();
       Path.prototype.dispose.call( this );
