@@ -64,11 +64,11 @@ define( function( require ) {
 
     options = _.extend( {
       initialPosition: Vector2.ZERO,
-      tandem: Tandem.tandemOptional()
+      tandem: Tandem.tandemOptional() // not needed when part of the selection radio buttons.
     }, options );
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false );
-    this.centerOfGravityProperty = new Property( options.initialPosition );
+    this.centerOfGravityProperty = new Property( options.initialPosition ); // {Property.<Vector2>}
 
     // Atoms and bonds that form this molecule.
     this.atoms = []; // @private Elements are of type Atoms
@@ -117,19 +117,16 @@ define( function( require ) {
 
 
     // @public - Boolean values that track whether the molecule is vibrating or rotating.
-    this.vibratingProperty = new Property( false, {
-      tandem: options.tandem.createTandem( 'vibratingProperty' ),
-      phetioValueType: TBoolean
+    this.vibratingProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'vibratingProperty' )
     } );
-    this.rotatingProperty = new Property( false, {
-      tandem: options.tandem.createTandem( 'rotatingProperty' ),
-      phetioValueType: TBoolean
+    this.rotatingProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'rotatingProperty' )
     } );
 
     // Controls the direction of rotation.
-    this.rotationDirectionClockwiseProperty = new Property( true, {
-      tandem: options.tandem.createTandem( 'rotationDirectionClockwiseProperty' ),
-      phetioValueType: TBoolean
+    this.rotationDirectionClockwiseProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'rotationDirectionClockwiseProperty' )
     } );
 
     // @public, set by PhotonAbsorptionModel
@@ -159,7 +156,6 @@ define( function( require ) {
       this.rotationDirectionClockwiseProperty.reset();
       this.setRotation( 0 );
       this.setVibration( 0 );
-
     },
 
     /**
