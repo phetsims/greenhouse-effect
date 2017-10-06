@@ -42,20 +42,16 @@ define( function( require ) {
      * and set the direction of rotation to a random direction.
      */
     photonAbsorbed: function() {
-
-      this.molecule.rotationDirectionClockwise = RAND.nextBoolean();
+      this.molecule.rotationDirectionClockwiseProperty.value = RAND.nextBoolean();
       this.molecule.rotatingProperty.value = true;
-
     },
 
     /**
      * Re-emit the absorbed photon.  Set the molecule to a non-rotating state.
      */
     reemitPhoton: function() {
-
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
       this.molecule.rotatingProperty.value = false;
-
     }
 
   } );

@@ -116,11 +116,21 @@ define( function( require ) {
     this.currentRotationRadians = 0; // @public
 
 
-    // Boolean values that track whether the molecule is vibrating or rotating.
-    // @public
-    this.vibratingProperty = new Property( false, { tandem: options.tandem.createTandem( 'vibratingProperty'), phetioValueType: TBoolean});
-    this.rotatingProperty = new Property( false, { tandem: options.tandem.createTandem( 'rotatingProperty'), phetioValueType: TBoolean});
-    this.rotationDirectionClockwise = true; // Controls the direction of rotation.
+    // @public - Boolean values that track whether the molecule is vibrating or rotating.
+    this.vibratingProperty = new Property( false, {
+      tandem: options.tandem.createTandem( 'vibratingProperty' ),
+      phetioValueType: TBoolean
+    } );
+    this.rotatingProperty = new Property( false, {
+      tandem: options.tandem.createTandem( 'rotatingProperty' ),
+      phetioValueType: TBoolean
+    } );
+
+    // Controls the direction of rotation.
+    this.rotationDirectionClockwiseProperty = new Property( true, {
+      tandem: options.tandem.createTandem( 'rotationDirectionClockwiseProperty' ),
+      phetioValueType: TBoolean
+    } );
 
     // @public, set by PhotonAbsorptionModel
     this.photonGroupTandem = null;
@@ -154,7 +164,7 @@ define( function( require ) {
     /**
      * @public
      */
-    dispose: function(){
+    dispose: function() {
       this.vibratingProperty.dispose();
       this.rotatingProperty.dispose();
     },
@@ -237,7 +247,7 @@ define( function( require ) {
       }
 
       if ( this.rotatingProperty.get() ) {
-        var directionMultiplier = this.rotationDirectionClockwise ? -1 : 1;
+        var directionMultiplier = this.rotationDirectionClockwiseProperty.get() ? -1 : 1;
         this.rotate( dt * ROTATION_RATE * 2 * Math.PI * directionMultiplier );
       }
 
@@ -488,7 +498,6 @@ define( function( require ) {
         absorptionHysteresisCountdownTime: this.absorptionHysteresisCountdownTime,
         currentVibrationRadians: this.currentVibrationRadians,
         currentRotationRadians: this.currentRotationRadians,
-        rotationDirectionClockwise: this.rotationDirectionClockwise
       };
     }
   }, {
@@ -506,7 +515,6 @@ define( function( require ) {
       molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
       molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
       molecule.currentRotationRadians = stateObject.currentRotationRadians;
-      molecule.rotationDirectionClockwise = stateObject.rotationDirectionClockwise;
 
       // add the atoms
       molecule.atoms = _.map( stateObject.atoms, function( atom ) { return Atom.fromStateObject( atom ); } );
