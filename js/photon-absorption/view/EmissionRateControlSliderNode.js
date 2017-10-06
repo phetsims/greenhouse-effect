@@ -109,7 +109,6 @@ define( function( require ) {
 
   inherit( Node, EmissionRateControlSliderNode, {
     dispose: function() {
-      // debugger;
       this.model.photonWavelengthProperty.unlink( this.photonWavelengthListener );
       this.emissionRateControlSlider.dispose();
       Node.prototype.dispose.call( this );
@@ -121,7 +120,6 @@ define( function( require ) {
      * @private
      */
     update: function() {
-      // debugger;
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
       this.emissionRateControlSlider.value = this.model.getSingleTargetFrequencyFromPeriod();

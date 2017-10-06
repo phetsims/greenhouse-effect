@@ -22,7 +22,6 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constants

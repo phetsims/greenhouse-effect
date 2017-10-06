@@ -36,7 +36,7 @@ define( function( require ) {
      * Set this molecule to a vibrating state when a photon is absorbed.
      */
     photonAbsorbed: function() {
-      this.molecule.vibratingProperty.value = true;
+      this.molecule.vibratingProperty.set( true );
     },
 
     /**
@@ -45,7 +45,7 @@ define( function( require ) {
     reemitPhoton: function() {
 
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.molecule.vibratingProperty.value =  false;
+      this.molecule.vibratingProperty.set( false );
       this.molecule.setVibration( 0 );
     }
 

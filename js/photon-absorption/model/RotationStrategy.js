@@ -42,8 +42,8 @@ define( function( require ) {
      * and set the direction of rotation to a random direction.
      */
     photonAbsorbed: function() {
-      this.molecule.rotationDirectionClockwiseProperty.value = RAND.nextBoolean();
-      this.molecule.rotatingProperty.value = true;
+      this.molecule.rotationDirectionClockwiseProperty.set( RAND.nextBoolean() );
+      this.molecule.rotatingProperty.set( true );
     },
 
     /**
@@ -51,7 +51,7 @@ define( function( require ) {
      */
     reemitPhoton: function() {
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.molecule.rotatingProperty.value = false;
+      this.molecule.rotatingProperty.set( false );
     }
 
   } );

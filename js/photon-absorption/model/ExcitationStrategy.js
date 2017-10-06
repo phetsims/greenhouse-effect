@@ -34,12 +34,13 @@ define( function( require ) {
   return inherit( PhotonHoldStrategy, ExcitationStrategy, {
 
     photonAbsorbed: function() {
-      this.molecule.highElectronicEnergyState = true;
+      // debugger;
+      this.molecule.highElectronicEnergyStateProperty.set( true );
     },
 
     reemitPhoton: function() {
       PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.molecule.highElectronicEnergyState = false;
+      this.molecule.highElectronicEnergyStateProperty.set( false );
     }
   } );
 } );
