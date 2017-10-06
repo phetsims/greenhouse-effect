@@ -109,6 +109,7 @@ define( function( require ) {
         photonAbsorptionModel.restoreActiveMolecule();
         self.returnMoleculeButtonVisibleProperty.set( false );
         self.moleculeCheckBounds();
+
         // a11y
         // move focus to the emission control slider only when the button is clicked
         // retain focus on other elements if they return the molecule
