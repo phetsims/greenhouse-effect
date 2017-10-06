@@ -161,7 +161,7 @@ define( function( require ) {
 
       photonAbsorptionModel.photons.addItemRemovedListener( function removalListener( removedPhoton ) {
         if ( removedPhoton === addedPhoton ) {
-          addedPhoton.locationProperty.unlink( photonPositionObserver );
+          addedPhoton.locationProperty.hasListener( photonPositionObserver ) && addedPhoton.locationProperty.unlink( photonPositionObserver );
           photonLayer.removeChild( photonNode );
           photonAbsorptionModel.photons.removeItemRemovedListener( removalListener );
         }
