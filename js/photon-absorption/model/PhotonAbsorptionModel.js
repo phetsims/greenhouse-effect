@@ -73,6 +73,8 @@ define( function( require ) {
 
     var self = this;
 
+    this.tandem = tandem; // @private
+
     // @private
     this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
@@ -118,7 +120,7 @@ define( function( require ) {
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
     self.photonTargetProperty.link( function() {
-      self.updateActiveMolecule( self.photonTargetProperty.get() );
+      self.updateActiveMolecule( self.photonTargetProperty.get(), self.tandem );
     } );
 
     // Set the photon emission period from the emission frequency.
@@ -362,10 +364,13 @@ define( function( require ) {
      * the molecule should emit a photon or break apart into constituents.
      *
      * @param {string} photonTarget - The string constant which represents the desired photon target.
+     * @param {Tandem} tandem
      */
-    updateActiveMolecule: function( photonTarget ) {
+    updateActiveMolecule: function( photonTarget, tandem ) {
 
       var self = this;
+
+      this.activeMolecules.forEach( function( molecule ) { molecule.dispose(); } );
 
       // Remove the old photon target(s).
       this.activeMolecules.clear(); // Clear the old active molecules array
@@ -374,37 +379,37 @@ define( function( require ) {
       var newMolecule;
       switch( photonTarget ) {
         case PhotonTarget.SINGLE_CO_MOLECULE:
-          newMolecule = new CO();
+          newMolecule = new CO( { tandem: tandem.createTandem( 'CO' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_CO2_MOLECULE:
-          newMolecule = new CO2();
+          newMolecule = new CO2( { tandem: tandem.createTandem( 'CO2' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_H2O_MOLECULE:
-          newMolecule = new H2O();
+          newMolecule = new H2O( { tandem: tandem.createTandem( 'H2O' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_N2_MOLECULE:
-          newMolecule = new N2();
+          newMolecule = new N2( { tandem: tandem.createTandem( 'N2' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_O2_MOLECULE:
-          newMolecule = new O2();
+          newMolecule = new O2( { tandem: tandem.createTandem( 'O2' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_O3_MOLECULE:
-          newMolecule = new O3();
+          newMolecule = new O3( { tandem: tandem.createTandem( 'O3' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
         case PhotonTarget.SINGLE_NO2_MOLECULE:
-          newMolecule = new NO2();
+          newMolecule = new NO2( { tandem: tandem.createTandem( 'NO2' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 
@@ -423,6 +428,8 @@ define( function( require ) {
       // Break apart into constituent molecules.
       newMolecule.brokeApartEmitter.addListener( function( constituentMolecule1, constituentMolecule2 ) {
         // Remove the molecule from the photonAbsorptionModel's list of active molecules.
+
+        newMolecule.dispose();
         self.activeMolecules.remove( newMolecule );
         // Add the constituent molecules to the photonAbsorptionModel.
         self.activeMolecules.add( constituentMolecule1 );
@@ -446,7 +453,7 @@ define( function( require ) {
      */
     restoreActiveMolecule: function() {
       var currentTarget = this.photonTargetProperty.get();
-      this.updateActiveMolecule( currentTarget );
+      this.updateActiveMolecule( currentTarget, this.tandem );
     }
 
   } );

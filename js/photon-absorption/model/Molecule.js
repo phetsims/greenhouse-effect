@@ -21,6 +21,8 @@ define( function( require ) {
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var Property = require( 'AXON/Property' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -61,7 +63,8 @@ define( function( require ) {
   function Molecule( options ) {
 
     options = _.extend( {
-      initialPosition: Vector2.ZERO
+      initialPosition: Vector2.ZERO,
+      tandem: Tandem.tandemOptional()
     }, options );
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false );
@@ -115,8 +118,8 @@ define( function( require ) {
 
     // Boolean values that track whether the molecule is vibrating or rotating.
     // @public
-    this.vibrating = false;
-    this.rotating = false;
+    this.vibratingProperty = new Property( false, { tandem: options.tandem.createTandem( 'vibratingProperty'), phetioValueType: TBoolean});
+    this.rotatingProperty = new Property( false, { tandem: options.tandem.createTandem( 'rotatingProperty'), phetioValueType: TBoolean});
     this.rotationDirectionClockwise = true; // Controls the direction of rotation.
 
     // @public, set by PhotonAbsorptionModel
@@ -141,11 +144,19 @@ define( function( require ) {
       this.activePhotonAbsorptionStrategy.reset();
       this.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this );
       this.absorptionHysteresisCountdownTime = 0;
-      this.vibrating = false;
-      this.rotating = false;
+      this.vibratingProperty.reset();
+      this.rotatingProperty.reset();
       this.setRotation( 0 );
       this.setVibration( 0 );
 
+    },
+
+    /**
+     * @public
+     */
+    dispose: function(){
+      this.vibratingProperty.dispose();
+      this.rotatingProperty.dispose();
     },
 
     /**
@@ -221,11 +232,11 @@ define( function( require ) {
         this.absorptionHysteresisCountdownTime -= dt;
       }
 
-      if ( this.vibrating ) {
+      if ( this.vibratingProperty.get() ) {
         this.advanceVibration( dt * VIBRATION_FREQUENCY * 2 * Math.PI );
       }
 
-      if ( this.rotating ) {
+      if ( this.rotatingProperty.get() ) {
         var directionMultiplier = this.rotationDirectionClockwise ? -1 : 1;
         this.rotate( dt * ROTATION_RATE * 2 * Math.PI * directionMultiplier );
       }
@@ -477,8 +488,6 @@ define( function( require ) {
         absorptionHysteresisCountdownTime: this.absorptionHysteresisCountdownTime,
         currentVibrationRadians: this.currentVibrationRadians,
         currentRotationRadians: this.currentRotationRadians,
-        vibrating: this.vibrating,
-        rotating: this.rotating,
         rotationDirectionClockwise: this.rotationDirectionClockwise
       };
     }
@@ -497,8 +506,6 @@ define( function( require ) {
       molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
       molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
       molecule.currentRotationRadians = stateObject.currentRotationRadians;
-      molecule.vibrating = stateObject.vibrating;
-      molecule.rotating = stateObject.rotating;
       molecule.rotationDirectionClockwise = stateObject.rotationDirectionClockwise;
 
       // add the atoms
