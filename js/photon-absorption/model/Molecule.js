@@ -156,6 +156,7 @@ define( function( require ) {
       this.absorptionHysteresisCountdownTime = 0;
       this.vibratingProperty.reset();
       this.rotatingProperty.reset();
+      this.rotationDirectionClockwiseProperty.reset();
       this.setRotation( 0 );
       this.setVibration( 0 );
 
@@ -167,6 +168,7 @@ define( function( require ) {
     dispose: function() {
       this.vibratingProperty.dispose();
       this.rotatingProperty.dispose();
+      this.rotationDirectionClockwiseProperty.dispose();
     },
 
     /**
