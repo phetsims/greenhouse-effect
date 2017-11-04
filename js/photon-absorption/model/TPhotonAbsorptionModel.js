@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function TPhotonAbsorptionModel( instance, phetioID ) {
-    assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
+    assert && assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
     TObject.call( this, instance, phetioID );
   }
 

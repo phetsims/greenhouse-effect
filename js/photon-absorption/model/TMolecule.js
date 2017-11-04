@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function TMolecule( instance, phetioID ) {
-    assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
+    assert && assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
     TObject.call( this, instance, phetioID );
   }
 

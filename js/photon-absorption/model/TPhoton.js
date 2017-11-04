@@ -22,7 +22,7 @@ define( function( require ) {
    * @constructor
    */
   function TPhoton( instance, phetioID ) {
-    assertInstanceOf( instance, phet.moleculesAndLight.Photon );
+    assert && assertInstanceOf( instance, phet.moleculesAndLight.Photon );
     TObject.call( this, instance, phetioID );
   }
 
