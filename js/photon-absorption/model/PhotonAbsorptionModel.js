@@ -73,7 +73,7 @@ define( function( require ) {
 
     var self = this;
 
-    this.tandem = tandem; // @private
+    this.photonAbsorptionModel = tandem; // @private
 
     // @private
     this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
@@ -120,7 +120,7 @@ define( function( require ) {
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
     self.photonTargetProperty.link( function() {
-      self.updateActiveMolecule( self.photonTargetProperty.get(), self.tandem );
+      self.updateActiveMolecule( self.photonTargetProperty.get(), tandem );
     } );
 
     // Set the photon emission period from the emission frequency.
@@ -453,8 +453,8 @@ define( function( require ) {
      */
     restoreActiveMolecule: function() {
       var currentTarget = this.photonTargetProperty.get();
-      this.updateActiveMolecule( currentTarget, this.tandem );
+      this.updateActiveMolecule( currentTarget, this.photonAbsorptionModel );
     }
-
   } );
 } );
+
