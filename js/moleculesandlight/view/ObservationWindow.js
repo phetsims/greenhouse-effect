@@ -22,6 +22,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TProperty = require( 'AXON/TProperty' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -57,7 +58,7 @@ define( function( require ) {
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new Property( false, {
       tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
