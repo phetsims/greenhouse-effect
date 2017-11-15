@@ -34,6 +34,8 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
+  var TObservableArray = require( 'AXON/TObservableArray' );
+  var TProperty = require( 'AXON/TProperty' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -94,27 +96,26 @@ define( function( require ) {
         WavelengthConstants.VISIBLE_WAVELENGTH,
         WavelengthConstants.UV_WAVELENGTH
       ],
-      phetioValueType: TNumber
+      phetioType: TProperty( TNumber )
     } );
 
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
-      phetioValueType: TString
+      phetioType: TProperty( TString )
     } );
 
     this.runningProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'runningProperty' )
-      // phetioValueType: TBoolean
     } );
 
     // @public
     this.photons = new ObservableArray( {
       tandem: tandem.createTandem( 'photons' ),
-      phetioValueType: TPhoton
+      phetioType: TObservableArray( TPhoton )
     } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( {
       tandem: tandem.createTandem( 'molecules' ),
-      phetioValueType: TMolecule
+      phetioType: TObservableArray( TMolecule )
     } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
@@ -138,7 +139,7 @@ define( function( require ) {
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
 
-    tandem.addInstance( this, TPhotonAbsorptionModel );
+    tandem.addInstance( this, { phetioType: TPhotonAbsorptionModel } );
   }
 
   moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );

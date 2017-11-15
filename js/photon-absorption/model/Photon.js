@@ -17,6 +17,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Property = require( 'AXON/Property' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
+  var TProperty = require( 'AXON/TProperty' );
   var TVector2 = require( 'DOT/TVector2' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -31,7 +32,7 @@ define( function( require ) {
 
     this.locationProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'locationProperty' ),
-      phetioValueType: TVector2
+      phetioType: TProperty( TVector2 )
     });
 
     var self = this;
@@ -46,7 +47,7 @@ define( function( require ) {
     };
 
     // Photons in the play area are instrumented, those in the control panel (for icons) are not.
-    tandem && tandem.addInstance( this, TPhoton );
+    tandem && tandem.addInstance( this, { phetioType: TPhoton } );
   }
 
   moleculesAndLight.register( 'Photon', Photon );
