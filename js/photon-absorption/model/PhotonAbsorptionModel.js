@@ -35,7 +35,7 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
   var TObservableArray = require( 'AXON/TObservableArray' );
-  var TProperty = require( 'AXON/TProperty' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -96,12 +96,12 @@ define( function( require ) {
         WavelengthConstants.VISIBLE_WAVELENGTH,
         WavelengthConstants.UV_WAVELENGTH
       ],
-      phetioType: TProperty( TNumber )
+      phetioType: PropertyIO( TNumber )
     } );
 
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
-      phetioType: TProperty( TString )
+      phetioType: PropertyIO( TString )
     } );
 
     this.runningProperty = new BooleanProperty( true, {
