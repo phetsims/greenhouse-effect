@@ -28,7 +28,7 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // strings
   var spectrumWindowCloseString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.close' );
@@ -67,7 +67,7 @@ define( function( require ) {
     // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
     this.shownProperty = new Property( false, {
       tandem: tandem.createTandem( 'shownProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
 
     var shownListener = function( shown ) {

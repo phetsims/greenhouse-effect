@@ -26,7 +26,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
   // strings
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
@@ -58,7 +58,7 @@ define( function( require ) {
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new Property( false, {
       tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
