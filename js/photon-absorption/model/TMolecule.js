@@ -12,7 +12,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    *
@@ -22,10 +22,10 @@ define( function( require ) {
    */
   function TMolecule( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( TObject, 'TMolecule', TMolecule, {}, {
+  phetioInherit( ObjectIO, 'TMolecule', TMolecule, {}, {
     documentation: 'Wrapper type for a molecule.',
 
     fromStateObject: function( stateObject ) {

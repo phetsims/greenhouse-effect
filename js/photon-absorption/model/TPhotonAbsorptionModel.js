@@ -11,7 +11,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
 
   /**
@@ -22,10 +22,10 @@ define( function( require ) {
    */
   function TPhotonAbsorptionModel( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( TObject, 'TPhotonAbsorptionModel', TPhotonAbsorptionModel, {}, {
+  phetioInherit( ObjectIO, 'TPhotonAbsorptionModel', TPhotonAbsorptionModel, {}, {
       documentation: 'The model for Photon Absorption',
       clearChildInstances: function( instance ) {
         instance.clearPhotons();

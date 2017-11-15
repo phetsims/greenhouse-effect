@@ -44,7 +44,7 @@ define( function( require ) {
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // ------- constants -------------
 
@@ -101,7 +101,7 @@ define( function( require ) {
 
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
-      phetioType: PropertyIO( TString )
+      phetioType: PropertyIO( StringIO )
     } );
 
     this.runningProperty = new BooleanProperty( true, {

@@ -13,7 +13,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    *
@@ -23,10 +23,10 @@ define( function( require ) {
    */
   function TPhoton( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.Photon );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( TObject, 'TPhoton', TPhoton, {}, {
+  phetioInherit( ObjectIO, 'TPhoton', TPhoton, {}, {
     documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
