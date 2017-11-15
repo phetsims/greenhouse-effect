@@ -12,7 +12,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
   /**
@@ -30,17 +30,17 @@ define( function( require ) {
     documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
-        vx: TNumber.fromStateObject( stateObject.vx ),
-        vy: TNumber.fromStateObject( stateObject.vy ),
-        wavelength: TNumber.fromStateObject( stateObject.wavelength )
+        vx: NumberIO.fromStateObject( stateObject.vx ),
+        vy: NumberIO.fromStateObject( stateObject.vy ),
+        wavelength: NumberIO.fromStateObject( stateObject.wavelength )
       };
     },
 
     toStateObject: function( value ) {
       return {
-        vx: TNumber.toStateObject( value.vx ),
-        vy: TNumber.toStateObject( value.vy ),
-        wavelength: TNumber.toStateObject( value.wavelength )
+        vx: NumberIO.toStateObject( value.vx ),
+        vy: NumberIO.toStateObject( value.vy ),
+        wavelength: NumberIO.toStateObject( value.wavelength )
       };
     }
   } );

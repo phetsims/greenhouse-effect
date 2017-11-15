@@ -34,14 +34,14 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
-  var TObservableArray = require( 'AXON/TObservableArray' );
+  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // phet-io modules
   var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
   var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
   var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
@@ -96,7 +96,7 @@ define( function( require ) {
         WavelengthConstants.VISIBLE_WAVELENGTH,
         WavelengthConstants.UV_WAVELENGTH
       ],
-      phetioType: PropertyIO( TNumber )
+      phetioType: PropertyIO( NumberIO )
     } );
 
     this.photonTargetProperty = new Property( initialPhotonTarget, {
@@ -111,11 +111,11 @@ define( function( require ) {
     // @public
     this.photons = new ObservableArray( {
       tandem: tandem.createTandem( 'photons' ),
-      phetioType: TObservableArray( TPhoton )
+      phetioType: ObservableArrayIO( TPhoton )
     } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( {
       tandem: tandem.createTandem( 'molecules' ),
-      phetioType: TObservableArray( TMolecule )
+      phetioType: ObservableArrayIO( TMolecule )
     } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
