@@ -40,10 +40,10 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // phet-io modules
-  var TMolecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TMolecule' );
+  var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
-  var TPhotonAbsorptionModel = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhotonAbsorptionModel' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
+  var PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // ------- constants -------------
@@ -111,11 +111,11 @@ define( function( require ) {
     // @public
     this.photons = new ObservableArray( {
       tandem: tandem.createTandem( 'photons' ),
-      phetioType: ObservableArrayIO( TPhoton )
+      phetioType: ObservableArrayIO( PhotonIO )
     } ); // Elements are of type Photon
     this.activeMolecules = new ObservableArray( {
       tandem: tandem.createTandem( 'molecules' ),
-      phetioType: ObservableArrayIO( TMolecule )
+      phetioType: ObservableArrayIO( MoleculeIO )
     } ); // Elements are of type Molecule.
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
@@ -139,7 +139,7 @@ define( function( require ) {
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
 
-    tandem.addInstance( this, { phetioType: TPhotonAbsorptionModel } );
+    tandem.addInstance( this, { phetioType: PhotonAbsorptionModelIO } );
   }
 
   moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );

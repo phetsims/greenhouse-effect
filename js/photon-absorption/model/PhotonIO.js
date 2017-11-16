@@ -21,12 +21,12 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TPhoton( instance, phetioID ) {
+  function PhotonIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.Photon );
     ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TPhoton', TPhoton, {}, {
+  phetioInherit( ObjectIO, 'PhotonIO', PhotonIO, {}, {
     documentation: 'A Photon',
     fromStateObject: function( stateObject ) {
       return {
@@ -45,7 +45,8 @@ define( function( require ) {
     }
   } );
 
-  moleculesAndLight.register( 'TPhoton', TPhoton );
+  moleculesAndLight.register( 'PhotonIO', PhotonIO );
 
-  return TPhoton;
+  return PhotonIO;
 } );
+

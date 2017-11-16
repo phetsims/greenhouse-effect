@@ -12,7 +12,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
-  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
 
   /**
    * Instrumented to help restore charged particles.
@@ -20,12 +20,12 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TPhotonAbsorptionModel( instance, phetioID ) {
+  function PhotonAbsorptionModelIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
     ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TPhotonAbsorptionModel', TPhotonAbsorptionModel, {}, {
+  phetioInherit( ObjectIO, 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO, {}, {
       documentation: 'The model for Photon Absorption',
       clearChildInstances: function( instance ) {
         instance.clearPhotons();
@@ -41,7 +41,7 @@ define( function( require ) {
        * @returns {ChargedParticle}
        */
       addChildInstance: function( instance, tandem, stateObject ) {
-        var value = TPhoton.fromStateObject( stateObject );
+        var value = PhotonIO.fromStateObject( stateObject );
 
         var photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
         photon.setVelocity( stateObject.vx, stateObject.vy );
@@ -50,7 +50,8 @@ define( function( require ) {
     }
   );
 
-  moleculesAndLight.register( 'TPhotonAbsorptionModel', TPhotonAbsorptionModel );
+  moleculesAndLight.register( 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO );
 
-  return TPhotonAbsorptionModel;
+  return PhotonAbsorptionModelIO;
 } );
+

@@ -16,7 +16,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Property = require( 'AXON/Property' );
-  var TPhoton = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/TPhoton' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2IO = require( 'DOT/Vector2IO' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -47,7 +47,7 @@ define( function( require ) {
     };
 
     // Photons in the play area are instrumented, those in the control panel (for icons) are not.
-    tandem && tandem.addInstance( this, { phetioType: TPhoton } );
+    tandem && tandem.addInstance( this, { phetioType: PhotonIO } );
   }
 
   moleculesAndLight.register( 'Photon', Photon );

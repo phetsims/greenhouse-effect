@@ -20,12 +20,12 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TMolecule( instance, phetioID ) {
+  function MoleculeIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
     ObjectIO.call( this, instance, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TMolecule', TMolecule, {}, {
+  phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
     documentation: 'Wrapper type for a molecule.',
 
     fromStateObject: function( stateObject ) {
@@ -37,7 +37,8 @@ define( function( require ) {
     }
   } );
 
-  moleculesAndLight.register( 'TMolecule', TMolecule );
+  moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
 
-  return TMolecule;
+  return MoleculeIO;
 } );
+
