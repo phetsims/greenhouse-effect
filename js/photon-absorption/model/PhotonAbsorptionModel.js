@@ -31,10 +31,10 @@ define( function( require ) {
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
-  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
@@ -42,8 +42,8 @@ define( function( require ) {
   // phet-io modules
   var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // ------- constants -------------
