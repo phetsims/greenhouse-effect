@@ -16,13 +16,13 @@ define( function( require ) {
 
   /**
    *
-   * @param instance
+   * @param molecule
    * @param phetioID
    * @constructor
    */
-  function MoleculeIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.moleculesAndLight.Molecule );
-    ObjectIO.call( this, instance, phetioID );
+  function MoleculeIO( molecule, phetioID ) {
+    assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
+    ObjectIO.call( this, molecule, phetioID );
   }
 
   phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
@@ -32,8 +32,9 @@ define( function( require ) {
       return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
     },
 
-    toStateObject: function( value ) {
-      return value.toStateObject();
+    toStateObject: function( molecule ) {
+      assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
+      return molecule.toStateObject();
     }
   } );
 

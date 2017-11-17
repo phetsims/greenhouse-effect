@@ -16,36 +16,38 @@ define( function( require ) {
 
   /**
    * Instrumented to help restore charged particles.
-   * @param instance
+   * @param photonAbsorptionModel
    * @param phetioID
    * @constructor
    */
-  function PhotonAbsorptionModelIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.moleculesAndLight.PhotonAbsorptionModel );
-    ObjectIO.call( this, instance, phetioID );
+  function PhotonAbsorptionModelIO( photonAbsorptionModel, phetioID ) {
+    assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
+    ObjectIO.call( this, photonAbsorptionModel, phetioID );
   }
 
   phetioInherit( ObjectIO, 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO, {}, {
       documentation: 'The model for Photon Absorption',
-      clearChildInstances: function( instance ) {
-        instance.clearPhotons();
+    clearChildInstances: function( photonAbsorptionModel ) {
+      assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
+      photonAbsorptionModel.clearPhotons();
         // instance.chargedParticles.clear();
         // instance.electricFieldSensors.clear();
       },
 
       /**
        * Create a dynamic particle as specified by the phetioID and state.
-       * @param {Object} instance
+       * @param {Object} photonAbsorptionModel
        * @param {Tandem} tandem
        * @param {Object} stateObject
        * @returns {ChargedParticle}
        */
-      addChildInstance: function( instance, tandem, stateObject ) {
+      addChildInstance: function( photonAbsorptionModel, tandem, stateObject ) {
+        assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
         var value = PhotonIO.fromStateObject( stateObject );
 
         var photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
         photon.setVelocity( stateObject.vx, stateObject.vy );
-        instance.photons.add( photon );
+        photonAbsorptionModel.photons.add( photon );
       }
     }
   );

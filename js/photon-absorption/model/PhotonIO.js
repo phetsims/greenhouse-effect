@@ -17,13 +17,13 @@ define( function( require ) {
 
   /**
    *
-   * @param instance
+   * @param photon
    * @param phetioID
    * @constructor
    */
-  function PhotonIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.moleculesAndLight.Photon );
-    ObjectIO.call( this, instance, phetioID );
+  function PhotonIO( photon, phetioID ) {
+    assert && assertInstanceOf( photon, phet.moleculesAndLight.Photon );
+    ObjectIO.call( this, photon, phetioID );
   }
 
   phetioInherit( ObjectIO, 'PhotonIO', PhotonIO, {}, {
@@ -36,11 +36,12 @@ define( function( require ) {
       };
     },
 
-    toStateObject: function( value ) {
+    toStateObject: function( photon ) {
+      assert && assertInstanceOf( photon, phet.moleculesAndLight.Photon );
       return {
-        vx: NumberIO.toStateObject( value.vx ),
-        vy: NumberIO.toStateObject( value.vy ),
-        wavelength: NumberIO.toStateObject( value.wavelength )
+        vx: NumberIO.toStateObject( photon.vx ),
+        vy: NumberIO.toStateObject( photon.vy ),
+        wavelength: NumberIO.toStateObject( photon.wavelength )
       };
     }
   } );
