@@ -124,8 +124,6 @@ define( function( require ) {
    */
   function CloseButton( dialog, spectrumWindowButton, tandem ) {
 
-    var self = this;
-
     // create content and scale for translations.
     var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
     if ( content.width > SpectrumDiagram.SUBSECTION_WIDTH ) {
