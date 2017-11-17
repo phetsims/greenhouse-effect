@@ -146,26 +146,11 @@ define( function( require ) {
       accessibleFire: accessibleCloseListener,
       tandem: tandem
     } );
-
-    // @private - remove tandem instances
-    this.disposeCloseButton = function() {
-      tandem.removeInstance( self );
-    };
   }
 
   moleculesAndLight.register( 'CloseButton', CloseButton );
 
-  inherit( RectangularPushButton, CloseButton, {
-
-    /**
-     * Make eligible for garbage collection.
-     * @public
-     */
-    dispose: function() {
-      this.disposeCloseButton();
-      RectangularPushButton.prototype.dispose && RectangularPushButton.prototype.dispose.call( this );
-    }
-  } );
+  inherit( RectangularPushButton, CloseButton );
 
   return SpectrumWindowDialog;
 } );
