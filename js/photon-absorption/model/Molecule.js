@@ -63,7 +63,7 @@ define( function( require ) {
 
     options = _.extend( {
       initialPosition: Vector2.ZERO,
-      tandem: Tandem.tandemOptional() // not needed when part of the selection radio buttons.
+      tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false );
