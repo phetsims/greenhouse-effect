@@ -107,14 +107,14 @@ define( function( require ) {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
+        // a11y
+        // move focus to the emission control slider only when the button is clicked
+        // retain focus on other elements if button was clicked without focus
+        self.returnMoleculeButtonNode.isFocused() && photonEmitterNode.emissionRateControlSliderNode.emissionRateControlSlider.focus();
+
         photonAbsorptionModel.restoreActiveMolecule();
         self.returnMoleculeButtonVisibleProperty.set( false );
         self.moleculeCheckBounds();
-
-        // a11y
-        // move focus to the emission control slider only when the button is clicked
-        // retain focus on other elements if they return the molecule
-        photonEmitterNode.emissionRateControlSliderNode.emissionRateControlSlider.focus();
       },
       tandem: tandem.createTandem( 'returnMoleculeButton' )
     } );
