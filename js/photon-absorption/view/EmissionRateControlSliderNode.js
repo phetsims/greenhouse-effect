@@ -19,6 +19,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -32,6 +33,9 @@ define( function( require ) {
   var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
   var THUMB_RECTANGLE_WIDTH = 30; // a background rectangle behind the thumb, made visible when the slider has focus
   var THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
+
+  // a11y strings
+  var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -59,6 +63,10 @@ define( function( require ) {
       thumbFillEnabled: 'rgb(0, 203, 230)',
       thumbNode: sliderThumb,
       tandem: tandem,
+
+      // a11y
+      labelTagName: 'h3',
+      prependLabels: true,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
@@ -92,8 +100,9 @@ define( function( require ) {
     this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
     this.photonWavelengthListener = function() {
+
       // check if the current node is disposed
-      if ( !self.isDisposed() ){
+      if ( !self.isDisposed() ) {
         self.update();
       }
     };
@@ -120,6 +129,7 @@ define( function( require ) {
      * @private
      */
     update: function() {
+
       // Adjust the position of the slider.  Note that we do a conversion between period and frequency and map it into
       // the slider's range.
       this.emissionRateControlSlider.value = this.model.getSingleTargetFrequencyFromPeriod();
@@ -141,6 +151,8 @@ define( function( require ) {
       else {
         throw new Error( 'unrecognized photon wavelength: ' + wavelength );
       }
+
+      this.updateLightSourceLabel();
     },
 
     /**
@@ -153,6 +165,15 @@ define( function( require ) {
       var rectHeight = this.emissionRateControlSlider.height;
       var rectWidth = this.emissionRateControlSlider.width;
       this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
+    },
+
+    updateLightSourceLabel: function() {
+
+      var wavelength = this.model.photonWavelengthProperty.get();
+
+      var lightSourceName = WavelengthConstants.getLightSourceName( wavelength );
+
+      this.emissionRateControlSlider.accessibleLabel = lightSourceName + ' ' + lightSourceString;
     }
   } );
 

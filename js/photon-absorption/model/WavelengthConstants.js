@@ -12,6 +12,12 @@ define( function( require ) {
   // modules
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
+  // strings
+  var quadWavelengthSelectorMicrowaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
+  var quadWavelengthSelectorInfraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
+  var quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
+  var quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
+
   var WavelengthConstants = {
     SUNLIGHT_WAVELENGTH: 400E-9, // Ported from the original JAVA version, but not used in Molecules And Light
     MICRO_WAVELENGTH: 20,
@@ -30,6 +36,16 @@ define( function( require ) {
              wavelength === this.IR_WAVELENGTH ? 'infrared' :
              wavelength === this.VISIBLE_WAVELENGTH ? 'visible' :
              wavelength === this.UV_WAVELENGTH ? 'ultraviolet' :
+             assert( false, 'unknown' );
+    },
+
+    // Given a wavelength, get the name of the lightSource that it belongs too. This is used by a11y to get the correct
+    // name of the wavelength in human form. TODO: use this in QuadEmissionFrequencyControlPanel.js to clean up boilerplate.
+    getLightSourceName: function( wavelength ) {
+      return wavelength === this.MICRO_WAVELENGTH ? quadWavelengthSelectorMicrowaveString :
+             wavelength === this.IR_WAVELENGTH ? quadWavelengthSelectorInfraredString :
+             wavelength === this.VISIBLE_WAVELENGTH ? quadWavelengthSelectorVisibleString :
+             wavelength === this.UV_WAVELENGTH ? quadWavelengthSelectorUltravioletString :
              assert( false, 'unknown' );
     }
   };
