@@ -127,6 +127,7 @@ define( function( require ) {
    * @param {string} captionText - Description of what the arrow node represents.
    * @param {string} leftColor
    * @param {string} rightColor
+   * @param {Tandem} tandem
    * @constructor
    */
   function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem ) {
@@ -161,7 +162,7 @@ define( function( require ) {
     // length minus twice the head length.
     var label = new Text( captionText, { font: LABEL_FONT } );
     if ( label.width > this.width - 2 * ARROW_HEAD_WIDTH ) {
-      label.scale( ( this.width - 2 * ARROW_HEAD_WIDTH ) / label.width );
+      label.scale( (this.width - 2 * ARROW_HEAD_WIDTH) / label.width );
     }
     label.center = this.center;
     this.addChild( label );
@@ -195,13 +196,13 @@ define( function( require ) {
 
     // Add the frequency tick marks to the top of the spectrum strip.
     for ( var i = 4; i <= 20; i++ ) {
-      var includeFrequencyLabel = ( i % 2 === 0 );
+      var includeFrequencyLabel = (i % 2 === 0);
       addFrequencyTickMark( self, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
     }
 
     // Add the wavelength tick marks to the bottom of the spectrum.
     for ( var j = -12; j <= 4; j++ ) {
-      var includeWavelengthLabel = ( j % 2 === 0 );
+      var includeWavelengthLabel = (j % 2 === 0);
       addWavelengthTickMark( self, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
     }
 
@@ -228,7 +229,7 @@ define( function( require ) {
     var visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
     var visibleBandCenterX = visibleSpectrum.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
-      visibleBandLabel.scale( ( strip.width / 2 ) / visibleBandLabel.width );
+      visibleBandLabel.scale( (strip.width / 2) / visibleBandLabel.width );
     }
     visibleBandLabel.center = new Vector2( visibleBandCenterX, -35 ); // TODO: 35?
     this.addChild( visibleBandLabel );
@@ -272,7 +273,7 @@ define( function( require ) {
     assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
     var logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
     var logarithmicFrequency = log10( frequency );
-    return ( logarithmicFrequency - log10( MIN_FREQUENCY ) ) / logarithmicRange * SUBSECTION_WIDTH;
+    return (logarithmicFrequency - log10( MIN_FREQUENCY )) / logarithmicRange * SUBSECTION_WIDTH;
   }
 
   /**
@@ -368,6 +369,7 @@ define( function( require ) {
    * @param {number} lowEndFrequency
    * @param {number} highEndFrequency
    * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
+   * @param {Tandem} tandem
    */
   function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString, tandem ) {
     // Argument validation.
@@ -383,9 +385,9 @@ define( function( require ) {
     var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
     thisNode.addChild( labelText );
 
-    if ( ( labelText.width + 10 ) > width ) {
+    if ( (labelText.width + 10) > width ) {
       // Scale the label to fit with a little bit of padding on each side.
-      labelText.scale( width / ( labelText.width + 10 ) );
+      labelText.scale( width / (labelText.width + 10) );
     }
     labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
   }
@@ -431,15 +433,15 @@ define( function( require ) {
     chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.
     var numPointsOnLine = 1500;
     for ( var i = 0; i < numPointsOnLine; i++ ) {
-      var x = i * ( SUBSECTION_WIDTH / (numPointsOnLine - 1) );
+      var x = i * (SUBSECTION_WIDTH / (numPointsOnLine - 1));
       var t = x / SUBSECTION_WIDTH;
 
       var f0 = 1;
       var k = 2;
       var tScale = 4.5;
-      var sinTerm = Math.sin( 2 * Math.PI * f0 * ( Math.pow( k, t * tScale ) - 1) / Math.log( k ) );
+      var sinTerm = Math.sin( 2 * Math.PI * f0 * (Math.pow( k, t * tScale ) - 1) / Math.log( k ) );
 
-      var y = ( sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
+      var y = (sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2);
       chirpShape.lineTo( x, y );
     }
 

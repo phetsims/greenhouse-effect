@@ -96,11 +96,11 @@ define( function( require ) {
 
     // Create the control panel for photon emission frequency.
     var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
-    photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
+    photonEmissionControlPanel.leftTop = (new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ));
 
     // Create the molecule control panel
     var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
-    moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
+    moleculeControlPanel.leftTop = (new Vector2( 530, windowFrameNode.top ));
 
     // Add reset all button.
     var resetAllButton = new ResetAllButton( {
@@ -147,7 +147,7 @@ define( function( require ) {
     // panel minus twice the default x margin of a rectangular push button.
     var buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
-      buttonContent.scale( (moleculeControlPanel.width - 16 ) / buttonContent.width );
+      buttonContent.scale( (moleculeControlPanel.width - 16) / buttonContent.width );
     }
     var showLightSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
@@ -166,9 +166,16 @@ define( function( require ) {
         assert && assert( dialog, 'No dialog was created, nothing to focus.' );
         dialog.closeButton.focus();
       },
-      tandem: tandem.createTandem( 'showLightSpectrumButton' )
+      tandem: tandem.createTandem( 'showLightSpectrumButton' ),
+
+      // a11y
+      accessibleLabel: 'Spectrum Diagram'
     } );
-    showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ) );
+
+    // a11y - add an attribute that lets the user know the button opens a menu
+    showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
+
+    showLightSpectrumButton.center = (new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 33 ));
     this.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
