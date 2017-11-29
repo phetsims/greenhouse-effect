@@ -102,7 +102,8 @@ define( function( require ) {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabel' )
       } ),
-      tandemName: microwaveTandemName
+      tandemName: microwaveTandemName,
+      accessibleLabel: quadWavelengthSelectorMicrowaveString
     }, {
       node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
       value: WavelengthConstants.IR_WAVELENGTH,
@@ -110,7 +111,8 @@ define( function( require ) {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabel' )
       } ),
-      tandemName: infraredTandemName
+      tandemName: infraredTandemName,
+      accessibleLabel: quadWavelengthSelectorInfraredString
     }, {
       node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
@@ -118,7 +120,8 @@ define( function( require ) {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabel' )
       } ),
-      tandemName: visibleTandemName
+      tandemName: visibleTandemName,
+      accessibleLabel: quadWavelengthSelectorVisibleString
     }, {
       node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
       value: WavelengthConstants.UV_WAVELENGTH,
@@ -126,7 +129,8 @@ define( function( require ) {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabel' )
       } ),
-      tandemName: ultravioletTandemName
+      tandemName: ultravioletTandemName,
+      accessibleLabel: quadWavelengthSelectorUltravioletString
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.
