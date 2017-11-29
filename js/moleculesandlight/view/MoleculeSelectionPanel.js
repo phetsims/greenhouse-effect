@@ -113,37 +113,44 @@ define( function( require ) {
       {
         node: createRadioButtonContent( controlPanelCarbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO_MOLECULE,
-        tandemName: 'singleCOMoleculeRadioButton'
+        tandemName: 'singleCOMoleculeRadioButton',
+        accessibleLabel: controlPanelCarbonMonoxideString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_N2_MOLECULE,
-        tandemName: 'singleN2MoleculeRadioButton'
+        tandemName: 'singleN2MoleculeRadioButton',
+        accessibleLabel: controlPanelNitrogenString
       },
       {
         node: createRadioButtonContent( controlPanelOxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O2_MOLECULE,
-        tandemName: 'singleO2MoleculeRadioButton'
+        tandemName: 'singleO2MoleculeRadioButton',
+        accessibleLabel: controlPanelOxygenString
       },
       {
         node: createRadioButtonContent( controlPanelCarbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO2_MOLECULE,
-        tandemName: 'singleCO2MoleculeRadioButton'
+        tandemName: 'singleCO2MoleculeRadioButton',
+        accessibleLabel: controlPanelCarbonDioxideString
       },
       {
         node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_H2O_MOLECULE,
-        tandemName: 'singleH2OMoleculeRadioButton'
+        tandemName: 'singleH2OMoleculeRadioButton',
+        accessibleLabel: controlPanelWaterString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_NO2_MOLECULE,
-        tandemName: 'singleNO2MoleculeRadioButton'
+        tandemName: 'singleNO2MoleculeRadioButton',
+        accessibleLabel: controlPanelNitrogenDioxideString
       },
       {
         node: createRadioButtonContent( controlPanelOzoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O3_MOLECULE,
-        tandemName: 'singleO3MoleculeRadioButton'
+        tandemName: 'singleO3MoleculeRadioButton',
+        accessibleLabel: controlPanelOzoneString
       }
     ];
 
