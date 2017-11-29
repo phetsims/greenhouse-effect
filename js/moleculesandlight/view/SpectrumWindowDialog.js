@@ -20,6 +20,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -32,6 +33,9 @@ define( function( require ) {
 
   // strings
   var spectrumWindowCloseString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.close' );
+
+  // a11y string
+  var closeString = MoleculesAndLightA11yStrings.closeString.value;
 
   /**
    * @constructor
@@ -119,6 +123,7 @@ define( function( require ) {
    * close whenever the user clicks in the molecules and light screen view (as in AboutDialog).
    *
    * @param {Dialog} dialog - the dialog to close with the button
+   * @param {RectangularPushButton} spectrumWindowButton
    * @param {Tandem} tandem
    * @constructor
    */
@@ -142,7 +147,8 @@ define( function( require ) {
       content: content,
       listener: closeListener,
       accessibleFire: accessibleCloseListener,
-      tandem: tandem
+      tandem: tandem,
+      accessibleLabel: closeString
     } );
   }
 
