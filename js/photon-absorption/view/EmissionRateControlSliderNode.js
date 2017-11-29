@@ -70,7 +70,8 @@ define( function( require ) {
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
-      pageKeyboardStep: sliderRange.getLength() / 5
+      pageKeyboardStep: sliderRange.getLength() / 5,
+      accessibleDecimalPlaces: 1 // so the emissionFrequencyProperty is read (range from 0-1)
     } ); // @private
 
     var sliderBounds = sliderThumb.backgroundRectangle.bounds;
