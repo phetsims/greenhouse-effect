@@ -17,6 +17,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
   var ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -35,6 +36,9 @@ define( function( require ) {
 
   // strings
   var spectrumWindowButtonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
+
+  // a11y strings
+  var spectrumDiagramString = MoleculesAndLightA11yStrings.spectrumDiagramString.value;
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -169,7 +173,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
       // a11y
-      accessibleLabel: 'Spectrum Diagram'
+      accessibleLabel: spectrumDiagramString
     } );
 
     // a11y - add an attribute that lets the user know the button opens a menu
