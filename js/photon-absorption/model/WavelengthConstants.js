@@ -39,8 +39,14 @@ define( function( require ) {
              assert( false, 'unknown' );
     },
 
-    // Given a wavelength, get the name of the lightSource that it belongs too. This is used by a11y to get the correct
-    // name of the wavelength in human form. TODO: use this in QuadEmissionFrequencyControlPanel.js to clean up boilerplate.
+
+    /**
+     * Given a wavelength, get the name of the lightSource that it belongs too. This is used by a11y to get the correct
+     * name of the wavelength in human form.
+     * TODO: use this in QuadEmissionFrequencyControlPanel.js to clean up boilerplate.
+     * @param {number} wavelength
+     * @returns {string}
+     */
     getLightSourceName: function( wavelength ) {
       return wavelength === this.MICRO_WAVELENGTH ? quadWavelengthSelectorMicrowaveString :
              wavelength === this.IR_WAVELENGTH ? quadWavelengthSelectorInfraredString :

@@ -26,6 +26,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants
@@ -36,6 +37,7 @@ define( function( require ) {
 
   // a11y strings
   var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
+  var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -65,7 +67,7 @@ define( function( require ) {
       tandem: tandem,
 
       // a11y
-      labelTagName: 'h3',
+      labelTagName: 'label',
       prependLabels: true,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
@@ -172,9 +174,12 @@ define( function( require ) {
 
       var wavelength = this.model.photonWavelengthProperty.get();
 
-      var lightSourceName = WavelengthConstants.getLightSourceName( wavelength );
+      var lightSourceNameString = WavelengthConstants.getLightSourceName( wavelength );
 
-      this.emissionRateControlSlider.accessibleLabel = lightSourceName + ' ' + lightSourceString;
+      this.emissionRateControlSlider.accessibleLabel = StringUtils.fillIn( lightSourceTitlePattern, {
+        lightSourceName: lightSourceNameString,
+        lightSourceString: lightSourceString
+      } );
     }
   } );
 
