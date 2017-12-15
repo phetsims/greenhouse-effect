@@ -15,6 +15,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -33,31 +34,28 @@ define( function( require ) {
     this.locationProperty = new Property( new Vector2( 0, 0 ), {
       tandem: tandem.createTandem( 'locationProperty' ),
       phetioType: PropertyIO( Vector2IO )
-    });
-
-    var self = this;
+    } );
 
     // @private
     this.wavelength = wavelength;
     this.vx = 0; // x component of the photon velocity
     this.vy = 0; // y component of the photon velocity
 
-    this.disposePhoton = function() {
-      tandem && tandem.removeInstance( self );
-    };
-
     // Photons in the play area are instrumented, those in the control panel (for icons) are not.
-    tandem && tandem.addInstance( this, { phetioType: PhotonIO } );
+    PhetioObject.call( this, {
+      tandem: tandem,
+      phetioType: PhotonIO
+    } );
   }
 
   moleculesAndLight.register( 'Photon', Photon );
 
-  return inherit( Object, Photon, {
+  return inherit( PhetioObject, Photon, {
 
     dispose: function() {
       this.locationProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
       this.locationProperty.dispose();
-      this.disposePhoton();
+      PhetioObject.prototype.dispose.call( this );
     },
 
     /**
