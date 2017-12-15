@@ -32,6 +32,7 @@ define( function( require ) {
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
@@ -139,12 +140,15 @@ define( function( require ) {
     this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
 
-    tandem.addInstance( this, { phetioType: PhotonAbsorptionModelIO } );
+    PhetioObject.call( this, {
+      tandem: tandem,
+      phetioType: PhotonAbsorptionModelIO
+    } );
   }
 
   moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
-  return inherit( Object, PhotonAbsorptionModel, {
+  return inherit( PhetioObject, PhotonAbsorptionModel, {
 
     /**
      * Reset the model to its initial state.
