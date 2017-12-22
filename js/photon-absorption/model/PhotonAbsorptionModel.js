@@ -142,7 +142,8 @@ define( function( require ) {
 
     PhetioObject.call( this, {
       tandem: tandem,
-      phetioType: PhotonAbsorptionModelIO
+      phetioType: PhotonAbsorptionModelIO,
+      phetioState: false
     } );
   }
 
