@@ -16,8 +16,8 @@ define( function( require ) {
 
   /**
    *
-   * @param molecule
-   * @param phetioID
+   * @param {Molecule} molecule
+   * @param {string} phetioID
    * @constructor
    */
   function MoleculeIO( molecule, phetioID ) {

@@ -17,8 +17,8 @@ define( function( require ) {
 
   /**
    *
-   * @param photon
-   * @param phetioID
+   * @param {Photon} photon
+   * @param {string} phetioID
    * @constructor
    */
   function PhotonIO( photon, phetioID ) {

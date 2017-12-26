@@ -16,8 +16,8 @@ define( function( require ) {
 
   /**
    * Instrumented to help restore charged particles.
-   * @param photonAbsorptionModel
-   * @param phetioID
+   * @param {PhotonAbsorptionModel} photonAbsorptionModel
+   * @param {string} phetioID
    * @constructor
    */
   function PhotonAbsorptionModelIO( photonAbsorptionModel, phetioID ) {
