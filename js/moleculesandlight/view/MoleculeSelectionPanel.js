@@ -14,6 +14,7 @@ define( function( require ) {
   var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
+  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -29,6 +30,7 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
+  var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -59,6 +61,9 @@ define( function( require ) {
 
   // Scaling factor for the molecule images, determined empirically.
   var MOLECULE_SCALING_FACTOR = 0.0975;
+
+  // the focus highlights are a little larger so they look good in this rounded panel
+  var HIGHLIGHT_DILATION = 1.5;
 
   /**
    * Constructor for a Molecules and Light control panel.
@@ -170,11 +175,22 @@ define( function( require ) {
       cornerRadius: 7,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
-      tandem: tandem.createTandem( 'radioButtonGroup' )
+      tandem: tandem.createTandem( 'radioButtonGroup' ),
+
+      // a11y
+      a11yHighlightXDilation: HIGHLIGHT_DILATION,
+      a11yHighlightYDilation: HIGHLIGHT_DILATION
+    } );
+
+    // custom group focus highlight so there is enough spacing between button highlight and group highlight
+    var groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtons ) + HIGHLIGHT_DILATION;
+    radioButtons.groupFocusHighlight = new FocusHighlightPath( Shape.bounds( radioButtons.bounds.dilated( groupCoefficient ) ), {
+      outerLineWidth: FocusHighlightPath.GROUP_OUTER_LINE_WIDTH,
+      innerLineWidth: FocusHighlightPath.GROUP_INNER_LINE_WIDTH,
+      innerStroke: FocusHighlightPath.FOCUS_COLOR
     } );
 
     Panel.call( this, radioButtons, { fill: 'black', tandem: tandem } );
-
   }
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
