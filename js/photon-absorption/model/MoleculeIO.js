@@ -26,7 +26,7 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
-    documentation: 'Wrapper type for a molecule.',
+    documentation: 'IO type for a molecule.',
 
     fromStateObject: function( stateObject ) {
       return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
