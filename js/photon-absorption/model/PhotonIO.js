@@ -28,13 +28,6 @@ define( function( require ) {
 
   phetioInherit( ObjectIO, 'PhotonIO', PhotonIO, {}, {
     documentation: 'A Photon',
-    fromStateObject: function( stateObject ) {
-      return {
-        vx: NumberIO.fromStateObject( stateObject.vx ),
-        vy: NumberIO.fromStateObject( stateObject.vy ),
-        wavelength: NumberIO.fromStateObject( stateObject.wavelength )
-      };
-    },
 
     toStateObject: function( photon ) {
       assert && assertInstanceOf( photon, phet.moleculesAndLight.Photon );
@@ -42,6 +35,13 @@ define( function( require ) {
         vx: NumberIO.toStateObject( photon.vx ),
         vy: NumberIO.toStateObject( photon.vy ),
         wavelength: NumberIO.toStateObject( photon.wavelength )
+      };
+    },
+    fromStateObject: function( stateObject ) {
+      return {
+        vx: NumberIO.fromStateObject( stateObject.vx ),
+        vy: NumberIO.fromStateObject( stateObject.vy ),
+        wavelength: NumberIO.fromStateObject( stateObject.wavelength )
       };
     }
   } );

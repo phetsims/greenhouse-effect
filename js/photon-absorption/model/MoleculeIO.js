@@ -29,13 +29,13 @@ define( function( require ) {
   phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
     documentation: 'IO type for a molecule.',
 
-    fromStateObject: function( stateObject ) {
-      return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
-    },
-
     toStateObject: function( molecule ) {
       assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
       return molecule.toStateObject();
+    },
+
+    fromStateObject: function( stateObject ) {
+      return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
     }
   } );
 
