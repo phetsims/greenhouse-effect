@@ -66,7 +66,9 @@ define( function( require ) {
       tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
-    this.highElectronicEnergyStateProperty = new BooleanProperty( false );
+    this.highElectronicEnergyStateProperty = new BooleanProperty( false, options.tandem ? {
+      tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ) // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
+    } : {} );
     this.centerOfGravityProperty = new Property( options.initialPosition ); // {Property.<Vector2>}
 
     // Atoms and bonds that form this molecule.
@@ -208,7 +210,7 @@ define( function( require ) {
      * @returns {Vector2}
      **/
     getInitialAtomCogOffset: function( atom ) {
-      if ( !(atom.uniqueID in this.initialAtomCogOffsets) ) {
+      if ( !( atom.uniqueID in this.initialAtomCogOffsets ) ) {
         console.log( ' - Warning: Attempt to get initial COG offset for atom that is not in molecule.' );
       }
       return this.initialAtomCogOffsets[ atom.uniqueID ];
@@ -221,7 +223,7 @@ define( function( require ) {
      * @returns {Vector2} - Vector representing location of vibration offset from molecule's center of gravity.
      */
     getVibrationAtomOffset: function( atom ) {
-      if ( !(atom.uniqueID in this.vibrationAtomOffsets) ) {
+      if ( !( atom.uniqueID in this.vibrationAtomOffsets ) ) {
         console.log( ' - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.' );
       }
       return this.vibrationAtomOffsets[ atom.uniqueID ];
