@@ -216,7 +216,11 @@ define( function( require ) {
         }
       }
       this.photonAbsorptionModel.photons.removeAll( photonsToRemove );
-    }
 
+      // dispose all photons that leave the observation window
+      for ( var i = 0; i < photonsToRemove.length; i++ ) {
+        photonsToRemove[ i ].dispose();
+      }
+    }
   } );
 } );
