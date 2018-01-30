@@ -160,12 +160,14 @@ define( function( require ) {
     },
 
     /**
+     * These properties are owned by this molecule so they can be disposed directly.
      * @public
      */
     dispose: function() {
       this.vibratingProperty.dispose();
       this.rotatingProperty.dispose();
       this.rotationDirectionClockwiseProperty.dispose();
+      this.highElectronicEnergyStateProperty.dispose();
     },
 
     /**
