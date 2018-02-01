@@ -15,6 +15,7 @@ define( function( require ) {
   var MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var platform = require( 'PHET_CORE/platform' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhotonEmitterNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonEmitterNode' );
   var PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
@@ -70,6 +71,12 @@ define( function( require ) {
 
     var photonEmitterLayer = new Node();
     this.addChild( photonEmitterLayer );
+
+    // if using edge, render the photon layer and
+    if ( platform.edge ) {
+      photonLayer.renderer = 'svg';
+      photonEmitterLayer.renderer = 'svg';
+    }
 
     // Create and add the photon emitter.
     var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
