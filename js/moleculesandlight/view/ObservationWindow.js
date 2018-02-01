@@ -72,7 +72,7 @@ define( function( require ) {
     var photonEmitterLayer = new Node();
     this.addChild( photonEmitterLayer );
 
-    // if using edge, render the photon layer and
+    // if using Edge, render the photon layer and emitter with SVG for improved performance, see #175
     if ( platform.edge ) {
       photonLayer.renderer = 'svg';
       photonEmitterLayer.renderer = 'svg';
