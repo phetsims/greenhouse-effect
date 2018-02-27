@@ -24,6 +24,7 @@ define( function( require ) {
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
@@ -34,6 +35,8 @@ define( function( require ) {
   var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
+  var PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -41,10 +44,7 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // phet-io modules
-  var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
-  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
 
   // ------- constants -------------
