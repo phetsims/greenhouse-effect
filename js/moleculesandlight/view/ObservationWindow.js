@@ -23,7 +23,10 @@ define( function( require ) {
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants')
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -31,6 +34,26 @@ define( function( require ) {
 
   // strings
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
+  var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
+  var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
+  var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
+  var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
+  var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
+  var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
+  var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
+  var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
+
+  // maps photon target to translatable string
+  var getMoleculeName = function( photonTarget ) {
+    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
+           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
+           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
+           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
+           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
+           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
+           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
+           assert( false, 'unknown' );
+  }
 
   // constants
   var PHOTON_EMITTER_WIDTH = 125;
@@ -47,7 +70,14 @@ define( function( require ) {
   function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) {
 
     // Supertype constructor
-    Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, { fill: 'black' } );
+    Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, {
+      fill: 'black',
+
+      // a11y
+      tagName: 'div',
+      labelTagName: 'h3',
+      accessibleLabel: 'Observation Window'
+    } );
 
     var self = this;
     this.modelViewTransform = modelViewTransform; // @private
@@ -185,6 +215,11 @@ define( function( require ) {
       // hide the return molecule button
       self.returnMoleculeButtonNode.visible = self.returnMoleculeButtonVisibleProperty.get();
     } );
+
+    // a11y - when photon target, emission rate frequency, or photon type changes, update the accessible description
+    // of the observation window
+    Property.multilink( [ photonAbsorptionModel.photonTargetProperty, photonAbsorptionModel.emissionFrequencyProperty, photonAbsorptionModel.photonWavelengthProperty ], this.updateAccessibleDescription.bind( this ) );
+
   }
 
   moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
@@ -228,6 +263,26 @@ define( function( require ) {
       for ( var i = 0; i < photonsToRemove.length; i++ ) {
         photonsToRemove[ i ].dispose();
       }
+    },
+
+//     "Case 1 (light source off):
+// In observation window, {{ultraviolet}} light source is off and points directly at {{an}} {{ozone}} molecule.
+
+// Case 2 (light source on):
+// In observation window, {{ultraviolet}} light source emits photons directly at {{an}} {{ozone}} molecule.
+// "
+
+    updateAccessibleDescription: function( photonTarget, emissionFrequency, wavelength ) {
+
+      var patternString = "In observation window, {{wavelengthName}} light source is off and points directly at {{molecule}}.";
+
+      var lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
+      var moleculeString = getMoleculeName( photonTarget );
+
+      this.accessibleDescription = StringUtils.fillIn( patternString, {
+        wavelengthName: lightSourceString,
+        molecule: moleculeString
+      } );
     }
   } );
 } );

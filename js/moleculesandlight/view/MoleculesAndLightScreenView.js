@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -67,6 +68,17 @@ define( function( require ) {
       tandem: tandem
     } );
 
+    var summaryNode = new AccessibleSectionNode( 'Scene Summary', {
+      descriptionTagName: 'p',
+      accessibleDescription: 'This is where the description will go'
+    } );
+    var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
+    var controlPanelSectionNode = new AccessibleSectionNode( 'Control Panel' );
+
+    this.addChild( summaryNode );
+    this.addChild( playAreaSectionNode );
+    this.addChild( controlPanelSectionNode );
+
     var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( Math.round( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
@@ -76,7 +88,7 @@ define( function( require ) {
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
     var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
-    this.addChild( observationWindow );
+    playAreaSectionNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
@@ -187,7 +199,7 @@ define( function( require ) {
     this.addChild( moleculeControlPanel );
 
     // a11y
-    this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
+    // this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
   }
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
