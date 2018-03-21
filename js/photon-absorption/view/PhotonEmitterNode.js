@@ -113,6 +113,7 @@ define( function( require ) {
         this.addChild( this.photonEmitterOffImage );
       }
 
+      // TODO: discuss why we completely dispose of the entire slider and not simply update it's
       this.emissionRateControlSliderNode && this.emissionRateControlSliderNode.dispose();
 
       // create the photon emission rate control slider

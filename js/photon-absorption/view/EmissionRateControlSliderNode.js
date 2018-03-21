@@ -26,7 +26,7 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants
@@ -36,8 +36,9 @@ define( function( require ) {
   var THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
 
   // a11y strings
-  var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
-  var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
+  var lightSourceSliderString = MoleculesAndLightA11yStrings.lightSourceSliderString.value;
+  // var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
+  var emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -68,6 +69,8 @@ define( function( require ) {
 
       // a11y
       labelTagName: 'label',
+      accessibleLabel: lightSourceSliderString,
+      accessibleDescription: emissionSliderDescriptionString,
       prependLabels: true,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
@@ -155,7 +158,7 @@ define( function( require ) {
         throw new Error( 'unrecognized photon wavelength: ' + wavelength );
       }
 
-      this.updateLightSourceLabel();
+      // this.updateLightSourceLabel();
     },
 
     /**
@@ -170,17 +173,12 @@ define( function( require ) {
       this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
     },
 
-    updateLightSourceLabel: function() {
+    // updateLightSourceLabel: function() {
 
-      var wavelength = this.model.photonWavelengthProperty.get();
+    //   var wavelength = this.model.photonWavelengthProperty.get();
 
-      var lightSourceNameString = WavelengthConstants.getLightSourceName( wavelength );
-
-      this.emissionRateControlSlider.accessibleLabel = StringUtils.fillIn( lightSourceTitlePattern, {
-        lightSourceName: lightSourceNameString,
-        lightSourceString: lightSourceString
-      } );
-    }
+    //   var lightSourceNameString = WavelengthConstants.getLightSourceName( wavelength );
+    // }
   } );
 
   /**
