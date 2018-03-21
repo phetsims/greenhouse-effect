@@ -20,6 +20,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
+	var Node = require( 'SCENERY/nodes/Node' );
   var ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
@@ -40,6 +41,9 @@ define( function( require ) {
 
   // a11y strings
   var spectrumDiagramString = MoleculesAndLightA11yStrings.spectrumDiagramString.value;
+	var sceneSummaryString = MoleculesAndLightA11yStrings.sceneSummaryString.value;
+	var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
+	var keyboardShortcutsHintString = MoleculesAndLightA11yStrings.keyboardShortcutsHintString.value;
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -70,9 +74,15 @@ define( function( require ) {
 
     var summaryNode = new AccessibleSectionNode( 'Scene Summary', {
       descriptionTagName: 'p',
-      accessibleDescription: 'This is where the description will go'
+      accessibleDescription: sceneSummaryString
     } );
+
+		// interaction hint and keyboard shortcuts
+		summaryNode.addChild( new Node( { tagName: 'p', accessibleLabel: summaryInteractionHintString } ) );
+		summaryNode.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHintString } ) );
+
     var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
+
     var controlPanelSectionNode = new AccessibleSectionNode( 'Control Panel' );
 
     this.addChild( summaryNode );
@@ -195,8 +205,8 @@ define( function( require ) {
     this.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
-    this.addChild( photonEmissionControlPanel );
-    this.addChild( moleculeControlPanel );
+    playAreaSectionNode.addChild( photonEmissionControlPanel );
+    playAreaSectionNode.addChild( moleculeControlPanel );
 
     // a11y
     // this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];

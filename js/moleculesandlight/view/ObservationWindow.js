@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var platform = require( 'PHET_CORE/platform' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -26,7 +27,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants')
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants');
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -41,7 +42,16 @@ define( function( require ) {
   var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
   var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
   var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
-  var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
+  // var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
+
+  // a11y strings
+  var observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;
+  var isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
+  var emitsPhotonsString = MoleculesAndLightA11yStrings.emitsPhotonsString.value;
+  var aString = MoleculesAndLightA11yStrings.aString.value;
+  var anString = MoleculesAndLightA11yStrings.anString.value;
+  var returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
+  var returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
 
   // maps photon target to translatable string
   var getMoleculeName = function( photonTarget ) {
@@ -53,7 +63,7 @@ define( function( require ) {
            photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
            photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
            assert( false, 'unknown' );
-  }
+  };
 
   // constants
   var PHOTON_EMITTER_WIDTH = 125;
@@ -76,7 +86,8 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: 'Observation Window'
+      accessibleLabel: 'Observation Window',
+      prependLabels: true
     } );
 
     var self = this;
@@ -153,7 +164,14 @@ define( function( require ) {
         self.returnMoleculeButtonVisibleProperty.set( false );
         self.moleculeCheckBounds();
       },
-      tandem: tandem.createTandem( 'returnMoleculeButton' )
+      tandem: tandem.createTandem( 'returnMoleculeButton' ),
+
+      // a11y
+      tagName: 'input',
+      inputType: 'button',
+      accessibleLabel: returnMoleculeString,
+      accessibleDescription: returnMoleculeHelpString,
+      useAriaLabel: true
     } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
@@ -274,14 +292,16 @@ define( function( require ) {
 
     updateAccessibleDescription: function( photonTarget, emissionFrequency, wavelength ) {
 
-      var patternString = "In observation window, {{wavelengthName}} light source is off and points directly at {{molecule}}.";
-
       var lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
       var moleculeString = getMoleculeName( photonTarget );
+      var onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
+      var aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
 
-      this.accessibleDescription = StringUtils.fillIn( patternString, {
+      this.accessibleDescription = StringUtils.fillIn( observationWindowDescriptionPatternString, {
         wavelengthName: lightSourceString,
-        molecule: moleculeString
+        molecule: moleculeString,
+        lightOnOffLanguage: onOfString,
+        an: aOrAn
       } );
     }
   } );
