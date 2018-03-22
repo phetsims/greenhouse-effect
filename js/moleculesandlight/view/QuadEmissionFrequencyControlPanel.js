@@ -19,6 +19,7 @@ define( function( require ) {
   var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
@@ -39,6 +40,10 @@ define( function( require ) {
   var quadWavelengthSelectorMicrowaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
   var quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
   var quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
+
+  // a11y strings
+  var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
+  var lightSourceDescriptionString = MoleculesAndLightA11yStrings.lightSourceDescriptionString.value;
 
   // Description data for the 'Energy Arrow'
   var ARROW_LENGTH = 200;
@@ -63,7 +68,13 @@ define( function( require ) {
   function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
 
     // Supertype constructor
-    Node.call( this );
+    Node.call( this, {
+      tagName: 'div',
+      labelTagName: 'h3',
+      accessibleLabel: lightSourceString,
+      accessibleDescription: lightSourceDescriptionString,
+      prependLabels: true
+    } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
     // nodes do not correspond to anything in the model.  They are just visual elements of the control panel.

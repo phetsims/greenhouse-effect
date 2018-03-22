@@ -20,6 +20,7 @@ define( function( require ) {
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
@@ -44,6 +45,9 @@ define( function( require ) {
   var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
   var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
+  // a11y strings
+  var moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
+  var moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
   // that it scales down the size of the molecules and flips the Y axis so that molecules on the panel are oriented the
@@ -159,6 +163,11 @@ define( function( require ) {
       }
     ];
 
+    for (var i = radioButtonContent.length - 1; i >= 0; i--) {
+      radioButtonContent[i].parentContainerTagName = 'li';
+      radioButtonContent[i].accessibleDescription = 'here is a description';
+    }
+
     // If necessary, scale down molecule names by the minimum scale factor.
     if ( scaleFactor < 1 ) {
       _.each( textList, function( text ) { text.scale( scaleFactor ); } );
@@ -179,7 +188,8 @@ define( function( require ) {
 
       // a11y
       a11yHighlightXDilation: HIGHLIGHT_DILATION,
-      a11yHighlightYDilation: HIGHLIGHT_DILATION
+      a11yHighlightYDilation: HIGHLIGHT_DILATION,
+      tagName: 'ul'
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
@@ -190,7 +200,15 @@ define( function( require ) {
       innerStroke: FocusHighlightPath.FOCUS_COLOR
     } );
 
-    Panel.call( this, radioButtons, { fill: 'black', tandem: tandem } );
+    Panel.call( this, radioButtons, {
+      fill: 'black',
+      tandem: tandem,
+      tagName: 'div',
+      labelTagName: 'h3',
+      accessibleLabel: moleculesString,
+      accessibleDescription: moleculesPanelDescriptionString,
+      prependLabels: true
+    } );
   }
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
