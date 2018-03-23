@@ -40,10 +40,15 @@ define( function( require ) {
   var spectrumWindowButtonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
 
   // a11y strings
-  var spectrumDiagramString = MoleculesAndLightA11yStrings.spectrumDiagramString.value;
+  var spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
+  var spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
 	var sceneSummaryString = MoleculesAndLightA11yStrings.sceneSummaryString.value;
 	var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
 	var keyboardShortcutsHintString = MoleculesAndLightA11yStrings.keyboardShortcutsHintString.value;
+  var playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
+  var pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
+  var stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
+  var stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -144,7 +149,11 @@ define( function( require ) {
       centerX: moleculeControlPanel.centerX - 25,
       radius: 23,
       touchAreaDilation: 5,
-      tandem: tandem.createTandem( 'playPauseButton' )
+      tandem: tandem.createTandem( 'playPauseButton' ),
+
+      // a11y
+      a11yPauseDescription: pauseDescriptionString,
+      a11yPlayDescription: playDescriptionString
     } );
     this.addChild( playPauseButton );
 
@@ -156,14 +165,18 @@ define( function( require ) {
       centerX: moleculeControlPanel.centerX + 25,
       radius: 15,
       touchAreaDilation: 5,
-      tandem: tandem.createTandem( 'stepButton' )
+      tandem: tandem.createTandem( 'stepButton' ),
+
+      // a11y
+      accessibleLabel: stepButtonLabelString,
+      accessibleDescription: stepButtonDescriptionString
     } );
     this.addChild( stepButton );
 
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     // @private
-    var spectrumDiagram = new SpectrumDiagram( tandem.createTandem( 'spectrumDiagram' ) );
+    var spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
     // the spectrum dialog, created lazily because Dialog requires sim bounds during construction
     var dialog = null;
@@ -182,7 +195,7 @@ define( function( require ) {
       touchAreaYDilation: 7,
       listener: function() {
         if ( !dialog ) {
-          dialog = new SpectrumWindowDialog( spectrumDiagram, showLightSpectrumButton, tandem.createTandem( 'spectrumWindowDialog' ) );
+          dialog = new SpectrumWindowDialog( spectrumButtonLabel, showLightSpectrumButton, tandem.createTandem( 'spectrumWindowDialog' ) );
         }
         dialog.show();
       },
@@ -195,7 +208,9 @@ define( function( require ) {
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
       // a11y
-      accessibleLabel: spectrumDiagramString
+      accessibleLabel: spectrumButtonLabelString,
+      accessibleDescription: spectrumButtonDescriptionString,
+      parentContainerTagName: 'div'
     } );
 
     // a11y - add an attribute that lets the user know the button opens a menu

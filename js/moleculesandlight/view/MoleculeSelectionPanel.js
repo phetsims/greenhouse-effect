@@ -48,6 +48,13 @@ define( function( require ) {
   // a11y strings
   var moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
   var moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
+  var nitrogenDescriptionString = MoleculesAndLightA11yStrings.nitrogenDescriptionString.value;
+  var oxygenDescriptionString = MoleculesAndLightA11yStrings.oxygenDescriptionString.value;
+  var carbonMonoxideDescriptionString = MoleculesAndLightA11yStrings.carbonMonoxideDescriptionString.value;
+  var carbonDioxideDescriptionString = MoleculesAndLightA11yStrings.carbonDioxideDescriptionString.value;
+  var waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
+  var nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
+  var ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
   // that it scales down the size of the molecules and flips the Y axis so that molecules on the panel are oriented the
@@ -123,50 +130,52 @@ define( function( require ) {
         node: createRadioButtonContent( controlPanelCarbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO_MOLECULE,
         tandemName: 'singleCOMoleculeRadioButton',
-        accessibleLabel: controlPanelCarbonMonoxideString
+        accessibleLabel: controlPanelCarbonMonoxideString,
+        accessibleDescription: carbonMonoxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_N2_MOLECULE,
         tandemName: 'singleN2MoleculeRadioButton',
-        accessibleLabel: controlPanelNitrogenString
+        accessibleLabel: controlPanelNitrogenString,
+        accessibleDescription: nitrogenDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelOxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O2_MOLECULE,
         tandemName: 'singleO2MoleculeRadioButton',
-        accessibleLabel: controlPanelOxygenString
+        accessibleLabel: controlPanelOxygenString,
+        accessibleDescription: oxygenDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelCarbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO2_MOLECULE,
         tandemName: 'singleCO2MoleculeRadioButton',
-        accessibleLabel: controlPanelCarbonDioxideString
+        accessibleLabel: controlPanelCarbonDioxideString,
+        accessibleDescription: carbonDioxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_H2O_MOLECULE,
         tandemName: 'singleH2OMoleculeRadioButton',
-        accessibleLabel: controlPanelWaterString
+        accessibleLabel: controlPanelWaterString,
+        accessibleDescription: waterDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_NO2_MOLECULE,
         tandemName: 'singleNO2MoleculeRadioButton',
-        accessibleLabel: controlPanelNitrogenDioxideString
+        accessibleLabel: controlPanelNitrogenDioxideString,
+        accessibleDescription: nitrogenDioxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelOzoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O3_MOLECULE,
         tandemName: 'singleO3MoleculeRadioButton',
-        accessibleLabel: controlPanelOzoneString
+        accessibleLabel: controlPanelOzoneString,
+        accessibleDescription: ozoneDescriptionString
       }
     ];
-
-    for (var i = radioButtonContent.length - 1; i >= 0; i--) {
-      radioButtonContent[i].parentContainerTagName = 'li';
-      radioButtonContent[i].accessibleDescription = 'here is a description';
-    }
 
     // If necessary, scale down molecule names by the minimum scale factor.
     if ( scaleFactor < 1 ) {
@@ -188,8 +197,7 @@ define( function( require ) {
 
       // a11y
       a11yHighlightXDilation: HIGHLIGHT_DILATION,
-      a11yHighlightYDilation: HIGHLIGHT_DILATION,
-      tagName: 'ul'
+      a11yHighlightYDilation: HIGHLIGHT_DILATION
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight

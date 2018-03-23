@@ -36,6 +36,7 @@ define( function( require ) {
 
   // a11y string
   var closeString = MoleculesAndLightA11yStrings.closeString.value;
+  var spectrumWindowDescriptionString = MoleculesAndLightA11yStrings.spectrumWindowDescriptionString.value;
 
   /**
    * @constructor
@@ -57,7 +58,12 @@ define( function( require ) {
     Dialog.call( this, layoutBox, {
       modal: true,
       hasCloseButton: false,
-      tandem: tandem
+      tandem: tandem,
+
+      // a11y
+      tagName: 'p',
+      accessibleDescription: spectrumWindowDescriptionString,
+      prependLabels: true
     } );
 
     // close it on a click
