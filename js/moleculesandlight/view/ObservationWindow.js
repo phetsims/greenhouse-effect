@@ -169,9 +169,8 @@ define( function( require ) {
       // a11y
       tagName: 'input',
       inputType: 'button',
-      accessibleLabel: returnMoleculeString,
       accessibleDescription: returnMoleculeHelpString,
-      useAriaLabel: true
+      ariaLabel: returnMoleculeString
     } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
