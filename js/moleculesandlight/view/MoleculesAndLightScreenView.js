@@ -210,7 +210,7 @@ define( function( require ) {
       // a11y
       accessibleLabel: spectrumButtonLabelString,
       accessibleDescription: spectrumButtonDescriptionString,
-      parentContainerTagName: 'div'
+      containerTagName: 'div'
     } );
 
     // a11y - add an attribute that lets the user know the button opens a menu
