@@ -20,6 +20,7 @@ define( function( require ) {
 
   // modules
   var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
@@ -260,7 +261,6 @@ define( function( require ) {
      * @param {number} dt - The incremental time step.
      */
     stepMolecules: function( dt ) {
-
       var moleculesToStep = this.activeMolecules.getArray().slice( 0 );
       for ( var molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
         moleculesToStep[ molecule ].step( dt );
@@ -416,6 +416,11 @@ define( function( require ) {
 
         case PhotonTarget.SINGLE_NO2_MOLECULE:
           newMolecule = new NO2( { tandem: tandem.createTandem( 'NO2' ) } );
+          this.activeMolecules.add( newMolecule );
+          break;
+
+        case PhotonTarget.SINGLE_CH4_MOLECULE:
+          newMolecule = new CH4( { tandem: tandem.createTandem( 'CH4' ) } );
           this.activeMolecules.add( newMolecule );
           break;
 

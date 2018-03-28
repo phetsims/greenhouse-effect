@@ -15,7 +15,8 @@ define( function( require ) {
   var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
+  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -60,12 +61,14 @@ define( function( require ) {
     this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4, 1 ) );
 
     // Set up the photon wavelengths to absorb.
-    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new PhotonAbsorptionStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
 
     // Set the initial offsets.
     this.initializeAtomOffsets();
 
   }
+
+  moleculesAndLight.register( 'CH4', CH4 );
 
   return inherit( Molecule, CH4, {
 
@@ -96,10 +99,12 @@ define( function( require ) {
      */
     setVibration: function( vibrationRadians ) {
 
-      Molecule.prototype.setVibration.call( this, vibrationRadians );
+      // Molecule.prototype.setVibration.call( this, vibrationRadians );
+
+      this.currentVibrationRadians = vibrationRadians;
+      var multFactor = Math.sin( vibrationRadians );
 
       if ( vibrationRadians !== 0 ) {
-        var multFactor = Math.sin( vibrationRadians );
         this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
           ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
         this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
@@ -111,11 +116,11 @@ define( function( require ) {
 
         // Position the carbon atom so that the center of mass of the molecule remains the same.
         var carbonXPos = -( this.hydrogenAtom1.mass / this.carbonAtom.mass ) *
-                         ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).getX() + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).getX() +
-                           this.getInitialAtomCogOffset( this.hydrogenAtom3 ).getX() + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).getX() );
+                         ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).x + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).x +
+                           this.getInitialAtomCogOffset( this.hydrogenAtom3 ).x + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).x );
         var carbonYPos = -( this.hydrogenAtom1.mass / this.carbonAtom.mass ) *
-                         ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).getY() + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).getY() +
-                           this.getInitialAtomCogOffset( this.hydrogenAtom3 ).getY() + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).getY() );
+                         ( this.getInitialAtomCogOffset( this.hydrogenAtom1 ).y + this.getInitialAtomCogOffset( this.hydrogenAtom2 ).y +
+                           this.getInitialAtomCogOffset( this.hydrogenAtom3 ).y + this.getInitialAtomCogOffset( this.hydrogenAtom4 ).y );
         this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( carbonXPos, carbonYPos ) );
       }
 
