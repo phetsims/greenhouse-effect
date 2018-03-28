@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
+  var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
@@ -38,6 +39,7 @@ define( function( require ) {
   // strings
   var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
   var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
+  var controlPanelMethaneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Methane' );
   var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
   var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
   var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
@@ -52,6 +54,7 @@ define( function( require ) {
   var oxygenDescriptionString = MoleculesAndLightA11yStrings.oxygenDescriptionString.value;
   var carbonMonoxideDescriptionString = MoleculesAndLightA11yStrings.carbonMonoxideDescriptionString.value;
   var carbonDioxideDescriptionString = MoleculesAndLightA11yStrings.carbonDioxideDescriptionString.value;
+  var methaneDescriptionString = MoleculesAndLightA11yStrings.methane;
   var waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
   var nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
   var ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
@@ -69,6 +72,7 @@ define( function( require ) {
   var NO2_FORMULA_STRING = ChemUtils.toSubscript( 'NO2' );
   var O3_FORMULA_STRING = ChemUtils.toSubscript( 'O3' );
   var H20_FORMULA_STRING = ChemUtils.toSubscript( 'H2O' );
+  var CH4_FORMULA_STRING = ChemUtils. toSubscript( 'CH4' );
 
   // Scaling factor for the molecule images, determined empirically.
   var MOLECULE_SCALING_FACTOR = 0.0975;
@@ -155,6 +159,13 @@ define( function( require ) {
         accessibleDescription: carbonDioxideDescriptionString
       },
       {
+        node: createRadioButtonContent( controlPanelMethaneString, CH4_FORMULA_STRING, new MoleculeNode( new CH4(), MODEL_VIEW_TRANSFORM ) ),
+        value: PhotonTarget.SINGLE_CH4_MOLECULE,
+        tandemName: 'singleCH4MoleculeRadioButton',
+        accessibleLabel: controlPanelMethaneString,
+        accessibleDescription: methaneDescriptionString
+      },
+      {
         node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_H2O_MOLECULE,
         tandemName: 'singleH2OMoleculeRadioButton',
@@ -186,7 +197,7 @@ define( function( require ) {
       spacing: 1.75,
       baseColor: 'black',
       buttonContentXMargin: 0,
-      buttonContentYMargin: 5.25,
+      buttonContentYMargin: 1.85,
       selectedStroke: 'white',
       deselectedStroke: 'black',
       deselectedLineWidth: 0,

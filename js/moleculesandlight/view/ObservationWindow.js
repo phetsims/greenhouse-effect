@@ -37,6 +37,7 @@ define( function( require ) {
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
   var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
   var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
+  var controlPanelMethaneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Methane' );
   var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
   var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
   var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
@@ -62,6 +63,7 @@ define( function( require ) {
            photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
            photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
            photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
+           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
            assert( false, 'unknown' );
   };
 
