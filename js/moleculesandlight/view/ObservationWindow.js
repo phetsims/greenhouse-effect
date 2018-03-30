@@ -88,7 +88,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: 'Observation Window',
+      labelContent: 'Observation Window',
       prependLabels: true
     } );
 

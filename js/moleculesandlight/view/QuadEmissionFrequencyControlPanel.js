@@ -71,7 +71,7 @@ define( function( require ) {
     Node.call( this, {
       tagName: 'div',
       labelTagName: 'h3',
-      accessibleLabel: lightSourceString,
+      labelContent: lightSourceString,
       accessibleDescription: lightSourceDescriptionString,
       prependLabels: true
     } );
@@ -114,7 +114,7 @@ define( function( require ) {
         tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabel' )
       } ),
       tandemName: microwaveTandemName,
-      accessibleLabel: quadWavelengthSelectorMicrowaveString
+      labelContent: quadWavelengthSelectorMicrowaveString
     }, {
       node: createRadioButtonContent( new Image( heatLampImage ), infraredPhotonNode ),
       value: WavelengthConstants.IR_WAVELENGTH,
@@ -123,7 +123,7 @@ define( function( require ) {
         tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabel' )
       } ),
       tandemName: infraredTandemName,
-      accessibleLabel: quadWavelengthSelectorInfraredString
+      labelContent: quadWavelengthSelectorInfraredString
     }, {
       node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
@@ -132,7 +132,7 @@ define( function( require ) {
         tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabel' )
       } ),
       tandemName: visibleTandemName,
-      accessibleLabel: quadWavelengthSelectorVisibleString
+      labelContent: quadWavelengthSelectorVisibleString
     }, {
       node: createRadioButtonContent( new Image( uvLight2 ), ultravioletPhotonNode ),
       value: WavelengthConstants.UV_WAVELENGTH,
@@ -141,7 +141,7 @@ define( function( require ) {
         tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabel' )
       } ),
       tandemName: ultravioletTandemName,
-      accessibleLabel: quadWavelengthSelectorUltravioletString
+      labelContent: quadWavelengthSelectorUltravioletString
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.
