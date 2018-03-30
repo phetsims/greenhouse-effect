@@ -20,7 +20,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
-	var Node = require( 'SCENERY/nodes/Node' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
@@ -42,9 +42,9 @@ define( function( require ) {
   // a11y strings
   var spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
   var spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-	var sceneSummaryString = MoleculesAndLightA11yStrings.sceneSummaryString.value;
-	var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
-	var keyboardShortcutsHintString = MoleculesAndLightA11yStrings.keyboardShortcutsHintString.value;
+  var sceneSummaryString = MoleculesAndLightA11yStrings.sceneSummaryString.value;
+  var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
+  var keyboardShortcutsHintString = MoleculesAndLightA11yStrings.keyboardShortcutsHintString.value;
   var playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
   var pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
   var stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
@@ -82,9 +82,9 @@ define( function( require ) {
       accessibleDescription: sceneSummaryString
     } );
 
-		// interaction hint and keyboard shortcuts
-		summaryNode.addChild( new Node( { tagName: 'p', accessibleLabel: summaryInteractionHintString } ) );
-		summaryNode.addChild( new Node( { tagName: 'p', accessibleLabel: keyboardShortcutsHintString } ) );
+    // interaction hint and keyboard shortcuts
+    summaryNode.addChild( new Node( { tagName: 'p', innerContent: summaryInteractionHintString } ) );
+    summaryNode.addChild( new Node( { tagName: 'p', innerContent: keyboardShortcutsHintString } ) );
 
     var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
 
@@ -127,11 +127,11 @@ define( function( require ) {
 
     // Create the control panel for photon emission frequency.
     var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
-    photonEmissionControlPanel.leftTop = (new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ));
+    photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel
     var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
-    moleculeControlPanel.leftTop = (new Vector2( 530, windowFrameNode.top ));
+    moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.
     var resetAllButton = new ResetAllButton( {
@@ -168,7 +168,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'stepButton' ),
 
       // a11y
-      accessibleLabel: stepButtonLabelString,
+      innerContent: stepButtonLabelString,
       accessibleDescription: stepButtonDescriptionString
     } );
     controlPanelSectionNode.addChild( stepButton );
@@ -186,7 +186,7 @@ define( function( require ) {
     // panel minus twice the default x margin of a rectangular push button.
     var buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
-      buttonContent.scale( (moleculeControlPanel.width - 16) / buttonContent.width );
+      buttonContent.scale( ( moleculeControlPanel.width - 16 ) / buttonContent.width );
     }
     var showLightSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
@@ -208,7 +208,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
       // a11y
-      accessibleLabel: spectrumButtonLabelString,
+      innerContent: spectrumButtonLabelString,
       accessibleDescription: spectrumButtonDescriptionString,
       containerTagName: 'div'
     } );
@@ -216,7 +216,7 @@ define( function( require ) {
     // a11y - add an attribute that lets the user know the button opens a menu
     showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
 
-    showLightSpectrumButton.center = (new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 13 ));
+    showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 13 ) );
     controlPanelSectionNode.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.

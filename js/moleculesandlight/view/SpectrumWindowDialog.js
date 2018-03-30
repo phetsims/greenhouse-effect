@@ -154,7 +154,7 @@ define( function( require ) {
       listener: closeListener,
       accessibleFire: accessibleCloseListener,
       tandem: tandem,
-      accessibleLabel: closeString
+      innerContent: closeString
     } );
   }
 
