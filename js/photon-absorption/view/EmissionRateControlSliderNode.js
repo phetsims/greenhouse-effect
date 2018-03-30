@@ -69,7 +69,7 @@ define( function( require ) {
 
       // a11y
       labelTagName: 'label',
-      accessibleLabel: lightSourceSliderString,
+      labelContent: lightSourceSliderString,
       accessibleDescription: emissionSliderDescriptionString,
       prependLabels: true,
       numberDecimalPlaces: 1,
