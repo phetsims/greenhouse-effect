@@ -171,7 +171,7 @@ define( function( require ) {
       // a11y
       tagName: 'input',
       inputType: 'button',
-      accessibleDescription: returnMoleculeHelpString,
+      descriptionContent: returnMoleculeHelpString,
       ariaLabel: returnMoleculeString
     } );
 
@@ -298,7 +298,7 @@ define( function( require ) {
       var onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
       var aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
 
-      this.accessibleDescription = StringUtils.fillIn( observationWindowDescriptionPatternString, {
+      this.descriptionContent = StringUtils.fillIn( observationWindowDescriptionPatternString, {
         wavelengthName: lightSourceString,
         molecule: moleculeString,
         lightOnOffLanguage: onOfString,

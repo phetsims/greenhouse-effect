@@ -135,56 +135,56 @@ define( function( require ) {
         value: PhotonTarget.SINGLE_CO_MOLECULE,
         tandemName: 'singleCOMoleculeRadioButton',
         labelContent: controlPanelCarbonMonoxideString,
-        accessibleDescription: carbonMonoxideDescriptionString
+        descriptionContent: carbonMonoxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_N2_MOLECULE,
         tandemName: 'singleN2MoleculeRadioButton',
         labelContent: controlPanelNitrogenString,
-        accessibleDescription: nitrogenDescriptionString
+        descriptionContent: nitrogenDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelOxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O2_MOLECULE,
         tandemName: 'singleO2MoleculeRadioButton',
         labelContent: controlPanelOxygenString,
-        accessibleDescription: oxygenDescriptionString
+        descriptionContent: oxygenDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelCarbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CO2_MOLECULE,
         tandemName: 'singleCO2MoleculeRadioButton',
         labelContent: controlPanelCarbonDioxideString,
-        accessibleDescription: carbonDioxideDescriptionString
+        descriptionContent: carbonDioxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelMethaneString, CH4_FORMULA_STRING, new MoleculeNode( new CH4(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_CH4_MOLECULE,
         tandemName: 'singleCH4MoleculeRadioButton',
         labelContent: controlPanelMethaneString,
-        accessibleDescription: methaneDescriptionString
+        descriptionContent: methaneDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_H2O_MOLECULE,
         tandemName: 'singleH2OMoleculeRadioButton',
         labelContent: controlPanelWaterString,
-        accessibleDescription: waterDescriptionString
+        descriptionContent: waterDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelNitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_NO2_MOLECULE,
         tandemName: 'singleNO2MoleculeRadioButton',
         labelContent: controlPanelNitrogenDioxideString,
-        accessibleDescription: nitrogenDioxideDescriptionString
+        descriptionContent: nitrogenDioxideDescriptionString
       },
       {
         node: createRadioButtonContent( controlPanelOzoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
         value: PhotonTarget.SINGLE_O3_MOLECULE,
         tandemName: 'singleO3MoleculeRadioButton',
         labelContent: controlPanelOzoneString,
-        accessibleDescription: ozoneDescriptionString
+        descriptionContent: ozoneDescriptionString
       }
     ];
 
@@ -225,7 +225,7 @@ define( function( require ) {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: moleculesString,
-      accessibleDescription: moleculesPanelDescriptionString,
+      descriptionContent: moleculesPanelDescriptionString,
       prependLabels: true
     } );
   }

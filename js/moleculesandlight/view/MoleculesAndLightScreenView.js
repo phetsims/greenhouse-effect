@@ -79,7 +79,7 @@ define( function( require ) {
 
     var summaryNode = new AccessibleSectionNode( 'Scene Summary', {
       descriptionTagName: 'p',
-      accessibleDescription: sceneSummaryString
+      descriptionContent: sceneSummaryString
     } );
 
     // interaction hint and keyboard shortcuts
@@ -169,7 +169,7 @@ define( function( require ) {
 
       // a11y
       innerContent: stepButtonLabelString,
-      accessibleDescription: stepButtonDescriptionString
+      descriptionContent: stepButtonDescriptionString
     } );
     controlPanelSectionNode.addChild( stepButton );
 
@@ -209,7 +209,7 @@ define( function( require ) {
 
       // a11y
       innerContent: spectrumButtonLabelString,
-      accessibleDescription: spectrumButtonDescriptionString,
+      descriptionContent: spectrumButtonDescriptionString,
       containerTagName: 'div'
     } );
 

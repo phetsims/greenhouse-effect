@@ -62,7 +62,7 @@ define( function( require ) {
 
       // a11y
       tagName: 'p',
-      accessibleDescription: spectrumWindowDescriptionString,
+      descriptionContent: spectrumWindowDescriptionString,
       prependLabels: true
     } );
 

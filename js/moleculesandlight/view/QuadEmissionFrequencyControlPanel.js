@@ -72,7 +72,7 @@ define( function( require ) {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: lightSourceString,
-      accessibleDescription: lightSourceDescriptionString,
+      descriptionContent: lightSourceDescriptionString,
       prependLabels: true
     } );
 
