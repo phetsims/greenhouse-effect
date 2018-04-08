@@ -72,8 +72,7 @@ define( function( require ) {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: lightSourceString,
-      descriptionContent: lightSourceDescriptionString,
-      prependLabels: true
+      descriptionContent: lightSourceDescriptionString
     } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon

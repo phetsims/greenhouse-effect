@@ -169,7 +169,8 @@ define( function( require ) {
 
       // a11y
       innerContent: stepButtonLabelString,
-      descriptionContent: stepButtonDescriptionString
+      descriptionContent: stepButtonDescriptionString,
+      appendDescription: true
     } );
     controlPanelSectionNode.addChild( stepButton );
 
@@ -210,6 +211,7 @@ define( function( require ) {
       // a11y
       innerContent: spectrumButtonLabelString,
       descriptionContent: spectrumButtonDescriptionString,
+      appendDescription: true,
       containerTagName: 'div'
     } );
 

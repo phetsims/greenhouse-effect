@@ -225,8 +225,7 @@ define( function( require ) {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: moleculesString,
-      descriptionContent: moleculesPanelDescriptionString,
-      prependLabels: true
+      descriptionContent: moleculesPanelDescriptionString
     } );
   }
 

@@ -27,7 +27,7 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants');
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
@@ -88,8 +88,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: 'Observation Window',
-      prependLabels: true
+      labelContent: 'Observation Window'
     } );
 
     var self = this;
@@ -169,9 +168,8 @@ define( function( require ) {
       tandem: tandem.createTandem( 'returnMoleculeButton' ),
 
       // a11y
-      tagName: 'input',
-      inputType: 'button',
       descriptionContent: returnMoleculeHelpString,
+      appendDescription: true,
       ariaLabel: returnMoleculeString
     } );
 
