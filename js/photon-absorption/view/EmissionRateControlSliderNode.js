@@ -71,7 +71,6 @@ define( function( require ) {
       labelTagName: 'label',
       labelContent: lightSourceSliderString,
       descriptionContent: emissionSliderDescriptionString,
-      prependLabels: true,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
