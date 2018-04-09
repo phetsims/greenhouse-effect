@@ -35,6 +35,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
 
   // strings
   var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
@@ -58,6 +60,8 @@ define( function( require ) {
   var waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
   var nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
   var ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
+  var moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
+
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
   // that it scales down the size of the molecules and flips the Y axis so that molecules on the panel are oriented the
@@ -79,6 +83,19 @@ define( function( require ) {
 
   // the focus highlights are a little larger so they look good in this rounded panel
   var HIGHLIGHT_DILATION = 1.5;
+
+  // maps photon target to translatable string
+  var getMoleculeName = function( photonTarget ) {
+    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
+           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
+           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
+           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
+           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
+           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
+           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
+           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
+           assert( false, 'unknown' );
+  };
 
   /**
    * Constructor for a Molecules and Light control panel.
@@ -227,6 +244,22 @@ define( function( require ) {
       labelContent: moleculesString,
       descriptionContent: moleculesPanelDescriptionString
     } );
+
+    // var handleMoleculeChange = function( event ) {
+    //   var photonTarget = model.photonTargetProperty.get();
+    //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( photonTarget ) } );
+    //   utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'moleculeChangeAlert' } );
+    // };
+
+    // radioButtons.addAccessibleInputListener( {
+    //   change: handleMoleculeChange.bind( this )
+    // } );
+    var moleculeChangeAlert = function( target ) {
+      var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( target ) } );
+      utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'moleculeChangeAlert' } );
+    };
+
+    model.photonTargetProperty.link( moleculeChangeAlert );
   }
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );

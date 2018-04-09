@@ -25,7 +25,10 @@ define( function( require ) {
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   var PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
+  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
@@ -44,6 +47,7 @@ define( function( require ) {
   // a11y strings
   var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
   var lightSourceDescriptionString = MoleculesAndLightA11yStrings.lightSourceDescriptionString.value;
+  var wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
 
   // Description data for the 'Energy Arrow'
   var ARROW_LENGTH = 200;
@@ -197,6 +201,17 @@ define( function( require ) {
     this.addChild( radioButtons );
     this.addChild( energyArrow );
     this.addChild( energyText );
+
+    // a11y - link alerts to the model's wavelength property
+    var handleWavelengthChangeAlert = function( wavelength ) {
+      var utteranceText = StringUtils.fillIn(
+        wavelengthSelectionAlertPatternString,
+        { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
+      );
+      utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'wavelengthChangeAlert' } );
+    };
+
+    photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
   }
 
   moleculesAndLight.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );
