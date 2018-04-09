@@ -61,6 +61,7 @@ define( function( require ) {
     // opacity.
     var sliderRange = new Range( 0, 1 );
     var sliderThumb = new EmissionRateThumbNode();
+    // var initialFrequency, delta;
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
       thumbFillEnabled: 'rgb(0, 203, 230)',
@@ -76,6 +77,9 @@ define( function( require ) {
       shiftKeyboardStep: sliderRange.getLength() / 20,
       pageKeyboardStep: sliderRange.getLength() / 5,
       accessibleDecimalPlaces: 1 // so the emissionFrequencyProperty is read (range from 0-1)
+      // endDrag: function() {
+      //   delta = (model.emissionFrequencyProperty.get() - initialFrequency);
+      // }
     } ); // @private
 
     var sliderBounds = sliderThumb.backgroundRectangle.bounds;
