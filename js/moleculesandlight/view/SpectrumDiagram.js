@@ -24,7 +24,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
-  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -220,14 +220,14 @@ define( function( require ) {
 
     // Add the visible spectrum.
     var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
-    var visibleSpectrum = new SpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
-    visibleSpectrum.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
-    visibleSpectrum.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
-    this.addChild( visibleSpectrum );
+    var wavelengthSpectrumNode = new WavelengthSpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
+    wavelengthSpectrumNode.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
+    wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
+    this.addChild( wavelengthSpectrumNode );
 
     // Add the label for the visible band.  Scale it down for translations.
     var visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
-    var visibleBandCenterX = visibleSpectrum.centerX;
+    var visibleBandCenterX = wavelengthSpectrumNode.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
       visibleBandLabel.scale( (strip.width / 2) / visibleBandLabel.width );
     }
