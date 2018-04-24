@@ -20,21 +20,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
-  var Text = require( 'SCENERY/nodes/Text' );
 
   // phet-io modules
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
 
-  // strings
-  var spectrumWindowCloseString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.close' );
-
   // a11y string
-  var closeString = MoleculesAndLightA11yStrings.closeString.value;
   var spectrumWindowDescriptionString = MoleculesAndLightA11yStrings.spectrumWindowDescriptionString.value;
 
   /**
@@ -86,15 +78,12 @@ define( function( require ) {
 
       // remove the tandem attached to the shown property
       self.shownProperty.dispose();
-
-      // dispose the close button
-      self.closeButton.dispose();
     };
   }
 
   moleculesAndLight.register( 'SpectrumWindowDialog', SpectrumWindowDialog );
 
-  inherit( Dialog, SpectrumWindowDialog, {
+  return inherit( Dialog, SpectrumWindowDialog, {
     hide: function() {
       this.shownProperty.value = false;
     },
@@ -111,44 +100,4 @@ define( function( require ) {
       Dialog.prototype.dispose.call( this );
     }
   } );
-
-  /**
-   * Create a button which closes the spectrum window.  The behavior of the spectrum window is to
-   * close whenever the user clicks in the molecules and light screen view (as in AboutDialog).
-   *
-   * @param {Dialog} dialog - the dialog to close with the button
-   * @param {RectangularPushButton} spectrumWindowButton
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function CloseButton( dialog, spectrumWindowButton, tandem ) {
-
-    // create content and scale for translations.
-    var content = new Text( spectrumWindowCloseString, { font: new PhetFont( 16 ) } );
-    if ( content.width > SpectrumDiagram.SUBSECTION_WIDTH ) {
-      content.scale( SpectrumDiagram.SUBSECTION_WIDTH / content.width );
-    }
-
-    var closeListener = function() {
-      dialog.hide();
-    };
-    var accessibleCloseListener = function() {
-
-      // if (and only if) closed with the keyboard, we want focus to the button that opens the dialog
-      spectrumWindowButton.focus();
-    };
-    RectangularPushButton.call( this, {
-      content: content,
-      listener: closeListener,
-      accessibleFire: accessibleCloseListener,
-      tandem: tandem,
-      innerContent: closeString
-    } );
-  }
-
-  moleculesAndLight.register( 'CloseButton', CloseButton );
-
-  inherit( RectangularPushButton, CloseButton );
-
-  return SpectrumWindowDialog;
 } );
