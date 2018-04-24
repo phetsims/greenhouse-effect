@@ -18,7 +18,6 @@ define( function( require ) {
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -40,24 +39,14 @@ define( function( require ) {
 
   /**
    * @constructor
-   * @param {Node} mainContent - content for the dialog
+   * @param {Node} content - content for the dialog
    * @param {RectangularPushButton} spectrumWindowButton - the button that opens the dialog
    * @param {Tandem} tandem
    */
-  function SpectrumWindowDialog( mainContent, spectrumWindowButton, tandem ) {
+  function SpectrumWindowDialog( content, spectrumWindowButton, tandem ) {
 
-    // @public (read-only) - format the main content with a close button, public so that we can focus
-    // the button when the dialog is open
-    this.closeButton = new CloseButton( this, spectrumWindowButton, tandem.createTandem( 'closeButton' ) );
-    var children = [
-      mainContent,
-      this.closeButton
-    ];
-    var layoutBox = new LayoutBox( { orientation: 'vertical', align: 'center', spacing: 10, children: children } );
-
-    Dialog.call( this, layoutBox, {
+    Dialog.call( this, content, {
       modal: true,
-      hasCloseButton: false,
       tandem: tandem,
 
       // a11y
