@@ -38,6 +38,8 @@ define( function( require ) {
   function SpectrumWindowDialog( content, spectrumWindowButton, tandem ) {
 
     Dialog.call( this, content, {
+
+      // phet-io
       tandem: tandem,
 
       // a11y
