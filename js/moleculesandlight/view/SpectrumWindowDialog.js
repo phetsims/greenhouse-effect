@@ -38,7 +38,6 @@ define( function( require ) {
   function SpectrumWindowDialog( content, spectrumWindowButton, tandem ) {
 
     Dialog.call( this, content, {
-      modal: true,
       tandem: tandem,
 
       // a11y
