@@ -26,7 +26,6 @@ define( function( require ) {
 
     // Supertype constructor
     PhotonHoldStrategy.call( this, molecule );
-
   }
 
   moleculesAndLight.register( 'ExcitationStrategy',ExcitationStrategy );
@@ -34,7 +33,6 @@ define( function( require ) {
   return inherit( PhotonHoldStrategy, ExcitationStrategy, {
 
     photonAbsorbed: function() {
-      // debugger;
       this.molecule.highElectronicEnergyStateProperty.set( true );
     },
 
