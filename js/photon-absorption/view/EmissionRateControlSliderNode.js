@@ -174,7 +174,7 @@ define( function( require ) {
       var rectHeight = this.emissionRateControlSlider.height;
       var rectWidth = this.emissionRateControlSlider.width;
       this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
-    },
+    }
 
     // updateLightSourceLabel: function() {
 

@@ -498,7 +498,7 @@ define( function( require ) {
         velocity: this.velocity.toStateObject(),
         absorptionHysteresisCountdownTime: this.absorptionHysteresisCountdownTime,
         currentVibrationRadians: this.currentVibrationRadians,
-        currentRotationRadians: this.currentRotationRadians,
+        currentRotationRadians: this.currentRotationRadians
       };
     }
   }, {
