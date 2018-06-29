@@ -39,6 +39,12 @@ define( function( require ) {
 
     Dialog.call( this, content, {
 
+      // bottomMargin: 200,
+      closeButtonTopMargin: 100,
+      xSpacing: -100,
+      leftMargin: 0,
+      closeButtonRightMargin: 120,
+
       // phet-io
       tandem: tandem,
 
