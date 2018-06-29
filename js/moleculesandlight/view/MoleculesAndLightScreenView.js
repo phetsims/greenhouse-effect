@@ -204,7 +204,7 @@ define( function( require ) {
 
         // if (and only if) the dialog is opened with the keyboard, send focus directly to the close button
         assert && assert( dialog, 'No dialog was created, nothing to focus.' );
-        dialog.closeButton.focus();
+        dialog.focusCloseButton();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
