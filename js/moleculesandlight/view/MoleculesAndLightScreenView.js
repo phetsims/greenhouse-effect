@@ -196,7 +196,7 @@ define( function( require ) {
       touchAreaYDilation: 7,
       listener: function() {
         if ( !dialog ) {
-          dialog = new LightSpectrumDialog( spectrumButtonLabel, showLightSpectrumButton, tandem.createTandem( 'lightSpectrumDialog' ) );
+          dialog = new LightSpectrumDialog( spectrumButtonLabel, tandem.createTandem( 'lightSpectrumDialog' ) );
         }
         dialog.show();
       },

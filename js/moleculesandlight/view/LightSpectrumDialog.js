@@ -32,10 +32,9 @@ define( function( require ) {
   /**
    * @constructor
    * @param {Node} content - content for the dialog
-   * @param {RectangularPushButton} spectrumWindowButton - the button that opens the dialog
    * @param {Tandem} tandem
    */
-  function LightSpectrumDialog( content, spectrumWindowButton, tandem ) {
+  function LightSpectrumDialog( content, tandem ) {
 
     Dialog.call( this, content, {
 
