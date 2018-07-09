@@ -1,11 +1,11 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * The Dialog that shows the spectrum diagram, with a ruler showing wavelength's of
+ * The Dialog that shows the light spectrum diagram, with a ruler showing wavelength's of
  * the light spectrum, arrows indicating frequency, energy, and wavelength, and a chirp
  * node that represents wavelength in the spectrum.
  *
- * The SpectrumWindowDialog takes content, and lays it out with a close button at the
+ * The LightSpectrumDialog takes content, and lays it out with a close button at the
  * bottom of the dialog.
  *
  * @author Jesse Greenberg
@@ -35,7 +35,7 @@ define( function( require ) {
    * @param {RectangularPushButton} spectrumWindowButton - the button that opens the dialog
    * @param {Tandem} tandem
    */
-  function SpectrumWindowDialog( content, spectrumWindowButton, tandem ) {
+  function LightSpectrumDialog( content, spectrumWindowButton, tandem ) {
 
     Dialog.call( this, content, {
 
@@ -73,7 +73,7 @@ define( function( require ) {
     this.shownProperty.lazyLink( shownListener );
 
     // @private - make eligible for garbage collection, and remove tandems
-    this.disposeSpectrumWindowDialog = function() {
+    this.disposeLightSpectrumDialog = function() {
       self.removeInputListener( buttonListener );
       self.shownProperty.unlink( shownListener );
 
@@ -82,9 +82,9 @@ define( function( require ) {
     };
   }
 
-  moleculesAndLight.register( 'SpectrumWindowDialog', SpectrumWindowDialog );
+  moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
 
-  return inherit( Dialog, SpectrumWindowDialog, {
+  return inherit( Dialog, LightSpectrumDialog, {
     hide: function() {
       this.shownProperty.value = false;
     },
@@ -97,7 +97,7 @@ define( function( require ) {
      * @public
      */
     dispose: function() {
-      this.disposeSpectrumWindowDialog();
+      this.disposeLightSpectrumDialog();
       Dialog.prototype.dispose.call( this );
     }
   } );

@@ -16,6 +16,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LightSpectrumDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/LightSpectrumDialog' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
@@ -30,7 +31,6 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
-  var SpectrumWindowDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumWindowDialog' );
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -196,7 +196,7 @@ define( function( require ) {
       touchAreaYDilation: 7,
       listener: function() {
         if ( !dialog ) {
-          dialog = new SpectrumWindowDialog( spectrumButtonLabel, showLightSpectrumButton, tandem.createTandem( 'spectrumWindowDialog' ) );
+          dialog = new LightSpectrumDialog( spectrumButtonLabel, showLightSpectrumButton, tandem.createTandem( 'lightSpectrumDialog' ) );
         }
         dialog.show();
       },
