@@ -30,18 +30,18 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
-  var spectrumDialogCyclesPerSecondUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.cyclesPerSecondUnits' );
-  var spectrumDialogFrequencyArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.frequencyArrowLabel' );
-  var spectrumDialogGammaRayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.gammaRayBandLabel' );
-  var spectrumDialogInfraredBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.infraredBandLabel' );
-  var spectrumDialogMetersUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.metersUnits' );
-  var spectrumDialogMicrowaveBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.microwaveBandLabel' );
-  var spectrumDialogRadioBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.radioBandLabel' );
-  var spectrumDialogTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
-  var spectrumDialogUltravioletBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.ultravioletBandLabel' );
-  var spectrumDialogVisibleBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.visibleBandLabel' );
-  var spectrumDialogWavelengthArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.wavelengthArrowLabel' );
-  var spectrumDialogXrayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.xrayBandLabel' );
+  var spectrumWindowCyclesPerSecondUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.cyclesPerSecondUnits' );
+  var spectrumWindowFrequencyArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.frequencyArrowLabel' );
+  var spectrumWindowGammaRayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.gammaRayBandLabel' );
+  var spectrumWindowInfraredBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.infraredBandLabel' );
+  var spectrumWindowMetersUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.metersUnits' );
+  var spectrumWindowMicrowaveBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.microwaveBandLabel' );
+  var spectrumWindowRadioBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.radioBandLabel' );
+  var spectrumWindowTitleString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.title' );
+  var spectrumWindowUltravioletBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.ultravioletBandLabel' );
+  var spectrumWindowVisibleBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.visibleBandLabel' );
+  var spectrumWindowWavelengthArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.wavelengthArrowLabel' );
+  var spectrumWindowXrayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.xrayBandLabel' );
 
   // shared constants
   var LABEL_FONT = new PhetFont( 16 );
@@ -72,7 +72,7 @@ define( function( require ) {
     var children = [];
 
     // Add the title and scale for translations.
-    var title = new Text( spectrumDialogTitleString, { font: new PhetFont( 30 ) } );
+    var title = new Text( spectrumWindowTitleString, { font: new PhetFont( 30 ) } );
     if ( title.width > SUBSECTION_WIDTH ) {
       title.scale( SUBSECTION_WIDTH / title.width );
     }
@@ -82,7 +82,7 @@ define( function( require ) {
     var frequencyArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'right',
-      spectrumDialogFrequencyArrowLabelString,
+      spectrumWindowFrequencyArrowLabelString,
       'white',
       'rgb(5, 255,  255)',
       tandem.createTandem( 'frequencyArrow' )
@@ -97,7 +97,7 @@ define( function( require ) {
     var wavelengthArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'left',
-      spectrumDialogWavelengthArrowLabelString,
+      spectrumWindowWavelengthArrowLabelString,
       'white',
       'rgb(255, 5, 255)',
       tandem.createTandem( 'wavelengthArrow' )
@@ -207,16 +207,16 @@ define( function( require ) {
     }
 
     // Add the various bands.
-    addBandLabel( self, 1E3, 1E9, spectrumDialogRadioBandLabelString, tandem.createTandem( 'radioBandLabel' ) );
+    addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString, tandem.createTandem( 'radioBandLabel' ) );
     addBandDivider( self, 1E9 );
-    addBandLabel( self, 1E9, 3E11, spectrumDialogMicrowaveBandLabelString, tandem.createTandem( 'microwaveBandLabel' ) );
+    addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString, tandem.createTandem( 'microwaveBandLabel' ) );
     addBandDivider( self, 3E11 );
-    addBandLabel( self, 3E11, 6E14, spectrumDialogInfraredBandLabelString, tandem.createTandem( 'infraredBandLabel' ) );
-    addBandLabel( self, 1E15, 8E15, spectrumDialogUltravioletBandLabelString, tandem.createTandem( 'ultravioletBandLabel' ) );
+    addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString, tandem.createTandem( 'infraredBandLabel' ) );
+    addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString, tandem.createTandem( 'ultravioletBandLabel' ) );
     addBandDivider( self, 1E16 );
-    addBandLabel( self, 1E16, 1E19, spectrumDialogXrayBandLabelString, tandem.createTandem( 'xrayBandLabel' ) );
+    addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString, tandem.createTandem( 'xrayBandLabel' ) );
     addBandDivider( self, 1E19 );
-    addBandLabel( self, 1E19, 1E21, spectrumDialogGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
+    addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
 
     // Add the visible spectrum.
     var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
@@ -226,7 +226,7 @@ define( function( require ) {
     this.addChild( wavelengthSpectrumNode );
 
     // Add the label for the visible band.  Scale it down for translations.
-    var visibleBandLabel = new Text( spectrumDialogVisibleBandLabelString, { font: new PhetFont( 12 ) } );
+    var visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
     var visibleBandCenterX = wavelengthSpectrumNode.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
       visibleBandLabel.scale( (strip.width / 2) / visibleBandLabel.width );
@@ -249,12 +249,12 @@ define( function( require ) {
         text.scale( MAX_UNITS_WIDTH / text.width );
       }
     };
-    var frequencyUnits = new Text( spectrumDialogCyclesPerSecondUnitsString, { font: LABEL_FONT } );
+    var frequencyUnits = new Text( spectrumWindowCyclesPerSecondUnitsString, { font: LABEL_FONT } );
     scaleUnits( frequencyUnits );
     frequencyUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
     this.addChild( frequencyUnits );
 
-    var wavelengthUnits = new Text( spectrumDialogMetersUnitsString, { font: LABEL_FONT } );
+    var wavelengthUnits = new Text( spectrumWindowMetersUnitsString, { font: LABEL_FONT } );
     scaleUnits( wavelengthUnits );
     wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
