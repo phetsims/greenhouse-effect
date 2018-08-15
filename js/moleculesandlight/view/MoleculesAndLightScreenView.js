@@ -42,9 +42,8 @@ define( function( require ) {
   // a11y strings
   var spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
   var spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-  var sceneSummaryString = MoleculesAndLightA11yStrings.sceneSummaryString.value;
+  var screenSummaryString = MoleculesAndLightA11yStrings.screenSummaryString.value;
   var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
-  var keyboardShortcutsHintString = MoleculesAndLightA11yStrings.keyboardShortcutsHintString.value;
   var playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
   var pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
   var stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
@@ -74,23 +73,25 @@ define( function( require ) {
 
     ScreenView.call( this, {
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem
+      tandem: tandem,
+
+      // a11y - TODO: remove this option once https://github.com/phetsims/scenery-phet/issues/393 is complete
+      addScreenSummaryNode: true
     } );
 
-    var summaryNode = new AccessibleSectionNode( 'Scene Summary', {
-      descriptionTagName: 'p',
-      descriptionContent: sceneSummaryString
+    var summaryNode = new Node( {
+      tagName: 'p',
+      accessibleName: screenSummaryString
     } );
 
     // interaction hint and keyboard shortcuts
     summaryNode.addChild( new Node( { tagName: 'p', innerContent: summaryInteractionHintString } ) );
-    summaryNode.addChild( new Node( { tagName: 'p', innerContent: keyboardShortcutsHintString } ) );
 
     var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
 
     var controlPanelSectionNode = new AccessibleSectionNode( 'Control Panel' );
 
-    this.addChild( summaryNode );
+    this.screenSummaryNode.addChild( summaryNode );
     this.addChild( playAreaSectionNode );
     this.addChild( controlPanelSectionNode );
 
