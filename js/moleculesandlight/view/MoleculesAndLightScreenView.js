@@ -160,7 +160,7 @@ define( function( require ) {
 
     // Add step button to manually step the animation.
     var stepButton = new StepForwardButton( {
-      playingProperty: photonAbsorptionModel.runningProperty,
+      isPlayingProperty: photonAbsorptionModel.runningProperty,
       listener: function() { photonAbsorptionModel.manualStep(); },
       centerY: playPauseButton.centerY,
       centerX: moleculeControlPanel.centerX + 25,
