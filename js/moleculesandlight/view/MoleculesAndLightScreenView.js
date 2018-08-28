@@ -201,7 +201,7 @@ define( function( require ) {
         }
         dialog.show();
       },
-      a11yEndListener: function() {
+      onAccessibleClick: function() {
 
         // if (and only if) the dialog is opened with the keyboard, send focus directly to the close button
         assert && assert( dialog, 'No dialog was created, nothing to focus.' );
