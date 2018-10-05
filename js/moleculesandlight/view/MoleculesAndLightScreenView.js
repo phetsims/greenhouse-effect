@@ -200,12 +200,11 @@ define( function( require ) {
           dialog = new LightSpectrumDialog( spectrumButtonLabel, tandem.createTandem( 'lightSpectrumDialog' ) );
         }
         dialog.show();
-      },
-      accessibleClick: function() {
 
-        // if (and only if) the dialog is opened with the keyboard, send focus directly to the close button
-        assert && assert( dialog, 'No dialog was created, nothing to focus.' );
-        dialog.focusCloseButton();
+        // if listener was fired because of accessibility
+        if ( showLightSpectrumButton.buttonModel.isA11yClicking() ) {
+          dialog.focusCloseButton();
+        }
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
