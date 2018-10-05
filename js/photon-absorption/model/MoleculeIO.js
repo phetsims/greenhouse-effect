@@ -31,11 +31,21 @@ define( function( require ) {
   phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
     documentation: 'IO type for a molecule.',
 
+    /**
+     * @param {Molecule} molecule
+     * @returns {Object}
+     * @override
+     */
     toStateObject: function( molecule ) {
       assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
       return molecule.toStateObject();
     },
 
+    /**
+     * @param {Object} stateObject
+     * @returns {Molecule}
+     * @override
+     */
     fromStateObject: function( stateObject ) {
       return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
     }
