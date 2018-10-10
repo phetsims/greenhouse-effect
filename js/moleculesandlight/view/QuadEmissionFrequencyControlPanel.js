@@ -208,7 +208,7 @@ define( function( require ) {
         wavelengthSelectionAlertPatternString,
         { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
       );
-      utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'wavelengthChangeAlert' } );
+      utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'wavelengthChangeAlert' } );
     };
 
     photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );

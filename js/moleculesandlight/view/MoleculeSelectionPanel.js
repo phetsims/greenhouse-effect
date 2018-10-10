@@ -248,7 +248,7 @@ define( function( require ) {
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
     //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( photonTarget ) } );
-    //   utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'moleculeChangeAlert' } );
+    //   utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'moleculeChangeAlert' } );
     // };
 
     // radioButtons.addAccessibleInputListener( {
@@ -256,7 +256,7 @@ define( function( require ) {
     // } );
     var moleculeChangeAlert = function( target ) {
       var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( target ) } );
-      utteranceQueue.addToBack( new Utterance( utteranceText ), { typeId: 'moleculeChangeAlert' } );
+      utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'moleculeChangeAlert' } );
     };
 
     model.photonTargetProperty.link( moleculeChangeAlert );
