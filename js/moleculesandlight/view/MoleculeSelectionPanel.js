@@ -76,7 +76,7 @@ define( function( require ) {
   var NO2_FORMULA_STRING = ChemUtils.toSubscript( 'NO2' );
   var O3_FORMULA_STRING = ChemUtils.toSubscript( 'O3' );
   var H20_FORMULA_STRING = ChemUtils.toSubscript( 'H2O' );
-  var CH4_FORMULA_STRING = ChemUtils. toSubscript( 'CH4' );
+  var CH4_FORMULA_STRING = ChemUtils.toSubscript( 'CH4' );
 
   // Scaling factor for the molecule images, determined empirically.
   var MOLECULE_SCALING_FACTOR = 0.0975;
@@ -136,7 +136,7 @@ define( function( require ) {
 
       // Determine the scale factor for the text on this panel, primarily for translation.
       var nameIconDistance = 35; // Minimum distance between the molecule name and node, determined empirically.
-      scaleFactor = Math.min( scaleFactor, (moleculeNode.left - nameIconDistance) / molecularName.width );
+      scaleFactor = Math.min( scaleFactor, ( moleculeNode.left - nameIconDistance ) / molecularName.width );
 
       // Add the molecular name and molecule node to the selector panel.
       backgroundRectangle.addChild( molecularName );
@@ -248,7 +248,7 @@ define( function( require ) {
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
     //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( photonTarget ) } );
-    //   utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'moleculeChangeAlert' } );
+    //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } );
     // };
 
     // radioButtons.addAccessibleInputListener( {
@@ -256,7 +256,7 @@ define( function( require ) {
     // } );
     var moleculeChangeAlert = function( target ) {
       var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( target ) } );
-      utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'moleculeChangeAlert' } );
+      utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } ) );
     };
 
     model.photonTargetProperty.link( moleculeChangeAlert );

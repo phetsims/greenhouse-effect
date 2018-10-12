@@ -189,7 +189,7 @@ define( function( require ) {
 
     // Scale the text below the arrow node. Max text length is the arrow tail length minus twice the head width.
     if ( energyText.width > ARROW_LENGTH - 2 * ARROW_HEAD_WIDTH ) {
-      energyText.scale( (ARROW_LENGTH - 2 * ARROW_HEAD_WIDTH ) / energyText.width );
+      energyText.scale( ( ARROW_LENGTH - 2 * ARROW_HEAD_WIDTH ) / energyText.width );
     }
 
     // Set the positions of all components of the control panel.
@@ -208,7 +208,10 @@ define( function( require ) {
         wavelengthSelectionAlertPatternString,
         { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
       );
-      utteranceQueue.addToBack( new Utterance( utteranceText ), { uniqueGroupId: 'wavelengthChangeAlert' } );
+      utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'wavelengthChangeAlert' } ) )
+
+
+      ;
     };
 
     photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
