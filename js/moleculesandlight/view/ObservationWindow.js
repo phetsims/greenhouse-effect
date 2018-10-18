@@ -31,7 +31,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
 
   // strings
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
