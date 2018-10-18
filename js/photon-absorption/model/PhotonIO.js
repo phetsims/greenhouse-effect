@@ -14,8 +14,8 @@ define( function( require ) {
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**

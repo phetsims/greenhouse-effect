@@ -45,8 +45,8 @@ define( function( require ) {
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // ifphetio
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
-  var StringIO = require( 'ifphetio!PHET_IO/types/StringIO' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
 
   // ------- constants -------------
 
