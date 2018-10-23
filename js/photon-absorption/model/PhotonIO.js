@@ -11,11 +11,11 @@ define( function( require ) {
 
   // modules
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**

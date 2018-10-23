@@ -29,6 +29,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
   var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
   var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
@@ -41,12 +42,9 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
+  var StringIO = require( 'TANDEM/types/StringIO' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
-
-  // ifphetio
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
 
   // ------- constants -------------
 
