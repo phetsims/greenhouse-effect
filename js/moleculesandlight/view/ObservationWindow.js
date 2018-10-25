@@ -17,21 +17,22 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var platform = require( 'PHET_CORE/platform' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhotonEmitterNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonEmitterNode' );
   var PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
+  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  var platform = require( 'PHET_CORE/platform' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // strings
+  // var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
   var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
   var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
@@ -41,7 +42,6 @@ define( function( require ) {
   var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
   var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
   var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
-  // var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
   // a11y strings
   var observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;

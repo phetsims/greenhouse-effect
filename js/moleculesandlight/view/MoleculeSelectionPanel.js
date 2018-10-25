@@ -11,8 +11,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
+  var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
@@ -34,9 +34,9 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );

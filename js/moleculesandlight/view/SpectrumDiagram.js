@@ -24,10 +24,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
-  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
 
   // strings
   var spectrumWindowCyclesPerSecondUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.cyclesPerSecondUnits' );
