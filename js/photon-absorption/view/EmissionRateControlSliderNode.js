@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -26,7 +27,6 @@ define( function( require ) {
   var Range = require( 'DOT/Range' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var Shape = require( 'KITE/Shape' );
-  // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants

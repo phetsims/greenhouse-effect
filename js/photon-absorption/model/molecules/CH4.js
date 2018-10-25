@@ -16,8 +16,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var Vector2 = require( 'DOT/Vector2' );
+  var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // Model Data for Methane

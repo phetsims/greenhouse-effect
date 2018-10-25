@@ -11,8 +11,8 @@ define( function( require ) {
   // modules
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
+  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
