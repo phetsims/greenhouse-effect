@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2018, University of Colorado Boulder
 
 /**
  * Photon targets for a photon absorption model.  The photon target names correspond to molecules which the photons are
