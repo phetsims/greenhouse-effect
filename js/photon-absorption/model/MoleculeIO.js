@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
@@ -24,7 +25,7 @@ define( function( require ) {
    * @constructor
    */
   function MoleculeIO( molecule, phetioID ) {
-    assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
+    assert && assertInstanceOf( molecule, Molecule );
     ObjectIO.call( this, molecule, phetioID );
   }
 
@@ -37,7 +38,7 @@ define( function( require ) {
      * @override
      */
     toStateObject: function( molecule ) {
-      assert && assertInstanceOf( molecule, phet.moleculesAndLight.Molecule );
+      assert && assertInstanceOf( molecule, Molecule );
       return molecule.toStateObject();
     },
 
@@ -47,7 +48,7 @@ define( function( require ) {
      * @override
      */
     fromStateObject: function( stateObject ) {
-      return window.phet.moleculesAndLight.Molecule.fromStateObject( stateObject );
+      return Molecule.fromStateObject( stateObject );
     }
   } );
 
