@@ -111,7 +111,7 @@ define( function( require ) {
     this.photonWavelengthListener = function() {
 
       // check if the current node is disposed
-      if ( !self.isDisposed() ) {
+      if ( !self.isDisposed ) {
         self.update();
       }
     };
