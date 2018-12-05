@@ -251,7 +251,7 @@ define( function( require ) {
     //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } );
     // };
 
-    // radioButtons.addAccessibleInputListener( {
+    // radioButtons.addInputListener( {
     //   change: handleMoleculeChange.bind( this )
     // } );
     var moleculeChangeAlert = function( target ) {
