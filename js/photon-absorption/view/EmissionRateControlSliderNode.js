@@ -87,7 +87,7 @@ define( function( require ) {
     this.emissionRateControlSlider.focusHighlight = new FocusHighlightPath( Shape.bounds( parentBounds ) );
 
     // a11y
-    this.emissionRateControlSlider.addAccessibleInputListener( {
+    this.emissionRateControlSlider.addInputListener( {
       focus: function() {
         sliderThumb.backgroundRectangle.visible = true;
       },
