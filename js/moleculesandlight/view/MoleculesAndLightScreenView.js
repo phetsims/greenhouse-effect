@@ -89,7 +89,7 @@ define( function( require ) {
 
     var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
 
-    var controlPanelSectionNode = new AccessibleSectionNode( 'Control Panel' );
+    var controlPanelSectionNode = new AccessibleSectionNode( 'Control Area' );
 
     this.screenSummaryNode.addChild( summaryNode );
     this.addChild( playAreaSectionNode );
