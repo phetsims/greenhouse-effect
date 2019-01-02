@@ -136,24 +136,25 @@ define( function( require ) {
         descriptionContent: descriptionContent
       };
     };
+    var moleculeOptions = { isForIcon: true };
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     var radioButtonContent = [
-      createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO(),
+      createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO( moleculeOptions ),
         'singleCOMoleculeRadioButton', carbonMonoxideDescriptionString ),
-      createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2(),
+      createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2( moleculeOptions ),
         'singleN2MoleculeRadioButton', nitrogenDescriptionString ),
-      createElement( PhotonTarget.SINGLE_O2_MOLECULE, O2_FORMULA_STRING, new O2(),
+      createElement( PhotonTarget.SINGLE_O2_MOLECULE, O2_FORMULA_STRING, new O2( moleculeOptions ),
         'singleO2MoleculeRadioButton', oxygenDescriptionString ),
-      createElement( PhotonTarget.SINGLE_CO2_MOLECULE, CO2_FORMULA_STRING, new CO2(),
+      createElement( PhotonTarget.SINGLE_CO2_MOLECULE, CO2_FORMULA_STRING, new CO2( moleculeOptions ),
         'singleCO2MoleculeRadioButton', carbonDioxideDescriptionString ),
-      createElement( PhotonTarget.SINGLE_CH4_MOLECULE, CH4_FORMULA_STRING, new CH4(),
+      createElement( PhotonTarget.SINGLE_CH4_MOLECULE, CH4_FORMULA_STRING, new CH4( moleculeOptions ),
         'singleCH4MoleculeRadioButton', methaneDescriptionString ),
-      createElement( PhotonTarget.SINGLE_H2O_MOLECULE, H20_FORMULA_STRING, new H2O(),
+      createElement( PhotonTarget.SINGLE_H2O_MOLECULE, H20_FORMULA_STRING, new H2O( moleculeOptions ),
         'singleH2OMoleculeRadioButton', waterDescriptionString ),
-      createElement( PhotonTarget.SINGLE_NO2_MOLECULE, NO2_FORMULA_STRING, new NO2(),
+      createElement( PhotonTarget.SINGLE_NO2_MOLECULE, NO2_FORMULA_STRING, new NO2( moleculeOptions ),
         'singleNO2MoleculeRadioButton', nitrogenDioxideDescriptionString ),
-      createElement( PhotonTarget.SINGLE_O3_MOLECULE, O3_FORMULA_STRING, new O3(),
+      createElement( PhotonTarget.SINGLE_O3_MOLECULE, O3_FORMULA_STRING, new O3( moleculeOptions ),
         'singleO3MoleculeRadioButton', ozoneDescriptionString )
     ];
 
