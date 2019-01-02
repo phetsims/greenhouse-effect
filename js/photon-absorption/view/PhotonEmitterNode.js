@@ -113,19 +113,17 @@ define( function( require ) {
         this.addChild( this.photonEmitterOffImage );
       }
 
-      // TODO: discuss why we completely dispose of the entire slider and not simply update it's
-      this.emissionRateControlSliderNode && this.emissionRateControlSliderNode.dispose();
-
       // create the photon emission rate control slider
-      this.emissionRateControlSliderNode = new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)', tandem.createTandem( emitterTandemName + 'Slider' ) );
+      this.emissionRateControlSliderNode =
+        this.emissionRateControlSliderNode ||
+        new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)', tandem.createTandem( 'slider' ) );
 
       // add the slider to the correct location on the photon emitter
-      var xOffset = 12; // x offset necessary to fit the slider correctly on the microwave emitter.
-      this.emissionRateControlSliderNode.center = new Vector2(
-        this.photonEmitterOffImage.centerX - this.emissionRateControlSliderNode.centerX / 2 - xOffset,
-        this.photonEmitterOffImage.centerY - this.emissionRateControlSliderNode.centerY / 2 );
-      this.addChild( this.emissionRateControlSliderNode );
-
+      this.emissionRateControlSliderNode.left = this.photonEmitterOffImage.left - 3;
+      this.emissionRateControlSliderNode.centerY = this.photonEmitterOffImage.centerY;
+      if ( !this.hasChild( this.emissionRateControlSliderNode ) ) {
+        this.addChild( this.emissionRateControlSliderNode );
+      }
     },
 
     /**
