@@ -67,8 +67,6 @@ define( function( require ) {
       tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
-    assert && assert( options.isForIcon !== options.tandem.supplied, 'must be for an icon or PhET-iO instrumented, but not both' );
-
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
       tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ), // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
       phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
