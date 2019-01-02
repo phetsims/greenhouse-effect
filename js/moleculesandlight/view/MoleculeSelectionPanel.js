@@ -38,15 +38,7 @@ define( function( require ) {
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
-  // strings
-  var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
-  var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
-  var controlPanelMethaneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Methane' );
-  var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
-  var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
-  var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
-  var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
-  var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
+  //strings
   var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
   // a11y strings
@@ -84,18 +76,6 @@ define( function( require ) {
   // the focus highlights are a little larger so they look good in this rounded panel
   var HIGHLIGHT_DILATION = 1.5;
 
-  // maps photon target to translatable string
-  var getMoleculeName = function( photonTarget ) {
-    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
-           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
-           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
-           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
-           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
-           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
-           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
-           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
-           assert( false, 'unknown' );
-  };
 
   /**
    * Constructor for a Molecules and Light control panel.
@@ -145,64 +125,36 @@ define( function( require ) {
       return backgroundRectangle;
     }
 
+
+    var createElement = function( photonTarget, formulaString, molecule, tandemName, descriptionContent ) {
+      return {
+        node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
+          formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
+        value: photonTarget,
+        tandemName: tandemName,
+        labelContent: PhotonTarget.getMoleculeName( PhotonTarget.SINGLE_CO_MOLECULE ),
+        descriptionContent: descriptionContent
+      };
+    };
+
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     var radioButtonContent = [
-      {
-        node: createRadioButtonContent( controlPanelCarbonMonoxideString, CO_FORMULA_STRING, new MoleculeNode( new CO(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_CO_MOLECULE,
-        tandemName: 'singleCOMoleculeRadioButton',
-        labelContent: controlPanelCarbonMonoxideString,
-        descriptionContent: carbonMonoxideDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelNitrogenString, N2_FORMULA_STRING, new MoleculeNode( new N2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_N2_MOLECULE,
-        tandemName: 'singleN2MoleculeRadioButton',
-        labelContent: controlPanelNitrogenString,
-        descriptionContent: nitrogenDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelOxygenString, O2_FORMULA_STRING, new MoleculeNode( new O2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_O2_MOLECULE,
-        tandemName: 'singleO2MoleculeRadioButton',
-        labelContent: controlPanelOxygenString,
-        descriptionContent: oxygenDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelCarbonDioxideString, CO2_FORMULA_STRING, new MoleculeNode( new CO2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_CO2_MOLECULE,
-        tandemName: 'singleCO2MoleculeRadioButton',
-        labelContent: controlPanelCarbonDioxideString,
-        descriptionContent: carbonDioxideDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelMethaneString, CH4_FORMULA_STRING, new MoleculeNode( new CH4(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_CH4_MOLECULE,
-        tandemName: 'singleCH4MoleculeRadioButton',
-        labelContent: controlPanelMethaneString,
-        descriptionContent: methaneDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelWaterString, H20_FORMULA_STRING, new MoleculeNode( new H2O(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_H2O_MOLECULE,
-        tandemName: 'singleH2OMoleculeRadioButton',
-        labelContent: controlPanelWaterString,
-        descriptionContent: waterDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelNitrogenDioxideString, NO2_FORMULA_STRING, new MoleculeNode( new NO2(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_NO2_MOLECULE,
-        tandemName: 'singleNO2MoleculeRadioButton',
-        labelContent: controlPanelNitrogenDioxideString,
-        descriptionContent: nitrogenDioxideDescriptionString
-      },
-      {
-        node: createRadioButtonContent( controlPanelOzoneString, O3_FORMULA_STRING, new MoleculeNode( new O3(), MODEL_VIEW_TRANSFORM ) ),
-        value: PhotonTarget.SINGLE_O3_MOLECULE,
-        tandemName: 'singleO3MoleculeRadioButton',
-        labelContent: controlPanelOzoneString,
-        descriptionContent: ozoneDescriptionString
-      }
+      createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO(),
+        'singleCOMoleculeRadioButton', carbonMonoxideDescriptionString ),
+      createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2(),
+        'singleN2MoleculeRadioButton', nitrogenDescriptionString ),
+      createElement( PhotonTarget.SINGLE_O2_MOLECULE, O2_FORMULA_STRING, new O2(),
+        'singleO2MoleculeRadioButton', oxygenDescriptionString ),
+      createElement( PhotonTarget.SINGLE_CO2_MOLECULE, CO2_FORMULA_STRING, new CO2(),
+        'singleCO2MoleculeRadioButton', carbonDioxideDescriptionString ),
+      createElement( PhotonTarget.SINGLE_CH4_MOLECULE, CH4_FORMULA_STRING, new CH4(),
+        'singleCH4MoleculeRadioButton', methaneDescriptionString ),
+      createElement( PhotonTarget.SINGLE_H2O_MOLECULE, H20_FORMULA_STRING, new H2O(),
+        'singleH2OMoleculeRadioButton', waterDescriptionString ),
+      createElement( PhotonTarget.SINGLE_NO2_MOLECULE, NO2_FORMULA_STRING, new NO2(),
+        'singleNO2MoleculeRadioButton', nitrogenDioxideDescriptionString ),
+      createElement( PhotonTarget.SINGLE_O3_MOLECULE, O3_FORMULA_STRING, new O3(),
+        'singleO3MoleculeRadioButton', ozoneDescriptionString )
     ];
 
     // If necessary, scale down molecule names by the minimum scale factor.
@@ -247,15 +199,19 @@ define( function( require ) {
 
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
-    //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( photonTarget ) } );
+    //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( photonTarget ) } );
     //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } );
     // };
 
     // radioButtons.addInputListener( {
     //   change: handleMoleculeChange.bind( this )
     // } );
+
+    /**
+     * @param {PhotonTarget} target
+     */
     var moleculeChangeAlert = function( target ) {
-      var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: getMoleculeName( target ) } );
+      var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
       utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } ) );
     };
 

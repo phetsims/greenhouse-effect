@@ -34,14 +34,6 @@ define( function( require ) {
   // strings
   // var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
   var buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
-  var controlPanelCarbonDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonDioxide' );
-  var controlPanelCarbonMonoxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.CarbonMonoxide' );
-  var controlPanelMethaneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Methane' );
-  var controlPanelNitrogenDioxideString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.NitrogenDioxide' );
-  var controlPanelNitrogenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Nitrogen' );
-  var controlPanelOxygenString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Oxygen' );
-  var controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
-  var controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
 
   // a11y strings
   var observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;
@@ -52,18 +44,6 @@ define( function( require ) {
   var returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
   var returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
 
-  // maps photon target to translatable string
-  var getMoleculeName = function( photonTarget ) {
-    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
-           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
-           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
-           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
-           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
-           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
-           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
-           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
-           assert( false, 'unknown' );
-  };
 
   // constants
   var PHOTON_EMITTER_WIDTH = 125;
@@ -290,7 +270,7 @@ define( function( require ) {
     updateAccessibleDescription: function( photonTarget, emissionFrequency, wavelength ) {
 
       var lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
-      var moleculeString = getMoleculeName( photonTarget );
+      var moleculeString = PhotonTarget.getMoleculeName( photonTarget );
       var onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
       var aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
 
