@@ -50,52 +50,9 @@ define( function( require ) {
       fire: self.hide.bind( self )
     } );
     this.addInputListener( buttonListener );
-
-    // Create a property that both signals changes to the 'shown' state and can also be used to show/hide the dialog
-    // remotely.  This is done primarily for PhET-iO support.  TODO: Move into the Dialog type?
-    this.shownProperty = new Property( false, {
-      tandem: tandem.createTandem( 'shownProperty' ),
-      phetioType: PropertyIO( BooleanIO )
-    } );
-
-    var shownListener = function( shown ) {
-      if ( shown ) {
-        Dialog.prototype.show.call( self );
-      }
-      else {
-        // hide the dialog
-        Dialog.prototype.hide.call( self );
-      }
-    };
-    this.shownProperty.lazyLink( shownListener );
-
-    // @private - make eligible for garbage collection, and remove tandems
-    this.disposeLightSpectrumDialog = function() {
-      self.removeInputListener( buttonListener );
-      self.shownProperty.unlink( shownListener );
-
-      // remove the tandem attached to the shown property
-      self.shownProperty.dispose();
-    };
   }
 
   moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
 
-  return inherit( Dialog, LightSpectrumDialog, {
-    hide: function() {
-      this.shownProperty.value = false;
-    },
-    show: function() {
-      this.shownProperty.value = true;
-    },
-
-    /**
-     * Make eligible for garbage collection
-     * @public
-     */
-    dispose: function() {
-      this.disposeLightSpectrumDialog();
-      Dialog.prototype.dispose.call( this );
-    }
-  } );
+  return inherit( Dialog, LightSpectrumDialog );
 } );
