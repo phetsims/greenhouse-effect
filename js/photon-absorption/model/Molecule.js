@@ -63,11 +63,15 @@ define( function( require ) {
 
     options = _.extend( {
       initialPosition: Vector2.ZERO,
+      isForIcon: false,
       tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
-    this.highElectronicEnergyStateProperty = new BooleanProperty( false, options.tandem ? {
-      tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ) // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
+    assert && assert( options.isForIcon !== options.tandem.supplied, 'must be for an icon or PhET-iO instrumented, but not both' );
+
+    this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
+      tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ), // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
+      phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } : {} );
     this.centerOfGravityProperty = new Property( options.initialPosition ); // {Property.<Vector2>}
 
@@ -119,15 +123,18 @@ define( function( require ) {
 
     // @public - Boolean values that track whether the molecule is vibrating or rotating.
     this.vibratingProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'vibratingProperty' )
+      tandem: options.tandem.createTandem( 'vibratingProperty' ),
+      phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } );
     this.rotatingProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'rotatingProperty' )
+      tandem: options.tandem.createTandem( 'rotatingProperty' ),
+      phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } );
 
     // Controls the direction of rotation.
     this.rotationDirectionClockwiseProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'rotationDirectionClockwiseProperty' )
+      tandem: options.tandem.createTandem( 'rotationDirectionClockwiseProperty' ),
+      phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } );
 
     // @public, set by PhotonAbsorptionModel
