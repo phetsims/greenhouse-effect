@@ -46,10 +46,9 @@ define( function( require ) {
 
     // close it on a click
     var self = this;
-    var buttonListener = new ButtonListener( {
+    this.addInputListener( new ButtonListener( {
       fire: self.hide.bind( self )
-    } );
-    this.addInputListener( buttonListener );
+    } ) );
   }
 
   moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
