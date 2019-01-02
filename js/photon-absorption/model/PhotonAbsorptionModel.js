@@ -23,6 +23,7 @@ define( function( require ) {
   var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
   var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
+  var EnumerationIO = require( 'PHET_CORE/EnumerationIO' );
   var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
@@ -42,7 +43,6 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var Property = require( 'AXON/Property' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var StringIO = require( 'TANDEM/types/StringIO' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -67,7 +67,7 @@ define( function( require ) {
   /**
    * Constructor for a photon absorption model.
    *
-   * @param {string} initialPhotonTarget - Initial molecule which the photon gets fired at.
+   * @param {PhotonTarget} initialPhotonTarget - Initial molecule which the photon gets fired at.
    * @param {Tandem} tandem
    * @constructor
    */
@@ -99,9 +99,11 @@ define( function( require ) {
       phetioType: PropertyIO( NumberIO )
     } );
 
+    // {Property.<PhotonTarget>}
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
-      phetioType: PropertyIO( StringIO )
+      phetioType: PropertyIO( EnumerationIO( PhotonTarget ) ),
+      validValues: PhotonTarget.VALUES
     } );
 
     this.runningProperty = new BooleanProperty( true, {
@@ -120,8 +122,8 @@ define( function( require ) {
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
-    self.photonTargetProperty.link( function() {
-      self.updateActiveMolecule( self.photonTargetProperty.get(), tandem );
+    self.photonTargetProperty.link( function( photonTarget ) {
+      self.updateActiveMolecule( photonTarget, tandem );
     } );
 
     // Set the photon emission period from the emission frequency.
@@ -367,7 +369,7 @@ define( function( require ) {
      * molecule, and then add it to the active molecules array.  Add listeners to the molecule that check for when
      * the molecule should emit a photon or break apart into constituents.
      *
-     * @param {string} photonTarget - The string constant which represents the desired photon target.
+     * @param {PhotonTarget} photonTarget - The string constant which represents the desired photon target.
      * @param {Tandem} tandem
      */
     updateActiveMolecule: function( photonTarget, tandem ) {
@@ -380,51 +382,18 @@ define( function( require ) {
       this.activeMolecules.clear(); // Clear the old active molecules array
 
       // Add the new photon target(s).
-      var newMolecule;
-      switch( photonTarget ) {
-        case PhotonTarget.SINGLE_CO_MOLECULE:
-          newMolecule = new CO( { tandem: tandem.createTandem( 'CO' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
+      var newMolecule =
+        photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? new CO( { tandem: tandem.createTandem( 'CO' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? new CO2( { tandem: tandem.createTandem( 'CO2' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? new H2O( { tandem: tandem.createTandem( 'H2O' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? new N2( { tandem: tandem.createTandem( 'N2' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? new O2( { tandem: tandem.createTandem( 'O2' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? new O3( { tandem: tandem.createTandem( 'O3' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? new NO2( { tandem: tandem.createTandem( 'NO2' ) } ) :
+        photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? new CH4( { tandem: tandem.createTandem( 'CH4' ) } ) :
+        assert && assert( false, 'unhandled photon target.' );
 
-        case PhotonTarget.SINGLE_CO2_MOLECULE:
-          newMolecule = new CO2( { tandem: tandem.createTandem( 'CO2' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_H2O_MOLECULE:
-          newMolecule = new H2O( { tandem: tandem.createTandem( 'H2O' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_N2_MOLECULE:
-          newMolecule = new N2( { tandem: tandem.createTandem( 'N2' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_O2_MOLECULE:
-          newMolecule = new O2( { tandem: tandem.createTandem( 'O2' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_O3_MOLECULE:
-          newMolecule = new O3( { tandem: tandem.createTandem( 'O3' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_NO2_MOLECULE:
-          newMolecule = new NO2( { tandem: tandem.createTandem( 'NO2' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        case PhotonTarget.SINGLE_CH4_MOLECULE:
-          newMolecule = new CH4( { tandem: tandem.createTandem( 'CH4' ) } );
-          this.activeMolecules.add( newMolecule );
-          break;
-
-        default:
-          throw new Error( 'Error: Unhandled photon target.' );
-      }
+      this.activeMolecules.add( newMolecule );
 
       // Set the photonGroupTandem so that photons created by the molecule can be registered for PhET-iO
       newMolecule.photonGroupTandem = this.photonGroupTandem;
