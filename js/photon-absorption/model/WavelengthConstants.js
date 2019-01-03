@@ -19,8 +19,10 @@ define( function( require ) {
   var quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
 
   var WavelengthConstants = {
+
+    // all values in meters
     SUNLIGHT_WAVELENGTH: 400E-9, // Ported from the original JAVA version, but not used in Molecules And Light
-    MICRO_WAVELENGTH: 20,
+    MICRO_WAVELENGTH: 0.2,
     IR_WAVELENGTH: 850E-9,
     VISIBLE_WAVELENGTH: 580E-9,
     UV_WAVELENGTH: 100E-9,
