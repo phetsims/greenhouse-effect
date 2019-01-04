@@ -15,7 +15,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dialog = require( 'SUN/Dialog' );
   var inherit = require( 'PHET_CORE/inherit' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -40,12 +39,6 @@ define( function( require ) {
       tagName: 'p',
       descriptionContent: spectrumWindowDescriptionString
     } );
-
-    // close it on a click
-    var self = this;
-    this.addInputListener( new ButtonListener( {
-      fire: self.hide.bind( self )
-    } ) );
   }
 
   moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
