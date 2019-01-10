@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   // var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -80,6 +81,13 @@ define( function( require ) {
       //   delta = (model.emissionFrequencyProperty.get() - initialFrequency);
       // }
     } ); // @private
+
+    this.emissionRateControlSlider.focusHighlight = new FocusHighlightFromNode( sliderThumb, {
+
+      // the focus highlight needs to be within the grey background of the custom thumb when the slider
+      // receives focus so that the pink highlight is visible along the colors of the photon emitter
+      dilationCoefficient: -2
+    } );
 
     // a11y
     this.emissionRateControlSlider.addInputListener( {
