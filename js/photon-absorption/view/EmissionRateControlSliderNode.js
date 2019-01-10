@@ -15,7 +15,6 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -81,10 +80,6 @@ define( function( require ) {
       //   delta = (model.emissionFrequencyProperty.get() - initialFrequency);
       // }
     } ); // @private
-
-    var sliderBounds = sliderThumb.backgroundRectangle.bounds;
-    var parentBounds = sliderThumb.localToParentBounds( sliderBounds );
-    this.emissionRateControlSlider.focusHighlight = new FocusHighlightPath( Shape.bounds( parentBounds ) );
 
     // a11y
     this.emissionRateControlSlider.addInputListener( {
