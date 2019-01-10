@@ -30,9 +30,9 @@ define( function( require ) {
 
   phetioInherit( ObjectIO, 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO, {}, {
       documentation: 'The model for Photon Absorption',
-    clearChildInstances: function( photonAbsorptionModel ) {
-      assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
-      photonAbsorptionModel.clearPhotons();
+      clearChildInstances: function( photonAbsorptionModel ) {
+        assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
+        photonAbsorptionModel.clearPhotons();
         // instance.chargedParticles.clear();
         // instance.electricFieldSensors.clear();
       },
