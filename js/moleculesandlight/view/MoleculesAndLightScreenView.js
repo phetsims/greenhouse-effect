@@ -33,6 +33,7 @@ define( function( require ) {
   var SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
   var StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var WindowFrameNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/WindowFrameNode' );
 
@@ -97,8 +98,8 @@ define( function( require ) {
 
     var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
-      new Vector2( Math.round( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
-        Math.round( INTERMEDIATE_RENDERING_SIZE.height * 0.50 ) ),
+      new Vector2( Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
+        Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.height * 0.50 ) ),
       0.10 ); // Scale factor - Smaller number zooms out, bigger number zooms in.
 
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
