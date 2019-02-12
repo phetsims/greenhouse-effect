@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   // var Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -23,7 +23,6 @@ define( function( require ) {
   var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   var platform = require( 'PHET_CORE/platform' );
   var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -77,9 +76,8 @@ define( function( require ) {
     this.frameLineWidth = 5;
 
     // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
-    this.returnMoleculeButtonVisibleProperty = new Property( false, {
-      tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' ),
-      phetioType: PropertyIO( BooleanIO )
+    this.returnMoleculeButtonVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
