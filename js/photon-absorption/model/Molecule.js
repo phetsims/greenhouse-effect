@@ -89,7 +89,7 @@ define( function( require ) {
     this.atomsByID = {};  // @private Objects contains keys of the atom's uniqueID, and values of type atom.
 
     // @public Velocity for this molecule.
-    this.velocity = new Vector2();
+    this.velocity = new Vector2( 0, 0 );
 
     // Map that matches photon wavelengths to photon absorption strategies. The strategies contained in this structure
     // define whether the molecule can absorb a given photon and, if it does absorb it, how it will react.
