@@ -14,9 +14,7 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
-
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
+  var validate = require( 'AXON/validate' );
 
   /**
    *
@@ -25,12 +23,12 @@ define( function( require ) {
    * @constructor
    */
   function MoleculeIO( molecule, phetioID ) {
-    assert && assertInstanceOf( molecule, Molecule );
     ObjectIO.call( this, molecule, phetioID );
   }
 
   phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
     documentation: 'IO type for a molecule.',
+    validator: { valueType: Molecule },
 
     /**
      * @param {Molecule} molecule
@@ -38,7 +36,7 @@ define( function( require ) {
      * @override
      */
     toStateObject: function( molecule ) {
-      assert && assertInstanceOf( molecule, Molecule );
+      validate( molecule, this.validator );
       return molecule.toStateObject();
     },
 

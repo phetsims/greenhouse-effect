@@ -13,9 +13,7 @@ define( function( require ) {
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
-
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
+  var validate = require( 'AXON/validate' );
 
   /**
    * Instrumented to help restore charged particles.
@@ -24,14 +22,14 @@ define( function( require ) {
    * @constructor
    */
   function PhotonAbsorptionModelIO( photonAbsorptionModel, phetioID ) {
-    assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
     ObjectIO.call( this, photonAbsorptionModel, phetioID );
   }
 
   phetioInherit( ObjectIO, 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO, {}, {
       documentation: 'The model for Photon Absorption',
+    validator: { isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel },
       clearChildInstances: function( photonAbsorptionModel ) {
-        assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
+        validate( photonAbsorptionModel, this.validator );
         photonAbsorptionModel.clearPhotons();
         // instance.chargedParticles.clear();
         // instance.electricFieldSensors.clear();
@@ -45,7 +43,7 @@ define( function( require ) {
        * @returns {ChargedParticle}
        */
       addChildInstance: function( photonAbsorptionModel, tandem, stateObject ) {
-        assert && assertInstanceOf( photonAbsorptionModel, phet.moleculesAndLight.PhotonAbsorptionModel );
+        validate( photonAbsorptionModel, this.validator );
         var value = PhotonIO.fromStateObject( stateObject );
 
         var photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );

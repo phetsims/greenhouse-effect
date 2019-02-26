@@ -14,9 +14,7 @@ define( function( require ) {
   var NumberIO = require( 'TANDEM/types/NumberIO' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
-
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
+  var validate = require( 'AXON/validate' );
 
   /**
    * @param {Photon} photon
@@ -24,15 +22,15 @@ define( function( require ) {
    * @constructor
    */
   function PhotonIO( photon, phetioID ) {
-    assert && assertInstanceOf( photon, phet.moleculesAndLight.Photon );
     ObjectIO.call( this, photon, phetioID );
   }
 
   phetioInherit( ObjectIO, 'PhotonIO', PhotonIO, {}, {
     documentation: 'A Photon',
+    validator: { isValidValue: v => v instanceof phet.moleculesAndLight.Photon },
 
     toStateObject: function( photon ) {
-      assert && assertInstanceOf( photon, phet.moleculesAndLight.Photon );
+      validate( photon, this.validator );
       return {
         vx: NumberIO.toStateObject( photon.vx ),
         vy: NumberIO.toStateObject( photon.vy ),
