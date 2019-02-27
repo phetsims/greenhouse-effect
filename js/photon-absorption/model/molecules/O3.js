@@ -134,7 +134,7 @@ define( function( require ) {
       // Create the constituent molecules that result from breaking apart.
       var diatomicOxygenMolecule = new O2();
       var singleOxygenMolecule = new O();
-      this.brokeApartEmitter.emit2( diatomicOxygenMolecule, singleOxygenMolecule );
+      this.brokeApartEmitter.emit( diatomicOxygenMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
       // directions and velocities have little if anything to do with any physical rules of atomic dissociation.  If

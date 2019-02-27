@@ -142,7 +142,7 @@ define( function( require ) {
     this.photonEmittedEmitter = new Emitter();
 
     // @public Emitter for 'brokeApart' event
-    this.brokeApartEmitter = new Emitter();
+    this.brokeApartEmitter = new Emitter( { validationEnabled: false } );
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
