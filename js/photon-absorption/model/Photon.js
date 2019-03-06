@@ -17,10 +17,8 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var PhetioObject = require( 'TANDEM/PhetioObject' );
   var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
-  var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   /**
    * Constructor for a photon.
@@ -31,9 +29,8 @@ define( function( require ) {
    */
   function Photon( wavelength, tandem ) {
 
-    this.locationProperty = new Property( new Vector2( 0, 0 ), {
-      tandem: tandem.createTandem( 'locationProperty' ),
-      phetioType: PropertyIO( Vector2IO )
+    this.locationProperty = new Vector2Property( new Vector2( 0, 0 ), {
+      tandem: tandem.createTandem( 'locationProperty' )
     } );
 
     // @private
