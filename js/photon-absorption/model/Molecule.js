@@ -20,9 +20,9 @@ define( function( require ) {
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
-  var Property = require( 'AXON/Property' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
   var PHOTON_EMISSION_SPEED = 3000; // Picometers per second.
@@ -71,7 +71,9 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ), // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
       phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } : {} );
-    this.centerOfGravityProperty = new Property( options.initialPosition ); // {Property.<Vector2>}
+
+    // TODO: visibility annotation
+    this.centerOfGravityProperty = new Vector2Property( options.initialPosition );
 
     // Atoms and bonds that form this molecule.
     this.atoms = []; // @private Elements are of type Atoms
