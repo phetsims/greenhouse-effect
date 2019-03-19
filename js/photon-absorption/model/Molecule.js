@@ -141,10 +141,10 @@ define( function( require ) {
     this.photonGroupTandem = null;
 
     // @public Emitter for 'photonEmitted'
-    this.photonEmittedEmitter = new Emitter( { validationEnabled: false } );
+    this.photonEmittedEmitter = new Emitter( { validators: [ { valueType: Photon } ] } );
 
     // @public Emitter for 'brokeApart' event
-    this.brokeApartEmitter = new Emitter( { validationEnabled: false } );
+    this.brokeApartEmitter = new Emitter( { validators: [ { valueType: Molecule } ] } );
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
