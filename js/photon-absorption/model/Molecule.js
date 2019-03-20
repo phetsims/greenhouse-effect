@@ -143,8 +143,11 @@ define( function( require ) {
     // @public Emitter for 'photonEmitted'
     this.photonEmittedEmitter = new Emitter( { validators: [ { valueType: Photon } ] } );
 
-    // @public Emitter for 'brokeApart' event
-    this.brokeApartEmitter = new Emitter( { validators: [ { valueType: Molecule } ] } );
+    // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
+    this.brokeApartEmitter = new Emitter( { validators: [
+      { valueType: Molecule },
+      { valueType: Molecule }
+    ] } );
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
