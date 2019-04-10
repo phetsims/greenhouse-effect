@@ -27,7 +27,6 @@ define( function( require ) {
   var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -208,7 +207,7 @@ define( function( require ) {
         wavelengthSelectionAlertPatternString,
         { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
       );
-      utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'wavelengthChangeAlert' } ) );
+      utteranceQueue.addToBack( utteranceText );
     };
 
     photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
