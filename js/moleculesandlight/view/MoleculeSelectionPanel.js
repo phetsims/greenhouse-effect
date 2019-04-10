@@ -200,7 +200,7 @@ define( function( require ) {
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
     //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( photonTarget ) } );
-    //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } );
+    //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
     // };
 
     // radioButtons.addInputListener( {
