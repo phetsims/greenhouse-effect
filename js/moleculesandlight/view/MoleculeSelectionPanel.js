@@ -34,7 +34,6 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Shape = require( 'KITE/Shape' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Utterance = require( 'SCENERY_PHET/accessibility/Utterance' );
   var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -213,7 +212,7 @@ define( function( require ) {
      */
     var moleculeChangeAlert = function( target ) {
       var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
-      utteranceQueue.addToBack( new Utterance( { alert: utteranceText, uniqueGroupId: 'moleculeChangeAlert' } ) );
+      utteranceQueue.addToBack( utteranceText );
     };
 
     model.photonTargetProperty.link( moleculeChangeAlert );
