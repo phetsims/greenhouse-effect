@@ -67,6 +67,9 @@ define( function( require ) {
       tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
+    // TODO: This is a temporary uninstrumentation, see https://github.com/phetsims/phet-io/issues/1443
+    options.tandem = Tandem.optional;
+
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
       tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ), // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
       phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
@@ -144,10 +147,12 @@ define( function( require ) {
     this.photonEmittedEmitter = new Emitter( { validators: [ { valueType: Photon } ] } );
 
     // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
-    this.brokeApartEmitter = new Emitter( { validators: [
-      { valueType: Molecule },
-      { valueType: Molecule }
-    ] } );
+    this.brokeApartEmitter = new Emitter( {
+      validators: [
+        { valueType: Molecule },
+        { valueType: Molecule }
+      ]
+    } );
   }
 
   moleculesAndLight.register( 'Molecule', Molecule );
