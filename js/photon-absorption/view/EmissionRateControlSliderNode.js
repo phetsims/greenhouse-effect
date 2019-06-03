@@ -64,7 +64,6 @@ define( function( require ) {
     // var initialFrequency, delta;
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
-      thumbFill: 'rgb(0, 203, 230)',
       thumbNode: sliderThumb,
       tandem: tandem,
 
