@@ -72,17 +72,15 @@ define( function( require ) {
    */
   function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
-    ScreenView.call( this, {
-      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem,
-
-      // a11y - TODO: remove this option once https://github.com/phetsims/scenery-phet/issues/393 is complete
-      addScreenSummaryNode: true
-    } );
-
     var summaryNode = new Node( {
       tagName: 'p',
       accessibleName: screenSummaryString
+    } );
+
+    ScreenView.call( this, {
+      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
+      tandem: tandem,
+      screenSummaryContent: summaryNode
     } );
 
     // interaction hint and keyboard shortcuts
@@ -92,7 +90,6 @@ define( function( require ) {
 
     var controlPanelSectionNode = new AccessibleSectionNode( 'Control Area' );
 
-    this.screenSummaryNode.addChild( summaryNode );
     this.addChild( playAreaSectionNode );
     this.addChild( controlPanelSectionNode );
 
