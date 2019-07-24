@@ -12,7 +12,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AccessibleSectionNode = require( 'SCENERY_PHET/accessibility/AccessibleSectionNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -86,13 +85,6 @@ define( function( require ) {
     // interaction hint and keyboard shortcuts
     summaryNode.addChild( new Node( { tagName: 'p', innerContent: summaryInteractionHintString } ) );
 
-    var playAreaSectionNode = new AccessibleSectionNode( 'Play Area' );
-
-    var controlPanelSectionNode = new AccessibleSectionNode( 'Control Area' );
-
-    this.addChild( playAreaSectionNode );
-    this.addChild( controlPanelSectionNode );
-
     var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
@@ -102,7 +94,7 @@ define( function( require ) {
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
     var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
-    playAreaSectionNode.addChild( observationWindow );
+    this.playAreaNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
@@ -113,11 +105,11 @@ define( function( require ) {
         stroke: '#C5D6E8',
         lineWidth: 8 * FRAME_LINE_WIDTH
       } );
-    playAreaSectionNode.addChild( clipRectangle );
+    this.playAreaNode.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
     var windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
-    playAreaSectionNode.addChild( windowFrameNode );
+    this.playAreaNode.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
     observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
@@ -140,7 +132,7 @@ define( function( require ) {
       radius: 18,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    controlPanelSectionNode.addChild( resetAllButton );
+    this.controlAreaNode.addChild( resetAllButton );
 
     // Add play/pause button.
     var playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
@@ -154,7 +146,7 @@ define( function( require ) {
       a11yPauseDescription: pauseDescriptionString,
       a11yPlayDescription: playDescriptionString
     } );
-    controlPanelSectionNode.addChild( playPauseButton );
+    this.controlAreaNode.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
     var stepButton = new StepForwardButton( {
@@ -171,7 +163,7 @@ define( function( require ) {
       descriptionContent: stepButtonDescriptionString,
       appendDescription: true
     } );
-    controlPanelSectionNode.addChild( stepButton );
+    this.controlAreaNode.addChild( stepButton );
 
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
@@ -217,11 +209,11 @@ define( function( require ) {
     showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
 
     showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 13 ) );
-    controlPanelSectionNode.addChild( showLightSpectrumButton );
+    this.controlAreaNode.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
-    playAreaSectionNode.addChild( photonEmissionControlPanel );
-    playAreaSectionNode.addChild( moleculeControlPanel );
+    this.playAreaNode.addChild( photonEmissionControlPanel );
+    this.playAreaNode.addChild( moleculeControlPanel );
 
     // a11y
     // this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
