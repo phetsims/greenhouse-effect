@@ -144,11 +144,11 @@ define( function( require ) {
     this.photonGroupTandem = null;
 
     // @public Emitter for 'photonEmitted'
-    this.photonEmittedEmitter = new Emitter( { validators: [ { valueType: Photon } ] } );
+    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
     // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
     this.brokeApartEmitter = new Emitter( {
-      validators: [
+      parameters: [
         { valueType: Molecule },
         { valueType: Molecule }
       ]
