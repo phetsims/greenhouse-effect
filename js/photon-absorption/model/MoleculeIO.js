@@ -13,45 +13,35 @@ define( function( require ) {
   var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
   var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var validate = require( 'AXON/validate' );
 
-  /**
-   *
-   * @param {Molecule} molecule
-   * @param {string} phetioID
-   * @constructor
-   */
-  function MoleculeIO( molecule, phetioID ) {
-    ObjectIO.call( this, molecule, phetioID );
-  }
-
-  phetioInherit( ObjectIO, 'MoleculeIO', MoleculeIO, {}, {
-    documentation: 'IO type for a molecule.',
-    validator: { valueType: Molecule },
+  class MoleculeIO extends ObjectIO {
 
     /**
      * @param {Molecule} molecule
      * @returns {Object}
      * @override
      */
-    toStateObject: function( molecule ) {
+    static toStateObject( molecule ) {
       validate( molecule, this.validator );
       return molecule.toStateObject();
-    },
+    }
 
     /**
      * @param {Object} stateObject
      * @returns {Molecule}
      * @override
      */
-    fromStateObject: function( stateObject ) {
+    static fromStateObject( stateObject ) {
       return Molecule.fromStateObject( stateObject );
     }
-  } );
+  }
 
-  moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
+  MoleculeIO.documentation = 'IO type for a molecule.';
+  MoleculeIO.validator = { valueType: Molecule };
+  MoleculeIO.typeName = 'MoleculeIO';
+  ObjectIO.validateSubtype( MoleculeIO );
 
-  return MoleculeIO;
+  return moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
 } );
 
