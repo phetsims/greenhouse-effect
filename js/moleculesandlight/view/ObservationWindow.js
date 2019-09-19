@@ -35,18 +35,18 @@ define( require => {
   const buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
 
   // a11y strings
-  var observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;
-  var isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
-  var emitsPhotonsString = MoleculesAndLightA11yStrings.emitsPhotonsString.value;
-  var aString = MoleculesAndLightA11yStrings.aString.value;
-  var anString = MoleculesAndLightA11yStrings.anString.value;
-  var returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
-  var returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
+  const observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;
+  const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
+  const emitsPhotonsString = MoleculesAndLightA11yStrings.emitsPhotonsString.value;
+  const aString = MoleculesAndLightA11yStrings.aString.value;
+  const anString = MoleculesAndLightA11yStrings.anString.value;
+  const returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
+  const returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
 
 
   // constants
-  var PHOTON_EMITTER_WIDTH = 125;
-  var CORNER_RADIUS = 7;
+  const PHOTON_EMITTER_WIDTH = 125;
+  const CORNER_RADIUS = 7;
 
   /**
    * Constructor for a Molecules and Light observation window.
@@ -68,7 +68,7 @@ define( require => {
       labelContent: 'Observation Window'
     } );
 
-    var self = this;
+    const self = this;
     this.modelViewTransform = modelViewTransform; // @private
     this.photonAbsorptionModel = photonAbsorptionModel; // @private
 
@@ -81,13 +81,13 @@ define( require => {
     } ); // @private
 
     // Add the layers for molecules, photons, and photon emitters.
-    var moleculeLayer = new Node();
+    const moleculeLayer = new Node();
     this.addChild( moleculeLayer );
 
-    var photonLayer = new Node();
+    const photonLayer = new Node();
     this.addChild( photonLayer );
 
-    var photonEmitterLayer = new Node();
+    const photonEmitterLayer = new Node();
     this.addChild( photonEmitterLayer );
 
     // if using Edge, render the photon layer and emitter with SVG for improved performance, see #175
@@ -97,7 +97,7 @@ define( require => {
     }
 
     // Create and add the photon emitter.
-    var photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
+    const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
     photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
@@ -118,10 +118,10 @@ define( require => {
     this.particleRemovalBounds = this.bounds.copy().dilate( 20 ); // @private
 
     // Add the button for restoring molecules that break apart.
-    var buttonContent = new Text( buttonNodeReturnMoleculeString, { font: new PhetFont( 13 ) } );
+    const buttonContent = new Text( buttonNodeReturnMoleculeString, { font: new PhetFont( 13 ) } );
     // If necessary, scale the button content for translation purposes.  Max button width is half the width of the
     // observation window.
-    var maxButtonWidth = this.width / 2;
+    const maxButtonWidth = this.width / 2;
     if ( buttonContent.width > maxButtonWidth ) {
       buttonContent.scale( maxButtonWidth / buttonContent.width );
     }
@@ -155,11 +155,11 @@ define( require => {
 
     // function for adding a molecule to this window and hooking up a removal listener
     function addMoleculeToWindow( molecule ) {
-      var moleculeNode = new MoleculeNode( molecule, self.modelViewTransform ); //Create the molecule node.
+      const moleculeNode = new MoleculeNode( molecule, self.modelViewTransform ); //Create the molecule node.
       moleculeLayer.addChild( moleculeNode );
 
       // Determine if it is time to remove molecule and update restore molecule button visibility.
-      var centerOfGravityObserver = function() {
+      const centerOfGravityObserver = function() {
         self.moleculeCheckBounds();
       };
       molecule.centerOfGravityProperty.link( centerOfGravityObserver );
@@ -181,11 +181,11 @@ define( require => {
 
     // Set up the event listeners for adding and removing photons.
     photonAbsorptionModel.photons.addItemAddedListener( function( addedPhoton ) {
-      var photonNode = new PhotonNode( addedPhoton, self.modelViewTransform );
+      const photonNode = new PhotonNode( addedPhoton, self.modelViewTransform );
       photonLayer.addChild( photonNode );
 
       // Watch photon positions and determine if photon should be removed from window.
-      var photonPositionObserver = function() {
+      const photonPositionObserver = function() {
         self.photonCheckBounds();
       };
       addedPhoton.locationProperty.link( photonPositionObserver );
@@ -226,8 +226,8 @@ define( require => {
      */
     moleculeCheckBounds: function() {
 
-      var moleculesToRemove = [];
-      for ( var molecule = 0; molecule < this.photonAbsorptionModel.activeMolecules.length; molecule++ ) {
+      const moleculesToRemove = [];
+      for ( let molecule = 0; molecule < this.photonAbsorptionModel.activeMolecules.length; molecule++ ) {
         if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.activeMolecules.get( molecule ).getCenterOfGravityPos() ) ) ) {
           moleculesToRemove.push( this.photonAbsorptionModel.activeMolecules.get( molecule ) );
           this.returnMoleculeButtonVisibleProperty.set( true );
@@ -244,8 +244,8 @@ define( require => {
      */
     photonCheckBounds: function() {
 
-      var photonsToRemove = [];
-      for ( var photon = 0; photon < this.photonAbsorptionModel.photons.length; photon++ ) {
+      const photonsToRemove = [];
+      for ( let photon = 0; photon < this.photonAbsorptionModel.photons.length; photon++ ) {
         if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).locationProperty.get() ) ) ) {
           photonsToRemove.push( this.photonAbsorptionModel.photons.get( photon ) );
         }
@@ -253,7 +253,7 @@ define( require => {
       this.photonAbsorptionModel.photons.removeAll( photonsToRemove );
 
       // dispose all photons that leave the observation window
-      for ( var i = 0; i < photonsToRemove.length; i++ ) {
+      for ( let i = 0; i < photonsToRemove.length; i++ ) {
         photonsToRemove[ i ].dispose();
       }
     },
@@ -267,10 +267,10 @@ define( require => {
 
     updateAccessibleDescription: function( photonTarget, emissionFrequency, wavelength ) {
 
-      var lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
-      var moleculeString = PhotonTarget.getMoleculeName( photonTarget );
-      var onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
-      var aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
+      const lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
+      const moleculeString = PhotonTarget.getMoleculeName( photonTarget );
+      const onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
+      const aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
 
       this.descriptionContent = StringUtils.fillIn( observationWindowDescriptionPatternString, {
         wavelengthName: lightSourceString,

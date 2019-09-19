@@ -41,39 +41,39 @@ define( require => {
   const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
   // a11y strings
-  var moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
-  var moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
-  var nitrogenDescriptionString = MoleculesAndLightA11yStrings.nitrogenDescriptionString.value;
-  var oxygenDescriptionString = MoleculesAndLightA11yStrings.oxygenDescriptionString.value;
-  var carbonMonoxideDescriptionString = MoleculesAndLightA11yStrings.carbonMonoxideDescriptionString.value;
-  var carbonDioxideDescriptionString = MoleculesAndLightA11yStrings.carbonDioxideDescriptionString.value;
-  var methaneDescriptionString = MoleculesAndLightA11yStrings.methane;
-  var waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
-  var nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
-  var ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
-  var moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
+  const moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
+  const moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
+  const nitrogenDescriptionString = MoleculesAndLightA11yStrings.nitrogenDescriptionString.value;
+  const oxygenDescriptionString = MoleculesAndLightA11yStrings.oxygenDescriptionString.value;
+  const carbonMonoxideDescriptionString = MoleculesAndLightA11yStrings.carbonMonoxideDescriptionString.value;
+  const carbonDioxideDescriptionString = MoleculesAndLightA11yStrings.carbonDioxideDescriptionString.value;
+  const methaneDescriptionString = MoleculesAndLightA11yStrings.methane;
+  const waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
+  const nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
+  const ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
+  const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
 
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
   // that it scales down the size of the molecules and flips the Y axis so that molecules on the panel are oriented the
   // same as in the play area.
-  var MODEL_VIEW_TRANSFORM = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ), new Vector2( 0, 0 ), 1 );
+  const MODEL_VIEW_TRANSFORM = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ), new Vector2( 0, 0 ), 1 );
 
   // Chemical formulas for the button labels.
-  var CO_FORMULA_STRING = 'CO';
-  var N2_FORMULA_STRING = ChemUtils.toSubscript( 'N2' );
-  var O2_FORMULA_STRING = ChemUtils.toSubscript( 'O2' );
-  var CO2_FORMULA_STRING = ChemUtils.toSubscript( 'CO2' );
-  var NO2_FORMULA_STRING = ChemUtils.toSubscript( 'NO2' );
-  var O3_FORMULA_STRING = ChemUtils.toSubscript( 'O3' );
-  var H20_FORMULA_STRING = ChemUtils.toSubscript( 'H2O' );
-  var CH4_FORMULA_STRING = ChemUtils.toSubscript( 'CH4' );
+  const CO_FORMULA_STRING = 'CO';
+  const N2_FORMULA_STRING = ChemUtils.toSubscript( 'N2' );
+  const O2_FORMULA_STRING = ChemUtils.toSubscript( 'O2' );
+  const CO2_FORMULA_STRING = ChemUtils.toSubscript( 'CO2' );
+  const NO2_FORMULA_STRING = ChemUtils.toSubscript( 'NO2' );
+  const O3_FORMULA_STRING = ChemUtils.toSubscript( 'O3' );
+  const H20_FORMULA_STRING = ChemUtils.toSubscript( 'H2O' );
+  const CH4_FORMULA_STRING = ChemUtils.toSubscript( 'CH4' );
 
   // Scaling factor for the molecule images, determined empirically.
-  var MOLECULE_SCALING_FACTOR = 0.0975;
+  const MOLECULE_SCALING_FACTOR = 0.0975;
 
   // the focus highlights are a little larger so they look good in this rounded panel
-  var HIGHLIGHT_DILATION = 1.5;
+  const HIGHLIGHT_DILATION = 1.5;
 
 
   /**
@@ -85,12 +85,12 @@ define( require => {
    */
   function MoleculeSelectionPanel( model, tandem ) {
 
-    var scaleFactor = 1; // Scale factor of the text in this control panel.  Value gets updated as panels are created.
+    let scaleFactor = 1; // Scale factor of the text in this control panel.  Value gets updated as panels are created.
 
     //  Array which holds the formatted text of the control panel.  This will get populated as individual panels are
     //  created.  Storing the text allows us to call on it later for scaling purposes once the scale factor has been
     // calculated.
-    var textList = [];
+    const textList = [];
 
     // Function which creates individual panels of the control panel.  Each panel consists of a molecule name, chemical
     // formula, and a visual node representing the molecule.
@@ -99,11 +99,11 @@ define( require => {
 
       // Create a rectangle which holds the molecular name and representing node.  Rectangle enables the proper layout
       // which is the molecular name aligned to the left of the panel and the molecule node aligned to the right.
-      var backgroundRectangle = new Rectangle( 0, 0, 215, 0 );
+      const backgroundRectangle = new Rectangle( 0, 0, 215, 0 );
 
       // Create text label for the molecule name.  Use StringUtils to order chemical names and formulas as desired.
-      var moleculeNameString = StringUtils.format( molecularNamePatternString, moleculeName, '<span dir="ltr">' + moleculeFormula + '</span>' );
-      var molecularName = new RichText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
+      const moleculeNameString = StringUtils.format( molecularNamePatternString, moleculeName, '<span dir="ltr">' + moleculeFormula + '</span>' );
+      const molecularName = new RichText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
       textList.push( molecularName );
       molecularName.centerY = backgroundRectangle.centerY;
       molecularName.left = backgroundRectangle.left + 10;
@@ -114,7 +114,7 @@ define( require => {
       moleculeNode.centerY = backgroundRectangle.centerY;
 
       // Determine the scale factor for the text on this panel, primarily for translation.
-      var nameIconDistance = 35; // Minimum distance between the molecule name and node, determined empirically.
+      const nameIconDistance = 35; // Minimum distance between the molecule name and node, determined empirically.
       scaleFactor = Math.min( scaleFactor, ( moleculeNode.left - nameIconDistance ) / molecularName.width );
 
       // Add the molecular name and molecule node to the selector panel.
@@ -125,7 +125,7 @@ define( require => {
     }
 
 
-    var createElement = function( photonTarget, formulaString, molecule, tandemName, descriptionContent ) {
+    const createElement = function( photonTarget, formulaString, molecule, tandemName, descriptionContent ) {
       return {
         node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
@@ -135,10 +135,10 @@ define( require => {
         descriptionContent: descriptionContent
       };
     };
-    var moleculeOptions = { isForIcon: true };
+    const moleculeOptions = { isForIcon: true };
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
-    var radioButtonContent = [
+    const radioButtonContent = [
       createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO( moleculeOptions ),
         'singleCOMoleculeRadioButton', carbonMonoxideDescriptionString ),
       createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2( moleculeOptions ),
@@ -162,7 +162,7 @@ define( require => {
       _.each( textList, function( text ) { text.scale( scaleFactor ); } );
     }
 
-    var radioButtons = new RadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
+    const radioButtons = new RadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
       spacing: 1.75,
       baseColor: 'black',
       buttonContentXMargin: 0,
@@ -181,7 +181,7 @@ define( require => {
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
-    var groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtons ) + HIGHLIGHT_DILATION;
+    const groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtons ) + HIGHLIGHT_DILATION;
     radioButtons.groupFocusHighlight = new FocusHighlightPath( Shape.bounds( radioButtons.bounds.dilated( groupCoefficient ) ), {
       outerLineWidth: FocusHighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: FocusHighlightPath.GROUP_INNER_LINE_WIDTH,
@@ -210,8 +210,8 @@ define( require => {
     /**
      * @param {PhotonTarget} target
      */
-    var moleculeChangeAlert = function( target ) {
-      var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
+    const moleculeChangeAlert = function( target ) {
+      const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
       utteranceQueue.addToBack( utteranceText );
     };
 

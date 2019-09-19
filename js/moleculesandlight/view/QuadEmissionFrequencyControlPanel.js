@@ -44,16 +44,16 @@ define( require => {
   const quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
 
   // a11y strings
-  var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
-  var lightSourceDescriptionString = MoleculesAndLightA11yStrings.lightSourceDescriptionString.value;
-  var wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
+  const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
+  const lightSourceDescriptionString = MoleculesAndLightA11yStrings.lightSourceDescriptionString.value;
+  const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
 
   // Description data for the 'Energy Arrow'
-  var ARROW_LENGTH = 200;
-  var ARROW_HEAD_HEIGHT = 15;
-  var ARROW_HEAD_WIDTH = 20;
-  var ARROW_TAIL_WIDTH = 1;
-  var ARROW_COLOR = 'black';
+  const ARROW_LENGTH = 200;
+  const ARROW_HEAD_HEIGHT = 15;
+  const ARROW_HEAD_WIDTH = 20;
+  const ARROW_TAIL_WIDTH = 1;
+  const ARROW_COLOR = 'black';
 
   // Create a layout box which holds a single panel of this control panel.
   function createRadioButtonContent( emitterImage, photonNode ) {
@@ -80,35 +80,35 @@ define( require => {
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
     // nodes do not correspond to anything in the model.  They are just visual elements of the control panel.
-    var identityTransform = ModelViewTransform2.createIdentity();
-    var microwavePhotonNode = new PhotonNode(
+    const identityTransform = ModelViewTransform2.createIdentity();
+    const microwavePhotonNode = new PhotonNode(
       new Photon( WavelengthConstants.MICRO_WAVELENGTH, tandem.createTandem( 'microwavePhotonNode' ) ),
       identityTransform
     );
-    var infraredPhotonNode = new PhotonNode(
+    const infraredPhotonNode = new PhotonNode(
       new Photon( WavelengthConstants.IR_WAVELENGTH, tandem.createTandem( 'infraredPhotonNode' ) ),
       identityTransform
     );
-    var visiblePhotonNode = new PhotonNode(
+    const visiblePhotonNode = new PhotonNode(
       new Photon( WavelengthConstants.VISIBLE_WAVELENGTH, tandem.createTandem( 'visiblePhotonNode' ) ),
       identityTransform
     );
-    var ultravioletPhotonNode = new PhotonNode(
+    const ultravioletPhotonNode = new PhotonNode(
       new Photon( WavelengthConstants.UV_WAVELENGTH, tandem.createTandem( 'ultravioletPhotonNode' ) ),
       identityTransform
     );
 
     // Load the radio button content into an array of object literals which holds the node, label string, and
     // value for each button.
-    var labelFont = new PhetFont( 18 );
+    const labelFont = new PhetFont( 18 );
 
     // This is sort of hack to pass through the tandem of the radioButtonGroupMember to its child.
-    var microwaveTandemName = 'microwaveRadioButton';
-    var infraredTandemName = 'infraredRadioButton';
-    var visibleTandemName = 'visibleRadioButton';
-    var ultravioletTandemName = 'ultravioletRadioButton';
-    var radioButtonGroupTandem = tandem.createTandem( 'radioButtonGroup' );
-    var radioButtonContent = [ {
+    const microwaveTandemName = 'microwaveRadioButton';
+    const infraredTandemName = 'infraredRadioButton';
+    const visibleTandemName = 'visibleRadioButton';
+    const ultravioletTandemName = 'ultravioletRadioButton';
+    const radioButtonGroupTandem = tandem.createTandem( 'radioButtonGroup' );
+    const radioButtonContent = [ {
       node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveString, {
@@ -148,11 +148,11 @@ define( require => {
 
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
-    var panelWidth = _.maxBy( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
+    const panelWidth = _.maxBy( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
     // Calculate the minimum scale factor that must be applied to each label. Ensures constant font size for all labels.
-    var scaleFactor = 1;
+    let scaleFactor = 1;
     _.each( radioButtonContent, function( content ) {
-      var labelWidth = content.label.width;
+      const labelWidth = content.label.width;
       scaleFactor = Math.min( scaleFactor, panelWidth / labelWidth );
     } );
     // If necessary, scale down each label by the minimum scale value.
@@ -162,7 +162,7 @@ define( require => {
       } );
     }
 
-    var radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
+    const radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
       orientation: 'horizontal',
       spacing: 15,
       baseColor: 'black',
@@ -176,8 +176,8 @@ define( require => {
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
-    var energyText = new Text( quadWavelengthSelectorHigherEnergyString, { font: new PhetFont( 19 ) } );
-    var energyArrow = new ArrowNode( 0, 0, ARROW_LENGTH, 0, {
+    const energyText = new Text( quadWavelengthSelectorHigherEnergyString, { font: new PhetFont( 19 ) } );
+    const energyArrow = new ArrowNode( 0, 0, ARROW_LENGTH, 0, {
       fill: ARROW_COLOR,
       stroke: ARROW_COLOR,
       headHeight: ARROW_HEAD_HEIGHT,
@@ -202,8 +202,8 @@ define( require => {
     this.addChild( energyText );
 
     // a11y - link alerts to the model's wavelength property
-    var handleWavelengthChangeAlert = function( wavelength ) {
-      var utteranceText = StringUtils.fillIn(
+    const handleWavelengthChangeAlert = function( wavelength ) {
+      const utteranceText = StringUtils.fillIn(
         wavelengthSelectionAlertPatternString,
         { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
       );

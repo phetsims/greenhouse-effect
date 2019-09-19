@@ -44,21 +44,21 @@ define( require => {
   const spectrumWindowXrayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.xrayBandLabel' );
 
   // shared constants
-  var LABEL_FONT = new PhetFont( 16 );
-  var SUBSECTION_WIDTH = 490; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
-  var MAX_UNITS_WIDTH = SUBSECTION_WIDTH / 10; // maximum width of units text, necessary for long translated units strings.
+  const LABEL_FONT = new PhetFont( 16 );
+  const SUBSECTION_WIDTH = 490; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
+  const MAX_UNITS_WIDTH = SUBSECTION_WIDTH / 10; // maximum width of units text, necessary for long translated units strings.
 
   // constants for LabeledSpectrumNode
-  var STRIP_HEIGHT = 65;
-  var MIN_FREQUENCY = 1E3;
-  var MAX_FREQUENCY = 1E21;
-  var TICK_MARK_HEIGHT = 8;
-  var TICK_MARK_FONT = new PhetFont( 11 );
+  const STRIP_HEIGHT = 65;
+  const MIN_FREQUENCY = 1E3;
+  const MAX_FREQUENCY = 1E21;
+  const TICK_MARK_HEIGHT = 8;
+  const TICK_MARK_FONT = new PhetFont( 11 );
 
   // constants for labeledArrow
-  var ARROW_HEAD_HEIGHT = 40;
-  var ARROW_HEAD_WIDTH = 40;
-  var ARROW_TAIL_WIDTH = 25;
+  const ARROW_HEAD_HEIGHT = 40;
+  const ARROW_HEAD_WIDTH = 40;
+  const ARROW_TAIL_WIDTH = 25;
 
   /**
    * Class that contains the diagram of the EM spectrum.  This class includes the arrows, the spectrum strip, the
@@ -69,17 +69,17 @@ define( require => {
    */
   function SpectrumDiagram( tandem ) {
 
-    var children = [];
+    const children = [];
 
     // Add the title and scale for translations.
-    var title = new Text( spectrumWindowTitleString, { font: new PhetFont( 30 ) } );
+    const title = new Text( spectrumWindowTitleString, { font: new PhetFont( 30 ) } );
     if ( title.width > SUBSECTION_WIDTH ) {
       title.scale( SUBSECTION_WIDTH / title.width );
     }
     children.push( title );
 
     // Add the frequency arrow.
-    var frequencyArrow = new LabeledArrow(
+    const frequencyArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'right',
       spectrumWindowFrequencyArrowLabelString,
@@ -90,11 +90,11 @@ define( require => {
     children.push( frequencyArrow );
 
     // Add the spectrum portion.
-    var spectrum = new LabeledSpectrumNode( tandem.createTandem( 'spectrum' ) );
+    const spectrum = new LabeledSpectrumNode( tandem.createTandem( 'spectrum' ) );
     children.push( spectrum );
 
     // Add the wavelength arrow.
-    var wavelengthArrow = new LabeledArrow(
+    const wavelengthArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'left',
       spectrumWindowWavelengthArrowLabelString,
@@ -105,7 +105,7 @@ define( require => {
     children.push( wavelengthArrow );
 
     // Add the diagram that depicts the wave that gets shorter.
-    var decreasingWavelengthNode = new ChirpNode();
+    const decreasingWavelengthNode = new ChirpNode();
     children.push( decreasingWavelengthNode );
 
     LayoutBox.call( this, { orientation: 'vertical', children: children, spacing: 15 } );
@@ -132,13 +132,13 @@ define( require => {
    */
   function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem ) {
 
-    var Orientation = {
+    const Orientation = {
       POINTING_LEFT: 'left',
       POINTING_RIGHT: 'right'
     };
 
     // Set arrow direction and fill based on desired orientation.
-    var gradientPaint;
+    let gradientPaint;
     // Point the node in the right direction.
     if ( orientation === Orientation.POINTING_LEFT ) {
       gradientPaint = new LinearGradient( 0, 0, -length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
@@ -160,7 +160,7 @@ define( require => {
 
     // Create and add the textual label.  Scale it so that it can handle translations.  Max label length is the arrow
     // length minus twice the head length.
-    var label = new Text( captionText, { font: LABEL_FONT } );
+    const label = new Text( captionText, { font: LABEL_FONT } );
     if ( label.width > this.width - 2 * ARROW_HEAD_WIDTH ) {
       label.scale( (this.width - 2 * ARROW_HEAD_WIDTH) / label.width );
     }
@@ -183,11 +183,11 @@ define( require => {
 
     // Supertype constructor
     Node.call( this );
-    var self = this;
+    const self = this;
 
     // Create the "strip", which is the solid background portions that contains the different bands and that has tick
     // marks on the top and bottom.
-    var strip = new Rectangle( 0, 0, SUBSECTION_WIDTH, STRIP_HEIGHT, {
+    const strip = new Rectangle( 0, 0, SUBSECTION_WIDTH, STRIP_HEIGHT, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
       stroke: 'black'
@@ -195,14 +195,14 @@ define( require => {
     this.addChild( strip );
 
     // Add the frequency tick marks to the top of the spectrum strip.
-    for ( var i = 4; i <= 20; i++ ) {
-      var includeFrequencyLabel = (i % 2 === 0);
+    for ( let i = 4; i <= 20; i++ ) {
+      const includeFrequencyLabel = (i % 2 === 0);
       addFrequencyTickMark( self, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
     }
 
     // Add the wavelength tick marks to the bottom of the spectrum.
-    for ( var j = -12; j <= 4; j++ ) {
-      var includeWavelengthLabel = (j % 2 === 0);
+    for ( let j = -12; j <= 4; j++ ) {
+      const includeWavelengthLabel = (j % 2 === 0);
       addWavelengthTickMark( self, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
     }
 
@@ -219,15 +219,15 @@ define( require => {
     addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
 
     // Add the visible spectrum.
-    var visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
-    var wavelengthSpectrumNode = new WavelengthSpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
+    const visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
+    const wavelengthSpectrumNode = new WavelengthSpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
     wavelengthSpectrumNode.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
     wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
     this.addChild( wavelengthSpectrumNode );
 
     // Add the label for the visible band.  Scale it down for translations.
-    var visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
-    var visibleBandCenterX = wavelengthSpectrumNode.centerX;
+    const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
+    const visibleBandCenterX = wavelengthSpectrumNode.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
       visibleBandLabel.scale( (strip.width / 2) / visibleBandLabel.width );
     }
@@ -235,7 +235,7 @@ define( require => {
     this.addChild( visibleBandLabel );
 
     // Add the arrow that connects the visible band label to the visible band itself.
-    var visibleBandArrow = new ArrowNode( visibleBandCenterX, visibleBandLabel.bottom, visibleBandCenterX, -5, {
+    const visibleBandArrow = new ArrowNode( visibleBandCenterX, visibleBandLabel.bottom, visibleBandCenterX, -5, {
       tailWidth: 2,
       headWidth: 7,
       headHeight: 7,
@@ -244,17 +244,17 @@ define( require => {
     this.addChild( visibleBandArrow );
 
     // Add the units and scale for translations
-    var scaleUnits = function( text ) {
+    const scaleUnits = function( text ) {
       if ( text.width > MAX_UNITS_WIDTH ) {
         text.scale( MAX_UNITS_WIDTH / text.width );
       }
     };
-    var frequencyUnits = new Text( spectrumWindowCyclesPerSecondUnitsString, { font: LABEL_FONT } );
+    const frequencyUnits = new Text( spectrumWindowCyclesPerSecondUnitsString, { font: LABEL_FONT } );
     scaleUnits( frequencyUnits );
     frequencyUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
     this.addChild( frequencyUnits );
 
-    var wavelengthUnits = new Text( spectrumWindowMetersUnitsString, { font: LABEL_FONT } );
+    const wavelengthUnits = new Text( spectrumWindowMetersUnitsString, { font: LABEL_FONT } );
     scaleUnits( wavelengthUnits );
     wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
@@ -271,8 +271,8 @@ define( require => {
    */
   function getOffsetFromFrequency( frequency ) {
     assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
-    var logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
-    var logarithmicFrequency = log10( frequency );
+    const logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
+    const logarithmicFrequency = log10( frequency );
     return (logarithmicFrequency - log10( MIN_FREQUENCY )) / logarithmicRange * SUBSECTION_WIDTH;
   }
 
@@ -284,7 +284,7 @@ define( require => {
    */
   function createExponentialLabel( value ) {
 
-    var superscript = Util.roundSymmetric( log10( value ) );
+    const superscript = Util.roundSymmetric( log10( value ) );
     return new RichText( '10<sup>' + superscript + '</sup>', {
       font: TICK_MARK_FONT,
       supScale: 0.65,
@@ -324,15 +324,15 @@ define( require => {
    */
   function addFrequencyTickMark( thisNode, frequency, bottom, addLabel ) {
     // Create and add the tick mark line.
-    var tickMarkNode = new Line( 0, 0, 0, -TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
+    const tickMarkNode = new Line( 0, 0, 0, -TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
     tickMarkNode.centerBottom = new Vector2( getOffsetFromFrequency( frequency ), bottom );
     thisNode.addChild( tickMarkNode );
 
     if ( addLabel ) {
       // Create and add the label.
-      var label = createExponentialLabel( frequency );
+      const label = createExponentialLabel( frequency );
       // Calculate x offset for label.  Allows the base number of the label to centered with the tick mark.
-      var xOffset = new Text( '10', { font: TICK_MARK_FONT } ).width / 2;
+      const xOffset = new Text( '10', { font: TICK_MARK_FONT } ).width / 2;
       label.leftCenter = new Vector2( tickMarkNode.centerX - xOffset, tickMarkNode.top - label.height / 2 );
       thisNode.addChild( label );
     }
@@ -349,12 +349,12 @@ define( require => {
   function addWavelengthTickMark( thisNode, wavelength, top, addLabel ) {
 
     // Create and add the tick mark line.
-    var tickMarkNode = new Line( 0, 0, 0, TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
+    const tickMarkNode = new Line( 0, 0, 0, TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
     tickMarkNode.centerTop = new Vector2( getOffsetFromWavelength( wavelength ), top );
     thisNode.addChild( tickMarkNode );
     if ( addLabel ) {
       // Create and add the label.
-      var label = createExponentialLabel( wavelength );
+      const label = createExponentialLabel( wavelength );
       // Calculate x offset for label.  Allows the base number of the label to be centered with the tick mark.
       label.center = new Vector2( tickMarkNode.centerX, tickMarkNode.top + label.height + 2 );
       thisNode.addChild( label );
@@ -376,13 +376,13 @@ define( require => {
     assert && assert( highEndFrequency >= lowEndFrequency );
 
     // Set up values needed for calculations.
-    var leftBoundaryX = getOffsetFromFrequency( lowEndFrequency );
-    var rightBoundaryX = getOffsetFromFrequency( highEndFrequency );
-    var width = rightBoundaryX - leftBoundaryX;
-    var centerX = leftBoundaryX + width / 2;
+    const leftBoundaryX = getOffsetFromFrequency( lowEndFrequency );
+    const rightBoundaryX = getOffsetFromFrequency( highEndFrequency );
+    const width = rightBoundaryX - leftBoundaryX;
+    const centerX = leftBoundaryX + width / 2;
 
     // Create and add the label.
-    var labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
+    const labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
     thisNode.addChild( labelText );
 
     if ( (labelText.width + 10) > width ) {
@@ -400,14 +400,14 @@ define( require => {
    * @param {number} frequency
    */
   function addBandDivider( thisNode, frequency ) {
-    var drawDividerSegment = function() {
+    const drawDividerSegment = function() {
       return new Line( 0, 0, 0, STRIP_HEIGHT / 9, {
         stroke: 'black',
         lineWidth: 2
       } );
     };
-    for ( var i = 0; i < 5; i++ ) {
-      var dividerSegment = drawDividerSegment();
+    for ( let i = 0; i < 5; i++ ) {
+      const dividerSegment = drawDividerSegment();
       dividerSegment.centerTop = new Vector2( getOffsetFromFrequency( frequency ), 2 * i * STRIP_HEIGHT / 9 );
       thisNode.addChild( dividerSegment );
     }
@@ -422,32 +422,32 @@ define( require => {
   function ChirpNode() {
 
     // Create and add the boundary and background.
-    var boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
+    const boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
     Rectangle.call( this, 0, 0, SUBSECTION_WIDTH, boundingBoxHeight, {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2,
       stroke: 'black'
     } );
 
-    var chirpShape = new Shape();
+    const chirpShape = new Shape();
     chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.
-    var numPointsOnLine = 1500;
-    for ( var i = 0; i < numPointsOnLine; i++ ) {
-      var x = i * (SUBSECTION_WIDTH / (numPointsOnLine - 1));
-      var t = x / SUBSECTION_WIDTH;
+    const numPointsOnLine = 1500;
+    for ( let i = 0; i < numPointsOnLine; i++ ) {
+      const x = i * (SUBSECTION_WIDTH / (numPointsOnLine - 1));
+      const t = x / SUBSECTION_WIDTH;
 
-      var f0 = 1;
-      var k = 2;
-      var tScale = 4.5;
-      var sinTerm = Math.sin( 2 * Math.PI * f0 * (Math.pow( k, t * tScale ) - 1) / Math.log( k ) );
+      const f0 = 1;
+      const k = 2;
+      const tScale = 4.5;
+      const sinTerm = Math.sin( 2 * Math.PI * f0 * (Math.pow( k, t * tScale ) - 1) / Math.log( k ) );
 
-      var y = (sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2);
+      const y = (sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2);
       chirpShape.lineTo( x, y );
     }
 
     // Create the chirp node, but create it first with a null shape, then override computeShapeBounds, then set the
     // shape.  This makes the creation of this node far faster.
-    var chirpNode = new Path( null, {
+    const chirpNode = new Path( null, {
       lineWidth: 2,
       stroke: 'black',
       lineJoin: 'bevel'

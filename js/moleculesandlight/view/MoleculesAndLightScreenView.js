@@ -40,27 +40,27 @@ define( require => {
   const spectrumWindowButtonCaptionString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.buttonCaption' );
 
   // a11y strings
-  var spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
-  var spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-  var screenSummaryString = MoleculesAndLightA11yStrings.screenSummaryString.value;
-  var summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
-  var playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
-  var pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
-  var stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
-  var stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
+  const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
+  const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
+  const screenSummaryString = MoleculesAndLightA11yStrings.screenSummaryString.value;
+  const summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
+  const playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
+  const pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
+  const stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
+  const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // constants
   // Model-view transform for intermediate coordinates.
-  var INTERMEDIATE_RENDERING_SIZE = new Dimension2( 500, 300 );
+  const INTERMEDIATE_RENDERING_SIZE = new Dimension2( 500, 300 );
 
   // Location of the top left corner of the observation window.
-  var OBSERVATION_WINDOW_LOCATION = new Vector2( 15, 15 );
+  const OBSERVATION_WINDOW_LOCATION = new Vector2( 15, 15 );
 
   // Corner radius of the observation window.
-  var CORNER_RADIUS = 7;
+  const CORNER_RADIUS = 7;
 
   // Line width of the observation window frame
-  var FRAME_LINE_WIDTH = 5;
+  const FRAME_LINE_WIDTH = 5;
 
   /**
    * Constructor for the screen view of Molecules and Light.
@@ -71,7 +71,7 @@ define( require => {
    */
   function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
-    var summaryNode = new Node( {
+    const summaryNode = new Node( {
       tagName: 'p',
       accessibleName: screenSummaryString
     } );
@@ -85,7 +85,7 @@ define( require => {
     // interaction hint and keyboard shortcuts
     summaryNode.addChild( new Node( { tagName: 'p', innerContent: summaryInteractionHintString } ) );
 
-    var modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
         Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.height * 0.50 ) ),
@@ -93,14 +93,14 @@ define( require => {
 
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    var observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
+    const observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
     this.playAreaNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
     // Safari specific SVG bug caused by clipping.  See https://github.com/phetsims/molecules-and-light/issues/105 and
     // https://github.com/phetsims/scenery/issues/412.
-    var clipRectangle = new Rectangle( observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
+    const clipRectangle = new Rectangle( observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
       CORNER_RADIUS, CORNER_RADIUS, {
         stroke: '#C5D6E8',
         lineWidth: 8 * FRAME_LINE_WIDTH
@@ -108,7 +108,7 @@ define( require => {
     this.playAreaNode.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
-    var windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
+    const windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
     this.playAreaNode.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
@@ -117,15 +117,15 @@ define( require => {
     windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
     // Create the control panel for photon emission frequency.
-    var photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
+    const photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
     photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel
-    var moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
+    const moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
     moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.
-    var resetAllButton = new ResetAllButton( {
+    const resetAllButton = new ResetAllButton( {
       listener: function() { photonAbsorptionModel.reset(); },
       bottom: this.layoutBounds.bottom - 15,
       right: this.layoutBounds.right - 15,
@@ -135,7 +135,7 @@ define( require => {
     this.controlAreaNode.addChild( resetAllButton );
 
     // Add play/pause button.
-    var playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
+    const playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
       bottom: moleculeControlPanel.bottom + 60,
       centerX: moleculeControlPanel.centerX - 25,
       radius: 23,
@@ -149,7 +149,7 @@ define( require => {
     this.controlAreaNode.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
-    var stepButton = new StepForwardButton( {
+    const stepButton = new StepForwardButton( {
       isPlayingProperty: photonAbsorptionModel.runningProperty,
       listener: function() { photonAbsorptionModel.manualStep(); },
       centerY: playPauseButton.centerY,
@@ -168,15 +168,15 @@ define( require => {
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     // @private
-    var spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
+    const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
     // the spectrum dialog, created lazily because Dialog requires sim bounds during construction
-    var dialog = null;
+    let dialog = null;
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
-    var buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
+    const buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( ( moleculeControlPanel.width - 16 ) / buttonContent.width );
     }

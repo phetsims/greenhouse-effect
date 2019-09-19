@@ -35,7 +35,7 @@ define( require => {
     this.outerColor = outerColor; // @private
 
     // Set the canvas bounds to the observation window dilated by the desired line width.
-    var canvasBounds = observationWindow.bounds.dilated( this.lineWidth );
+    const canvasBounds = observationWindow.bounds.dilated( this.lineWidth );
 
     CanvasNode.call( this, { canvasBounds: canvasBounds } );
     this.invalidatePaint();
@@ -123,8 +123,8 @@ define( require => {
     drawFrameCorner: function( corner, radialCenter, context ) {
 
       // Determine the initial and final angles for arc methods based on input location.
-      var initialAngle;
-      var finalAngle;
+      let initialAngle;
+      let finalAngle;
       switch( corner ) {
         case 'topLeft':
           initialAngle = Math.PI;
@@ -152,7 +152,7 @@ define( require => {
       context.arc( radialCenter.x, radialCenter.y, this.observationWindow.cornerXRadius + this.lineWidth / 2, initialAngle, finalAngle, false );
 
       // Create the radial gradient for the arc on the corner.
-      var grad = context.createRadialGradient( radialCenter.x, radialCenter.y, this.observationWindow.cornerXRadius,
+      const grad = context.createRadialGradient( radialCenter.x, radialCenter.y, this.observationWindow.cornerXRadius,
         radialCenter.x, radialCenter.y, this.lineWidth + this.observationWindow.cornerXRadius );
       grad.addColorStop( 0, this.innerColor );
       grad.addColorStop( 1, this.outerColor );
@@ -178,7 +178,7 @@ define( require => {
 
       // Create the linear gradient and add some length or height buffers for the window frame pieces.  Parameters of
       // the gradient are dependent on the desired side of the frame.
-      var grad;
+      let grad;
       switch( side ) {
         case 'top':
           x--; // Extra length buffers for the width ensures continuity in the window frame.
