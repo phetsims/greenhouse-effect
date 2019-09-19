@@ -7,16 +7,16 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const ShadedSphereNode = require( 'SCENERY_PHET/ShadedSphereNode' );
 
   /**
    * Constructor for an atom node.

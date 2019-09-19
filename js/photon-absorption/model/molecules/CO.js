@@ -7,19 +7,19 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var RotationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/RotationStrategy' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  const AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const RotationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/RotationStrategy' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const VibrationStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/VibrationStrategy' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // Model Data for the carbon monoxide molecule
   var INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.

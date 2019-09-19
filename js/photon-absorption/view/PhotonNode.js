@@ -7,21 +7,21 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
-  var microwavePhotonImage = require( 'image!MOLECULES_AND_LIGHT/microwave-photon.png' );
-  var photon100Image = require( 'image!MOLECULES_AND_LIGHT/photon-100.png' );
-  var photon660Image = require( 'image!MOLECULES_AND_LIGHT/photon-660.png' );
-  var thin2Image = require( 'image!MOLECULES_AND_LIGHT/thin2.png' );
+  const microwavePhotonImage = require( 'image!MOLECULES_AND_LIGHT/microwave-photon.png' );
+  const photon100Image = require( 'image!MOLECULES_AND_LIGHT/photon-100.png' );
+  const photon660Image = require( 'image!MOLECULES_AND_LIGHT/photon-660.png' );
+  const thin2Image = require( 'image!MOLECULES_AND_LIGHT/thin2.png' );
 
   // Map of photon wavelengths to visual images used for representing them.
   var mapWavelengthToImageName = {};

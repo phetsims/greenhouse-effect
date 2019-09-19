@@ -7,16 +7,16 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  var AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
+  const AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // Model data for nitrogen molecule
   var INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.

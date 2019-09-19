@@ -15,36 +15,36 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
-  var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
-  var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
-  var EnumerationIO = require( 'PHET_CORE/EnumerationIO' );
-  var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
-  var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
-  var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
-  var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
-  var PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
-  var PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
-  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
+  const CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
+  const CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
+  const EnumerationIO = require( 'PHET_CORE/EnumerationIO' );
+  const H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const MoleculeIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/MoleculeIO' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
+  const NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
+  const NumberIO = require( 'TANDEM/types/NumberIO' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
+  const O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
+  const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
+  const PhotonAbsorptionModelIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionModelIO' );
+  const PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
+  const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  const Property = require( 'AXON/Property' );
+  const PropertyIO = require( 'AXON/PropertyIO' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // ------- constants -------------
 

@@ -10,26 +10,26 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
-  var flashlightOffImage = require( 'image!MOLECULES_AND_LIGHT/flashlight-off.png' );
-  var flashlightOnImage = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
-  var heatLampOffImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source-off.png' );
-  var heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
-  var microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
-  var uvLightOffImage = require( 'image!MOLECULES_AND_LIGHT/uv-source-off.png' );
-  var uvLightOnImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
+  const flashlightOffImage = require( 'image!MOLECULES_AND_LIGHT/flashlight-off.png' );
+  const flashlightOnImage = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
+  const heatLampOffImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source-off.png' );
+  const heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
+  const microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
+  const uvLightOffImage = require( 'image!MOLECULES_AND_LIGHT/uv-source-off.png' );
+  const uvLightOnImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
 
   /**
    * Constructor for the photon emitter node.

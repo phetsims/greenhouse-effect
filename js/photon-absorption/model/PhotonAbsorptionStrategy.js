@@ -13,13 +13,13 @@
  * @author John Blanco
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Property = require( 'AXON/Property' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Property = require( 'AXON/Property' );
 
   var MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
   var MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time

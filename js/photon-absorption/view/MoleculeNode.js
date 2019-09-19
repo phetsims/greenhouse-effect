@@ -6,15 +6,15 @@
  * @author John Blanco
  * @author Jesse Greenberg
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AtomicBondNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomicBondNode' );
-  var AtomNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  const AtomicBondNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomicBondNode' );
+  const AtomNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/AtomNode' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const Node = require( 'SCENERY/nodes/Node' );
 
   /**
    * Constructor for a molecule node.

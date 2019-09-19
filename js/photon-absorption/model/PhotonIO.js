@@ -6,14 +6,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var validate = require( 'AXON/validate' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const NumberIO = require( 'TANDEM/types/NumberIO' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const validate = require( 'AXON/validate' );
 
   class PhotonIO extends ObjectIO {
     static toStateObject( photon ) {
