@@ -7,38 +7,38 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
-  var ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
-  var CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
-  var CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
-  var FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
-  var H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-  var N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
-  var NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
-  var O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
-  var O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
-  var Panel = require( 'SUN/Panel' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var Shape = require( 'KITE/Shape' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
+  const ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
+  const CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
+  const CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
+  const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
+  const H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
+  const N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
+  const NO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/NO2' );
+  const O2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O2' );
+  const O3 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/O3' );
+  const Panel = require( 'SUN/Panel' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const Shape = require( 'KITE/Shape' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   //strings
-  var molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
+  const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
 
   // a11y strings
   var moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;

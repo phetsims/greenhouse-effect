@@ -9,39 +9,39 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var Image = require( 'SCENERY/nodes/Image' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  var MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
-  var PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
-  var RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
-  var WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const Image = require( 'SCENERY/nodes/Image' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LayoutBox = require( 'SCENERY/nodes/LayoutBox' );
+  const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
+  const PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
+  const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
-  var flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
-  var heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
-  var microwaveTransmitter = require( 'mipmap!MOLECULES_AND_LIGHT/microwave-source.png' );
-  var uvLight2 = require( 'mipmap!MOLECULES_AND_LIGHT/uv-source.png' );
+  const flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
+  const heatLampImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
+  const microwaveTransmitter = require( 'mipmap!MOLECULES_AND_LIGHT/microwave-source.png' );
+  const uvLight2 = require( 'mipmap!MOLECULES_AND_LIGHT/uv-source.png' );
 
   // strings
-  var quadWavelengthSelectorHigherEnergyString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.HigherEnergy' );
-  var quadWavelengthSelectorInfraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
-  var quadWavelengthSelectorMicrowaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
-  var quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
-  var quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
+  const quadWavelengthSelectorHigherEnergyString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.HigherEnergy' );
+  const quadWavelengthSelectorInfraredString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Infrared' );
+  const quadWavelengthSelectorMicrowaveString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Microwave' );
+  const quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
+  const quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
 
   // a11y strings
   var lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
