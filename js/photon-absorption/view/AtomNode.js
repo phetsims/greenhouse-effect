@@ -31,22 +31,22 @@ define( require => {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var self = this;
+    const self = this;
 
     // Instance Data
     self.atom = atom; // @private
     self.modelViewTransform = modelViewTransform; // @private
 
     // Scale the radius to the modelViewTransform.
-    var transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
+    const transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
-    var haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
+    const haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
     this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
     // Don't add the highlight halo now - wait until the first time it is used.  This is done for performance reasons.
 
     // Represent the atom as a shaded sphere node.
-    var atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
+    const atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
     self.addChild( atomNode );
 
     // Link the model position to the position of this node.

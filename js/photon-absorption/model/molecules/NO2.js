@@ -28,13 +28,13 @@ define( require => {
   // These constants define the initial shape of the NO2 atom.  The angle between the atoms is intended to be correct,
   // and the bond is somewhat longer than real life.  The algebraic calculations are intended to make it so that the
   // bond length and/or the angle could be changed and the correct center of gravity will be maintained.
-  var NITROGEN_OXYGEN_BOND_LENGTH = 180;
-  var INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
-  var INITIAL_MOLECULE_HEIGHT = NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
-  var BREAK_APART_VELOCITY = 3000;
+  const NITROGEN_OXYGEN_BOND_LENGTH = 180;
+  const INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
+  const INITIAL_MOLECULE_HEIGHT = NITROGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
+  const BREAK_APART_VELOCITY = 3000;
 
   //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
-  var RAND = {
+  const RAND = {
     nextBoolean: function() {
       return phet.joist.random.nextDouble() < 0.50;
     }
@@ -120,9 +120,9 @@ define( require => {
     setVibration: function( vibrationRadians ) {
 
       this.currentVibrationRadians = vibrationRadians;
-      var multFactor = Math.sin( vibrationRadians );
-      var maxNitrogenDisplacement = 30;
-      var maxOxygenDisplacement = 15;
+      const multFactor = Math.sin( vibrationRadians );
+      const maxNitrogenDisplacement = 30;
+      const maxOxygenDisplacement = 15;
       this.addInitialAtomCogOffset( this.nitrogenAtom, new Vector2( 0, this.initialNitrogenVerticalOffset - multFactor * maxNitrogenDisplacement ) );
       this.addInitialAtomCogOffset( this.rightOxygenAtom, new Vector2( this.initialOxygenHorizontalOffset + multFactor * maxOxygenDisplacement,
         this.initialOxygenVerticalOffset + multFactor * maxOxygenDisplacement ) );
@@ -139,8 +139,8 @@ define( require => {
     breakApart: function() {
 
       // Create the constituent molecules that result from breaking apart and add them to the activeMolecules observable array.
-      var nitrogenMonoxideMolecule = new NO();
-      var singleOxygenMolecule = new O();
+      const nitrogenMonoxideMolecule = new NO();
+      const singleOxygenMolecule = new O();
       this.brokeApartEmitter.emit( nitrogenMonoxideMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
@@ -148,8 +148,8 @@ define( require => {
       // the molecule happens to have been rotated before breaking apart, it is rotated back to the initial orientation
       // before dissociation.  This keeps things simple, and makes the products go off the top and bottom of the window
       // instead of potentially going back towards the photon source.  See issue #110.
-      var diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 ) );
-      var breakApartAngle;
+      const diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 ) );
+      let breakApartAngle;
       if ( this.doubleBondOnRight ) {
         nitrogenMonoxideMolecule.rotate( -diatomicMoleculeRotationAngle );
         nitrogenMonoxideMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.nitrogenAtom ).x + this.getInitialAtomCogOffset( this.rightOxygenAtom ).x ) / 2,

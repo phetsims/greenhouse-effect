@@ -19,7 +19,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // Model data for nitrogen molecule
-  var INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
+  const INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
 
   /**
    * Constructor for a molecule of nitrogen.

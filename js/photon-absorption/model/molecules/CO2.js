@@ -20,13 +20,13 @@ define( require => {
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // Model Data for the carbon dioxide molecule.
-  var INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
+  const INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
 
   // Deflection amounts used for the vibration of the CO2 atoms.  These
   // are calculated such that the actual center of gravity should remain
   // constant.
-  var CARBON_MAX_DEFLECTION = 40;
-  var OXYGEN_MAX_DEFLECTION = Atom.carbon().mass * CARBON_MAX_DEFLECTION / ( 2 * Atom.oxygen().mass );
+  const CARBON_MAX_DEFLECTION = 40;
+  const OXYGEN_MAX_DEFLECTION = Atom.carbon().mass * CARBON_MAX_DEFLECTION / ( 2 * Atom.oxygen().mass );
 
   /**
    * Constructor for a carbon dioxide molecule.
@@ -73,7 +73,7 @@ define( require => {
     setVibration: function( vibrationRadians ) {
 
       this.currentVibrationRadians = vibrationRadians;
-      var multFactor = Math.sin( vibrationRadians );
+      const multFactor = Math.sin( vibrationRadians );
       this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, multFactor * CARBON_MAX_DEFLECTION ) );
       this.addInitialAtomCogOffset( this.oxygenAtom1, new Vector2( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
       this.addInitialAtomCogOffset( this.oxygenAtom2, new Vector2( -INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );

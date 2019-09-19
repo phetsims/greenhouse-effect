@@ -21,8 +21,8 @@ define( require => {
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const Property = require( 'AXON/Property' );
 
-  var MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
-  var MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time
+  const MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
+  const MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time
 
   /**
    * Constructor for photon absorption strategy.
@@ -65,7 +65,7 @@ define( require => {
     queryAndAbsorbPhoton: function( photon ) {
       // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
       // actually do it.  This essentially simulates the quantum nature of the absorption.
-      var absorbed = (!this.isPhotonAbsorbed) && ( phet.joist.random.nextDouble() < this.photonAbsorptionProbabilityProperty.get() );
+      const absorbed = (!this.isPhotonAbsorbed) && ( phet.joist.random.nextDouble() < this.photonAbsorptionProbabilityProperty.get() );
       if ( absorbed ) {
         this.isPhotonAbsorbed = true;
         this.photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + phet.joist.random.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );

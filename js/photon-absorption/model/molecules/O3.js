@@ -27,17 +27,17 @@ define( require => {
   // These constants define the initial shape of the O3 atom.  The angle between the atoms is intended to be correct,
   // and the bond is somewhat longer than real life.  The algebraic calculations are intended to make it so that the
   // bond length and/or the angle could be changed and the correct center of gravity will be maintained.
-  var OXYGEN_OXYGEN_BOND_LENGTH = 180;
-  var INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
-  var INITIAL_MOLECULE_HEIGHT = OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
-  var INITIAL_MOLECULE_WIDTH = 2 * OXYGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
-  var INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2.0 / 3.0 * INITIAL_MOLECULE_HEIGHT;
-  var INITIAL_OXYGEN_VERTICAL_OFFSET = -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
-  var INITIAL_OXYGEN_HORIZONTAL_OFFSET = INITIAL_MOLECULE_WIDTH / 2;
-  var BREAK_APART_VELOCITY = 3000;
+  const OXYGEN_OXYGEN_BOND_LENGTH = 180;
+  const INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE = 120 * Math.PI / 180; // In radians.
+  const INITIAL_MOLECULE_HEIGHT = OXYGEN_OXYGEN_BOND_LENGTH * Math.cos( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
+  const INITIAL_MOLECULE_WIDTH = 2 * OXYGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 );
+  const INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET = 2.0 / 3.0 * INITIAL_MOLECULE_HEIGHT;
+  const INITIAL_OXYGEN_VERTICAL_OFFSET = -INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET / 2;
+  const INITIAL_OXYGEN_HORIZONTAL_OFFSET = INITIAL_MOLECULE_WIDTH / 2;
+  const BREAK_APART_VELOCITY = 3000;
 
   //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
-  var RAND = {
+  const RAND = {
     nextBoolean: function() {
       return phet.joist.random.nextDouble() < 0.50;
     }
@@ -116,9 +116,9 @@ define( require => {
     setVibration: function( vibrationRadians ) {
 
       this.currentVibrationRadians = vibrationRadians;
-      var multFactor = Math.sin( vibrationRadians );
-      var maxCenterOxygenDisplacement = 30;
-      var maxOuterOxygenDisplacement = 15;
+      const multFactor = Math.sin( vibrationRadians );
+      const maxCenterOxygenDisplacement = 30;
+      const maxOuterOxygenDisplacement = 15;
       this.getVibrationAtomOffset( this.centerOxygenAtom ).setXY( 0, multFactor * maxCenterOxygenDisplacement );
       this.getVibrationAtomOffset( this.rightOxygenAtom ).setXY( -multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
       this.getVibrationAtomOffset( this.leftOxygenAtom ).setXY( multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
@@ -132,8 +132,8 @@ define( require => {
     breakApart: function() {
 
       // Create the constituent molecules that result from breaking apart.
-      var diatomicOxygenMolecule = new O2();
-      var singleOxygenMolecule = new O();
+      const diatomicOxygenMolecule = new O2();
+      const singleOxygenMolecule = new O();
       this.brokeApartEmitter.emit( diatomicOxygenMolecule, singleOxygenMolecule );
 
       // Set up the direction and velocity of the constituent molecules. These are set up mostly to look good, and their
@@ -141,8 +141,8 @@ define( require => {
       // the molecule happens to have been rotated before breaking apart, it is rotated back to the initial orientation
       // before dissociation.  This keeps things simple, and makes the products go off the top and bottom of the window
       // instead of potentially going back towards the photon source.  See issue #110.
-      var diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) );
-      var breakApartAngle;
+      const diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) );
+      let breakApartAngle;
       if ( this.doubleBondOnRight ) {
         diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
         diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.rightOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,

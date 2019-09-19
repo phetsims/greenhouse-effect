@@ -18,7 +18,7 @@ define( require => {
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // Static data
-  var instanceCount = 0; // Base count for the unique ID of this atom.
+  let instanceCount = 0; // Base count for the unique ID of this atom.
 
   /**
    * Constructor for creating an individual atom.  This is generally invoked using factory methods for specify atoms.

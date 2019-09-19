@@ -67,7 +67,7 @@ define( require => {
      **/
     queryAndAbsorbPhoton: function( photon ) {
 
-      var absorbed = PhotonAbsorptionStrategy.prototype.queryAndAbsorbPhoton.call( this, photon );
+      const absorbed = PhotonAbsorptionStrategy.prototype.queryAndAbsorbPhoton.call( this, photon );
       if ( absorbed ) {
         this.absorbedWavelength = photon.wavelength;
         this.photonAbsorbed();

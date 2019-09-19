@@ -25,16 +25,16 @@ define( require => {
   const Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
-  var PHOTON_EMISSION_SPEED = 3000; // Picometers per second.
-  var PHOTON_ABSORPTION_DISTANCE = 100; // Distance where the molecule begins to query photon for absorption.
-  var VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
-  var ROTATION_RATE = 1.1;  // Revolutions per second of sim time.
-  var ABSORPTION_HYSTERESIS_TIME = 0.2; // seconds
-  var PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
+  const PHOTON_EMISSION_SPEED = 3000; // Picometers per second.
+  const PHOTON_ABSORPTION_DISTANCE = 100; // Distance where the molecule begins to query photon for absorption.
+  const VIBRATION_FREQUENCY = 5;  // Cycles per second of sim time.
+  const ROTATION_RATE = 1.1;  // Revolutions per second of sim time.
+  const ABSORPTION_HYSTERESIS_TIME = 0.2; // seconds
+  const PASS_THROUGH_PHOTON_LIST_SIZE = 10; // Size of list which tracks photons not absorbed due to random probability.
 
   // utility method used for serialization
   function serializeArray( array ) {
-    var serializedArray = [];
+    const serializedArray = [];
     array.forEach( function( arrayElement ) {
       serializedArray.push( arrayElement.toStateObject() );
     } );
@@ -43,7 +43,7 @@ define( require => {
 
   // utility method for finding atom with the specified ID in a list
   function findAtomWithID( atomArray, id ) {
-    for ( var i = 0; i < atomArray.length; i++ ) {
+    for ( let i = 0; i < atomArray.length; i++ ) {
       if ( atomArray[ i ].uniqueID === id ) {
         return atomArray[ i ];
       }
@@ -263,7 +263,7 @@ define( require => {
       }
 
       if ( this.rotatingProperty.get() ) {
-        var directionMultiplier = this.rotationDirectionClockwiseProperty.get() ? -1 : 1;
+        const directionMultiplier = this.rotationDirectionClockwiseProperty.get() ? -1 : 1;
         this.rotate( dt * ROTATION_RATE * 2 * Math.PI * directionMultiplier );
       }
 
@@ -406,7 +406,7 @@ define( require => {
      **/
     queryAbsorbPhoton: function( photon ) {
 
-      var absorbPhoton = false;
+      let absorbPhoton = false;
 
       if ( !this.isPhotonAbsorbed() &&
            this.absorptionHysteresisCountdownTime <= 0 &&
@@ -414,7 +414,7 @@ define( require => {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?
-        var candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
+        const candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
         if ( typeof candidateAbsorptionStrategy !== 'undefined' ) {
           // Yes, there is a strategy available for this wavelength.
           // Ask it if it wants the photon.
@@ -462,11 +462,11 @@ define( require => {
      * @param {number} wavelength - The photon to be emitted.
      **/
     emitPhoton: function( wavelength ) {
-      var photonToEmit = new Photon( wavelength, this.photonGroupTandem.createNextTandem() );
-      var emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
+      const photonToEmit = new Photon( wavelength, this.photonGroupTandem.createNextTandem() );
+      const emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
       photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
         ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
-      var centerOfGravityPosRef = this.centerOfGravityProperty.get();
+      const centerOfGravityPosRef = this.centerOfGravityProperty.get();
       photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
       this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
       this.photonEmittedEmitter.emit( photonToEmit );
@@ -479,9 +479,9 @@ define( require => {
      **/
     updateAtomPositions: function() {
 
-      for ( var uniqueID in this.initialAtomCogOffsets ) {
+      for ( const uniqueID in this.initialAtomCogOffsets ) {
         if ( this.initialAtomCogOffsets.hasOwnProperty( uniqueID ) ) {
-          var atomOffset = new Vector2( this.initialAtomCogOffsets[ uniqueID ].x, this.initialAtomCogOffsets[ uniqueID ].y );
+          const atomOffset = new Vector2( this.initialAtomCogOffsets[ uniqueID ].x, this.initialAtomCogOffsets[ uniqueID ].y );
           // Add the vibration, if any exists.
           atomOffset.add( this.vibrationAtomOffsets[ uniqueID ] );
           // Rotate.
@@ -522,7 +522,7 @@ define( require => {
     fromStateObject: function( stateObject ) {
 
       // Create a molecule that is basically blank.
-      var molecule = new Molecule();
+      const molecule = new Molecule();
 
       // Fill in the straightforward stuff
       molecule.highElectronicEnergyStateProperty.set( stateObject.highElectronicEnergyState );
@@ -537,8 +537,8 @@ define( require => {
 
       // add the bonds
       stateObject.atomicBonds.forEach( function( bondStateObject ) {
-        var atom1 = findAtomWithID( molecule.atoms, bondStateObject.atom1ID );
-        var atom2 = findAtomWithID( molecule.atoms, bondStateObject.atom2ID );
+        const atom1 = findAtomWithID( molecule.atoms, bondStateObject.atom1ID );
+        const atom2 = findAtomWithID( molecule.atoms, bondStateObject.atom2ID );
         assert && assert( atom1 && atom2, 'Error: Couldn\'t match atom ID in bond with atoms in molecule' );
         molecule.addAtomicBond( new AtomicBond( atom1, atom2, { bondCount: bondStateObject.bondCount } ) );
       } );

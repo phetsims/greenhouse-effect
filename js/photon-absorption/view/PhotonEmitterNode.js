@@ -45,13 +45,13 @@ define( require => {
     Node.call( this );
 
     // carry this through scope
-    var self = this;
+    const self = this;
 
     this.model = model; // @private
 
     // update the photon emitter upon changes to the photon wavelength
     model.photonWavelengthProperty.link( function( photonWavelength ) {
-      var emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
+      const emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
       self.updateImage( width, photonWavelength, model.emissionFrequencyProperty.value, tandem, emitterTandemName );
     } );
 

@@ -14,7 +14,7 @@ define( require => {
   const PhotonHoldStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonHoldStrategy' );
 
   //Random boolean generator.
-  var RAND = {
+  const RAND = {
     nextBoolean: function() {
       return phet.joist.random.nextDouble() < 0.50;
     }

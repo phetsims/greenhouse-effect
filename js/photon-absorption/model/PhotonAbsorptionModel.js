@@ -49,20 +49,20 @@ define( require => {
   // ------- constants -------------
 
   // constants that control where and how photons are emitted.
-  var PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
+  const PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
 
   // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
-  var PHOTON_VELOCITY = 3000; // picometers/second
+  const PHOTON_VELOCITY = 3000; // picometers/second
 
   // Defaults for photon emission periods.
-  var DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds of sim time.
+  const DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds of sim time.
 
   // Default values for various parameters that weren't already covered.
-  var DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
-  var INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
+  const DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
+  const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
 
   // Minimum for photon emission periods.
-  var MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
+  const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 
   /**
    * Constructor for a photon absorption model.
@@ -73,7 +73,7 @@ define( require => {
    */
   function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
-    var self = this;
+    const self = this;
 
     this.photonAbsorptionModel = tandem; // @private
 
@@ -132,7 +132,7 @@ define( require => {
         self.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
       }
       else {
-        var singleTargetPeriodFrequency = self.getSingleTargetPeriodFromFrequency( emissionFrequency );
+        const singleTargetPeriodFrequency = self.getSingleTargetPeriodFromFrequency( emissionFrequency );
         self.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
       }
     } );
@@ -161,7 +161,7 @@ define( require => {
       this.photons.clear();
 
       // Reset all active molecules, which will stop any vibrations.
-      for ( var molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
+      for ( let molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
         this.activeMolecules.get( molecule ).reset();
       }
 
@@ -227,8 +227,8 @@ define( require => {
      * @param {number} dt - the incremental times step, in seconds
      */
     stepPhotons: function( dt ) {
-      var self = this;
-      var photonsToRemove = [];
+      const self = this;
+      const photonsToRemove = [];
 
       // check for possible interaction between each photon and molecule
       this.photons.forEach( function( photon ) {
@@ -243,13 +243,13 @@ define( require => {
 
       // Remove any photons that were marked for removal.
       this.photons.removeAll( photonsToRemove );
-      for ( var i = 0; i < photonsToRemove.length; i++ ) {
+      for ( let i = 0; i < photonsToRemove.length; i++ ) {
         photonsToRemove[ i ].dispose();
       }
     },
 
     clearPhotons: function() {
-      for ( var i = 0; i < this.photons.length; i++ ) {
+      for ( let i = 0; i < this.photons.length; i++ ) {
         this.photons.get( i ).dispose();
       }
       this.photons.clear();
@@ -261,8 +261,8 @@ define( require => {
      * @param {number} dt - The incremental time step.
      */
     stepMolecules: function( dt ) {
-      var moleculesToStep = this.activeMolecules.getArray().slice( 0 );
-      for ( var molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
+      const moleculesToStep = this.activeMolecules.getArray().slice( 0 );
+      for ( let molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
         moleculesToStep[ molecule ].step( dt );
       }
     },
@@ -290,9 +290,9 @@ define( require => {
      * frames.
      */
     emitPhoton: function( advanceAmount ) {
-      var photon = new Photon( this.photonWavelengthProperty.get(), this.photonGroupTandem.createNextTandem() );
+      const photon = new Photon( this.photonWavelengthProperty.get(), this.photonGroupTandem.createNextTandem() );
       photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_LOCATION.y ) );
-      var emissionAngle = 0; // Straight to the right.
+      const emissionAngle = 0; // Straight to the right.
       photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
       this.photons.add( photon );
     },
@@ -374,7 +374,7 @@ define( require => {
      */
     updateActiveMolecule: function( photonTarget, tandem ) {
 
-      var self = this;
+      const self = this;
 
       this.activeMolecules.forEach( function( molecule ) { molecule.dispose(); } );
 
@@ -382,7 +382,7 @@ define( require => {
       this.activeMolecules.clear(); // Clear the old active molecules array
 
       // Add the new photon target(s).
-      var newMolecule =
+      const newMolecule =
         photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? new CO( { tandem: tandem.createTandem( 'CO' ) } ) :
         photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? new CO2( { tandem: tandem.createTandem( 'CO2' ) } ) :
         photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? new H2O( { tandem: tandem.createTandem( 'H2O' ) } ) :
@@ -430,7 +430,7 @@ define( require => {
      * in cases where an atom has broken apart and needs to be restored to its original condition.
      */
     restoreActiveMolecule: function() {
-      var currentTarget = this.photonTargetProperty.get();
+      const currentTarget = this.photonTargetProperty.get();
       this.updateActiveMolecule( currentTarget, this.photonAbsorptionModel );
     }
   } );

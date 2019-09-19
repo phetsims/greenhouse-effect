@@ -18,10 +18,10 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants that control the width of the bond representation with with respect to the average atom radius.
-  var BOND_WIDTH_PROPORTION_SINGLE = 0.45;
-  var BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
-  var BOND_WIDTH_PROPORTION_TRIPLE = 0.24;
-  var BOND_COLOR = 'rgb(0, 200, 0)';
+  const BOND_WIDTH_PROPORTION_SINGLE = 0.45;
+  const BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
+  const BOND_WIDTH_PROPORTION_TRIPLE = 0.24;
+  const BOND_COLOR = 'rgb(0, 200, 0)';
 
   /**
    * Constructor for an atomic bond node.
@@ -43,7 +43,7 @@ define( require => {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var self = this;
+    const self = this;
 
     // Calculate the width to use for the bond representation(s) // @private
 
@@ -74,10 +74,10 @@ define( require => {
      */
     initializeRepresentation: function() {
 
-      var bondWidth; // Width of the line representing this bond.  Dependent on the number of bonds between the atoms.
-      var bond1; // First bond shared by the atoms.
-      var bond2; // Second bond shared by the atoms.
-      var bond3; // Third bond shared by the atoms.
+      let bondWidth; // Width of the line representing this bond.  Dependent on the number of bonds between the atoms.
+      let bond1; // First bond shared by the atoms.
+      let bond2; // Second bond shared by the atoms.
+      let bond3; // Third bond shared by the atoms.
 
       switch( this.atomicBond.bondCount ) {
         case 1:
@@ -123,11 +123,11 @@ define( require => {
      */
     updateRepresentation: function() {
 
-      var p1; // Point describing position of one end of the line representing this atomic bond.
-      var p2; // Point describing position of the other end of the line representing the atomic bond.
-      var offsetVector; // Vector which places the atomic bonds an offset away from the center between the atoms.
-      var angle; // An angle used to describe the offset vector.
-      var transformedRadius; // A position required to calculate the offset vector.
+      let p1; // Point describing position of one end of the line representing this atomic bond.
+      let p2; // Point describing position of the other end of the line representing the atomic bond.
+      let offsetVector; // Vector which places the atomic bonds an offset away from the center between the atoms.
+      let angle; // An angle used to describe the offset vector.
+      let transformedRadius; // A position required to calculate the offset vector.
 
       switch( this.atomicBond.bondCount ) {
 

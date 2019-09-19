@@ -18,7 +18,7 @@ define( require => {
   const quadWavelengthSelectorUltravioletString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Ultraviolet' );
   const quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
 
-  var WavelengthConstants = {
+  const WavelengthConstants = {
 
     // all values in meters
     SUNLIGHT_WAVELENGTH: 400E-9, // Ported from the original JAVA version, but not used in Molecules And Light

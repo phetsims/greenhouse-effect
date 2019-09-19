@@ -22,8 +22,8 @@ define( require => {
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // Model Data for the carbon monoxide molecule
-  var INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
-  var VIBRATION_MAGNITUDE = 20; // In picometers.
+  const INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
+  const VIBRATION_MAGNITUDE = 20; // In picometers.
 
   /**
    * Constructor for a carbon monoxide molecule.
@@ -67,7 +67,7 @@ define( require => {
     setVibration: function( vibrationRadians ) {
 
       this.currentVibrationRadians = vibrationRadians;
-      var multFactor = Math.sin( vibrationRadians );
+      const multFactor = Math.sin( vibrationRadians );
       this.getVibrationAtomOffset( this.carbonAtom ).setXY( VIBRATION_MAGNITUDE * multFactor, 0 );
       this.getVibrationAtomOffset( this.oxygenAtom ).setXY( -VIBRATION_MAGNITUDE * multFactor, 0 );
       this.updateAtomPositions();

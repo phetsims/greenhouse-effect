@@ -25,10 +25,10 @@ define( require => {
   // These constants define the initial shape of the water atom.  The angle between the atoms is intended to be correct,
   // and the bond is somewhat longer than real life.  The algebraic calculations are intended to make it so that the
   // bond length and/or the angle could be changed and the correct center of gravity will be maintained.
-  var OXYGEN_HYDROGEN_BOND_LENGTH = 130;
-  var INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 109 * Math.PI / 180;
-  var INITIAL_MOLECULE_HEIGHT = OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
-  var INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH * Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
+  const OXYGEN_HYDROGEN_BOND_LENGTH = 130;
+  const INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE = 109 * Math.PI / 180;
+  const INITIAL_MOLECULE_HEIGHT = OXYGEN_HYDROGEN_BOND_LENGTH * Math.cos( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
+  const INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH * Math.sin( INITIAL_HYDROGEN_OXYGEN_HYDROGEN_ANGLE / 2 );
 
   /**
    * Constructor for a water molecule.
@@ -91,9 +91,9 @@ define( require => {
     setVibration: function( vibrationRadians ) {
 
       this.currentVibrationRadians = vibrationRadians;
-      var multFactor = Math.sin( vibrationRadians );
-      var maxOxygenDisplacement = 3;
-      var maxHydrogenDisplacement = 18;
+      const multFactor = Math.sin( vibrationRadians );
+      const maxOxygenDisplacement = 3;
+      const maxHydrogenDisplacement = 18;
       this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, this.initialOxygenVerticalOffset - multFactor * maxOxygenDisplacement ) );
       this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
         this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );

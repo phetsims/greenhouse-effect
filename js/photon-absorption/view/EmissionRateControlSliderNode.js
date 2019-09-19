@@ -30,15 +30,15 @@ define( require => {
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants
-  var THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
-  var TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
-  var THUMB_RECTANGLE_WIDTH = 30; // a background rectangle behind the thumb, made visible when the slider has focus
-  var THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
+  const THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
+  const TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
+  const THUMB_RECTANGLE_WIDTH = 30; // a background rectangle behind the thumb, made visible when the slider has focus
+  const THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
 
   // a11y strings
-  var lightSourceSliderString = MoleculesAndLightA11yStrings.lightSourceSliderString.value;
+  const lightSourceSliderString = MoleculesAndLightA11yStrings.lightSourceSliderString.value;
   // var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
-  var emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
+  const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -53,14 +53,14 @@ define( require => {
     // Supertype constructor
     Node.call( this );
 
-    var self = this;
+    const self = this;
     this.model = model; // @private
     this.color = color; // @private
 
     // Create the slider.  Frequency mapped from 0 to 1 so that there is a direct map to PhotonEmitterNode 'on' image
     // opacity.
-    var sliderRange = new Range( 0, 1 );
-    var sliderThumb = new EmissionRateThumbNode();
+    const sliderRange = new Range( 0, 1 );
+    const sliderThumb = new EmissionRateThumbNode();
     // var initialFrequency, delta;
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
@@ -99,7 +99,7 @@ define( require => {
     } );
 
     // width of the background rectangle is larger than the slider to accentuate the thumb.
-    var backgroundOffset = 4;
+    const backgroundOffset = 4;
     this.backgroundRect = new Rectangle(
       -THUMB_SIZE.width / 2 - backgroundOffset,
       -THUMB_SIZE.height / 4,
@@ -146,7 +146,7 @@ define( require => {
       this.emissionRateControlSlider.value = this.model.getSingleTargetFrequencyFromPeriod();
 
       // Update the color of the slider.
-      var wavelength = this.model.photonWavelengthProperty.get();
+      const wavelength = this.model.photonWavelengthProperty.get();
       if ( wavelength === WavelengthConstants.IR_WAVELENGTH ) {
         this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND ); // This tested well.
       }
@@ -173,8 +173,8 @@ define( require => {
      * @private
      */
     setBackgroundRectColor: function( baseColor ) {
-      var rectHeight = this.emissionRateControlSlider.height;
-      var rectWidth = this.emissionRateControlSlider.width;
+      const rectHeight = this.emissionRateControlSlider.height;
+      const rectWidth = this.emissionRateControlSlider.width;
       this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
     }
 
@@ -197,7 +197,7 @@ define( require => {
     Node.call( this );
 
     // draw the partial octagon shape of the slider.
-    var thumbShape = new Shape();
+    const thumbShape = new Shape();
     thumbShape.moveTo( 0, 0 ); // Top left corner of the thumb.
     thumbShape.horizontalLineTo( THUMB_SIZE.width * 0.75 );
     thumbShape.lineTo( THUMB_SIZE.width, THUMB_SIZE.height * 0.33 );
@@ -213,7 +213,7 @@ define( require => {
     } );
 
     // supertype constructor
-    var thumbPath = new Path( thumbShape, {
+    const thumbPath = new Path( thumbShape, {
       lineWidth: 1,
       lineJoin: 'bevel',
       stroke: 'black',
@@ -226,7 +226,7 @@ define( require => {
     this.addChild( thumbPath );
 
     // draw three lines along the vertical of the thumbNode.
-    for ( var n = 1; n < 4; n++ ) {
+    for ( let n = 1; n < 4; n++ ) {
       thumbPath.addChild( new Path(
         Shape.lineSegment(
           n * THUMB_SIZE.width / 5,
@@ -240,7 +240,7 @@ define( require => {
     }
 
     // highlight thumb on pointer over
-    var buttonListener = new ButtonListener( {
+    const buttonListener = new ButtonListener( {
       over: function( event ) {
         thumbPath.fill = 'rgb(80,250,255)';
       },

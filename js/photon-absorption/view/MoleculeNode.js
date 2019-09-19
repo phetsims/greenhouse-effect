@@ -29,31 +29,31 @@ define( require => {
     Node.call( this );
 
     // Carry this node through the scope in nested functions.
-    var self = this;
+    const self = this;
     this.modelViewTransform = modelViewTransform; // @private
 
     // Instance Data
-    var atomLayer = new Node();
-    var bondLayer = new Node();
+    const atomLayer = new Node();
+    const bondLayer = new Node();
     self.addChild( bondLayer ); // Order the bond layer first so that atomic bonds are behind atoms in view
     self.addChild( atomLayer );
 
     // Create nodes and add the atoms which compose this molecule to the atomLayer.
-    for ( var atom = 0; atom < molecule.getAtoms().length; atom++ ) {
+    for ( let atom = 0; atom < molecule.getAtoms().length; atom++ ) {
       this.atomNode = new AtomNode( molecule.getAtoms()[ atom ], self.modelViewTransform );
       atomLayer.addChild( this.atomNode );
     }
 
     // Create and add the atomic bonds which form the structure of this molecule to the bondLayer
-    var atomicBonds = molecule.getAtomicBonds();
-    for ( var i = 0; i < atomicBonds.length; i++ ) {
+    const atomicBonds = molecule.getAtomicBonds();
+    for ( let i = 0; i < atomicBonds.length; i++ ) {
       bondLayer.addChild( new AtomicBondNode( atomicBonds[ i ], this.modelViewTransform ) );
     }
 
     // Link the high energy state to the property in the model.
     molecule.highElectronicEnergyStateProperty.link( function() {
-      for ( var i = 0; i < atomLayer.children.length; i++ ) {
-        var atomNode = atomLayer.getChildAt( i );
+      for ( let i = 0; i < atomLayer.children.length; i++ ) {
+        const atomNode = atomLayer.getChildAt( i );
         atomNode.setHighlighted( molecule.highElectronicEnergyStateProperty.get() );
       }
 
