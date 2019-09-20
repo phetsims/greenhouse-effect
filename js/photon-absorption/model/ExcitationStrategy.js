@@ -1,4 +1,4 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2014-2019, University of Colorado Boulder
 
 /**
  * Photon absorption strategy that causes a molecule to enter an exited state after absorbing a photon, and then re-emit
