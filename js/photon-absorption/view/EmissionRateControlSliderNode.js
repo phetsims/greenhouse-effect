@@ -75,7 +75,7 @@ define( require => {
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
       pageKeyboardStep: sliderRange.getLength() / 5,
-      a11yDecimalPlaces: 1 // so the emissionFrequencyProperty is read (range from 0-1)
+      a11yMapValue: value => Util.toFixedNumber( value, 1 ) // so the emissionFrequencyProperty is read (range from 0-1)
       // endDrag: function() {
       //   delta = (model.emissionFrequencyProperty.get() - initialFrequency);
       // }
