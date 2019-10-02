@@ -12,10 +12,10 @@ define( require => {
 
   // modules
   // const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const ButtonListener = require( 'SCENERY/input/ButtonListener' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const FocusHighlightFromNode = require( 'SCENERY/accessibility/FocusHighlightFromNode' );
   const HSlider = require( 'SUN/HSlider' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LinearGradient = require( 'SCENERY/util/LinearGradient' );
@@ -27,6 +27,7 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
+  const Util = require( 'DOT/Util' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // constants
