@@ -115,6 +115,7 @@ define( require => {
       tandem: tandem.createTandem( 'photons' ),
       phetioType: ObservableArrayIO( PhotonIO )
     } ); // Elements are of type Photon
+
     this.activeMolecules = new ObservableArray( {
       tandem: tandem.createTandem( 'molecules' ),
       phetioType: ObservableArrayIO( MoleculeIO )
@@ -122,9 +123,7 @@ define( require => {
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
-    self.photonTargetProperty.link( function( photonTarget ) {
-      self.updateActiveMolecule( photonTarget, tandem );
-    } );
+    self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
 
     // Set the photon emission period from the emission frequency.
     this.emissionFrequencyProperty.link( function( emissionFrequency ) {
@@ -157,7 +156,8 @@ define( require => {
      */
     reset: function() {
 
-      // Remove any photons that are currently in transit.
+      // Remove and dispose any photons that are currently in transit.
+      this.photons.forEach( photon => photon.dispose() );
       this.photons.clear();
 
       // Reset all active molecules, which will stop any vibrations.
@@ -373,7 +373,6 @@ define( require => {
      * @param {Tandem} tandem
      */
     updateActiveMolecule: function( photonTarget, tandem ) {
-
       const self = this;
 
       this.activeMolecules.forEach( function( molecule ) { molecule.dispose(); } );

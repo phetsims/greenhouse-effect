@@ -254,7 +254,8 @@ define( require => {
     step: function( dt ) {
       this.activePhotonAbsorptionStrategy.step( dt );
 
-      if ( this.absorptionHysteresisCountdownTime >= 0 ) {
+      // Not equal to zero, because that case is covered when checking to emit the photon.
+      if ( this.absorptionHysteresisCountdownTime > 0 ) {
         this.absorptionHysteresisCountdownTime -= dt;
       }
 
@@ -526,7 +527,7 @@ define( require => {
 
       // Fill in the straightforward stuff
       molecule.highElectronicEnergyStateProperty.set( stateObject.highElectronicEnergyState );
-      molecule.centerOfGravityProperty.set( stateObject.centerOfGravity );
+      molecule.centerOfGravityProperty.set( Vector2.fromStateObject( stateObject.centerOfGravity ) );
       molecule.velocity = Vector2.fromStateObject( stateObject.velocity );
       molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
       molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
