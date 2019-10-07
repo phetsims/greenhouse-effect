@@ -28,7 +28,7 @@ define( require => {
     PhotonHoldStrategy.call( this, molecule );
   }
 
-  moleculesAndLight.register( 'ExcitationStrategy',ExcitationStrategy );
+  moleculesAndLight.register( 'ExcitationStrategy', ExcitationStrategy );
 
   return inherit( PhotonHoldStrategy, ExcitationStrategy, {
 

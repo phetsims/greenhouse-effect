@@ -13,7 +13,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const Vector2 = require( 'DOT/Vector2' );
-  const Property = require ( 'AXON/Property' );
+  const Property = require( 'AXON/Property' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 

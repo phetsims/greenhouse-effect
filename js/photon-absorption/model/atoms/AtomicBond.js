@@ -41,12 +41,12 @@ define( require => {
   return inherit( Object, AtomicBond, {
 
     // serialization support
-    toStateObject: function(){
+    toStateObject: function() {
       return {
         bondCount: this.bondCount,
         atom1ID: this.atom1.uniqueID,
         atom2ID: this.atom2.uniqueID
       };
-  }
+    }
   } );
 } );
