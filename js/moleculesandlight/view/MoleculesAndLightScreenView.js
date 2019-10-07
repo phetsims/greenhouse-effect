@@ -29,6 +29,8 @@ define( require => {
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
+  const soundManager = require( 'TAMBO/soundManager' );
   const SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
   const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   const Text = require( 'SCENERY/nodes/Text' );
@@ -48,6 +50,13 @@ define( require => {
   const pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
   const stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
   const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
+
+  // sounds
+  const brokeApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
+  const photonAbsorbedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-loop.mp3' );
+  const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
+  const vibratingLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-loop-001.mp3' );
+  const vibrationStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-one-shot-for-loop-start.mp3' );
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -93,7 +102,11 @@ define( require => {
 
     // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    const observationWindow = new ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem.createTandem( 'observationWindow' ) );
+    const observationWindow = new ObservationWindow(
+      photonAbsorptionModel,
+      modelViewTransform,
+      tandem.createTandem( 'observationWindow' )
+    );
     this.playAreaNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
@@ -117,11 +130,17 @@ define( require => {
     windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
     // Create the control panel for photon emission frequency.
-    const photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem.createTandem( 'photonEmissionControlPanel' ) );
+    const photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel(
+      photonAbsorptionModel,
+      tandem.createTandem( 'photonEmissionControlPanel' )
+    );
     photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
 
     // Create the molecule control panel
-    const moleculeControlPanel = new MoleculeSelectionPanel( photonAbsorptionModel, tandem.createTandem( 'moleculeControlPanel' ) );
+    const moleculeControlPanel = new MoleculeSelectionPanel(
+      photonAbsorptionModel,
+      tandem.createTandem( 'moleculeControlPanel' )
+    );
     moleculeControlPanel.leftTop = ( new Vector2( 530, windowFrameNode.top ) );
 
     // Add reset all button.
@@ -214,6 +233,75 @@ define( require => {
     // Add the nodes in the order necessary for correct layering.
     this.playAreaNode.addChild( photonEmissionControlPanel );
     this.playAreaNode.addChild( moleculeControlPanel );
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // sound generation
+    //-----------------------------------------------------------------------------------------------------------------
+
+    // photon absorbed sound
+    const photonAbsorbedSound = new SoundClip( photonAbsorbedSoundInfo, { initialOutputLevel: 0.05 } );
+    soundManager.addSoundGenerator( photonAbsorbedSound );
+    const photonAbsorbedSoundPlayer = () => {
+      photonAbsorbedSound.play();
+    };
+
+    // broke apart sound
+    const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.2 } );
+    soundManager.addSoundGenerator( brokeApartSound );
+    const brokeApartSoundPlayer = () => {
+      brokeApartSound.play();
+    };
+
+    // molecule rotating sound
+    const rotateSound = new SoundClip( rotateSoundInfo, { initialOutputLevel: 0.2, loop: true } );
+    soundManager.addSoundGenerator( rotateSound );
+    const rotateSoundPlayer = rotating => {
+      rotating ? rotateSound.play() : rotateSound.stop();
+    };
+
+    // molecule vibration sounds
+    const startVibratingSound = new SoundClip( vibrationStartSoundInfo, { initialOutputLevel: 0.2 } );
+    soundManager.addSoundGenerator( startVibratingSound );
+    const vibratingLoopSound = new SoundClip( vibratingLoopSoundInfo, { initialOutputLevel: 0.2, loop: true } );
+    soundManager.addSoundGenerator( vibratingLoopSound );
+    const vibrationSoundPlayer = vibrating => {
+      if ( vibrating ) {
+        startVibratingSound.play();
+        vibratingLoopSound.play();
+      }
+      else {
+        vibratingLoopSound.stop();
+      }
+    };
+
+    // function that adds all of the listeners involved in creating sound
+    const addSoundPlayerListeners = molecule => {
+      molecule.photonAbsorbedEmitter.addListener( photonAbsorbedSoundPlayer );
+      molecule.brokeApartEmitter.addListener( brokeApartSoundPlayer );
+      molecule.rotatingProperty.link( rotateSoundPlayer );
+      molecule.vibratingProperty.link( vibrationSoundPlayer );
+    };
+
+
+    // add listeners to molecules for playing the sounds
+    photonAbsorptionModel.activeMolecules.forEach( addSoundPlayerListeners );
+    photonAbsorptionModel.activeMolecules.addItemAddedListener( addSoundPlayerListeners );
+
+    // remove listeners when the molecules go away
+    photonAbsorptionModel.activeMolecules.addItemRemovedListener( function( removedMolecule ) {
+      if ( removedMolecule.photonAbsorbedEmitter.hasListener( photonAbsorbedSoundPlayer ) ) {
+        removedMolecule.photonAbsorbedEmitter.removeListener( photonAbsorbedSoundPlayer );
+      }
+      if ( removedMolecule.brokeApartEmitter.hasListener( brokeApartSoundPlayer ) ) {
+        removedMolecule.brokeApartEmitter.removeListener( brokeApartSoundPlayer );
+      }
+      if ( removedMolecule.rotatingProperty.hasListener( rotateSoundPlayer ) ) {
+        removedMolecule.rotatingProperty.unlink( rotateSoundPlayer );
+      }
+      if ( removedMolecule.vibratingProperty.hasListener( vibrationSoundPlayer ) ) {
+        removedMolecule.vibratingProperty.unlink( vibrationSoundPlayer );
+      }
+    } );
 
     // a11y
     // this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
