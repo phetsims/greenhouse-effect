@@ -162,7 +162,7 @@ define( require => {
     // length minus twice the head length.
     const label = new Text( captionText, { font: LABEL_FONT } );
     if ( label.width > this.width - 2 * ARROW_HEAD_WIDTH ) {
-      label.scale( (this.width - 2 * ARROW_HEAD_WIDTH) / label.width );
+      label.scale( ( this.width - 2 * ARROW_HEAD_WIDTH ) / label.width );
     }
     label.center = this.center;
     this.addChild( label );
@@ -196,13 +196,13 @@ define( require => {
 
     // Add the frequency tick marks to the top of the spectrum strip.
     for ( let i = 4; i <= 20; i++ ) {
-      const includeFrequencyLabel = (i % 2 === 0);
+      const includeFrequencyLabel = ( i % 2 === 0 );
       addFrequencyTickMark( self, Math.pow( 10, i ), strip.top, includeFrequencyLabel );
     }
 
     // Add the wavelength tick marks to the bottom of the spectrum.
     for ( let j = -12; j <= 4; j++ ) {
-      const includeWavelengthLabel = (j % 2 === 0);
+      const includeWavelengthLabel = ( j % 2 === 0 );
       addWavelengthTickMark( self, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
     }
 
@@ -229,7 +229,7 @@ define( require => {
     const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
     const visibleBandCenterX = wavelengthSpectrumNode.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
-      visibleBandLabel.scale( (strip.width / 2) / visibleBandLabel.width );
+      visibleBandLabel.scale( ( strip.width / 2 ) / visibleBandLabel.width );
     }
     visibleBandLabel.center = new Vector2( visibleBandCenterX, -35 ); // TODO: 35?
     this.addChild( visibleBandLabel );
@@ -273,7 +273,7 @@ define( require => {
     assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
     const logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
     const logarithmicFrequency = log10( frequency );
-    return (logarithmicFrequency - log10( MIN_FREQUENCY )) / logarithmicRange * SUBSECTION_WIDTH;
+    return ( logarithmicFrequency - log10( MIN_FREQUENCY ) ) / logarithmicRange * SUBSECTION_WIDTH;
   }
 
   /**
@@ -385,9 +385,9 @@ define( require => {
     const labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
     thisNode.addChild( labelText );
 
-    if ( (labelText.width + 10) > width ) {
+    if ( ( labelText.width + 10 ) > width ) {
       // Scale the label to fit with a little bit of padding on each side.
-      labelText.scale( width / (labelText.width + 10) );
+      labelText.scale( width / ( labelText.width + 10 ) );
     }
     labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
   }
@@ -433,15 +433,15 @@ define( require => {
     chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.
     const numPointsOnLine = 1500;
     for ( let i = 0; i < numPointsOnLine; i++ ) {
-      const x = i * (SUBSECTION_WIDTH / (numPointsOnLine - 1));
+      const x = i * ( SUBSECTION_WIDTH / ( numPointsOnLine - 1 ) );
       const t = x / SUBSECTION_WIDTH;
 
       const f0 = 1;
       const k = 2;
       const tScale = 4.5;
-      const sinTerm = Math.sin( 2 * Math.PI * f0 * (Math.pow( k, t * tScale ) - 1) / Math.log( k ) );
+      const sinTerm = Math.sin( 2 * Math.PI * f0 * ( Math.pow( k, t * tScale ) - 1 ) / Math.log( k ) );
 
-      const y = (sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2);
+      const y = ( sinTerm * boundingBoxHeight * 0.40 + boundingBoxHeight / 2 );
       chirpShape.lineTo( x, y );
     }
 
