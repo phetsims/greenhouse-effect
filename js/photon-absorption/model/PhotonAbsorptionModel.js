@@ -234,6 +234,7 @@ define( require => {
       this.photons.forEach( function( photon ) {
         self.activeMolecules.forEach( function( molecule ) {
           if ( molecule.queryAbsorbPhoton( photon ) ) {
+
             // the photon was absorbed, so put it on the removal list
             photonsToRemove.push( photon );
           }

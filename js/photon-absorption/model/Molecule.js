@@ -123,7 +123,6 @@ define( require => {
     // The amount of rotation currently applied to this molecule.  This is relative to its original, non-rotated state.
     this.currentRotationRadians = 0; // @public
 
-
     // @public - Boolean values that track whether the molecule is vibrating or rotating.
     this.vibratingProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'vibratingProperty' ),
@@ -143,7 +142,10 @@ define( require => {
     // @public, set by PhotonAbsorptionModel
     this.photonGroupTandem = null;
 
-    // @public Emitter for 'photonEmitted'
+    // @public (read-only) {Emitter} - emitter for when a photon is absorbed
+    this.photonAbsorbedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+
+    // @public (read-only) {Emitter} - emitter for when a photon is emitted
     this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
     // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
@@ -201,6 +203,7 @@ define( require => {
      * @returns {boolean}
      */
     isPhotonAbsorbed: function() {
+
       // If there is an active non-null photon absorption strategy, it indicates that a photon has been absorbed.
       return !( this.activePhotonAbsorptionStrategy instanceof NullPhotonAbsorptionStrategy );
     },
@@ -269,7 +272,10 @@ define( require => {
       }
 
       // Do any linear movement that is required.
-      this.setCenterOfGravityPos( this.centerOfGravityProperty.get().x + this.velocity.x * dt, this.centerOfGravityProperty.get().y + this.velocity.y * dt );
+      this.setCenterOfGravityPos(
+        this.centerOfGravityProperty.get().x + this.velocity.x * dt,
+        this.centerOfGravityProperty.get().y + this.velocity.y * dt
+      );
     },
 
     /**
@@ -402,7 +408,7 @@ define( require => {
      * Decide whether or not to absorb the offered photon.  If the photon is absorbed, the matching absorption strategy
      * is set so that it can control the molecule's post-absorption behavior.
      *
-     * @param {Photon} photon - The photon offered for absorption.
+     * @param {Photon} photon - the photon offered for absorption
      * @returns {boolean} absorbPhoton
      **/
     queryAbsorbPhoton: function( photon ) {
@@ -411,19 +417,22 @@ define( require => {
 
       if ( !this.isPhotonAbsorbed() &&
            this.absorptionHysteresisCountdownTime <= 0 &&
-           photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE && !this.isPhotonMarkedForPassThrough( photon ) ) {
+           photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
+           !this.isPhotonMarkedForPassThrough( photon ) ) {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?
         const candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
-        if ( typeof candidateAbsorptionStrategy !== 'undefined' ) {
-          // Yes, there is a strategy available for this wavelength.
-          // Ask it if it wants the photon.
+        if ( candidateAbsorptionStrategy !== undefined ) {
+
+          // Yes, there is a strategy available for this wavelength. Ask it if it wants the photon.
           if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ) {
+
             // It does want it, so consider the photon absorbed.
             absorbPhoton = true;
             this.activePhotonAbsorptionStrategy = candidateAbsorptionStrategy;
             this.activePhotonAbsorptionStrategy.queryAndAbsorbPhoton( photon );
+            this.photonAbsorbedEmitter.emit( photon );
           }
           else {
             // We have the decision logic once for whether a photon should be absorbed, so it is not queried a second
