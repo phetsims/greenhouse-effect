@@ -16,6 +16,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LightSpectrumDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/LightSpectrumDialog' );
+  const malSoundOptionsDialogContent = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/malSoundOptionsDialogContent' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
@@ -36,6 +37,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   const WindowFrameNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/WindowFrameNode' );
 
   // strings
@@ -57,6 +59,18 @@ define( require => {
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibratingLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-loop-001.mp3' );
   const vibrationStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-one-shot-for-loop-start.mp3' );
+  const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-000.mp3' );
+  const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-001.mp3' );
+  const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-002.mp3' );
+  const ultravioletPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-003.mp3' );
+  const microwavePhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-000.mp3' );
+  const infraredPhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-001.mp3' );
+  const visiblePhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-002.mp3' );
+  const ultravioletPhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-003.mp3' );
+  const microwavePhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-000.mp3' );
+  const infraredPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-001.mp3' );
+  const visiblePhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-002.mp3' );
+  const ultravioletPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-003.mp3' );
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -70,6 +84,14 @@ define( require => {
 
   // Line width of the observation window frame
   const FRAME_LINE_WIDTH = 5;
+
+  // Photon wavelengths in order from longest to shortest
+  const ORDERED_WAVELENGTHS = [
+    WavelengthConstants.MICRO_WAVELENGTH,
+    WavelengthConstants.IR_WAVELENGTH,
+    WavelengthConstants.VISIBLE_WAVELENGTH,
+    WavelengthConstants.UV_WAVELENGTH
+  ];
 
   /**
    * Constructor for the screen view of Molecules and Light.
@@ -260,9 +282,9 @@ define( require => {
     };
 
     // molecule vibration sounds
-    const startVibratingSound = new SoundClip( vibrationStartSoundInfo, { initialOutputLevel: 0.2 } );
+    const startVibratingSound = new SoundClip( vibrationStartSoundInfo, { initialOutputLevel: 1 } );
     soundManager.addSoundGenerator( startVibratingSound );
-    const vibratingLoopSound = new SoundClip( vibratingLoopSoundInfo, { initialOutputLevel: 0.2, loop: true } );
+    const vibratingLoopSound = new SoundClip( vibratingLoopSoundInfo, { initialOutputLevel: 0.05, loop: true } );
     soundManager.addSoundGenerator( vibratingLoopSound );
     const vibrationSoundPlayer = vibrating => {
       if ( vibrating ) {
@@ -275,17 +297,16 @@ define( require => {
     };
 
     // function that adds all of the listeners involved in creating sound
-    const addSoundPlayerListeners = molecule => {
+    const addSoundPlayersToMolecule = molecule => {
       molecule.photonAbsorbedEmitter.addListener( photonAbsorbedSoundPlayer );
       molecule.brokeApartEmitter.addListener( brokeApartSoundPlayer );
       molecule.rotatingProperty.link( rotateSoundPlayer );
       molecule.vibratingProperty.link( vibrationSoundPlayer );
     };
 
-
     // add listeners to molecules for playing the sounds
-    photonAbsorptionModel.activeMolecules.forEach( addSoundPlayerListeners );
-    photonAbsorptionModel.activeMolecules.addItemAddedListener( addSoundPlayerListeners );
+    photonAbsorptionModel.activeMolecules.forEach( addSoundPlayersToMolecule );
+    photonAbsorptionModel.activeMolecules.addItemAddedListener( addSoundPlayersToMolecule );
 
     // remove listeners when the molecules go away
     photonAbsorptionModel.activeMolecules.addItemRemovedListener( function( removedMolecule ) {
@@ -301,6 +322,41 @@ define( require => {
       if ( removedMolecule.vibratingProperty.hasListener( vibrationSoundPlayer ) ) {
         removedMolecule.vibratingProperty.unlink( vibrationSoundPlayer );
       }
+    } );
+
+    // photon generation sounds (i.e. the photons coming from the lamps)
+    const photonSoundClipOptions = { initialOutputLevel: 0.3 };
+
+    // TODO: Once the photon sound set is finalized, use a Map here instead of a 2D array
+    const photonEmissionSoundPlayers = [
+      [
+        new SoundClip( microwavePhotonV1SoundInfo, photonSoundClipOptions ),
+        new SoundClip( infraredPhotonV1SoundInfo, photonSoundClipOptions ),
+        new SoundClip( visiblePhotonV1SoundInfo, photonSoundClipOptions ),
+        new SoundClip( ultravioletPhotonV1SoundInfo, photonSoundClipOptions )
+      ],
+      [
+        new SoundClip( microwavePhotonV2SoundInfo, photonSoundClipOptions ),
+        new SoundClip( infraredPhotonV2SoundInfo, photonSoundClipOptions ),
+        new SoundClip( visiblePhotonV2SoundInfo, photonSoundClipOptions ),
+        new SoundClip( ultravioletPhotonV2SoundInfo, photonSoundClipOptions )
+      ],
+      [
+        new SoundClip( microwavePhotonV3SoundInfo, photonSoundClipOptions ),
+        new SoundClip( infraredPhotonV3SoundInfo, photonSoundClipOptions ),
+        new SoundClip( visiblePhotonV3SoundInfo, photonSoundClipOptions ),
+        new SoundClip( ultravioletPhotonV3SoundInfo, photonSoundClipOptions )
+      ]
+    ];
+    photonEmissionSoundPlayers.forEach( soundSet => {
+      soundSet.forEach( soundClip => {
+        soundManager.addSoundGenerator( soundClip );
+      } );
+    } );
+    photonAbsorptionModel.photons.addItemAddedListener( photon => {
+      const soundSetIndex = malSoundOptionsDialogContent.photonSoundSetProperty.value - 1;
+      const soundClipIndex = ORDERED_WAVELENGTHS.indexOf( photon.wavelength );
+      photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
     } );
   }
 

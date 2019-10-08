@@ -27,6 +27,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
+
   // constants
   const RADIO_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
 
@@ -63,20 +64,13 @@ define( require => {
         new Text( '3', RADIO_BUTTON_TEXT_OPTIONS ),
         { tandem: Tandem.optional }
       );
-      const fourRadioButton = new AquaRadioButton(
-        this.photonSoundSetProperty,
-        4,
-        new Text( '4', RADIO_BUTTON_TEXT_OPTIONS ),
-        { tandem: Tandem.optional }
-      );
 
       this.addChild( new VBox( {
         children: [
           new Text( 'Photon Sound Family', { font: new PhetFont( 20 ), weight: 'bold' } ),
           oneRadioButton,
           twoRadioButton,
-          threeRadioButton,
-          fourRadioButton
+          threeRadioButton
         ],
         align: 'left'
       } ) );
@@ -89,5 +83,4 @@ define( require => {
 
   // return the singleton instance
   return malSoundOptionsDialogContent;
-
 } );
