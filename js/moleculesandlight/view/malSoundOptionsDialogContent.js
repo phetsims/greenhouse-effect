@@ -23,6 +23,7 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -47,22 +48,26 @@ define( require => {
       const oneRadioButton = new AquaRadioButton(
         this.photonSoundSetProperty,
         1,
-        new Text( '1', RADIO_BUTTON_TEXT_OPTIONS )
+        new Text( '1', RADIO_BUTTON_TEXT_OPTIONS ),
+        { tandem: Tandem.optional }
       );
       const twoRadioButton = new AquaRadioButton(
         this.photonSoundSetProperty,
         2,
-        new Text( '2', RADIO_BUTTON_TEXT_OPTIONS )
+        new Text( '2', RADIO_BUTTON_TEXT_OPTIONS ),
+        { tandem: Tandem.optional }
       );
       const threeRadioButton = new AquaRadioButton(
         this.photonSoundSetProperty,
         3,
-        new Text( '3', RADIO_BUTTON_TEXT_OPTIONS )
+        new Text( '3', RADIO_BUTTON_TEXT_OPTIONS ),
+        { tandem: Tandem.optional }
       );
       const fourRadioButton = new AquaRadioButton(
         this.photonSoundSetProperty,
         4,
-        new Text( '4', RADIO_BUTTON_TEXT_OPTIONS )
+        new Text( '4', RADIO_BUTTON_TEXT_OPTIONS ),
+        { tandem: Tandem.optional }
       );
 
       this.addChild( new VBox( {
