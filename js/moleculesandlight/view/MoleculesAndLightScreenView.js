@@ -302,9 +302,6 @@ define( require => {
         removedMolecule.vibratingProperty.unlink( vibrationSoundPlayer );
       }
     } );
-
-    // a11y
-    // this.accessibleOrder = [ observationWindow, moleculeControlPanel, photonEmissionControlPanel, playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
   }
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
