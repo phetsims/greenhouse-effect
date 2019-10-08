@@ -55,7 +55,7 @@ define( require => {
 
   // sounds
   const brokeApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
-  const photonAbsorbedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-loop.mp3' );
+  const moleculeEnergizedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-loop.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibratingLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-loop-001.mp3' );
   const vibrationStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/wobble-one-shot-for-loop-start.mp3' );
@@ -261,10 +261,18 @@ define( require => {
     //-----------------------------------------------------------------------------------------------------------------
 
     // photon absorbed sound
-    const photonAbsorbedSound = new SoundClip( photonAbsorbedSoundInfo, { initialOutputLevel: 0.05 } );
-    soundManager.addSoundGenerator( photonAbsorbedSound );
-    const photonAbsorbedSoundPlayer = () => {
-      photonAbsorbedSound.play();
+    const moleculeEnergizedSound = new SoundClip( moleculeEnergizedSoundInfo, {
+      loop: true,
+      initialOutputLevel: 0.05
+    } );
+    soundManager.addSoundGenerator( moleculeEnergizedSound );
+    const moleculeEnergizedSoundPlayer = moleculeEnergized => {
+      if ( moleculeEnergized ) {
+        moleculeEnergizedSound.play();
+      }
+      else {
+        moleculeEnergizedSound.stop();
+      }
     };
 
     // broke apart sound
@@ -298,7 +306,7 @@ define( require => {
 
     // function that adds all of the listeners involved in creating sound
     const addSoundPlayersToMolecule = molecule => {
-      molecule.photonAbsorbedEmitter.addListener( photonAbsorbedSoundPlayer );
+      molecule.highElectronicEnergyStateProperty.link( moleculeEnergizedSoundPlayer );
       molecule.brokeApartEmitter.addListener( brokeApartSoundPlayer );
       molecule.rotatingProperty.link( rotateSoundPlayer );
       molecule.vibratingProperty.link( vibrationSoundPlayer );
@@ -310,8 +318,8 @@ define( require => {
 
     // remove listeners when the molecules go away
     photonAbsorptionModel.activeMolecules.addItemRemovedListener( function( removedMolecule ) {
-      if ( removedMolecule.photonAbsorbedEmitter.hasListener( photonAbsorbedSoundPlayer ) ) {
-        removedMolecule.photonAbsorbedEmitter.removeListener( photonAbsorbedSoundPlayer );
+      if ( removedMolecule.highElectronicEnergyStateProperty.hasListener( moleculeEnergizedSoundPlayer ) ) {
+        removedMolecule.highElectronicEnergyStateProperty.removeListener( moleculeEnergizedSoundPlayer );
       }
       if ( removedMolecule.brokeApartEmitter.hasListener( brokeApartSoundPlayer ) ) {
         removedMolecule.brokeApartEmitter.removeListener( brokeApartSoundPlayer );
