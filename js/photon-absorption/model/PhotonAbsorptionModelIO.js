@@ -36,6 +36,7 @@ define( require => {
       const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
       photon.setVelocity( stateObject.vx, stateObject.vy );
       photonAbsorptionModel.photons.add( photon );
+      return photon;
     }
   }
 
