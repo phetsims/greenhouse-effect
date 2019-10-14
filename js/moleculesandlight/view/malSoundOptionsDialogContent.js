@@ -42,7 +42,7 @@ define( require => {
       super();
 
       // @public (read-only)
-      this.photonSoundSetProperty = new NumberProperty( 1 );
+      this.photonSoundSetProperty = new NumberProperty( 3 );
 
       // Create the radio buttons.  I (jbphet) know that it's a bit silly to have numbers for radio button entries, but
       // I've done it this way so that the sound families can be easily named if desired.
