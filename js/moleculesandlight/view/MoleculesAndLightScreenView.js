@@ -58,8 +58,8 @@ define( require => {
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop.mp3' );
   const moleculeEnergizedStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-start-one-shot.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
-  const vibratingLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration-loop-001.mp3' );
-  const vibrationStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration-one-shot-for-loop-start.mp3' );
+  const vibrateLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-loop-v2.mp3' );
+  const vibrateStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-one-shot-v2.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
   const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
@@ -296,9 +296,9 @@ define( require => {
     };
 
     // molecule vibration sounds
-    const startVibratingSound = new SoundClip( vibrationStartSoundInfo, { initialOutputLevel: 1 } );
+    const startVibratingSound = new SoundClip( vibrateStartSoundInfo, { initialOutputLevel: 0.6 } );
     soundManager.addSoundGenerator( startVibratingSound );
-    const vibratingLoopSound = new SoundClip( vibratingLoopSoundInfo, { initialOutputLevel: 0.05, loop: true } );
+    const vibratingLoopSound = new SoundClip( vibrateLoopSoundInfo, { initialOutputLevel: 0.4, loop: true } );
     soundManager.addSoundGenerator( vibratingLoopSound );
     const vibrationSoundPlayer = vibrating => {
       if ( vibrating ) {
