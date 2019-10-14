@@ -319,7 +319,7 @@ define( require => {
     // remove listeners when the molecules go away
     photonAbsorptionModel.activeMolecules.addItemRemovedListener( function( removedMolecule ) {
       if ( removedMolecule.highElectronicEnergyStateProperty.hasListener( moleculeEnergizedSoundPlayer ) ) {
-        removedMolecule.highElectronicEnergyStateProperty.removeListener( moleculeEnergizedSoundPlayer );
+        removedMolecule.highElectronicEnergyStateProperty.unlink( moleculeEnergizedSoundPlayer );
       }
       if ( removedMolecule.brokeApartEmitter.hasListener( brokeApartSoundPlayer ) ) {
         removedMolecule.brokeApartEmitter.removeListener( brokeApartSoundPlayer );
