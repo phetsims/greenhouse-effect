@@ -55,7 +55,8 @@ define( require => {
 
   // sounds
   const brokeApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
-  const moleculeEnergizedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-loop.mp3' );
+  const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop.mp3' );
+  const moleculeEnergizedStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-start-one-shot.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibratingLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration-loop-001.mp3' );
   const vibrationStartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration-one-shot-for-loop-start.mp3' );
@@ -260,18 +261,23 @@ define( require => {
     // sound generation
     //-----------------------------------------------------------------------------------------------------------------
 
-    // photon absorbed sound
-    const moleculeEnergizedSound = new SoundClip( moleculeEnergizedSoundInfo, {
+    // sound to play when molecule becomes "energized", which is depicted as glowing in the view
+    const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedLoopInfo, {
       loop: true,
-      initialOutputLevel: 0.05
+      initialOutputLevel: 0.4
     } );
-    soundManager.addSoundGenerator( moleculeEnergizedSound );
+    soundManager.addSoundGenerator( moleculeEnergizedLoop );
+    const moleculeEnergizedStartSound = new SoundClip( moleculeEnergizedStartSoundInfo, {
+      initialOutputLevel: 0.7
+    } );
+    soundManager.addSoundGenerator( moleculeEnergizedStartSound );
     const moleculeEnergizedSoundPlayer = moleculeEnergized => {
       if ( moleculeEnergized ) {
-        moleculeEnergizedSound.play();
+        moleculeEnergizedStartSound.play();
+        moleculeEnergizedLoop.play();
       }
       else {
-        moleculeEnergizedSound.stop();
+        moleculeEnergizedLoop.stop();
       }
     };
 
