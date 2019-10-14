@@ -94,6 +94,9 @@ define( require => {
     WavelengthConstants.UV_WAVELENGTH
   ];
 
+  // volume of photon emission sounds
+  const PHOTON_SOUND_OUTPUT_LEVEL = 0.1;
+
   /**
    * Constructor for the screen view of Molecules and Light.
    *
@@ -264,11 +267,11 @@ define( require => {
     // sound to play when molecule becomes "energized", which is depicted as glowing in the view
     const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedLoopInfo, {
       loop: true,
-      initialOutputLevel: 0.4
+      initialOutputLevel: 0.3
     } );
     soundManager.addSoundGenerator( moleculeEnergizedLoop );
     const moleculeEnergizedStartSound = new SoundClip( moleculeEnergizedStartSoundInfo, {
-      initialOutputLevel: 0.7
+      initialOutputLevel: 0.5
     } );
     soundManager.addSoundGenerator( moleculeEnergizedStartSound );
     const moleculeEnergizedSoundPlayer = moleculeEnergized => {
@@ -282,23 +285,23 @@ define( require => {
     };
 
     // broke apart sound
-    const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.2 } );
+    const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.5 } );
     soundManager.addSoundGenerator( brokeApartSound );
     const brokeApartSoundPlayer = () => {
       brokeApartSound.play();
     };
 
     // molecule rotating sound
-    const rotateSound = new SoundClip( rotateSoundInfo, { initialOutputLevel: 0.2, loop: true } );
+    const rotateSound = new SoundClip( rotateSoundInfo, { initialOutputLevel: 0.05, loop: true } );
     soundManager.addSoundGenerator( rotateSound );
     const rotateSoundPlayer = rotating => {
       rotating ? rotateSound.play() : rotateSound.stop();
     };
 
     // molecule vibration sounds
-    const startVibratingSound = new SoundClip( vibrateStartSoundInfo, { initialOutputLevel: 0.6 } );
+    const startVibratingSound = new SoundClip( vibrateStartSoundInfo, { initialOutputLevel: 0.2 } );
     soundManager.addSoundGenerator( startVibratingSound );
-    const vibratingLoopSound = new SoundClip( vibrateLoopSoundInfo, { initialOutputLevel: 0.4, loop: true } );
+    const vibratingLoopSound = new SoundClip( vibrateLoopSoundInfo, { initialOutputLevel: 0.05, loop: true } );
     soundManager.addSoundGenerator( vibratingLoopSound );
     const vibrationSoundPlayer = vibrating => {
       if ( vibrating ) {
@@ -339,7 +342,7 @@ define( require => {
     } );
 
     // photon generation sounds (i.e. the photons coming from the lamps)
-    const photonSoundClipOptions = { initialOutputLevel: 0.3 };
+    const photonSoundClipOptions = { initialOutputLevel: PHOTON_SOUND_OUTPUT_LEVEL };
 
     // TODO: Once the photon sound set is finalized, use a Map here instead of a 2D array
     const photonEmissionSoundPlayers = [
