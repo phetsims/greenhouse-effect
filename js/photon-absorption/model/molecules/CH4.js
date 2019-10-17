@@ -55,10 +55,10 @@ define( require => {
     this.addAtom( this.hydrogenAtom2 );
     this.addAtom( this.hydrogenAtom3 );
     this.addAtom( this.hydrogenAtom4 );
-    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1, 1 ) );
-    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom2, 1 ) );
-    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom3, 1 ) );
-    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4, 1 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom2 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom3 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4 ) );
 
     // Set up the photon wavelengths to absorb.
     this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );

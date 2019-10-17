@@ -17,6 +17,7 @@ define( require => {
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Emitter = require( 'AXON/Emitter' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
   const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
@@ -61,7 +62,7 @@ define( require => {
    */
   function Molecule( options ) {
 
-    options = _.extend( {
+    options = merge( {
       initialPosition: Vector2.ZERO,
       isForIcon: false,
       tandem: Tandem.optional // not needed when part of the selection radio buttons.

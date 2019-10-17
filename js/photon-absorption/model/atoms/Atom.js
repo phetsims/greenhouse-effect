@@ -12,10 +12,11 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
-  const Vector2 = require( 'DOT/Vector2' );
-  const Property = require( 'AXON/Property' );
+  const merge = require( 'PHET_CORE/merge' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const Property = require( 'AXON/Property' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // Static data
   let instanceCount = 0; // Base count for the unique ID of this atom.
@@ -31,7 +32,7 @@ define( require => {
    */
   function Atom( representationColor, radius, mass, options ) {
 
-    options = _.extend( {
+    options = merge( {
       initialPosition: Vector2.ZERO,
       idOverride: null // used to override the generation of an ID, used only for deserialization
     }, options );

@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
 
   /**
@@ -24,7 +25,7 @@ define( require => {
    */
   function AtomicBond( atom1, atom2, options ) {
 
-    options = _.extend( {
+    options = merge( {
       // defaults
       bondCount: 1 // Indicates whether this is a single, double, triple, etc. bond.
     }, options );
@@ -33,7 +34,6 @@ define( require => {
     this.atom1 = atom1;
     this.atom2 = atom2;
     this.bondCount = options.bondCount;
-
   }
 
   moleculesAndLight.register( 'AtomicBond', AtomicBond );
