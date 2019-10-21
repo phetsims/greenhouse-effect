@@ -23,10 +23,10 @@ define( require => {
   const NumberProperty = require( 'AXON/NumberProperty' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Panel = require( 'SUN/Panel' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const VBox = require( 'SCENERY/nodes/VBox' );
-
 
   // constants
   const RADIO_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
@@ -41,12 +41,11 @@ define( require => {
     constructor() {
 
       // @public (read-only)
-      this.photonSoundSetProperty = new NumberProperty( 3 );
+      this.photonInitialEmissionSoundSetProperty = new NumberProperty( 3 );
+      this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 1 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
       this.dialogContent = null;
-
-
     }
 
     /**
@@ -62,39 +61,81 @@ define( require => {
 
         this.dialogContent = new Node();
 
-        // Create the radio buttons.  I (jbphet) know that it's a bit silly to have numbers for radio button entries,
-        // but I've done it this way so that the sound families can be easily named if desired.
-        const oneRadioButton = new AquaRadioButton(
-          this.photonSoundSetProperty,
+        // Create the initial photon emission radio buttons.  I (jbphet) know that it's a bit silly to have numbers for
+        // radio button entries, but I've done it this way so that the sound families can be easily named if desired.
+        const photonInitialEmissionSelection1 = new AquaRadioButton(
+          this.photonInitialEmissionSoundSetProperty,
           1,
           new Text( '1', RADIO_BUTTON_TEXT_OPTIONS ),
           { tandem: Tandem.optional }
         );
-        const twoRadioButton = new AquaRadioButton(
-          this.photonSoundSetProperty,
+        const photonInitialEmissionSelection2 = new AquaRadioButton(
+          this.photonInitialEmissionSoundSetProperty,
           2,
           new Text( '2', RADIO_BUTTON_TEXT_OPTIONS ),
           { tandem: Tandem.optional }
         );
-        const threeRadioButton = new AquaRadioButton(
-          this.photonSoundSetProperty,
+        const photonInitialEmissionSelection3 = new AquaRadioButton(
+          this.photonInitialEmissionSoundSetProperty,
           3,
           new Text( '3', RADIO_BUTTON_TEXT_OPTIONS ),
           { tandem: Tandem.optional }
         );
 
-        this.dialogContent.addChild( new VBox( {
+        const photonInitialEmissionSelectionVBox = new VBox( {
           children: [
-            new Text( 'Photon Sound Family', { font: new PhetFont( 20 ), weight: 'bold' } ),
-            oneRadioButton,
-            twoRadioButton,
-            threeRadioButton
+            new Text( 'Initial Photon Emission Sound', { font: new PhetFont( 20 ), weight: 'bold' } ),
+            photonInitialEmissionSelection1,
+            photonInitialEmissionSelection2,
+            photonInitialEmissionSelection3
           ],
           align: 'left'
-        } ) );
-      }
+        } );
 
-      return this.dialogContent;
+        const photonInitialEmissionSelectionPanel = new Panel( photonInitialEmissionSelectionVBox, {
+          stroke: 'black'
+        } );
+
+        // Create the secondary photon emission radio buttons.
+        const photonSecondaryEmissionSelection1 = new AquaRadioButton(
+          this.photonSecondaryEmissionSoundSetProperty,
+          1,
+          new Text( '1', RADIO_BUTTON_TEXT_OPTIONS ),
+          { tandem: Tandem.optional }
+        );
+        const photonSecondaryEmissionSelection2 = new AquaRadioButton(
+          this.photonSecondaryEmissionSoundSetProperty,
+          2,
+          new Text( '2', RADIO_BUTTON_TEXT_OPTIONS ),
+          { tandem: Tandem.optional }
+        );
+        const photonSecondaryEmissionSelection3 = new AquaRadioButton(
+          this.photonSecondaryEmissionSoundSetProperty,
+          3,
+          new Text( '3', RADIO_BUTTON_TEXT_OPTIONS ),
+          { tandem: Tandem.optional }
+        );
+
+        const photonSecondaryEmissionSelectionVBox = new VBox( {
+          children: [
+            new Text( 'Secondary Photon Emission Sound', { font: new PhetFont( 20 ), weight: 'bold' } ),
+            photonSecondaryEmissionSelection1,
+            photonSecondaryEmissionSelection2,
+            photonSecondaryEmissionSelection3
+          ],
+          align: 'left'
+        } );
+
+        const photonSecondaryEmissionSelectionPanel = new Panel( photonSecondaryEmissionSelectionVBox, {
+          stroke: 'black'
+        } );
+
+        this.dialogContent.addChild( new VBox( {
+          children: [ photonInitialEmissionSelectionPanel, photonSecondaryEmissionSelectionPanel ]
+        } ) );
+
+        return this.dialogContent;
+      }
     }
   }
 

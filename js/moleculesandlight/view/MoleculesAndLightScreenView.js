@@ -365,7 +365,17 @@ define( require => {
       } );
     } );
     photonAbsorptionModel.photons.addItemAddedListener( photon => {
-      const soundSetIndex = malSoundOptionsDialogContent.photonSoundSetProperty.value - 1;
+      let soundSetIndex;
+      if ( photon.locationProperty.value.x < 0 ) {
+
+        // photon was emitted from lamp, use the initial emission sound
+        soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
+      }
+      else {
+
+        // photon was emitted from lamp, use the secondary emission sound
+        soundSetIndex = malSoundOptionsDialogContent.photonSecondaryEmissionSoundSetProperty.value - 1;
+      }
       const soundClipIndex = ORDERED_WAVELENGTHS.indexOf( photon.wavelength );
       photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
     } );
