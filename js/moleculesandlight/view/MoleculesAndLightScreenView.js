@@ -55,6 +55,7 @@ define( require => {
 
   // sounds
   const brokeApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
+  const brokeApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibrateLoopSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-loop-v2.mp3' );
@@ -281,8 +282,15 @@ define( require => {
     // broke apart sound
     const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.5 } );
     soundManager.addSoundGenerator( brokeApartSound );
+    const brokeApartSound2 = new SoundClip( brokeApartSoundV2Info, { initialOutputLevel: 0.5 } );
+    soundManager.addSoundGenerator( brokeApartSound2 );
     const brokeApartSoundPlayer = () => {
-      brokeApartSound.play();
+      if ( malSoundOptionsDialogContent.breakApartSoundProperty.value === 1 ) {
+        brokeApartSound.play();
+      }
+      else {
+        brokeApartSound2.play();
+      }
     };
 
     // molecule rotating sound
