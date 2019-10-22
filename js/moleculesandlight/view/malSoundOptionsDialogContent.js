@@ -28,8 +28,8 @@ define( require => {
   const VerticalAquaRadioButtonGroup = require( 'SUN/VerticalAquaRadioButtonGroup' );
 
   // constants
-  const SELECTOR_TITLE_TEXT_OPTIONS = { font: new PhetFont( 20 ), weight: 'bold' };
-  const RADIO_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
+  const SELECTOR_TITLE_TEXT_OPTIONS = { font: new PhetFont( 16 ), weight: 'bold' };
+  const RADIO_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 12 ) };
 
   class MALSoundOptionsDialogContent {
 
@@ -43,6 +43,7 @@ define( require => {
       this.photonInitialEmissionSoundSetProperty = new NumberProperty( 3 );
       this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 1 );
       this.breakApartSoundProperty = new NumberProperty( 1 );
+      this.vibrationSoundProperty = new NumberProperty( 1 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
       this.dialogContent = null;
@@ -104,13 +105,29 @@ define( require => {
           } )
         );
 
+        // sound selection for molecule vibration
+        const vibrationSoundRadioButtonGroup = new VerticalAquaRadioButtonGroup(
+          this.vibrationSoundProperty,
+          createNumberedRadioButtonDescriptorSet( 5 )
+        );
+        const vibrationSoundSelectionPanel = new Panel(
+          new VBox( {
+            children: [
+              new Text( 'Break Apart Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
+              vibrationSoundRadioButtonGroup
+            ]
+          } )
+        );
+
+        // and the selection panels to the root node
         this.dialogContent.addChild( new VBox( {
           children: [
             photonInitialEmissionSoundSelectionPanel,
             photonSecondaryEmissionSoundSelectionPanel,
-            breakApartSoundSelectionPanel
+            breakApartSoundSelectionPanel,
+            vibrationSoundSelectionPanel
           ],
-          spacing: 10
+          spacing: 5
         } ) );
 
         return this.dialogContent;
