@@ -113,7 +113,7 @@ define( require => {
         const vibrationSoundSelectionPanel = new Panel(
           new VBox( {
             children: [
-              new Text( 'Break Apart Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
+              new Text( 'Vibration Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
               vibrationSoundRadioButtonGroup
             ]
           } )
