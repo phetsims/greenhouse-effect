@@ -281,7 +281,7 @@ define( require => {
     // broke apart sound
     const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.5 } );
     soundManager.addSoundGenerator( brokeApartSound );
-    const brokeApartSound2 = new SoundClip( brokeApartSoundV2Info, { initialOutputLevel: 0.5 } );
+    const brokeApartSound2 = new SoundClip( brokeApartSoundV2Info, { initialOutputLevel: 1 } );
     soundManager.addSoundGenerator( brokeApartSound2 );
     const brokeApartSoundPlayer = () => {
       if ( malSoundOptionsDialogContent.breakApartSoundProperty.value === 1 ) {
