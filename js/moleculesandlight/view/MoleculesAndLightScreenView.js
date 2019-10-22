@@ -47,7 +47,6 @@ define( require => {
   const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
   const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
   const screenSummaryString = MoleculesAndLightA11yStrings.screenSummaryString.value;
-  const summaryInteractionHintString = MoleculesAndLightA11yStrings.summaryInteractionHintString.value;
   const playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
   const pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
   const stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
@@ -119,9 +118,6 @@ define( require => {
       tandem: tandem,
       screenSummaryContent: summaryNode
     } );
-
-    // interaction hint and keyboard shortcuts
-    summaryNode.addChild( new Node( { tagName: 'p', innerContent: summaryInteractionHintString } ) );
 
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
