@@ -43,14 +43,6 @@ define( require => {
   // a11y strings
   const moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
   const moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
-  const nitrogenDescriptionString = MoleculesAndLightA11yStrings.nitrogenDescriptionString.value;
-  const oxygenDescriptionString = MoleculesAndLightA11yStrings.oxygenDescriptionString.value;
-  const carbonMonoxideDescriptionString = MoleculesAndLightA11yStrings.carbonMonoxideDescriptionString.value;
-  const carbonDioxideDescriptionString = MoleculesAndLightA11yStrings.carbonDioxideDescriptionString.value;
-  const methaneDescriptionString = MoleculesAndLightA11yStrings.methane;
-  const waterDescriptionString = MoleculesAndLightA11yStrings.waterDescriptionString.value;
-  const nitrogenDioxideDescriptionString = MoleculesAndLightA11yStrings.nitrogenDioxideDescriptionString.value;
-  const ozoneDescriptionString = MoleculesAndLightA11yStrings.ozoneDescriptionString.value;
   const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
 
   // constants
@@ -131,8 +123,7 @@ define( require => {
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
         value: photonTarget,
         tandemName: tandemName,
-        labelContent: PhotonTarget.getMoleculeName( PhotonTarget.SINGLE_CO_MOLECULE ),
-        descriptionContent: descriptionContent
+        labelContent: PhotonTarget.getMoleculeName( photonTarget )
       };
     };
     const moleculeOptions = { isForIcon: true };
@@ -140,21 +131,21 @@ define( require => {
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     const radioButtonContent = [
       createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO( moleculeOptions ),
-        'singleCOMoleculeRadioButton', carbonMonoxideDescriptionString ),
+        'singleCOMoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2( moleculeOptions ),
-        'singleN2MoleculeRadioButton', nitrogenDescriptionString ),
+        'singleN2MoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_O2_MOLECULE, O2_FORMULA_STRING, new O2( moleculeOptions ),
-        'singleO2MoleculeRadioButton', oxygenDescriptionString ),
+        'singleO2MoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_CO2_MOLECULE, CO2_FORMULA_STRING, new CO2( moleculeOptions ),
-        'singleCO2MoleculeRadioButton', carbonDioxideDescriptionString ),
+        'singleCO2MoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_CH4_MOLECULE, CH4_FORMULA_STRING, new CH4( moleculeOptions ),
-        'singleCH4MoleculeRadioButton', methaneDescriptionString ),
+        'singleCH4MoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_H2O_MOLECULE, H20_FORMULA_STRING, new H2O( moleculeOptions ),
-        'singleH2OMoleculeRadioButton', waterDescriptionString ),
+        'singleH2OMoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_NO2_MOLECULE, NO2_FORMULA_STRING, new NO2( moleculeOptions ),
-        'singleNO2MoleculeRadioButton', nitrogenDioxideDescriptionString ),
+        'singleNO2MoleculeRadioButton' ),
       createElement( PhotonTarget.SINGLE_O3_MOLECULE, O3_FORMULA_STRING, new O3( moleculeOptions ),
-        'singleO3MoleculeRadioButton', ozoneDescriptionString )
+        'singleO3MoleculeRadioButton' )
     ];
 
     // If necessary, scale down molecule names by the minimum scale factor.
