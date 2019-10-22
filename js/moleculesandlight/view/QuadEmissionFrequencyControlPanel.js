@@ -27,7 +27,7 @@ define( require => {
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images

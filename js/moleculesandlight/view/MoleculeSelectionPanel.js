@@ -34,7 +34,7 @@ define( require => {
   const RichText = require( 'SCENERY/nodes/RichText' );
   const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const utteranceQueue = require( 'SCENERY_PHET/accessibility/utteranceQueue' );
+  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
   const Vector2 = require( 'DOT/Vector2' );
 
   //strings
