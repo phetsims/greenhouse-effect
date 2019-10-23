@@ -25,6 +25,7 @@ define( require => {
   const dynamicScreenSummaryString = MoleculesAndLightA11yStrings.dynamicScreenSummaryString.value;
   const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
+  const interactionHintString = MoleculesAndLightA11yStrings.interactionHintString.value;
 
   class MoleculesAndLightScreenSummaryNode extends Node {
 
@@ -48,6 +49,13 @@ define( require => {
       Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running ) => {
         dynamicDescription.accessibleName = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running );
       } );
+
+      // interaction hint
+      const interactionHint = new Node( {
+        tagName: 'p',
+        accessibleName: interactionHintString
+      } );
+      this.addChild( interactionHint );
     }
 
     /**
