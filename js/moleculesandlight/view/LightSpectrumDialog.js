@@ -34,6 +34,7 @@ define( require => {
 
       // phet-io
       tandem: tandem,
+      phetioDynamicElement: true,
 
       // a11y
       tagName: 'p',

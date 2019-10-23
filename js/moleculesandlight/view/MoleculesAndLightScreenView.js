@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const DialogIO = require( 'SUN/DialogIO' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LightSpectrumDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/LightSpectrumDialog' );
@@ -20,10 +21,12 @@ define( require => {
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-  const MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
   const MoleculesAndLightScreenSummaryNode = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculesAndLightScreenSummaryNode' );
+  const MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
   const ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
+  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   const QuadEmissionFrequencyControlPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/QuadEmissionFrequencyControlPanel' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -208,6 +211,13 @@ define( require => {
     // @private
     const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
+    const lightSpectrumDialogCapsule = new PhetioCapsule( 'lightSpectrumDialog', tandem => {
+      return new LightSpectrumDialog( spectrumButtonLabel, tandem );
+    }, [], {
+      tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
+      phetioType: PhetioCapsuleIO( DialogIO )
+    } );
+
     // the spectrum dialog, created lazily because Dialog requires sim bounds during construction
     let dialog = null;
 
@@ -225,7 +235,7 @@ define( require => {
       touchAreaYDilation: 7,
       listener: function() {
         if ( !dialog ) {
-          dialog = new LightSpectrumDialog( spectrumButtonLabel, tandem.createTandem( 'lightSpectrumDialog' ) );
+          dialog = lightSpectrumDialogCapsule.create();
         }
         dialog.show();
 
