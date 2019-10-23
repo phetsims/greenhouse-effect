@@ -40,6 +40,10 @@ define( require => {
   const lightSourceSliderString = MoleculesAndLightA11yStrings.lightSourceSliderString.value;
   // var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
   const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
+  const emitsPhotonsQuicklyString = MoleculesAndLightA11yStrings.emitsPhotonsQuicklyString.value;
+  const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
+  const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
+  const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -185,6 +189,39 @@ define( require => {
 
     //   var lightSourceNameString = WavelengthConstants.getLightSourceName( wavelength );
     // }
+  }, {
+
+    /**
+     * Get a description of the emission rate frequency, like
+     * "emits photons slowly and" or
+     * "is off and points"
+     *
+     * Note that these are meant to be inserted into a another string in context. If you
+     * need "slowly" or "quickly" on their own, break this function up into others.
+     * @public
+     *
+     * @param {number} emissionFrequency - normalized, 0-1
+     * @returns {string}
+     */
+    getEmissionFrequencyDescription( emissionFrequency ) {
+      assert && assert( 0 <= emissionFrequency <= 1, 'frequency should be normalized' );
+
+      let frequencyDescriptionString = null;
+      if ( emissionFrequency === 0 ) {
+        frequencyDescriptionString = isOffAndPointsString;
+      }
+      else if ( emissionFrequency <= 0.3 ) {
+        frequencyDescriptionString = emitsPhotonsVerySlowlyString;
+      }
+      else if ( emissionFrequency <= 0.6 ) {
+        frequencyDescriptionString = emitsPhotonsSlowlyString;
+      }
+      else {
+        frequencyDescriptionString = emitsPhotonsQuicklyString;
+      }
+
+      return frequencyDescriptionString;
+    }
   } );
 
   /**
