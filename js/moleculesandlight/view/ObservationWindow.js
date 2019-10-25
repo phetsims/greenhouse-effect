@@ -43,7 +43,10 @@ define( require => {
   const photonEmitterDescriptionPatternString = MoleculesAndLightA11yStrings.photonEmitterDescriptionPatternString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
-
+  const absorptionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseDescriptionPatternString.value;
+  const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
+  const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
+  const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -235,12 +238,12 @@ define( require => {
 
     // when the photon target changes, add listeners to the new target molecule that will update the phase description
     photonAbsorptionModel.photonTargetProperty.link( photonTarget => {
-      // const newMolecule = photonAbsorptionModel.targetMolecule;
+      const newMolecule = photonAbsorptionModel.targetMolecule;
 
       // TODO: IMplement these
-      // newMolecule.vibratingProperty.lazyLink( vibrating => {
-      //   phaseItem.accessibleName = this.getVibrationPhaseDescription();
-      // } );
+      newMolecule.currentVibrationRadiansProperty.lazyLink( vibrationRadians => {
+        phaseItem.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
+      } );
 
       // newMolecule.rotatingProperty.lazyLink( rotating => {
       //   phaseItem.accessibleName = this.rotationPhaseDescription();
@@ -342,7 +345,41 @@ define( require => {
       }
     },
 
-    getVibrationPhaseDescription: function() {},
+    getVibrationPhaseDescription: function( vibrationRadians ) {
+      let descriptionString = '';
+
+      const model = this.photonAbsorptionModel;
+      const targetMolecule = model.targetMolecule;
+      const lightSourceString = WavelengthConstants.getLightSourceName( model.photonWavelengthProperty.get() );
+      const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
+
+      if ( targetMolecule.atoms.length <= 2 ) {
+
+        // vibration for molecules with linear geometry represented by expanding/contracting the molecule
+
+        // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
+        // (derivative of sin is cos) the atoms are expanding
+        const stretching = Math.cos( vibrationRadians ) < 0;
+
+        descriptionString = StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+          lightSource: lightSourceString,
+          photonTarget: photonTargetString,
+          excitedRepresentation: stretching ? stretchingString : contractingString
+        } );
+      }
+      else {
+
+        // more than atoms have non-linear geometry
+        descriptionString = StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+          lightSource: lightSourceString,
+          photonTarget: photonTargetString,
+          excitedRepresentation: bendsUpAndDownString
+        } );
+      }
+
+      console.log( descriptionString );
+      return descriptionString;
+    },
 
     getGeometryDescription: function() {},
 
