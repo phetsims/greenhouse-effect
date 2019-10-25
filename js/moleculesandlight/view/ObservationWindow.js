@@ -345,6 +345,16 @@ define( require => {
       }
     },
 
+    /**
+     * Gets a description of the vibration representation of absorption. Dependent on whether the molecule is
+     * linear/bent and current angle of vibration. Returns something like
+     *
+     * "Infrared photon absorbed and bonds of carbon monoxide molecule stretching." or
+     * "Infrared absorbed and bonds of ozone molecule bending up and down."
+     *
+     * @param {number} vibrationRadians
+     * @returns {string}
+     */
     getVibrationPhaseDescription: function( vibrationRadians ) {
       let descriptionString = '';
 
@@ -377,7 +387,6 @@ define( require => {
         } );
       }
 
-      console.log( descriptionString );
       return descriptionString;
     },
 
