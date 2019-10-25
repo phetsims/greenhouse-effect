@@ -47,6 +47,9 @@ define( require => {
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
   const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
+  const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
+  const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
+  const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -245,12 +248,12 @@ define( require => {
         phaseItem.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
       } );
 
-      // newMolecule.rotatingProperty.lazyLink( rotating => {
-      //   phaseItem.accessibleName = this.rotationPhaseDescription();
-      // } );
+      newMolecule.rotatingProperty.lazyLink( rotating => {
+        phaseItem.accessibleName = this.getRotationPhaseDescription();
+      } );
 
       // newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
-      //   phaseItem.accessibleName = this.getRotationPhaseDescription();
+      //   phaseItem.accessibleName = this.getHighElectronicEnergyPhaseDescription();
       // } );
 
       // newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
@@ -388,6 +391,24 @@ define( require => {
       }
 
       return descriptionString;
+    },
+
+    getRotationPhaseDescription: function() {
+      const model = this.photonAbsorptionModel;
+      const targetMolecule = model.targetMolecule;
+      const lightSourceString = WavelengthConstants.getLightSourceName( model.photonWavelengthProperty.get() );
+      const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
+
+      const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
+      const startsRotatingString = StringUtils.fillIn( startsRotatingPatternString, {
+        rotation: rotationString
+      } );
+
+      return StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        excitedRepresentation: startsRotatingString
+      } );
     },
 
     getGeometryDescription: function() {},
