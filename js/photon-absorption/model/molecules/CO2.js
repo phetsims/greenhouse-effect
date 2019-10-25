@@ -72,7 +72,7 @@ define( require => {
      */
     setVibration: function( vibrationRadians ) {
 
-      this.currentVibrationRadians = vibrationRadians;
+      this.currentVibrationRadiansProperty.set( vibrationRadians );
       const multFactor = Math.sin( vibrationRadians );
       this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, multFactor * CARBON_MAX_DEFLECTION ) );
       this.addInitialAtomCogOffset( this.oxygenAtom1, new Vector2( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );

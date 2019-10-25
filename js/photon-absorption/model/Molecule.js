@@ -20,6 +20,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const NullPhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/NullPhotonAbsorptionStrategy' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -118,8 +119,8 @@ define( require => {
     // @private
     this.passThroughPhotonList = [];
 
-    // The current point within this molecule's vibration sequence.
-    this.currentVibrationRadians = 0; // @public
+    // @public {NumberProperty} - The current point within this molecule's vibration sequence.
+    this.currentVibrationRadiansProperty = new NumberProperty( 0 );
 
     // The amount of rotation currently applied to this molecule.  This is relative to its original, non-rotated state.
     this.currentRotationRadians = 0; // @public
@@ -318,7 +319,7 @@ define( require => {
      */
     setVibration: function( vibrationRadians ) {
       // Implements no vibration by default, override in descendant classes as needed.
-      this.currentVibrationRadians = vibrationRadians;
+      this.currentVibrationRadiansProperty.set( vibrationRadians );
     },
 
     /**
@@ -327,8 +328,8 @@ define( require => {
      * @param {number} deltaRadians - Change of vibration angle in radians.
      **/
     advanceVibration: function( deltaRadians ) {
-      this.currentVibrationRadians += deltaRadians;
-      this.setVibration( this.currentVibrationRadians );
+      this.currentVibrationRadiansProperty.set( this.currentVibrationRadiansProperty.get() + deltaRadians );
+      this.setVibration( this.currentVibrationRadiansProperty.get() );
     },
 
     /**
@@ -520,7 +521,7 @@ define( require => {
         atomicBonds: serializeArray( this.atomicBonds ),
         velocity: this.velocity.toStateObject(),
         absorptionHysteresisCountdownTime: this.absorptionHysteresisCountdownTime,
-        currentVibrationRadians: this.currentVibrationRadians,
+        currentVibrationRadians: this.currentVibrationRadiansProperty.get(),
         currentRotationRadians: this.currentRotationRadians
       };
     }
@@ -537,7 +538,7 @@ define( require => {
       molecule.centerOfGravityProperty.set( Vector2.fromStateObject( stateObject.centerOfGravity ) );
       molecule.velocity = Vector2.fromStateObject( stateObject.velocity );
       molecule.absorptionHysteresisCountdownTime = stateObject.absorptionHysteresisCountdownTime;
-      molecule.currentVibrationRadians = stateObject.currentVibrationRadians;
+      molecule.currentVibrationRadiansProperty.set( stateObject.currentVibrationRadians );
       molecule.currentRotationRadians = stateObject.currentRotationRadians;
 
       // add the atoms

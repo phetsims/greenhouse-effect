@@ -101,7 +101,7 @@ define( require => {
 
       // Molecule.prototype.setVibration.call( this, vibrationRadians );
 
-      this.currentVibrationRadians = vibrationRadians;
+      this.currentVibrationRadiansProperty.set( vibrationRadians );
       const multFactor = Math.sin( vibrationRadians );
 
       if ( vibrationRadians !== 0 ) {

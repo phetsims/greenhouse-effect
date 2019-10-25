@@ -115,7 +115,7 @@ define( require => {
      */
     setVibration: function( vibrationRadians ) {
 
-      this.currentVibrationRadians = vibrationRadians;
+      this.currentVibrationRadiansProperty.set( vibrationRadians );
       const multFactor = Math.sin( vibrationRadians );
       const maxCenterOxygenDisplacement = 30;
       const maxOuterOxygenDisplacement = 15;
