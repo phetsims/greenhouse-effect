@@ -106,6 +106,10 @@ define( require => {
       validValues: PhotonTarget.VALUES
     } );
 
+    // @public (read-only) {null|Molecule} - A reference to the current target molecule, determined from the
+    // photonTargetProperty. If the molecule breaks apart this will become null again.
+    this.targetMolecule = null;
+
     this.runningProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'runningProperty' )
     } );
@@ -394,6 +398,7 @@ define( require => {
         assert && assert( false, 'unhandled photon target.' );
 
       this.activeMolecules.add( newMolecule );
+      this.targetMolecule = newMolecule;
 
       // Set the photonGroupTandem so that photons created by the molecule can be registered for PhET-iO
       newMolecule.photonGroupTandem = this.photonGroupTandem;
@@ -408,6 +413,8 @@ define( require => {
         // Remove the molecule from the photonAbsorptionModel's list of active molecules.
 
         newMolecule.dispose();
+        self.targetMolecule = null;
+
         self.activeMolecules.remove( newMolecule );
         // Add the constituent molecules to the photonAbsorptionModel.
         self.activeMolecules.add( constituentMolecule1 );
