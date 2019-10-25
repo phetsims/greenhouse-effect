@@ -26,6 +26,8 @@ define( require => {
   const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
   const interactionHintString = MoleculesAndLightA11yStrings.interactionHintString.value;
+  const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
+  const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
 
   class MoleculesAndLightScreenSummaryNode extends Node {
 
@@ -34,6 +36,9 @@ define( require => {
      */
     constructor( model ) {
       super();
+
+      // @private {PhotonAbsorptionModel}
+      this.model = model;
 
       // the static overall summary for the sim
       this.addChild( new Node( {
@@ -70,16 +75,27 @@ define( require => {
      * @returns {string}
      */
     getSummaryString( photonWavelength, emissionFrequency, photonTarget, running ) {
+      const targetMolecule = this.model.targetMolecule;
+
       const playingStateString = running ? emitterInObservationWindowString : emitterPausedInObservationWindowString;
       const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
       const emissionRateString = EmissionRateControlSliderNode.getEmissionFrequencyDescription( emissionFrequency );
-      const targetString = PhotonTarget.getMoleculeName( photonTarget );
+
+      let targetString = null;
+      if ( targetMolecule ) {
+        targetString = StringUtils.fillIn( targetMoleculePatternString, {
+          photonTarget: PhotonTarget.getMoleculeName( photonTarget )
+        } );
+      }
+      else {
+        targetString = emptySpaceString;
+      }
 
       return StringUtils.fillIn( dynamicScreenSummaryString, {
         playingState: playingStateString,
         lightSource: lightSourceString,
         emissionRate: emissionRateString,
-        photonTarget: targetString
+        target: targetString
       } );
     }
   }

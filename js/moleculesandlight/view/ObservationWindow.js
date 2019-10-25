@@ -12,6 +12,7 @@ define( require => {
   // modules
   // const Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
   const inherit = require( 'PHET_CORE/inherit' );
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -35,13 +36,13 @@ define( require => {
   const buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
 
   // a11y strings
-  const observationWindowDescriptionPatternString = MoleculesAndLightA11yStrings.observationWindowDescriptionPatternString.value;
-  const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
-  const emitsPhotonsString = MoleculesAndLightA11yStrings.emitsPhotonsString.value;
-  const aString = MoleculesAndLightA11yStrings.aString.value;
-  const anString = MoleculesAndLightA11yStrings.anString.value;
   const returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
+  const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
   const returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
+  const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
+  const photonEmitterDescriptionPatternString = MoleculesAndLightA11yStrings.photonEmitterDescriptionPatternString.value;
+  const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
+  const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
 
 
   // constants
@@ -65,7 +66,7 @@ define( require => {
       // a11y
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: 'Observation Window'
+      labelContent: observationWindowLabelString
     } );
 
     const self = this;
@@ -205,14 +206,54 @@ define( require => {
     } );
 
     this.returnMoleculeButtonVisibleProperty.link( function() {
+
       // hide the return molecule button
       self.returnMoleculeButtonNode.visible = self.returnMoleculeButtonVisibleProperty.get();
     } );
 
-    // a11y - when photon target, emission rate frequency, or photon type changes, update the accessible description
-    // of the observation window
-    Property.multilink( [ photonAbsorptionModel.photonTargetProperty, photonAbsorptionModel.emissionFrequencyProperty, photonAbsorptionModel.photonWavelengthProperty ], this.updateAccessibleDescription.bind( this ) );
+    // PDOM - list that describes the state of contents in the Observation Window
+    const phaseItem = new Node( { tagName: 'li' } );
+    const geometryItem = new Node( { tagName: 'li' } );
+    const geometryDefinitionItem = new Node( { tagName: 'li' } );
 
+    const descriptionList = new Node( {
+      children: [ phaseItem, geometryItem, geometryDefinitionItem ]
+    } );
+    this.addChild( descriptionList );
+
+    Property.multilink(
+      [ photonAbsorptionModel.photonWavelengthProperty, photonAbsorptionModel.photonTargetProperty ], ( photonWavelength, photonTarget ) => {
+        phaseItem.accessibleName = this.getInitialPhaseDescription( photonAbsorptionModel.emissionFrequencyProperty.get(), photonWavelength, photonTarget );
+      }
+    );
+
+    photonAbsorptionModel.emissionFrequencyProperty.link( ( emissionFrequency, oldFrequency ) => {
+      if ( emissionFrequency === 0 || oldFrequency === 0 ) {
+        phaseItem.accessibleName = this.getInitialPhaseDescription( emissionFrequency, photonAbsorptionModel.photonWavelengthProperty.get(), photonAbsorptionModel.photonTargetProperty.get() );
+      }
+    } );
+
+    // when the photon target changes, add listeners to the new target molecule that will update the phase description
+    photonAbsorptionModel.photonTargetProperty.link( photonTarget => {
+      // const newMolecule = photonAbsorptionModel.targetMolecule;
+
+      // TODO: IMplement these
+      // newMolecule.vibratingProperty.lazyLink( vibrating => {
+      //   phaseItem.accessibleName = this.getVibrationPhaseDescription();
+      // } );
+
+      // newMolecule.rotatingProperty.lazyLink( rotating => {
+      //   phaseItem.accessibleName = this.rotationPhaseDescription();
+      // } );
+
+      // newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
+      //   phaseItem.accessibleName = this.getRotationPhaseDescription();
+      // } );
+
+      // newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+      //   phaseItem.accessibleName = this.getBreakApartPhaseDescription();
+      // } );
+    } );
   }
 
   moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
@@ -258,26 +299,53 @@ define( require => {
       }
     },
 
-//     "Case 1 (light source off):
-// In observation window, {{ultraviolet}} light source is off and points directly at {{an}} {{ozone}} molecule.
+    /**
+     * Get the description of photon/molecule phase for initial interaction. This will be when photons
+     * start to emit and are passing through the molecule. Once a photon is absorbed a new description strategy begins
+     * where we describe the absorption.
+     *
+     * @param {number} emissionFrequency
+     * @param {number} photonWavelength
+     * @param {PhotonTarget} photonTarget
+     * @returns {string}
+     */
+    getInitialPhaseDescription: function( emissionFrequency, photonWavelength, photonTarget ) {
+      const targetMolecule = this.photonAbsorptionModel.targetMolecule;
 
-// Case 2 (light source on):
-// In observation window, {{ultraviolet}} light source emits photons directly at {{an}} {{ozone}} molecule.
-// "
+      const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
+      const emissionRateString = EmissionRateControlSliderNode.getEmissionFrequencyDescription( emissionFrequency );
 
-    updateAccessibleDescription: function( photonTarget, emissionFrequency, wavelength ) {
+      let targetString = null;
+      if ( targetMolecule ) {
+        targetString = StringUtils.fillIn( targetMoleculePatternString, {
+          photonTarget: PhotonTarget.getMoleculeName( photonTarget )
+        } );
+      }
+      else {
+        targetString = emptySpaceString;
+      }
 
-      const lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
-      const moleculeString = PhotonTarget.getMoleculeName( photonTarget );
-      const onOfString = emissionFrequency > 0 ? emitsPhotonsString : isOffAndPointsString;
-      const aOrAn = 'AEIOU'.search( moleculeString.charAt( 1 ) ) === -1 ? aString : anString;
+      if ( emissionFrequency === 0 ) {
 
-      this.descriptionContent = StringUtils.fillIn( observationWindowDescriptionPatternString, {
-        wavelengthName: lightSourceString,
-        molecule: moleculeString,
-        lightOnOffLanguage: onOfString,
-        an: aOrAn
-      } );
-    }
+        // no photons moving, indicate to the user to begin firing photons
+        return StringUtils.fillIn( photonEmitterDescriptionPatternString, {
+          lightSource: lightSourceString,
+          emissionRate: emissionRateString,
+          target: targetString
+        } );
+      }
+      else {
+        return StringUtils.fillIn( inactiveAndPassingPhaseDescriptionPatternString, {
+          lightSource: lightSourceString,
+          target: targetString
+        } );
+      }
+    },
+
+    getVibrationPhaseDescription: function() {},
+
+    getGeometryDescription: function() {},
+
+    getGeometryDefinitionDescription: function( emissionFrequency, photonWavelength, photonTarget ) {}
   } );
 } );
