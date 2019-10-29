@@ -129,7 +129,7 @@ define( require => {
       modelViewTransform,
       tandem.createTandem( 'observationWindow' )
     );
-    this.playAreaNode.addChild( observationWindow );
+    this.pdomPlayAreaNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
@@ -140,11 +140,11 @@ define( require => {
         stroke: '#C5D6E8',
         lineWidth: 8 * FRAME_LINE_WIDTH
       } );
-    this.playAreaNode.addChild( clipRectangle );
+    this.pdomPlayAreaNode.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
     const windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
-    this.playAreaNode.addChild( windowFrameNode );
+    this.pdomPlayAreaNode.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
     observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
@@ -260,8 +260,8 @@ define( require => {
     this.controlAreaNode.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
-    this.playAreaNode.addChild( photonEmissionControlPanel );
-    this.playAreaNode.addChild( moleculeControlPanel );
+    this.pdomPlayAreaNode.addChild( photonEmissionControlPanel );
+    this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
     //-----------------------------------------------------------------------------------------------------------------
     // sound generation
