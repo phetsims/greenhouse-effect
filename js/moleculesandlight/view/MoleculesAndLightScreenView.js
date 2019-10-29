@@ -55,8 +55,7 @@ define( require => {
   const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // sounds
-  const brokeApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
-  const brokeApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
+  const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibrateOption1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-001.mp3' );
@@ -64,6 +63,11 @@ define( require => {
   const vibrateOption3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-003.mp3' );
   const vibrateOption4SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-004.mp3' );
   const vibrateOption5SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-005.mp3' );
+  const vibrateOption6SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-006.mp3' );
+  const vibrateOption7SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-007.mp3' );
+  const vibrateOption8SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-008.mp3' );
+  const vibrateOption9SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-009.mp3' );
+  const vibrateOption10SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-010.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
   const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
@@ -283,17 +287,10 @@ define( require => {
     };
 
     // broke apart sound
-    const brokeApartSound = new SoundClip( brokeApartSoundInfo, { initialOutputLevel: 0.5 } );
-    soundManager.addSoundGenerator( brokeApartSound );
-    const brokeApartSound2 = new SoundClip( brokeApartSoundV2Info, { initialOutputLevel: 1 } );
+    const brokeApartSound2 = new SoundClip( breakApartSoundV2Info, { initialOutputLevel: 1 } );
     soundManager.addSoundGenerator( brokeApartSound2 );
-    const brokeApartSoundPlayer = () => {
-      if ( malSoundOptionsDialogContent.breakApartSoundProperty.value === 1 ) {
-        brokeApartSound.play();
-      }
-      else {
-        brokeApartSound2.play();
-      }
+    const breakApartSoundPlayer = () => {
+      brokeApartSound2.play();
     };
 
     // molecule rotating sound
@@ -309,7 +306,12 @@ define( require => {
       new SoundClip( vibrateOption2SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption3SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption4SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption5SoundInfo, { initialOutputLevel: 0.2, loop: true } )
+      new SoundClip( vibrateOption5SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption6SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption7SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption8SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption9SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption10SoundInfo, { initialOutputLevel: 0.2, loop: true } )
     ];
     moleculeVibrationSoundClips.forEach( soundClip => {
       soundManager.addSoundGenerator( soundClip );
@@ -342,7 +344,7 @@ define( require => {
     // function that adds all of the listeners involved in creating sound
     const addSoundPlayersToMolecule = molecule => {
       molecule.highElectronicEnergyStateProperty.link( moleculeEnergizedSoundPlayer );
-      molecule.brokeApartEmitter.addListener( brokeApartSoundPlayer );
+      molecule.brokeApartEmitter.addListener( breakApartSoundPlayer );
       molecule.rotatingProperty.link( rotateSoundPlayer );
       molecule.vibratingProperty.link( vibrationSoundPlayer );
     };
@@ -356,8 +358,8 @@ define( require => {
       if ( removedMolecule.highElectronicEnergyStateProperty.hasListener( moleculeEnergizedSoundPlayer ) ) {
         removedMolecule.highElectronicEnergyStateProperty.unlink( moleculeEnergizedSoundPlayer );
       }
-      if ( removedMolecule.brokeApartEmitter.hasListener( brokeApartSoundPlayer ) ) {
-        removedMolecule.brokeApartEmitter.removeListener( brokeApartSoundPlayer );
+      if ( removedMolecule.brokeApartEmitter.hasListener( breakApartSoundPlayer ) ) {
+        removedMolecule.brokeApartEmitter.removeListener( breakApartSoundPlayer );
       }
       if ( removedMolecule.rotatingProperty.hasListener( rotateSoundPlayer ) ) {
         removedMolecule.rotatingProperty.unlink( rotateSoundPlayer );

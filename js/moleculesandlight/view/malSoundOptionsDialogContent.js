@@ -42,7 +42,6 @@ define( require => {
       // @public (read-only)
       this.photonInitialEmissionSoundSetProperty = new NumberProperty( 3 );
       this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 1 );
-      this.breakApartSoundProperty = new NumberProperty( 1 );
       this.vibrationSoundProperty = new NumberProperty( 1 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
@@ -91,24 +90,10 @@ define( require => {
           } )
         );
 
-        // sound selection for molecules breaking apart
-        const breakApartSoundRadioButtonGroup = new VerticalAquaRadioButtonGroup(
-          this.breakApartSoundProperty,
-          createNumberedRadioButtonDescriptorSet( 2 )
-        );
-        const breakApartSoundSelectionPanel = new Panel(
-          new VBox( {
-            children: [
-              new Text( 'Break Apart Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
-              breakApartSoundRadioButtonGroup
-            ]
-          } )
-        );
-
         // sound selection for molecule vibration
         const vibrationSoundRadioButtonGroup = new VerticalAquaRadioButtonGroup(
           this.vibrationSoundProperty,
-          createNumberedRadioButtonDescriptorSet( 5 )
+          createNumberedRadioButtonDescriptorSet( 10 )
         );
         const vibrationSoundSelectionPanel = new Panel(
           new VBox( {
@@ -124,7 +109,6 @@ define( require => {
           children: [
             photonInitialEmissionSoundSelectionPanel,
             photonSecondaryEmissionSoundSelectionPanel,
-            breakApartSoundSelectionPanel,
             vibrationSoundSelectionPanel
           ],
           spacing: 5
