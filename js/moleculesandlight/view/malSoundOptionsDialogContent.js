@@ -41,7 +41,7 @@ define( require => {
 
       // @public (read-only)
       this.photonInitialEmissionSoundSetProperty = new NumberProperty( 3 );
-      this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 1 );
+      this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 2 );
       this.vibrationSoundProperty = new NumberProperty( 1 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
