@@ -12,12 +12,12 @@ define( require => {
 
   // modules
   const CH4 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CH4' );
-  const ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
   const CO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO' );
   const CO2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/CO2' );
   const FocusHighlightPath = require( 'SCENERY/accessibility/FocusHighlightPath' );
   const H2O = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/H2O' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const MolecularFormulaStrings = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MolecularFormulaStrings' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -50,16 +50,6 @@ define( require => {
   // that it scales down the size of the molecules and flips the Y axis so that molecules on the panel are oriented the
   // same as in the play area.
   const MODEL_VIEW_TRANSFORM = ModelViewTransform2.createSinglePointScaleInvertedYMapping( new Vector2( 0, 0 ), new Vector2( 0, 0 ), 1 );
-
-  // Chemical formulas for the button labels.
-  const CO_FORMULA_STRING = 'CO';
-  const N2_FORMULA_STRING = ChemUtils.toSubscript( 'N2' );
-  const O2_FORMULA_STRING = ChemUtils.toSubscript( 'O2' );
-  const CO2_FORMULA_STRING = ChemUtils.toSubscript( 'CO2' );
-  const NO2_FORMULA_STRING = ChemUtils.toSubscript( 'NO2' );
-  const O3_FORMULA_STRING = ChemUtils.toSubscript( 'O3' );
-  const H20_FORMULA_STRING = ChemUtils.toSubscript( 'H2O' );
-  const CH4_FORMULA_STRING = ChemUtils.toSubscript( 'CH4' );
 
   // Scaling factor for the molecule images, determined empirically.
   const MOLECULE_SCALING_FACTOR = 0.0975;
@@ -130,21 +120,21 @@ define( require => {
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     const radioButtonContent = [
-      createElement( PhotonTarget.SINGLE_CO_MOLECULE, CO_FORMULA_STRING, new CO( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_CO_MOLECULE, MolecularFormulaStrings.CO_FORMULA_STRING, new CO( moleculeOptions ),
         'singleCOMoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_N2_MOLECULE, N2_FORMULA_STRING, new N2( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_N2_MOLECULE, MolecularFormulaStrings.N2_FORMULA_STRING, new N2( moleculeOptions ),
         'singleN2MoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_O2_MOLECULE, O2_FORMULA_STRING, new O2( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_O2_MOLECULE, MolecularFormulaStrings.O2_FORMULA_STRING, new O2( moleculeOptions ),
         'singleO2MoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_CO2_MOLECULE, CO2_FORMULA_STRING, new CO2( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_CO2_MOLECULE, MolecularFormulaStrings.CO2_FORMULA_STRING, new CO2( moleculeOptions ),
         'singleCO2MoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_CH4_MOLECULE, CH4_FORMULA_STRING, new CH4( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_CH4_MOLECULE, MolecularFormulaStrings.CH4_FORMULA_STRING, new CH4( moleculeOptions ),
         'singleCH4MoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_H2O_MOLECULE, H20_FORMULA_STRING, new H2O( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_H2O_MOLECULE, MolecularFormulaStrings.H20_FORMULA_STRING, new H2O( moleculeOptions ),
         'singleH2OMoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_NO2_MOLECULE, NO2_FORMULA_STRING, new NO2( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_NO2_MOLECULE, MolecularFormulaStrings.NO2_FORMULA_STRING, new NO2( moleculeOptions ),
         'singleNO2MoleculeRadioButton' ),
-      createElement( PhotonTarget.SINGLE_O3_MOLECULE, O3_FORMULA_STRING, new O3( moleculeOptions ),
+      createElement( PhotonTarget.SINGLE_O3_MOLECULE, MolecularFormulaStrings.O3_FORMULA_STRING, new O3( moleculeOptions ),
         'singleO3MoleculeRadioButton' )
     ];
 

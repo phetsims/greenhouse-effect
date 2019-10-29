@@ -13,6 +13,7 @@ define( require => {
   // const Shape = require( 'KITE/Shape' );  // See below for comment on temporary replacement of clipArea shape.
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
+  const MoleculeNameMap = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNameMap' );
   const inherit = require( 'PHET_CORE/inherit' );
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
@@ -50,6 +51,8 @@ define( require => {
   const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
+  const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
+  const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -252,13 +255,13 @@ define( require => {
         phaseItem.accessibleName = this.getRotationPhaseDescription();
       } );
 
-      // newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
-      //   phaseItem.accessibleName = this.getHighElectronicEnergyPhaseDescription();
-      // } );
+      newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
+        phaseItem.accessibleName = this.getHighElectronicEnergyPhaseDescription();
+      } );
 
-      // newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
-      //   phaseItem.accessibleName = this.getBreakApartPhaseDescription();
-      // } );
+      newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+        phaseItem.accessibleName = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
+      } );
     } );
   }
 
@@ -408,6 +411,49 @@ define( require => {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
         excitedRepresentation: startsRotatingString
+      } );
+    },
+
+    /**
+     * Get a string the describes the molecule when it starts to glow from its high electronic energy state
+     * representation after absorption. Will return a string like
+     * "‪Visible‬ photon absorbed and bonds of ‪Nitrogen Dioxide‬ molecule starts glowing."
+     * @private
+     *
+     * @returns {string}
+     */
+    getHighElectronicEnergyPhaseDescription: function() {
+      const model = this.photonAbsorptionModel;
+      const lightSourceString = WavelengthConstants.getLightSourceName( model.photonWavelengthProperty.get() );
+      const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
+
+      return StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        excitedRepresentation: startsGlowingString
+      } );
+    },
+
+    /**
+     * Returns a string that describes the molecule after it breaks apart into two other molecules. Will return
+     * a string like
+     * "Ultraviolet photon absorbed and Ozone molecule breaks apart into O2 and O."
+     *
+     * @returns {string}
+     */
+    getBreakApartPhaseDescription: function( firstMolecule, secondMolecule ) {
+      const model = this.photonAbsorptionModel;
+      const lightSourceString = WavelengthConstants.getLightSourceName( model.photonWavelengthProperty.get() );
+      const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
+
+      const firstMolecularFormula = MoleculeNameMap.getMolecularFormula( firstMolecule );
+      const secondMolecularFormula = MoleculeNameMap.getMolecularFormula( secondMolecule );
+
+      return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        firstMolecule: firstMolecularFormula,
+        secondMolecule: secondMolecularFormula
       } );
     },
 
