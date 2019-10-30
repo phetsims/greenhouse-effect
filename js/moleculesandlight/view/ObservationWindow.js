@@ -498,8 +498,12 @@ define( require => {
      * @returns {string}
      */
     getEmissionPhaseDescription: function( photon ) {
+      const model = this.photonAbsorptionModel;
+
+      const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
+      const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+
       const emissionAngle = Math.atan2( photon.vy, photon.vx );
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.photonAbsorptionModel.photonWavelengthProperty.get() );
       const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
         modelViewTransform: this.modelViewTransform
       } );
@@ -519,8 +523,9 @@ define( require => {
       }
 
       return StringUtils.fillIn( emissionPhaseDescriptionPatternString, {
-        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
         excitedRepresentation: representationString,
+        lightSource: lightSourceString,
         direction: directionString
       } );
     },
