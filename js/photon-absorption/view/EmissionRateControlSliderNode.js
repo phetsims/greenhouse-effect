@@ -37,7 +37,7 @@ define( require => {
   const THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
 
   // a11y strings
-  const lightSourceSliderString = MoleculesAndLightA11yStrings.lightSourceSliderString.value;
+  const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
   // var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
   const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
   const emitsPhotonsQuicklyString = MoleculesAndLightA11yStrings.emitsPhotonsQuicklyString.value;
@@ -74,8 +74,9 @@ define( require => {
 
       // a11y
       labelTagName: 'label',
-      labelContent: lightSourceSliderString,
+      labelContent: lightSourceString,
       descriptionContent: emissionSliderDescriptionString,
+      appendDescription: true,
       numberDecimalPlaces: 1,
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
