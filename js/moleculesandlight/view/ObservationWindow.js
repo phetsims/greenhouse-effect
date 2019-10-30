@@ -17,6 +17,7 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+  const MovementDescriber = require( 'SCENERY_PHET/accessibility/describers/MovementDescriber' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -46,6 +47,8 @@ define( require => {
   const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
   const absorptionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseDescriptionPatternString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
+  const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
+  const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
   const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
   const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
@@ -53,6 +56,7 @@ define( require => {
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
   const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
   const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
+  const emissionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.emissionPhaseDescriptionPatternString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -242,25 +246,54 @@ define( require => {
       }
     } );
 
+    // state of molecule when we absorb a photon, tracked so that we can accurately describe what stops happening
+    // when the photon is re-emitted - the Molecule Properties tracking these things may have already reset upon
+    // emission so tracking these explicitly is more robust
+    this.moleculeVibrating = false;
+    this.moleculeRotating = false;
+    this.moleculeRotatingClockwise = false;
+    this.moleculeRotatingCounterClockwise = false;
+    this.moleculeHighElectronicEnergyState = false;
+    this.moleculeBrokeApart = false;
+
     // when the photon target changes, add listeners to the new target molecule that will update the phase description
     photonAbsorptionModel.photonTargetProperty.link( photonTarget => {
       const newMolecule = photonAbsorptionModel.targetMolecule;
 
       // TODO: IMplement these
       newMolecule.currentVibrationRadiansProperty.lazyLink( vibrationRadians => {
-        phaseItem.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
+        this.moleculeVibrating = newMolecule.vibratingProperty.get();
+
+        if ( this.moleculeVibrating ) {
+          phaseItem.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
+        }
       } );
 
       newMolecule.rotatingProperty.lazyLink( rotating => {
-        phaseItem.accessibleName = this.getRotationPhaseDescription();
+        this.moleculeRotating = rotating;
+        this.moleculeRotatingClockwise = newMolecule.rotationDirectionClockwiseProperty.get();
+
+        if ( rotating ) {
+          phaseItem.accessibleName = this.getRotationPhaseDescription();
+        }
       } );
 
       newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
-        phaseItem.accessibleName = this.getHighElectronicEnergyPhaseDescription();
+        this.moleculeHighElectronicEnergyState = highEnergy;
+
+        if ( highEnergy ) {
+          phaseItem.accessibleName = this.getHighElectronicEnergyPhaseDescription();
+        }
       } );
 
       newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+        this.moleculeBrokeApart = true;
         phaseItem.accessibleName = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
+      } );
+
+      newMolecule.photonEmittedEmitter.addListener( photon => {
+        phaseItem.accessibleName = this.getEmissionPhaseDescription( photon );
+        console.log( phaseItem.accessibleName );
       } );
     } );
   }
@@ -369,9 +402,8 @@ define( require => {
       const lightSourceString = WavelengthConstants.getLightSourceName( model.photonWavelengthProperty.get() );
       const photonTargetString = PhotonTarget.getMoleculeName( model.photonTargetProperty.get() );
 
-      if ( targetMolecule.atoms.length <= 2 ) {
-
-        // vibration for molecules with linear geometry represented by expanding/contracting the molecule
+      // vibration for molecules with linear geometry represented by expanding/contracting the molecule
+      if ( targetMolecule.isLinear() ) {
 
         // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
         // (derivative of sin is cos) the atoms are expanding
@@ -454,6 +486,42 @@ define( require => {
         photonTarget: photonTargetString,
         firstMolecule: firstMolecularFormula,
         secondMolecule: secondMolecularFormula
+      } );
+    },
+
+    /**
+     * Get a description of the molecule after it emits a photon. Will return something like
+     * "Carbon Monoxide molecule stops stretching and emits absorbed photon up and to the left."
+     * @private
+     *
+     * @param {Photon} photon - the emitted photon
+     * @returns {string}
+     */
+    getEmissionPhaseDescription: function( photon ) {
+      const emissionAngle = Math.atan2( photon.vy, photon.vx );
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.photonAbsorptionModel.photonWavelengthProperty.get() );
+      const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
+        modelViewTransform: this.modelViewTransform
+      } );
+
+      let representationString = null;
+      if ( this.moleculeVibrating ) {
+        representationString = this.photonAbsorptionModel.targetMolecule.isLinear() ? stretchingString : bendingString;
+      }
+      else if ( this.moleculeHighElectronicEnergyState ) {
+        representationString = glowingString;
+      }
+      else if ( this.moleculeRotating ) {
+        representationString = this.moleculeRotatingClockwise ? rotatingClockwiseString : rotatingCounterClockwiseString;
+      }
+      else {
+        throw new Error( 'undhandled excitation representation' );
+      }
+
+      return StringUtils.fillIn( emissionPhaseDescriptionPatternString, {
+        lightSource: lightSourceString,
+        excitedRepresentation: representationString,
+        direction: directionString
       } );
     },
 
