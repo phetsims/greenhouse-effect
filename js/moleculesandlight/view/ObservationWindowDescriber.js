@@ -24,7 +24,7 @@ define( require => {
   const MovementDescriber = require( 'SCENERY_PHET/accessibility/describers/MovementDescriber' );
   const EmissionRateControlSliderNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/EmissionRateControlSliderNode' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-  const MoleculeNameMap = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNameMap' );
+  const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
 
   // a11y strings
   const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
@@ -313,8 +313,8 @@ define( require => {
       const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
-      const firstMolecularFormula = MoleculeNameMap.getMolecularFormula( firstMolecule );
-      const secondMolecularFormula = MoleculeNameMap.getMolecularFormula( secondMolecule );
+      const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
+      const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
       return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
         lightSource: lightSourceString,
@@ -364,8 +364,8 @@ define( require => {
     }
 
     getMoleculesRemovedDescription( firstMolecule, secondMolecule ) {
-      const firstMolecularFormula = MoleculeNameMap.getMolecularFormula( firstMolecule );
-      const secondMolecularFormula = MoleculeNameMap.getMolecularFormula( secondMolecule );
+      const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
+      const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
       return StringUtils.fillIn( moleculesOutOfViewPatternString, {
         firstMolecule: firstMolecularFormula,

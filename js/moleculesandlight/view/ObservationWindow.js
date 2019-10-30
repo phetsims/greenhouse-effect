@@ -16,6 +16,7 @@ define( require => {
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
+  const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PhotonEmitterNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonEmitterNode' );
@@ -26,6 +27,7 @@ define( require => {
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Vector2 = require( 'DOT/Vector2' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   // const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
@@ -35,6 +37,7 @@ define( require => {
   const returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
   const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
   const returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
+  const geometryLabelPatternString = MoleculesAndLightA11yStrings.geometryLabelPatternString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -207,21 +210,31 @@ define( require => {
 
     // PDOM - list that describes the state of contents in the Observation Window
     const phaseItem = new Node( { tagName: 'li' } );
-    const geometryItem = new Node( { tagName: 'li' } );
-    const geometryDefinitionItem = new Node( { tagName: 'li' } );
+    const geometryLabelItem = new Node( { tagName: 'li' } );
+    const geometryDescriptionItem = new Node( { tagName: 'li' } );
 
-    // attach listeners that will describe the initial phase of photons passing through the molecule
+    // PDOM - attach listeners that will describe the initial phase of photons passing through the molecule
     describer.attachInitialPhaseDescriptionListeners( phaseItem );
 
-    // when a new molecule is added to the observation window, add listeners that will generate descriptions
+    // PDOM - when a new molecule is added to the observation window, add listeners that will generate descriptions
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
       describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
     } );
     describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
+    // PDOM - update geometry descriptions when target changes
+    photonAbsorptionModel.photonTargetProperty.link( target => {
+      const targetMolecule = photonAbsorptionModel.targetMolecule;
+
+      geometryLabelItem.accessibleName = StringUtils.fillIn( geometryLabelPatternString, {
+        geometry: MoleculeUtils.getGeometryLabel( targetMolecule )
+      } );
+      geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );
+    } );
+
     const descriptionList = new Node( {
-      children: [ phaseItem, geometryItem, geometryDefinitionItem ]
+      children: [ phaseItem, geometryLabelItem, geometryDescriptionItem ]
     } );
     this.addChild( descriptionList );
   }
