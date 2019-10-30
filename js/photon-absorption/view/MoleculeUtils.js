@@ -131,6 +131,36 @@ define( require => {
     },
 
     /**
+     * Returns a title of the molecular geometry, meant to describe geometry on its own. Will return
+     * something like "Linear" or "Bent".
+     *
+     * @param {Molecule} molecule
+     * @returns {string}
+     */
+    getGeometryTitleString( molecule ) {
+      let titleString = '';
+
+      const geometry = MolecularGeometryMap.get( molecule.constructor );
+      if ( geometry === Geometry.LINEAR ) {
+        titleString = linearString;
+      }
+      else if ( geometry === Geometry.BENT ) {
+        titleString = bentString;
+      }
+      else if ( geometry === Geometry.TETRAHEDRAL ) {
+        titleString = tetrahedralString;
+      }
+      else if ( geometry === Geometry.DIATOMIC ) {
+        titleString = diatomicString;
+      }
+      else {
+        throw new Error( 'requesting geometry label for a geometry that is not registered' );
+     }
+
+     return titleString;
+    },
+
+    /**
      * Get a description of the molecular geometry. This will be read by the user. Will return a full
      * description like
      *
