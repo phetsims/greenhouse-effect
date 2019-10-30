@@ -68,6 +68,10 @@ define( require => {
       this.moleculeRotatingCounterClockwise = false;
       this.moleculeHighElectronicEnergyState = false;
       this.moleculeBrokeApart = false;
+
+      // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
+      // to describe the absorbed photon not the photon wavelength currently being emitted
+      this.wavelengthOnAbsorption = model.photonWavelengthProperty.get();
     }
 
     /**
@@ -114,6 +118,7 @@ define( require => {
         this.moleculeVibrating = molecule.vibratingProperty.get();
 
         if ( this.moleculeVibrating ) {
+          this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
           descriptionNode.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
         }
       } );
@@ -124,6 +129,7 @@ define( require => {
         this.moleculeRotatingClockwise = molecule.rotationDirectionClockwiseProperty.get();
 
         if ( rotating ) {
+          this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
           descriptionNode.accessibleName = this.getRotationPhaseDescription();
         }
       } );
@@ -133,6 +139,7 @@ define( require => {
         this.moleculeHighElectronicEnergyState = highEnergy;
 
         if ( highEnergy ) {
+          this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
           descriptionNode.accessibleName = this.getHighElectronicEnergyPhaseDescription();
         }
       } );
@@ -145,6 +152,8 @@ define( require => {
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
         this.moleculeBrokeApart = true;
+        this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
+
         descriptionNode.accessibleName = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
 
         const activeMolecules = this.model.activeMolecules;
@@ -228,7 +237,7 @@ define( require => {
       let descriptionString = '';
 
       const targetMolecule = this.model.targetMolecule;
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
       // vibration for molecules with linear geometry represented by expanding/contracting the molecule
@@ -259,7 +268,7 @@ define( require => {
 
     getRotationPhaseDescription() {
       const targetMolecule = this.model.targetMolecule;
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
       const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
@@ -283,7 +292,7 @@ define( require => {
      * @returns {string}
      */
     getHighElectronicEnergyPhaseDescription() {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
       return StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
@@ -301,7 +310,7 @@ define( require => {
      * @returns {string}
      */
     getBreakApartPhaseDescription( firstMolecule, secondMolecule ) {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
       const firstMolecularFormula = MoleculeNameMap.getMolecularFormula( firstMolecule );
