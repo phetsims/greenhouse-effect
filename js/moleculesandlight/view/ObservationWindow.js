@@ -237,6 +237,9 @@ define( require => {
       children: [ phaseItem, geometryLabelItem, geometryDescriptionItem ]
     } );
     this.addChild( descriptionList );
+
+    // PDOM - description list first
+    this.accessibleOrder = [ descriptionList, photonEmitterNode ];
   }
 
   moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
