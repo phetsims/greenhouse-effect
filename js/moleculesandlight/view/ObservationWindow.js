@@ -36,7 +36,6 @@ define( require => {
   // a11y strings
   const returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
   const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
-  const returnMoleculeHelpString = MoleculesAndLightA11yStrings.returnMoleculeHelpString.value;
   const geometryLabelPatternString = MoleculesAndLightA11yStrings.geometryLabelPatternString.value;
 
   // constants
@@ -139,7 +138,6 @@ define( require => {
       tandem: tandem.createTandem( 'returnMoleculeButton' ),
 
       // a11y
-      descriptionContent: returnMoleculeHelpString,
       appendDescription: true,
       ariaLabel: returnMoleculeString
     } );
