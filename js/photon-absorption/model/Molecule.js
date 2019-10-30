@@ -483,6 +483,15 @@ define( require => {
     },
 
     /**
+     * Returns true if the atoms in the molecule would form a linear structure - currently this is
+     * true if the molecule has <= 2 atoms.
+     * @returns {boolean}
+     */
+    isLinear: function() {
+      return this.atoms.length <= 2;
+    },
+
+    /**
      * Update the positions of all atoms that comprise this molecule based on the current center of gravity and the
      * offset for each atom.
      **/
