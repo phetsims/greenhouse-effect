@@ -20,6 +20,7 @@ define( require => {
   const MolecularFormulaStrings = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MolecularFormulaStrings' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const MoleculeNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeNode' );
+  const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   const N2 = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/molecules/N2' );
@@ -42,8 +43,9 @@ define( require => {
 
   // a11y strings
   const moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
-  const moleculesPanelDescriptionString = MoleculesAndLightA11yStrings.moleculesPanelDescriptionString.value;
+  const moleculesRadioButtonHelpTextString = MoleculesAndLightA11yStrings.moleculesRadioButtonHelpTextString.value;
   const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
+  const moleculeButtonLabelPatternString = MoleculesAndLightA11yStrings.moleculeButtonLabelPatternString.value;
 
   // constants
   // Model view transform used for creating images of the various molecules. This is basically a null transform except
@@ -107,13 +109,13 @@ define( require => {
     }
 
 
-    const createElement = function( photonTarget, formulaString, molecule, tandemName, descriptionContent ) {
+    const createElement = ( photonTarget, formulaString, molecule, tandemName, descriptionContent ) => {
       return {
         node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
-          formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
+        formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
         value: photonTarget,
         tandemName: tandemName,
-        labelContent: PhotonTarget.getMoleculeName( photonTarget )
+        labelContent: this.getPDOMLabel( molecule )
       };
     };
     const moleculeOptions = { isForIcon: true };
@@ -175,7 +177,7 @@ define( require => {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: moleculesString,
-      descriptionContent: moleculesPanelDescriptionString
+      descriptionContent: moleculesRadioButtonHelpTextString
     } );
 
     // var handleMoleculeChange = function( event ) {
@@ -201,6 +203,26 @@ define( require => {
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 
-  return inherit( Panel, MoleculeSelectionPanel );
+  return inherit( Panel, MoleculeSelectionPanel, {
 
+    /**
+     * Get the PDOM label for one of the buttons. Contains the molecular name, molecular formula, and
+     * molecular geometry. Will return something like "Carbon Monoxide, CO, Linear"
+     * @private
+     *
+     * @param {Molecule} molecule
+     * @returns {string}
+     */
+    getPDOMLabel: function( molecule ) {
+      const molecularNameString = MoleculeUtils.getMolecularName( molecule );
+      const geometryTitleString = MoleculeUtils.getGeometryTitleString( molecule );
+      const molecularFormulaString = MoleculeUtils.getMolecularFormula( molecule );
+
+      return StringUtils.fillIn( moleculeButtonLabelPatternString, {
+        molecularName: molecularNameString,
+        molecularFormula: molecularFormulaString,
+        geometryTitle: geometryTitleString
+      } );
+    }
+  } );
 } );
