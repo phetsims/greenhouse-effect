@@ -25,7 +25,6 @@ define( require => {
   const PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
   const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   const platform = require( 'PHET_CORE/platform' );
-  const Property = require( 'AXON/Property' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
@@ -57,6 +56,7 @@ define( require => {
   const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
   const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
   const emissionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.emissionPhaseDescriptionPatternString.value;
+  const moleculesOutOfViewPatternString = MoleculesAndLightA11yStrings.moleculesOutOfViewPatternString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -234,14 +234,17 @@ define( require => {
     } );
     this.addChild( descriptionList );
 
-    Property.multilink(
-      [ photonAbsorptionModel.photonWavelengthProperty, photonAbsorptionModel.photonTargetProperty ], ( photonWavelength, photonTarget ) => {
-        phaseItem.accessibleName = this.getInitialPhaseDescription( photonAbsorptionModel.emissionFrequencyProperty.get(), photonWavelength, photonTarget );
+    photonAbsorptionModel.photonWavelengthProperty.link( photonWavelength => {
+
+      // if there isn't a target molecule, keep the current description which should indicate that a molecule should be
+      // added back with the "Return Molecule" button
+      if ( photonAbsorptionModel.targetMolecule ) {
+        phaseItem.accessibleName = this.getInitialPhaseDescription( photonAbsorptionModel.emissionFrequencyProperty.get(), photonWavelength, photonAbsorptionModel.photonTargetProperty.get() );
       }
-    );
+    } );
 
     photonAbsorptionModel.emissionFrequencyProperty.link( ( emissionFrequency, oldFrequency ) => {
-      if ( emissionFrequency === 0 || oldFrequency === 0 ) {
+      if ( ( emissionFrequency === 0 || oldFrequency === 0 ) && photonAbsorptionModel.targetMolecule ) {
         phaseItem.accessibleName = this.getInitialPhaseDescription( emissionFrequency, photonAbsorptionModel.photonWavelengthProperty.get(), photonAbsorptionModel.photonTargetProperty.get() );
       }
     } );
@@ -257,28 +260,31 @@ define( require => {
     this.moleculeBrokeApart = false;
 
     // when the photon target changes, add listeners to the new target molecule that will update the phase description
-    photonAbsorptionModel.photonTargetProperty.link( photonTarget => {
-      const newMolecule = photonAbsorptionModel.targetMolecule;
+    photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
 
-      // TODO: IMplement these
-      newMolecule.currentVibrationRadiansProperty.lazyLink( vibrationRadians => {
-        this.moleculeVibrating = newMolecule.vibratingProperty.get();
+      // new target molecule added,
+      if ( molecule === photonAbsorptionModel.targetMolecule ) {
+        phaseItem.accessibleName = this.getInitialPhaseDescription( photonAbsorptionModel.emissionFrequencyProperty.get(), photonAbsorptionModel.photonWavelengthProperty.get(), photonAbsorptionModel.photonTargetProperty.get() );
+      }
+
+      molecule.currentVibrationRadiansProperty.lazyLink( vibrationRadians => {
+        this.moleculeVibrating = molecule.vibratingProperty.get();
 
         if ( this.moleculeVibrating ) {
           phaseItem.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
         }
       } );
 
-      newMolecule.rotatingProperty.lazyLink( rotating => {
+      molecule.rotatingProperty.lazyLink( rotating => {
         this.moleculeRotating = rotating;
-        this.moleculeRotatingClockwise = newMolecule.rotationDirectionClockwiseProperty.get();
+        this.moleculeRotatingClockwise = molecule.rotationDirectionClockwiseProperty.get();
 
         if ( rotating ) {
           phaseItem.accessibleName = this.getRotationPhaseDescription();
         }
       } );
 
-      newMolecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
+      molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
         this.moleculeHighElectronicEnergyState = highEnergy;
 
         if ( highEnergy ) {
@@ -286,12 +292,34 @@ define( require => {
         }
       } );
 
-      newMolecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+      molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
         this.moleculeBrokeApart = true;
         phaseItem.accessibleName = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
+
+        // new molecules are removed from the observation window, describe that they are no longer in place
+        const activeMolecules = this.photonAbsorptionModel.activeMolecules;
+
+        // when the constituent molecules are added to the list of active molecules, add a listener that
+        // will describe their removal once they are removed - only needs to be added once on the
+        // first addition of a constituent molecule
+        const addMoleculeRemovalListener = () => {
+          const describeMoleculesRemoved = ( molecule, observableArray ) => {
+            if ( !activeMolecules.contains( moleculeA ) && !activeMolecules.contains( moleculeB ) ) {
+              phaseItem.accessibleName = this.getMoleculesRemovedDescription( moleculeA, moleculeB );
+              activeMolecules.removeItemRemovedListener( describeMoleculesRemoved );
+            }
+          };
+
+          activeMolecules.addItemRemovedListener( describeMoleculesRemoved );
+
+          // itemRemoved listener has been added, can remove the listener on molecule addition
+          activeMolecules.removeItemAddedListener( addMoleculeRemovalListener );
+        };
+
+        activeMolecules.addItemAddedListener( addMoleculeRemovalListener );
       } );
 
-      newMolecule.photonEmittedEmitter.addListener( photon => {
+      molecule.photonEmittedEmitter.addListener( photon => {
         phaseItem.accessibleName = this.getEmissionPhaseDescription( photon );
         console.log( phaseItem.accessibleName );
       } );
@@ -527,6 +555,16 @@ define( require => {
         excitedRepresentation: representationString,
         lightSource: lightSourceString,
         direction: directionString
+      } );
+    },
+
+    getMoleculesRemovedDescription: function( firstMolecule, secondMolecule ) {
+      const firstMolecularFormula = MoleculeNameMap.getMolecularFormula( firstMolecule );
+      const secondMolecularFormula = MoleculeNameMap.getMolecularFormula( secondMolecule );
+
+      return StringUtils.fillIn( moleculesOutOfViewPatternString, {
+        firstMolecule: firstMolecularFormula,
+        secondMolecule: secondMolecularFormula
       } );
     },
 
