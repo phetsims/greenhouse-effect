@@ -397,8 +397,8 @@ define( require => {
         photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? new CH4( { tandem: tandem.createTandem( 'CH4' ) } ) :
         assert && assert( false, 'unhandled photon target.' );
 
-      this.activeMolecules.add( newMolecule );
       this.targetMolecule = newMolecule;
+      this.activeMolecules.add( newMolecule );
 
       // Set the photonGroupTandem so that photons created by the molecule can be registered for PhET-iO
       newMolecule.photonGroupTandem = this.photonGroupTandem;
