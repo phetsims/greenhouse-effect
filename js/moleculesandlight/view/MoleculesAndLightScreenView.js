@@ -269,7 +269,8 @@ define( require => {
     // sound to play when molecule becomes "energized", which is depicted as glowing in the view
     const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedLoopInfo, {
       loop: true,
-      initialOutputLevel: 0.1
+      initialOutputLevel: 0.1,
+      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
     soundManager.addSoundGenerator( moleculeEnergizedLoop );
     const updateMoleculeEnergizedSound = moleculeEnergized => {
