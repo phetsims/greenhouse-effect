@@ -49,8 +49,6 @@ define( require => {
   // a11y strings
   const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
   const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-  const playDescriptionString = MoleculesAndLightA11yStrings.playDescriptionString.value;
-  const pauseDescriptionString = MoleculesAndLightA11yStrings.pauseDescriptionString.value;
   const stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
   const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
@@ -185,11 +183,7 @@ define( require => {
       centerX: moleculeControlPanel.centerX - 25,
       radius: 23,
       touchAreaDilation: 5,
-      tandem: tandem.createTandem( 'playPauseButton' ),
-
-      // a11y
-      a11yPauseDescription: pauseDescriptionString,
-      a11yPlayDescription: playDescriptionString
+      tandem: tandem.createTandem( 'playPauseButton' )
     } );
     this.pdomControlAreaNode.addChild( playPauseButton );
 
@@ -256,6 +250,9 @@ define( require => {
       appendDescription: true,
       containerTagName: 'div'
     } );
+
+    // PDOM - the accessible order for the control area contents
+    this.pdomControlAreaNode.accessibleOrder = [ playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
 
     // a11y - add an attribute that lets the user know the button opens a menu
     showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
