@@ -45,7 +45,7 @@ define( require => {
 
   // a11y strings
   const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
-  const lightSourceDescriptionString = MoleculesAndLightA11yStrings.lightSourceDescriptionString.value;
+  const lightSourceRadioButtonHelpTextString = MoleculesAndLightA11yStrings.lightSourceRadioButtonHelpTextString.value;
   const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
 
   // Description data for the 'Energy Arrow'
@@ -75,7 +75,7 @@ define( require => {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: lightSourceString,
-      descriptionContent: lightSourceDescriptionString
+      descriptionContent: lightSourceRadioButtonHelpTextString
     } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
