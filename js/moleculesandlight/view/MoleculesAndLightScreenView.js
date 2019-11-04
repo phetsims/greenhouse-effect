@@ -272,7 +272,7 @@ define( require => {
       initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( moleculeEnergizedLoop );
-    const moleculeEnergizedSoundPlayer = moleculeEnergized => {
+    const updateMoleculeEnergizedSound = moleculeEnergized => {
       if ( moleculeEnergized ) {
         moleculeEnergizedLoop.play();
       }
@@ -289,24 +289,33 @@ define( require => {
     };
 
     // molecule rotating sound
-    const rotateSound = new SoundClip( rotateSoundInfo, { initialOutputLevel: 0.05, loop: true } );
+    const rotateSound = new SoundClip( rotateSoundInfo, {
+      initialOutputLevel: 0.05,
+      loop: true,
+      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+    } );
     soundManager.addSoundGenerator( rotateSound );
-    const rotateSoundPlayer = rotating => {
+    const updateRotationSound = rotating => {
       rotating ? rotateSound.play() : rotateSound.stop();
     };
 
     // molecule vibration sounds
+    const moleculeVibrationSoundClipOptions = {
+      initialOutputLevel: 0.2,
+      loop: true,
+      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+    };
     const moleculeVibrationSoundClips = [
-      new SoundClip( vibrateOption2SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption2HigherSoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption2SaturatedEQSoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption4SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption7SoundInfo, { initialOutputLevel: 0.2, loop: true } )
+      new SoundClip( vibrateOption2SoundInfo, moleculeVibrationSoundClipOptions ),
+      new SoundClip( vibrateOption2HigherSoundInfo, moleculeVibrationSoundClipOptions ),
+      new SoundClip( vibrateOption2SaturatedEQSoundInfo, moleculeVibrationSoundClipOptions ),
+      new SoundClip( vibrateOption4SoundInfo, moleculeVibrationSoundClipOptions ),
+      new SoundClip( vibrateOption7SoundInfo, moleculeVibrationSoundClipOptions )
     ];
     moleculeVibrationSoundClips.forEach( soundClip => {
       soundManager.addSoundGenerator( soundClip );
     } );
-    const vibrationSoundPlayer = vibrating => {
+    const updateVibrationSound = vibrating => {
       const indexToPlay = malSoundOptionsDialogContent.vibrationSoundProperty.value - 1;
       if ( vibrating ) {
 
@@ -333,10 +342,10 @@ define( require => {
 
     // function that adds all of the listeners involved in creating sound
     const addSoundPlayersToMolecule = molecule => {
-      molecule.highElectronicEnergyStateProperty.link( moleculeEnergizedSoundPlayer );
+      molecule.highElectronicEnergyStateProperty.link( updateMoleculeEnergizedSound );
       molecule.brokeApartEmitter.addListener( breakApartSoundPlayer );
-      molecule.rotatingProperty.link( rotateSoundPlayer );
-      molecule.vibratingProperty.link( vibrationSoundPlayer );
+      molecule.rotatingProperty.link( updateRotationSound );
+      molecule.vibratingProperty.link( updateVibrationSound );
     };
 
     // add listeners to molecules for playing the sounds
@@ -345,17 +354,17 @@ define( require => {
 
     // remove listeners when the molecules go away
     photonAbsorptionModel.activeMolecules.addItemRemovedListener( function( removedMolecule ) {
-      if ( removedMolecule.highElectronicEnergyStateProperty.hasListener( moleculeEnergizedSoundPlayer ) ) {
-        removedMolecule.highElectronicEnergyStateProperty.unlink( moleculeEnergizedSoundPlayer );
+      if ( removedMolecule.highElectronicEnergyStateProperty.hasListener( updateMoleculeEnergizedSound ) ) {
+        removedMolecule.highElectronicEnergyStateProperty.unlink( updateMoleculeEnergizedSound );
       }
       if ( removedMolecule.brokeApartEmitter.hasListener( breakApartSoundPlayer ) ) {
         removedMolecule.brokeApartEmitter.removeListener( breakApartSoundPlayer );
       }
-      if ( removedMolecule.rotatingProperty.hasListener( rotateSoundPlayer ) ) {
-        removedMolecule.rotatingProperty.unlink( rotateSoundPlayer );
+      if ( removedMolecule.rotatingProperty.hasListener( updateRotationSound ) ) {
+        removedMolecule.rotatingProperty.unlink( updateRotationSound );
       }
-      if ( removedMolecule.vibratingProperty.hasListener( vibrationSoundPlayer ) ) {
-        removedMolecule.vibratingProperty.unlink( vibrationSoundPlayer );
+      if ( removedMolecule.vibratingProperty.hasListener( updateVibrationSound ) ) {
+        removedMolecule.vibratingProperty.unlink( updateVibrationSound );
       }
     } );
 
