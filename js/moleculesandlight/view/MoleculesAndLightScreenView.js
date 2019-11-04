@@ -98,6 +98,9 @@ define( require => {
   // volume of photon emission sounds
   const PHOTON_SOUND_OUTPUT_LEVEL = 0.1;
 
+  // X position at which the lamp emission sound is played, empirically determined
+  const PLAY_LAMP_EMISSION_X_POSITION = -1400;
+
   /**
    * Constructor for the screen view of Molecules and Light.
    *
@@ -386,19 +389,27 @@ define( require => {
       } );
     } );
     photonAbsorptionModel.photons.addItemAddedListener( photon => {
-      let soundSetIndex;
+      const soundClipIndex = ORDERED_WAVELENGTHS.indexOf( photon.wavelength );
       if ( photon.locationProperty.value.x < 0 ) {
 
         // photon was emitted from lamp, use the initial emission sound
-        soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
+        // soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
+
+        const playEmitFromLampSound = position => {
+          if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
+            const soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
+            photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
+            photon.locationProperty.unlink( playEmitFromLampSound );
+          }
+        };
+        photon.locationProperty.link( playEmitFromLampSound );
       }
       else {
 
         // photon was emitted from lamp, use the secondary emission sound
-        soundSetIndex = malSoundOptionsDialogContent.photonSecondaryEmissionSoundSetProperty.value - 1;
+        const soundSetIndex = malSoundOptionsDialogContent.photonSecondaryEmissionSoundSetProperty.value - 1;
+        photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
       }
-      const soundClipIndex = ORDERED_WAVELENGTHS.indexOf( photon.wavelength );
-      photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
     } );
   }
 
