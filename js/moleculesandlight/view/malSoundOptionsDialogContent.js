@@ -93,7 +93,7 @@ define( require => {
         // sound selection for molecule vibration
         const vibrationSoundRadioButtonGroup = new VerticalAquaRadioButtonGroup(
           this.vibrationSoundProperty,
-          createNumberedRadioButtonDescriptorSet( 3 )
+          createNumberedRadioButtonDescriptorSet( 5 )
         );
         const vibrationSoundSelectionPanel = new Panel(
           new VBox( {

@@ -57,6 +57,8 @@ define( require => {
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
   const vibrateOption2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002.mp3' );
+  const vibrateOption2HigherSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002-higher.mp3' );
+  const vibrateOption2SaturatedEQSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002-saturated-eq.mp3' );
   const vibrateOption4SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-004.mp3' );
   const vibrateOption7SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-007.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
@@ -293,6 +295,8 @@ define( require => {
     // molecule vibration sounds
     const moleculeVibrationSoundClips = [
       new SoundClip( vibrateOption2SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption2HigherSoundInfo, { initialOutputLevel: 0.2, loop: true } ),
+      new SoundClip( vibrateOption2SaturatedEQSoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption4SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption7SoundInfo, { initialOutputLevel: 0.2, loop: true } )
     ];
