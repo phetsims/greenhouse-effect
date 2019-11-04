@@ -56,16 +56,9 @@ define( require => {
   const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
-  const vibrateOption1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-001.mp3' );
   const vibrateOption2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002.mp3' );
-  const vibrateOption3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-003.mp3' );
   const vibrateOption4SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-004.mp3' );
-  const vibrateOption5SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-005.mp3' );
-  const vibrateOption6SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-006.mp3' );
   const vibrateOption7SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-007.mp3' );
-  const vibrateOption8SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-008.mp3' );
-  const vibrateOption9SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-009.mp3' );
-  const vibrateOption10SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-010.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
   const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
@@ -299,16 +292,9 @@ define( require => {
 
     // molecule vibration sounds
     const moleculeVibrationSoundClips = [
-      new SoundClip( vibrateOption1SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption2SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption3SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
       new SoundClip( vibrateOption4SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption5SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption6SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption7SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption8SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption9SoundInfo, { initialOutputLevel: 0.2, loop: true } ),
-      new SoundClip( vibrateOption10SoundInfo, { initialOutputLevel: 0.2, loop: true } )
+      new SoundClip( vibrateOption7SoundInfo, { initialOutputLevel: 0.2, loop: true } )
     ];
     moleculeVibrationSoundClips.forEach( soundClip => {
       soundManager.addSoundGenerator( soundClip );
