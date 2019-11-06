@@ -214,9 +214,6 @@ define( require => {
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
-    // the spectrum dialog, created lazily because Dialog requires sim bounds during construction
-    let dialog = null;
-
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
@@ -230,9 +227,7 @@ define( require => {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        if ( !dialog ) {
-          dialog = lightSpectrumDialogCapsule.create();
-        }
+        const dialog = lightSpectrumDialogCapsule.getInstance();
         dialog.show();
 
         // if listener was fired because of accessibility
