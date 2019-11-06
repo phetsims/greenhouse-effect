@@ -35,8 +35,7 @@ define( require => {
   const RichText = require( 'SCENERY/nodes/RichText' );
   const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const Vector2 = require( 'DOT/Vector2' );
+const Vector2 = require( 'DOT/Vector2' );
 
   //strings
   const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
@@ -183,7 +182,7 @@ define( require => {
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
     //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( photonTarget ) } );
-    //   utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
+    //   phet.joist.sim.display.utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
     // };
 
     // radioButtons.addInputListener( {
@@ -195,7 +194,7 @@ define( require => {
      */
     const moleculeChangeAlert = function( target ) {
       const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
-      utteranceQueue.addToBack( utteranceText );
+      phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
     };
 
     model.photonTargetProperty.link( moleculeChangeAlert );

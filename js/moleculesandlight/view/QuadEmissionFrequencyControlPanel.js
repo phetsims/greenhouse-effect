@@ -27,8 +27,7 @@ define( require => {
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const utteranceQueue = require( 'UTTERANCE_QUEUE/utteranceQueue' );
-  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
   const flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
@@ -207,7 +206,7 @@ define( require => {
         wavelengthSelectionAlertPatternString,
         { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
       );
-      utteranceQueue.addToBack( utteranceText );
+      phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
     };
 
     photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
