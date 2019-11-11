@@ -25,8 +25,8 @@ define( require => {
   const MoleculeSelectionPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/MoleculeSelectionPanel' );
   const ObservationWindow = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ObservationWindow' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
-  const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
+  const PhetioSingleton = require( 'TANDEM/PhetioSingleton' );
+  const PhetioSingletonIO = require( 'TANDEM/PhetioSingletonIO' );
   const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
   const QuadEmissionFrequencyControlPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/QuadEmissionFrequencyControlPanel' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -207,11 +207,11 @@ define( require => {
     // @private
     const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
-    const lightSpectrumDialogCapsule = new PhetioCapsule( 'lightSpectrumDialog', tandem => {
+    const lightSpectrumDialogSingleton = new PhetioSingleton( 'lightSpectrumDialog', tandem => {
       return new LightSpectrumDialog( spectrumButtonLabel, tandem );
     }, [], {
-      tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
-      phetioType: PhetioCapsuleIO( DialogIO )
+      tandem: tandem.createTandem( 'lightSpectrumDialogSingleton' ),
+      phetioType: PhetioSingletonIO( DialogIO )
     } );
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
@@ -227,7 +227,7 @@ define( require => {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        const dialog = lightSpectrumDialogCapsule.getInstance();
+        const dialog = lightSpectrumDialogSingleton.getInstance();
         dialog.show();
 
         // if listener was fired because of accessibility
