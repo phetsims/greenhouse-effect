@@ -111,7 +111,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-loop.mp3": {
+  "rotation.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -119,7 +119,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "vibrate-sound.mp3": {
+  "vibration.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
