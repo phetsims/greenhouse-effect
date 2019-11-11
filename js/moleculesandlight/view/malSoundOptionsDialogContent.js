@@ -97,9 +97,8 @@ define( require => {
           ],
           spacing: 5
         } ) );
-
-        return this.dialogContent;
       }
+      return this.dialogContent;
     }
   }
 
