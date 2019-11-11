@@ -56,11 +56,7 @@ define( require => {
   const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
-  const vibrateOption2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002.mp3' );
-  const vibrateOption2HigherSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002-higher.mp3' );
-  const vibrateOption2SaturatedEQSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-002-saturated-eq.mp3' );
-  const vibrateOption4SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-004.mp3' );
-  const vibrateOption7SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-option-007.mp3' );
+  const vibrateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-sound.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
   const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
@@ -295,44 +291,21 @@ define( require => {
       rotating ? rotateSound.play() : rotateSound.stop();
     };
 
-    // molecule vibration sounds
-    const moleculeVibrationSoundClipOptions = {
+    // molecule vibration sound
+    const moleculeVibrationLoop = new SoundClip( vibrateSoundInfo, {
       initialOutputLevel: 0.2,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
-    };
-    const moleculeVibrationSoundClips = [
-      new SoundClip( vibrateOption2SoundInfo, moleculeVibrationSoundClipOptions ),
-      new SoundClip( vibrateOption2HigherSoundInfo, moleculeVibrationSoundClipOptions ),
-      new SoundClip( vibrateOption2SaturatedEQSoundInfo, moleculeVibrationSoundClipOptions ),
-      new SoundClip( vibrateOption4SoundInfo, moleculeVibrationSoundClipOptions ),
-      new SoundClip( vibrateOption7SoundInfo, moleculeVibrationSoundClipOptions )
-    ];
-    moleculeVibrationSoundClips.forEach( soundClip => {
-      soundManager.addSoundGenerator( soundClip );
     } );
+    soundManager.addSoundGenerator( moleculeVibrationLoop );
     const updateVibrationSound = vibrating => {
-      const indexToPlay = malSoundOptionsDialogContent.vibrationSoundProperty.value - 1;
       if ( vibrating ) {
 
-        // play the corresponding sound, stop any that are playing that shouldn't be
-        moleculeVibrationSoundClips.forEach( ( soundClip, index ) => {
-          if ( indexToPlay === index ) {
-            soundClip.play();
-          }
-          else if ( soundClip.isPlaying ) {
-            soundClip.stop();
-          }
-        } );
+        // start the vibration sound playing (this will have no effect if the sound is already playing)
+        moleculeVibrationLoop.play();
       }
       else {
-
-        // make sure nothing is playing
-        moleculeVibrationSoundClips.forEach( soundClip => {
-          if ( soundClip.isPlaying ) {
-            soundClip.stop();
-          }
-        } );
+        moleculeVibrationLoop.stop();
       }
     };
 
