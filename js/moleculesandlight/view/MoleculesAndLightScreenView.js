@@ -92,7 +92,7 @@ define( require => {
   ];
 
   // volume of photon emission sounds
-  const PHOTON_SOUND_OUTPUT_LEVEL = 0.1;
+  const PHOTON_SOUND_OUTPUT_LEVEL = 0.07;
 
   // X position at which the lamp emission sound is played, empirically determined
   const PLAY_LAMP_EMISSION_X_POSITION = -1400;
