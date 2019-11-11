@@ -55,8 +55,8 @@ define( require => {
   // sounds
   const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
-  const rotateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-loop.mp3' );
-  const vibrateSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibrate-sound.mp3' );
+  const rotationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotation.mp3' );
+  const vibrationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
   const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
@@ -281,7 +281,7 @@ define( require => {
     };
 
     // molecule rotating sound
-    const rotateSound = new SoundClip( rotateSoundInfo, {
+    const rotateSound = new SoundClip( rotationSoundInfo, {
       initialOutputLevel: 0.05,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
@@ -292,7 +292,7 @@ define( require => {
     };
 
     // molecule vibration sound
-    const moleculeVibrationLoop = new SoundClip( vibrateSoundInfo, {
+    const moleculeVibrationLoop = new SoundClip( vibrationSoundInfo, {
       initialOutputLevel: 0.2,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
