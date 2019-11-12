@@ -59,6 +59,18 @@ define( require => {
 
     } );
 
+    this.addInputListener( {
+      over: event => {
+        const center = this.center;
+        this.setScaleMagnitude( 5 );
+        this.center = center;
+      },
+      exit: event => {
+        const center = this.center;
+        this.setScaleMagnitude( 1 );
+        this.center = center;
+      }
+    } );
   }
 
   moleculesAndLight.register( 'MoleculeNode', MoleculeNode );
