@@ -25,9 +25,9 @@ define( require => {
   const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   const PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  // const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const Text = require( 'SCENERY/nodes/Text' );
-const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // images
   const flashlight2Image = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
@@ -45,7 +45,7 @@ const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/mode
   // a11y strings
   const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
   const lightSourceRadioButtonHelpTextString = MoleculesAndLightA11yStrings.lightSourceRadioButtonHelpTextString.value;
-  const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
+  // const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
 
   // Description data for the 'Energy Arrow'
   const ARROW_LENGTH = 200;
@@ -200,16 +200,16 @@ const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/mode
     this.addChild( energyArrow );
     this.addChild( energyText );
 
-    // a11y - link alerts to the model's wavelength property
-    const handleWavelengthChangeAlert = function( wavelength ) {
-      const utteranceText = StringUtils.fillIn(
-        wavelengthSelectionAlertPatternString,
-        { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
-      );
-      phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
-    };
+    // // a11y - link alerts to the model's wavelength property
+    // const handleWavelengthChangeAlert = function( wavelength ) {
+    //   const utteranceText = StringUtils.fillIn(
+    //     wavelengthSelectionAlertPatternString,
+    //     { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
+    //   );
+    //   phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
+    // };
 
-    photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
+    // photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
   }
 
   moleculesAndLight.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );

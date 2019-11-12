@@ -35,7 +35,7 @@ define( require => {
   const RichText = require( 'SCENERY/nodes/RichText' );
   const Shape = require( 'KITE/Shape' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-const Vector2 = require( 'DOT/Vector2' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   //strings
   const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
@@ -43,7 +43,7 @@ const Vector2 = require( 'DOT/Vector2' );
   // a11y strings
   const moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
   const moleculesRadioButtonHelpTextString = MoleculesAndLightA11yStrings.moleculesRadioButtonHelpTextString.value;
-  const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
+  // const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
   const moleculeButtonLabelPatternString = MoleculesAndLightA11yStrings.moleculeButtonLabelPatternString.value;
 
   // constants
@@ -189,15 +189,15 @@ const Vector2 = require( 'DOT/Vector2' );
     //   change: handleMoleculeChange.bind( this )
     // } );
 
-    /**
-     * @param {PhotonTarget} target
-     */
-    const moleculeChangeAlert = function( target ) {
-      const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
-      phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
-    };
+    // /**
+    //  * @param {PhotonTarget} target
+    //  */
+    // const moleculeChangeAlert = function( target ) {
+    //   const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
+    //   phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
+    // };
 
-    model.photonTargetProperty.link( moleculeChangeAlert );
+    // model.photonTargetProperty.link( moleculeChangeAlert );
   }
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
