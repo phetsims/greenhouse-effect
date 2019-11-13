@@ -29,7 +29,7 @@ define( require => {
      * @param {Object} stateObject
      * @returns {ChargedParticle}
      */
-    static addChildInstance( photonAbsorptionModel, tandem, stateObject ) {
+    static addChildInstanceDeprecated( photonAbsorptionModel, tandem, stateObject ) {
       validate( photonAbsorptionModel, this.validator );
       const value = PhotonIO.fromStateObject( stateObject );
 
