@@ -69,7 +69,7 @@ define( require => {
       tandem: Tandem.optional // not needed when part of the selection radio buttons.
     }, options );
 
-    // TODO: Support instrumented element that is dynamic/lazily created, see https://github.com/phetsims/phet-io/issues/1454
+    // TODO: Instrument using PhetioGroup, see https://github.com/phetsims/tandem/issues/87
     options.tandem = Tandem.optional;
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
