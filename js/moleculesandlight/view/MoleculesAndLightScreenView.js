@@ -12,7 +12,6 @@ define( require => {
   'use strict';
 
   // modules
-  const AnimatedPanZoomListener = require( 'SCENERY/listeners/AnimatedPanZoomListener' );
   const Bounds2 = require( 'DOT/Bounds2' );
   const DialogIO = require( 'SUN/DialogIO' );
   const Dimension2 = require( 'DOT/Dimension2' );
@@ -113,9 +112,6 @@ define( require => {
       screenSummaryContent: new MoleculesAndLightScreenSummaryNode( photonAbsorptionModel )
     } );
 
-    this.screenRoot = new Rectangle( 0, 0, 0, 0 );
-    this.addChild( this.screenRoot );
-
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
@@ -129,7 +125,7 @@ define( require => {
       modelViewTransform,
       tandem.createTandem( 'observationWindow' )
     );
-    this.screenRoot.addChild( observationWindow );
+    this.pdomPlayAreaNode.addChild( observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
@@ -141,11 +137,11 @@ define( require => {
         lineWidth: 8 * FRAME_LINE_WIDTH,
         pickable: false
       } );
-    this.screenRoot.addChild( clipRectangle );
+    this.pdomPlayAreaNode.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
     const windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
-    this.screenRoot.addChild( windowFrameNode );
+    this.pdomPlayAreaNode.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
     observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
@@ -174,7 +170,7 @@ define( require => {
       radius: 18,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.screenRoot.addChild( resetAllButton );
+    this.pdomControlAreaNode.addChild( resetAllButton );
 
     // Add play/pause button.
     const playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
@@ -184,7 +180,7 @@ define( require => {
       touchAreaDilation: 5,
       tandem: tandem.createTandem( 'playPauseButton' )
     } );
-    this.screenRoot.addChild( playPauseButton );
+    this.pdomControlAreaNode.addChild( playPauseButton );
 
     // Add step button to manually step the animation.
     const stepButton = new StepForwardButton( {
@@ -201,7 +197,7 @@ define( require => {
       descriptionContent: stepButtonDescriptionString,
       appendDescription: true
     } );
-    this.screenRoot.addChild( stepButton );
+    this.pdomControlAreaNode.addChild( stepButton );
 
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
@@ -249,11 +245,11 @@ define( require => {
     showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
 
     showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 13 ) );
-    this.screenRoot.addChild( showLightSpectrumButton );
+    this.pdomPlayAreaNode.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
-    this.screenRoot.addChild( photonEmissionControlPanel );
-    this.screenRoot.addChild( moleculeControlPanel );
+    this.pdomPlayAreaNode.addChild( photonEmissionControlPanel );
+    this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
     // PDOM - the accessible order for the control area contents
     this.pdomPlayAreaNode.accessibleOrder = [ observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
@@ -395,25 +391,9 @@ define( require => {
         photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
       }
     } );
-
-    // Listener that supports pan/zoom with pointers and keyboard. This will eventually move to joist but is
-    // being tested in molecules-and-light
-    this.panZoomListener = new AnimatedPanZoomListener( this.screenRoot, phet.scenery.Display.keyStateTracker );
-    this.addInputListener( this.panZoomListener );
-
-    // sim bounds are initially null
-    phet.joist.sim.boundsProperty.lazyLink( bounds => {
-      this.screenRoot.setRectBounds( bounds );
-      this.panZoomListener.setTargetBounds( bounds );
-      this.panZoomListener.setPanBounds( bounds );
-    } );
   }
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
 
-  return inherit( ScreenView, MoleculesAndLightScreenView, {
-    step: function( dt ) {
-      this.panZoomListener.step( dt );
-    }
-  } );
+  return inherit( ScreenView, MoleculesAndLightScreenView );
 } );
