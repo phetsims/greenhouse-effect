@@ -55,7 +55,7 @@ define( require => {
   // sounds
   const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
-  const rotationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotation.mp3' );
+  const rotationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-002.mp3' );
   const vibrationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
