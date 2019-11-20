@@ -182,7 +182,7 @@ define( require => {
     // var handleMoleculeChange = function( event ) {
     //   var photonTarget = model.photonTargetProperty.get();
     //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( photonTarget ) } );
-    //   phet.joist.sim.display.utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
+    //   phet.joist.sim.utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
     // };
 
     // radioButtons.addInputListener( {
@@ -194,7 +194,7 @@ define( require => {
     //  */
     // const moleculeChangeAlert = function( target ) {
     //   const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
-    //   phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
+    //   phet.joist.sim.utteranceQueue.addToBack( utteranceText );
     // };
 
     // model.photonTargetProperty.link( moleculeChangeAlert );

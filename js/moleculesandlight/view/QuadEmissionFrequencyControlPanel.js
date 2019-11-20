@@ -206,7 +206,7 @@ define( require => {
     //     wavelengthSelectionAlertPatternString,
     //     { wavelength: WavelengthConstants.getLightSourceName( wavelength ) }
     //   );
-    //   phet.joist.sim.display.utteranceQueue.addToBack( utteranceText );
+    //   phet.joist.sim.utteranceQueue.addToBack( utteranceText );
     // };
 
     // photonAbsorptionModel.photonWavelengthProperty.link( handleWavelengthChangeAlert );
