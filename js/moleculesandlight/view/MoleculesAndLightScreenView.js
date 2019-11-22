@@ -204,10 +204,10 @@ define( require => {
     // @private
     const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
-    const lightSpectrumDialogSingleton = new PhetioCapsule(  tandem => {
+    const lightSpectrumDialogCapsule = new PhetioCapsule(  tandem => {
       return new LightSpectrumDialog( spectrumButtonLabel, tandem );
     }, [], {
-      tandem: tandem.createTandem( 'lightSpectrumDialogSingleton' ),
+      tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
       phetioType: PhetioCapsuleIO( DialogIO )
     } );
 
@@ -224,7 +224,7 @@ define( require => {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: function() {
-        const dialog = lightSpectrumDialogSingleton.getInstance();
+        const dialog = lightSpectrumDialogCapsule.getInstance();
         dialog.show();
 
         // if listener was fired because of accessibility
