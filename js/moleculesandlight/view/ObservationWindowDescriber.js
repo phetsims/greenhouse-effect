@@ -17,6 +17,7 @@ define( require => {
   'use strict';
 
   // modules
+  const ActiveMoleculeAlertManager = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/ActiveMoleculeAlertManager' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
@@ -68,6 +69,9 @@ define( require => {
       this.moleculeRotatingCounterClockwise = false;
       this.moleculeHighElectronicEnergyState = false;
       this.moleculeBrokeApart = false;
+
+      // TODO: no need for this to be an instance
+      const alertManager = new ActiveMoleculeAlertManager( model ); // eslint-disable-line
 
       // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
       // to describe the absorbed photon not the photon wavelength currently being emitted
