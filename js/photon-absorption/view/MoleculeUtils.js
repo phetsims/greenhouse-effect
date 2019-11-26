@@ -191,5 +191,15 @@ define( require => {
     }
   };
 
+  // @public
+  // @static
+  // {Map}
+  MoleculeUtils.MolecularGeometryMap = MolecularGeometryMap;
+
+  // @public
+  // @static
+  // {Enumeration}
+  MoleculeUtils.Geometry = Geometry;
+
   return moleculesAndLight.register( 'MoleculeUtils', MoleculeUtils );
 } );
