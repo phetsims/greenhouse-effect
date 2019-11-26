@@ -288,7 +288,7 @@ define( require => {
 
     // molecule rotating sound
     const rotateSound = new SoundClip( rotationSoundInfo, {
-      initialOutputLevel: 0.05,
+      initialOutputLevel: 0.15,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
