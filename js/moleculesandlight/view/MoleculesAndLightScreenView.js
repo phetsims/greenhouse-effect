@@ -69,6 +69,10 @@ define( require => {
   const infraredPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-001.mp3' );
   const visiblePhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-002.mp3' );
   const ultravioletPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-003.mp3' );
+  const microwavePhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-000-softened-attack.mp3' );
+  const infraredPhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-001-softened-attack.mp3' );
+  const visiblePhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-002-softened-attack.mp3' );
+  const ultravioletPhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-003-softened-attack.mp3' );
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -361,6 +365,12 @@ define( require => {
         new SoundClip( infraredPhotonV3SoundInfo, photonSoundClipOptions ),
         new SoundClip( visiblePhotonV3SoundInfo, photonSoundClipOptions ),
         new SoundClip( ultravioletPhotonV3SoundInfo, photonSoundClipOptions )
+      ],
+      [
+        new SoundClip( microwavePhotonV3saSoundInfo, photonSoundClipOptions ),
+        new SoundClip( infraredPhotonV3saSoundInfo, photonSoundClipOptions ),
+        new SoundClip( visiblePhotonV3saSoundInfo, photonSoundClipOptions ),
+        new SoundClip( ultravioletPhotonV3saSoundInfo, photonSoundClipOptions )
       ]
     ];
     photonEmissionSoundPlayers.forEach( soundSet => {
@@ -373,8 +383,6 @@ define( require => {
       if ( photon.locationProperty.value.x < 0 ) {
 
         // photon was emitted from lamp, use the initial emission sound
-        // soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
-
         const playEmitFromLampSound = position => {
           if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
             const soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;

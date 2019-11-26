@@ -64,7 +64,7 @@ define( require => {
         // radio button entries, but I've done it this way so that the sound families can be easily named if desired.
         const photonInitialEmissionRadioButtonGroup = new VerticalAquaRadioButtonGroup(
           this.photonInitialEmissionSoundSetProperty,
-          createNumberedRadioButtonDescriptorSet( 3 )
+          createNumberedRadioButtonDescriptorSet( 4 )
         );
         const photonInitialEmissionSoundSelectionPanel = new Panel(
           new VBox( {
@@ -78,7 +78,7 @@ define( require => {
         // Create the secondary photon emission radio buttons.
         const photonSecondaryEmissionRadioButtonGroup = new VerticalAquaRadioButtonGroup(
           this.photonSecondaryEmissionSoundSetProperty,
-          createNumberedRadioButtonDescriptorSet( 3 )
+          createNumberedRadioButtonDescriptorSet()
         );
         const photonSecondaryEmissionSoundSelectionPanel = new Panel(
           new VBox( {
