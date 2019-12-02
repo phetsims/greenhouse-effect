@@ -40,7 +40,7 @@ define( require => {
     constructor() {
 
       // @public (read-only)
-      this.photonInitialEmissionSoundSetProperty = new NumberProperty( 3 );
+      this.photonInitialEmissionSoundSetProperty = new NumberProperty( 4 );
       this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 2 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
