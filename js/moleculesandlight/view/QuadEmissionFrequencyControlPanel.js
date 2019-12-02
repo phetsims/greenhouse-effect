@@ -25,7 +25,7 @@ define( require => {
   const Photon = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Photon' );
   const PhotonNode = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/PhotonNode' );
   const RadioButtonGroup = require( 'SUN/buttons/RadioButtonGroup' );
-  // const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const radioButtonSoundPlayerFactory = require( 'TAMBO/radioButtonSoundPlayerFactory' );
   const Text = require( 'SCENERY/nodes/Text' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -148,18 +148,30 @@ define( require => {
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
     const panelWidth = _.maxBy( radioButtonContent, function( content ) { return content.node.width; } ).node.width;
+
     // Calculate the minimum scale factor that must be applied to each label. Ensures constant font size for all labels.
     let scaleFactor = 1;
     _.each( radioButtonContent, function( content ) {
       const labelWidth = content.label.width;
       scaleFactor = Math.min( scaleFactor, panelWidth / labelWidth );
     } );
+
     // If necessary, scale down each label by the minimum scale value.
     if ( scaleFactor < 1 ) {
       _.each( radioButtonContent, function( content ) {
         content.label.scale( scaleFactor );
       } );
     }
+
+    // Create sound generators for the radio buttons.  This is done because by default the sound generators for radio
+    // button groups decrease in pitch from left to right, but these radio buttons will be selecting higher frequency
+    // light from left to right, so this seems more intuitive.
+    const radioButtonSoundPlayers = [];
+    _.times( radioButtonContent.length, index => {
+      radioButtonSoundPlayers.push(
+        radioButtonSoundPlayerFactory.getRadioButtonSoundPlayer( radioButtonContent.length - index - 1 )
+      );
+    } );
 
     const radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
       orientation: 'horizontal',
@@ -171,6 +183,7 @@ define( require => {
       buttonContentYMargin: 8,
       selectedLineWidth: 3,
       cornerRadius: 7,
+      soundPlayers: radioButtonSoundPlayers,
       tandem: radioButtonGroupTandem
     } );
 
