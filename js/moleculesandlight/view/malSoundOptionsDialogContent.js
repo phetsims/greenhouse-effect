@@ -41,7 +41,8 @@ define( require => {
 
       // @public (read-only)
       this.photonInitialEmissionSoundSetProperty = new NumberProperty( 4 );
-      this.photonSecondaryEmissionSoundSetProperty = new NumberProperty( 2 );
+      this.clockwiseRotationsSoundProperty = new NumberProperty( 1 );
+      this.counterclockwiseRotationsSoundProperty = new NumberProperty( 2 );
 
       // @private {Node} - dialog content, created when requested, see explanation below
       this.dialogContent = null;
@@ -75,16 +76,28 @@ define( require => {
           } )
         );
 
-        // Create the secondary photon emission radio buttons.
-        const photonSecondaryEmissionRadioButtonGroup = new VerticalAquaRadioButtonGroup(
-          this.photonSecondaryEmissionSoundSetProperty,
-          createNumberedRadioButtonDescriptorSet()
+        // rotation sound selection panels
+        const clockwiseRotationRadioButtonGroup = new VerticalAquaRadioButtonGroup(
+          this.clockwiseRotationsSoundProperty,
+          createNumberedRadioButtonDescriptorSet( 4 )
         );
-        const photonSecondaryEmissionSoundSelectionPanel = new Panel(
+        const clockwiseRotationSoundSelectionPanel = new Panel(
           new VBox( {
             children: [
-              new Text( 'Secondary Photon Emission Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
-              photonSecondaryEmissionRadioButtonGroup
+              new Text( 'Clockwise Rotation Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
+              clockwiseRotationRadioButtonGroup
+            ]
+          } )
+        );
+        const counterclockwiseRotationRadioButtonGroup = new VerticalAquaRadioButtonGroup(
+          this.counterclockwiseRotationsSoundProperty,
+          createNumberedRadioButtonDescriptorSet( 4 )
+        );
+        const counterclockwiseRotationSoundSelectionPanel = new Panel(
+          new VBox( {
+            children: [
+              new Text( 'Counterclockwise Rotation Sound', SELECTOR_TITLE_TEXT_OPTIONS ),
+              counterclockwiseRotationRadioButtonGroup
             ]
           } )
         );
@@ -93,7 +106,8 @@ define( require => {
         this.dialogContent.addChild( new VBox( {
           children: [
             photonInitialEmissionSoundSelectionPanel,
-            photonSecondaryEmissionSoundSelectionPanel
+            clockwiseRotationSoundSelectionPanel,
+            counterclockwiseRotationSoundSelectionPanel
           ],
           spacing: 5
         } ) );

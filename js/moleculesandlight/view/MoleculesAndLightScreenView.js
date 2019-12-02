@@ -56,6 +56,9 @@ define( require => {
   const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-002.mp3' );
+  const rotationDirections001SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-001.mp3' );
+  const rotationDirections002SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-002.mp3' );
+  const rotationDirections003SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-003.mp3' );
   const vibrationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration.mp3' );
   const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
   const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
@@ -286,15 +289,37 @@ define( require => {
       brokeApartSound2.play();
     };
 
-    // molecule rotating sound
-    const rotateSound = new SoundClip( rotationSoundInfo, {
-      initialOutputLevel: 0.15,
-      loop: true,
-      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+    // molecule rotating sounds
+    const rotateSoundPlayers = [
+      new SoundClip( rotationSoundInfo, { initialOutputLevel: 0.5 } ),
+      new SoundClip( rotationDirections001SoundInfo, { initialOutputLevel: 0.5 } ),
+      new SoundClip( rotationDirections002SoundInfo, { initialOutputLevel: 0.5 } ),
+      new SoundClip( rotationDirections003SoundInfo, { initialOutputLevel: 0.5 } )
+    ];
+    rotateSoundPlayers.forEach( rsp => {
+      soundManager.addSoundGenerator( rsp );
     } );
-    soundManager.addSoundGenerator( rotateSound );
+
     const updateRotationSound = rotating => {
-      rotating ? rotateSound.play() : rotateSound.stop();
+      if ( rotating ) {
+
+        // this is only set up for a single molecule
+        assert && assert( photonAbsorptionModel.activeMolecules.length === 1 );
+
+        // play a sound based on the direction of rotation and the currently selected sound from the options dialog
+        const molecule = photonAbsorptionModel.activeMolecules.get( 0 );
+        if ( molecule.rotationDirectionClockwiseProperty.value ) {
+          rotateSoundPlayers[ malSoundOptionsDialogContent.clockwiseRotationsSoundProperty.value - 1 ].play();
+        }
+        else {
+          rotateSoundPlayers[ malSoundOptionsDialogContent.counterclockwiseRotationsSoundProperty.value - 1 ].play();
+        }
+      }
+      else {
+        rotateSoundPlayers.forEach( rsp => {
+          rsp.stop();
+        } );
+      }
     };
 
     // molecule vibration sound
@@ -394,9 +419,8 @@ define( require => {
       }
       else {
 
-        // photon was emitted from lamp, use the secondary emission sound
-        const soundSetIndex = malSoundOptionsDialogContent.photonSecondaryEmissionSoundSetProperty.value - 1;
-        photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
+        // photon was emitted from lamp, use the secondary emission sound (finalized as of 12/2/2019)
+        photonEmissionSoundPlayers[ 1 ][ soundClipIndex ].play();
       }
     } );
   }
