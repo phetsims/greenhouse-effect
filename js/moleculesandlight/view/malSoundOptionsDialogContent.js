@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * MALSoundOptionsDialogContent is a Scenery node that presents a set of options for choosing between various sound
+ * malSoundOptionsDialogContent is a Scenery node that presents a set of options for choosing between various sound
  * options. This file is meant to exist temporarily, just long enough for the sound design to be worked out.  This
  * node should never be seen by end users.
  *
