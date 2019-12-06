@@ -28,7 +28,13 @@ define( require => {
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
   const Util = require( 'DOT/Util' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+
+  // PDOM strings
+  const verySlowlyString = MoleculesAndLightA11yStrings.verySlowlyString.value;
+  const slowlyString = MoleculesAndLightA11yStrings.slowlyString.value;
+  const quicklyString = MoleculesAndLightA11yStrings.quicklyString.value;
 
   // constants
   const THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
@@ -38,12 +44,13 @@ define( require => {
 
   // a11y strings
   const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
-  // var lightSourceTitlePattern = MoleculesAndLightA11yStrings.lightSourceTitlePattern.value;
   const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
   const emitsPhotonsQuicklyString = MoleculesAndLightA11yStrings.emitsPhotonsQuicklyString.value;
   const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
+  const lightSourceOffPatternString = MoleculesAndLightA11yStrings.lightSourceOffPatternString.value;
+  const emissionRatePatternString = MoleculesAndLightA11yStrings.emissionRatePatternString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -66,7 +73,6 @@ define( require => {
     // opacity.
     const sliderRange = new Range( 0, 1 );
     const sliderThumb = new EmissionRateThumbNode();
-    // var initialFrequency, delta;
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
       thumbNode: sliderThumb,
@@ -81,10 +87,11 @@ define( require => {
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
       pageKeyboardStep: sliderRange.getLength() / 5,
-      a11yMapValue: value => Util.toFixedNumber( value, 1 ) // so the emissionFrequencyProperty is read (range from 0-1)
-      // endDrag: function() {
-      //   delta = (model.emissionFrequencyProperty.get() - initialFrequency);
-      // }
+      a11yMapValue: value => Util.toFixedNumber( value, 1 ),
+      a11yCreateAriaValueText: this.getAriaValueText.bind( this ),
+
+      // whenever these Properties change we need to update the value text
+      a11yDependencies: [ model.photonWavelengthProperty, model.photonTargetProperty ]
     } ); // @private
 
     this.emissionRateControlSlider.focusHighlight = new FocusHighlightFromNode( sliderThumb, {
@@ -93,6 +100,14 @@ define( require => {
       // receives focus so that the pink highlight is visible along the colors of the photon emitter
       dilationCoefficient: -2
     } );
+
+    // @private (PDOM) - maps ranges of the emission frequency value to the described emission rate in the PDOM
+    this.pdomValueDescriptonMap = new Map();
+
+    const rangeDelta = sliderRange.getLength() / 3;
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, rangeDelta ), verySlowlyString );
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + rangeDelta, sliderRange.min + 2 * rangeDelta ), slowlyString );
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + 2 * rangeDelta, sliderRange.max ), quicklyString );
 
     // a11y
     this.emissionRateControlSlider.addInputListener( {
@@ -168,8 +183,6 @@ define( require => {
       else {
         throw new Error( 'unrecognized photon wavelength: ' + wavelength );
       }
-
-      // this.updateLightSourceLabel();
     },
 
     /**
@@ -182,14 +195,41 @@ define( require => {
       const rectHeight = this.emissionRateControlSlider.height;
       const rectWidth = this.emissionRateControlSlider.width;
       this.backgroundRect.fill = new LinearGradient( 0, 0, rectWidth, rectHeight ).addColorStop( 0, 'rgb(51,51,51)' ).addColorStop( 1, baseColor );
+    },
+
+    /**
+     * Get the aria-valuetext for the slider, which describes the current value. This is read to the user when
+     * focus lands on the slider and whenever the value changes.
+     * @private
+     *
+     * @param {number} mappedValue - formatted value to be read
+     * @param {number} newValue - new Property value driving this slider
+     * @param {number} previousValue - old value before Property value changed
+     * @returns {string}
+     */
+    getAriaValueText( mappedValue, newValue, previousValue ) {
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
+
+      if ( mappedValue === 0 ) {
+        return StringUtils.fillIn( lightSourceOffPatternString, {
+          lightSource: lightSourceString
+        } );
+      }
+      else {
+        let emissionRateString = '';
+        this.pdomValueDescriptonMap.forEach( ( valueString, rangeKey, map ) => {
+          if ( rangeKey.contains( mappedValue ) ) {
+            emissionRateString = valueString;
+            return;
+          }
+        } );
+
+        return StringUtils.fillIn( emissionRatePatternString, {
+          lightSource: lightSourceString,
+          emissionRate: emissionRateString
+        } );
+      }
     }
-
-    // updateLightSourceLabel: function() {
-
-    //   var wavelength = this.model.photonWavelengthProperty.get();
-
-    //   var lightSourceNameString = WavelengthConstants.getLightSourceName( wavelength );
-    // }
   }, {
 
     /**
