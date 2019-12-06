@@ -32,7 +32,8 @@ define( require => {
   const photonEmitterDescriptionPatternString = MoleculesAndLightA11yStrings.photonEmitterDescriptionPatternString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
-  const absorptionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseDescriptionPatternString.value;
+  const absorptionPhaseBondsDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseBondsDescriptionPatternString.value;
+  const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
@@ -262,7 +263,7 @@ define( require => {
         // (derivative of sin is cos) the atoms are expanding
         const stretching = Math.cos( vibrationRadians ) < 0;
 
-        descriptionString = StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
           lightSource: lightSourceString,
           photonTarget: photonTargetString,
           excitedRepresentation: stretching ? stretchingString : contractingString
@@ -271,7 +272,7 @@ define( require => {
       else {
 
         // more than atoms have non-linear geometry
-        descriptionString = StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
           lightSource: lightSourceString,
           photonTarget: photonTargetString,
           excitedRepresentation: bendsUpAndDownString
@@ -281,6 +282,12 @@ define( require => {
       return descriptionString;
     }
 
+    /**
+     * Get a description of the molecule in its rotation phase. Will return something like
+     * "Microwave photon absorbed and water molecule starts rotating clockwise."
+     *
+     * @returns {string}
+     */
     getRotationPhaseDescription() {
       const targetMolecule = this.model.targetMolecule;
       const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
@@ -291,7 +298,7 @@ define( require => {
         rotation: rotationString
       } );
 
-      return StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+      return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
         excitedRepresentation: startsRotatingString
@@ -310,7 +317,7 @@ define( require => {
       const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
 
-      return StringUtils.fillIn( absorptionPhaseDescriptionPatternString, {
+      return StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
         excitedRepresentation: startsGlowingString
