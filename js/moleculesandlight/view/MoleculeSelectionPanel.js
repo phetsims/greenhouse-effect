@@ -178,26 +178,6 @@ define( require => {
       labelContent: moleculesString,
       descriptionContent: moleculesRadioButtonHelpTextString
     } );
-
-    // var handleMoleculeChange = function( event ) {
-    //   var photonTarget = model.photonTargetProperty.get();
-    //   var utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( photonTarget ) } );
-    //   phet.joist.sim.utteranceQueue.addToBack( new Utterance( { alert: utteranceText } );
-    // };
-
-    // radioButtons.addInputListener( {
-    //   change: handleMoleculeChange.bind( this )
-    // } );
-
-    // /**
-    //  * @param {PhotonTarget} target
-    //  */
-    // const moleculeChangeAlert = function( target ) {
-    //   const utteranceText = StringUtils.fillIn( moleculeSelectionAlertPatternString, { target: PhotonTarget.getMoleculeName( target ) } );
-    //   phet.joist.sim.utteranceQueue.addToBack( utteranceText );
-    // };
-
-    // model.photonTargetProperty.link( moleculeChangeAlert );
   }
 
   moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
