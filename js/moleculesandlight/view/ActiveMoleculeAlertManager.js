@@ -30,6 +30,11 @@ define( require => {
   const clockwiseString = MoleculesAndLightA11yStrings.clockwiseString.value;
   const counterClockwiseString = MoleculesAndLightA11yStrings.counterClockwiseString.value;
 
+  // constants
+  // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
+  // allow time for the screeen reader to announce other control changes
+  const ALERT_DELAY = 5;
+
   class ActiveMoleculeAlertManager {
     constructor( photonAbsorptionModel ) {
 
@@ -40,6 +45,11 @@ define( require => {
       this.firstRotationAlert = true;
       this.firstExcitationAlert = true;
 
+      // @private {number} - amount of time that has passed since the first interaction between photon/molecule, we
+      // wait ALERT_DELAY before making an alert to provide the screen reader some space to finish speaking and
+      // prevent a queue
+      this.timeSinceFirstAlert = 0;
+
       // whenenver target molecule or light source changes, reset to describe a new molecule/photon combination
       // for the first time
       photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
@@ -48,18 +58,36 @@ define( require => {
       } );
       photonAbsorptionModel.photonWavelengthProperty.link( () => this.reset() );
 
+      // allow some time before the next alert after changing the emission frequency as the screen reader will need to
+      // announce the new aria-valuetext
+      photonAbsorptionModel.emissionFrequencyProperty.link( () => { this.timeSinceFirstAlert = 0; } );
+
+      // attach listeners to the first molecule already in the observation window
       this.attachAbsorptionAlertListeners( photonAbsorptionModel.targetMolecule );
     }
 
     /**
-     * Reset flags that keep track of whether or not we are alerting the first of a particular kind of interaction
-     * between photon and molecule, and should be reset when the photon light source changes or the photon
-     * target changes.
+     * Reset flags that indicate we are describing the first of a particular kind of interaction between photon
+     * and molecule, and should be reset when the photon light source changes or the photon target changes.
+     *
+     * @public
      */
     reset() {
       this.firstVibrationAlert = true;
       this.firstRotationAlert = true;
       this.firstExcitationAlert = true;
+      this.timeSinceFirstAlert = 0;
+    }
+
+    /**
+     * Increment variables watching timing of alerts
+     * @param {[type]} dt [description]
+     * @returns {[type]} [description]
+     */
+    step( dt ) {
+      if ( this.timeSinceFirstAlert <= ALERT_DELAY ) {
+        this.timeSinceFirstAlert += dt;
+      }
     }
 
     /**
@@ -73,33 +101,40 @@ define( require => {
 
       // vibration
       molecule.vibratingProperty.lazyLink( vibrating => {
-        if ( vibrating ) {
-          const alert = this.getVibrationAlert( molecule );
-          utteranceQueue.addToBack( alert );
+        if ( vibrating && this.timeSinceFirstAlert > ALERT_DELAY ) {
+          utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
         }
       } );
 
       // rotation
       molecule.rotatingProperty.lazyLink( rotating => {
-        if ( rotating ) {
-          const alert = this.getRotationAlert( molecule );
-          utteranceQueue.addToBack( alert );
+        if ( rotating && this.timeSinceFirstAlert > ALERT_DELAY ) {
+          utteranceQueue.addToBack( this.getRotationAlert( molecule ) );
         }
       } );
 
       // high electronic energy state (glowing)
       molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
-        if ( highEnergy ) {
+        if ( highEnergy && this.timeSinceFirstAlert > ALERT_DELAY ) {
           utteranceQueue.addToBack( this.getExcitationAlert( molecule ) );
         }
       } );
 
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
-        utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
+        if ( this.timeSinceFirstAlert > ALERT_DELAY ) {
+          utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
+        }
       } );
     }
 
+    /**
+     * Get an alert that describes the molecule in its "vibrating" state.
+     * @private
+     *
+     * @param {Molecule} molecule
+     * @returns {string}
+     */
     getVibrationAlert( molecule ) {
       let alert = '';
 
@@ -116,12 +151,26 @@ define( require => {
       return alert;
     }
 
+    /**
+     * Get an alert that describes the Molecule in its "excited" (glowing) state.
+     * @private
+     *
+     * @param {Molecule} molecule
+     * @returns {string}
+     */
     getExcitationAlert( molecule ) {
       const alert = this.firstExcitationAlert ? longGlowingAlertString : shortGlowingAlertString;
       this.firstExcitationAlert = false;
       return alert;
     }
 
+    /**
+     * Get an alert that describes the Molecules in its "rotating" state.
+     * @private
+     *
+     * @param {Molecule} molecule
+     * @returns {strings}
+     */
     getRotationAlert( molecule ) {
       let alert = '';
 
@@ -139,6 +188,14 @@ define( require => {
       return alert;
     }
 
+    /**
+     * Get an alert that describes the molecule after it has broken up into constituent molecules.
+     * @private
+     *
+     * @param {Molecule} firstMolecule
+     * @param {Molecule} secondMolecule
+     * @returns {string}
+     */
     getBreakApartAlert( firstMolecule, secondMolecule ) {
       const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
       const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );

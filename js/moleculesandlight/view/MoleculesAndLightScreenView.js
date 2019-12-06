@@ -125,20 +125,20 @@ define( require => {
         Util.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.height * 0.50 ) ),
       0.10 ); // Scale factor - Smaller number zooms out, bigger number zooms in.
 
-    // Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
+    // @private - Create the observation window.  This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    const observationWindow = new ObservationWindow(
+    this.observationWindow = new ObservationWindow(
       photonAbsorptionModel,
       modelViewTransform,
       tandem.createTandem( 'observationWindow' )
     );
-    this.pdomPlayAreaNode.addChild( observationWindow );
+    this.pdomPlayAreaNode.addChild( this.observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
     // Safari specific SVG bug caused by clipping.  See https://github.com/phetsims/molecules-and-light/issues/105 and
     // https://github.com/phetsims/scenery/issues/412.
-    const clipRectangle = new Rectangle( observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
+    const clipRectangle = new Rectangle( this.observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
       CORNER_RADIUS, CORNER_RADIUS, {
         stroke: '#C5D6E8',
         lineWidth: 8 * FRAME_LINE_WIDTH,
@@ -147,11 +147,11 @@ define( require => {
     this.pdomPlayAreaNode.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
-    const windowFrameNode = new WindowFrameNode( observationWindow, '#BED0E7', '#4070CE' );
+    const windowFrameNode = new WindowFrameNode( this.observationWindow, '#BED0E7', '#4070CE' );
     this.pdomPlayAreaNode.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
-    observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
+    this.observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
     clipRectangle.translate( OBSERVATION_WINDOW_LOCATION );
     windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
 
@@ -259,7 +259,7 @@ define( require => {
     this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
     // PDOM - the accessible order for the control area contents
-    this.pdomPlayAreaNode.accessibleOrder = [ observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
+    this.pdomPlayAreaNode.accessibleOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
     this.pdomControlAreaNode.accessibleOrder = [ playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -427,5 +427,17 @@ define( require => {
 
   moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
 
-  return inherit( ScreenView, MoleculesAndLightScreenView );
+  return inherit( ScreenView, MoleculesAndLightScreenView,  {
+
+    /**
+     * View step, called by joist.
+     * @public
+     *
+     * @param {number} dt
+     * @returns {}
+     */
+    step( dt ) {
+      this.observationWindow.step( dt );
+    }
+  } );
 } );

@@ -203,8 +203,9 @@ define( require => {
       self.returnMoleculeButtonNode.visible = self.returnMoleculeButtonVisibleProperty.get();
     } );
 
-    // PDOM - generates descriptions for the target molecule
-    const describer = new ObservationWindowDescriber( photonAbsorptionModel, this.modelViewTransform );
+    // PDOM
+    // @public - generates descriptions for the target molecule
+    this.describer = new ObservationWindowDescriber( photonAbsorptionModel, this.modelViewTransform );
 
     // PDOM - list that describes the state of contents in the Observation Window
     const phaseItem = new Node( { tagName: 'li' } );
@@ -212,14 +213,14 @@ define( require => {
     const geometryDescriptionItem = new Node( { tagName: 'li' } );
 
     // PDOM - attach listeners that will describe the initial phase of photons passing through the molecule
-    describer.attachInitialPhaseDescriptionListeners( phaseItem );
+    this.describer.attachInitialPhaseDescriptionListeners( phaseItem );
 
     // PDOM - when a new molecule is added to the observation window, add listeners that will generate descriptions
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
-      describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
+      this.describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
     } );
-    describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
+    this.describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
     // PDOM - update geometry descriptions when target changes
     photonAbsorptionModel.photonTargetProperty.link( target => {
@@ -283,8 +284,14 @@ define( require => {
       }
     },
 
-    getGeometryDescription: function() {},
-
-    getGeometryDefinitionDescription: function( emissionFrequency, photonWavelength, photonTarget ) {}
+    /**
+     * Step the describer, as some descriptions are time dependent.
+     * @public
+     *
+     * @param {number} dt
+     */
+    step( dt ) {
+      this.describer.step( dt );
+    }
   } );
 } );

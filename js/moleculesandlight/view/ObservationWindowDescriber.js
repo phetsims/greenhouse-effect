@@ -70,12 +70,23 @@ define( require => {
       this.moleculeHighElectronicEnergyState = false;
       this.moleculeBrokeApart = false;
 
-      // TODO: no need for this to be an instance
-      const alertManager = new ActiveMoleculeAlertManager( model ); // eslint-disable-line
+      // @private {ActiveMoleculeAlertManager} - reponsible for alerts that describe the active molecule in the
+      // observation window
+      this.alertManager = new ActiveMoleculeAlertManager( model );
 
       // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
       // to describe the absorbed photon not the photon wavelength currently being emitted
       this.wavelengthOnAbsorption = model.photonWavelengthProperty.get();
+    }
+
+    /**
+     * Step the alert manater in time.
+     * @public
+     *
+     * @param {number} dt - in seconds
+     */
+    step( dt ) {
+      this.alertManager.step( dt );
     }
 
     /**
