@@ -233,6 +233,7 @@ define( require => {
     } );
 
     const descriptionList = new Node( {
+      tagName: 'ul',
       children: [ phaseItem, geometryLabelItem, geometryDescriptionItem ]
     } );
     this.addChild( descriptionList );
