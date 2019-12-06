@@ -22,7 +22,7 @@ define( require => {
   const controlPanelOzoneString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Ozone' );
   const controlPanelWaterString = require( 'string!MOLECULES_AND_LIGHT/ControlPanel.Water' );
 
-  return moleculesAndLight.register( 'PhotonTarget', new Enumeration( [
+  return moleculesAndLight.register( 'PhotonTarget', Enumeration.byKeys( [
     'SINGLE_CO_MOLECULE',
     'SINGLE_N2_MOLECULE',
     'SINGLE_O2_MOLECULE',

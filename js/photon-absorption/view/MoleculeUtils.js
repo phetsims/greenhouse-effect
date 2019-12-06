@@ -47,7 +47,7 @@ define( require => {
   const linearGeometryDescriptionString = MoleculesAndLightA11yStrings.linearGeometryDescriptionString.value;
 
   // constants
-  const Geometry = new Enumeration( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
+  const Geometry = Enumeration.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
 
   const MolecularGeometryMap = new Map();
   MolecularGeometryMap.set( CO, Geometry.LINEAR );
