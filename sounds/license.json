@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "break-apart-v2.mp3": {
+  "break-apart.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
   },
-  "photon-v1-4th-interval-000.mp3": {
+  "photon-emit-microwave.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v1-4th-interval-001.mp3": {
+  "photon-emit-ir.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -31,7 +31,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v1-4th-interval-002.mp3": {
+  "photon-emit-visible.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -39,7 +39,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v1-4th-interval-003.mp3": {
+  "photon-emit-uv.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -47,7 +47,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v2-4th-interval-000.mp3": {
+  "photon-release-microwave.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -55,7 +55,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v2-4th-interval-001.mp3": {
+  "photon-release-ir.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -63,7 +63,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v2-4th-interval-002.mp3": {
+  "photon-release-visible.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -71,7 +71,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v2-4th-interval-003.mp3": {
+  "photon-release-uv.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -79,7 +79,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v3-4th-interval-000.mp3": {
+  "rotate-clockwise.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -87,87 +87,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-v3-4th-interval-000-softened-attack.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-001.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-001-softened-attack.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-002.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-002-softened-attack.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-003.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-v3-4th-interval-003-softened-attack.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-002.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-directions-001.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-directions-002.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-directions-003.mp3": {
+  "rotate-counterclockwise.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
