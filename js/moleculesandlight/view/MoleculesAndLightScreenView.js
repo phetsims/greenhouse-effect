@@ -17,7 +17,6 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LightSpectrumDialog = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/LightSpectrumDialog' );
-  const malSoundOptionsDialogContent = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/malSoundOptionsDialogContent' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
@@ -53,29 +52,19 @@ define( require => {
   const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // sounds
-  const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart-v2.mp3' );
+  const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
-  const rotationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-002.mp3' );
-  const rotationDirections001SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-001.mp3' );
-  const rotationDirections002SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-002.mp3' );
-  const rotationDirections003SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-directions-003.mp3' );
+  const rotationClockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-clockwise.mp3' );
+  const rotationCounterclockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-counterclockwise.mp3' );
   const vibrationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration.mp3' );
-  const microwavePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-000.mp3' );
-  const infraredPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-001.mp3' );
-  const visiblePhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-002.mp3' );
-  const ultravioletPhotonV1SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v1-4th-interval-003.mp3' );
-  const microwavePhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-4th-interval-000.mp3' );
-  const infraredPhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-4th-interval-001.mp3' );
-  const visiblePhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-4th-interval-002.mp3' );
-  const ultravioletPhotonV2SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v2-4th-interval-003.mp3' );
-  const microwavePhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-000.mp3' );
-  const infraredPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-001.mp3' );
-  const visiblePhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-002.mp3' );
-  const ultravioletPhotonV3SoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-003.mp3' );
-  const microwavePhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-000-softened-attack.mp3' );
-  const infraredPhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-001-softened-attack.mp3' );
-  const visiblePhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-002-softened-attack.mp3' );
-  const ultravioletPhotonV3saSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-v3-4th-interval-003-softened-attack.mp3' );
+  const microwavePhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-microwave.mp3' );
+  const infraredPhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-ir.mp3' );
+  const visiblePhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-visible.mp3' );
+  const ultravioletPhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-uv.mp3' );
+  const microwavePhotonInitialEmissionSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-emit-microwave.mp3' );
+  const infraredPhotonInitialEmissionSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-emit-ir.mp3' );
+  const visiblePhotonInitialEmissionSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-emit-visible.mp3' );
+  const ultravioletPhotonInitialEmissionSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-emit-uv.mp3' );
 
   // constants
   // Model-view transform for intermediate coordinates.
@@ -89,14 +78,6 @@ define( require => {
 
   // Line width of the observation window frame
   const FRAME_LINE_WIDTH = 5;
-
-  // Photon wavelengths in order from longest to shortest
-  const ORDERED_WAVELENGTHS = [
-    WavelengthConstants.MICRO_WAVELENGTH,
-    WavelengthConstants.IR_WAVELENGTH,
-    WavelengthConstants.VISIBLE_WAVELENGTH,
-    WavelengthConstants.UV_WAVELENGTH
-  ];
 
   // volume of photon emission sounds
   const PHOTON_SOUND_OUTPUT_LEVEL = 0.07;
@@ -290,15 +271,8 @@ define( require => {
     };
 
     // molecule rotating sounds
-    const rotateSoundPlayers = [
-      new SoundClip( rotationSoundInfo, { initialOutputLevel: 0.5 } ),
-      new SoundClip( rotationDirections001SoundInfo, { initialOutputLevel: 0.5 } ),
-      new SoundClip( rotationDirections002SoundInfo, { initialOutputLevel: 0.5 } ),
-      new SoundClip( rotationDirections003SoundInfo, { initialOutputLevel: 0.5 } )
-    ];
-    rotateSoundPlayers.forEach( rsp => {
-      soundManager.addSoundGenerator( rsp );
-    } );
+    const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, { initialOutputLevel: 0.5 } );
+    const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, { initialOutputLevel: 0.5 } );
 
     const updateRotationSound = rotating => {
       if ( rotating ) {
@@ -309,16 +283,15 @@ define( require => {
         // play a sound based on the direction of rotation and the currently selected sound from the options dialog
         const molecule = photonAbsorptionModel.activeMolecules.get( 0 );
         if ( molecule.rotationDirectionClockwiseProperty.value ) {
-          rotateSoundPlayers[ malSoundOptionsDialogContent.clockwiseRotationsSoundProperty.value - 1 ].play();
+          rotateClockwiseSoundPlayer.play();
         }
         else {
-          rotateSoundPlayers[ malSoundOptionsDialogContent.counterclockwiseRotationsSoundProperty.value - 1 ].play();
+          rotateCounterclockwiseSoundPlayer.play();
         }
       }
       else {
-        rotateSoundPlayers.forEach( rsp => {
-          rsp.stop();
-        } );
+        rotateClockwiseSoundPlayer.stop();
+        rotateCounterclockwiseSoundPlayer.stop();
       }
     };
 
@@ -371,47 +344,57 @@ define( require => {
     // photon generation sounds (i.e. the photons coming from the lamps)
     const photonSoundClipOptions = { initialOutputLevel: PHOTON_SOUND_OUTPUT_LEVEL };
 
-    // TODO: Once the photon sound set is finalized, use a Map here instead of a 2D array
-    const photonEmissionSoundPlayers = [
-      [
-        new SoundClip( microwavePhotonV1SoundInfo, photonSoundClipOptions ),
-        new SoundClip( infraredPhotonV1SoundInfo, photonSoundClipOptions ),
-        new SoundClip( visiblePhotonV1SoundInfo, photonSoundClipOptions ),
-        new SoundClip( ultravioletPhotonV1SoundInfo, photonSoundClipOptions )
-      ],
-      [
-        new SoundClip( microwavePhotonV2SoundInfo, photonSoundClipOptions ),
-        new SoundClip( infraredPhotonV2SoundInfo, photonSoundClipOptions ),
-        new SoundClip( visiblePhotonV2SoundInfo, photonSoundClipOptions ),
-        new SoundClip( ultravioletPhotonV2SoundInfo, photonSoundClipOptions )
-      ],
-      [
-        new SoundClip( microwavePhotonV3SoundInfo, photonSoundClipOptions ),
-        new SoundClip( infraredPhotonV3SoundInfo, photonSoundClipOptions ),
-        new SoundClip( visiblePhotonV3SoundInfo, photonSoundClipOptions ),
-        new SoundClip( ultravioletPhotonV3SoundInfo, photonSoundClipOptions )
-      ],
-      [
-        new SoundClip( microwavePhotonV3saSoundInfo, photonSoundClipOptions ),
-        new SoundClip( infraredPhotonV3saSoundInfo, photonSoundClipOptions ),
-        new SoundClip( visiblePhotonV3saSoundInfo, photonSoundClipOptions ),
-        new SoundClip( ultravioletPhotonV3saSoundInfo, photonSoundClipOptions )
-      ]
-    ];
-    photonEmissionSoundPlayers.forEach( soundSet => {
-      soundSet.forEach( soundClip => {
-        soundManager.addSoundGenerator( soundClip );
-      } );
+    // Note - can't use initialization constructor for Map due to lack of support in IE.
+    const photonInitialEmissionSoundPlayers = new Map();
+    photonInitialEmissionSoundPlayers.put(
+      WavelengthConstants.MICRO_WAVELENGTH,
+      new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+    );
+    photonInitialEmissionSoundPlayers.put(
+      WavelengthConstants.IR_WAVELENGTH,
+      new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+    );
+    photonInitialEmissionSoundPlayers.put(
+      WavelengthConstants.VISIBLE_WAVELENGTH,
+      new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+    );
+    photonInitialEmissionSoundPlayers.put(
+      WavelengthConstants.UV_WAVELENGTH,
+      new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+    );
+    photonInitialEmissionSoundPlayers.forEach( ( value, key ) => {
+      soundManager.addSoundGenerator( key );
     } );
+
+    // Note - can't use initialization constructor for Map due to lack of support in IE.
+    const photonEmissionFromMoleculeSoundPlayers = new Map();
+    photonEmissionFromMoleculeSoundPlayers.put(
+      WavelengthConstants.MICRO_WAVELENGTH,
+      new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+    );
+    photonEmissionFromMoleculeSoundPlayers.put(
+      WavelengthConstants.IR_WAVELENGTH,
+      new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+    );
+    photonEmissionFromMoleculeSoundPlayers.put(
+      WavelengthConstants.VISIBLE_WAVELENGTH,
+      new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+    );
+    photonEmissionFromMoleculeSoundPlayers.put(
+      WavelengthConstants.UV_WAVELENGTH,
+      new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+    );
+    photonEmissionFromMoleculeSoundPlayers.forEach( ( value, key ) => {
+      soundManager.addSoundGenerator( key );
+    } );
+
     photonAbsorptionModel.photons.addItemAddedListener( photon => {
-      const soundClipIndex = ORDERED_WAVELENGTHS.indexOf( photon.wavelength );
       if ( photon.locationProperty.value.x < 0 ) {
 
         // photon was emitted from lamp, use the initial emission sound
         const playEmitFromLampSound = position => {
           if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
-            const soundSetIndex = malSoundOptionsDialogContent.photonInitialEmissionSoundSetProperty.value - 1;
-            photonEmissionSoundPlayers[ soundSetIndex ][ soundClipIndex ].play();
+            photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
             photon.locationProperty.unlink( playEmitFromLampSound );
           }
         };
@@ -420,7 +403,7 @@ define( require => {
       else {
 
         // photon was emitted from lamp, use the secondary emission sound (finalized as of 12/2/2019)
-        photonEmissionSoundPlayers[ 1 ][ soundClipIndex ].play();
+        photonEmissionFromMoleculeSoundPlayers.get( photon.wavelength ).play();
       }
     } );
   }
