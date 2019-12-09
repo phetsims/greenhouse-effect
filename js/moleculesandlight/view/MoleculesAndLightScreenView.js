@@ -52,7 +52,7 @@ define( require => {
   const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // sounds
-  const breakApartSoundV2Info = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
+  const breakApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
   const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotationClockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-clockwise.mp3' );
   const rotationCounterclockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-counterclockwise.mp3' );
@@ -79,6 +79,7 @@ define( require => {
   // Line width of the observation window frame
   const FRAME_LINE_WIDTH = 5;
 
+  // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
   // volume of photon emission sounds
   const PHOTON_SOUND_OUTPUT_LEVEL = 0.07;
 
@@ -247,6 +248,7 @@ define( require => {
     // sound generation
     //-----------------------------------------------------------------------------------------------------------------
 
+    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // sound to play when molecule becomes "energized", which is depicted as glowing in the view
     const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedLoopInfo, {
       loop: true,
@@ -263,13 +265,15 @@ define( require => {
       }
     };
 
-    // broke apart sound
-    const brokeApartSound2 = new SoundClip( breakApartSoundV2Info, { initialOutputLevel: 1 } );
-    soundManager.addSoundGenerator( brokeApartSound2 );
+    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
+    // break apart sound
+    const breakApartSound2 = new SoundClip( breakApartSoundInfo, { initialOutputLevel: 1 } );
+    soundManager.addSoundGenerator( breakApartSound2 );
     const breakApartSoundPlayer = () => {
-      brokeApartSound2.play();
+      breakApartSound2.play();
     };
 
+    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // molecule rotating sounds
     const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, { initialOutputLevel: 0.5 } );
     const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, { initialOutputLevel: 0.5 } );
@@ -295,6 +299,7 @@ define( require => {
       }
     };
 
+    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // molecule vibration sound
     const moleculeVibrationLoop = new SoundClip( vibrationSoundInfo, {
       initialOutputLevel: 0.2,
