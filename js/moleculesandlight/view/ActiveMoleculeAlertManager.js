@@ -33,6 +33,8 @@ define( require => {
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
   // allow time for the screeen reader to announce other control changes
+  // NOTE: This is not currently being used to control rate of alerts. This is on option but may not be necessary
+  // any more. See https://github.com/phetsims/molecules-and-light/issues/228
   const ALERT_DELAY = 5;
 
   class ActiveMoleculeAlertManager {
@@ -101,30 +103,28 @@ define( require => {
 
       // vibration
       molecule.vibratingProperty.lazyLink( vibrating => {
-        if ( vibrating && this.timeSinceFirstAlert > ALERT_DELAY ) {
+        if ( vibrating ) {
           utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
         }
       } );
 
       // rotation
       molecule.rotatingProperty.lazyLink( rotating => {
-        if ( rotating && this.timeSinceFirstAlert > ALERT_DELAY ) {
+        if ( rotating ) {
           utteranceQueue.addToBack( this.getRotationAlert( molecule ) );
         }
       } );
 
       // high electronic energy state (glowing)
       molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
-        if ( highEnergy && this.timeSinceFirstAlert > ALERT_DELAY ) {
+        if ( highEnergy ) {
           utteranceQueue.addToBack( this.getExcitationAlert( molecule ) );
         }
       } );
 
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
-        if ( this.timeSinceFirstAlert > ALERT_DELAY ) {
-          utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
-        }
+        utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
       } );
     }
 
