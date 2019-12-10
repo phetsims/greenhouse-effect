@@ -351,46 +351,46 @@ define( require => {
 
     // Note - can't use initialization constructor for Map due to lack of support in IE.
     const photonInitialEmissionSoundPlayers = new Map();
-    photonInitialEmissionSoundPlayers.put(
+    photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
       new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
     );
-    photonInitialEmissionSoundPlayers.put(
+    photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
       new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
     );
-    photonInitialEmissionSoundPlayers.put(
+    photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
       new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
     );
-    photonInitialEmissionSoundPlayers.put(
+    photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
       new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
     );
-    photonInitialEmissionSoundPlayers.forEach( ( value, key ) => {
-      soundManager.addSoundGenerator( key );
+    photonInitialEmissionSoundPlayers.forEach( value => {
+      soundManager.addSoundGenerator( value );
     } );
 
     // Note - can't use initialization constructor for Map due to lack of support in IE.
     const photonEmissionFromMoleculeSoundPlayers = new Map();
-    photonEmissionFromMoleculeSoundPlayers.put(
+    photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
       new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
     );
-    photonEmissionFromMoleculeSoundPlayers.put(
+    photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
       new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
     );
-    photonEmissionFromMoleculeSoundPlayers.put(
+    photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
       new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
     );
-    photonEmissionFromMoleculeSoundPlayers.put(
+    photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
       new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
     );
-    photonEmissionFromMoleculeSoundPlayers.forEach( ( value, key ) => {
-      soundManager.addSoundGenerator( key );
+    photonEmissionFromMoleculeSoundPlayers.forEach( value => {
+      soundManager.addSoundGenerator( value );
     } );
 
     photonAbsorptionModel.photons.addItemAddedListener( photon => {
