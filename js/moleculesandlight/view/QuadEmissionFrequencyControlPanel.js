@@ -43,7 +43,7 @@ define( require => {
   const quadWavelengthSelectorVisibleString = require( 'string!MOLECULES_AND_LIGHT/QuadWavelengthSelector.Visible' );
 
   // a11y strings
-  const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
+  const lightSourcesString = MoleculesAndLightA11yStrings.lightSourcesString.value;
   const lightSourceRadioButtonHelpTextString = MoleculesAndLightA11yStrings.lightSourceRadioButtonHelpTextString.value;
   // const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
 
@@ -73,7 +73,7 @@ define( require => {
     Node.call( this, {
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: lightSourceString,
+      labelContent: lightSourcesString,
       descriptionContent: lightSourceRadioButtonHelpTextString
     } );
 
