@@ -53,7 +53,7 @@ define( require => {
 
   // sounds
   const breakApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
-  const moleculeEnergizedLoopInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
+  const moleculeEnergizedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const rotationClockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-clockwise.mp3' );
   const rotationCounterclockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-counterclockwise.mp3' );
   const vibrationSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/vibration.mp3' );
@@ -250,7 +250,7 @@ define( require => {
 
     // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // sound to play when molecule becomes "energized", which is depicted as glowing in the view
-    const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedLoopInfo, {
+    const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedSoundInfo, {
       loop: true,
       initialOutputLevel: 0.1,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
@@ -275,8 +275,16 @@ define( require => {
 
     // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // molecule rotating sounds
-    const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, { initialOutputLevel: 0.5 } );
-    const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, { initialOutputLevel: 0.5 } );
+    const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, {
+      initialOutputLevel: 0.5,
+      loop: true
+    } );
+    soundManager.addSoundGenerator( rotateClockwiseSoundPlayer );
+    const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, {
+      initialOutputLevel: 0.5,
+      loop: true
+    } );
+    soundManager.addSoundGenerator( rotateCounterclockwiseSoundPlayer );
 
     const updateRotationSound = rotating => {
       if ( rotating ) {
