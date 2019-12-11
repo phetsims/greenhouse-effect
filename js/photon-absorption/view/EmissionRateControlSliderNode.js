@@ -50,7 +50,6 @@ define( require => {
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
   const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
-  const emissionRatePatternString = MoleculesAndLightA11yStrings.emissionRatePatternString.value;
 
   /**
    * Constructor for an emission rate control slider.
