@@ -52,7 +52,9 @@ define( require => {
 
       const summaryProperties = [ model.photonWavelengthProperty, model.emissionFrequencyProperty, model.photonTargetProperty, model.runningProperty ];
       Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running ) => {
-        dynamicDescription.accessibleName = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running );
+
+        // TODO: Maybe use accessibleName instead if https://github.com/phetsims/molecules-and-light/issues/237 is fixed
+        dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running );
       } );
 
       // interaction hint
