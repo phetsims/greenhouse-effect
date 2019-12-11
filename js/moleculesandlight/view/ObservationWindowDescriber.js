@@ -11,6 +11,9 @@
  * energy phase is described. The initial state description for photons passing through the molecule is
  * not re-applied until the photon wavelength or target molecule changes again.
  *
+ * TODO: accessibleName was replaced throughout with innerContent because of https://github.com/phetsims/scenery/issues/1026
+ * If that issue is fixed, accessibleName can be used again
+ *
  * @author Jesse Greenberg
  */
 define( require => {
@@ -103,13 +106,13 @@ define( require => {
     attachInitialPhaseDescriptionListeners( descriptionNode ) {
       this.model.photonWavelengthProperty.link( photonWavelength => {
         if ( this.model.targetMolecule ) {
-          descriptionNode.accessibleName = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
+          descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
         }
       } );
 
       this.model.emissionFrequencyProperty.link( ( emissionFrequency, oldFrequency ) => {
         if ( ( emissionFrequency === 0 || oldFrequency === 0 ) && this.model.targetMolecule ) {
-          descriptionNode.accessibleName = this.getInitialPhaseDescription( emissionFrequency, this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+          descriptionNode.innerContent = this.getInitialPhaseDescription( emissionFrequency, this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
         }
       } );
     }
@@ -126,7 +129,7 @@ define( require => {
 
       // new target molecule added, reset to initial phase description
       if ( molecule === this.model.targetMolecule ) {
-        descriptionNode.accessibleName = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
       }
 
       // vibration
@@ -135,7 +138,7 @@ define( require => {
 
         if ( this.moleculeVibrating ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.accessibleName = this.getVibrationPhaseDescription( vibrationRadians );
+          descriptionNode.innerContent = this.getVibrationPhaseDescription( vibrationRadians );
         }
       } );
 
@@ -146,7 +149,7 @@ define( require => {
 
         if ( rotating ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.accessibleName = this.getRotationPhaseDescription();
+          descriptionNode.innerContent = this.getRotationPhaseDescription();
         }
       } );
 
@@ -156,13 +159,13 @@ define( require => {
 
         if ( highEnergy ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.accessibleName = this.getHighElectronicEnergyPhaseDescription();
+          descriptionNode.innerContent = this.getHighElectronicEnergyPhaseDescription();
         }
       } );
 
       // re-emission
       molecule.photonEmittedEmitter.addListener( photon => {
-        descriptionNode.accessibleName = this.getEmissionPhaseDescription( photon );
+        descriptionNode.innerContent = this.getEmissionPhaseDescription( photon );
       } );
 
       // break apart
@@ -170,7 +173,7 @@ define( require => {
         this.moleculeBrokeApart = true;
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
-        descriptionNode.accessibleName = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
+        descriptionNode.innerContent = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
 
         const activeMolecules = this.model.activeMolecules;
 
@@ -181,7 +184,7 @@ define( require => {
         const addMoleculeRemovalListener = () => {
           const describeMoleculesRemoved = ( molecule, observableArray ) => {
             if ( !activeMolecules.contains( moleculeA ) && !activeMolecules.contains( moleculeB ) ) {
-              descriptionNode.accessibleName = this.getMoleculesRemovedDescription( moleculeA, moleculeB );
+              descriptionNode.innerContent = this.getMoleculesRemovedDescription( moleculeA, moleculeB );
               activeMolecules.removeItemRemovedListener( describeMoleculesRemoved );
             }
           };
