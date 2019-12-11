@@ -32,9 +32,9 @@ define( require => {
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
   // PDOM strings
-  const verySlowlyString = MoleculesAndLightA11yStrings.verySlowlyString.value;
-  const slowlyString = MoleculesAndLightA11yStrings.slowlyString.value;
-  const quicklyString = MoleculesAndLightA11yStrings.quicklyString.value;
+  const verySlowString = MoleculesAndLightA11yStrings.verySlowString.value;
+  const slowString = MoleculesAndLightA11yStrings.slowString.value;
+  const fastString = MoleculesAndLightA11yStrings.fastString.value;
 
   // constants
   const THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
@@ -43,13 +43,13 @@ define( require => {
   const THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
 
   // a11y strings
-  const lightSourceString = MoleculesAndLightA11yStrings.lightSourceString.value;
   const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
+  const lightSourceLabelPatternString = MoleculesAndLightA11yStrings.lightSourceLabelPatternString.value;
   const emitsPhotonsQuicklyString = MoleculesAndLightA11yStrings.emitsPhotonsQuicklyString.value;
   const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
-  const lightSourceOffPatternString = MoleculesAndLightA11yStrings.lightSourceOffPatternString.value;
+  const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
   const emissionRatePatternString = MoleculesAndLightA11yStrings.emissionRatePatternString.value;
 
   /**
@@ -80,7 +80,6 @@ define( require => {
 
       // a11y
       labelTagName: 'label',
-      labelContent: lightSourceString,
       descriptionContent: emissionSliderDescriptionString,
       appendDescription: true,
       numberDecimalPlaces: 1,
@@ -105,9 +104,9 @@ define( require => {
     this.pdomValueDescriptonMap = new Map();
 
     const rangeDelta = sliderRange.getLength() / 3;
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, rangeDelta ), verySlowlyString );
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + rangeDelta, sliderRange.min + 2 * rangeDelta ), slowlyString );
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + 2 * rangeDelta, sliderRange.max ), quicklyString );
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, rangeDelta ), verySlowString );
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + rangeDelta, sliderRange.min + 2 * rangeDelta ), slowString );
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + 2 * rangeDelta, sliderRange.max ), fastString );
 
     // a11y
     this.emissionRateControlSlider.addInputListener( {
@@ -131,12 +130,18 @@ define( require => {
     // Create the default background box for this node.
     this.setBackgroundRectColor( PhetColorScheme.RED_COLORBLIND );
 
-    this.photonWavelengthListener = function() {
+    this.photonWavelengthListener = function( wavelength ) {
 
       // check if the current node is disposed
       if ( !self.isDisposed ) {
         self.update();
       }
+
+      // PDOM - update accessible name for the slider
+      const lightSourceString = WavelengthConstants.getLightSourceName( wavelength );
+      self.emissionRateControlSlider.labelContent = StringUtils.fillIn( lightSourceLabelPatternString, {
+        lightSource: lightSourceString
+      } );
     };
 
     // Update layout and color when photon wavelength changes.
@@ -208,12 +213,8 @@ define( require => {
      * @returns {string}
      */
     getAriaValueText( mappedValue, newValue, previousValue ) {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
-
       if ( mappedValue === 0 ) {
-        return StringUtils.fillIn( lightSourceOffPatternString, {
-          lightSource: lightSourceString
-        } );
+        return lightSourceOffString;
       }
       else {
         let emissionRateString = '';
@@ -224,10 +225,7 @@ define( require => {
           }
         } );
 
-        return StringUtils.fillIn( emissionRatePatternString, {
-          lightSource: lightSourceString,
-          emissionRate: emissionRateString
-        } );
+        return emissionRateString;
       }
     }
   }, {
