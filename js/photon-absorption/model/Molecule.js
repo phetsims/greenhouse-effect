@@ -66,11 +66,11 @@ define( require => {
     options = merge( {
       initialPosition: Vector2.ZERO,
       isForIcon: false,
-      tandem: Tandem.optional // not needed when part of the selection radio buttons.
+      tandem: Tandem.OPTIONAL // not needed when part of the selection radio buttons.
     }, options );
 
     // TODO: Instrument using PhetioGroup, see https://github.com/phetsims/tandem/issues/87
-    options.tandem = Tandem.optional;
+    options.tandem = Tandem.OPTIONAL;
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
       tandem: options.tandem.createTandem( 'highElectronicEnergyStateProperty' ), // Instrumentation requested in https://github.com/phetsims/phet-io-wrappers/issues/53
