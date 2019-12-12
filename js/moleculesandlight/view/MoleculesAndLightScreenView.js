@@ -193,7 +193,7 @@ define( require => {
     // @private
     const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
-    const lightSpectrumDialogCapsule = new PhetioCapsule(  tandem => {
+    const lightSpectrumDialogCapsule = new PhetioCapsule( 'lightSpectrumDialog', tandem => {
       return new LightSpectrumDialog( spectrumButtonLabel, tandem );
     }, [], {
       tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
