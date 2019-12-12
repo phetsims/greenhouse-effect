@@ -26,7 +26,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
   const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
-  const PlayPauseButton = require( 'SCENERY_PHET/buttons/PlayPauseButton' );
+  const TimeControlNode = require( 'SCENERY_PHET/TimeControlNode' );
   const QuadEmissionFrequencyControlPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/QuadEmissionFrequencyControlPanel' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -35,7 +35,6 @@ define( require => {
   const SoundClip = require( 'TAMBO/sound-generators/SoundClip' );
   const soundManager = require( 'TAMBO/soundManager' );
   const SpectrumDiagram = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/SpectrumDiagram' );
-  const StepForwardButton = require( 'SCENERY_PHET/buttons/StepForwardButton' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -48,8 +47,6 @@ define( require => {
   // a11y strings
   const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
   const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-  const stepButtonLabelString = MoleculesAndLightA11yStrings.stepButtonLabelString.value;
-  const stepButtonDescriptionString = MoleculesAndLightA11yStrings.stepButtonDescriptionString.value;
 
   // sounds
   const breakApartSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/break-apart.mp3' );
@@ -161,32 +158,18 @@ define( require => {
     } );
     this.pdomControlAreaNode.addChild( resetAllButton );
 
-    // Add play/pause button.
-    const playPauseButton = new PlayPauseButton( photonAbsorptionModel.runningProperty, {
-      bottom: moleculeControlPanel.bottom + 60,
-      centerX: moleculeControlPanel.centerX - 25,
-      radius: 23,
-      touchAreaDilation: 5,
-      tandem: tandem.createTandem( 'playPauseButton' )
-    } );
-    this.pdomControlAreaNode.addChild( playPauseButton );
+    const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
+      playPauseOptions: {
+        radius: 23
+      },
+      stepOptions: {
+        radius: 15
+      },
+      centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 60 ),
 
-    // Add step button to manually step the animation.
-    const stepButton = new StepForwardButton( {
-      isPlayingProperty: photonAbsorptionModel.runningProperty,
-      listener: function() { photonAbsorptionModel.manualStep(); },
-      centerY: playPauseButton.centerY,
-      centerX: moleculeControlPanel.centerX + 25,
-      radius: 15,
-      touchAreaDilation: 5,
-      tandem: tandem.createTandem( 'stepButton' ),
-
-      // a11y
-      innerContent: stepButtonLabelString,
-      descriptionContent: stepButtonDescriptionString,
-      appendDescription: true
+      tandem: tandem.createTandem( 'timeControlNode' )
     } );
-    this.pdomControlAreaNode.addChild( stepButton );
+    this.pdomControlAreaNode.addChild( timeControlNode );
 
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
@@ -242,7 +225,7 @@ define( require => {
 
     // PDOM - the accessible order for the control area contents
     this.pdomPlayAreaNode.accessibleOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
-    this.pdomControlAreaNode.accessibleOrder = [ playPauseButton, stepButton, showLightSpectrumButton, resetAllButton ];
+    this.pdomControlAreaNode.accessibleOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
     //-----------------------------------------------------------------------------------------------------------------
     // sound generation
