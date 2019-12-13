@@ -162,8 +162,9 @@ define( require => {
       playPauseOptions: {
         radius: 23
       },
-      stepOptions: {
-        radius: 15
+      stepForwardOptions: {
+        radius: 15,
+        listener: function() { photonAbsorptionModel.manualStep(); }
       },
       centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 60 ),
 
