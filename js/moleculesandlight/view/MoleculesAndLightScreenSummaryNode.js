@@ -21,7 +21,8 @@ define( require => {
   // constants
 
   // PDOM strings
-  const screenSummaryString = MoleculesAndLightA11yStrings.screenSummaryString.value;
+  const playAreaSummaryString = MoleculesAndLightA11yStrings.playAreaSummaryString.value;
+  const controlAreaSummaryString = MoleculesAndLightA11yStrings.controlAreaSummaryString.value;
   const dynamicScreenSummaryString = MoleculesAndLightA11yStrings.dynamicScreenSummaryString.value;
   const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
@@ -40,11 +41,23 @@ define( require => {
       // @private {PhotonAbsorptionModel}
       this.model = model;
 
-      // the static overall summary for the sim
+      // static summary of the play area
       this.addChild( new Node( {
         tagName: 'p',
-        accessibleName: screenSummaryString
+        accessibleName: playAreaSummaryString
       } ) );
+
+      // static summary of the control area
+      this.addChild( new Node( {
+        tagName: 'p',
+        accessibleName: controlAreaSummaryString
+      } ) );
+
+      // // the static overall summary for the sim
+      // this.addChild( new Node( {
+      //   tagName: 'p',
+      //   accessibleName: screenSummaryString
+      // } ) );
 
       // dynamic overview that stays up to date with sim
       const dynamicDescription = new Node( { tagName: 'p' } );
