@@ -269,12 +269,14 @@ define( require => {
     // molecule rotating sounds
     const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, {
       initialOutputLevel: 0.5,
-      loop: true
+      loop: true,
+      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
     soundManager.addSoundGenerator( rotateClockwiseSoundPlayer );
     const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, {
       initialOutputLevel: 0.5,
-      loop: true
+      loop: true,
+      enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
     soundManager.addSoundGenerator( rotateCounterclockwiseSoundPlayer );
 
