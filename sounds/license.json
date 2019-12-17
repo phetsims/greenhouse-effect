@@ -1,4 +1,12 @@
 {
+  "absorb-loop.mp3": {
+    "text": [
+      "Copyright 2018 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
   "glow-loop-higher.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
