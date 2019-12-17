@@ -18,10 +18,6 @@ define( require => {
   const Dialog = require( 'SUN/Dialog' );
   const inherit = require( 'PHET_CORE/inherit' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
-
-  // a11y string
-  const spectrumWindowDescriptionString = MoleculesAndLightA11yStrings.spectrumWindowDescriptionString.value;
 
   /**
    * @constructor
@@ -34,11 +30,7 @@ define( require => {
 
       // phet-io
       tandem: tandem,
-      phetioDynamicElement: true,
-
-      // a11y
-      tagName: 'p',
-      descriptionContent: spectrumWindowDescriptionString
+      phetioDynamicElement: true
     } );
   }
 

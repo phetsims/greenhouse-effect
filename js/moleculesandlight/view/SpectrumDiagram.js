@@ -28,6 +28,7 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const Vector2 = require( 'DOT/Vector2' );
   const WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
+  const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
 
   // strings
   const spectrumWindowCyclesPerSecondUnitsString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.cyclesPerSecondUnits' );
@@ -42,6 +43,9 @@ define( require => {
   const spectrumWindowVisibleBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.visibleBandLabel' );
   const spectrumWindowWavelengthArrowLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.wavelengthArrowLabel' );
   const spectrumWindowXrayBandLabelString = require( 'string!MOLECULES_AND_LIGHT/SpectrumWindow.xrayBandLabel' );
+
+  // PDOM strings
+  const spectrumDialogDescriptionString = MoleculesAndLightA11yStrings.spectrumDialogDescriptionString.value;
 
   // shared constants
   const LABEL_FONT = new PhetFont( 16 );
@@ -108,7 +112,19 @@ define( require => {
     const decreasingWavelengthNode = new ChirpNode();
     children.push( decreasingWavelengthNode );
 
-    LayoutBox.call( this, { orientation: 'vertical', children: children, spacing: 15 } );
+    LayoutBox.call( this, {
+      orientation: 'vertical',
+      children: children,
+      spacing: 15,
+
+      // PDOM
+      containerTagName: 'div',
+      tagName: 'h1',
+      innerContent: spectrumWindowTitleString,
+      descriptionTagName: 'p',
+      descriptionContent: spectrumDialogDescriptionString,
+      appendDescription: true
+    } );
   }
 
   moleculesAndLight.register( 'SpectrumDiagram', SpectrumDiagram );
