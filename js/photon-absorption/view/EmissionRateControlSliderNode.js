@@ -50,6 +50,7 @@ define( require => {
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
   const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
+  const fastestString = MoleculesAndLightA11yStrings.fastestString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -214,6 +215,9 @@ define( require => {
     getAriaValueText( mappedValue, newValue, previousValue ) {
       if ( mappedValue === 0 ) {
         return lightSourceOffString;
+      }
+      else if ( mappedValue === 1 ) {
+        return fastestString;
       }
       else {
         let emissionRateString = '';
