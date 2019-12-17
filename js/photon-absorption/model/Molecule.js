@@ -144,6 +144,9 @@ define( require => {
     // @public, set by PhotonAbsorptionModel
     this.photonGroupTandem = null;
 
+    // @public (read-only) {Emitter} - emitter for when a photon is absorbed
+    this.photonAbsorbedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+
     // @public (read-only) {Emitter} - emitter for when a photon is emitted
     this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
@@ -431,6 +434,7 @@ define( require => {
             absorbPhoton = true;
             this.activePhotonAbsorptionStrategy = candidateAbsorptionStrategy;
             this.activePhotonAbsorptionStrategy.queryAndAbsorbPhoton( photon );
+            this.photonAbsorbedEmitter.emit( photon );
           }
           else {
 
