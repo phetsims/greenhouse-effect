@@ -23,12 +23,10 @@ define( require => {
   const shortBendingAlertString = MoleculesAndLightA11yStrings.shortBendingAlertString.value;
   const longBendingAlertString = MoleculesAndLightA11yStrings.longBendingAlertString.value;
   const shortRotatingAlertString = MoleculesAndLightA11yStrings.shortRotatingAlertString.value;
-  const longRotatingAlertPatternString = MoleculesAndLightA11yStrings.longRotatingAlertPatternString.value;
+  const longRotatingAlertString = MoleculesAndLightA11yStrings.longRotatingAlertString.value;
   const shortGlowingAlertString = MoleculesAndLightA11yStrings.shortGlowingAlertString.value;
   const longGlowingAlertString = MoleculesAndLightA11yStrings.longGlowingAlertString.value;
   const breaksApartAlertPatternString = MoleculesAndLightA11yStrings.breaksApartAlertPatternString.value;
-  const clockwiseString = MoleculesAndLightA11yStrings.clockwiseString.value;
-  const counterClockwiseString = MoleculesAndLightA11yStrings.counterClockwiseString.value;
 
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -175,10 +173,7 @@ define( require => {
       let alert = '';
 
       if ( this.firstRotationAlert ) {
-        const directionString = molecule.rotationDirectionClockwiseProperty.get() ? clockwiseString : counterClockwiseString;
-        alert = StringUtils.fillIn( longRotatingAlertPatternString, {
-          direction: directionString
-        } );
+        alert = longRotatingAlertString;
       }
       else {
         alert = shortRotatingAlertString;
