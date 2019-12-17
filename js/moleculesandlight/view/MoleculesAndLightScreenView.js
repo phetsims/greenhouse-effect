@@ -77,9 +77,8 @@ define( require => {
   // Line width of the observation window frame
   const FRAME_LINE_WIDTH = 5;
 
-  // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
   // volume of photon emission sounds
-  const PHOTON_SOUND_OUTPUT_LEVEL = 0.07;
+  const PHOTON_SOUND_OUTPUT_LEVEL = 0.09;
 
   // X position at which the lamp emission sound is played, empirically determined
   const PLAY_LAMP_EMISSION_X_POSITION = -1400;
@@ -240,11 +239,10 @@ define( require => {
       photonAbsorbedSound.play();
     };
 
-    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // sound to play when molecule becomes "energized", which is depicted as glowing in the view
     const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedSoundInfo, {
       loop: true,
-      initialOutputLevel: 0.1,
+      initialOutputLevel: 0.3,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
     soundManager.addSoundGenerator( moleculeEnergizedLoop );
@@ -257,24 +255,22 @@ define( require => {
       }
     };
 
-    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // break apart sound
-    const breakApartSound2 = new SoundClip( breakApartSoundInfo, { initialOutputLevel: 1 } );
-    soundManager.addSoundGenerator( breakApartSound2 );
+    const breakApartSound = new SoundClip( breakApartSoundInfo, { initialOutputLevel: 1 } );
+    soundManager.addSoundGenerator( breakApartSound );
     const breakApartSoundPlayer = () => {
-      breakApartSound2.play();
+      breakApartSound.play();
     };
 
-    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // molecule rotating sounds
     const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, {
-      initialOutputLevel: 0.5,
+      initialOutputLevel: 0.3,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
     soundManager.addSoundGenerator( rotateClockwiseSoundPlayer );
     const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, {
-      initialOutputLevel: 0.5,
+      initialOutputLevel: 0.3,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
@@ -301,10 +297,9 @@ define( require => {
       }
     };
 
-    // TODO - @Ashton-Morris - please adjust level if needed, see https://github.com/phetsims/molecules-and-light/issues/233
     // molecule vibration sound
     const moleculeVibrationLoop = new SoundClip( vibrationSoundInfo, {
-      initialOutputLevel: 0.2,
+      initialOutputLevel: 0.4,
       loop: true,
       enableControlProperties: [ photonAbsorptionModel.runningProperty ]
     } );
