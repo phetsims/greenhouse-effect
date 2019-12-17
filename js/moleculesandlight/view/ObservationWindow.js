@@ -219,6 +219,19 @@ define( require => {
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
       this.describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
+
+      // adding new target molecule, geometry descriptions are accurate
+      if ( molecule === photonAbsorptionModel.targetMolecule ) {
+        geometryLabelItem.visible = true;
+        geometryDescriptionItem.visible = true;
+      }
+
+      // when the molecule breaks apart, hide the geometryLabelItem and geometryDescriptionItem, because they
+      // described the molecule before it broke apart
+      molecule.brokeApartEmitter.addListener( () => {
+        geometryLabelItem.visible = false;
+        geometryDescriptionItem.visible = false;
+      } );
     } );
     this.describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
