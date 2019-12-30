@@ -25,7 +25,7 @@ define( require => {
   const RichText = require( 'SCENERY/nodes/RichText' );
   const Shape = require( 'KITE/Shape' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
   const WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
@@ -235,7 +235,7 @@ define( require => {
     addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
 
     // Add the visible spectrum.
-    const visSpectrumWidth = Util.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
+    const visSpectrumWidth = Utils.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
     const wavelengthSpectrumNode = new WavelengthSpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
     wavelengthSpectrumNode.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
     wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
@@ -300,7 +300,7 @@ define( require => {
    */
   function createExponentialLabel( value ) {
 
-    const superscript = Util.roundSymmetric( log10( value ) );
+    const superscript = Utils.roundSymmetric( log10( value ) );
     return new RichText( '10<sup>' + superscript + '</sup>', {
       font: TICK_MARK_FONT,
       supScale: 0.65,
