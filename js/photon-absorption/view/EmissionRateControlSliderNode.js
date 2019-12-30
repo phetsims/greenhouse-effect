@@ -27,7 +27,7 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -86,7 +86,7 @@ define( require => {
       keyboardStep: sliderRange.getLength() / 10,
       shiftKeyboardStep: sliderRange.getLength() / 20,
       pageKeyboardStep: sliderRange.getLength() / 5,
-      a11yMapValue: value => Util.toFixedNumber( value, 1 ),
+      a11yMapValue: value => Utils.toFixedNumber( value, 1 ),
       a11yCreateAriaValueText: this.getAriaValueText.bind( this ),
 
       // whenever these Properties change we need to update the value text
