@@ -159,6 +159,8 @@ define( require => {
     this.pdomControlAreaNode.addChild( resetAllButton );
 
     const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
+      isSlowMotionProperty: photonAbsorptionModel.slowMotionProperty,
+      buttonsXSpacing: 25,
       playPauseOptions: {
         radius: 23
       },
@@ -166,7 +168,7 @@ define( require => {
         radius: 15,
         listener: function() { photonAbsorptionModel.manualStep(); }
       },
-      centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 60 ),
+      centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 65 ),
 
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
@@ -217,7 +219,7 @@ define( require => {
     // a11y - add an attribute that lets the user know the button opens a menu
     showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
 
-    showLightSpectrumButton.center = ( new Vector2( moleculeControlPanel.centerX, photonEmissionControlPanel.centerY - 13 ) );
+    showLightSpectrumButton.centerTop = ( new Vector2( moleculeControlPanel.centerX, timeControlNode.bottom + 13 ) );
     this.pdomPlayAreaNode.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
