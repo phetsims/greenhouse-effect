@@ -168,6 +168,9 @@ define( require => {
         radius: 15,
         listener: function() { photonAbsorptionModel.manualStep(); }
       },
+      radioButtonOptions: {
+        maxWidth: 115 // i18n
+      },
       centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 65 ),
 
       tandem: tandem.createTandem( 'timeControlNode' )
