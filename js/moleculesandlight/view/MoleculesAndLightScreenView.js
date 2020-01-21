@@ -78,7 +78,8 @@ define( require => {
   const FRAME_LINE_WIDTH = 5;
 
   // volume of photon emission sounds
-  const PHOTON_SOUND_OUTPUT_LEVEL = 0.09;
+  const PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL = 0.05;
+  const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
 
   // X position at which the lamp emission sound is played, empirically determined
   const PLAY_LAMP_EMISSION_X_POSITION = -1400;
@@ -353,47 +354,50 @@ define( require => {
     } );
 
     // photon generation sounds (i.e. the photons coming from the lamps)
-    const photonSoundClipOptions = { initialOutputLevel: PHOTON_SOUND_OUTPUT_LEVEL };
+    const photonInitialEmissionSoundClipOptions = { initialOutputLevel: PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL };
 
     // Note - can't use initialization constructor for Map due to lack of support in IE.
     const photonInitialEmissionSoundPlayers = new Map();
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+      new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+      new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+      new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonSoundClipOptions )
+      new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.forEach( value => {
       soundManager.addSoundGenerator( value );
     } );
 
+    // photon re-emissions sounds, i.e. photons that are emitted from a molecule that previously absorbed one
+    const photonEmissionFromMoleculeSoundClipOptions = { initialOutputLevel: PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL };
+
     // Note - can't use initialization constructor for Map due to lack of support in IE.
     const photonEmissionFromMoleculeSoundPlayers = new Map();
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+      new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+      new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+      new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonSoundClipOptions )
+      new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.forEach( value => {
       soundManager.addSoundGenerator( value );
