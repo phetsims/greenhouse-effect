@@ -55,7 +55,7 @@ define( require => {
   const microwavePhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-microwave.mp3' );
   const moleculeEnergizedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/glow-loop-higher.mp3' );
   const microwavePhotonInitialEmissionSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-emit-microwave.mp3' );
-  const photonAbsorbedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-loop.mp3' );
+  const photonAbsorbedSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/absorb-based-on-photon.mp3' );
   const rotationClockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-clockwise.mp3' );
   const rotationCounterclockwiseSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/rotate-counterclockwise.mp3' );
   const ultravioletPhotonFromMoleculeSoundInfo = require( 'sound!MOLECULES_AND_LIGHT/photon-release-uv.mp3' );
@@ -235,7 +235,7 @@ define( require => {
     //-----------------------------------------------------------------------------------------------------------------
 
     // photon absorbed sound
-    const photonAbsorbedSound = new SoundClip( photonAbsorbedSoundInfo, { initialOutputLevel: 0.025 } );
+    const photonAbsorbedSound = new SoundClip( photonAbsorbedSoundInfo, { initialOutputLevel: 0.1 } );
     soundManager.addSoundGenerator( photonAbsorbedSound );
     const photonAbsorbedSoundPlayer = () => {
       photonAbsorbedSound.play();
