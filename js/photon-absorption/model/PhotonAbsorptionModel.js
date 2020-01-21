@@ -114,6 +114,11 @@ define( require => {
       tandem: tandem.createTandem( 'runningProperty' )
     } );
 
+    // @public - is the simulation running in slow motion?
+    this.slowMotionProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'slowMotionProperty' )
+    } );
+
     // @public
     this.photons = new ObservableArray( {
       tandem: tandem.createTandem( 'photons' ),
@@ -193,6 +198,11 @@ define( require => {
       // 1/60 = 0.016667 sec.
       if ( dt > 0.2 ) {
         return;
+      }
+
+      // reduce time step if running in slow motion
+      if ( this.slowMotionProperty.get() ) {
+        dt = dt / 3;
       }
 
       if ( this.runningProperty.get() ) {
