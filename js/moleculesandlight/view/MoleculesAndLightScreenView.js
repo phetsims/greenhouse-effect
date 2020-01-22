@@ -26,6 +26,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const PhetioCapsule = require( 'TANDEM/PhetioCapsule' );
   const PhetioCapsuleIO = require( 'TANDEM/PhetioCapsuleIO' );
+  const Playable = require( 'TAMBO/Playable' );
   const TimeControlNode = require( 'SCENERY_PHET/TimeControlNode' );
   const QuadEmissionFrequencyControlPanel = require( 'MOLECULES_AND_LIGHT/moleculesandlight/view/QuadEmissionFrequencyControlPanel' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -212,6 +213,9 @@ define( require => {
         }
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
+
+      // turn off default sound generation since dialog makes a sound when it opens
+      soundPlayer: Playable.NO_SOUND,
 
       // a11y
       innerContent: spectrumButtonLabelString,
