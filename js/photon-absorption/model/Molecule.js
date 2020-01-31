@@ -15,6 +15,7 @@ define( require => {
   const Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
   const AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Emitter = require( 'AXON/Emitter' );
   const inherit = require( 'PHET_CORE/inherit' );
   const merge = require( 'PHET_CORE/merge' );
@@ -141,6 +142,14 @@ define( require => {
       phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } );
 
+    // @public {DerivedProperty.<boolean>} - whether or not the molecule is "stretching" or "contracting" in its vibration.
+    this.isStretchingProperty = new DerivedProperty( [ this.currentVibrationRadiansProperty ], vibrationRadians => {
+
+      // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
+      // (derivative of sin is cos) the atoms are expanding
+      return Math.cos( vibrationRadians ) < 0;
+    } );
+
     // @public, set by PhotonAbsorptionModel
     this.photonGroupTandem = null;
 
@@ -187,6 +196,7 @@ define( require => {
       this.rotatingProperty.dispose();
       this.rotationDirectionClockwiseProperty.dispose();
       this.highElectronicEnergyStateProperty.dispose();
+      this.photonEmittedEmitter.dispose();
     },
 
     /**

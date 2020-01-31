@@ -110,6 +110,7 @@ define( require => {
     // photonTargetProperty. If the molecule breaks apart this will become null again.
     this.targetMolecule = null;
 
+    // @public (BooleanProperty) - Whether or the simulation is currently playing or paused
     this.runningProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'runningProperty' )
     } );
