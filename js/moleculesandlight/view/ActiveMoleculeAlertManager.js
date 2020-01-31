@@ -14,11 +14,13 @@ define( require => {
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
   const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
+  const MovementDescriber = require( 'SCENERY_PHET/accessibility/describers/MovementDescriber' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
 
   // strings
+  const pausedEmittingPatternString = MoleculesAndLightA11yStrings.pausedEmittingPatternString.value;
   const absorptionPhaseBondsDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseBondsDescriptionPatternString.value;
   const shortStretchingAlertString = MoleculesAndLightA11yStrings.shortStretchingAlertString.value;
   const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
@@ -41,10 +43,12 @@ define( require => {
   const ALERT_DELAY = 5;
 
   class ActiveMoleculeAlertManager {
-    constructor( photonAbsorptionModel ) {
+    constructor( photonAbsorptionModel, modelViewTransform ) {
 
       // @private
       this.photonAbsorptionModel = photonAbsorptionModel;
+      this.modelViewTransform = modelViewTransform;
+
 
       // @private {boolean} keeps track of whether or not this is the first occurrence of an alert for a particular
       // type of interaction - after the first alert a much shorter form of the alert is provided to reduce AT
@@ -147,6 +151,13 @@ define( require => {
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
         utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
+      } );
+
+      // photon emission - alert this only in slow motion and paused playback
+      molecule.photonEmittedEmitter.addListener( photon => {
+        if ( !this.photonAbsorptionModel.runningProperty.get() || this.photonAbsorptionModel.slowMotionProperty.get() ) {
+          utteranceQueue.addToBack( this.getEmissionAlert( photon ) );
+        }
       } );
     }
 
@@ -273,6 +284,34 @@ define( require => {
         firstMolecule: firstMolecularFormula,
         secondMolecule: secondMolecularFormula
       } );
+    }
+
+    /**
+     * Get an alert that describes a photon being emitted from othe molecule. Verbocity will depend on whether the sim
+     * is paused or running in slow motion.
+     *
+     * @param {} photon
+     * @returns {string}
+     */
+    getEmissionAlert( photon ) {
+      let alert  = '';
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+        const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+        const moleculeNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+        const emissionAngle = Math.atan2( photon.vy, photon.vx );
+        const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
+          modelViewTransform: this.modelViewTransform
+        } );
+
+        alert = StringUtils.fillIn( pausedEmittingPatternString, {
+          lightSource: lightSourceString,
+          molecularName: moleculeNameString,
+          direction: directionString
+        } );
+      }
+
+      return alert;
     }
   }
 

@@ -74,7 +74,7 @@ define( require => {
 
       // @private {ActiveMoleculeAlertManager} - reponsible for alerts that describe the active molecule in the
       // observation window
-      this.alertManager = new ActiveMoleculeAlertManager( model );
+      this.alertManager = new ActiveMoleculeAlertManager( model, modelViewTransform );
 
       // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
       // to describe the absorbed photon not the photon wavelength currently being emitted
