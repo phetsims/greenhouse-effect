@@ -7,21 +7,26 @@
  *
  * @author Jesse Greenberg
  */
-
 define( require => {
   'use strict';
 
   // modules
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
+  const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
 
   // strings
+  const absorptionPhaseBondsDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseBondsDescriptionPatternString.value;
   const shortStretchingAlertString = MoleculesAndLightA11yStrings.shortStretchingAlertString.value;
+  const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
+  const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
   const longStretchingAlertString = MoleculesAndLightA11yStrings.longStretchingAlertString.value;
   const shortBendingAlertString = MoleculesAndLightA11yStrings.shortBendingAlertString.value;
   const longBendingAlertString = MoleculesAndLightA11yStrings.longBendingAlertString.value;
+  const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const shortRotatingAlertString = MoleculesAndLightA11yStrings.shortRotatingAlertString.value;
   const longRotatingAlertString = MoleculesAndLightA11yStrings.longRotatingAlertString.value;
   const shortGlowingAlertString = MoleculesAndLightA11yStrings.shortGlowingAlertString.value;
@@ -38,6 +43,9 @@ define( require => {
   class ActiveMoleculeAlertManager {
     constructor( photonAbsorptionModel ) {
 
+      // @private
+      this.photonAbsorptionModel = photonAbsorptionModel;
+
       // @private {boolean} keeps track of whether or not this is the first occurrence of an alert for a particular
       // type of interaction - after the first alert a much shorter form of the alert is provided to reduce AT
       // speaking time
@@ -49,6 +57,10 @@ define( require => {
       // wait ALERT_DELAY before making an alert to provide the screen reader some space to finish speaking and
       // prevent a queue
       this.timeSinceFirstAlert = 0;
+
+      // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
+      // to describe the absorbed photon not the photon wavelength currently being emitted
+      this.wavelengthOnAbsorption = photonAbsorptionModel.photonWavelengthProperty.get();
 
       // whenenver target molecule or light source changes, reset to describe a new molecule/photon combination
       // for the first time
@@ -99,9 +111,21 @@ define( require => {
    attachAbsorptionAlertListeners( molecule ) {
       const utteranceQueue = phet.joist.sim.utteranceQueue;
 
+      // used to generate many descriptions so that we know wavelength that triggered excited state
+      molecule.photonEmittedEmitter.addListener( photon => {
+        this.wavelengthOnAbsorption = photon.wavelength;
+      } );
+
       // vibration
       molecule.vibratingProperty.lazyLink( vibrating => {
         if ( vibrating ) {
+          utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
+        }
+      } );
+
+      // stretching/contracting - only in alerts when we are paused because this alert takes too long to speak
+      molecule.isStretchingProperty.lazyLink( isStretching => {
+        if ( !this.photonAbsorptionModel.runningProperty.get() ) {
           utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
         }
       } );
@@ -127,6 +151,49 @@ define( require => {
     }
 
     /**
+     * Gets a description of the vibration representation of absorption. Dependent on whether the molecule is
+     * linear/bent and current angle of vibration. Returns something like
+     *
+     * "Infrared photon absorbed and bonds of carbon monoxide molecule stretching." or
+     * "Infrared absorbed and bonds of ozone molecule bending up and down."
+     *
+     * @param {number} vibrationRadians
+     * @returns {string}
+     */
+    getVibrationPhaseDescription( vibrationRadians ) {
+      let descriptionString = '';
+
+      const targetMolecule = this.photonAbsorptionModel.targetMolecule;
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+      const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      // vibration for molecules with linear geometry represented by expanding/contracting the molecule
+      if ( targetMolecule.isLinear() ) {
+
+        // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
+        // (derivative of sin is cos) the atoms are expanding
+        const stretching = Math.cos( vibrationRadians ) < 0;
+
+        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
+          lightSource: lightSourceString,
+          photonTarget: photonTargetString,
+          excitedRepresentation: stretching ? stretchingString : contractingString
+        } );
+      }
+      else {
+
+        // more than atoms have non-linear geometry
+        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
+          lightSource: lightSourceString,
+          photonTarget: photonTargetString,
+          excitedRepresentation: bendsUpAndDownString
+        } );
+      }
+
+      return descriptionString;
+    }
+
+    /**
      * Get an alert that describes the molecule in its "vibrating" state.
      * @private
      *
@@ -136,13 +203,20 @@ define( require => {
     getVibrationAlert( molecule ) {
       let alert = '';
 
-      // TODO: not a matter of linear, rename to number of molecules
-      const linear = molecule.isLinear();
-      if ( this.firstVibrationAlert ) {
-        alert = linear ? longStretchingAlertString : longBendingAlertString;
+      // different alerts depending on playback speed, longer alerts when we have more time to speak
+      if ( this.photonAbsorptionModel.runningProperty.get() ) {
+
+        // TODO: not a matter of linear, rename to number of molecules
+        const linear = molecule.isLinear();
+        if ( this.firstVibrationAlert ) {
+          alert = linear ? longStretchingAlertString : longBendingAlertString;
+        }
+        else {
+          alert = linear ? shortStretchingAlertString : shortBendingAlertString;
+        }
       }
       else {
-        alert = linear ? shortStretchingAlertString : shortBendingAlertString;
+        alert = this.getVibrationPhaseDescription( molecule.currentVibrationRadiansProperty.get() );
       }
 
       this.firstVibrationAlert = false;

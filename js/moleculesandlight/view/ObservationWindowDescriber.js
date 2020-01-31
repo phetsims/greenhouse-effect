@@ -40,8 +40,6 @@ define( require => {
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
-  const contractingString = MoleculesAndLightA11yStrings.contractingString.value;
-  const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
   const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
@@ -138,7 +136,7 @@ define( require => {
 
         if ( this.moleculeVibrating ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.innerContent = this.getVibrationPhaseDescription( vibrationRadians );
+          descriptionNode.innerContent = this.alertManager.getVibrationPhaseDescription( vibrationRadians );
         }
       } );
 
@@ -240,49 +238,6 @@ define( require => {
           target: targetString
         } );
       }
-    }
-
-    /**
-     * Gets a description of the vibration representation of absorption. Dependent on whether the molecule is
-     * linear/bent and current angle of vibration. Returns something like
-     *
-     * "Infrared photon absorbed and bonds of carbon monoxide molecule stretching." or
-     * "Infrared absorbed and bonds of ozone molecule bending up and down."
-     *
-     * @param {number} vibrationRadians
-     * @returns {string}
-     */
-    getVibrationPhaseDescription( vibrationRadians ) {
-      let descriptionString = '';
-
-      const targetMolecule = this.model.targetMolecule;
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-      const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
-
-      // vibration for molecules with linear geometry represented by expanding/contracting the molecule
-      if ( targetMolecule.isLinear() ) {
-
-        // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
-        // (derivative of sin is cos) the atoms are expanding
-        const stretching = Math.cos( vibrationRadians ) < 0;
-
-        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
-          lightSource: lightSourceString,
-          photonTarget: photonTargetString,
-          excitedRepresentation: stretching ? stretchingString : contractingString
-        } );
-      }
-      else {
-
-        // more than atoms have non-linear geometry
-        descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
-          lightSource: lightSourceString,
-          photonTarget: photonTargetString,
-          excitedRepresentation: bendsUpAndDownString
-        } );
-      }
-
-      return descriptionString;
     }
 
     /**
