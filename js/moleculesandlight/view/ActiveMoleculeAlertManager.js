@@ -29,6 +29,7 @@ define( require => {
   const shortBendingAlertString = MoleculesAndLightA11yStrings.shortBendingAlertString.value;
   const longBendingAlertString = MoleculesAndLightA11yStrings.longBendingAlertString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
+  const pausedPassingPatternString = MoleculesAndLightA11yStrings.pausedPassingPatternString.value;
   const shortRotatingAlertString = MoleculesAndLightA11yStrings.shortRotatingAlertString.value;
   const longRotatingAlertString = MoleculesAndLightA11yStrings.longRotatingAlertString.value;
   const shortGlowingAlertString = MoleculesAndLightA11yStrings.shortGlowingAlertString.value;
@@ -130,7 +131,9 @@ define( require => {
       // stretching/contracting - only in alerts when we are paused because this alert takes too long to speak
       molecule.isStretchingProperty.lazyLink( isStretching => {
         if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-          utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
+          if ( molecule.vibratingProperty.get() ) {
+            utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
+          }
         }
       } );
 
@@ -157,6 +160,13 @@ define( require => {
       molecule.photonEmittedEmitter.addListener( photon => {
         if ( !this.photonAbsorptionModel.runningProperty.get() || this.photonAbsorptionModel.slowMotionProperty.get() ) {
           utteranceQueue.addToBack( this.getEmissionAlert( photon ) );
+        }
+      } );
+
+      // photon passed through - only have enough time to speak this if the sim is paused and we are stepping frame by frame
+      molecule.photonPassedThroughEmitter.addListener( photon => {
+        if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+          utteranceQueue.addToBack( this.getPassThroughAlert( photon ) );
         }
       } );
     }
@@ -297,7 +307,7 @@ define( require => {
       let alert  = '';
       if ( !this.photonAbsorptionModel.runningProperty.get() ) {
         const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-        const moleculeNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+        const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
         const emissionAngle = Math.atan2( photon.vy, photon.vx );
         const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
@@ -306,12 +316,34 @@ define( require => {
 
         alert = StringUtils.fillIn( pausedEmittingPatternString, {
           lightSource: lightSourceString,
-          molecularName: moleculeNameString,
+          molecularName: molecularNameString,
           direction: directionString
         } );
       }
 
       return alert;
+    }
+
+    /**
+     * Get an alert that describes the photon is passing through the molecule. Will return something like
+     *
+     * "Infrared photons passing through carbon monoxide molecule."
+     *
+     * Describing each pass through takes a lot of time, so this is only used while the simulation is paused and
+     * user is stepping through frame by frames.
+     * @pubic
+     *
+     * @param {Photon} photon
+     * @returns {string}
+     */
+    getPassThroughAlert( photon ) {
+      const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+      const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      return StringUtils.fillIn( pausedPassingPatternString, {
+        lightSource: lightSourceString,
+        molecularName: molecularNameString
+      } );
     }
   }
 
