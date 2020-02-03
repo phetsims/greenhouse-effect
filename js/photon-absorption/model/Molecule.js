@@ -113,9 +113,9 @@ define( require => {
     this.absorptionHysteresisCountdownTime = 0;
 
     // The "pass through photon list" keeps track of photons that were not absorbed due to random probability
-    // (essentially a simulation of quantum properties).  This is needed since the absorption of a given photon will
-    // likely be tested at many time steps as the photon moves past the molecule, and we don't want to keep deciding
-    // about the same photon.
+    // (essentially a simulation of quantum properties).  If this molecule has no absorption strategy for the photon,
+    // it is also added to this list. This is needed since the absorption of a given photon will likely be tested at
+    // many time steps as the photon moves past the molecule, and we don't want to keep deciding about the same photon.
     // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
     // @private
     this.passThroughPhotonList = [];
@@ -159,6 +159,9 @@ define( require => {
     // @public (read-only) {Emitter} - emitter for when a photon is emitted
     this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
+    // @public {Emitter} - emitter for when a photon passes through the molecule without absorptions
+    this.photonPassedThroughEmitter =  new Emitter( { parameters: [ { valueType: Photon } ] } );
+
     // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
     this.brokeApartEmitter = new Emitter( {
       parameters: [
@@ -197,6 +200,7 @@ define( require => {
       this.rotationDirectionClockwiseProperty.dispose();
       this.highElectronicEnergyStateProperty.dispose();
       this.photonEmittedEmitter.dispose();
+      this.photonPassedThroughEmitter.dispose();
     },
 
     /**
@@ -427,15 +431,16 @@ define( require => {
 
       let absorbPhoton = false;
 
-      if ( !this.isPhotonAbsorbed() &&
-           this.absorptionHysteresisCountdownTime <= 0 &&
+      // TODO: Need to determine if the photon as passed through and emit here.
+
+      if ( this.absorptionHysteresisCountdownTime <= 0 &&
            photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
            !this.isPhotonMarkedForPassThrough( photon ) ) {
 
         // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
         // wavelength?
         const candidateAbsorptionStrategy = this.mapWavelengthToAbsorptionStrategy[ photon.wavelength ];
-        if ( candidateAbsorptionStrategy !== undefined ) {
+        if ( candidateAbsorptionStrategy !== undefined && !this.isPhotonAbsorbed() ) {
 
           // Yes, there is a strategy available for this wavelength. Ask it if it wants the photon.
           if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ) {
@@ -452,6 +457,16 @@ define( require => {
             // time.
             this.markPhotonForPassThrough( photon );
           }
+        }
+        else {
+
+          this.markPhotonForPassThrough( photon );
+        }
+
+        // broadcast that it was decided that this photon should pass through the molecule - only done if the photon
+        // was close enough
+        if ( !absorbPhoton ) {
+          this.photonPassedThroughEmitter.emit( photon );
         }
       }
 
