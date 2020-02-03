@@ -188,8 +188,7 @@ define( require => {
       const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
-      // vibration for molecules with linear geometry represented by expanding/contracting the molecule
-      if ( targetMolecule.isLinear() ) {
+      if ( targetMolecule.vibratesByStretching() ) {
 
         // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
         // (derivative of sin is cos) the atoms are expanding
@@ -226,14 +225,12 @@ define( require => {
 
       // different alerts depending on playback speed, longer alerts when we have more time to speak
       if ( this.photonAbsorptionModel.runningProperty.get() ) {
-
-        // TODO: not a matter of linear, rename to number of molecules
-        const linear = molecule.isLinear();
+        const stretches = molecule.vibratesByStretching();
         if ( this.firstVibrationAlert ) {
-          alert = linear ? longStretchingAlertString : longBendingAlertString;
+          alert = stretches ? longStretchingAlertString : longBendingAlertString;
         }
         else {
-          alert = linear ? shortStretchingAlertString : shortBendingAlertString;
+          alert = stretches ? shortStretchingAlertString : shortBendingAlertString;
         }
       }
       else {

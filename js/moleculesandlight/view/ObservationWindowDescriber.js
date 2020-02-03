@@ -323,7 +323,7 @@ define( require => {
 
       let representationString = null;
       if ( this.moleculeVibrating ) {
-        representationString = this.model.targetMolecule.isLinear() ? stretchingString : bendingString;
+        representationString = this.model.targetMolecule.vibratesByStretching() ? stretchingString : bendingString;
       }
       else if ( this.moleculeHighElectronicEnergyState ) {
         representationString = glowingString;
