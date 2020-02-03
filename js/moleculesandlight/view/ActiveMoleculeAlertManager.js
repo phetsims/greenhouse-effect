@@ -39,6 +39,7 @@ define( require => {
   const slowMotionAbsorbedPatternString = MoleculesAndLightA11yStrings.slowMotionAbsorbedPatternString.value;
   const rotatingString = MoleculesAndLightA11yStrings.rotatingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
+  const slowMotionEmittedPatternString = MoleculesAndLightA11yStrings.slowMotionEmittedPatternString.value;
 
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -337,18 +338,20 @@ define( require => {
      */
     getEmissionAlert( photon ) {
       let alert  = '';
+
+      const directionString = this.getPhotonDirectionDescription( photon );
       if ( !this.photonAbsorptionModel.runningProperty.get() ) {
         const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
         const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
-        const emissionAngle = Math.atan2( photon.vy, photon.vx );
-        const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
-          modelViewTransform: this.modelViewTransform
-        } );
-
         alert = StringUtils.fillIn( pausedEmittingPatternString, {
           lightSource: lightSourceString,
           molecularName: molecularNameString,
+          direction: directionString
+        } );
+      }
+      else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+        alert = StringUtils.fillIn( slowMotionEmittedPatternString, {
           direction: directionString
         } );
       }
@@ -375,6 +378,24 @@ define( require => {
       return StringUtils.fillIn( pausedPassingPatternString, {
         lightSource: lightSourceString,
         molecularName: molecularNameString
+      } );
+    }
+
+    /**
+     * Get a description of the photon's direction of motion.  Will return something like
+     *
+     * "up and to the left" or
+     * "down"
+     *
+     * @public
+     *
+     * @param {Photon} photon
+     * @returns {string}
+     */
+    getPhotonDirectionDescription( photon ) {
+      const emissionAngle = Math.atan2( photon.vy, photon.vx );
+      return MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
+        modelViewTransform: this.modelViewTransform
       } );
     }
   }
