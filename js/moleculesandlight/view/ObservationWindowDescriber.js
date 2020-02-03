@@ -36,11 +36,9 @@ define( require => {
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
   const absorptionPhaseBondsDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseBondsDescriptionPatternString.value;
-  const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
-  const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
   const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
@@ -147,7 +145,7 @@ define( require => {
 
         if ( rotating ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.innerContent = this.getRotationPhaseDescription();
+          descriptionNode.innerContent = this.alertManager.getRotationPhaseDescription();
         }
       } );
 
@@ -238,29 +236,6 @@ define( require => {
           target: targetString
         } );
       }
-    }
-
-    /**
-     * Get a description of the molecule in its rotation phase. Will return something like
-     * "Microwave photon absorbed and water molecule starts rotating clockwise."
-     *
-     * @returns {string}
-     */
-    getRotationPhaseDescription() {
-      const targetMolecule = this.model.targetMolecule;
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-      const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
-
-      const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
-      const startsRotatingString = StringUtils.fillIn( startsRotatingPatternString, {
-        rotation: rotationString
-      } );
-
-      return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
-        lightSource: lightSourceString,
-        photonTarget: photonTargetString,
-        excitedRepresentation: startsRotatingString
-      } );
     }
 
     /**

@@ -27,7 +27,9 @@ define( require => {
   const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
   const longStretchingAlertString = MoleculesAndLightA11yStrings.longStretchingAlertString.value;
   const shortBendingAlertString = MoleculesAndLightA11yStrings.shortBendingAlertString.value;
+  const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
   const longBendingAlertString = MoleculesAndLightA11yStrings.longBendingAlertString.value;
+  const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const pausedPassingPatternString = MoleculesAndLightA11yStrings.pausedPassingPatternString.value;
   const shortRotatingAlertString = MoleculesAndLightA11yStrings.shortRotatingAlertString.value;
@@ -40,6 +42,8 @@ define( require => {
   const rotatingString = MoleculesAndLightA11yStrings.rotatingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const slowMotionEmittedPatternString = MoleculesAndLightA11yStrings.slowMotionEmittedPatternString.value;
+  const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
+  const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
 
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -221,6 +225,29 @@ define( require => {
     }
 
     /**
+     * Get a description of the molecule in its rotation phase. Will return something like
+     * "Microwave photon absorbed and water molecule starts rotating clockwise."
+     *
+     * @returns {string}
+     */
+    getRotationPhaseDescription() {
+      const targetMolecule = this.photonAbsorptionModel.targetMolecule;
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+      const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
+      const startsRotatingString = StringUtils.fillIn( startsRotatingPatternString, {
+        rotation: rotationString
+      } );
+
+      return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        excitedRepresentation: startsRotatingString
+      } );
+    }
+
+    /**
      * Get an alert that describes the molecule in its "vibrating" state.
      * @private
      *
@@ -288,23 +315,27 @@ define( require => {
     getRotationAlert( molecule ) {
       let alert = '';
 
-      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+
+        // we are paused and stepping through frames
+        alert = this.getRotationPhaseDescription( molecule.currentVibrationRadiansProperty.get() );
+      }
+      else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+
+        // we are playing in slow motion
         alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
           excitedRepresentation: rotatingString
         } );
       }
-      else if ( this.photonAbsorptionModel.runningProperty.get() ) {
+      else {
+
+        //  we are playing at normal speed
         if ( this.firstRotationAlert ) {
           alert = longRotatingAlertString;
         }
         else {
           alert = shortRotatingAlertString;
         }
-      }
-      else {
-
-        // we must be paused and stepping through
-        throw new Error( 'Please implement this case.' );
       }
 
       this.firstRotationAlert = false;
