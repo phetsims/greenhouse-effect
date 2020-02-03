@@ -128,10 +128,11 @@ define( require => {
         }
       } );
 
-      // stretching/contracting - only in alerts when we are paused because this alert takes too long to speak
+      // stretching/contracting - only in alerts when we are paused because this alert takes too long to speak, and only
+      // when the vibration representation is through stretching/contractings
       molecule.isStretchingProperty.lazyLink( isStretching => {
         if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-          if ( molecule.vibratingProperty.get() ) {
+          if ( molecule.vibratingProperty.get() && molecule.vibratesByStretching() ) {
             utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
           }
         }
