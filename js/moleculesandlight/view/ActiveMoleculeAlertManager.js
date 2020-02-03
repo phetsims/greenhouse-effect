@@ -43,6 +43,7 @@ define( require => {
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const slowMotionEmittedPatternString = MoleculesAndLightA11yStrings.slowMotionEmittedPatternString.value;
   const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
+  const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
   const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
 
   // constants
@@ -225,6 +226,25 @@ define( require => {
     }
 
     /**
+     * Get a string the describes the molecule when it starts to glow from its high electronic energy state
+     * representation after absorption. Will return a string like
+     * "‪Visible‬ photon absorbed and bonds of ‪Nitrogen Dioxide‬ molecule starts glowing."
+     * @private
+     *
+     * @returns {string}
+     */
+    getHighElectronicEnergyPhaseDescription() {
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+      const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      return StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        excitedRepresentation: startsGlowingString
+      } );
+    }
+
+    /**
      * Get a description of the molecule in its rotation phase. Will return something like
      * "Microwave photon absorbed and water molecule starts rotating clockwise."
      *
@@ -297,12 +317,21 @@ define( require => {
     getExcitationAlert( molecule ) {
       let alert = '';
 
-      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+
+        // we are paused and stepping through animation frames
+        alert = this.getHighElectronicEnergyPhaseDescription();
+      }
+      else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+
+        // we are running in slow motion
         alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
           excitedRepresentation: glowingString
         } );
       }
       else {
+
+        // we are running at normal speed
         alert = this.firstExcitationAlert ? longGlowingAlertString : shortGlowingAlertString;
       }
 

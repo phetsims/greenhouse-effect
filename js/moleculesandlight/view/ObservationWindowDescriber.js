@@ -35,13 +35,11 @@ define( require => {
   const photonEmitterDescriptionPatternString = MoleculesAndLightA11yStrings.photonEmitterDescriptionPatternString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
-  const absorptionPhaseBondsDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseBondsDescriptionPatternString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
   const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
-  const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
   const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
   const emissionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.emissionPhaseDescriptionPatternString.value;
   const moleculesOutOfViewPatternString = MoleculesAndLightA11yStrings.moleculesOutOfViewPatternString.value;
@@ -155,7 +153,7 @@ define( require => {
 
         if ( highEnergy ) {
           this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-          descriptionNode.innerContent = this.getHighElectronicEnergyPhaseDescription();
+          descriptionNode.innerContent = this.alertManager.getHighElectronicEnergyPhaseDescription();
         }
       } );
 
@@ -236,25 +234,6 @@ define( require => {
           target: targetString
         } );
       }
-    }
-
-    /**
-     * Get a string the describes the molecule when it starts to glow from its high electronic energy state
-     * representation after absorption. Will return a string like
-     * "‪Visible‬ photon absorbed and bonds of ‪Nitrogen Dioxide‬ molecule starts glowing."
-     * @private
-     *
-     * @returns {string}
-     */
-    getHighElectronicEnergyPhaseDescription() {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-      const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
-
-      return StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
-        lightSource: lightSourceString,
-        photonTarget: photonTargetString,
-        excitedRepresentation: startsGlowingString
-      } );
     }
 
     /**
