@@ -260,22 +260,27 @@ define( require => {
       const stretches = molecule.vibratesByStretching();
 
       // different alerts depending on playback speed, longer alerts when we have more time to speak
-      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+
+        // we are paused and stepping through frames
+        alert = this.getVibrationPhaseDescription( molecule.currentVibrationRadiansProperty.get() );
+      }
+      else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+
+        // we are running in slow motion
         alert = StringUtils.fillIn( slowMotionVibratingPatternString, {
           excitedRepresentation: stretches ? stretchingString : bendsUpAndDownString
         } );
       }
-      else if ( this.photonAbsorptionModel.runningProperty.get() ) {
+      else {
 
+        // we are running at normal speed
         if ( this.firstVibrationAlert ) {
           alert = stretches ? longStretchingAlertString : longBendingAlertString;
         }
         else {
           alert = stretches ? shortStretchingAlertString : shortBendingAlertString;
         }
-      }
-      else {
-        alert = this.getVibrationPhaseDescription( molecule.currentVibrationRadiansProperty.get() );
       }
 
       this.firstVibrationAlert = false;
