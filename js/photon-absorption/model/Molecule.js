@@ -215,6 +215,7 @@ define( require => {
 
     /**
      * Checks to see if a photon has been absorbed.
+     * @public
      *
      * @returns {boolean}
      */
