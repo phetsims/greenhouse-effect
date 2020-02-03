@@ -164,8 +164,9 @@ define( require => {
       } );
 
       // photon passed through - only have enough time to speak this if the sim is paused and we are stepping frame by frame
+      // this should not be described if the molecule has already absorbed another photon
       molecule.photonPassedThroughEmitter.addListener( photon => {
-        if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+        if ( !this.photonAbsorptionModel.runningProperty.get() && !molecule.isPhotonAbsorbed() ) {
           utteranceQueue.addToBack( this.getPassThroughAlert( photon ) );
         }
       } );
