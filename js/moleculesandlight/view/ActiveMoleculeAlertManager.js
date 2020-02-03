@@ -35,6 +35,10 @@ define( require => {
   const shortGlowingAlertString = MoleculesAndLightA11yStrings.shortGlowingAlertString.value;
   const longGlowingAlertString = MoleculesAndLightA11yStrings.longGlowingAlertString.value;
   const breaksApartAlertPatternString = MoleculesAndLightA11yStrings.breaksApartAlertPatternString.value;
+  const slowMotionVibratingPatternString = MoleculesAndLightA11yStrings.slowMotionVibratingPatternString.value;
+  const slowMotionAbsorbedPatternString = MoleculesAndLightA11yStrings.slowMotionAbsorbedPatternString.value;
+  const rotatingString = MoleculesAndLightA11yStrings.rotatingString.value;
+  const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
 
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -225,9 +229,16 @@ define( require => {
     getVibrationAlert( molecule ) {
       let alert = '';
 
+      const stretches = molecule.vibratesByStretching();
+
       // different alerts depending on playback speed, longer alerts when we have more time to speak
-      if ( this.photonAbsorptionModel.runningProperty.get() ) {
-        const stretches = molecule.vibratesByStretching();
+      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+        alert = StringUtils.fillIn( slowMotionVibratingPatternString, {
+          excitedRepresentation: stretches ? stretchingString : bendsUpAndDownString
+        } );
+      }
+      else if ( this.photonAbsorptionModel.runningProperty.get() ) {
+
         if ( this.firstVibrationAlert ) {
           alert = stretches ? longStretchingAlertString : longBendingAlertString;
         }
@@ -251,7 +262,17 @@ define( require => {
      * @returns {string}
      */
     getExcitationAlert( molecule ) {
-      const alert = this.firstExcitationAlert ? longGlowingAlertString : shortGlowingAlertString;
+      let alert = '';
+
+      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+        alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
+          excitedRepresentation: glowingString
+        } );
+      }
+      else {
+        alert = this.firstExcitationAlert ? longGlowingAlertString : shortGlowingAlertString;
+      }
+
       this.firstExcitationAlert = false;
       return alert;
     }
@@ -266,11 +287,23 @@ define( require => {
     getRotationAlert( molecule ) {
       let alert = '';
 
-      if ( this.firstRotationAlert ) {
-        alert = longRotatingAlertString;
+      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+        alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
+          excitedRepresentation: rotatingString
+        } );
+      }
+      else if ( this.photonAbsorptionModel.runningProperty.get() ) {
+        if ( this.firstRotationAlert ) {
+          alert = longRotatingAlertString;
+        }
+        else {
+          alert = shortRotatingAlertString;
+        }
       }
       else {
-        alert = shortRotatingAlertString;
+
+        // we must be paused and stepping through
+        throw new Error( 'Please implement this case.' );
       }
 
       this.firstRotationAlert = false;
