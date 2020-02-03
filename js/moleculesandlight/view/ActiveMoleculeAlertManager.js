@@ -39,12 +39,15 @@ define( require => {
   const breaksApartAlertPatternString = MoleculesAndLightA11yStrings.breaksApartAlertPatternString.value;
   const slowMotionVibratingPatternString = MoleculesAndLightA11yStrings.slowMotionVibratingPatternString.value;
   const slowMotionAbsorbedPatternString = MoleculesAndLightA11yStrings.slowMotionAbsorbedPatternString.value;
+  const slowMotionBreakApartPatternString = MoleculesAndLightA11yStrings.slowMotionBreakApartPatternString.value;
   const rotatingString = MoleculesAndLightA11yStrings.rotatingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const slowMotionEmittedPatternString = MoleculesAndLightA11yStrings.slowMotionEmittedPatternString.value;
   const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
+  const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
   const startsGlowingString = MoleculesAndLightA11yStrings.startsGlowingString.value;
   const startsRotatingPatternString = MoleculesAndLightA11yStrings.startsRotatingPatternString.value;
+  const breaksApartString = MoleculesAndLightA11yStrings.breaksApartString.value;
 
   // constants
   // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -268,6 +271,28 @@ define( require => {
     }
 
     /**
+     * Returns a string that describes the molecule after it breaks apart into two other molecules. Will return
+     * a string like
+     * "Ultraviolet photon absorbed and Ozone molecule breaks apart into O2 and O."
+     *
+     * @returns {string}
+     */
+    getBreakApartPhaseDescription( firstMolecule, secondMolecule ) {
+      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+      const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
+      const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
+
+      return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
+        lightSource: lightSourceString,
+        photonTarget: photonTargetString,
+        firstMolecule: firstMolecularFormula,
+        secondMolecule: secondMolecularFormula
+      } );
+    }
+
+    /**
      * Get an alert that describes the molecule in its "vibrating" state.
      * @private
      *
@@ -385,13 +410,35 @@ define( require => {
      * @returns {string}
      */
     getBreakApartAlert( firstMolecule, secondMolecule ) {
+      let alert = '';
+
       const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
       const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-      return StringUtils.fillIn( breaksApartAlertPatternString, {
-        firstMolecule: firstMolecularFormula,
-        secondMolecule: secondMolecularFormula
-      } );
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+
+        // we are stepping through frame by frame
+        alert = this.getBreakApartPhaseDescription( firstMolecule, secondMolecule );
+      }
+      else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+
+        //  playing in slow motion
+        alert = StringUtils.fillIn( slowMotionBreakApartPatternString, {
+          excitedRepresentation: breaksApartString,
+          firstMolecule: firstMolecularFormula,
+          secondMolecule: secondMolecularFormula
+        } );
+      }
+      else {
+
+        // playing at normal speed
+        alert = StringUtils.fillIn( breaksApartAlertPatternString, {
+          firstMolecule: firstMolecularFormula,
+          secondMolecule: secondMolecularFormula
+        } );
+      }
+
+      return alert;
     }
 
     /**

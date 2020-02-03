@@ -40,7 +40,6 @@ define( require => {
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
-  const breakApartPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.breakApartPhaseDescriptionPatternString.value;
   const emissionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.emissionPhaseDescriptionPatternString.value;
   const moleculesOutOfViewPatternString = MoleculesAndLightA11yStrings.moleculesOutOfViewPatternString.value;
 
@@ -167,7 +166,7 @@ define( require => {
         this.moleculeBrokeApart = true;
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
-        descriptionNode.innerContent = this.getBreakApartPhaseDescription( moleculeA, moleculeB );
+        descriptionNode.innerContent = this.alertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
 
         const activeMolecules = this.model.activeMolecules;
 
@@ -234,28 +233,6 @@ define( require => {
           target: targetString
         } );
       }
-    }
-
-    /**
-     * Returns a string that describes the molecule after it breaks apart into two other molecules. Will return
-     * a string like
-     * "Ultraviolet photon absorbed and Ozone molecule breaks apart into O2 and O."
-     *
-     * @returns {string}
-     */
-    getBreakApartPhaseDescription( firstMolecule, secondMolecule ) {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-      const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
-
-      const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
-      const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
-
-      return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
-        lightSource: lightSourceString,
-        photonTarget: photonTargetString,
-        firstMolecule: firstMolecularFormula,
-        secondMolecule: secondMolecularFormula
-      } );
     }
 
     /**
