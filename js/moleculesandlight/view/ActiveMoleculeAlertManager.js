@@ -130,7 +130,7 @@ define( require => {
       const utteranceQueue = phet.joist.sim.utteranceQueue;
 
       // used to generate many descriptions so that we know wavelength that triggered excited state
-      molecule.photonEmittedEmitter.addListener( photon => {
+      molecule.photonAbsorbedEmitter.addListener( photon => {
         this.wavelengthOnAbsorption = photon.wavelength;
       } );
 
