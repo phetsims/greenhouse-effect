@@ -512,11 +512,12 @@ define( require => {
     },
 
     /**
-     * Returns true if the atoms in the molecule would form a linear structure - currently this is
-     * true if the molecule has <= 2 atoms.
+     * Returns true if the atoms the molecule 'vibration' is represented by stretching. If false, vibration is represented
+     * with bending.
+     *
      * @returns {boolean}
      */
-    isLinear: function() {
+    vibratesByStretching: function() {
       return this.atoms.length <= 2;
     },
 
