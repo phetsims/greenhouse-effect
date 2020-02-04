@@ -30,11 +30,9 @@ define( require => {
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
-  // const molecularNamePatternString = require( 'string!MOLECULES_AND_LIGHT/molecularNamePattern' );
   const buttonNodeReturnMoleculeString = require( 'string!MOLECULES_AND_LIGHT/ButtonNode.ReturnMolecule' );
 
   // a11y strings
-  const returnMoleculeString = MoleculesAndLightA11yStrings.returnMoleculeString.value;
   const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
   const geometryLabelPatternString = MoleculesAndLightA11yStrings.geometryLabelPatternString.value;
 
@@ -139,7 +137,7 @@ define( require => {
 
       // a11y
       appendDescription: true,
-      ariaLabel: returnMoleculeString
+      ariaLabel: buttonNodeReturnMoleculeString
     } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
