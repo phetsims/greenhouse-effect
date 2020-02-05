@@ -46,7 +46,7 @@ define( require => {
   /**
    * Constructor for an ozone molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function O3( options ) {

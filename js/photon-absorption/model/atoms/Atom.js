@@ -27,7 +27,7 @@ define( require => {
    * @param {string} representationColor - The desired color of the atom
    * @param {number} radius - The radius of the model atom
    * @param {number} mass - Mass of this atom
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function Atom( representationColor, radius, mass, options ) {

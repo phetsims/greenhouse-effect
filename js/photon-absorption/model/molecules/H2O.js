@@ -33,7 +33,7 @@ define( require => {
   /**
    * Constructor for a water molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function H2O( options ) {

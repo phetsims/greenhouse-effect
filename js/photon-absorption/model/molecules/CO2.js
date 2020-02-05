@@ -31,7 +31,7 @@ define( require => {
   /**
    * Constructor for a carbon dioxide molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function CO2( options ) {

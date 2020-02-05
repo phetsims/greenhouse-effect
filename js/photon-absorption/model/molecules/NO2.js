@@ -43,7 +43,7 @@ define( require => {
   /**
    * Constructor for a nitrogen dioxide molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function NO2( options ) {

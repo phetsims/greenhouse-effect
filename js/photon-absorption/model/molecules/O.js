@@ -20,7 +20,7 @@ define( require => {
   /**
    * Constructor for a single atom of oxygen.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function O( options ) {

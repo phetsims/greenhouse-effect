@@ -28,7 +28,7 @@ define( require => {
   /**
    * Constructor for a carbon monoxide molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function CO( options ) {

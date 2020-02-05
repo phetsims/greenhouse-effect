@@ -34,7 +34,7 @@ define( require => {
   /**
    * Constructor for a Methane molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function CH4( options ) {

@@ -59,7 +59,7 @@ define( require => {
   /**
    * Constructor for a molecule.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function Molecule( options ) {

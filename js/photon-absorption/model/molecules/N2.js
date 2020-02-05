@@ -24,7 +24,7 @@ define( require => {
   /**
    * Constructor for a molecule of nitrogen.
    *
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function N2( options ) {
