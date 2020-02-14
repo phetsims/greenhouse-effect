@@ -16,9 +16,6 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
   const validate = require( 'AXON/validate' );
 
-  // ifphetio
-  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
-
   class PhotonIO extends ObjectIO {
 
     /**
@@ -45,8 +42,8 @@ define( require => {
      */
     static fromStateObject( stateObject ) {
       let photon;
-      if ( phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
-        photon = phetioEngine.getPhetioObject( stateObject.phetioID );
+      if ( phet.phetIo.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
+        photon = phet.phetIo.phetioEngine.getPhetioObject( stateObject.phetioID );
       }
       else {
         photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
