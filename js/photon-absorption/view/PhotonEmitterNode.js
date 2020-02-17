@@ -24,12 +24,12 @@ define( require => {
 
   // images
   const flashlightOffImage = require( 'image!MOLECULES_AND_LIGHT/flashlight-off.png' );
-  const flashlightOnImage = require( 'image!MOLECULES_AND_LIGHT/flashlight.png' );
+  const flashlightOnImage = require( 'mipmap!MOLECULES_AND_LIGHT/flashlight.png' );
   const heatLampOffImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source-off.png' );
-  const heatLampOnImage = require( 'image!MOLECULES_AND_LIGHT/infrared-source.png' );
-  const microwaveTransmitterImage = require( 'image!MOLECULES_AND_LIGHT/microwave-source.png' );
+  const heatLampOnImage = require( 'mipmap!MOLECULES_AND_LIGHT/infrared-source.png' );
+  const microwaveTransmitterImage = require( 'mipmap!MOLECULES_AND_LIGHT/microwave-source.png' );
   const uvLightOffImage = require( 'image!MOLECULES_AND_LIGHT/uv-source-off.png' );
-  const uvLightOnImage = require( 'image!MOLECULES_AND_LIGHT/uv-source.png' );
+  const uvLightOnImage = require( 'mipmap!MOLECULES_AND_LIGHT/uv-source.png' );
 
   /**
    * Constructor for the photon emitter node.
