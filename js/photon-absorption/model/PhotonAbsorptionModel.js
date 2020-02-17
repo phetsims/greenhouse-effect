@@ -184,6 +184,7 @@ define( require => {
       this.emissionFrequencyProperty.reset();
       this.photonWavelengthProperty.reset();
       this.runningProperty.reset();
+      this.slowMotionProperty.reset();
       this.photonTargetProperty.reset();
     },
 
