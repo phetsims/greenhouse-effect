@@ -27,7 +27,6 @@ define( require => {
   const Range = require( 'DOT/Range' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Shape = require( 'KITE/Shape' );
-  const Utils = require( 'DOT/Utils' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
 
@@ -50,7 +49,6 @@ define( require => {
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
   const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
-  const fastestString = MoleculesAndLightA11yStrings.fastestString.value;
 
   /**
    * Constructor for an emission rate control slider.
@@ -73,6 +71,9 @@ define( require => {
     // opacity.
     const sliderRange = new Range( 0, 1 );
     const sliderThumb = new EmissionRateThumbNode();
+
+    const keyboardStep = sliderRange.getLength() / 3;
+
     this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
       trackSize: TRACK_SIZE,
       thumbNode: sliderThumb,
@@ -83,10 +84,9 @@ define( require => {
       descriptionContent: emissionSliderDescriptionString,
       appendDescription: true,
       numberDecimalPlaces: 1,
-      keyboardStep: sliderRange.getLength() / 10,
-      shiftKeyboardStep: sliderRange.getLength() / 20,
-      pageKeyboardStep: sliderRange.getLength() / 5,
-      a11yMapValue: value => Utils.toFixedNumber( value, 1 ),
+      keyboardStep: keyboardStep,
+      shiftKeyboardStep: keyboardStep,
+      pageKeyboardStep: keyboardStep,
       a11yCreateAriaValueText: this.getAriaValueText.bind( this ),
 
       // whenever these Properties change we need to update the value text
@@ -103,8 +103,8 @@ define( require => {
     // @private (PDOM) - maps ranges of the emission frequency value to the described emission rate in the PDOM
     this.pdomValueDescriptonMap = new Map();
 
-    const rangeDelta = sliderRange.getLength() / 3;
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, rangeDelta ), verySlowString );
+    const rangeDelta = keyboardStep;
+    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, sliderRange.min + rangeDelta ), verySlowString );
     this.pdomValueDescriptonMap.set( new Range( sliderRange.min + rangeDelta, sliderRange.min + 2 * rangeDelta ), slowString );
     this.pdomValueDescriptonMap.set( new Range( sliderRange.min + 2 * rangeDelta, sliderRange.max ), fastString );
 
@@ -213,23 +213,27 @@ define( require => {
      * @returns {string}
      */
     getAriaValueText( mappedValue, newValue, previousValue ) {
+
+      // "floor" decimal places beyond the tenths to accurately describe value range
+      mappedValue = Math.floor( mappedValue * 10 ) / 10;
+
+      let emissionRateString = null;
       if ( mappedValue === 0 ) {
-        return lightSourceOffString;
-      }
-      else if ( mappedValue === 1 ) {
-        return fastestString;
+        emissionRateString = lightSourceOffString;
       }
       else {
-        let emissionRateString = '';
         this.pdomValueDescriptonMap.forEach( ( valueString, rangeKey, map ) => {
-          if ( rangeKey.contains( mappedValue ) ) {
+
+          // cannot break early out of forEach but it is the best way to iterate over a Map, so only set if we
+          // haven't already found a string
+          if ( emissionRateString === null && rangeKey.contains( mappedValue ) ) {
             emissionRateString = valueString;
-            return;
           }
         } );
-
-        return emissionRateString;
       }
+
+      assert && assert( emissionRateString, 'No aria-valuetext found for provided value' );
+      return emissionRateString;
     }
   }, {
 
