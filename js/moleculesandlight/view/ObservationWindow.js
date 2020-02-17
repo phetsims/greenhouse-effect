@@ -35,6 +35,7 @@ define( require => {
   // a11y strings
   const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
   const geometryLabelPatternString = MoleculesAndLightA11yStrings.geometryLabelPatternString.value;
+  const lookForNewMoleculeButtonString = MoleculesAndLightA11yStrings.lookForNewMoleculeButtonString.value;
 
   // constants
   const PHOTON_EMITTER_WIDTH = 125;
@@ -195,10 +196,15 @@ define( require => {
       self.returnMoleculeButtonVisibleProperty.set( false );
     } );
 
-    this.returnMoleculeButtonVisibleProperty.link( function() {
+    this.returnMoleculeButtonVisibleProperty.link( function( visible ) {
 
       // hide the return molecule button
       self.returnMoleculeButtonNode.visible = self.returnMoleculeButtonVisibleProperty.get();
+
+      // PDOM - announce to the user when the button becomes visible
+      if ( visible ) {
+        phet.joist.sim.utteranceQueue.addToBack( lookForNewMoleculeButtonString );
+      }
     } );
 
     // PDOM
