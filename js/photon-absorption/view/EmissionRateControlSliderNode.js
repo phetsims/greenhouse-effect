@@ -44,7 +44,7 @@ define( require => {
   // a11y strings
   const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
   const lightSourceLabelPatternString = MoleculesAndLightA11yStrings.lightSourceLabelPatternString.value;
-  const emitsPhotonsQuicklyString = MoleculesAndLightA11yStrings.emitsPhotonsQuicklyString.value;
+  const emitsPhotonsFastString = MoleculesAndLightA11yStrings.emitsPhotonsFastString.value;
   const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
   const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
@@ -263,7 +263,7 @@ define( require => {
         frequencyDescriptionString = emitsPhotonsSlowlyString;
       }
       else {
-        frequencyDescriptionString = emitsPhotonsQuicklyString;
+        frequencyDescriptionString = emitsPhotonsFastString;
       }
 
       return frequencyDescriptionString;
