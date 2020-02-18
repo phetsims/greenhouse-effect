@@ -94,6 +94,11 @@ define( require => {
    */
   function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
+    ScreenView.call( this, {
+      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
+      tandem: tandem,
+      screenSummaryContent: new MoleculesAndLightScreenSummaryNode( photonAbsorptionModel )
+    } );
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( Utils.roundSymmetric( INTERMEDIATE_RENDERING_SIZE.width * 0.55 ),
@@ -107,14 +112,6 @@ define( require => {
       modelViewTransform,
       tandem.createTandem( 'observationWindow' )
     );
-
-    ScreenView.call( this, {
-      layoutBounds: new Bounds2( 0, 0, 768, 504 ),
-      tandem: tandem,
-      screenSummaryContent: new MoleculesAndLightScreenSummaryNode( photonAbsorptionModel, this.observationWindow.returnMoleculeButtonVisibleProperty )
-    } );
-
-    // PDOM - ObservationWindow first element in Play Area
     this.pdomPlayAreaNode.addChild( this.observationWindow );
 
     // This rectangle hides photons that are outside the observation window.

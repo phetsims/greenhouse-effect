@@ -13,6 +13,7 @@ define( require => {
   const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
   const MoleculesAndLightA11yStrings = require( 'MOLECULES_AND_LIGHT/common/MoleculesAndLightA11yStrings' );
+  const SceneryPhetA11yStrings = require( 'SCENERY_PHET/SceneryPhetA11yStrings' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
@@ -26,18 +27,18 @@ define( require => {
   const dynamicScreenSummaryString = MoleculesAndLightA11yStrings.dynamicScreenSummaryString.value;
   const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
-  const interactionHintString = MoleculesAndLightA11yStrings.interactionHintString.value;
-  const interactionHintWithPlayButtonString = MoleculesAndLightA11yStrings.interactionHintWithPlayButtonString.value;
+  const interactionHintPatternString = MoleculesAndLightA11yStrings.interactionHintPatternString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
+  const pauseString = SceneryPhetA11yStrings.pauseString.value;
+  const playString = SceneryPhetA11yStrings.playString.value;
 
   class MoleculesAndLightScreenSummaryNode extends Node {
 
     /**
      * @param {PhotonAbsorptionModel} model
-     * @param {BooleanProperty} returnMoleculeButtonVisibleProperty - whether or not "New Molecule" button is visible
      */
-    constructor( model, returnMoleculeButtonVisibleProperty ) {
+    constructor( model) {
       super();
 
       // @private {PhotonAbsorptionModel}
@@ -66,12 +67,13 @@ define( require => {
         dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running );
       } );
 
-      // interaction hint
-      const interactionHint = new Node( {
-        tagName: 'p'
-      } );
-      returnMoleculeButtonVisibleProperty.link( visible => {
-        interactionHint.innerContent = visible ? interactionHintWithPlayButtonString : interactionHintString;
+      // interaction hint, describe play/pause button depending on which is displayed
+      const interactionHint = new Node( { tagName: 'p' } );
+      model.runningProperty.link( running => {
+        const buttonString = running ? pauseString : playString;
+        interactionHint.innerContent = StringUtils.fillIn( interactionHintPatternString, {
+          button: buttonString
+        } );
       } );
 
       this.addChild( interactionHint );
