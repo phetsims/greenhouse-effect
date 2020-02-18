@@ -27,15 +27,17 @@ define( require => {
   const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
   const interactionHintString = MoleculesAndLightA11yStrings.interactionHintString.value;
+  const interactionHintWithPlayButtonString = MoleculesAndLightA11yStrings.interactionHintWithPlayButtonString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
   const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
 
   class MoleculesAndLightScreenSummaryNode extends Node {
 
     /**
-     * @param PhotonAbsorptionModel model
+     * @param {PhotonAbsorptionModel} model
+     * @param {BooleanProperty} returnMoleculeButtonVisibleProperty - whether or not "New Molecule" button is visible
      */
-    constructor( model ) {
+    constructor( model, returnMoleculeButtonVisibleProperty ) {
       super();
 
       // @private {PhotonAbsorptionModel}
@@ -53,12 +55,6 @@ define( require => {
         accessibleName: controlAreaSummaryString
       } ) );
 
-      // // the static overall summary for the sim
-      // this.addChild( new Node( {
-      //   tagName: 'p',
-      //   accessibleName: screenSummaryString
-      // } ) );
-
       // dynamic overview that stays up to date with sim
       const dynamicDescription = new Node( { tagName: 'p' } );
       this.addChild( dynamicDescription );
@@ -72,9 +68,12 @@ define( require => {
 
       // interaction hint
       const interactionHint = new Node( {
-        tagName: 'p',
-        accessibleName: interactionHintString
+        tagName: 'p'
       } );
+      returnMoleculeButtonVisibleProperty.link( visible => {
+        interactionHint.innerContent = visible ? interactionHintWithPlayButtonString : interactionHintString;
+      } );
+
       this.addChild( interactionHint );
     }
 

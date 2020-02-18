@@ -68,10 +68,10 @@ define( require => {
     // Width of the 'window frame' which surrounds the observation window.
     this.frameLineWidth = 5;
 
-    // Property which keeps track of whether or not the 'Restore Molecule' button should be visible.
+    // @public (read-only) - keeps track of whether or not the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
-    } ); // @private
+    } );
 
     // Add the layers for molecules, photons, and photon emitters.
     const moleculeLayer = new Node();
