@@ -256,7 +256,7 @@ define( require => {
     this.addChild( descriptionList );
 
     // PDOM - description list first
-    this.accessibleOrder = [ descriptionList, photonEmitterNode ];
+    this.accessibleOrder = [ this.returnMoleculeButtonNode, descriptionList, photonEmitterNode ];
   }
 
   moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
