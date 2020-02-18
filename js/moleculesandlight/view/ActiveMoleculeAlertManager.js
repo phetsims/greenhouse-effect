@@ -40,7 +40,6 @@ define( require => {
   const slowMotionVibratingPatternString = MoleculesAndLightA11yStrings.slowMotionVibratingPatternString.value;
   const slowMotionAbsorbedPatternString = MoleculesAndLightA11yStrings.slowMotionAbsorbedPatternString.value;
   const slowMotionBreakApartPatternString = MoleculesAndLightA11yStrings.slowMotionBreakApartPatternString.value;
-  const rotatingString = MoleculesAndLightA11yStrings.rotatingString.value;
   const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
   const slowMotionEmittedPatternString = MoleculesAndLightA11yStrings.slowMotionEmittedPatternString.value;
   const absorptionPhaseMoleculeDescriptionPatternString = MoleculesAndLightA11yStrings.absorptionPhaseMoleculeDescriptionPatternString.value;
@@ -365,7 +364,9 @@ define( require => {
     }
 
     /**
-     * Get an alert that describes the Molecules in its "rotating" state.
+     * Get an alert that describes the Molecules in its "rotating" state. Will return something like
+     * "Molecule rotates." or
+     * "Photon absorbed. Molecule rotating counter clockwise."
      * @private
      *
      * @param {Molecule} molecule
@@ -382,8 +383,9 @@ define( require => {
       else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
         // we are playing in slow motion
+        const rotatingDirectionString = molecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
         alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
-          excitedRepresentation: rotatingString
+          excitedRepresentation: rotatingDirectionString
         } );
       }
       else {
