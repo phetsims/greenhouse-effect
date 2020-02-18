@@ -27,7 +27,7 @@ define( require => {
   const bendsUpAndDownString = MoleculesAndLightA11yStrings.bendsUpAndDownString.value;
   const longStretchingAlertString = MoleculesAndLightA11yStrings.longStretchingAlertString.value;
   const shortBendingAlertString = MoleculesAndLightA11yStrings.shortBendingAlertString.value;
-  const rotatingClockwiseString = MoleculesAndLightA11yStrings. rotatingClockwiseString.value;
+  const rotatingClockwiseString = MoleculesAndLightA11yStrings.rotatingClockwiseString.value;
   const longBendingAlertString = MoleculesAndLightA11yStrings.longBendingAlertString.value;
   const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
   const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
@@ -125,17 +125,13 @@ define( require => {
      *
      * @param {Molecule} molecule
      */
-   attachAbsorptionAlertListeners( molecule ) {
+    attachAbsorptionAlertListeners( molecule ) {
       const utteranceQueue = phet.joist.sim.utteranceQueue;
-
-      // used to generate many descriptions so that we know wavelength that triggered excited state
-      molecule.photonAbsorbedEmitter.addListener( photon => {
-        this.wavelengthOnAbsorption = photon.wavelength;
-      } );
 
       // vibration
       molecule.vibratingProperty.lazyLink( vibrating => {
         if ( vibrating ) {
+          this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
           utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
         }
       } );
@@ -145,6 +141,7 @@ define( require => {
       molecule.isStretchingProperty.lazyLink( isStretching => {
         if ( !this.photonAbsorptionModel.runningProperty.get() ) {
           if ( molecule.vibratingProperty.get() && molecule.vibratesByStretching() ) {
+            this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
             utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
           }
         }
@@ -153,6 +150,7 @@ define( require => {
       // rotation
       molecule.rotatingProperty.lazyLink( rotating => {
         if ( rotating ) {
+          this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
           utteranceQueue.addToBack( this.getRotationAlert( molecule ) );
         }
       } );
@@ -160,12 +158,14 @@ define( require => {
       // high electronic energy state (glowing)
       molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
         if ( highEnergy ) {
+          this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
           utteranceQueue.addToBack( this.getExcitationAlert( molecule ) );
         }
       } );
 
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+        this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
       } );
 
@@ -451,7 +451,7 @@ define( require => {
      * @returns {string}
      */
     getEmissionAlert( photon ) {
-      let alert  = '';
+      let alert = '';
 
       const directionString = this.getPhotonDirectionDescription( photon );
       if ( !this.photonAbsorptionModel.runningProperty.get() ) {
