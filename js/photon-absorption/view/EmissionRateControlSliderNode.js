@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * Node that implements a slider that is used to control the emission rate of photons.
