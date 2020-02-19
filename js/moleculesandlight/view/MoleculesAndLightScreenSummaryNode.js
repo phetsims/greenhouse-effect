@@ -29,6 +29,7 @@ define( require => {
   const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
   const interactionHintPatternString = MoleculesAndLightA11yStrings.interactionHintPatternString.value;
   const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
+  const screenSummaryWithHintPatternString = MoleculesAndLightA11yStrings.screenSummaryWithHintPatternString.value;
   const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
   const pauseString = SceneryPhetA11yStrings.pauseString.value;
   const playString = SceneryPhetA11yStrings.playString.value;
@@ -37,12 +38,16 @@ define( require => {
 
     /**
      * @param {PhotonAbsorptionModel} model
+     * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
      */
-    constructor( model) {
+    constructor( model, returnMoleculeButtonVisibleProperty ) {
       super();
 
       // @private {PhotonAbsorptionModel}
       this.model = model;
+
+      // @private {BooleanProperty}
+      this.returnMoleculeButtonVisibleProperty = returnMoleculeButtonVisibleProperty;
 
       // static summary of the play area
       this.addChild( new Node( {
@@ -60,11 +65,11 @@ define( require => {
       const dynamicDescription = new Node( { tagName: 'p' } );
       this.addChild( dynamicDescription );
 
-      const summaryProperties = [ model.photonWavelengthProperty, model.emissionFrequencyProperty, model.photonTargetProperty, model.runningProperty ];
-      Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running ) => {
+      const summaryProperties = [ model.photonWavelengthProperty, model.emissionFrequencyProperty, model.photonTargetProperty, model.runningProperty, returnMoleculeButtonVisibleProperty ];
+      Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible ) => {
 
         // TODO: Maybe use accessibleName instead if https://github.com/phetsims/molecules-and-light/issues/237 is fixed
-        dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running );
+        dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible );
       } );
 
       // interaction hint, describe play/pause button depending on which is displayed
@@ -87,10 +92,11 @@ define( require => {
      * @param {number} photonWavelength
      * @param {number} emissionFrequency
      * @param {PhotonTarget} photonTarget
-     * @param {boolean} runnin
+     * @param {boolean} running
+     * @param {boolean} returnMoleculeButtonVisible
      * @returns {string}
      */
-    getSummaryString( photonWavelength, emissionFrequency, photonTarget, running ) {
+    getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible ) {
       const targetMolecule = this.model.targetMolecule;
 
       const playingStateString = running ? emitterInObservationWindowString : emitterPausedInObservationWindowString;
@@ -107,12 +113,23 @@ define( require => {
         targetString = emptySpaceString;
       }
 
-      return StringUtils.fillIn( dynamicScreenSummaryString, {
+      const screenSummaryString = StringUtils.fillIn( dynamicScreenSummaryString, {
         playingState: playingStateString,
         lightSource: lightSourceString,
         emissionRate: emissionRateString,
         target: targetString
       } );
+
+      // if the "New Molecule" button is visible, include a description of its existence in the screen summary
+      if ( returnMoleculeButtonVisible ) {
+        return StringUtils.fillIn( screenSummaryWithHintPatternString, {
+          summary: screenSummaryString
+        } );
+      }
+      else {
+        return screenSummaryString;
+      }
+
     }
   }
 
