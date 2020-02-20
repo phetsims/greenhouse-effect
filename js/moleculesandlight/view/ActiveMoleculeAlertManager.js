@@ -16,6 +16,7 @@ define( require => {
   const PhotonTarget = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonTarget' );
   const MovementDescriber = require( 'SCENERY_PHET/accessibility/describers/MovementDescriber' );
   const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Utterance = require( 'UTTERANCE_QUEUE/Utterance' );
   const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
   const MoleculeUtils = require( 'MOLECULES_AND_LIGHT/photon-absorption/view/MoleculeUtils' );
 
@@ -62,6 +63,8 @@ define( require => {
       this.photonAbsorptionModel = photonAbsorptionModel;
       this.modelViewTransform = modelViewTransform;
 
+      // @private - persistent alert to avoid a pile up of too many in the utteranceQueue
+      this.absorptionUtterance = new Utterance();
 
       // @private {boolean} keeps track of whether or not this is the first occurrence of an alert for a particular
       // type of interaction - after the first alert a much shorter form of the alert is provided to reduce AT
@@ -132,18 +135,8 @@ define( require => {
       molecule.vibratingProperty.lazyLink( vibrating => {
         if ( vibrating ) {
           this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-          utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
-        }
-      } );
-
-      // stretching/contracting - only in alerts when we are paused because this alert takes too long to speak, and only
-      // when the vibration representation is through stretching/contractings
-      molecule.isStretchingProperty.lazyLink( isStretching => {
-        if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-          if ( molecule.vibratingProperty.get() && molecule.vibratesByStretching() ) {
-            this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-            utteranceQueue.addToBack( this.getVibrationAlert( molecule ) );
-          }
+          this.absorptionUtterance.alert = this.getVibrationAlert( molecule );
+          utteranceQueue.addToBack( this.absorptionUtterance );
         }
       } );
 
@@ -151,7 +144,8 @@ define( require => {
       molecule.rotatingProperty.lazyLink( rotating => {
         if ( rotating ) {
           this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-          utteranceQueue.addToBack( this.getRotationAlert( molecule ) );
+          this.absorptionUtterance.alert = this.getRotationAlert( molecule );
+          utteranceQueue.addToBack( this.absorptionUtterance );
         }
       } );
 
@@ -159,20 +153,23 @@ define( require => {
       molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
         if ( highEnergy ) {
           this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-          utteranceQueue.addToBack( this.getExcitationAlert( molecule ) );
+          this.absorptionUtterance.alert = this.getExcitationAlert( molecule );
+          utteranceQueue.addToBack( this.absorptionUtterance );
         }
       } );
 
       // break apart
       molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-        utteranceQueue.addToBack( this.getBreakApartAlert( moleculeA, moleculeB ) );
+        this.absorptionUtterance.alert = this.getBreakApartAlert( moleculeA, moleculeB );
+        utteranceQueue.addToBack( this.absorptionUtterance );
       } );
 
       // photon emission - alert this only in slow motion and paused playback
       molecule.photonEmittedEmitter.addListener( photon => {
         if ( !this.photonAbsorptionModel.runningProperty.get() || this.photonAbsorptionModel.slowMotionProperty.get() ) {
-          utteranceQueue.addToBack( this.getEmissionAlert( photon ) );
+          this.absorptionUtterance.alert = this.getEmissionAlert( photon );
+          utteranceQueue.addToBack( this.absorptionUtterance );
         }
       } );
 
@@ -180,7 +177,8 @@ define( require => {
       // this should not be described if the molecule has already absorbed another photon
       molecule.photonPassedThroughEmitter.addListener( photon => {
         if ( !this.photonAbsorptionModel.runningProperty.get() && !molecule.isPhotonAbsorbed() ) {
-          utteranceQueue.addToBack( this.getPassThroughAlert( photon ) );
+          this.absorptionUtterance.alert = this.getPassThroughAlert( photon );
+          utteranceQueue.addToBack( this.absorptionUtterance );
         }
       } );
     }
