@@ -46,9 +46,31 @@ define( require => {
   const lightSourceLabelPatternString = MoleculesAndLightA11yStrings.lightSourceLabelPatternString.value;
   const emitsPhotonsFastString = MoleculesAndLightA11yStrings.emitsPhotonsFastString.value;
   const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
+
   const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
-  const emitsPhotonsVerySlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowlyString.value;
+  const emitsPhotonsVerySlowString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowString.value;
   const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
+
+  // constants
+  const SLIDER_RANGE = new Range( 0, 1 ); // range for the slider values
+  const KEYBOARD_STEP = SLIDER_RANGE.getLength() / 3;
+
+  // describes ranges along the slider range from "very slow" to "fast"
+  const VERY_SLOW_RANGE = new Range( SLIDER_RANGE.min, SLIDER_RANGE.min + KEYBOARD_STEP );
+  const SLOW_RANGE = new Range( SLIDER_RANGE.min + KEYBOARD_STEP, SLIDER_RANGE.min + 2 * KEYBOARD_STEP );
+  const FAST_RANGE = new Range( SLIDER_RANGE.min + 2 * KEYBOARD_STEP, SLIDER_RANGE.max );
+
+  // descriptions mapped to range for aria-valuetext
+  const RANGE_VALUE_TEXT_MAP = new Map();
+  RANGE_VALUE_TEXT_MAP.set( VERY_SLOW_RANGE, verySlowString );
+  RANGE_VALUE_TEXT_MAP.set( SLOW_RANGE, slowString );
+  RANGE_VALUE_TEXT_MAP.set( FAST_RANGE, fastString );
+
+  // descriptions mapped to range for use in other description contexts
+  const RANGE_DESCRIPTION_MAP = new Map();
+  RANGE_DESCRIPTION_MAP.set( VERY_SLOW_RANGE, emitsPhotonsVerySlowString );
+  RANGE_DESCRIPTION_MAP.set( SLOW_RANGE, emitsPhotonsSlowlyString );
+  RANGE_DESCRIPTION_MAP.set( FAST_RANGE, emitsPhotonsFastString );
 
   /**
    * Constructor for an emission rate control slider.
@@ -69,12 +91,9 @@ define( require => {
 
     // Create the slider.  Frequency mapped from 0 to 1 so that there is a direct map to PhotonEmitterNode 'on' image
     // opacity.
-    const sliderRange = new Range( 0, 1 );
     const sliderThumb = new EmissionRateThumbNode();
 
-    const keyboardStep = sliderRange.getLength() / 3;
-
-    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, sliderRange, {
+    this.emissionRateControlSlider = new HSlider( model.emissionFrequencyProperty, SLIDER_RANGE, {
       trackSize: TRACK_SIZE,
       thumbNode: sliderThumb,
       tandem: tandem,
@@ -84,9 +103,9 @@ define( require => {
       descriptionContent: emissionSliderDescriptionString,
       appendDescription: true,
       numberDecimalPlaces: 1,
-      keyboardStep: keyboardStep,
-      shiftKeyboardStep: keyboardStep,
-      pageKeyboardStep: keyboardStep,
+      keyboardStep: KEYBOARD_STEP,
+      shiftKeyboardStep: KEYBOARD_STEP,
+      pageKeyboardStep: KEYBOARD_STEP,
       a11yCreateAriaValueText: this.getAriaValueText.bind( this ),
 
       // whenever these Properties change we need to update the value text
@@ -99,14 +118,6 @@ define( require => {
       // receives focus so that the pink highlight is visible along the colors of the photon emitter
       dilationCoefficient: -2
     } );
-
-    // @private (PDOM) - maps ranges of the emission frequency value to the described emission rate in the PDOM
-    this.pdomValueDescriptonMap = new Map();
-
-    const rangeDelta = keyboardStep;
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min, sliderRange.min + rangeDelta ), verySlowString );
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + rangeDelta, sliderRange.min + 2 * rangeDelta ), slowString );
-    this.pdomValueDescriptonMap.set( new Range( sliderRange.min + 2 * rangeDelta, sliderRange.max ), fastString );
 
     // a11y
     this.emissionRateControlSlider.addInputListener( {
@@ -204,7 +215,9 @@ define( require => {
 
     /**
      * Get the aria-valuetext for the slider, which describes the current value. This is read to the user when
-     * focus lands on the slider and whenever the value changes.
+     * focus lands on the slider and whenever the value changes. Returns something like
+     * "very slow" or
+     * "fast"
      * @private
      *
      * @param {number} mappedValue - formatted value to be read
@@ -222,11 +235,11 @@ define( require => {
         emissionRateString = lightSourceOffString;
       }
       else {
-        this.pdomValueDescriptonMap.forEach( ( valueString, rangeKey, map ) => {
+        RANGE_VALUE_TEXT_MAP.forEach( ( valueString, keyRange, map ) => {
 
           // cannot break early out of forEach but it is the best way to iterate over a Map, so only set if we
           // haven't already found a string
-          if ( emissionRateString === null && rangeKey.contains( mappedValue ) ) {
+          if ( emissionRateString === null && keyRange.contains( mappedValue ) ) {
             emissionRateString = valueString;
           }
         } );
@@ -238,8 +251,9 @@ define( require => {
   }, {
 
     /**
-     * Get a description of the emission rate frequency, like
+     * Get a description of the emission rate frequency, describing the emission rate with a little more context like
      * "emits photons slowly and" or
+     * "emits photons fast and" or
      * "is off and points"
      *
      * Note that these are meant to be inserted into a another string in context. If you
@@ -252,18 +266,22 @@ define( require => {
     getEmissionFrequencyDescription( emissionFrequency ) {
       assert && assert( 0 <= emissionFrequency <= 1, 'frequency should be normalized' );
 
+      // "floor" decimal places beyond the tenths to accurately describe value range
+      const flooredValue = Math.floor( emissionFrequency * 10 ) / 10;
+
       let frequencyDescriptionString = null;
       if ( emissionFrequency === 0 ) {
         frequencyDescriptionString = isOffAndPointsString;
       }
-      else if ( emissionFrequency <= 0.3 ) {
-        frequencyDescriptionString = emitsPhotonsVerySlowlyString;
-      }
-      else if ( emissionFrequency <= 0.6 ) {
-        frequencyDescriptionString = emitsPhotonsSlowlyString;
-      }
       else {
-        frequencyDescriptionString = emitsPhotonsFastString;
+        RANGE_DESCRIPTION_MAP.forEach( ( valueString, keyRange, map ) => {
+
+          // cannot break early out of forEach but it is the best way to iterate over a Map, so only set if we
+          // haven't already found a string
+          if ( frequencyDescriptionString === null && keyRange.contains( flooredValue ) ) {
+            frequencyDescriptionString = valueString;
+          }
+        } );
       }
 
       return frequencyDescriptionString;
