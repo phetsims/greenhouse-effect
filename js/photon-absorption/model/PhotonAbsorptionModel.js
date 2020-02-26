@@ -166,7 +166,12 @@ define( require => {
      */
     reset: function() {
 
-      this.resetMoleculesAndPhotons();
+      this.resetPhotons();
+
+      // Reset all active molecules, which will stop any vibrations.
+      for ( let molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
+        this.activeMolecules.get( molecule ).reset();
+      }
 
       // Set default values.
       this.photonTargetProperty.reset();
@@ -182,18 +187,13 @@ define( require => {
     },
 
     /**
-     * Resets active  molecules and clears all photons.
+     * Clears all photons.
      */
-    resetMoleculesAndPhotons() {
+    resetPhotons() {
 
       // Remove and dispose any photons that are currently in transit.
       this.photons.forEach( photon => photon.dispose() );
       this.photons.clear();
-
-      // Reset all active molecules, which will stop any vibrations.
-      for ( let molecule = 0; molecule < this.activeMolecules.length; molecule++ ) {
-        this.activeMolecules.get( molecule ).reset();
-      }
     },
 
     /**
