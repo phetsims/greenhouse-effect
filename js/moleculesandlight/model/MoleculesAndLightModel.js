@@ -20,6 +20,9 @@ define( require => {
     constructor( tandem ) {
       super( PhotonTarget.SINGLE_CO_MOLECULE, tandem );
 
+      // Clear all photons  and reset the active molecule to avoid casese photons of the previous wavelength
+      // could be absorbed after new wavelength was selected. Some users interpreted absorption of the previous
+      // wavelength as absorption of the selected wavelength, causing confusion
       this.photonWavelengthProperty.link( () => {
         this.resetMoleculesAndPhotons();
       } );
