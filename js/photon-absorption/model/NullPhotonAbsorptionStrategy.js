@@ -6,48 +6,43 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const PhotonAbsorptionStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonAbsorptionStrategy' );
+/**
+ * Constructor for the null absorption strategy.  This strategy does nothing.
+ *
+ * @param {Molecule} molecule - The molecule which will use this strategy.
+ * @constructor
+ */
+function NullPhotonAbsorptionStrategy( molecule ) {
+
+  // Supertype constructor
+  PhotonAbsorptionStrategy.call( this, molecule );
+
+}
+
+moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
+
+export default inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
 
   /**
-   * Constructor for the null absorption strategy.  This strategy does nothing.
+   * Step method for the null absorption strategy.  This does nothing.
    *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
-   * @constructor
+   * @param {number} dt - The incremental time step.
    */
-  function NullPhotonAbsorptionStrategy( molecule ) {
+  step: function( dt ) {
+    // Does nothing.
+  },
 
-    // Supertype constructor
-    PhotonAbsorptionStrategy.call( this, molecule );
-
+  /**
+   * This strategy never absorbs.
+   *
+   * @param {Photon} photon - The photon being queried for absorption.
+   * @returns {boolean}
+   */
+  queryAndAbsorbPhoton: function( photon ) {
+    return false;
   }
-
-  moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
-
-  return inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
-
-    /**
-     * Step method for the null absorption strategy.  This does nothing.
-     *
-     * @param {number} dt - The incremental time step.
-     */
-    step: function( dt ) {
-      // Does nothing.
-    },
-
-    /**
-     * This strategy never absorbs.
-     *
-     * @param {Photon} photon - The photon being queried for absorption.
-     * @returns {boolean}
-     */
-    queryAndAbsorbPhoton: function( photon ) {
-      return false;
-    }
-  } );
 } );

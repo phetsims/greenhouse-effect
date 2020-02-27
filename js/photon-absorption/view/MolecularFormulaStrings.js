@@ -6,25 +6,22 @@
  *
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const ChemUtils = require( 'NITROGLYCERIN/ChemUtils' );
+import ChemUtils from '../../../../nitroglycerin/js/ChemUtils.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
 
-  const MolecularFormulaStrings = {
-    CO_FORMULA_STRING: 'CO',
-    N2_FORMULA_STRING: ChemUtils.toSubscript( 'N2' ),
-    O2_FORMULA_STRING: ChemUtils.toSubscript( 'O2' ),
-    CO2_FORMULA_STRING: ChemUtils.toSubscript( 'CO2' ),
-    NO2_FORMULA_STRING: ChemUtils.toSubscript( 'NO2' ),
-    O3_FORMULA_STRING: ChemUtils.toSubscript( 'O3' ),
-    H20_FORMULA_STRING: ChemUtils.toSubscript( 'H2O' ),
-    CH4_FORMULA_STRING: ChemUtils.toSubscript( 'CH4' ),
-    NO_FORMULA_STRING: 'NO',
-    O_FORMULA_STRING: 'O'
-  };
+const MolecularFormulaStrings = {
+  CO_FORMULA_STRING: 'CO',
+  N2_FORMULA_STRING: ChemUtils.toSubscript( 'N2' ),
+  O2_FORMULA_STRING: ChemUtils.toSubscript( 'O2' ),
+  CO2_FORMULA_STRING: ChemUtils.toSubscript( 'CO2' ),
+  NO2_FORMULA_STRING: ChemUtils.toSubscript( 'NO2' ),
+  O3_FORMULA_STRING: ChemUtils.toSubscript( 'O3' ),
+  H20_FORMULA_STRING: ChemUtils.toSubscript( 'H2O' ),
+  CH4_FORMULA_STRING: ChemUtils.toSubscript( 'CH4' ),
+  NO_FORMULA_STRING: 'NO',
+  O_FORMULA_STRING: 'O'
+};
 
-  return moleculesAndLight.register( 'MolecularFormulaStrings', MolecularFormulaStrings );
-} );
+moleculesAndLight.register( 'MolecularFormulaStrings', MolecularFormulaStrings );
+export default MolecularFormulaStrings;

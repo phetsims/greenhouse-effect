@@ -7,60 +7,55 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import Vector2 from '../../../../../dot/js/Vector2.js';
+import inherit from '../../../../../phet-core/js/inherit.js';
+import moleculesAndLight from '../../../moleculesAndLight.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
+import Molecule from '../Molecule.js';
 
-  // modules
-  const Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  const AtomicBond = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/AtomicBond' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const Vector2 = require( 'DOT/Vector2' );
+// Model data for nitrogen molecule
+const INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
 
-  // Model data for nitrogen molecule
-  const INITIAL_NITROGEN_NITROGEN_DISTANCE = 170; // In picometers.
+/**
+ * Constructor for a molecule of nitrogen.
+ *
+ * @param {Object} [options]
+ * @constructor
+ */
+function N2( options ) {
+
+  // Supertype constructor
+  Molecule.call( this, options );
+
+  // Instance data for the nitrogen molecule
+  // @private
+  this.nitrogenAtom1 = Atom.nitrogen();
+  this.nitrogenAtom2 = Atom.nitrogen();
+
+  // Configure the base class.
+  this.addAtom( this.nitrogenAtom1 );
+  this.addAtom( this.nitrogenAtom2 );
+  this.addAtomicBond( new AtomicBond( this.nitrogenAtom1, this.nitrogenAtom2, { bondCount: 3 } ) );
+
+  // Set the initial offsets
+  this.initializeAtomOffsets();
+
+}
+
+moleculesAndLight.register( 'N2', N2 );
+
+export default inherit( Molecule, N2, {
 
   /**
-   * Constructor for a molecule of nitrogen.
-   *
-   * @param {Object} [options]
-   * @constructor
+   * Initialize and set the center of gravity offsets for the nitrogen atoms which compose this molecule.
    */
-  function N2( options ) {
+  initializeAtomOffsets: function() {
 
-    // Supertype constructor
-    Molecule.call( this, options );
-
-    // Instance data for the nitrogen molecule
-    // @private
-    this.nitrogenAtom1 = Atom.nitrogen();
-    this.nitrogenAtom2 = Atom.nitrogen();
-
-    // Configure the base class.
-    this.addAtom( this.nitrogenAtom1 );
-    this.addAtom( this.nitrogenAtom2 );
-    this.addAtomicBond( new AtomicBond( this.nitrogenAtom1, this.nitrogenAtom2, { bondCount: 3 } ) );
-
-    // Set the initial offsets
-    this.initializeAtomOffsets();
+    this.addInitialAtomCogOffset( this.nitrogenAtom1, new Vector2( -INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0 ) );
+    this.addInitialAtomCogOffset( this.nitrogenAtom2, new Vector2( INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0 ) );
+    this.updateAtomPositions();
 
   }
 
-  moleculesAndLight.register( 'N2', N2 );
-
-  return inherit( Molecule, N2, {
-
-    /**
-     * Initialize and set the center of gravity offsets for the nitrogen atoms which compose this molecule.
-     */
-    initializeAtomOffsets: function() {
-
-      this.addInitialAtomCogOffset( this.nitrogenAtom1, new Vector2( -INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0 ) );
-      this.addInitialAtomCogOffset( this.nitrogenAtom2, new Vector2( INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0 ) );
-      this.updateAtomPositions();
-
-    }
-
-  } );
 } );

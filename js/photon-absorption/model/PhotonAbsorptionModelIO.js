@@ -5,46 +5,42 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const PhotonIO = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonIO' );
-  const validate = require( 'AXON/validate' );
+import validate from '../../../../axon/js/validate.js';
+import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import PhotonIO from './PhotonIO.js';
 
-  class PhotonAbsorptionModelIO extends ObjectIO {
-    static clearChildInstances( photonAbsorptionModel ) {
-      validate( photonAbsorptionModel, this.validator );
-      photonAbsorptionModel.clearPhotons();
-      // instance.chargedParticles.clear();
-      // instance.electricFieldSensors.clear();
-    }
-
-    /**
-     * Create a dynamic particle as specified by the phetioID and state.
-     * @param {Object} photonAbsorptionModel
-     * @param {Tandem} tandem
-     * @param {Object} stateObject
-     * @returns {ChargedParticle}
-     */
-    static addChildInstanceDeprecated( photonAbsorptionModel, tandem, stateObject ) {
-      validate( photonAbsorptionModel, this.validator );
-      const value = PhotonIO.fromStateObject( stateObject );
-
-      const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
-      photon.setVelocity( stateObject.vx, stateObject.vy );
-      photonAbsorptionModel.photons.add( photon );
-      return photon;
-    }
+class PhotonAbsorptionModelIO extends ObjectIO {
+  static clearChildInstances( photonAbsorptionModel ) {
+    validate( photonAbsorptionModel, this.validator );
+    photonAbsorptionModel.clearPhotons();
+    // instance.chargedParticles.clear();
+    // instance.electricFieldSensors.clear();
   }
 
-  PhotonAbsorptionModelIO.documentation = 'The model for Photon Absorption';
-  PhotonAbsorptionModelIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel };
-  PhotonAbsorptionModelIO.typeName = 'PhotonAbsorptionModelIO';
-  ObjectIO.validateSubtype( PhotonAbsorptionModelIO );
+  /**
+   * Create a dynamic particle as specified by the phetioID and state.
+   * @param {Object} photonAbsorptionModel
+   * @param {Tandem} tandem
+   * @param {Object} stateObject
+   * @returns {ChargedParticle}
+   */
+  static addChildInstanceDeprecated( photonAbsorptionModel, tandem, stateObject ) {
+    validate( photonAbsorptionModel, this.validator );
+    const value = PhotonIO.fromStateObject( stateObject );
 
-  return moleculesAndLight.register( 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO );
-} );
+    const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
+    photon.setVelocity( stateObject.vx, stateObject.vy );
+    photonAbsorptionModel.photons.add( photon );
+    return photon;
+  }
+}
 
+PhotonAbsorptionModelIO.documentation = 'The model for Photon Absorption';
+PhotonAbsorptionModelIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel };
+PhotonAbsorptionModelIO.typeName = 'PhotonAbsorptionModelIO';
+ObjectIO.validateSubtype( PhotonAbsorptionModelIO );
+
+moleculesAndLight.register( 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO );
+export default PhotonAbsorptionModelIO;

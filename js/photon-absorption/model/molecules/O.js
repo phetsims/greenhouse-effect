@@ -7,52 +7,48 @@
  * @author John Blanco
  * @author Jesse Greenberg
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Atom = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/atoms/Atom' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const Vector2 = require( 'DOT/Vector2' );
+import Vector2 from '../../../../../dot/js/Vector2.js';
+import inherit from '../../../../../phet-core/js/inherit.js';
+import moleculesAndLight from '../../../moleculesAndLight.js';
+import Atom from '../atoms/Atom.js';
+import Molecule from '../Molecule.js';
+
+/**
+ * Constructor for a single atom of oxygen.
+ *
+ * @param {Object} [options]
+ * @constructor
+ */
+function O( options ) {
+
+  // Supertype constructor
+  Molecule.call( this, options );
+
+  // Instance Data
+  // @private
+  this.oxygenAtom = Atom.oxygen();
+
+  // Configure the base class.
+  this.addAtom( this.oxygenAtom );
+
+  // Set the initial offsets.
+  this.initializeAtomOffsets();
+
+}
+
+moleculesAndLight.register( 'O', O );
+
+export default inherit( Molecule, O, {
 
   /**
-   * Constructor for a single atom of oxygen.
-   *
-   * @param {Object} [options]
-   * @constructor
+   * Initialize and set the center of gravity offsets for the position of this Oxygen atom.
    */
-  function O( options ) {
+  initializeAtomOffsets: function() {
 
-    // Supertype constructor
-    Molecule.call( this, options );
-
-    // Instance Data
-    // @private
-    this.oxygenAtom = Atom.oxygen();
-
-    // Configure the base class.
-    this.addAtom( this.oxygenAtom );
-
-    // Set the initial offsets.
-    this.initializeAtomOffsets();
+    this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, 0 ) );
+    this.updateAtomPositions();
 
   }
 
-  moleculesAndLight.register( 'O', O );
-
-  return inherit( Molecule, O, {
-
-    /**
-     * Initialize and set the center of gravity offsets for the position of this Oxygen atom.
-     */
-    initializeAtomOffsets: function() {
-
-      this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, 0 ) );
-      this.updateAtomPositions();
-
-    }
-
-  } );
 } );

@@ -6,42 +6,38 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Molecule = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/Molecule' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const validate = require( 'AXON/validate' );
+import validate from '../../../../axon/js/validate.js';
+import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import Molecule from './Molecule.js';
 
-  class MoleculeIO extends ObjectIO {
+class MoleculeIO extends ObjectIO {
 
-    /**
-     * @param {Molecule} molecule
-     * @returns {Object}
-     * @override
-     */
-    static toStateObject( molecule ) {
-      validate( molecule, this.validator );
-      return molecule.toStateObject();
-    }
-
-    /**
-     * @param {Object} stateObject
-     * @returns {Molecule}
-     * @override
-     */
-    static fromStateObject( stateObject ) {
-      return Molecule.fromStateObject( stateObject );
-    }
+  /**
+   * @param {Molecule} molecule
+   * @returns {Object}
+   * @override
+   */
+  static toStateObject( molecule ) {
+    validate( molecule, this.validator );
+    return molecule.toStateObject();
   }
 
-  MoleculeIO.documentation = 'IO type for a molecule.';
-  MoleculeIO.validator = { valueType: Molecule };
-  MoleculeIO.typeName = 'MoleculeIO';
-  ObjectIO.validateSubtype( MoleculeIO );
+  /**
+   * @param {Object} stateObject
+   * @returns {Molecule}
+   * @override
+   */
+  static fromStateObject( stateObject ) {
+    return Molecule.fromStateObject( stateObject );
+  }
+}
 
-  return moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
-} );
+MoleculeIO.documentation = 'IO type for a molecule.';
+MoleculeIO.validator = { valueType: Molecule };
+MoleculeIO.typeName = 'MoleculeIO';
+ObjectIO.validateSubtype( MoleculeIO );
 
+moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
+export default MoleculeIO;

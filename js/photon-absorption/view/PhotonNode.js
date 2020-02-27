@@ -7,62 +7,56 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import microwavePhotonImage from '../../../images/microwave-photon_png.js';
+import photon100Image from '../../../images/photon-100_png.js';
+import photon660Image from '../../../images/photon-660_png.js';
+import thin2Image from '../../../images/thin2_png.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const WavelengthConstants = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/WavelengthConstants' );
+// Map of photon wavelengths to visual images used for representing them.
+const mapWavelengthToImageName = {};
+mapWavelengthToImageName[ WavelengthConstants.MICRO_WAVELENGTH ] = microwavePhotonImage;
+mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = photon660Image;
+mapWavelengthToImageName[ WavelengthConstants.VISIBLE_WAVELENGTH ] = thin2Image;
+mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = photon100Image;
 
-  // images
-  const microwavePhotonImage = require( 'image!MOLECULES_AND_LIGHT/microwave-photon.png' );
-  const photon100Image = require( 'image!MOLECULES_AND_LIGHT/photon-100.png' );
-  const photon660Image = require( 'image!MOLECULES_AND_LIGHT/photon-660.png' );
-  const thin2Image = require( 'image!MOLECULES_AND_LIGHT/thin2.png' );
+/**
+ * Constructor for a photon node.
+ *
+ * @param {Photon} photon
+ * @param {ModelViewTransform2} modelViewTransform
+ * @constructor
+ */
+function PhotonNode( photon, modelViewTransform ) {
 
-  // Map of photon wavelengths to visual images used for representing them.
-  const mapWavelengthToImageName = {};
-  mapWavelengthToImageName[ WavelengthConstants.MICRO_WAVELENGTH ] = microwavePhotonImage;
-  mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = photon660Image;
-  mapWavelengthToImageName[ WavelengthConstants.VISIBLE_WAVELENGTH ] = thin2Image;
-  mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = photon100Image;
+  // supertype constructor
+  Node.call( this );
 
-  /**
-   * Constructor for a photon node.
-   *
-   * @param {Photon} photon
-   * @param {ModelViewTransform2} modelViewTransform
-   * @constructor
-   */
-  function PhotonNode( photon, modelViewTransform ) {
+  // Carry this node through the scope in nested functions.
+  const self = this;
 
-    // supertype constructor
-    Node.call( this );
+  // @private
+  this.photon = photon;
+  this.modelViewTransform = modelViewTransform;
 
-    // Carry this node through the scope in nested functions.
-    const self = this;
+  // Lookup the image file that corresponds to the wavelength and add a centered image.
+  assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
+  const photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ] );
 
-    // @private
-    this.photon = photon;
-    this.modelViewTransform = modelViewTransform;
+  this.addChild( photonImage );
 
-    // Lookup the image file that corresponds to the wavelength and add a centered image.
-    assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
-    const photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ] );
+  // Observe position changes.
+  photon.locationProperty.link( function( location ) {
+    // Set overall position.
+    self.center = self.modelViewTransform.modelToViewPosition( location );
+  } );
+}
 
-    this.addChild( photonImage );
+moleculesAndLight.register( 'PhotonNode', PhotonNode );
 
-    // Observe position changes.
-    photon.locationProperty.link( function( location ) {
-      // Set overall position.
-      self.center = self.modelViewTransform.modelToViewPosition( location );
-    } );
-  }
-
-  moleculesAndLight.register( 'PhotonNode', PhotonNode );
-
-  return inherit( Node, PhotonNode );
-} );
+inherit( Node, PhotonNode );
+export default PhotonNode;

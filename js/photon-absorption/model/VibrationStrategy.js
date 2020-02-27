@@ -7,47 +7,42 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const PhotonHoldStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonHoldStrategy' );
+/**
+ * Constructor for the break apart strategy.
+ *
+ * @param {Molecule} molecule - The molecule which will use this strategy.
+ * @constructor
+ */
+function VibrationStrategy( molecule ) {
+
+  // Supertype constructor
+  PhotonHoldStrategy.call( this, molecule );
+
+}
+
+moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
+
+export default inherit( PhotonHoldStrategy, VibrationStrategy, {
 
   /**
-   * Constructor for the break apart strategy.
-   *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
-   * @constructor
+   * Set this molecule to a vibrating state when a photon is absorbed.
    */
-  function VibrationStrategy( molecule ) {
+  photonAbsorbed: function() {
+    this.molecule.vibratingProperty.set( true );
+  },
 
-    // Supertype constructor
-    PhotonHoldStrategy.call( this, molecule );
+  /**
+   * Re-emit the absorbed photon and stop the molecule from vibrating.
+   */
+  reemitPhoton: function() {
 
+    PhotonHoldStrategy.prototype.reemitPhoton.call( this );
+    this.molecule.vibratingProperty.set( false );
+    this.molecule.setVibration( 0 );
   }
 
-  moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
-
-  return inherit( PhotonHoldStrategy, VibrationStrategy, {
-
-    /**
-     * Set this molecule to a vibrating state when a photon is absorbed.
-     */
-    photonAbsorbed: function() {
-      this.molecule.vibratingProperty.set( true );
-    },
-
-    /**
-     * Re-emit the absorbed photon and stop the molecule from vibrating.
-     */
-    reemitPhoton: function() {
-
-      PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.molecule.vibratingProperty.set( false );
-      this.molecule.setVibration( 0 );
-    }
-
-  } );
 } );

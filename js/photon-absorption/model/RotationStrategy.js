@@ -5,54 +5,49 @@
  * some length of time.  This is to be inherited by the general PhotonAbsorptionStrategy class.
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
+import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const PhotonHoldStrategy = require( 'MOLECULES_AND_LIGHT/photon-absorption/model/PhotonHoldStrategy' );
+//Random boolean generator.
+const RAND = {
+  nextBoolean: function() {
+    return phet.joist.random.nextDouble() < 0.50;
+  }
+};
 
-  //Random boolean generator.
-  const RAND = {
-    nextBoolean: function() {
-      return phet.joist.random.nextDouble() < 0.50;
-    }
-  };
+/**
+ * Constructor for a rotation strategy.
+ *
+ * @param {Molecule} molecule - The molecule which will use this strategy.
+ * @constructor
+ */
+function RotationStrategy( molecule ) {
+
+  // Supertype constructor
+  PhotonHoldStrategy.call( this, molecule );
+
+}
+
+moleculesAndLight.register( 'RotationStrategy', RotationStrategy );
+
+export default inherit( PhotonHoldStrategy, RotationStrategy, {
 
   /**
-   * Constructor for a rotation strategy.
-   *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
-   * @constructor
+   * Handle when a photon is absorbed.  Set the molecule to a rotating state
+   * and set the direction of rotation to a random direction.
    */
-  function RotationStrategy( molecule ) {
+  photonAbsorbed: function() {
+    this.molecule.rotationDirectionClockwiseProperty.set( RAND.nextBoolean() );
+    this.molecule.rotatingProperty.set( true );
+  },
 
-    // Supertype constructor
-    PhotonHoldStrategy.call( this, molecule );
-
+  /**
+   * Re-emit the absorbed photon.  Set the molecule to a non-rotating state.
+   */
+  reemitPhoton: function() {
+    PhotonHoldStrategy.prototype.reemitPhoton.call( this );
+    this.molecule.rotatingProperty.set( false );
   }
 
-  moleculesAndLight.register( 'RotationStrategy', RotationStrategy );
-
-  return inherit( PhotonHoldStrategy, RotationStrategy, {
-
-    /**
-     * Handle when a photon is absorbed.  Set the molecule to a rotating state
-     * and set the direction of rotation to a random direction.
-     */
-    photonAbsorbed: function() {
-      this.molecule.rotationDirectionClockwiseProperty.set( RAND.nextBoolean() );
-      this.molecule.rotatingProperty.set( true );
-    },
-
-    /**
-     * Re-emit the absorbed photon.  Set the molecule to a non-rotating state.
-     */
-    reemitPhoton: function() {
-      PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-      this.molecule.rotatingProperty.set( false );
-    }
-
-  } );
 } );

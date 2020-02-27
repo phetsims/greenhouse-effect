@@ -6,63 +6,59 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
-  const NumberIO = require( 'TANDEM/types/NumberIO' );
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const Tandem = require( 'TANDEM/Tandem' );
-  const validate = require( 'AXON/validate' );
+import validate from '../../../../axon/js/validate.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
 
-  class PhotonIO extends ObjectIO {
+class PhotonIO extends ObjectIO {
 
-    /**
-     * @override
-     * @param {Photon} photon
-     * @returns {Object}
-     */
-    static toStateObject( photon ) {
-      validate( photon, this.validator );
-      return {
-        vx: NumberIO.toStateObject( photon.vx ),
-        vy: NumberIO.toStateObject( photon.vy ),
-        wavelength: NumberIO.toStateObject( photon.wavelength ),
-        phetioID: photon.tandem.phetioID
-      };
-    }
-
-    /**
-     * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
-     * then use it.
-     * @override
-     * @param {Object} stateObject
-     * @returns {Photon}
-     */
-    static fromStateObject( stateObject ) {
-      let photon;
-      if ( phet.phetIo.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
-        photon = phet.phetIo.phetioEngine.getPhetioObject( stateObject.phetioID );
-      }
-      else {
-        photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
-          Tandem.createFromPhetioID( stateObject.phetioID ) );
-      }
-
-      validate( photon, this.validator );
-      photon.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
-      photon.setVelocity( NumberIO.fromStateObject( stateObject.vx ), NumberIO.fromStateObject( stateObject.vy ) );
-
-      return photon;
-    }
+  /**
+   * @override
+   * @param {Photon} photon
+   * @returns {Object}
+   */
+  static toStateObject( photon ) {
+    validate( photon, this.validator );
+    return {
+      vx: NumberIO.toStateObject( photon.vx ),
+      vy: NumberIO.toStateObject( photon.vy ),
+      wavelength: NumberIO.toStateObject( photon.wavelength ),
+      phetioID: photon.tandem.phetioID
+    };
   }
 
-  PhotonIO.documentation = 'A Photon';
-  PhotonIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.Photon };
-  PhotonIO.typeName = 'PhotonIO';
-  ObjectIO.validateSubtype( PhotonIO );
+  /**
+   * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
+   * then use it.
+   * @override
+   * @param {Object} stateObject
+   * @returns {Photon}
+   */
+  static fromStateObject( stateObject ) {
+    let photon;
+    if ( phet.phetIo.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
+      photon = phet.phetIo.phetioEngine.getPhetioObject( stateObject.phetioID );
+    }
+    else {
+      photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
+        Tandem.createFromPhetioID( stateObject.phetioID ) );
+    }
 
-  return moleculesAndLight.register( 'PhotonIO', PhotonIO );
-} );
+    validate( photon, this.validator );
+    photon.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
+    photon.setVelocity( NumberIO.fromStateObject( stateObject.vx ), NumberIO.fromStateObject( stateObject.vy ) );
 
+    return photon;
+  }
+}
+
+PhotonIO.documentation = 'A Photon';
+PhotonIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.Photon };
+PhotonIO.typeName = 'PhotonIO';
+ObjectIO.validateSubtype( PhotonIO );
+
+moleculesAndLight.register( 'PhotonIO', PhotonIO );
+export default PhotonIO;
