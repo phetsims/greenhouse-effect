@@ -11,30 +11,26 @@
  * @author Jesse Greenberg
  */
 
-define( require => {
-  'use strict';
+import inherit from '../../../../phet-core/js/inherit.js';
+import Dialog from '../../../../sun/js/Dialog.js';
+import moleculesAndLight from '../../moleculesAndLight.js';
 
-  // modules
-  const Dialog = require( 'SUN/Dialog' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const moleculesAndLight = require( 'MOLECULES_AND_LIGHT/moleculesAndLight' );
+/**
+ * @constructor
+ * @param {Node} content - content for the dialog
+ * @param {Tandem} tandem
+ */
+function LightSpectrumDialog( content, tandem ) {
 
-  /**
-   * @constructor
-   * @param {Node} content - content for the dialog
-   * @param {Tandem} tandem
-   */
-  function LightSpectrumDialog( content, tandem ) {
+  Dialog.call( this, content, {
 
-    Dialog.call( this, content, {
+    // phet-io
+    tandem: tandem,
+    phetioDynamicElement: true
+  } );
+}
 
-      // phet-io
-      tandem: tandem,
-      phetioDynamicElement: true
-    } );
-  }
+moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
 
-  moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
-
-  return inherit( Dialog, LightSpectrumDialog );
-} );
+inherit( Dialog, LightSpectrumDialog );
+export default LightSpectrumDialog;
