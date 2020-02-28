@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * Photon absorption strategy that causes a molecule to rotate after absorbing a photon, and re-emit the photon after
