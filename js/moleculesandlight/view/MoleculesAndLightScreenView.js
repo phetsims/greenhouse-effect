@@ -44,6 +44,7 @@ import rotationCounterclockwiseSoundInfo from '../../../sounds/rotate-counterclo
 import rotationDirections001SoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
 import rotationDirections002SoundInfo from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
 import vibrationSoundInfo from '../../../sounds/vibration_mp3.js';
+import vibrationSpatializedSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
 import MALConstants from '../../common/MALConstants.js';
 import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
@@ -311,7 +312,8 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   };
 
   // molecule vibration sound
-  const moleculeVibrationLoop = new SoundClip( vibrationSoundInfo, {
+  const moleculeVibrationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? vibrationSpatializedSoundInfo : vibrationSoundInfo;
+  const moleculeVibrationLoop = new SoundClip( moleculeVibrationSoundInfo, {
     initialOutputLevel: 0.4,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
