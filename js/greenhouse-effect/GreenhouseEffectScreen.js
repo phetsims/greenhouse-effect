@@ -19,7 +19,8 @@ class GreenhouseEffectScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
-      tandem: tandem
+      tandem: tandem,
+      name: 'Greenhouse Effect'
     };
 
     super(
