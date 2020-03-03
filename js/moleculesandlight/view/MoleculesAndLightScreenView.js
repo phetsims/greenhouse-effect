@@ -41,7 +41,10 @@ import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-relea
 import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-visible_mp3.js';
 import rotationClockwiseSoundInfo from '../../../sounds/rotate-clockwise_mp3.js';
 import rotationCounterclockwiseSoundInfo from '../../../sounds/rotate-counterclockwise_mp3.js';
+import rotationDirections001SoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
+import rotationDirections002SoundInfo from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
 import vibrationSoundInfo from '../../../sounds/vibration_mp3.js';
+import MALConstants from '../../common/MALConstants.js';
 import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -271,13 +274,15 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   };
 
   // molecule rotating sounds
-  const rotateClockwiseSoundPlayer = new SoundClip( rotationClockwiseSoundInfo, {
+  const cwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections001SoundInfo : rotationClockwiseSoundInfo;
+  const rotateClockwiseSoundPlayer = new SoundClip( cwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
   } );
   soundManager.addSoundGenerator( rotateClockwiseSoundPlayer );
-  const rotateCounterclockwiseSoundPlayer = new SoundClip( rotationCounterclockwiseSoundInfo, {
+  const ccwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections002SoundInfo : rotationCounterclockwiseSoundInfo;
+  const rotateCounterclockwiseSoundPlayer = new SoundClip( ccwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
