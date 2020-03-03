@@ -29,7 +29,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
 import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.js';
-import breakApartSoundInfo from '../../../sounds/break-apart_mp3.js';
+import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
 import moleculeEnergizedSoundInfo from '../../../sounds/glow-loop-higher_mp3.js';
 import infraredPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-ir_mp3.js';
 import microwavePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-microwave_mp3.js';
