@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.0.0-dev.1 Mon Mar 02 2020 18:20:59 GMT-0700 (Mountain Standard Time)",
+  "comment": "# greenhouse-effect 1.0.0-dev.2 Mon Mar 02 2020 18:26:42 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "a99a9ce9ee0774bf3ef509bf3e31ca7383f67478",
     "branch": "master"
@@ -21,7 +21,7 @@
     "branch": "master"
   },
   "greenhouse-effect": {
-    "sha": "9e32d601c4874116428a5d4944ad81e46e9ae566",
+    "sha": "c05586c34d7c92eb419ffeb30fa2852ded7b20b7",
     "branch": "master"
   },
   "joist": {
