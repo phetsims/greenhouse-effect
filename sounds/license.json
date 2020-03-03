@@ -126,5 +126,13 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "vibration-spatialized.mp3": {
+    "text": [
+      "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   }
 }
