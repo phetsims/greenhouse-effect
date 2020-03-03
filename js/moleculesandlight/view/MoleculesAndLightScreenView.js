@@ -32,9 +32,13 @@ import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.
 import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
 import moleculeEnergizedSoundInfo from '../../../sounds/glow-loop-higher_mp3.js';
 import infraredPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-ir_mp3.js';
+import infraredPhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-000-spatialized_mp3.js';
 import microwavePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-microwave_mp3.js';
+import microwavePhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-003-spatialized_mp3.js';
 import ultravioletPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-uv_mp3.js';
+import ultravioletPhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-002-spatialized_mp3.js';
 import visiblePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-visible_mp3.js';
+import visiblePhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-003-spatialized_mp3.js';
 import infraredPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-ir_mp3.js';
 import microwavePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-microwave_mp3.js';
 import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-uv_mp3.js';
@@ -369,19 +373,31 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const photonInitialEmissionSoundPlayers = new Map();
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.MICRO_WAVELENGTH,
-    new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+    new SoundClip(
+      MALConstants.USE_SPATIALIZED_SOUNDS ? microwavePhotonInitialEmissionSpatializedSoundInfo : microwavePhotonInitialEmissionSoundInfo,
+      photonInitialEmissionSoundClipOptions
+    )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.IR_WAVELENGTH,
-    new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+    new SoundClip(
+      MALConstants.USE_SPATIALIZED_SOUNDS ? infraredPhotonInitialEmissionSpatializedSoundInfo : infraredPhotonInitialEmissionSoundInfo,
+      photonInitialEmissionSoundClipOptions
+    )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.VISIBLE_WAVELENGTH,
-    new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+    new SoundClip(
+      MALConstants.USE_SPATIALIZED_SOUNDS ? visiblePhotonInitialEmissionSpatializedSoundInfo : visiblePhotonInitialEmissionSoundInfo,
+      photonInitialEmissionSoundClipOptions
+    )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.UV_WAVELENGTH,
-    new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+    new SoundClip(
+      MALConstants.USE_SPATIALIZED_SOUNDS ? ultravioletPhotonInitialEmissionSpatializedSoundInfo : ultravioletPhotonInitialEmissionSoundInfo,
+      photonInitialEmissionSoundClipOptions
+    )
   );
   photonInitialEmissionSoundPlayers.forEach( value => {
     soundManager.addSoundGenerator( value );
