@@ -6,8 +6,6 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import Range from '../../../dot/js/Range.js';
 import ScreenView from '../../../joist/js/ScreenView.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WavesNode from './WavesNode.js';
@@ -16,36 +14,9 @@ class GreenhouseWavesScreenView extends ScreenView {
   constructor( model ) {
     super();
 
-    this.timeProperty = new NumberProperty( 0 );
-    const amplitudeProperty = new NumberProperty( 20, {
-      range: new Range( 8, 40 )
-    } );
-    const cloudAngleProperty = new NumberProperty( -20, {
-      range: new Range( -20, 20 ),
-      units: 'degrees'
-    } );
-    const cloudReflectance = new NumberProperty( 0.5, {
-      range: new Range( 0, 1 )
-    } );
-    const kProperty = new NumberProperty( 0.07, {
-      range: new Range( 0.01, 0.2 )
-    } );
-    const redKProperty = new NumberProperty( 0.05, {
-      range: new Range( 0.01, 0.2 )
-    } );
-    const wProperty = new NumberProperty( 6.9, {
-      range: new Range( 0.1, 20 )
-    } );
-    const resolutionProperty = new NumberProperty( 6, {
-      range: new Range( 2, 10 )
-    } );
-    const strokeProperty = new NumberProperty( 4, {
-      range: new Range( 1, 10 )
-    } );
-
     const initializeWavesNode = () => {
       this.wavesNode && this.removeChild( this.wavesNode );
-      this.wavesNode = new WavesNode( redKProperty, cloudAngleProperty, cloudReflectance, this.timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, this.layoutBounds );
+      this.wavesNode = new WavesNode( model, this.layoutBounds );
       this.addChild( this.wavesNode );
     };
 
@@ -56,7 +27,6 @@ class GreenhouseWavesScreenView extends ScreenView {
   }
 
   step( dt ) {
-    this.timeProperty.value += dt;
     this.wavesNode.step( dt );
   }
 }

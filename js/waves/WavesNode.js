@@ -18,8 +18,18 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 class WavesNode extends Node {
 
-  constructor( redKProperty, cloudAngleProperty, cloudReflectanceProperty, timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, layoutBounds ) {
+  constructor( model, layoutBounds ) {
     super();
+
+    const redKProperty = model.redKProperty;
+    const cloudAngleProperty = model.cloudAngleProperty;
+    const cloudReflectanceProperty = model.cloudReflectanceProperty;
+    const timeProperty = model.timeProperty;
+    const amplitudeProperty = model.amplitudeProperty;
+    const kProperty = model.kProperty;
+    const wProperty = model.wProperty;
+    const resolutionProperty = model.resolutionProperty;
+    const strokeProperty = model.strokeProperty;
 
     class WaveNode extends Path {
       constructor( startPoint, endPoint, options ) {
@@ -32,6 +42,9 @@ class WavesNode extends Node {
         super( null, {
           stroke: options.color
         } );
+
+        // {string}
+        this.color = options.color;
 
         this.kProperty = options.kProperty;
 
@@ -94,6 +107,7 @@ class WavesNode extends Node {
     }
 
     const yellowRoot = new Node();
+    const redRoot = new Node();
 
     // Cloud
     const cloud1 = new Path( Shape.ellipse( 0, 0, 140, 20 ), {
@@ -101,7 +115,7 @@ class WavesNode extends Node {
       centerY: layoutBounds.centerY,
       centerX: 200
     } );
-    this.addChild( cloud1 );
+    yellowRoot.addChild( cloud1 );
 
     // Cloud
     const cloud2 = new Path( Shape.ellipse( 0, 0, 120, 30 ), {
@@ -109,7 +123,7 @@ class WavesNode extends Node {
       centerY: layoutBounds.centerY,
       centerX: 600
     } );
-    this.addChild( cloud2 );
+    yellowRoot.addChild( cloud2 );
     const cloudTransmissionProperty = new DerivedProperty( [ cloudReflectanceProperty ], c => 1 - c );
 
     this.waves.push( new WaveNode( new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center ) ); // incident
@@ -144,7 +158,15 @@ class WavesNode extends Node {
       reflectWave2.endPoint = reflectWave2.startPoint.plus( vec );
     } );
 
-    this.waves.forEach( wave => yellowRoot.addChild( wave ) );
+    this.waves.forEach( wave => {
+      if ( wave.color === 'yellow' ) {
+        yellowRoot.addChild( wave );
+      }
+      else {
+        redRoot.addChild( wave );
+      }
+
+    } );
 
     cloud1.moveToFront();
     cloud2.moveToFront();
@@ -212,15 +234,18 @@ class WavesNode extends Node {
 
     this.addChild( cloudPanel );
 
-    const yellowProperty = new BooleanProperty( true );
-    const yellowCheckbox = new Checkbox( new Text( 'Yellow' ), yellowProperty );
 
-    const redProperty = new BooleanProperty( true );
-    const redCheckbox = new Checkbox( new Text( 'Red' ), redProperty );
+    const yellowCheckbox = new Checkbox( new Text( 'Yellow' ), model.yellowProperty );
+
+    const redCheckbox = new Checkbox( new Text( 'Red' ), model.redProperty );
 
     this.addChild( yellowRoot );
     yellowRoot.moveToBack();
-    yellowProperty.linkAttribute( yellowRoot, 'visible' );
+    model.yellowProperty.linkAttribute( yellowRoot, 'visible' );
+
+    this.addChild( redRoot );
+    redRoot.moveToBack();
+    model.redProperty.linkAttribute( redRoot, 'visible' );
 
     this.addChild( new Panel(
       new VBox( {
