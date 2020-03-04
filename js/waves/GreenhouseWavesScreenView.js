@@ -7,6 +7,7 @@
  */
 
 import ScreenView from '../../../joist/js/ScreenView.js';
+import isHMR from '../../../phet-core/js/isHMR.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WavesNode from './WavesNode.js';
 
@@ -23,7 +24,7 @@ class GreenhouseWavesScreenView extends ScreenView {
     initializeWavesNode();
 
     // Enable hot module replacement for fast iteration
-    module && module.hot && module.hot.accept( './WavesNode.js', initializeWavesNode );
+    isHMR && module.hot.accept( './WavesNode.js', initializeWavesNode );
   }
 
   step( dt ) {
