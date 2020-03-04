@@ -107,7 +107,7 @@ class WavesNode extends Node {
     this.addChild( cloud2 );
     const cloudTransmissionProperty = new DerivedProperty( [ cloudReflectanceProperty ], c => 1 - c );
 
-    this.waves.push( new WaveNode( cloud1.center.plusXY( 0, -1000 ), cloud1.center ) ); // incident
+    this.waves.push( new WaveNode( new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center ) ); // incident
     const transmitWave1 = new WaveNode( cloud1.center, cloud1.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
     this.waves.push( transmitWave1 ); // transmitted
     const reflectWave1 = new WaveNode( cloud1.center.plusXY( -50, 0 ), cloud1.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
@@ -115,7 +115,7 @@ class WavesNode extends Node {
 
     this.waves.push( new WaveNode( new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
 
-    this.waves.push( new WaveNode( cloud2.center.plusXY( 0, -1000 ), cloud2.center ) ); // incident
+    this.waves.push( new WaveNode( new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center ) ); // incident
     const transmitWave2 = new WaveNode( cloud2.center, cloud2.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
     this.waves.push( transmitWave2 ); // transmitted
     const reflectWave2 = new WaveNode( cloud2.center.plusXY( -50, 0 ), cloud2.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
@@ -123,11 +123,11 @@ class WavesNode extends Node {
 
     this.waves.push( new WaveNode( new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
 
-    this.waves.push( new WaveNode( layoutBounds.centerBottom.plusXY( 200, 0 ), layoutBounds.centerBottom.plusXY( 250, -1000 ), {
+    this.waves.push( new WaveNode( new Vector2( layoutBounds.centerX + 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( 250, 0 ), {
       color: 'red',
       kProperty: redKProperty
     } ) );
-    this.waves.push( new WaveNode( layoutBounds.centerBottom.plusXY( -200, 0 ), layoutBounds.centerBottom.plusXY( -150, -1000 ), {
+    this.waves.push( new WaveNode( new Vector2( layoutBounds.centerX - 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( -150, 0 ), {
       color: 'red',
       kProperty: redKProperty
     } ) );
