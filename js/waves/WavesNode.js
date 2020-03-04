@@ -1,4 +1,5 @@
 // Copyright 2020, University of Colorado Boulder
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
@@ -7,9 +8,11 @@ import merge from '../../../phet-core/js/merge.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
+import Checkbox from '../../../sun/js/Checkbox.js';
 import Panel from '../../../sun/js/Panel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
@@ -90,6 +93,8 @@ class WavesNode extends Node {
       // this.waves.push( new WaveNode( new Vector2( 0 + i * 100, 0 ), new Vector2( 400 + i * 100, 400 ) ) );
     }
 
+    const yellowRoot = new Node();
+
     // Cloud
     const cloud1 = new Path( Shape.ellipse( 0, 0, 140, 20 ), {
       fill: 'gray',
@@ -139,7 +144,7 @@ class WavesNode extends Node {
       reflectWave2.endPoint = reflectWave2.startPoint.plus( vec );
     } );
 
-    this.waves.forEach( wave => this.addChild( wave ) );
+    this.waves.forEach( wave => yellowRoot.addChild( wave ) );
 
     cloud1.moveToFront();
     cloud2.moveToFront();
@@ -206,6 +211,30 @@ class WavesNode extends Node {
     } );
 
     this.addChild( cloudPanel );
+
+    const yellowProperty = new BooleanProperty( true );
+    const yellowCheckbox = new Checkbox( new Text( 'Yellow' ), yellowProperty );
+
+    const redProperty = new BooleanProperty( true );
+    const redCheckbox = new Checkbox( new Text( 'Red' ), redProperty );
+
+    this.addChild( yellowRoot );
+    yellowRoot.moveToBack();
+    yellowProperty.linkAttribute( yellowRoot, 'visible' );
+
+    this.addChild( new Panel(
+      new VBox( {
+        align: 'left',
+        spacing: 10,
+        children: [
+          yellowCheckbox,
+          redCheckbox
+        ]
+      } ), {
+        top: cloudPanel.bottom + 5,
+        left: cloudPanel.left
+      }
+    ) );
   }
 
   step( dt ) {
