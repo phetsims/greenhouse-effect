@@ -17,16 +17,26 @@ class GreenhouseWavesScreenView extends ScreenView {
     super();
 
     this.timeProperty = new NumberProperty( 0 );
-    const amplitudeProperty = new NumberProperty( 25, {
-      range: new Range( 1, 200 )
+    const amplitudeProperty = new NumberProperty( 20, {
+      range: new Range( 8, 40 )
+    } );
+    const cloudAngleProperty = new NumberProperty( -20, {
+      range: new Range( -20, 20 ),
+      units: 'degrees'
+    } );
+    const cloudReflectance = new NumberProperty( 0.5, {
+      range: new Range( 0, 1 )
     } );
     const kProperty = new NumberProperty( 0.07, {
+      range: new Range( 0.01, 0.2 )
+    } );
+    const redKProperty = new NumberProperty( 0.05, {
       range: new Range( 0.01, 0.2 )
     } );
     const wProperty = new NumberProperty( 6.9, {
       range: new Range( 0.1, 20 )
     } );
-    const resolutionProperty = new NumberProperty( 2, {
+    const resolutionProperty = new NumberProperty( 6, {
       range: new Range( 2, 10 )
     } );
     const strokeProperty = new NumberProperty( 4, {
@@ -35,7 +45,7 @@ class GreenhouseWavesScreenView extends ScreenView {
 
     const initializeWavesNode = () => {
       this.wavesNode && this.removeChild( this.wavesNode );
-      this.wavesNode = new WavesNode( this.timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, this.layoutBounds );
+      this.wavesNode = new WavesNode( redKProperty, cloudAngleProperty, cloudReflectance, this.timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, this.layoutBounds );
       this.addChild( this.wavesNode );
     };
 

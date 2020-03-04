@@ -1,4 +1,6 @@
 // Copyright 2020, University of Colorado Boulder
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
@@ -7,22 +9,32 @@ import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import VBox from '../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../sun/js/Panel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 class WavesNode extends Node {
 
-  constructor( timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, layoutBounds ) {
+  constructor( redKProperty, cloudAngleProperty, cloudReflectanceProperty, timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, layoutBounds ) {
     super();
 
     class WaveNode extends Path {
       constructor( startPoint, endPoint, options ) {
 
-        options = merge( { amount: 1.0, color: 'yellow' }, options );
+        options = merge( {
+          amountProperty: new Property( 1 ),
+          color: 'yellow',
+          kProperty: kProperty
+        }, options );
         super( null, {
-          stroke: options.color,
-          lineWidth: 4 * options.amount,
-          opacity: options.amount
+          stroke: options.color
+        } );
+
+        this.kProperty = options.kProperty;
+
+        options.amountProperty.link( amount => {
+          this.lineWidth = 4 * amount;
+          this.opacity = amount;
         } );
 
         strokeProperty.link( s => {
@@ -53,7 +65,7 @@ class WavesNode extends Node {
 
             const v = this.startPoint.plus( unitVector.timesScalar( x ) );
 
-            const k = kProperty.value;
+            const k = this.kProperty.value;
             const w = wProperty.value;
             const t = timeProperty.value;
             const y = amplitudeProperty.value * Math.cos( k * x - w * t + phi );
@@ -93,22 +105,39 @@ class WavesNode extends Node {
       centerX: 600
     } );
     this.addChild( cloud2 );
+    const cloudTransmissionProperty = new DerivedProperty( [ cloudReflectanceProperty ], c => 1 - c );
 
     this.waves.push( new WaveNode( cloud1.center.plusXY( 0, -1000 ), cloud1.center ) ); // incident
-    this.waves.push( new WaveNode( cloud1.center, cloud1.center.plusXY( 0, 500 ), { amount: 0.5 } ) ); // transmitted
-    this.waves.push( new WaveNode( cloud1.center.plusXY( -50, 0 ), cloud1.center.plusXY( -100, -400 ), { amount: 0.5 } ) ); // reflected
+    const transmitWave1 = new WaveNode( cloud1.center, cloud1.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
+    this.waves.push( transmitWave1 ); // transmitted
+    const reflectWave1 = new WaveNode( cloud1.center.plusXY( -50, 0 ), cloud1.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
+    this.waves.push( reflectWave1 ); // reflected
 
     this.waves.push( new WaveNode( new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
 
     this.waves.push( new WaveNode( cloud2.center.plusXY( 0, -1000 ), cloud2.center ) ); // incident
-    this.waves.push( new WaveNode( cloud2.center, cloud2.center.plusXY( 0, 500 ), { amount: 0.5 } ) ); // transmitted
-    this.waves.push( new WaveNode( cloud2.center.plusXY( -50, 0 ), cloud2.center.plusXY( -100, -400 ), { amount: 0.5 } ) ); // reflected
+    const transmitWave2 = new WaveNode( cloud2.center, cloud2.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
+    this.waves.push( transmitWave2 ); // transmitted
+    const reflectWave2 = new WaveNode( cloud2.center.plusXY( -50, 0 ), cloud2.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
+    this.waves.push( reflectWave2 ); // reflected
 
     this.waves.push( new WaveNode( new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
 
     this.waves.push( new WaveNode( layoutBounds.centerBottom.plusXY( 200, 0 ), layoutBounds.centerBottom.plusXY( 250, -1000 ), {
-      color: 'red'
+      color: 'red',
+      kProperty: redKProperty
     } ) );
+    this.waves.push( new WaveNode( layoutBounds.centerBottom.plusXY( -200, 0 ), layoutBounds.centerBottom.plusXY( -150, -1000 ), {
+      color: 'red',
+      kProperty: redKProperty
+    } ) );
+
+    cloudAngleProperty.link( cloudAngle => {
+      cloudAngle = cloudAngle - 90;
+      const vec = Vector2.createPolar( 500, cloudAngle * Math.PI / 180 );
+      reflectWave1.endPoint = reflectWave1.startPoint.plus( vec );
+      reflectWave2.endPoint = reflectWave2.startPoint.plus( vec );
+    } );
 
     this.waves.forEach( wave => this.addChild( wave ) );
 
@@ -124,9 +153,6 @@ class WavesNode extends Node {
 
     const panel = new Panel( new HBox( {
       children: [
-        // new NumberControl( '# waves', numberWavesProperty, new Range( 1, MAX_WAVES ), {
-        //   scale: SCALE
-        // } ),
         new NumberControl( 'amplitude', amplitudeProperty, amplitudeProperty.range, {
           scale: SCALE
         } ),
@@ -161,6 +187,25 @@ class WavesNode extends Node {
       centerBottom: layoutBounds.centerBottom
     } );
     this.addChild( panel );
+
+    const cloudPanel = new Panel( new VBox( {
+      children: [
+        new NumberControl( 'cloud reflectance', cloudReflectanceProperty, cloudReflectanceProperty.range, {
+          scale: SCALE,
+          delta: 0.1,
+          numberDisplayOptions: { decimalPlaces: 2 }
+        } ),
+        new NumberControl( 'cloud angle', cloudAngleProperty, cloudAngleProperty.range, {
+          scale: SCALE,
+          delta: 0.1,
+          numberDisplayOptions: { decimalPlaces: 2 }
+        } )
+      ]
+    } ), {
+      rightTop: layoutBounds.rightTop
+    } );
+
+    this.addChild( cloudPanel );
   }
 
   step( dt ) {
