@@ -1,36 +1,39 @@
 // Copyright 2020, University of Colorado Boulder
-import Property from '../../../axon/js/Property.js';
-import Range from '../../../dot/js/Range.js';
+import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
+import merge from '../../../phet-core/js/merge.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../scenery/js/nodes/Text.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Panel from '../../../sun/js/Panel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-
 
 class WavesNode extends Node {
 
   constructor( timeProperty, amplitudeProperty, kProperty, wProperty, resolutionProperty, strokeProperty, layoutBounds ) {
     super();
 
-    class Wave extends Path {
-      constructor( hasCloud ) {
+    class WaveNode extends Path {
+      constructor( startPoint, endPoint, options ) {
+
+        options = merge( { amount: 1.0, color: 'yellow' }, options );
         super( null, {
-          stroke: 'yellow',
-          lineWidth: 4
+          stroke: options.color,
+          lineWidth: 4 * options.amount,
+          opacity: options.amount
         } );
-        this.step( 0 );
 
         strokeProperty.link( s => {
           this.lineWidth = s;
         } );
 
-        this.hasCloud = hasCloud;
+        this.endPoint = endPoint;
+        this.startPoint = startPoint;
+
+        this.amount = options.amount;
+        this.step( 0 );
       }
 
       step( dt ) {
@@ -38,22 +41,30 @@ class WavesNode extends Node {
         const phi = 0;
         const dx = resolutionProperty.value;
 
-        const START = 0;
-
         if ( this.visible ) {
 
-          const max = this.hasCloud ? 300 : 800;
+          let moved = false;
 
-          for ( let x = START; x < max; x += dx ) {
-            const y = amplitudeProperty.value * Math.cos( kProperty.value * x - wProperty.value * timeProperty.value + phi );
+          const deltaVector = this.endPoint.minus( this.startPoint );
+          const magnitude = deltaVector.magnitude;
+          const unitVector = deltaVector.normalized();
+          const unitNormal = unitVector.perpendicular;
+          for ( let x = 0; x < magnitude; x += dx ) {
 
-            if ( timeProperty.value * 100 > x ) {
-              if ( x === START ) {
-                s.moveTo( y, x );
-              }
-              else {
-                s.lineTo( y, x );
-              }
+            const v = this.startPoint.plus( unitVector.timesScalar( x ) );
+
+            const k = kProperty.value;
+            const w = wProperty.value;
+            const t = timeProperty.value;
+            const y = amplitudeProperty.value * Math.cos( k * x - w * t + phi );
+
+            const pt = v.plus( unitNormal.timesScalar( y ) );
+            if ( !moved ) {
+              s.moveToPoint( pt );
+              moved = true;
+            }
+            else {
+              s.lineToPoint( pt );
             }
           }
           this.shape = s;
@@ -64,46 +75,58 @@ class WavesNode extends Node {
     this.waves = [];
     const MAX_WAVES = 10;
     for ( let i = 0; i < MAX_WAVES; i++ ) {
-      this.waves.push( new Wave( i % 2 === 0 ) );
+      // this.waves.push( new WaveNode( new Vector2( 0 + i * 100, 0 ), new Vector2( 400 + i * 100, 400 ) ) );
     }
 
-    this.waves.forEach( wave => this.addChild( wave ) );
-    const e = layoutBounds.eroded( 50 );
-
-    const numberWavesProperty = new Property( 2 );
-    numberWavesProperty.link( numberWaves => {
-      this.waves.forEach( ( wave, waveIndex ) => {
-        wave.setVisible( waveIndex < numberWaves );
-
-        const spaces = numberWaves + 1;
-        const spacing = e.width / spaces;
-        if ( numberWaves === 1 ) {
-          wave.x = e.centerX;
-        }
-        else {
-          wave.x = e.minX + spacing * ( waveIndex + 1 );
-        }
-      } );
+    // Cloud
+    const cloud1 = new Path( Shape.ellipse( 0, 0, 140, 20 ), {
+      fill: 'gray',
+      centerY: layoutBounds.centerY,
+      centerX: 200
     } );
+    this.addChild( cloud1 );
+
+    // Cloud
+    const cloud2 = new Path( Shape.ellipse( 0, 0, 120, 30 ), {
+      fill: 'gray',
+      centerY: layoutBounds.centerY,
+      centerX: 600
+    } );
+    this.addChild( cloud2 );
+
+    this.waves.push( new WaveNode( cloud1.center.plusXY( 0, -1000 ), cloud1.center ) ); // incident
+    this.waves.push( new WaveNode( cloud1.center, cloud1.center.plusXY( 0, 500 ), { amount: 0.5 } ) ); // transmitted
+    this.waves.push( new WaveNode( cloud1.center.plusXY( -50, 0 ), cloud1.center.plusXY( -100, -400 ), { amount: 0.5 } ) ); // reflected
+
+    this.waves.push( new WaveNode( new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
+
+    this.waves.push( new WaveNode( cloud2.center.plusXY( 0, -1000 ), cloud2.center ) ); // incident
+    this.waves.push( new WaveNode( cloud2.center, cloud2.center.plusXY( 0, 500 ), { amount: 0.5 } ) ); // transmitted
+    this.waves.push( new WaveNode( cloud2.center.plusXY( -50, 0 ), cloud2.center.plusXY( -100, -400 ), { amount: 0.5 } ) ); // reflected
+
+    this.waves.push( new WaveNode( new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
+
+    this.waves.push( new WaveNode( layoutBounds.centerBottom.plusXY( 200, 0 ), layoutBounds.centerBottom.plusXY( 250, -1000 ), {
+      color: 'red'
+    } ) );
+
+    this.waves.forEach( wave => this.addChild( wave ) );
+
+    cloud1.moveToFront();
+    cloud2.moveToFront();
 
     this.addChild( new Rectangle( 0, 0, 5000, 5000, {
       fill: '#4EAE1E',
       centerTop: layoutBounds.center.plusXY( 0, 200 )
     } ) );
 
-    this.addChild( new Path( Shape.ellipse( 0, 0, 140, 20 ), {
-      fill: 'gray',
-      centerY: layoutBounds.centerY,
-      centerX: this.waves[ 0 ].x
-    } ) );
-
     const SCALE = 0.6;
 
     const panel = new Panel( new HBox( {
       children: [
-        new NumberControl( '# waves', numberWavesProperty, new Range( 1, MAX_WAVES ), {
-          scale: SCALE
-        } ),
+        // new NumberControl( '# waves', numberWavesProperty, new Range( 1, MAX_WAVES ), {
+        //   scale: SCALE
+        // } ),
         new NumberControl( 'amplitude', amplitudeProperty, amplitudeProperty.range, {
           scale: SCALE
         } ),
@@ -133,27 +156,16 @@ class WavesNode extends Node {
             decimalPlaces: 2
           }
         } )
-
       ]
     } ), {
       centerBottom: layoutBounds.centerBottom
     } );
     this.addChild( panel );
-    this.addChild( new RectangularPushButton( {
-      content: new Text( 'Reset time' ),
-      rightBottom: panel.rightTop,
-      listener: () => {
-        this.waves.forEach( w => {
-          w.t = 0;
-        } );
-      }
-    } ) );
   }
 
   step( dt ) {
     this.waves.forEach( wave => wave.step( dt ) );
   }
-
 }
 
 greenhouseEffect.register( 'WavesNode', WavesNode );
