@@ -5,56 +5,135 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
-import HBox from '../../../scenery/js/nodes/HBox.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
+import AccordionBox from '../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
-import Panel from '../../../sun/js/Panel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
+
+const SCALE = 1;
 
 class WavesNode extends Node {
 
   constructor( model, layoutBounds ) {
     super();
 
-    const redKProperty = model.redKProperty;
-    const cloudAngleProperty = model.cloudAngleProperty;
-    const cloudReflectanceProperty = model.cloudReflectanceProperty;
-    const timeProperty = model.timeProperty;
-    const amplitudeProperty = model.amplitudeProperty;
-    const kProperty = model.kProperty;
-    const wProperty = model.wProperty;
-    const resolutionProperty = model.resolutionProperty;
-    const strokeProperty = model.strokeProperty;
+    const createContent = waveParameterModel => {
+      return new VBox( {
+        align: 'left',
+        children: [
+          new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
+          new NumberControl( 'amplitude', waveParameterModel.amplitudeProperty, waveParameterModel.amplitudeProperty.range, {
+            scale: SCALE
+          } ),
+          new NumberControl( 'k', waveParameterModel.kProperty, waveParameterModel.kProperty.range, {
+            scale: SCALE,
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'w', waveParameterModel.wProperty, waveParameterModel.wProperty.range, {
+            scale: SCALE,
+            delta: 0.1,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'angle', waveParameterModel.angleProperty, waveParameterModel.angleProperty.range, {
+            scale: SCALE,
+            delta: 0.1,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'incoming stroke', waveParameterModel.map.incoming.strokeProperty, waveParameterModel.map.incoming.strokeProperty.range, {
+            scale: SCALE,
+            delta: 0.5,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'incoming opacity', waveParameterModel.map.incoming.opacityProperty, waveParameterModel.map.incoming.opacityProperty.range, {
+            scale: SCALE,
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'transmitted stroke', waveParameterModel.map.transmitted.strokeProperty, waveParameterModel.map.transmitted.strokeProperty.range, {
+            scale: SCALE,
+            delta: 0.5,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'transmitted opacity', waveParameterModel.map.transmitted.opacityProperty, waveParameterModel.map.transmitted.opacityProperty.range, {
+            scale: SCALE,
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+
+          new NumberControl( 'reflected stroke', waveParameterModel.map.reflected.strokeProperty, waveParameterModel.map.reflected.strokeProperty.range, {
+            scale: SCALE,
+            delta: 0.5,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } ),
+          new NumberControl( 'reflected opacity', waveParameterModel.map.reflected.opacityProperty, waveParameterModel.map.reflected.opacityProperty.range, {
+            scale: SCALE,
+            delta: 0.01,
+            numberDisplayOptions: {
+              decimalPlaces: 2
+            }
+          } )
+        ]
+      } );
+    };
+
+    const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
+      titleNode: new Text( 'Yellow' ),
+      leftTop: layoutBounds.leftTop,
+      expandedProperty: model.yellowWaveParameterModel.expandedProperty
+    } );
+    const redAccordionBox = new AccordionBox( createContent( model.redWaveParameterModel ), {
+      titleNode: new Text( 'Red' ),
+      rightTop: layoutBounds.rightTop,
+      expandedProperty: model.redWaveParameterModel.expandedProperty
+    } );
 
     class WaveNode extends Path {
-      constructor( startPoint, endPoint, options ) {
+      constructor( waveParameterModel, type, startPoint, endPoint, options ) {
 
         options = merge( {
           amountProperty: new Property( 1 ),
-          color: 'yellow',
-          kProperty: kProperty
+          kProperty: waveParameterModel.kProperty
         }, options );
         super( null, {
-          stroke: options.color
+          stroke: waveParameterModel.color
         } );
 
-        // {string}
-        this.color = options.color;
+        this.type = type;
+
+        this.waveParameterModel = waveParameterModel;
 
         this.kProperty = options.kProperty;
 
-        options.amountProperty.link( amount => {
-          this.lineWidth = 4 * amount;
-          this.opacity = amount;
-        } );
-
-        strokeProperty.link( s => {
+        waveParameterModel.map[ type ].strokeProperty.link( s => {
           this.lineWidth = s;
         } );
+
+        waveParameterModel.map[ type ].opacityProperty.link( s => {
+          this.opacity = s;
+        } );
+
+        waveParameterModel.enabledProperty.linkAttribute( this, 'visible' );
 
         this.endPoint = endPoint;
         this.startPoint = startPoint;
@@ -66,7 +145,7 @@ class WavesNode extends Node {
       step( dt ) {
         const s = new Shape();
         const phi = 0;
-        const dx = resolutionProperty.value;
+        const dx = this.waveParameterModel.resolutionProperty.value;
 
         if ( this.visible ) {
 
@@ -81,9 +160,9 @@ class WavesNode extends Node {
             const v = this.startPoint.plus( unitVector.timesScalar( x ) );
 
             const k = this.kProperty.value;
-            const w = wProperty.value;
-            const t = timeProperty.value;
-            const y = amplitudeProperty.value * Math.cos( k * x - w * t + phi );
+            const w = this.waveParameterModel.wProperty.value;
+            const t = model.timeProperty.value;
+            const y = this.waveParameterModel.amplitudeProperty.value * Math.cos( k * x - w * t + phi );
 
             const pt = v.plus( unitNormal.timesScalar( y ) );
             if ( !moved ) {
@@ -123,39 +202,55 @@ class WavesNode extends Node {
       centerX: 600
     } );
     yellowRoot.addChild( cloud2 );
-    const cloudTransmissionProperty = new DerivedProperty( [ cloudReflectanceProperty ], c => 1 - c );
 
-    this.waves.push( new WaveNode( new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center ) ); // incident
-    const transmitWave1 = new WaveNode( cloud1.center, cloud1.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
+    // Create yellow waves
+
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center ) ); // incident
+    const transmitWave1 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud1.center, cloud1.center.plusXY( 0, 500 ) );
     this.waves.push( transmitWave1 ); // transmitted
-    const reflectWave1 = new WaveNode( cloud1.center.plusXY( -50, 0 ), cloud1.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
+    const reflectWave1 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud1.center.plusXY( 50, 0 ), cloud1.center.plusXY( 100, -400 ) );
     this.waves.push( reflectWave1 ); // reflected
 
-    this.waves.push( new WaveNode( new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
 
-    this.waves.push( new WaveNode( new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center ) ); // incident
-    const transmitWave2 = new WaveNode( cloud2.center, cloud2.center.plusXY( 0, 500 ), { amountProperty: cloudTransmissionProperty } );
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center ) ); // incident
+    const transmitWave2 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud2.center, cloud2.center.plusXY( 0, 500 ) );
     this.waves.push( transmitWave2 ); // transmitted
-    const reflectWave2 = new WaveNode( cloud2.center.plusXY( -50, 0 ), cloud2.center.plusXY( -100, -400 ), { amountProperty: cloudReflectanceProperty } );
+    const reflectWave2 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud2.center.plusXY( 50, 0 ), cloud2.center.plusXY( 100, -400 ) );
     this.waves.push( reflectWave2 ); // reflected
 
-    this.waves.push( new WaveNode( new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
 
-    this.waves.push( new WaveNode( new Vector2( layoutBounds.centerX + 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( 250, 0 ), {
-      color: 'red',
-      kProperty: redKProperty
-    } ) );
-    this.waves.push( new WaveNode( new Vector2( layoutBounds.centerX - 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( -150, 0 ), {
-      color: 'red',
-      kProperty: redKProperty
-    } ) );
+    const createRedSet = ( red1Start, magnitude ) => {
 
-    cloudAngleProperty.link( cloudAngle => {
-      cloudAngle = cloudAngle - 90;
-      const vec = Vector2.createPolar( 500, cloudAngle * Math.PI / 180 );
-      reflectWave1.endPoint = reflectWave1.startPoint.plus( vec );
-      reflectWave2.endPoint = reflectWave2.startPoint.plus( vec );
-    } );
+      const red1End = Vector2.createPolar( magnitude, -Math.PI / 2 ).plus( red1Start );
+      const incoming = new WaveNode( model.redWaveParameterModel, 'incoming', red1Start, red1End );
+      this.waves.push( incoming );
+
+      const reflectedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
+        return red1End.plus( Vector2.createPolar( 400, +Math.PI / 2 - angle / 180 * Math.PI ) );
+      } );
+      const reflected = new WaveNode( model.redWaveParameterModel, 'reflected', red1End, reflectedEndDerivedProperty.value );
+      reflectedEndDerivedProperty.link( e => {
+        reflected.endPoint = e;
+      } );
+      this.waves.push( reflected );
+
+      const transmittedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
+        return red1End.plus( Vector2.createPolar( 400, -Math.PI / 2 + angle / 180 * Math.PI ) );
+      } );
+      const transmitted = new WaveNode( model.redWaveParameterModel, 'transmitted', red1End, transmittedEndDerivedProperty.value );
+      transmittedEndDerivedProperty.link( e => {
+        transmitted.endPoint = e;
+      } );
+      this.waves.push( transmitted );
+    };
+
+    createRedSet( new Vector2( layoutBounds.left + 50, layoutBounds.bottom ), 400 );
+    this.waves.push( new WaveNode( model.redWaveParameterModel, 'incoming', new Vector2( layoutBounds.centerX - 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( -150, 0 ) ) );
+    createRedSet( new Vector2( layoutBounds.centerX - 30, layoutBounds.bottom ), 250 );
+    createRedSet( new Vector2( layoutBounds.centerX + 120, layoutBounds.bottom ), 500 );
+    createRedSet( new Vector2( layoutBounds.centerX + 375, layoutBounds.bottom ), 300 );
 
     this.waves.forEach( wave => {
       if ( wave.color === 'yellow' ) {
@@ -164,7 +259,6 @@ class WavesNode extends Node {
       else {
         redRoot.addChild( wave );
       }
-
     } );
 
     cloud1.moveToFront();
@@ -175,90 +269,14 @@ class WavesNode extends Node {
       centerTop: layoutBounds.center.plusXY( 0, 200 )
     } ) );
 
-    const SCALE = 0.6;
-
-    const panel = new Panel( new HBox( {
-      children: [
-        new NumberControl( 'amplitude', amplitudeProperty, amplitudeProperty.range, {
-          scale: SCALE
-        } ),
-        new NumberControl( 'k', kProperty, kProperty.range, {
-          scale: SCALE,
-          delta: 0.01,
-          numberDisplayOptions: {
-            decimalPlaces: 2
-          }
-        } ),
-        new NumberControl( 'w', wProperty, wProperty.range, {
-          scale: SCALE,
-          delta: 0.1,
-          numberDisplayOptions: {
-            decimalPlaces: 2
-          }
-        } ), new NumberControl( 'res', resolutionProperty, resolutionProperty.range, {
-          scale: SCALE,
-          delta: 0.1,
-          numberDisplayOptions: {
-            decimalPlaces: 2
-          }
-        } ), new NumberControl( 'stroke', strokeProperty, strokeProperty.range, {
-          scale: SCALE,
-          delta: 0.5,
-          numberDisplayOptions: {
-            decimalPlaces: 2
-          }
-        } )
-      ]
-    } ), {
-      centerBottom: layoutBounds.centerBottom
-    } );
-    this.addChild( panel );
-
-    const cloudPanel = new Panel( new VBox( {
-      children: [
-        new NumberControl( 'cloud reflectance', cloudReflectanceProperty, cloudReflectanceProperty.range, {
-          scale: SCALE,
-          delta: 0.1,
-          numberDisplayOptions: { decimalPlaces: 2 }
-        } ),
-        new NumberControl( 'cloud angle', cloudAngleProperty, cloudAngleProperty.range, {
-          scale: SCALE,
-          delta: 0.1,
-          numberDisplayOptions: { decimalPlaces: 2 }
-        } )
-      ]
-    } ), {
-      rightTop: layoutBounds.rightTop
-    } );
-
-    this.addChild( cloudPanel );
-
-
-    const yellowCheckbox = new Checkbox( new Text( 'Yellow' ), model.yellowProperty );
-
-    const redCheckbox = new Checkbox( new Text( 'Red' ), model.redProperty );
-
     this.addChild( yellowRoot );
     yellowRoot.moveToBack();
-    model.yellowProperty.linkAttribute( yellowRoot, 'visible' );
 
     this.addChild( redRoot );
     redRoot.moveToBack();
-    model.redProperty.linkAttribute( redRoot, 'visible' );
 
-    this.addChild( new Panel(
-      new VBox( {
-        align: 'left',
-        spacing: 10,
-        children: [
-          yellowCheckbox,
-          redCheckbox
-        ]
-      } ), {
-        top: cloudPanel.bottom + 5,
-        left: cloudPanel.left
-      }
-    ) );
+    this.addChild( yellowAccordionBox );
+    this.addChild( redAccordionBox );
   }
 
   step( dt ) {
