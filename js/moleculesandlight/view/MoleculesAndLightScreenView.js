@@ -52,7 +52,7 @@ import rotationDirections002SlowMotionSoundInfo from '../../../sounds/rotate-dir
 import vibrationSoundInfo from '../../../sounds/vibration_mp3.js';
 import vibrationSlowMotionSoundInfo from '../../../sounds/vibration-slow-mo_mp3.js';
 import vibrationSpatializedSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
-import MALConstants from '../../common/MALConstants.js';
+import MoleculesAndLightConstants from '../../common/MoleculesAndLightConstants.js';
 import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -280,7 +280,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   };
 
   // molecule rotating sounds
-  const cwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections001SoundInfo : rotationClockwiseSoundInfo;
+  const cwRotationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections001SoundInfo : rotationClockwiseSoundInfo;
   const rotateClockwiseNormalSpeedLoop = new SoundClip( cwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
@@ -293,7 +293,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
   } );
   soundManager.addSoundGenerator( rotateClockwiseSlowMotionLoop );
-  const ccwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections002SoundInfo : rotationCounterclockwiseSoundInfo;
+  const ccwRotationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections002SoundInfo : rotationCounterclockwiseSoundInfo;
   const rotateCounterclockwiseNormalSpeedLoop = new SoundClip( ccwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
@@ -341,7 +341,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   };
 
   // molecule vibration sound
-  const moleculeVibrationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? vibrationSpatializedSoundInfo : vibrationSoundInfo;
+  const moleculeVibrationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? vibrationSpatializedSoundInfo : vibrationSoundInfo;
   const moleculeVibrationNormalSpeedLoop = new SoundClip( moleculeVibrationSoundInfo, {
     initialOutputLevel: 0.4,
     loop: true,
@@ -447,28 +447,28 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.MICRO_WAVELENGTH,
     new SoundClip(
-      MALConstants.USE_SPATIALIZED_SOUNDS ? microwavePhotonInitialEmissionSpatializedSoundInfo : microwavePhotonInitialEmissionSoundInfo,
+      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? microwavePhotonInitialEmissionSpatializedSoundInfo : microwavePhotonInitialEmissionSoundInfo,
       photonInitialEmissionSoundClipOptions
     )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.IR_WAVELENGTH,
     new SoundClip(
-      MALConstants.USE_SPATIALIZED_SOUNDS ? infraredPhotonInitialEmissionSpatializedSoundInfo : infraredPhotonInitialEmissionSoundInfo,
+      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? infraredPhotonInitialEmissionSpatializedSoundInfo : infraredPhotonInitialEmissionSoundInfo,
       photonInitialEmissionSoundClipOptions
     )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.VISIBLE_WAVELENGTH,
     new SoundClip(
-      MALConstants.USE_SPATIALIZED_SOUNDS ? visiblePhotonInitialEmissionSpatializedSoundInfo : visiblePhotonInitialEmissionSoundInfo,
+      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? visiblePhotonInitialEmissionSpatializedSoundInfo : visiblePhotonInitialEmissionSoundInfo,
       photonInitialEmissionSoundClipOptions
     )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.UV_WAVELENGTH,
     new SoundClip(
-      MALConstants.USE_SPATIALIZED_SOUNDS ? ultravioletPhotonInitialEmissionSpatializedSoundInfo : ultravioletPhotonInitialEmissionSoundInfo,
+      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? ultravioletPhotonInitialEmissionSpatializedSoundInfo : ultravioletPhotonInitialEmissionSoundInfo,
       photonInitialEmissionSoundClipOptions
     )
   );
