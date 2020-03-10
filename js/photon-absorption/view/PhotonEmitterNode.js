@@ -14,6 +14,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
 import flashlightOffImage from '../../../images/flashlight-off_png.js';
 import heatLampOffImage from '../../../images/infrared-source-off_png.js';
 import uvLightOffImage from '../../../images/uv-source-off_png.js';
@@ -23,7 +24,6 @@ import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js'
 import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
-import EmissionRateControlSliderNode from './EmissionRateControlSliderNode.js';
 
 /**
  * Constructor for the photon emitter node.
@@ -107,16 +107,17 @@ export default inherit( Node, PhotonEmitterNode, {
       this.addChild( this.photonEmitterOffImage );
     }
 
-    // create the photon emission rate control slider
-    this.emissionRateControlSliderNode =
-      this.emissionRateControlSliderNode ||
-      new EmissionRateControlSliderNode( this.model, 'rgb(0, 85, 0)', tandem.createTandem( 'slider' ) );
+    // create the 'on' button for the emitter
+    this.button = this.button || new BooleanRoundStickyToggleButton( this.model.photonEmitterOnProperty, {
+      radius: 15,
+      baseColor: '#33dd33'
+    } );
 
-    // add the slider to the correct location on the photon emitter
-    this.emissionRateControlSliderNode.left = this.photonEmitterOffImage.left - 3;
-    this.emissionRateControlSliderNode.centerY = this.photonEmitterOffImage.centerY;
-    if ( !this.hasChild( this.emissionRateControlSliderNode ) ) {
-      this.addChild( this.emissionRateControlSliderNode );
+    // add the button to the correct location on the photon emitter
+    this.button.left = this.photonEmitterOffImage.centerX - 20;
+    this.button.centerY = this.photonEmitterOffImage.centerY;
+    if ( !this.hasChild( this.button ) ) {
+      this.addChild( this.button );
     }
   },
 

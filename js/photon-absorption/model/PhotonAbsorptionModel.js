@@ -61,6 +61,10 @@ const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
 // Minimum for photon emission periods.
 const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 
+// emission frequency for when the emitter is "on" and "off", when only those two settings are provided
+const ON_FREQUENCY = 0.85;
+const OFF_FREQUENCY = 0;
+
 /**
  * Constructor for a photon absorption model.
  *
@@ -77,10 +81,17 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @private
   this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
-  // @public
+  // @public (read-only) - Sets the emission frequency of the photon emitter.
+  // NOTE: This may be replaced entirely by photonEmitterOnProperty, and can possibly be removed, see
+  // https://github.com/phetsims/molecules-and-light/issues/295
   this.emissionFrequencyProperty = new NumberProperty( 0, {
     tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
     units: 'hertz'
+  } );
+
+  // @public - Property that indicating whether photons are being emitted from the photon emittter
+  this.photonEmitterOnProperty = new BooleanProperty( false, {
+    tandem: tandem.createTandem( 'photonEmitterOnProperty' )
   } );
 
   // @public
@@ -132,6 +143,12 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // listeners for the activeMolecules observable array have been implemented.
   self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
 
+  // when the photon emitter is on, set to default "on" and "off" frequency
+  this.photonEmitterOnProperty.link( emitterOn => {
+    const frequency = emitterOn ? ON_FREQUENCY : OFF_FREQUENCY;
+    this.emissionFrequencyProperty.set( frequency );
+  } );
+
   // Set the photon emission period from the emission frequency.
   this.emissionFrequencyProperty.link( function( emissionFrequency ) {
     if ( emissionFrequency === 0 ) {
@@ -176,6 +193,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     this.setPhotonEmissionPeriod( DEFAULT_PHOTON_EMISSION_PERIOD );
 
     // Reset all associated properties.
+    this.photonEmitterOnProperty.reset();
     this.emissionFrequencyProperty.reset();
     this.photonWavelengthProperty.reset();
     this.runningProperty.reset();

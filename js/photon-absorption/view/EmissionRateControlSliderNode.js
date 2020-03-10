@@ -3,6 +3,8 @@
 /**
  * Node that implements a slider that is used to control the emission rate of photons.
  *
+ * NOTE: This is not currently used in MAL, it was replaced by an "on" and "off" button.
+ *
  * @author John Blanco
  * @author Jesse Greenberg
  */
