@@ -27,6 +27,7 @@ import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import MoleculeIO from './MoleculeIO.js';
 import CH4 from './molecules/CH4.js';
@@ -62,7 +63,7 @@ const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
 const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 
 // emission frequency for when the emitter is "on" and "off", when only those two settings are provided
-const ON_FREQUENCY = 0.85;
+const ON_FREQUENCY = MoleculesAndLightQueryParameters.emissionFrequency;
 const OFF_FREQUENCY = 0;
 
 /**
@@ -227,7 +228,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // reduce time step if running in slow motion
     if ( this.slowMotionProperty.get() ) {
-      dt = dt / 3;
+      dt = dt * MoleculesAndLightQueryParameters.slowSpeed;
     }
 
     if ( this.runningProperty.get() ) {
