@@ -46,8 +46,11 @@ import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-v
 import rotationClockwiseSoundInfo from '../../../sounds/rotate-clockwise_mp3.js';
 import rotationCounterclockwiseSoundInfo from '../../../sounds/rotate-counterclockwise_mp3.js';
 import rotationDirections001SoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
+import rotationDirections001SlowMotionSoundInfo from '../../../sounds/rotate-directions-001-slow-mo_mp3.js';
 import rotationDirections002SoundInfo from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
+import rotationDirections002SlowMotionSoundInfo from '../../../sounds/rotate-directions-002-slow-mo_mp3.js';
 import vibrationSoundInfo from '../../../sounds/vibration_mp3.js';
+import vibrationSlowMotionSoundInfo from '../../../sounds/vibration-slow-mo_mp3.js';
 import vibrationSpatializedSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
 import MALConstants from '../../common/MALConstants.js';
 import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
@@ -67,8 +70,6 @@ const spectrumWindowButtonCaptionString = moleculesAndLightStrings.SpectrumWindo
 // a11y strings
 const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
 const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
-
-// sounds
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -280,19 +281,31 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
   // molecule rotating sounds
   const cwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections001SoundInfo : rotationClockwiseSoundInfo;
-  const rotateClockwiseSoundPlayer = new SoundClip( cwRotationSoundInfo, {
+  const rotateClockwiseNormalSpeedLoop = new SoundClip( cwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
   } );
-  soundManager.addSoundGenerator( rotateClockwiseSoundPlayer );
+  soundManager.addSoundGenerator( rotateClockwiseNormalSpeedLoop );
+  const rotateClockwiseSlowMotionLoop = new SoundClip( rotationDirections001SlowMotionSoundInfo, {
+    initialOutputLevel: 0.3,
+    loop: true,
+    enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+  } );
+  soundManager.addSoundGenerator( rotateClockwiseSlowMotionLoop );
   const ccwRotationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections002SoundInfo : rotationCounterclockwiseSoundInfo;
-  const rotateCounterclockwiseSoundPlayer = new SoundClip( ccwRotationSoundInfo, {
+  const rotateCounterclockwiseNormalSpeedLoop = new SoundClip( ccwRotationSoundInfo, {
     initialOutputLevel: 0.3,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
   } );
-  soundManager.addSoundGenerator( rotateCounterclockwiseSoundPlayer );
+  soundManager.addSoundGenerator( rotateCounterclockwiseNormalSpeedLoop );
+  const rotateCounterclockwiseSlowMotionLoop = new SoundClip( rotationDirections002SlowMotionSoundInfo, {
+    initialOutputLevel: 0.3,
+    loop: true,
+    enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+  } );
+  soundManager.addSoundGenerator( rotateCounterclockwiseSlowMotionLoop );
 
   const updateRotationSound = rotating => {
     if ( rotating ) {
@@ -303,36 +316,96 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
       // play a sound based on the direction of rotation and the currently selected sound from the options dialog
       const molecule = photonAbsorptionModel.activeMolecules.get( 0 );
       if ( molecule.rotationDirectionClockwiseProperty.value ) {
-        rotateClockwiseSoundPlayer.play();
+        if ( photonAbsorptionModel.slowMotionProperty.value ) {
+          rotateClockwiseSlowMotionLoop.play();
+        }
+        else {
+          rotateClockwiseNormalSpeedLoop.play();
+        }
       }
       else {
-        rotateCounterclockwiseSoundPlayer.play();
+        if ( photonAbsorptionModel.slowMotionProperty.value ) {
+          rotateCounterclockwiseSlowMotionLoop.play();
+        }
+        else {
+          rotateCounterclockwiseNormalSpeedLoop.play();
+        }
       }
     }
     else {
-      rotateClockwiseSoundPlayer.stop();
-      rotateCounterclockwiseSoundPlayer.stop();
+      rotateClockwiseNormalSpeedLoop.stop();
+      rotateClockwiseSlowMotionLoop.stop();
+      rotateCounterclockwiseNormalSpeedLoop.stop();
+      rotateCounterclockwiseSlowMotionLoop.stop();
     }
   };
 
   // molecule vibration sound
   const moleculeVibrationSoundInfo = MALConstants.USE_SPATIALIZED_SOUNDS ? vibrationSpatializedSoundInfo : vibrationSoundInfo;
-  const moleculeVibrationLoop = new SoundClip( moleculeVibrationSoundInfo, {
+  const moleculeVibrationNormalSpeedLoop = new SoundClip( moleculeVibrationSoundInfo, {
     initialOutputLevel: 0.4,
     loop: true,
     enableControlProperties: [ photonAbsorptionModel.runningProperty ]
   } );
-  soundManager.addSoundGenerator( moleculeVibrationLoop );
+  soundManager.addSoundGenerator( moleculeVibrationNormalSpeedLoop );
+  const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionSoundInfo, {
+    initialOutputLevel: 0.4,
+    loop: true,
+    enableControlProperties: [ photonAbsorptionModel.runningProperty ]
+  } );
+  soundManager.addSoundGenerator( moleculeVibrationSlowMotionLoop );
+
+  // function for updating the vibration sound
   const updateVibrationSound = vibrating => {
     if ( vibrating ) {
 
       // start the vibration sound playing (this will have no effect if the sound is already playing)
-      moleculeVibrationLoop.play();
+      if ( photonAbsorptionModel.slowMotionProperty.value ) {
+        moleculeVibrationSlowMotionLoop.play();
+      }
+      else {
+        moleculeVibrationNormalSpeedLoop.play();
+      }
     }
     else {
-      moleculeVibrationLoop.stop();
+      moleculeVibrationNormalSpeedLoop.stop();
+      moleculeVibrationSlowMotionLoop.stop();
     }
   };
+
+  // switch between normal speed and slow motion sounds if the setting changes while a sound is playing
+  photonAbsorptionModel.slowMotionProperty.link( isSlowMotion => {
+
+    if ( isSlowMotion ) {
+      if ( moleculeVibrationNormalSpeedLoop.isPlaying ) {
+        moleculeVibrationNormalSpeedLoop.stop();
+        moleculeVibrationSlowMotionLoop.play();
+      }
+      if ( rotateClockwiseNormalSpeedLoop.isPlaying ) {
+        rotateClockwiseNormalSpeedLoop.stop();
+        rotateClockwiseSlowMotionLoop.play();
+      }
+      if ( rotateCounterclockwiseNormalSpeedLoop.isPlaying ) {
+        rotateCounterclockwiseNormalSpeedLoop.stop();
+        rotateCounterclockwiseSlowMotionLoop.play();
+      }
+    }
+    else {
+      if ( moleculeVibrationSlowMotionLoop.isPlaying ) {
+        moleculeVibrationSlowMotionLoop.stop();
+        moleculeVibrationNormalSpeedLoop.play();
+      }
+      if ( rotateClockwiseSlowMotionLoop.isPlaying ) {
+        rotateClockwiseSlowMotionLoop.stop();
+        rotateClockwiseNormalSpeedLoop.play();
+      }
+      if ( rotateCounterclockwiseSlowMotionLoop.isPlaying ) {
+        rotateCounterclockwiseSlowMotionLoop.stop();
+        rotateCounterclockwiseNormalSpeedLoop.play();
+      }
+    }
+
+  } );
 
   // function that adds all of the listeners involved in creating sound
   const addSoundPlayersToMolecule = molecule => {
