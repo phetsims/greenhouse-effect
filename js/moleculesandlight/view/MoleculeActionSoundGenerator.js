@@ -88,6 +88,10 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     const updateRotationSound = rotating => {
       if ( rotating ) {
 
+        // Verify that there is only one molecule that needs this sound.  At the time of this writing - mid-March 2020 -
+        // there are not multiple copies of the loops, and there would need to be in order to support more molecules.
+        assert && assert( activeMolecules.length <= 1, 'sound generation can only be handled for one molecule' );
+
         // play a sound based on the direction of rotation and the currently selected sound from the options dialog
         const molecule = activeMolecules.get( 0 );
         if ( molecule.rotationDirectionClockwiseProperty.value ) {
@@ -133,6 +137,10 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     // function for updating the vibration sound
     const updateVibrationSound = vibrating => {
       if ( vibrating ) {
+
+        // Verify that there is only one molecule that needs this sound.  At the time of this writing - mid-March 2020 -
+        // there are not multiple copies of the loops, and there would need to be in order to support more molecules.
+        assert && assert( activeMolecules.length <= 1, 'sound generation can only be handled for one molecule' );
 
         // start the vibration sound playing (this will have no effect if the sound is already playing)
         if ( isSlowMotionProperty.value ) {
@@ -197,13 +205,6 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
     // listen for new molecules and add the listeners that produce the action sounds when one arrives
     activeMolecules.addItemAddedListener( addedMolecule => {
-
-      // Verify that there is only one molecule.  At the time of this writing - mid-March 2020 - this class has been set
-      // up so that it only supports one molecule at a time.  It wouldn't be hard to expand it to handle more, but it
-      // wasn't necessary at the time this was developed, so the additional complexity wasn't warranted.  The main
-      // limitation is that there would need to be independently controlled loops for the looping sounds.
-      assert && assert( activeMolecules.length <= 1, 'sound generation can only be handled for one molecule' );
-
       addSoundPlayersToMolecule( addedMolecule );
     } );
 
