@@ -17,6 +17,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ObservableArray from '../../../../axon/js/ObservableArray.js';
 import ObservableArrayIO from '../../../../axon/js/ObservableArrayIO.js';
@@ -25,6 +27,7 @@ import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
+import TimeControlSpeed from '../../../../scenery-phet/js/TimeControlSpeed.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
@@ -124,10 +127,13 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
     tandem: tandem.createTandem( 'runningProperty' )
   } );
 
-  // @public - is the simulation running in slow motion?
-  this.slowMotionProperty = new BooleanProperty( false, {
-    tandem: tandem.createTandem( 'slowMotionProperty' )
+  // @public {EnumerationProperty.<TimeControlSpeed>} - controls play speed of the simulation
+  this.timeControlSpeedProperty = new EnumerationProperty( TimeControlSpeed, TimeControlSpeed.NORMAL, {
+    tandem: tandem.createTandem( 'timeControlSpeedProperty' )
   } );
+
+  // @public - convenience Property, indicating whether sim is running in slow motion
+  this.slowMotionProperty = new DerivedProperty( [ this.timeControlSpeedProperty ], speed => speed === TimeControlSpeed.SLOW );
 
   // @public
   this.photons = new ObservableArray( {
@@ -198,7 +204,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     this.emissionFrequencyProperty.reset();
     this.photonWavelengthProperty.reset();
     this.runningProperty.reset();
-    this.slowMotionProperty.reset();
+    this.timeControlSpeedProperty.reset();
     this.photonTargetProperty.reset();
   },
 
@@ -227,7 +233,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     }
 
     // reduce time step if running in slow motion
-    if ( this.slowMotionProperty.get() ) {
+    if ( this.slowMotionProperty.value ) {
       dt = dt * MoleculesAndLightQueryParameters.slowSpeed;
     }
 
