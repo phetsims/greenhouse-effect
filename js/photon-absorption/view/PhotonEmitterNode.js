@@ -110,7 +110,9 @@ export default inherit( Node, PhotonEmitterNode, {
     // create the 'on' button for the emitter
     this.button = this.button || new BooleanRoundStickyToggleButton( this.model.photonEmitterOnProperty, {
       radius: 15,
-      baseColor: '#33dd33'
+      baseColor: '#33dd33',
+
+      tandem: tandem.createTandem( 'button' )
     } );
 
     // add the button to the correct location on the photon emitter
