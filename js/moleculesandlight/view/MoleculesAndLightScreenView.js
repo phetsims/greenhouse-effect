@@ -158,6 +158,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
   const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
     timeControlSpeedProperty: photonAbsorptionModel.timeControlSpeedProperty,
+    speedRadioButtonGroupOnLeft: true,
     playPauseStepButtonOptions: {
       playPauseButtonOptions: {
         radius: 23
