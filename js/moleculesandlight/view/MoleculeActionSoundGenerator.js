@@ -32,6 +32,7 @@ import merge from '../../../../phet-core/js/merge.js';
 
 // constants
 const USE_SPATIALIZED_SOUNDS = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS;
+const ABSORPTION_TO_ACTIVITY_SOUND_DELAY = 0.2; // in seconds
 
 class MoleculeActionSoundGenerator extends SoundGenerator {
 
@@ -69,7 +70,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     moleculeEnergizedLoop.connect( this.masterGainNode );
     const updateMoleculeEnergizedSound = moleculeEnergized => {
       if ( moleculeEnergized ) {
-        moleculeEnergizedLoop.play();
+        moleculeEnergizedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
       }
       else {
         moleculeEnergizedLoop.stop();
@@ -122,18 +123,18 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
         const molecule = activeMolecules.get( 0 );
         if ( molecule.rotationDirectionClockwiseProperty.value ) {
           if ( isSlowMotionProperty.value ) {
-            rotateClockwiseSlowMotionLoop.play();
+            rotateClockwiseSlowMotionLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
           }
           else {
-            rotateClockwiseNormalSpeedLoop.play();
+            rotateClockwiseNormalSpeedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
           }
         }
         else {
           if ( isSlowMotionProperty.value ) {
-            rotateCounterclockwiseSlowMotionLoop.play();
+            rotateCounterclockwiseSlowMotionLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
           }
           else {
-            rotateCounterclockwiseNormalSpeedLoop.play();
+            rotateCounterclockwiseNormalSpeedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
           }
         }
       }
@@ -180,10 +181,10 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
         // start the vibration sound playing (this will have no effect if the sound is already playing)
         if ( isSlowMotionProperty.value ) {
-          moleculeVibrationSlowMotionLoop.play();
+          moleculeVibrationSlowMotionLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
         }
         else {
-          moleculeVibrationNormalSpeedLoop.play();
+          moleculeVibrationNormalSpeedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
         }
       }
       else {
