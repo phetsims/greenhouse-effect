@@ -11,18 +11,27 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.js';
 import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
 import moleculeEnergizedSoundInfo from '../../../sounds/glow-loop-higher_mp3.js';
-import rotationClockwiseSoundInfo from '../../../sounds/rotate-clockwise_mp3.js';
-import rotationCounterclockwiseSoundInfo from '../../../sounds/rotate-counterclockwise_mp3.js';
-import rotationDirections001SlowMotionSoundInfo from '../../../sounds/rotate-directions-001-slow-mo_mp3.js';
-import rotationDirections001SoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
-import rotationDirections002SlowMotionSoundInfo from '../../../sounds/rotate-directions-002-slow-mo_mp3.js';
-import rotationDirections002SoundInfo from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
-import vibrationSlowMotionSoundInfo from '../../../sounds/vibration-slow-mo_mp3.js';
-import vibrationSpatializedSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
-import vibrationSoundInfo from '../../../sounds/vibration_mp3.js';
+import rotationClockwiseNormalSpeedMonoSoundInfo from '../../../sounds/rotate-clockwise_mp3.js';
+import rotationClockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
+import rotationClockwiseSlowMotionMonoSoundInfo from '../../../sounds/rotate-directions-001-slow-mo_mp3.js';
+import rotationClockwiseSlowMotionStereoSoundInfo
+  from '../../../sounds/rotate-directions-001-spatialized-slow-mo_mp3.js';
+import rotationCounterclockwiseNormalSpeedMonoSoundInfo from '../../../sounds/rotate-counterclockwise_mp3.js';
+import rotationCounterclockwiseNormalSpeedStereoSoundInfo
+  from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
+import rotationCounterclockwiseSlowMotionMonoSoundInfo from '../../../sounds/rotate-directions-002-slow-mo_mp3.js';
+import rotationCounterclockwiseSlowMotionStereoMonoSoundInfo
+  from '../../../sounds/rotate-directions-002-spatialized-slow-mo_mp3.js';
+import vibrationSlowMotionMonoSoundInfo from '../../../sounds/vibration-slow-mo_mp3.js';
+import vibrationSlowMotionStereoSoundInfo from '../../../sounds/vibration-spatialized-slow-mo_mp3.js';
+import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
+import vibrationNormalSpeedMonoSoundInfo from '../../../sounds/vibration_mp3.js';
 import MoleculesAndLightConstants from '../../common/MoleculesAndLightConstants.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import merge from '../../../../phet-core/js/merge.js';
+
+// constants
+const USE_SPATIALIZED_SOUNDS = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS;
 
 class MoleculeActionSoundGenerator extends SoundGenerator {
 
@@ -68,21 +77,38 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     };
 
     // rotation sounds
-    const cwRotationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections001SoundInfo
-                                                                                  : rotationClockwiseSoundInfo;
     const rotationLoopOptions = {
       initialOutputLevel: 0.3,
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]
     };
-    const rotateClockwiseNormalSpeedLoop = new SoundClip( cwRotationSoundInfo, rotationLoopOptions );
+
+    // clockwise normal speed
+    const cwRotationNormalSpeedSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                           rotationClockwiseNormalSpeedStereoSoundInfo :
+                                           rotationClockwiseNormalSpeedMonoSoundInfo;
+    const rotateClockwiseNormalSpeedLoop = new SoundClip( cwRotationNormalSpeedSoundInfo, rotationLoopOptions );
     rotateClockwiseNormalSpeedLoop.connect( this.masterGainNode );
-    const rotateClockwiseSlowMotionLoop = new SoundClip( rotationDirections001SlowMotionSoundInfo, rotationLoopOptions );
+
+    // clockwise slow motion
+    const cwRotationSlowMotionSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                          rotationClockwiseSlowMotionStereoSoundInfo :
+                                          rotationClockwiseSlowMotionMonoSoundInfo;
+    const rotateClockwiseSlowMotionLoop = new SoundClip( cwRotationSlowMotionSoundInfo, rotationLoopOptions );
     rotateClockwiseSlowMotionLoop.connect( this.masterGainNode );
-    const ccwRotationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? rotationDirections002SoundInfo : rotationCounterclockwiseSoundInfo;
-    const rotateCounterclockwiseNormalSpeedLoop = new SoundClip( ccwRotationSoundInfo, rotationLoopOptions );
+
+    // counterclockwise normal speed
+    const ccwRotationNormalSpeedSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                            rotationCounterclockwiseNormalSpeedStereoSoundInfo :
+                                            rotationCounterclockwiseNormalSpeedMonoSoundInfo;
+    const rotateCounterclockwiseNormalSpeedLoop = new SoundClip( ccwRotationNormalSpeedSoundInfo, rotationLoopOptions );
     rotateCounterclockwiseNormalSpeedLoop.connect( this.masterGainNode );
-    const rotateCounterclockwiseSlowMotionLoop = new SoundClip( rotationDirections002SlowMotionSoundInfo, rotationLoopOptions );
+
+    // counterclockwise slow motion
+    const ccwRotationSlowMotionSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                           rotationCounterclockwiseSlowMotionMonoSoundInfo :
+                                           rotationCounterclockwiseSlowMotionStereoMonoSoundInfo;
+    const rotateCounterclockwiseSlowMotionLoop = new SoundClip( ccwRotationSlowMotionSoundInfo, rotationLoopOptions );
     rotateCounterclockwiseSlowMotionLoop.connect( this.masterGainNode );
 
     const updateRotationSound = rotating => {
@@ -119,15 +145,25 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
       }
     };
 
-    // vibration sound
-    const moleculeVibrationSoundInfo = MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? vibrationSpatializedSoundInfo : vibrationSoundInfo;
-    const moleculeVibrationNormalSpeedLoop = new SoundClip( moleculeVibrationSoundInfo, {
+    // vibration sounds
+    const vibrationLoopOptions = {
       initialOutputLevel: 0.4,
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]
-    } );
+    };
+
+    // vibration normal speed
+    const moleculeVibrationNormalSpeedSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                                  vibrationNormalSpeedStereoSoundInfo :
+                                                  vibrationNormalSpeedMonoSoundInfo;
+    const moleculeVibrationNormalSpeedLoop = new SoundClip( moleculeVibrationNormalSpeedSoundInfo, vibrationLoopOptions );
     moleculeVibrationNormalSpeedLoop.connect( this.masterGainNode );
-    const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionSoundInfo, {
+
+    // vibration slow motion
+    const moleculeVibrationSlowMotionSoundInfo = USE_SPATIALIZED_SOUNDS ?
+                                                 vibrationSlowMotionStereoSoundInfo :
+                                                 vibrationSlowMotionMonoSoundInfo;
+    const moleculeVibrationSlowMotionLoop = new SoundClip( moleculeVibrationSlowMotionSoundInfo, {
       initialOutputLevel: 0.4,
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]
