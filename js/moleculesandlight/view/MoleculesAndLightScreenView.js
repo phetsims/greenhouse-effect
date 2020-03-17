@@ -157,18 +157,21 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   this.pdomControlAreaNode.addChild( resetAllButton );
 
   const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
-    isSlowMotionProperty: photonAbsorptionModel.slowMotionProperty,
-    buttonsXSpacing: 25,
-    playPauseOptions: {
-      radius: 23
+    timeControlSpeedProperty: photonAbsorptionModel.timeControlSpeedProperty,
+    playPauseStepButtonOptions: {
+      playPauseButtonOptions: {
+        radius: 23
+      },
+      stepForwardButtonOptions: {
+        radius: 15,
+        listener: function() { photonAbsorptionModel.manualStep(); }
+      }
     },
-    stepForwardOptions: {
-      radius: 15,
-      listener: function() { photonAbsorptionModel.manualStep(); }
-    },
-    radioButtonOptions: {
+    speedRadioButtonGroupOptions: {
       maxWidth: 115 // i18n
     },
+    buttonGroupXSpacing: 25,
+
     centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 65 ),
 
     tandem: tandem.createTandem( 'timeControlNode' )
