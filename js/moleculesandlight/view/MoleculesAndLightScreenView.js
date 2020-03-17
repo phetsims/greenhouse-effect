@@ -168,7 +168,9 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
       }
     },
     speedRadioButtonGroupOptions: {
-      maxWidth: 115 // i18n
+      labelOptions: {
+        maxWidth: 100 // i18nk
+      }
     },
     buttonGroupXSpacing: 25,
 
