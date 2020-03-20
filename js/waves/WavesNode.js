@@ -9,6 +9,7 @@ import ResetAllButton from '../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import Plane from '../../../scenery/js/nodes/Plane.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
@@ -20,6 +21,18 @@ class WavesNode extends Node {
 
   constructor( model, layoutBounds ) {
     super();
+
+    const yellowPlane = new Plane( {
+      fill: 'yellow',
+      opacity: 0.25
+    } );
+    this.addChild( yellowPlane );
+
+    const redPlane = new Plane( {
+      fill: 'red',
+      opacity: 0.25
+    } );
+    this.addChild( redPlane );
 
     const NUMBER_CONTROL_OPTIONS = {
       scale: 1,
@@ -103,6 +116,14 @@ class WavesNode extends Node {
         ]
       } );
     };
+
+    model.yellowWaveParameterModel.modeProperty.link( mode => {
+      yellowPlane.visible = mode === 'Beam'
+    } );
+
+    model.redWaveParameterModel.modeProperty.link( mode => {
+      redPlane.visible = mode === 'Beam'
+    } );
 
     const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
       titleNode: new Text( 'Yellow' ),
