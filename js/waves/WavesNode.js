@@ -5,6 +5,7 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
+import ResetAllButton from '../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
@@ -244,7 +245,7 @@ class WavesNode extends Node {
     };
 
     createRedSet( new Vector2( layoutBounds.left, layoutBounds.bottom ), 400 );
-    let vector2 = new Vector2( layoutBounds.centerX - 300, layoutBounds.bottom );
+    const vector2 = new Vector2( layoutBounds.centerX - 300, layoutBounds.bottom );
     this.waves.push( new WaveNode( model.redWaveParameterModel, 'incoming', vector2, vector2.plusXY( 1000 * Math.sin( ANGLE * Math.PI / 180 ), -1000 * Math.cos( ANGLE * Math.PI / 180 ) ) ) );
     createRedSet( new Vector2( layoutBounds.centerX - 100, layoutBounds.bottom ), 250 );
     createRedSet( new Vector2( layoutBounds.centerX + 120, layoutBounds.bottom ), 500 );
@@ -275,6 +276,11 @@ class WavesNode extends Node {
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
+
+    this.addChild( new ResetAllButton( {
+      listener: () => model.reset(),
+      rightBottom: layoutBounds.eroded( 10 ).rightBottom
+    } ) );
   }
 
   step( dt ) {

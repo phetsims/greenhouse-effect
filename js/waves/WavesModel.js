@@ -22,6 +22,12 @@ class WavesModel {
   step( dt ) {
     this.timeProperty.value += dt;
   }
+
+  reset() {
+    this.timeProperty.reset();
+    this.yellowWaveParameterModel.reset();
+    this.redWaveParameterModel.reset();
+  }
 }
 
 greenhouseEffect.register( 'WavesModel', WavesModel );

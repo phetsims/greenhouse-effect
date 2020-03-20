@@ -62,6 +62,23 @@ class WaveParameterModel {
       }
     };
   }
+
+  reset() {
+    this.enabledProperty.reset();
+    this.expandedProperty.reset();
+
+    this.amplitudeProperty.reset();
+    this.angleProperty.reset();
+    this.kProperty.reset();
+    this.wProperty.reset();
+    this.resolutionProperty.reset();
+    this.map.incoming.strokeProperty.reset();
+    this.map.incoming.opacityProperty.reset();
+    this.map.reflected.strokeProperty.reset();
+    this.map.reflected.opacityProperty.reset();
+    this.map.transmitted.strokeProperty.reset();
+    this.map.transmitted.opacityProperty.reset();
+  }
 }
 
 greenhouseEffect.register( 'WaveParameterModel', WaveParameterModel );
