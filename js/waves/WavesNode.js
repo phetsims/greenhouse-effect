@@ -217,9 +217,10 @@ class WavesNode extends Node {
 
     this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
 
+    const ANGLE = 30;
     const createRedSet = ( red1Start, magnitude ) => {
 
-      const red1End = Vector2.createPolar( magnitude, -Math.PI / 2 ).plus( red1Start );
+      const red1End = Vector2.createPolar( magnitude, -Math.PI / 2 + ANGLE * Math.PI / 180 ).plus( red1Start );
       const incoming = new WaveNode( model.redWaveParameterModel, 'incoming', red1Start, red1End );
       this.waves.push( incoming );
 
@@ -242,9 +243,10 @@ class WavesNode extends Node {
       this.waves.push( transmitted );
     };
 
-    createRedSet( new Vector2( layoutBounds.left + 50, layoutBounds.bottom ), 400 );
-    this.waves.push( new WaveNode( model.redWaveParameterModel, 'incoming', new Vector2( layoutBounds.centerX - 200, layoutBounds.bottom ), layoutBounds.centerTop.plusXY( -150, 0 ) ) );
-    createRedSet( new Vector2( layoutBounds.centerX - 30, layoutBounds.bottom ), 250 );
+    createRedSet( new Vector2( layoutBounds.left, layoutBounds.bottom ), 400 );
+    let vector2 = new Vector2( layoutBounds.centerX - 300, layoutBounds.bottom );
+    this.waves.push( new WaveNode( model.redWaveParameterModel, 'incoming', vector2, vector2.plusXY( 1000 * Math.sin( ANGLE * Math.PI / 180 ), -1000 * Math.cos( ANGLE * Math.PI / 180 ) ) ) );
+    createRedSet( new Vector2( layoutBounds.centerX - 100, layoutBounds.bottom ), 250 );
     createRedSet( new Vector2( layoutBounds.centerX + 120, layoutBounds.bottom ), 500 );
     createRedSet( new Vector2( layoutBounds.centerX + 375, layoutBounds.bottom ), 300 );
 
