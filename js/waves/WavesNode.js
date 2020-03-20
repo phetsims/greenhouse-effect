@@ -23,7 +23,7 @@ class WavesNode extends Node {
     const NUMBER_CONTROL_OPTIONS = {
       scale: 1,
       sliderOptions: {
-        thumbSize: new Dimension2( 10, 18 ),
+        thumbSize: new Dimension2( 10, 18 )
       }
     };
 
