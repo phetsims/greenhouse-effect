@@ -1,98 +1,94 @@
 // Copyright 2020, University of Colorado Boulder
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Property from '../../../axon/js/Property.js';
+import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import NumberControl from '../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../scenery/js/nodes/Node.js';
-import Text from '../../../scenery/js/nodes/Text.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-
-const SCALE = 1;
 
 class WavesNode extends Node {
 
   constructor( model, layoutBounds ) {
     super();
 
+    const NUMBER_CONTROL_OPTIONS = {
+      scale: 1,
+      sliderOptions: {
+        thumbSize: new Dimension2( 10, 18 ),
+      }
+    };
+
+    const toNumberControlOptions = options => merge( {}, NUMBER_CONTROL_OPTIONS, options );
+
     const createContent = waveParameterModel => {
       return new VBox( {
         align: 'left',
         children: [
           new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
-          new NumberControl( 'amplitude', waveParameterModel.amplitudeProperty, waveParameterModel.amplitudeProperty.range, {
-            scale: SCALE
-          } ),
-          new NumberControl( 'k', waveParameterModel.kProperty, waveParameterModel.kProperty.range, {
-            scale: SCALE,
+          new NumberControl( 'amplitude', waveParameterModel.amplitudeProperty, waveParameterModel.amplitudeProperty.range, NUMBER_CONTROL_OPTIONS ),
+          new NumberControl( 'k', waveParameterModel.kProperty, waveParameterModel.kProperty.range, toNumberControlOptions( {
             delta: 0.01,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'w', waveParameterModel.wProperty, waveParameterModel.wProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'w', waveParameterModel.wProperty, waveParameterModel.wProperty.range, toNumberControlOptions( {
             delta: 0.1,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'angle', waveParameterModel.angleProperty, waveParameterModel.angleProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'angle', waveParameterModel.angleProperty, waveParameterModel.angleProperty.range, toNumberControlOptions( {
             delta: 0.1,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'incoming stroke', waveParameterModel.map.incoming.strokeProperty, waveParameterModel.map.incoming.strokeProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'incoming stroke', waveParameterModel.map.incoming.strokeProperty, waveParameterModel.map.incoming.strokeProperty.range, toNumberControlOptions( {
             delta: 0.5,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'incoming opacity', waveParameterModel.map.incoming.opacityProperty, waveParameterModel.map.incoming.opacityProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'incoming opacity', waveParameterModel.map.incoming.opacityProperty, waveParameterModel.map.incoming.opacityProperty.range, toNumberControlOptions( {
             delta: 0.01,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'transmitted stroke', waveParameterModel.map.transmitted.strokeProperty, waveParameterModel.map.transmitted.strokeProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'transmitted stroke', waveParameterModel.map.transmitted.strokeProperty, waveParameterModel.map.transmitted.strokeProperty.range, toNumberControlOptions( {
             delta: 0.5,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'transmitted opacity', waveParameterModel.map.transmitted.opacityProperty, waveParameterModel.map.transmitted.opacityProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'transmitted opacity', waveParameterModel.map.transmitted.opacityProperty, waveParameterModel.map.transmitted.opacityProperty.range, toNumberControlOptions( {
             delta: 0.01,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-
-          new NumberControl( 'reflected stroke', waveParameterModel.map.reflected.strokeProperty, waveParameterModel.map.reflected.strokeProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'reflected stroke', waveParameterModel.map.reflected.strokeProperty, waveParameterModel.map.reflected.strokeProperty.range, toNumberControlOptions( {
             delta: 0.5,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } ),
-          new NumberControl( 'reflected opacity', waveParameterModel.map.reflected.opacityProperty, waveParameterModel.map.reflected.opacityProperty.range, {
-            scale: SCALE,
+          } ) ),
+          new NumberControl( 'reflected opacity', waveParameterModel.map.reflected.opacityProperty, waveParameterModel.map.reflected.opacityProperty.range, toNumberControlOptions( {
             delta: 0.01,
             numberDisplayOptions: {
               decimalPlaces: 2
             }
-          } )
+          } ) )
         ]
       } );
     };
