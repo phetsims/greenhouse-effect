@@ -23,17 +23,17 @@ class WavesNode extends Node {
   constructor( model, layoutBounds ) {
     super();
 
-    const yellowPlane = new Plane( {
+    const yellowBeam = new Plane( {
       fill: 'yellow',
       opacity: 0.25
     } );
-    this.addChild( yellowPlane );
+    this.addChild( yellowBeam );
 
-    const redPlane = new Plane( {
+    const redBeam = new Plane( {
       fill: 'red',
       opacity: 0.25
     } );
-    this.addChild( redPlane );
+    this.addChild( redBeam );
 
     const NUMBER_CONTROL_OPTIONS = {
       scale: 1,
@@ -119,11 +119,11 @@ class WavesNode extends Node {
     };
 
     model.yellowWaveParameterModel.modeProperty.link( mode => {
-      yellowPlane.visible = mode === 'Beam';
+      yellowBeam.visible = mode === 'Beam';
     } );
 
     model.redWaveParameterModel.modeProperty.link( mode => {
-      redPlane.visible = mode === 'Beam';
+      redBeam.visible = mode === 'Beam';
     } );
 
     const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
@@ -312,6 +312,9 @@ class WavesNode extends Node {
 
     this.addChild( redRoot );
     redRoot.moveToBack();
+
+    yellowBeam.moveToBack();
+    redBeam.moveToBack();
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
