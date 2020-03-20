@@ -118,11 +118,11 @@ class WavesNode extends Node {
     };
 
     model.yellowWaveParameterModel.modeProperty.link( mode => {
-      yellowPlane.visible = mode === 'Beam'
+      yellowPlane.visible = mode === 'Beam';
     } );
 
     model.redWaveParameterModel.modeProperty.link( mode => {
-      redPlane.visible = mode === 'Beam'
+      redPlane.visible = mode === 'Beam';
     } );
 
     const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
