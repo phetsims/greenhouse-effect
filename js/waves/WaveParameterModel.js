@@ -15,7 +15,7 @@ class WaveParameterModel {
   constructor( color ) {
 
     this.color = color;
-    this.enabledProperty = new BooleanProperty( true );
+    this.modeProperty = new BooleanProperty( 'Wave' );
     this.expandedProperty = new BooleanProperty( true );
 
     this.amplitudeProperty = new NumberProperty( 20, {
@@ -64,7 +64,7 @@ class WaveParameterModel {
   }
 
   reset() {
-    this.enabledProperty.reset();
+    this.modeProperty.reset();
     this.expandedProperty.reset();
 
     this.amplitudeProperty.reset();

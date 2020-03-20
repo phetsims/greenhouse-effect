@@ -13,7 +13,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
-import Checkbox from '../../../sun/js/Checkbox.js';
+import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 class WavesNode extends Node {
@@ -30,11 +30,21 @@ class WavesNode extends Node {
 
     const toNumberControlOptions = options => merge( {}, NUMBER_CONTROL_OPTIONS, options );
 
+    const toElement = text => {
+      return {
+        value: text,
+        node: new Text( text )
+      };
+    };
+
     const createContent = waveParameterModel => {
       return new VBox( {
         align: 'left',
         children: [
-          new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
+          new RadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused', 'Beam', 'Hidden' ].map( toElement ), {
+            orientation: 'horizontal'
+          } ),
+          // new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
           new NumberControl( 'amplitude', waveParameterModel.amplitudeProperty, waveParameterModel.amplitudeProperty.range, NUMBER_CONTROL_OPTIONS ),
           new NumberControl( 'k', waveParameterModel.kProperty, waveParameterModel.kProperty.range, toNumberControlOptions( {
             delta: 0.01,
@@ -130,7 +140,9 @@ class WavesNode extends Node {
           this.opacity = s;
         } );
 
-        waveParameterModel.enabledProperty.linkAttribute( this, 'visible' );
+        waveParameterModel.modeProperty.link( mode => {
+          this.visible = mode === 'Wave' || mode === 'Paused';
+        } );
 
         this.endPoint = endPoint;
         this.startPoint = startPoint;
@@ -144,7 +156,7 @@ class WavesNode extends Node {
         const phi = 0;
         const dx = this.waveParameterModel.resolutionProperty.value;
 
-        if ( this.visible ) {
+        if ( this.visible && this.waveParameterModel.modeProperty.value !== 'Paused' ) {
 
           let moved = false;
 
