@@ -6,6 +6,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WaveParameterModel from './WaveParameterModel.js';
@@ -17,6 +18,7 @@ class WavesModel {
 
     this.yellowWaveParameterModel = new WaveParameterModel( 'yellow' );
     this.redWaveParameterModel = new WaveParameterModel( 'red' );
+    this.cloudsVisibleProperty = new BooleanProperty( true );
   }
 
   step( dt ) {

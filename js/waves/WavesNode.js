@@ -15,6 +15,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
 import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 class WavesNode extends Node {
@@ -217,13 +218,16 @@ class WavesNode extends Node {
     const yellowRoot = new Node();
     const redRoot = new Node();
 
+    const cloudNode = new Node();
+    yellowRoot.addChild( cloudNode );
+
     // Cloud
     const cloud1 = new Path( Shape.ellipse( 0, 0, 140, 20 ), {
       fill: 'gray',
       centerY: layoutBounds.centerY,
       centerX: 200
     } );
-    yellowRoot.addChild( cloud1 );
+    cloudNode.addChild( cloud1 );
 
     // Cloud
     const cloud2 = new Path( Shape.ellipse( 0, 0, 120, 30 ), {
@@ -231,7 +235,9 @@ class WavesNode extends Node {
       centerY: layoutBounds.centerY,
       centerX: 600
     } );
-    yellowRoot.addChild( cloud2 );
+    cloudNode.addChild( cloud2 );
+
+    model.cloudsVisibleProperty.linkAttribute( cloudNode, 'visible' );
 
     // Create yellow waves
 
@@ -310,9 +316,16 @@ class WavesNode extends Node {
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
 
-    this.addChild( new ResetAllButton( {
-      listener: () => model.reset(),
-      rightBottom: layoutBounds.eroded( 10 ).rightBottom
+    this.addChild( new VBox( {
+      spacing: 14,
+      align: 'right',
+      children: [
+        new Checkbox( new Text( 'Clouds' ), model.cloudsVisibleProperty ),
+        new ResetAllButton( {
+          listener: () => model.reset()
+        } )
+      ],
+      rightBottom: layoutBounds.eroded( 15 ).rightBottom
     } ) );
   }
 
