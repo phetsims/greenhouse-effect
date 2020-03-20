@@ -8,6 +8,7 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import StringProperty from '../../../axon/js/StringProperty.js';
 import Range from '../../../dot/js/Range.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
@@ -15,7 +16,7 @@ class WaveParameterModel {
   constructor( color ) {
 
     this.color = color;
-    this.modeProperty = new BooleanProperty( 'Wave' );
+    this.modeProperty = new StringProperty( 'Wave' );
     this.expandedProperty = new BooleanProperty( true );
 
     this.amplitudeProperty = new NumberProperty( 20, {
