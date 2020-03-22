@@ -190,8 +190,8 @@ class WavesNode extends Node {
           let moved = false;
 
           const deltaVector = this.endPoint.minus( this.startPoint );
-          // const waveDistance = Math.min( deltaVector.magnitude, ( this.time - timeDelay ) * waveSpeed );
-          const waveDistance = deltaVector.magnitude;
+          const waveDistance = Math.min( deltaVector.magnitude, ( this.time - timeDelay ) * waveSpeed );
+          // const waveDistance = deltaVector.magnitude;
           const unitVector = deltaVector.normalized();
           const unitNormal = unitVector.perpendicular;
 
@@ -294,10 +294,10 @@ class WavesNode extends Node {
       this.waves.push( transmitted );
     };
 
-    createRedSet( new Vector2( layoutBounds.left, groundTopY ), 400, Math.PI - 0.8 );
-    createRedSet( new Vector2( layoutBounds.centerX - 100, groundTopY ), 250, 4.3 );
-    createRedSet( new Vector2( layoutBounds.centerX + 120, groundTopY ), 500, 3 );
-    createRedSet( new Vector2( layoutBounds.centerX + 375, groundTopY ), 300, 1.8 );
+    createRedSet( new Vector2( layoutBounds.left, groundTopY + 10 ), 400, Math.PI - 0.8 );
+    createRedSet( new Vector2( layoutBounds.centerX - 100, groundTopY + 10 ), 250, 4.3 );
+    createRedSet( new Vector2( layoutBounds.centerX + 120, groundTopY + 10 ), 500, 3 );
+    createRedSet( new Vector2( layoutBounds.centerX + 375, groundTopY + 10 ), 300, 1.8 );
 
     this.waves.forEach( wave => {
       if ( wave.color === 'yellow' ) {
