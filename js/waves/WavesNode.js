@@ -138,7 +138,7 @@ class WavesNode extends Node {
     } );
 
     class WaveNode extends Path {
-      constructor( waveParameterModel, type, startPoint, endPoint, precursorLength = 0 ) {
+      constructor( waveParameterModel, type, startPoint, endPoint, phase, precursorLength = 0 ) {
         super( null, {
           stroke: waveParameterModel.color
         } );
@@ -171,12 +171,14 @@ class WavesNode extends Node {
         this.step( 0 );
 
         this.waveDistance = endPoint.distance( startPoint );
+
+        this.phi = phase;
       }
 
       step( dt ) {
 
         const s = new Shape();
-        const phi = 0;
+        const phi = this.phi;
         const waveSpeed = 55; // Tuned manually to match phase
 
         const timeDelay = this.precursorLength / waveSpeed;// distance = rate * time
@@ -188,7 +190,8 @@ class WavesNode extends Node {
           let moved = false;
 
           const deltaVector = this.endPoint.minus( this.startPoint );
-          const waveDistance = Math.min( deltaVector.magnitude, ( this.time - timeDelay ) * waveSpeed );
+          // const waveDistance = Math.min( deltaVector.magnitude, ( this.time - timeDelay ) * waveSpeed );
+          const waveDistance = deltaVector.magnitude;
           const unitVector = deltaVector.normalized();
           const unitNormal = unitVector.perpendicular;
 
@@ -249,33 +252,33 @@ class WavesNode extends Node {
 
     // Create yellow waves
 
-    const incomingWave1 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center, 0 );
+    const incomingWave1 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center, 0, 0 );
     this.waves.push( incomingWave1 ); // incident
-    const transmitWave1 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud1.center, new Vector2( cloud1.centerX, groundTopY ), incomingWave1.waveDistance );
+    const transmitWave1 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud1.center, new Vector2( cloud1.centerX, groundTopY ), 0, incomingWave1.waveDistance );
     this.waves.push( transmitWave1 ); // transmitted
-    const reflectWave1 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud1.center.plusXY( 50, 0 ), cloud1.center.plusXY( 100, -400 ), incomingWave1.waveDistance );
+    const reflectWave1 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud1.center.plusXY( 50, 0 ), cloud1.center.plusXY( 100, -400 ), 0, incomingWave1.waveDistance );
     this.waves.push( reflectWave1 ); // reflected
 
-    const incomingWave2 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center );
+    const incomingWave2 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center, 0 );
     this.waves.push( incomingWave2 ); // incident
-    const transmitWave2 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud2.center, cloud2.center.plusXY( 0, 500 ), incomingWave2.waveDistance );
+    const transmitWave2 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud2.center, cloud2.center.plusXY( 0, 500 ), 0, incomingWave2.waveDistance );
     this.waves.push( transmitWave2 ); // transmitted
-    const reflectWave2 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud2.center.plusXY( 50, 0 ), cloud2.center.plusXY( 100, -400 ), incomingWave2.waveDistance );
+    const reflectWave2 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud2.center.plusXY( 50, 0 ), cloud2.center.plusXY( 100, -400 ), 0, incomingWave2.waveDistance );
     this.waves.push( reflectWave2 ); // reflected
 
-    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, -100 ), new Vector2( 800, 1000 ) ) );
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, -100 ), new Vector2( 800, 1000 ), 0 ) );
 
     const ANGLE = 30;
-    const createRedSet = ( red1Start, magnitude ) => {
+    const createRedSet = ( red1Start, magnitude, phase ) => {
 
       const red1End = Vector2.createPolar( magnitude, -Math.PI / 2 + ANGLE * Math.PI / 180 ).plus( red1Start );
-      const incoming = new WaveNode( model.redWaveParameterModel, 'incoming', red1Start, red1End, incomingWave1.waveDistance + transmitWave1.waveDistance );
+      const incoming = new WaveNode( model.redWaveParameterModel, 'incoming', red1Start, red1End, 0, incomingWave1.waveDistance + transmitWave1.waveDistance );
       this.waves.push( incoming );
 
       const reflectedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
         return red1End.plus( Vector2.createPolar( 400, +Math.PI / 2 - angle / 180 * Math.PI ) );
       } );
-      const reflected = new WaveNode( model.redWaveParameterModel, 'reflected', red1End, reflectedEndDerivedProperty.value, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
+      const reflected = new WaveNode( model.redWaveParameterModel, 'reflected', red1End, reflectedEndDerivedProperty.value, phase + Math.PI, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
       reflectedEndDerivedProperty.link( e => {
         reflected.endPoint = e;
       } );
@@ -284,17 +287,17 @@ class WavesNode extends Node {
       const transmittedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
         return red1End.plus( Vector2.createPolar( 400, -Math.PI / 2 + angle / 180 * Math.PI ) );
       } );
-      const transmitted = new WaveNode( model.redWaveParameterModel, 'transmitted', red1End, transmittedEndDerivedProperty.value, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
+      const transmitted = new WaveNode( model.redWaveParameterModel, 'transmitted', red1End, transmittedEndDerivedProperty.value, phase, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
       transmittedEndDerivedProperty.link( e => {
         transmitted.endPoint = e;
       } );
       this.waves.push( transmitted );
     };
 
-    createRedSet( new Vector2( layoutBounds.left, groundTopY ), 400 );
-    createRedSet( new Vector2( layoutBounds.centerX - 100, groundTopY ), 250 );
-    createRedSet( new Vector2( layoutBounds.centerX + 120, groundTopY ), 500 );
-    createRedSet( new Vector2( layoutBounds.centerX + 375, groundTopY ), 300 );
+    createRedSet( new Vector2( layoutBounds.left, groundTopY ), 400, Math.PI - 0.8 );
+    createRedSet( new Vector2( layoutBounds.centerX - 100, groundTopY ), 250, 4.3 );
+    createRedSet( new Vector2( layoutBounds.centerX + 120, groundTopY ), 500, 3 );
+    createRedSet( new Vector2( layoutBounds.centerX + 375, groundTopY ), 300, 1.8 );
 
     this.waves.forEach( wave => {
       if ( wave.color === 'yellow' ) {
