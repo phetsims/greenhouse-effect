@@ -247,8 +247,6 @@ class WavesNode extends Node {
     const reflectWave1 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud1.center.plusXY( 50, 0 ), cloud1.center.plusXY( 100, -400 ) );
     this.waves.push( reflectWave1 ); // reflected
 
-    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 400, -100 ), new Vector2( 400, 1000 ) ) );
-
     this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center ) ); // incident
     const transmitWave2 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud2.center, cloud2.center.plusXY( 0, 500 ) );
     this.waves.push( transmitWave2 ); // transmitted
@@ -284,8 +282,6 @@ class WavesNode extends Node {
     };
 
     createRedSet( new Vector2( layoutBounds.left, layoutBounds.bottom ), 400 );
-    const vector2 = new Vector2( layoutBounds.centerX - 300, layoutBounds.bottom );
-    this.waves.push( new WaveNode( model.redWaveParameterModel, 'incoming', vector2, vector2.plusXY( 1000 * Math.sin( ANGLE * Math.PI / 180 ), -1000 * Math.cos( ANGLE * Math.PI / 180 ) ) ) );
     createRedSet( new Vector2( layoutBounds.centerX - 100, layoutBounds.bottom ), 250 );
     createRedSet( new Vector2( layoutBounds.centerX + 120, layoutBounds.bottom ), 500 );
     createRedSet( new Vector2( layoutBounds.centerX + 375, layoutBounds.bottom ), 300 );
