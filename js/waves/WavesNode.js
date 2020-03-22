@@ -1,6 +1,5 @@
 // Copyright 2020, University of Colorado Boulder
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
@@ -15,6 +14,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
 import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
@@ -141,7 +141,6 @@ class WavesNode extends Node {
       constructor( waveParameterModel, type, startPoint, endPoint, options ) {
 
         options = merge( {
-          amountProperty: new Property( 1 ),
           kProperty: waveParameterModel.kProperty
         }, options );
         super( null, {
@@ -169,25 +168,29 @@ class WavesNode extends Node {
         this.endPoint = endPoint;
         this.startPoint = startPoint;
 
-        this.amount = options.amount;
+        this.time = 0;
+
         this.step( 0 );
       }
 
       step( dt ) {
+
         const s = new Shape();
         const phi = 0;
+        const waveSpeed = 55; // Tuned manually to match phase
         const dx = this.waveParameterModel.resolutionProperty.value;
 
         if ( this.visible && this.waveParameterModel.modeProperty.value !== 'Paused' ) {
+          this.time += dt;
 
           let moved = false;
 
           const deltaVector = this.endPoint.minus( this.startPoint );
-          const magnitude = deltaVector.magnitude;
+          const waveDistance = Math.min( deltaVector.magnitude, this.time * waveSpeed );
           const unitVector = deltaVector.normalized();
           const unitNormal = unitVector.perpendicular;
-          for ( let x = 0; x < magnitude; x += dx ) {
 
+          const goToPoint = x => {
             const v = this.startPoint.plus( unitVector.timesScalar( x ) );
 
             const k = this.kProperty.value;
@@ -203,17 +206,18 @@ class WavesNode extends Node {
             else {
               s.lineToPoint( pt );
             }
+          };
+
+          for ( let x = 0; x < waveDistance; x += dx ) {
+            goToPoint( x );
           }
+          goToPoint( waveDistance );
           this.shape = s;
         }
       }
     }
 
     this.waves = [];
-    const MAX_WAVES = 10;
-    for ( let i = 0; i < MAX_WAVES; i++ ) {
-      // this.waves.push( new WaveNode( new Vector2( 0 + i * 100, 0 ), new Vector2( 400 + i * 100, 400 ) ) );
-    }
 
     const yellowRoot = new Node();
     const redRoot = new Node();
@@ -315,16 +319,29 @@ class WavesNode extends Node {
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
 
+    const resetWaveTime = () => this.waves.forEach( wave => {
+      wave.time = 0;
+    } );
+
     this.addChild( new VBox( {
       spacing: 14,
       align: 'right',
       children: [
         new Checkbox( new Text( 'Clouds' ), model.cloudsVisibleProperty ),
         new ResetAllButton( {
-          listener: () => model.reset()
+          listener: () => {
+            model.reset();
+            resetWaveTime();
+          }
         } )
       ],
       rightBottom: layoutBounds.eroded( 15 ).rightBottom
+    } ) );
+
+    this.addChild( new RectangularPushButton( {
+      content: new Text( 'Reset Time' ),
+      listener: resetWaveTime,
+      leftBottom: layoutBounds.eroded( 15 ).leftBottom
     } ) );
   }
 
