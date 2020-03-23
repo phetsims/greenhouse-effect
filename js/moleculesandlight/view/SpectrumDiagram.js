@@ -24,7 +24,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
@@ -40,9 +39,7 @@ const spectrumWindowUltravioletBandLabelString = moleculesAndLightStrings.Spectr
 const spectrumWindowVisibleBandLabelString = moleculesAndLightStrings.SpectrumWindow.visibleBandLabel;
 const spectrumWindowWavelengthArrowLabelString = moleculesAndLightStrings.SpectrumWindow.wavelengthArrowLabel;
 const spectrumWindowXrayBandLabelString = moleculesAndLightStrings.SpectrumWindow.xrayBandLabel;
-
-// PDOM strings
-const spectrumDialogDescriptionString = MoleculesAndLightA11yStrings.spectrumDialogDescriptionString.value;
+const spectrumDialogDescriptionString = moleculesAndLightStrings.a11y.spectrumDialogDescription;
 
 // shared constants
 const LABEL_FONT = new PhetFont( 16 );

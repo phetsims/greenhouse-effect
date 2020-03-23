@@ -18,7 +18,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import CH4 from '../../photon-absorption/model/molecules/CH4.js';
@@ -34,14 +33,10 @@ import MolecularFormulaStrings from '../../photon-absorption/view/MolecularFormu
 import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 
-//strings
 const molecularNamePatternString = moleculesAndLightStrings.molecularNamePattern;
-
-// a11y strings
-const moleculesString = MoleculesAndLightA11yStrings.moleculesString.value;
-const moleculesRadioButtonHelpTextString = MoleculesAndLightA11yStrings.moleculesRadioButtonHelpTextString.value;
-// const moleculeSelectionAlertPatternString = MoleculesAndLightA11yStrings.moleculeSelectionAlertPatternString.value;
-const moleculeButtonLabelPatternString = MoleculesAndLightA11yStrings.moleculeButtonLabelPatternString.value;
+const moleculesString = moleculesAndLightStrings.a11y.molecules;
+const moleculesRadioButtonHelpTextString = moleculesAndLightStrings.a11y.moleculesRadioButtonHelpText;
+const moleculeButtonLabelPatternString = moleculesAndLightStrings.a11y.moleculeButtonLabelPattern;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except

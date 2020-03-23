@@ -36,7 +36,6 @@ import infraredPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-
 import microwavePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-microwave_mp3.js';
 import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-uv_mp3.js';
 import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-visible_mp3.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
@@ -50,10 +49,8 @@ import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
 const spectrumWindowButtonCaptionString = moleculesAndLightStrings.SpectrumWindow.buttonCaption;
-
-// a11y strings
-const spectrumButtonLabelString = MoleculesAndLightA11yStrings.spectrumButtonLabelString.value;
-const spectrumButtonDescriptionString = MoleculesAndLightA11yStrings.spectrumButtonDescriptionString.value;
+const spectrumButtonLabelString = moleculesAndLightStrings.a11y.spectrumButtonLabel;
+const spectrumButtonDescriptionString = moleculesAndLightStrings.a11y.spectrumButtonDescription;
 
 // constants
 // Model-view transform for intermediate coordinates.

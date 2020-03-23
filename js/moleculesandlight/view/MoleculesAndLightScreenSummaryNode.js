@@ -8,25 +8,22 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
+import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import EmissionRateControlSliderNode from '../../photon-absorption/view/EmissionRateControlSliderNode.js';
 
-// constants
-
-// PDOM strings
-const playAreaSummaryString = MoleculesAndLightA11yStrings.playAreaSummaryString.value;
-const controlAreaSummaryString = MoleculesAndLightA11yStrings.controlAreaSummaryString.value;
-const dynamicScreenSummaryString = MoleculesAndLightA11yStrings.dynamicScreenSummaryString.value;
-const emitterInObservationWindowString = MoleculesAndLightA11yStrings.emitterInObservationWindowString.value;
-const emitterPausedInObservationWindowString = MoleculesAndLightA11yStrings.emitterPausedInObservationWindowString.value;
-const interactionHintString = MoleculesAndLightA11yStrings.interactionHintString.value;
-const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
-const screenSummaryWithHintPatternString = MoleculesAndLightA11yStrings.screenSummaryWithHintPatternString.value;
-const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
-const interactionHintWithPlayPatternString = MoleculesAndLightA11yStrings.interactionHintWithPlayPatternString.value;
+const playAreaSummaryString = moleculesAndLightStrings.a11y.playAreaSummary;
+const controlAreaSummaryString = moleculesAndLightStrings.a11y.controlAreaSummary;
+const dynamicScreenSummaryString = moleculesAndLightStrings.a11y.dynamicScreenSummary;
+const emitterInObservationWindowString = moleculesAndLightStrings.a11y.emitterInObservationWindow;
+const emitterPausedInObservationWindowString = moleculesAndLightStrings.a11y.emitterPausedInObservationWindow;
+const interactionHintString = moleculesAndLightStrings.a11y.interactionHint;
+const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
+const screenSummaryWithHintPatternString = moleculesAndLightStrings.a11y.screenSummaryWithHintPattern;
+const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
+const interactionHintWithPlayPatternString = moleculesAndLightStrings.a11y.interactionHintWithPlayPattern;
 
 class MoleculesAndLightScreenSummaryNode extends Node {
 

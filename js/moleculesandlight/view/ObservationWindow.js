@@ -20,7 +20,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
@@ -30,11 +29,9 @@ import PhotonNode from '../../photon-absorption/view/PhotonNode.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 
 const buttonNodeReturnMoleculeString = moleculesAndLightStrings.ButtonNode.ReturnMolecule;
-
-// a11y strings
-const observationWindowLabelString = MoleculesAndLightA11yStrings.observationWindowLabelString.value;
-const geometryLabelPatternString = MoleculesAndLightA11yStrings.geometryLabelPatternString.value;
-const lookForNewMoleculeButtonString = MoleculesAndLightA11yStrings.lookForNewMoleculeButtonString.value;
+const observationWindowLabelString = moleculesAndLightStrings.a11y.observationWindowLabel;
+const geometryLabelPatternString = moleculesAndLightStrings.a11y.geometryLabelPattern;
+const lookForNewMoleculeButtonString = moleculesAndLightStrings.a11y.lookForNewMoleculeButton;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;

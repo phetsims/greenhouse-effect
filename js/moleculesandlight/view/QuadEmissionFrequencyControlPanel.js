@@ -24,7 +24,6 @@ import flashlight2Image from '../../../mipmaps/flashlight_png.js';
 import heatLampImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
 import uvLight2 from '../../../mipmaps/uv-source_png.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Photon from '../../photon-absorption/model/Photon.js';
@@ -36,11 +35,8 @@ const quadWavelengthSelectorInfraredString = moleculesAndLightStrings.QuadWavele
 const quadWavelengthSelectorMicrowaveString = moleculesAndLightStrings.QuadWavelengthSelector.Microwave;
 const quadWavelengthSelectorUltravioletString = moleculesAndLightStrings.QuadWavelengthSelector.Ultraviolet;
 const quadWavelengthSelectorVisibleString = moleculesAndLightStrings.QuadWavelengthSelector.Visible;
-
-// a11y strings
-const lightSourcesString = MoleculesAndLightA11yStrings.lightSourcesString.value;
-const lightSourceRadioButtonHelpTextString = MoleculesAndLightA11yStrings.lightSourceRadioButtonHelpTextString.value;
-// const wavelengthSelectionAlertPatternString = MoleculesAndLightA11yStrings.wavelengthSelectionAlertPatternString.value;
+const lightSourcesString = moleculesAndLightStrings.a11y.lightSources;
+const lightSourceRadioButtonHelpTextString = moleculesAndLightStrings.a11y.lightSourceRadioButtonHelpText;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;

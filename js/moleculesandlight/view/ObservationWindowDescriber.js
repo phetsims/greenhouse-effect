@@ -19,7 +19,7 @@
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
+import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
@@ -27,18 +27,17 @@ import EmissionRateControlSliderNode from '../../photon-absorption/view/Emission
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 
-// a11y strings
-const emptySpaceString = MoleculesAndLightA11yStrings.emptySpaceString.value;
-const photonEmitterDescriptionPatternString = MoleculesAndLightA11yStrings.photonEmitterDescriptionPatternString.value;
-const targetMoleculePatternString = MoleculesAndLightA11yStrings.targetMoleculePatternString.value;
-const inactiveAndPassingPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.inactiveAndPassingPhaseDescriptionPatternString.value;
-const stretchingString = MoleculesAndLightA11yStrings.stretchingString.value;
-const bendingString = MoleculesAndLightA11yStrings.bendingString.value;
-const glowingString = MoleculesAndLightA11yStrings.glowingString.value;
-const rotatingCounterClockwiseString = MoleculesAndLightA11yStrings.rotatingCounterClockwiseString.value;
-const rotatingClockwiseString = MoleculesAndLightA11yStrings.rotatingClockwiseString.value;
-const emissionPhaseDescriptionPatternString = MoleculesAndLightA11yStrings.emissionPhaseDescriptionPatternString.value;
-const moleculesOutOfViewPatternString = MoleculesAndLightA11yStrings.moleculesOutOfViewPatternString.value;
+const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
+const photonEmitterDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterDescriptionPattern;
+const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
+const inactiveAndPassingPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassingPhaseDescriptionPattern;
+const stretchingString = moleculesAndLightStrings.a11y.stretching;
+const bendingString = moleculesAndLightStrings.a11y.bending;
+const glowingString = moleculesAndLightStrings.a11y.glowing;
+const rotatingCounterClockwiseString = moleculesAndLightStrings.a11y.rotatingCounterClockwise;
+const rotatingClockwiseString = moleculesAndLightStrings.a11y.rotatingClockwise;
+const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
+const moleculesOutOfViewPatternString = moleculesAndLightStrings.a11y.moleculesOutOfViewPattern;
 
 class ObservationWindowDescriber {
 
