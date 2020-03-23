@@ -85,6 +85,7 @@ class ActiveMoleculeAlertManager {
       this.reset();
     } );
     photonAbsorptionModel.photonWavelengthProperty.link( () => this.reset() );
+    photonAbsorptionModel.resetEmitter.addListener( () => this.reset() );
 
     // allow some time before the next alert after changing the emission frequency as the screen reader will need to
     // announce the new aria-valuetext
