@@ -18,6 +18,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ObservableArray from '../../../../axon/js/ObservableArray.js';
@@ -146,6 +147,9 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
     phetioType: ObservableArrayIO( MoleculeIO )
   } ); // Elements are of type Molecule.
 
+  // @public - Emits when the model has been reset
+  this.resetEmitter = new Emitter();
+
   // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
   // listeners for the activeMolecules observable array have been implemented.
   self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
@@ -206,6 +210,9 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     this.runningProperty.reset();
     this.timeControlSpeedProperty.reset();
     this.photonTargetProperty.reset();
+
+    // broadcast that the model has been reset
+    this.resetEmitter.emit();
   },
 
   /**
