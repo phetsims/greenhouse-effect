@@ -16,10 +16,11 @@ import EmissionRateControlSliderNode from '../../photon-absorption/view/Emission
 
 const playAreaSummaryString = moleculesAndLightStrings.a11y.playAreaSummary;
 const controlAreaSummaryString = moleculesAndLightStrings.a11y.controlAreaSummary;
-const dynamicScreenSummaryString = moleculesAndLightStrings.a11y.dynamicScreenSummary;
-const emitterInObservationWindowString = moleculesAndLightStrings.a11y.emitterInObservationWindow;
-const emitterPausedInObservationWindowString = moleculesAndLightStrings.a11y.emitterPausedInObservationWindow;
 const interactionHintString = moleculesAndLightStrings.a11y.interactionHint;
+const simIsPausedString = moleculesAndLightStrings.a11y.simIsPaused;
+const simIsPausedOnSlowSpeedString = moleculesAndLightStrings.a11y.simIsPausedOnSlowSpeed;
+const dynamicPlayingScreenSummaryPatternString = moleculesAndLightStrings.a11y.dynamicPlayingScreenSummaryPattern;
+const dynamicPausedScreenSummaryPatternString = moleculesAndLightStrings.a11y.dynamicPausedScreenSummaryPattern;
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const screenSummaryWithHintPatternString = moleculesAndLightStrings.a11y.screenSummaryWithHintPattern;
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
@@ -56,11 +57,11 @@ class MoleculesAndLightScreenSummaryNode extends Node {
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const summaryProperties = [ model.photonWavelengthProperty, model.emissionFrequencyProperty, model.photonTargetProperty, model.runningProperty, returnMoleculeButtonVisibleProperty ];
-    Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible ) => {
+    const summaryProperties = [ model.photonWavelengthProperty, model.emissionFrequencyProperty, model.photonTargetProperty, model.runningProperty, model.slowMotionProperty, returnMoleculeButtonVisibleProperty ];
+    Property.multilink( summaryProperties, ( photonWavelength, emissionFrequency, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) => {
 
       // TODO: Maybe use accessibleName instead if https://github.com/phetsims/molecules-and-light/issues/237 is fixed
-      dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible );
+      dynamicDescription.innerContent = this.getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, slowMotion, returnMoleculeButtonVisible );
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
@@ -81,20 +82,20 @@ class MoleculesAndLightScreenSummaryNode extends Node {
 
   /**
    * Get the dynamic summary for the simulation, something like
-   * "Currently, in observation window, Infrared light source is off and points at carbon monoxide molecule."
+   * "Currently, Infrared light source is off and points at carbon monoxide molecule." or
+   * "Currently, sim is paused on slow speed. Infrared photon emits photons fast and directly at Carbon Monoxide molecule."
    * @private
    *
    * @param {number} photonWavelength
    * @param {number} emissionFrequency
    * @param {PhotonTarget} photonTarget
    * @param {boolean} running
+   * @param {boolean} slowMotion
    * @param {boolean} returnMoleculeButtonVisible
    * @returns {string}
    */
-  getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, returnMoleculeButtonVisible ) {
+  getSummaryString( photonWavelength, emissionFrequency, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) {
     const targetMolecule = this.model.targetMolecule;
-
-    const playingStateString = running ? emitterInObservationWindowString : emitterPausedInObservationWindowString;
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
     const emissionRateString = EmissionRateControlSliderNode.getEmissionFrequencyDescription( emissionFrequency );
 
@@ -108,12 +109,24 @@ class MoleculesAndLightScreenSummaryNode extends Node {
       targetString = emptySpaceString;
     }
 
-    const screenSummaryString = StringUtils.fillIn( dynamicScreenSummaryString, {
-      playingState: playingStateString,
-      lightSource: lightSourceString,
-      emissionRate: emissionRateString,
-      target: targetString
-    } );
+    let screenSummaryString;
+    if ( running ) {
+      screenSummaryString = StringUtils.fillIn( dynamicPlayingScreenSummaryPatternString, {
+        lightSource: lightSourceString,
+        emissionRate: emissionRateString,
+        target: targetString
+      } );
+    }
+    else {
+      const playingStateString = slowMotion ? simIsPausedOnSlowSpeedString : simIsPausedString;
+
+      screenSummaryString = StringUtils.fillIn( dynamicPausedScreenSummaryPatternString, {
+        playingState: playingStateString,
+        lightSource: lightSourceString,
+        emissionRate: emissionRateString,
+        target: targetString
+      } );
+    }
 
     // if the "New Molecule" button is visible, include a description of its existence in the screen summary
     if ( returnMoleculeButtonVisible ) {
@@ -124,7 +137,6 @@ class MoleculesAndLightScreenSummaryNode extends Node {
     else {
       return screenSummaryString;
     }
-
   }
 }
 
