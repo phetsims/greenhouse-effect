@@ -24,26 +24,17 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import DialogIO from '../../../../sun/js/DialogIO.js';
 import Playable from '../../../../tambo/js/Playable.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
-import infraredPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-ir_mp3.js';
-import microwavePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-microwave_mp3.js';
-import ultravioletPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-uv_mp3.js';
-import visiblePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-visible_mp3.js';
-import infraredPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-ir_mp3.js';
-import microwavePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-microwave_mp3.js';
-import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-uv_mp3.js';
-import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-visible_mp3.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
 import MoleculesAndLightScreenSummaryNode from './MoleculesAndLightScreenSummaryNode.js';
 import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
 import ObservationWindow from './ObservationWindow.js';
+import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
@@ -64,13 +55,6 @@ const CORNER_RADIUS = 7;
 
 // Line width of the observation window frame
 const FRAME_LINE_WIDTH = 5;
-
-// volume of photon emission sounds
-const PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL = 0.05;
-const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
-
-// X position at which the lamp emission sound is played, empirically determined
-const PLAY_LAMP_EMISSION_X_POSITION = -1400;
 
 /**
  * Constructor for the screen view of Molecules and Light.
@@ -243,74 +227,8 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     photonAbsorptionModel.slowMotionProperty
   ) );
 
-  // photon generation sounds (i.e. the photons coming from the lamps)
-  const photonInitialEmissionSoundClipOptions = { initialOutputLevel: PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL };
-
-  // Note - can't use initialization constructor for Map due to lack of support in IE.
-  const photonInitialEmissionSoundPlayers = new Map();
-  photonInitialEmissionSoundPlayers.set(
-    WavelengthConstants.MICRO_WAVELENGTH,
-    new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
-  );
-  photonInitialEmissionSoundPlayers.set(
-    WavelengthConstants.IR_WAVELENGTH,
-    new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
-  );
-  photonInitialEmissionSoundPlayers.set(
-    WavelengthConstants.VISIBLE_WAVELENGTH,
-    new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
-  );
-  photonInitialEmissionSoundPlayers.set(
-    WavelengthConstants.UV_WAVELENGTH,
-    new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
-  );
-  photonInitialEmissionSoundPlayers.forEach( value => {
-    soundManager.addSoundGenerator( value );
-  } );
-
-  // photon re-emissions sounds, i.e. photons that are emitted from a molecule that previously absorbed one
-  const photonEmissionFromMoleculeSoundClipOptions = { initialOutputLevel: PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL };
-
-  // Note - can't use initialization constructor for Map due to lack of support in IE.
-  const photonEmissionFromMoleculeSoundPlayers = new Map();
-  photonEmissionFromMoleculeSoundPlayers.set(
-    WavelengthConstants.MICRO_WAVELENGTH,
-    new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
-  );
-  photonEmissionFromMoleculeSoundPlayers.set(
-    WavelengthConstants.IR_WAVELENGTH,
-    new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
-  );
-  photonEmissionFromMoleculeSoundPlayers.set(
-    WavelengthConstants.VISIBLE_WAVELENGTH,
-    new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
-  );
-  photonEmissionFromMoleculeSoundPlayers.set(
-    WavelengthConstants.UV_WAVELENGTH,
-    new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
-  );
-  photonEmissionFromMoleculeSoundPlayers.forEach( value => {
-    soundManager.addSoundGenerator( value );
-  } );
-
-  photonAbsorptionModel.photons.addItemAddedListener( photon => {
-    if ( photon.locationProperty.value.x < 0 ) {
-
-      // photon was emitted from lamp, use the initial emission sound
-      const playEmitFromLampSound = position => {
-        if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
-          photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
-          photon.locationProperty.unlink( playEmitFromLampSound );
-        }
-      };
-      photon.locationProperty.link( playEmitFromLampSound );
-    }
-    else {
-
-      // photon was emitted from lamp, use the secondary emission sound (finalized as of 12/2/2019)
-      photonEmissionFromMoleculeSoundPlayers.get( photon.wavelength ).play();
-    }
-  } );
+  // add the sound generator that will produce the sounds when photons are emitted by the lamps or the active molecule
+  soundManager.addSoundGenerator( new PhotonEmissionSoundGenerator( photonAbsorptionModel.photons ) );
 }
 
 moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
