@@ -1,4 +1,4 @@
-# Molecules And Light Screen:
+# Molecules And Light Screen
 
 The model describes the interaction between photons and molecules.  In general, a photon emitter fires a
 photon at a molecule with which it will or will not interact.  Whether or not a photon interacts with a given
@@ -24,7 +24,7 @@ ultraviolet.
 
 ----
 
-# Important Modeling Notes / Simplifications:
+# Important Modeling Notes / Simplifications
 
 The sim only shows the basic absorption process for each class of radiation - that is, microwaves = rotation, infrared =
 vibration, etc.  But in the real world, absorption of infrared can excite rotations along with vibrations, and
