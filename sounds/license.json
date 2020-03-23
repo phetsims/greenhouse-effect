@@ -87,30 +87,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-clockwise.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-counterclockwise.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-directions-001-slow-mo.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
   "rotate-directions-001-spatialized.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
@@ -120,14 +96,6 @@
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
   "rotate-directions-001-spatialized-slow-mo.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "rotate-directions-002-slow-mo.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -146,22 +114,6 @@
   "rotate-directions-002-spatialized-slow-mo.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "vibration.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "vibration-slow-mo.mp3": {
-    "text": [
-      "Copyright 2018 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
