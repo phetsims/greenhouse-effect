@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "absorb-loop-low-harmonics-reduction": {
+  "absorb-loop-low-harmonics-reduction.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -22,38 +22,6 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
-  },
-  "photon-000-spatialized.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-001-spatialized.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-002-spatialized.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "photon-003-spatialized.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
   "photon-emit-microwave.mp3": {
     "text": [
