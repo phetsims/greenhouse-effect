@@ -15,11 +15,11 @@ import rotationClockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-
 import rotationClockwiseSlowMotionStereoSoundInfo
   from '../../../sounds/rotate-directions-001-spatialized-slow-mo_mp3.js';
 import rotationCounterclockwiseNormalSpeedStereoSoundInfo
-  from '../../../sounds/rotate-directions-002-spatialized_mp3.js';
+  from '../../../sounds/rotate-directions-001-reverse-spatialized_mp3.js';
 import rotationCounterclockwiseSlowMotionStereoSoundInfo
-  from '../../../sounds/rotate-directions-002-spatialized-slow-mo_mp3.js';
-import vibrationSlowMotionStereoSoundInfo from '../../../sounds/vibration-spatialized-slow-mo_mp3.js';
-import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibration-spatialized_mp3.js';
+  from '../../../sounds/rotate-directions-001-reverse-spatialized-slow-mo_mp3.js';
+import vibrationSlowMotionStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized-slow-mo_mp3.js';
+import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized_mp3.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import merge from '../../../../phet-core/js/merge.js';
 
