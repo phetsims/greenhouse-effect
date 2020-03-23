@@ -114,6 +114,8 @@ class MoleculesAndLightScreenSummaryNode extends Node {
     let screenSummaryString = null;
     let emissionDescriptionString = null;
     if ( this.model.runningProperty.get() ) {
+
+      // if running, slow speed is described with the photon emission description
       if ( emitterOn ) {
         emissionDescriptionString = slowMotion ? emitsPhotonsOnSlowSpeedString : emitsPhotonsString;
       }
