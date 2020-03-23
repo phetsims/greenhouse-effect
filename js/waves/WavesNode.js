@@ -266,7 +266,7 @@ class WavesNode extends Node {
     const reflectWave2 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud2.center.plusXY( 50, 0 ), cloud2.center.plusXY( 100, -400 ), 0, incomingWave2.waveDistance );
     this.waves.push( reflectWave2 ); // reflected
 
-    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, -100 ), new Vector2( 800, 1000 ), 0 ) );
+    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( 800, layoutBounds.top ), new Vector2( 800, 1000 ), 0 ) );
 
     const ANGLE = 30;
     const createRedSet = ( red1Start, magnitude, phase ) => {
