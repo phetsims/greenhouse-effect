@@ -26,7 +26,6 @@ const emitsPhotonsString = moleculesAndLightStrings.a11y.emitsPhotons;
 const emitsPhotonsOnSlowSpeedString = moleculesAndLightStrings.a11y.emitsPhotonsOnSlowSpeed;
 const isOffAndPointsString = moleculesAndLightStrings.a11y.isOffAndPoints;
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
-const interactionHintWithPlayPatternString = moleculesAndLightStrings.a11y.interactionHintWithPlayPattern;
 
 class MoleculesAndLightScreenSummaryNode extends Node {
 
@@ -72,18 +71,7 @@ class MoleculesAndLightScreenSummaryNode extends Node {
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
-    const interactionHint = new Node( { tagName: 'p' } );
-    model.runningProperty.link( running => {
-      if ( running ) {
-        interactionHint.innerContent = interactionHintString;
-      }
-      else {
-        interactionHint.innerContent = StringUtils.fillIn( interactionHintWithPlayPatternString, {
-          interactionHint: interactionHintString
-        } );
-      }
-    } );
-
+    const interactionHint = new Node( { tagName: 'p', innerContent: interactionHintString } );
     this.addChild( interactionHint );
   }
 
