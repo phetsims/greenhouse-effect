@@ -1,4 +1,4 @@
-#Implementation notes for 'Molecules and Light'
+# Implementation notes for 'Molecules and Light'
 
 'Molecules and Light' is a single screen sim.  The Java version of this simulation shared a significant amount of code
 with the sim 'The Greenhouse Effect'.  When 'The Greenhouse Effect' sim is ported, a lot of the code will be shared with
