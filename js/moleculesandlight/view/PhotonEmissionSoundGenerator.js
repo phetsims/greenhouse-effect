@@ -110,8 +110,8 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
       else if ( photonXPosition < PLAY_LAMP_EMISSION_X_POSITION ) {
 
         // A photon was emitted from the emitter (e.g. a lamp).  This generally occurs a little behind the lamp so that
-        // the whole image is in place before it is emitted, but these means that we need to wait until it is in a
-        // good position to play the sound.
+        // the whole image is in place before it is emitted, but these means that we need to wait until it is in a good
+        // position to play the sound.
         const playEmitFromLampSound = position => {
           if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
             photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
