@@ -29,18 +29,13 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
 import infraredPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-ir_mp3.js';
-import infraredPhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-000-spatialized_mp3.js';
 import microwavePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-microwave_mp3.js';
-import microwavePhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-003-spatialized_mp3.js';
 import ultravioletPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-uv_mp3.js';
-import ultravioletPhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-002-spatialized_mp3.js';
 import visiblePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-visible_mp3.js';
-import visiblePhotonInitialEmissionSpatializedSoundInfo from '../../../sounds/photon-003-spatialized_mp3.js';
 import infraredPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-ir_mp3.js';
 import microwavePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-microwave_mp3.js';
 import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-uv_mp3.js';
 import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-visible_mp3.js';
-import MoleculesAndLightConstants from '../../common/MoleculesAndLightConstants.js';
 import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -258,31 +253,19 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const photonInitialEmissionSoundPlayers = new Map();
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.MICRO_WAVELENGTH,
-    new SoundClip(
-      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? microwavePhotonInitialEmissionSpatializedSoundInfo : microwavePhotonInitialEmissionSoundInfo,
-      photonInitialEmissionSoundClipOptions
-    )
+    new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.IR_WAVELENGTH,
-    new SoundClip(
-      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? infraredPhotonInitialEmissionSpatializedSoundInfo : infraredPhotonInitialEmissionSoundInfo,
-      photonInitialEmissionSoundClipOptions
-    )
+    new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.VISIBLE_WAVELENGTH,
-    new SoundClip(
-      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? visiblePhotonInitialEmissionSpatializedSoundInfo : visiblePhotonInitialEmissionSoundInfo,
-      photonInitialEmissionSoundClipOptions
-    )
+    new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
   );
   photonInitialEmissionSoundPlayers.set(
     WavelengthConstants.UV_WAVELENGTH,
-    new SoundClip(
-      MoleculesAndLightConstants.USE_SPATIALIZED_SOUNDS ? ultravioletPhotonInitialEmissionSpatializedSoundInfo : ultravioletPhotonInitialEmissionSoundInfo,
-      photonInitialEmissionSoundClipOptions
-    )
+    new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
   );
   photonInitialEmissionSoundPlayers.forEach( value => {
     soundManager.addSoundGenerator( value );
