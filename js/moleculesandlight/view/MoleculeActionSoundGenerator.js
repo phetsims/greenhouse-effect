@@ -10,7 +10,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.js';
 import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
-import moleculeEnergizedSoundInfo from '../../../sounds/glow-loop-higher_mp3.js';
+import moleculeEnergizedSoundInfo from '../../../sounds/absorb-loop-low-harmonics-reduction_mp3.js';
 import rotationClockwiseNormalSpeedMonoSoundInfo from '../../../sounds/rotate-clockwise_mp3.js';
 import rotationClockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
 import rotationClockwiseSlowMotionMonoSoundInfo from '../../../sounds/rotate-directions-001-slow-mo_mp3.js';
