@@ -11,7 +11,7 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
+import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
@@ -25,23 +25,22 @@ import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
-// pdom strings
-const carbonDioxideString = MoleculesAndLightA11yStrings.carbonDioxideString.value;
-const carbonMonoxideString = MoleculesAndLightA11yStrings.carbonMonoxideString.value;
-const diatomicOxygenString = MoleculesAndLightA11yStrings.diatomicOxygenString.value;
-const methaneString = MoleculesAndLightA11yStrings.methaneString.value;
-const nitrogenDioxideString = MoleculesAndLightA11yStrings.nitrogenDioxideString.value;
-const nitrogenString = MoleculesAndLightA11yStrings.nitrogenString.value;
-const oxygenString = MoleculesAndLightA11yStrings.oxygenString.value;
-const ozoneString = MoleculesAndLightA11yStrings.ozoneString.value;
-const waterString = MoleculesAndLightA11yStrings.waterString.value;
-const linearString = MoleculesAndLightA11yStrings.linearString.value;
-const bentString = MoleculesAndLightA11yStrings.bentString.value;
-const tetrahedralString = MoleculesAndLightA11yStrings.tetrahedralString.value;
-const diatomicString = MoleculesAndLightA11yStrings.diatomicString.value;
-const bentGeometryDescriptionString = MoleculesAndLightA11yStrings.bentGeometryDescriptionString.value;
-const tetrahedralGeometryDescriptionString = MoleculesAndLightA11yStrings.tetrahedralGeometryDescriptionString.value;
-const linearGeometryDescriptionString = MoleculesAndLightA11yStrings.linearGeometryDescriptionString.value;
+const carbonDioxideString = moleculesAndLightStrings.a11y.carbonDioxide;
+const carbonMonoxideString = moleculesAndLightStrings.a11y.carbonMonoxide;
+const diatomicOxygenString = moleculesAndLightStrings.a11y.diatomicOxygen;
+const methaneString = moleculesAndLightStrings.a11y.methane;
+const nitrogenDioxideString = moleculesAndLightStrings.a11y.nitrogenDioxide;
+const nitrogenString = moleculesAndLightStrings.a11y.nitrogen;
+const oxygenString = moleculesAndLightStrings.a11y.oxygen;
+const ozoneString = moleculesAndLightStrings.a11y.ozone;
+const waterString = moleculesAndLightStrings.a11y.water;
+const linearString = moleculesAndLightStrings.a11y.linear;
+const bentString = moleculesAndLightStrings.a11y.bent;
+const tetrahedralString = moleculesAndLightStrings.a11y.tetrahedral;
+const diatomicString = moleculesAndLightStrings.a11y.diatomic;
+const bentGeometryDescriptionString = moleculesAndLightStrings.a11y.bentGeometryDescription;
+const tetrahedralGeometryDescriptionString = moleculesAndLightStrings.a11y.tetrahedralGeometryDescription;
+const linearGeometryDescriptionString = moleculesAndLightStrings.a11y.linearGeometryDescription;
 
 // constants
 const Geometry = Enumeration.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );

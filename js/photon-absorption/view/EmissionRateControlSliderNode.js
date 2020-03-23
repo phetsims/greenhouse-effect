@@ -26,30 +26,26 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import HSlider from '../../../../sun/js/HSlider.js';
-import MoleculesAndLightA11yStrings from '../../common/MoleculesAndLightA11yStrings.js';
+import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-// PDOM strings
-const verySlowString = MoleculesAndLightA11yStrings.verySlowString.value;
-const slowString = MoleculesAndLightA11yStrings.slowString.value;
-const fastString = MoleculesAndLightA11yStrings.fastString.value;
+const verySlowString = moleculesAndLightStrings.a11y.verySlow;
+const slowString = moleculesAndLightStrings.a11y.slow;
+const fastString = moleculesAndLightStrings.a11y.fast;
+const emissionSliderDescriptionString = moleculesAndLightStrings.a11y.emissionSliderDescription;
+const lightSourceLabelPatternString = moleculesAndLightStrings.a11y.lightSourceLabelPattern;
+const emitsPhotonsFastString = moleculesAndLightStrings.a11y.emitsPhotonsFast;
+const isOffAndPointsString = moleculesAndLightStrings.a11y.isOffAndPoints;
+const emitsPhotonsSlowlyString = moleculesAndLightStrings.a11y.emitsPhotonsSlowly;
+const emitsPhotonsVerySlowString = moleculesAndLightStrings.a11y.emitsPhotonsVerySlow;
+const lightSourceOffString = moleculesAndLightStrings.a11y.lightSourceOff;
 
 // constants
 const THUMB_SIZE = new Dimension2( 10, 18 ); // size of the slider thumb
 const TRACK_SIZE = new Dimension2( 50, 0.25 ); // size of the slider track
 const THUMB_RECTANGLE_WIDTH = 30; // a background rectangle behind the thumb, made visible when the slider has focus
 const THUMB_RECTANGLE_HEIGHT = 45; // a background rectangle behind the thumb, made visible when the slider has focus
-
-// a11y strings
-const emissionSliderDescriptionString = MoleculesAndLightA11yStrings.emissionSliderDescriptionString.value;
-const lightSourceLabelPatternString = MoleculesAndLightA11yStrings.lightSourceLabelPatternString.value;
-const emitsPhotonsFastString = MoleculesAndLightA11yStrings.emitsPhotonsFastString.value;
-const isOffAndPointsString = MoleculesAndLightA11yStrings.isOffAndPointsString.value;
-
-const emitsPhotonsSlowlyString = MoleculesAndLightA11yStrings.emitsPhotonsSlowlyString.value;
-const emitsPhotonsVerySlowString = MoleculesAndLightA11yStrings.emitsPhotonsVerySlowString.value;
-const lightSourceOffString = MoleculesAndLightA11yStrings.lightSourceOffString.value;
 
 // constants
 const SLIDER_RANGE = new Range( 0, 1 ); // range for the slider values
