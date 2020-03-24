@@ -12,6 +12,7 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import inherit from '../../../../phet-core/js/inherit.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
@@ -22,8 +23,11 @@ import flashlightOnImage from '../../../mipmaps/flashlight_png.js';
 import heatLampOnImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js';
 import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
+import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
+
+const lightSourceButtonLabelPatternString = moleculesAndLightStrings.a11y.lightSource.buttonLabelPattern;
 
 /**
  * Constructor for the photon emitter node.
@@ -113,6 +117,11 @@ export default inherit( Node, PhotonEmitterNode, {
       baseColor: '#33dd33',
 
       tandem: tandem.createTandem( 'button' )
+    } );
+
+    // PDOM - update the accessible name for the button
+    this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternString, {
+      lightSource: WavelengthConstants.getLightSourceName( photonWavelength )
     } );
 
     // add the button to the correct location on the photon emitter
