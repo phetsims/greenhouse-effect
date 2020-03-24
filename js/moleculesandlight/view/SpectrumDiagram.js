@@ -12,10 +12,12 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import inherit from '../../../../phet-core/js/inherit.js';
+import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
+import AccessiblePeer from '../../../../scenery/js/accessibility/AccessiblePeer.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -39,7 +41,33 @@ const spectrumWindowUltravioletBandLabelString = moleculesAndLightStrings.Spectr
 const spectrumWindowVisibleBandLabelString = moleculesAndLightStrings.SpectrumWindow.visibleBandLabel;
 const spectrumWindowWavelengthArrowLabelString = moleculesAndLightStrings.SpectrumWindow.wavelengthArrowLabel;
 const spectrumWindowXrayBandLabelString = moleculesAndLightStrings.SpectrumWindow.xrayBandLabel;
-const spectrumDialogDescriptionString = moleculesAndLightStrings.a11y.spectrumDialogDescription;
+const spectrumWindowDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowDescription;
+const spectrumWindowEnergyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowEnergyDescription;
+const spectrumWindowSinWaveDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowSinWaveDescription;
+const spectrumWindowLabelledSpectrumLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumLabel;
+const spectrumWindowLabelledSpectrumDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumDescription;
+const spectrumWindowLabelledSpectrumRadioLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumRadioLabel;
+const spectrumWindowLabelledSpectrumMicrowaveLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveLabel;
+const spectrumWindowLabelledSpectrumInfraredLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumInfraredLabel;
+const spectrumWindowLabelledSpectrumVisibleLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumVisibleLabel;
+const spectrumWindowLabelledSpectrumUltravioletLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumUltravioletLabel;
+const spectrumWindowLabelledSpectrumXRayLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumXRayLabel;
+const spectrumWindowLabelledSpectrumGammaRayLabelString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumGammaRayLabel;
+const spectrumWindowLabelledSpectrumRadioFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumRadioFrequencyDescription;
+const spectrumWindowLabelledSpectrumRadioWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumRadioWavelengthDescription;
+const spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription;
+const spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription;
+const spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumInfraredFrequencyDescription;
+const spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumInfraredWavelengthDescription;
+const spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumVisibleFrequencyDescription;
+const spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumVisibleWavelengthDescription;
+const spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumVisibleGraphicalDescription;
+const spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumUltravioletFrequencyDescription;
+const spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumUltravioletWavelengthDescription;
+const spectrumWindowLabelledSpectrumXRayFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumXRayFrequencyDescription;
+const spectrumWindowLabelledSpectrumXRayWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumXRayWavelengthDescription;
+const spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumGammaRayFrequencyDescription;
+const spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumGammaRayWavelengthDescription;
 
 // shared constants
 const LABEL_FONT = new PhetFont( 16 );
@@ -70,7 +98,15 @@ function SpectrumDiagram( tandem ) {
   const children = [];
 
   // Add the title and scale for translations.
-  const title = new Text( spectrumWindowTitleString, { font: new PhetFont( 30 ) } );
+  const title = new Text( spectrumWindowTitleString, {
+    font: new PhetFont( 30 ),
+
+    tagName: 'h1',
+    innerContent: spectrumWindowTitleString,
+    descriptionTagName: 'p',
+    descriptionContent: spectrumWindowDescriptionString, // a general description for the entirety of the Dialog content
+    appendDescription: true
+  } );
   if ( title.width > SUBSECTION_WIDTH ) {
     title.scale( SUBSECTION_WIDTH / title.width );
   }
@@ -83,7 +119,11 @@ function SpectrumDiagram( tandem ) {
     spectrumWindowFrequencyArrowLabelString,
     'white',
     'rgb(5, 255,  255)',
-    tandem.createTandem( 'frequencyArrow' )
+    tandem.createTandem( 'frequencyArrow' ), {
+
+      tagName: 'p',
+      innerContent: spectrumWindowEnergyDescriptionString
+    }
   );
   children.push( frequencyArrow );
 
@@ -103,7 +143,10 @@ function SpectrumDiagram( tandem ) {
   children.push( wavelengthArrow );
 
   // Add the diagram that depicts the wave that gets shorter.
-  const decreasingWavelengthNode = new ChirpNode();
+  const decreasingWavelengthNode = new ChirpNode( {
+    tagName: 'p',
+    innerContent: spectrumWindowSinWaveDescriptionString
+  } );
   children.push( decreasingWavelengthNode );
 
   LayoutBox.call( this, {
@@ -112,13 +155,18 @@ function SpectrumDiagram( tandem ) {
     spacing: 15,
 
     // PDOM
-    containerTagName: 'div',
-    tagName: 'h1',
-    innerContent: spectrumWindowTitleString,
-    descriptionTagName: 'p',
-    descriptionContent: spectrumDialogDescriptionString,
-    appendDescription: true
+    tagName: 'div' // so that this Node can be aria-labelledby the title
   } );
+
+  // PDOM - set label association so the title is read when focus enters the dialog
+  this.addAriaLabelledbyAssociation( {
+    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    otherNode: title,
+    otherElementName: AccessiblePeer.PRIMARY_SIBLING
+  } );
+
+  // PDOM - in descriptions, the decreasing wavelength comes before the spectrum
+  this.accessibleOrder = [ title, frequencyArrow, decreasingWavelengthNode, spectrum ];
 }
 
 moleculesAndLight.register( 'SpectrumDiagram', SpectrumDiagram );
@@ -140,7 +188,15 @@ inherit( LayoutBox, SpectrumDiagram, {}, {
  * @param {Tandem} tandem
  * @constructor
  */
-function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem ) {
+function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem, options ) {
+
+  options = merge( {
+    headHeight: ARROW_HEAD_HEIGHT,
+    headWidth: ARROW_HEAD_WIDTH,
+    tailWidth: ARROW_TAIL_WIDTH,
+    lineWidth: 2,
+    tandem: tandem
+  }, options );
 
   const Orientation = {
     POINTING_LEFT: 'left',
@@ -158,15 +214,10 @@ function LabeledArrow( length, orientation, captionText, leftColor, rightColor, 
     assert && assert( orientation === Orientation.POINTING_RIGHT );
     gradientPaint = new LinearGradient( 0, 0, length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
   }
+  assert && assert( options.fill === undefined, 'LabeledArrow sets fill' );
+  options.fill = gradientPaint;
 
-  ArrowNode.call( this, 0, 0, length, 0, {
-    headHeight: ARROW_HEAD_HEIGHT,
-    headWidth: ARROW_HEAD_WIDTH,
-    tailWidth: ARROW_TAIL_WIDTH,
-    fill: gradientPaint,
-    lineWidth: 2,
-    tandem: tandem
-  } );
+  ArrowNode.call( this, 0, 0, length, 0, options );
 
   // Create and add the textual label.  Scale it so that it can handle translations.  Max label length is the arrow
   // length minus twice the head length.
@@ -192,7 +243,15 @@ inherit( ArrowNode, LabeledArrow );
 function LabeledSpectrumNode( tandem ) {
 
   // Supertype constructor
-  Node.call( this );
+  Node.call( this, {
+
+    // the LabeledSpectrumNode is represented as a nested list describing the various ranges of wavelengths and frequencies
+    tagName: 'ul',
+    labelTagName: 'h2',
+    labelContent: spectrumWindowLabelledSpectrumLabelString,
+    descriptionTagName: 'p',
+    descriptionContent: spectrumWindowLabelledSpectrumDescriptionString
+  } );
   const self = this;
 
   // Create the "strip", which is the solid background portions that contains the different bands and that has tick
@@ -216,24 +275,65 @@ function LabeledSpectrumNode( tandem ) {
     addWavelengthTickMark( self, Math.pow( 10, j ), strip.bottom, includeWavelengthLabel );
   }
 
-  // Add the various bands.
-  addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString, tandem.createTandem( 'radioBandLabel' ) );
+  // Add the various bands, labels include PDOM descriptions
+  addBandLabel( self, 1E3, 1E9, spectrumWindowRadioBandLabelString,
+    spectrumWindowLabelledSpectrumRadioLabelString,
+    spectrumWindowLabelledSpectrumRadioFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumRadioWavelengthDescriptionString,
+    tandem.createTandem( 'radioBandLabel' )
+  );
   addBandDivider( self, 1E9 );
-  addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString, tandem.createTandem( 'microwaveBandLabel' ) );
+  addBandLabel( self, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString,
+    spectrumWindowLabelledSpectrumMicrowaveLabelString,
+    spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionString,
+    tandem.createTandem( 'microwaveBandLabel' )
+  );
   addBandDivider( self, 3E11 );
-  addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString, tandem.createTandem( 'infraredBandLabel' ) );
-  addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString, tandem.createTandem( 'ultravioletBandLabel' ) );
-  addBandDivider( self, 1E16 );
-  addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString, tandem.createTandem( 'xrayBandLabel' ) );
-  addBandDivider( self, 1E19 );
-  addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString, tandem.createTandem( 'gammaRayBandLabel' ) );
+  addBandLabel( self, 3E11, 6E14, spectrumWindowInfraredBandLabelString,
+    spectrumWindowLabelledSpectrumInfraredLabelString,
+    spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionString,
+    tandem.createTandem( 'infraredBandLabel' )
+  );
 
-  // Add the visible spectrum.
+  // Add the visible spectrum, in order for PDOM descriptions
   const visSpectrumWidth = Utils.roundSymmetric( getOffsetFromFrequency( 790E12 ) - getOffsetFromFrequency( 400E12 ) );
   const wavelengthSpectrumNode = new WavelengthSpectrumNode( { size: new Dimension2( visSpectrumWidth, STRIP_HEIGHT - 2 ) } );
   wavelengthSpectrumNode.rotate( Math.PI ); // Flip the visible spectrum so that it is represented correctly in the diagram.
   wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
   this.addChild( wavelengthSpectrumNode );
+
+  addBandLabel( self, 1E15, 8E15, spectrumWindowUltravioletBandLabelString,
+    spectrumWindowLabelledSpectrumUltravioletLabelString,
+    spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionString,
+    tandem.createTandem( 'ultravioletBandLabel' )
+  );
+  addBandDivider( self, 1E16 );
+  addBandLabel( self, 1E16, 1E19, spectrumWindowXrayBandLabelString,
+    spectrumWindowLabelledSpectrumXRayLabelString,
+    spectrumWindowLabelledSpectrumXRayFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumXRayWavelengthDescriptionString,
+    tandem.createTandem( 'xrayBandLabel' )
+  );
+  addBandDivider( self, 1E19 );
+  addBandLabel( self, 1E19, 1E21, spectrumWindowGammaRayBandLabelString,
+    spectrumWindowLabelledSpectrumGammaRayLabelString,
+    spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString,
+    tandem.createTandem( 'gammaRayBandLabel' )
+  );
+
+  addFrequencyAndLabelDescriptions(
+    wavelengthSpectrumNode,
+    spectrumWindowLabelledSpectrumVisibleLabelString,
+    spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionString,
+    spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionString,
+    {
+      graphicalDescription: spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionString
+    }
+  );
 
   // Add the label for the visible band.  Scale it down for translations.
   const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
@@ -379,9 +479,13 @@ function addWavelengthTickMark( thisNode, wavelength, top, addLabel ) {
  * @param {number} lowEndFrequency
  * @param {number} highEndFrequency
  * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
+ * @param {string} pdomLabel - label for the content in the PDOM
+ * @param {string} frequencyDescription - describes the range of frequencies in the PDOM
+ * @param {string} wavelengthDescription - describes the range of wavelengths in the PDOM
  * @param {Tandem} tandem
  */
-function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString, tandem ) {
+function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString, pdomLabel, frequencyDescription, wavelengthDescription, tandem ) {
+
   // Argument validation.
   assert && assert( highEndFrequency >= lowEndFrequency );
 
@@ -392,7 +496,11 @@ function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString,
   const centerX = leftBoundaryX + width / 2;
 
   // Create and add the label.
-  const labelText = new MultiLineText( labelString, { align: 'center', font: LABEL_FONT, tandem: tandem } );
+  const labelText = new MultiLineText( labelString, {
+    align: 'center',
+    font: LABEL_FONT,
+    tandem: tandem
+  } );
   thisNode.addChild( labelText );
 
   if ( ( labelText.width + 10 ) > width ) {
@@ -400,6 +508,9 @@ function addBandLabel( thisNode, lowEndFrequency, highEndFrequency, labelString,
     labelText.scale( width / ( labelText.width + 10 ) );
   }
   labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
+
+  // PDOM
+  addFrequencyAndLabelDescriptions( labelText, pdomLabel, frequencyDescription, wavelengthDescription );
 }
 
 /**
@@ -424,20 +535,52 @@ function addBandDivider( thisNode, frequency ) {
 }
 
 /**
+ * Sets and decorates the Node with accessible content describing the wavelengths and frequencies of a particular range.
+ * @param {Node} node
+ * @param {string} label
+ * @param {string} frequencyDescription
+ * @param {string} wavelengthDescription
+ * @param {Object} [options]
+ */
+function addFrequencyAndLabelDescriptions( node, label, frequencyDescription, wavelengthDescription, options ) {
+  options = merge( {
+
+    // {string|null} optional description for the graphical representation in the simulation for this range of frequency/wavelength
+    graphicalDescription: null
+  }, options );
+
+  // assumes that some ancestor of the Node is an unordered list
+  node.containerTagName = 'li';
+  node.tagName = 'ul';
+  node.labelTagName = 'span';
+  node.labelContent = label;
+
+  // add to the nested list
+  node.addChild( new Node( { tagName: 'li', innerContent: frequencyDescription } ) );
+  node.addChild( new Node( { tagName: 'li', innerContent: wavelengthDescription } ) );
+
+  if ( options.graphicalDescription ) {
+    node.addChild( new Node( { tagName: 'li', innerContent: options.graphicalDescription } ) );
+  }
+}
+
+/**
  *  Class that depicts a wave that gets progressively shorter in wavelength from left to right, which is called a
  *  chirp.
  *
  *  @constructor
  */
-function ChirpNode() {
+function ChirpNode( options ) {
 
-  // Create and add the boundary and background.
-  const boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
-  Rectangle.call( this, 0, 0, SUBSECTION_WIDTH, boundingBoxHeight, {
+  options = merge( {
     fill: 'rgb(237, 243, 246)',
     lineWidth: 2,
     stroke: 'black'
-  } );
+  }, options );
+
+  // Create and add the boundary and background.
+  const boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
+  Rectangle.call( this, 0, 0, SUBSECTION_WIDTH, boundingBoxHeight, options );
 
   const chirpShape = new Shape();
   chirpShape.moveTo( 0, this.centerY ); // Move starting point to left center of bounding box.

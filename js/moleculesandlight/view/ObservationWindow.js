@@ -97,8 +97,8 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
   // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
 //    this.clipArea = new Shape().roundRect(
 //      this.left,
-//      this.top,
-//      this.width,
+//      this.top,this.width,
+//
 //      this.height,
 //      CORNER_RADIUS, CORNER_RADIUS ); // @private
 
