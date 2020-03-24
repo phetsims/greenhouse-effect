@@ -29,7 +29,7 @@ import WavelengthConstants from '../../photon-absorption/model/WavelengthConstan
 //---------------------------------------------------------------------------------------------------------------------
 
 // sound output levels
-const PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL = 0.05;
+const PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL = 0.02;
 const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
 
 // X position at which the lamp emission sound is played, empirically determined
