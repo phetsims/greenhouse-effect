@@ -124,7 +124,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
       // a11y
       // move focus to the emission control slider only when the button is clicked
       // retain focus on other elements if button was clicked without focus
-      self.returnMoleculeButtonNode.isFocused() && photonEmitterNode.emissionRateControlSliderNode.emissionRateControlSlider.focus();
+      self.returnMoleculeButtonNode.isFocused() && photonEmitterNode.button.focus();
 
       photonAbsorptionModel.restoreActiveMolecule();
       self.returnMoleculeButtonVisibleProperty.set( false );
