@@ -203,7 +203,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   } );
 
   // a11y - add an attribute that lets the user know the button opens a menu
-  showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', true );
+  showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', 'dialog' );
 
   showLightSpectrumButton.centerTop = ( new Vector2( moleculeControlPanel.centerX, timeControlNode.bottom + 13 ) );
   this.pdomPlayAreaNode.addChild( showLightSpectrumButton );
