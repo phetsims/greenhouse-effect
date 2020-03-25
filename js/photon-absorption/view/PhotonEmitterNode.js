@@ -64,6 +64,10 @@ function PhotonEmitterNode( width, model, tandem ) {
   // still deciding whether we want this role on the button, see https://github.com/phetsims/molecules-and-light/issues/296
   if ( MoleculesAndLightQueryParameters.switch ) {
     this.button.setAriaRole( 'switch' );
+
+    // PDOM - signify button is 'pressed' when down
+    const setAriaPressed = value => this.button.setAccessibleAttribute( 'aria-checked', value );
+    model.photonEmitterOnProperty.link( setAriaPressed );
   }
 
   // update the photon emitter upon changes to the photon wavelength
