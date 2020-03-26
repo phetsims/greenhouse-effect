@@ -67,7 +67,6 @@ class WaveParameterModel {
   reset() {
     this.modeProperty.reset();
     this.expandedProperty.reset();
-
     this.amplitudeProperty.reset();
     this.angleProperty.reset();
     this.kProperty.reset();
