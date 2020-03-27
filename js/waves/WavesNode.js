@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * Prototype code
+ * Prototype code, please use at your own risk.
  * @author Sam Reid (PhET Interactive Simulations)
  */
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
