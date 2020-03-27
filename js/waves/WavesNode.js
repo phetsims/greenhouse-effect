@@ -1,4 +1,9 @@
 // Copyright 2020, University of Colorado Boulder
+
+/**
+ * Prototype code
+ * @author Sam Reid (PhET Interactive Simulations)
+ */
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
