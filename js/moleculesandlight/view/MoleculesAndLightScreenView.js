@@ -27,6 +27,7 @@ import Playable from '../../../../tambo/js/Playable.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
+import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
@@ -229,6 +230,15 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
   // add the sound generator that will produce the sounds when photons are emitted by the lamps or the active molecule
   soundManager.addSoundGenerator( new PhotonEmissionSoundGenerator( photonAbsorptionModel.photons ) );
+
+  // We may want to disable the PlayPauseButton when the light source is off, but we aren't sure yet. This will let
+  // us test behavior and make sure it doesn't have other UX impacts
+  if ( MoleculesAndLightQueryParameters.disablePlayPause ) {
+    photonAbsorptionModel.photonEmitterOnProperty.link( on => {
+      // HACK ALERT: reaches into private things to test!
+      timeControlNode.playPauseStepButtons.playPauseButton.enabled = on;
+    } );
+  }
 }
 
 moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
