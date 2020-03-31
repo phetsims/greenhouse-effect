@@ -23,7 +23,6 @@ import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
-import EmissionRateControlSliderNode from '../../photon-absorption/view/EmissionRateControlSliderNode.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 
@@ -202,7 +201,7 @@ class ObservationWindowDescriber {
     const targetMolecule = this.model.targetMolecule;
 
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
-    const emissionRateString = EmissionRateControlSliderNode.getEmissionFrequencyDescription( emissionFrequency );
+    const emissionRateString = 'PLEASE CHANGE THIS'; // emission rates removed, change this
 
     let targetString = null;
     if ( targetMolecule ) {
