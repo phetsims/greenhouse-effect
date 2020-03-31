@@ -67,7 +67,7 @@ const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
 const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 
 // emission frequency for when the emitter is "on" and "off", when only those two settings are provided
-const ON_FREQUENCY = MoleculesAndLightQueryParameters.emissionFrequency;
+const ON_FREQUENCY = 0.5;
 const OFF_FREQUENCY = 0;
 
 /**
