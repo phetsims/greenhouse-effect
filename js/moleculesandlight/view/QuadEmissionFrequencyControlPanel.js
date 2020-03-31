@@ -24,7 +24,7 @@ import flashlight2Image from '../../../mipmaps/flashlight_png.js';
 import heatLampImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
 import uvLight2 from '../../../mipmaps/uv-source_png.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Photon from '../../photon-absorption/model/Photon.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';

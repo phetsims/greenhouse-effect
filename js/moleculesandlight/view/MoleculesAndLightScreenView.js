@@ -28,7 +28,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
 import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';

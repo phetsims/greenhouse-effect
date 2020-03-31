@@ -18,7 +18,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import CH4 from '../../photon-absorption/model/molecules/CH4.js';
 import CO from '../../photon-absorption/model/molecules/CO.js';

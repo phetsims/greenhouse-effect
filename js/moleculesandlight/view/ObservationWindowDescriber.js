@@ -19,7 +19,7 @@
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
