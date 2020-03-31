@@ -11,7 +11,7 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';

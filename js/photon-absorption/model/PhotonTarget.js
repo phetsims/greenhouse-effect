@@ -8,7 +8,7 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
 const controlPanelCarbonDioxideString = moleculesAndLightStrings.ControlPanel.CarbonDioxide;

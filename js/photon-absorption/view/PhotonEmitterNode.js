@@ -24,7 +24,7 @@ import heatLampOnImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js';
 import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
 import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 

@@ -7,7 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import moleculesAndLightStrings from '../../molecules-and-light-strings.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
 const quadWavelengthSelectorInfraredString = moleculesAndLightStrings.QuadWavelengthSelector.Infrared;
