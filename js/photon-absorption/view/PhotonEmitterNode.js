@@ -76,7 +76,11 @@ function PhotonEmitterNode( width, model, tandem ) {
     self.updateImage( width, photonWavelength, tandem, emitterTandemName );
   } );
 
-  model.photonEmitterOnProperty.link( on => { this.photonEmitterOnImage.visible = on; } );
+  model.photonEmitterOnProperty.link( on => {
+    if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
+      this.photonEmitterOnImage.visible = on;
+    }
+  } );
 }
 
 moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
@@ -120,12 +124,13 @@ export default inherit( Node, PhotonEmitterNode, {
       this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
       this.photonEmitterOffImage.center = new Vector2( 0, 0 );
       this.addChild( this.photonEmitterOffImage );
+
+      this.photonEmitterOnImage.visible = this.model.photonEmitterOnProperty.get();
     }
 
     // scale the on image by the desired width of the emitter and add to top
     this.photonEmitterOnImage.scale( emitterWidth / this.photonEmitterOnImage.width );
     this.photonEmitterOnImage.center = new Vector2( 0, 0 );
-    this.photonEmitterOnImage.visible = this.model.photonEmitterOnProperty.get();
     this.addChild( this.photonEmitterOnImage );
 
     // PDOM - update the accessible name for the button
