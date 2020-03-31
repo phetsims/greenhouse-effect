@@ -31,7 +31,6 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import TimeControlSpeed from '../../../../scenery-phet/js/TimeControlSpeed.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import MoleculeIO from './MoleculeIO.js';
 import CH4 from './molecules/CH4.js';
@@ -69,6 +68,9 @@ const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
 // emission frequency for when the emitter is "on" and "off", when only those two settings are provided
 const ON_FREQUENCY = 0.5;
 const OFF_FREQUENCY = 0;
+
+// when stepping at "slow" speed, animate rate is reduced by this factor
+const SLOW_SPEED_FACTOR = 0.5;
 
 /**
  * Constructor for a photon absorption model.
@@ -241,7 +243,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // reduce time step if running in slow motion
     if ( this.slowMotionProperty.value ) {
-      dt = dt * MoleculesAndLightQueryParameters.slowSpeed;
+      dt = dt * SLOW_SPEED_FACTOR;
     }
 
     if ( this.runningProperty.get() ) {
