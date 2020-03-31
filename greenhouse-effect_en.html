@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "greenhouse-effect",
-      "version": "1.0.0-dev.4",
+      "version": "1.0.0-dev.7",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -122,13 +122,13 @@
   };
 
   // Kick off string loading immediately
-  loadURL( '../chipper/js/load-runtime-strings.js' );
+  loadURL( '../chipper/js/load-unbuilt-strings.js' );
 
   // Queue all of the preloads to be loaded.
   preloads.forEach( preload => loadURL( preload ) );
 
   // Module loading in compilation-free (development) mode will be kicked off once strings are loaded.
-  // This is done in load-runtime-strings.js
+  // This is done in load-unbuilt-strings.js
   window.phet.chipper.loadModules = () => loadURL( 'js/greenhouse-effect-main.js', 'module' );
 </script>
 </body>
