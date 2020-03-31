@@ -76,10 +76,7 @@ function PhotonEmitterNode( width, model, tandem ) {
     self.updateImage( width, photonWavelength, model.emissionFrequencyProperty.value, tandem, emitterTandemName );
   } );
 
-  // update brightness of emitter bulb upon changes to photon emission frequency
-  model.emissionFrequencyProperty.link( function( emissionFrequency ) {
-    self.updateOffImageOpacity( self.model.photonWavelengthProperty.get(), emissionFrequency );
-  } );
+  model.photonEmitterOnProperty.link( on => { this.photonEmitterOnImage.visible = on; } );
 }
 
 moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
@@ -88,8 +85,7 @@ export default inherit( Node, PhotonEmitterNode, {
 
   /**
    * Set the appropriate images based on the current setting for the emission frequency and wavelength of the emitted
-   * photons.  The emitter is composed of layered 'on' and an 'off' images.  The emission frequency determines the
-   * opacity of the 'on' image so that it is opaque when the emission frequency is at its maximum.
+   * photons.  The emitter is composed of layered 'on' and an 'off' images.
    *
    * @param {number} emitterWidth
    * @param {number} photonWavelength - wavelength of emitted photon to determine if a new control slider needs to be added
@@ -120,18 +116,17 @@ export default inherit( Node, PhotonEmitterNode, {
       this.photonEmitterOnImage = new Image( microwaveTransmitterImage );
     }
 
+    // scale, center - no 'off' image for microwave emitter
+    if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
+      this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
+      this.photonEmitterOffImage.center = new Vector2( 0, 0 );
+      this.addChild( this.photonEmitterOffImage );
+    }
+
     // scale the on image by the desired width of the emitter and add to top
     this.photonEmitterOnImage.scale( emitterWidth / this.photonEmitterOnImage.width );
     this.photonEmitterOnImage.center = new Vector2( 0, 0 );
     this.addChild( this.photonEmitterOnImage );
-
-    // scale, center, and set opacity of 'off' image - no 'off' image for microwave emitter
-    if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
-      this.photonEmitterOffImage.scale( emitterWidth / this.photonEmitterOffImage.width );
-      this.photonEmitterOffImage.center = new Vector2( 0, 0 );
-      this.photonEmitterOffImage.setOpacity( 1 - emissionFrequency );
-      this.addChild( this.photonEmitterOffImage );
-    }
 
     // PDOM - update the accessible name for the button
     this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternString, {
@@ -143,22 +138,6 @@ export default inherit( Node, PhotonEmitterNode, {
     this.button.centerY = this.photonEmitterOffImage.centerY;
     if ( !this.hasChild( this.button ) ) {
       this.addChild( this.button );
-    }
-  },
-
-  /**
-   * Update transparency of the 'off' emitter image.  The opacity of the off emitter is used because this seems to
-   * perform better than using the on emitter.  See issue #90.
-   *
-   * @param {number} photonWavelength
-   * @param {number} emissionFrequency
-   */
-  updateOffImageOpacity: function( photonWavelength, emissionFrequency ) {
-    if ( photonWavelength !== WavelengthConstants.MICRO_WAVELENGTH ) {
-      // TODO: For performance reasons, a max opacity value of 0.99 is used instead of making the image fully opaque.
-      // This is a workaround for a Scenery issue, see https://github.com/phetsims/scenery/issues/404.  The
-      // workaround can be removed once the Scenery issue is resolved, but performance should be re-verified.
-      this.photonEmitterOffImage.opacity = Math.min( 1 - emissionFrequency, 0.99 );
     }
   }
 } );
