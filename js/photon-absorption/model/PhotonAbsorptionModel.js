@@ -59,7 +59,7 @@ const DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds
 
 // Default values for various parameters that weren't already covered.
 const DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
-const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.3; // seconds
+const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.0; // seconds, emitted right away
 
 // Minimum for photon emission periods.
 const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
