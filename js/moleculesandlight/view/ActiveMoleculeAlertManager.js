@@ -89,7 +89,7 @@ class ActiveMoleculeAlertManager {
 
     // allow some time before the next alert after changing the emission frequency as the screen reader will need to
     // announce the new aria-valuetext
-    photonAbsorptionModel.emissionFrequencyProperty.link( () => { this.timeSinceFirstAlert = 0; } );
+    photonAbsorptionModel.photonEmitterOnProperty.link( () => { this.timeSinceFirstAlert = 0; } );
 
     // attach listeners to the first molecule already in the observation window
     this.attachAbsorptionAlertListeners( photonAbsorptionModel.targetMolecule );

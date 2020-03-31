@@ -94,13 +94,14 @@ class ObservationWindowDescriber {
   attachInitialPhaseDescriptionListeners( descriptionNode ) {
     this.model.photonWavelengthProperty.link( photonWavelength => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
+        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
       }
     } );
 
-    this.model.emissionFrequencyProperty.link( ( emissionFrequency, oldFrequency ) => {
-      if ( ( emissionFrequency === 0 || oldFrequency === 0 ) && this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( emissionFrequency, this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+    // when the molecule turns on or off, reset description content to initial description
+    this.model.photonEmitterOnProperty.link( on => {
+      if ( this.model.targetMolecule ) {
+        descriptionNode.innerContent = this.getInitialPhaseDescription( on, this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
       }
     } );
   }
@@ -117,7 +118,7 @@ class ObservationWindowDescriber {
 
     // new target molecule added, reset to initial phase description
     if ( molecule === this.model.targetMolecule ) {
-      descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.emissionFrequencyProperty.get(), this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+      descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get(), this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
     }
 
     // vibration
@@ -192,12 +193,12 @@ class ObservationWindowDescriber {
    * start to emit and are passing through the molecule. Once a photon is absorbed a new description strategy begins
    * where we describe the absorption.
    *
-   * @param {number} emissionFrequency
+   * @param {boolean} emitterOn
    * @param {number} photonWavelength
    * @param {PhotonTarget} photonTarget
    * @returns {string}
    */
-  getInitialPhaseDescription( emissionFrequency, photonWavelength, photonTarget ) {
+  getInitialPhaseDescription( emitterOn, photonWavelength, photonTarget ) {
     const targetMolecule = this.model.targetMolecule;
 
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
@@ -213,7 +214,7 @@ class ObservationWindowDescriber {
       targetString = emptySpaceString;
     }
 
-    if ( emissionFrequency === 0 ) {
+    if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
       return StringUtils.fillIn( photonEmitterDescriptionPatternString, {
