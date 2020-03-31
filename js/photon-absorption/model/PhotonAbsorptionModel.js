@@ -20,7 +20,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ObservableArray from '../../../../axon/js/ObservableArray.js';
 import ObservableArrayIO from '../../../../axon/js/ObservableArrayIO.js';
 import Property from '../../../../axon/js/Property.js';
@@ -88,14 +87,6 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @private
   this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
 
-  // @public (read-only) - Sets the emission frequency of the photon emitter.
-  // NOTE: This may be replaced entirely by photonEmitterOnProperty, and can possibly be removed, see
-  // https://github.com/phetsims/molecules-and-light/issues/295
-  this.emissionFrequencyProperty = new NumberProperty( 0, {
-    tandem: tandem.createTandem( 'emissionFrequencyProperty' ),
-    units: 'hertz'
-  } );
-
   // @public - Property that indicating whether photons are being emitted from the photon emittter
   this.photonEmitterOnProperty = new BooleanProperty( false, {
     tandem: tandem.createTandem( 'photonEmitterOnProperty' )
@@ -158,18 +149,14 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   // when the photon emitter is on, set to default "on" and "off" frequency
   this.photonEmitterOnProperty.link( emitterOn => {
-    const frequency = emitterOn ? ON_FREQUENCY : OFF_FREQUENCY;
-    this.emissionFrequencyProperty.set( frequency );
-  } );
+    const emissionFrequency = emitterOn ? ON_FREQUENCY : OFF_FREQUENCY;
 
-  // Set the photon emission period from the emission frequency.
-  this.emissionFrequencyProperty.link( function( emissionFrequency ) {
     if ( emissionFrequency === 0 ) {
-      self.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
+      this.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
     }
     else {
-      const singleTargetPeriodFrequency = self.getSingleTargetPeriodFromFrequency( emissionFrequency );
-      self.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
+      const singleTargetPeriodFrequency = this.getSingleTargetPeriodFromFrequency( emissionFrequency );
+      this.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
     }
   } );
 
@@ -207,7 +194,6 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // Reset all associated properties.
     this.photonEmitterOnProperty.reset();
-    this.emissionFrequencyProperty.reset();
     this.photonWavelengthProperty.reset();
     this.runningProperty.reset();
     this.timeControlSpeedProperty.reset();

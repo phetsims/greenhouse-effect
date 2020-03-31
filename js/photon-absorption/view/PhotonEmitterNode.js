@@ -2,8 +2,8 @@
 
 /**
  * Node that represents the photon emitter in the view.  The graphical representation of the emitter changes based on
- * the emission frequency and wavelength of photons that the model is set to emit. This node is set up such that setting
- * its offset on the photon emission point in the model should position it correctly.  This assumes that photons are
+ * wavelength of photons that the model is set to emit. This node is set up such that setting its offset on the
+ * photon emission point in the model should position it correctly.  This assumes that photons are
  * emitted to the right.
  *
  * @author John Blanco
@@ -73,7 +73,7 @@ function PhotonEmitterNode( width, model, tandem ) {
   // update the photon emitter upon changes to the photon wavelength
   model.photonWavelengthProperty.link( function( photonWavelength ) {
     const emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
-    self.updateImage( width, photonWavelength, model.emissionFrequencyProperty.value, tandem, emitterTandemName );
+    self.updateImage( width, photonWavelength, tandem, emitterTandemName );
   } );
 
   model.photonEmitterOnProperty.link( on => { this.photonEmitterOnImage.visible = on; } );
@@ -84,17 +84,16 @@ moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
 export default inherit( Node, PhotonEmitterNode, {
 
   /**
-   * Set the appropriate images based on the current setting for the emission frequency and wavelength of the emitted
-   * photons.  The emitter is composed of layered 'on' and an 'off' images.
+   * Set the appropriate images based on the current setting for the wavelength of the emitted photons.
+   * The emitter is composed of layered 'on' and an 'off' images.
    *
    * @param {number} emitterWidth
    * @param {number} photonWavelength - wavelength of emitted photon to determine if a new control slider needs to be added
-   * @param {number} emissionFrequency
    * @param {Tandem} tandem
    * @param {string} emitterTandemName
    * @private
    */
-  updateImage: function( emitterWidth, photonWavelength, emissionFrequency, tandem, emitterTandemName ) {
+  updateImage: function( emitterWidth, photonWavelength, tandem, emitterTandemName ) {
 
     // remove any existing children
     this.removeAllChildren();
