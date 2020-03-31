@@ -125,6 +125,7 @@ export default inherit( Node, PhotonEmitterNode, {
     // scale the on image by the desired width of the emitter and add to top
     this.photonEmitterOnImage.scale( emitterWidth / this.photonEmitterOnImage.width );
     this.photonEmitterOnImage.center = new Vector2( 0, 0 );
+    this.photonEmitterOnImage.visible = this.model.photonEmitterOnProperty.get();
     this.addChild( this.photonEmitterOnImage );
 
     // PDOM - update the accessible name for the button
