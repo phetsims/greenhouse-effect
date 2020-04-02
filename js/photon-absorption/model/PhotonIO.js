@@ -39,8 +39,8 @@ class PhotonIO extends ObjectIO {
    */
   static fromStateObject( stateObject ) {
     let photon;
-    if ( phet.phetIo.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
-      photon = phet.phetIo.phetioEngine.getPhetioObject( stateObject.phetioID );
+    if ( phet.phetio.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
+      photon = phet.phetio.phetioEngine.getPhetioObject( stateObject.phetioID );
     }
     else {
       photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
