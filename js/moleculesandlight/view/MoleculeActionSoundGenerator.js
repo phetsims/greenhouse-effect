@@ -6,23 +6,19 @@
  * that will generate the various sounds.
  */
 
+import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.js';
-import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
 import moleculeEnergizedSoundInfo from '../../../sounds/absorb-loop-low-harmonics-reduction_mp3.js';
-import rotationCounterclockwiseNormalSpeedStereoSoundInfo
-  from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
-import rotationCounterclockwiseSlowMotionStereoSoundInfo
-  from '../../../sounds/rotate-directions-001-spatialized-slow-mo_mp3.js';
-import rotationClockwiseNormalSpeedStereoSoundInfo
-  from '../../../sounds/rotate-directions-001-reverse-spatialized_mp3.js';
-import rotationClockwiseSlowMotionStereoSoundInfo
-  from '../../../sounds/rotate-directions-001-reverse-spatialized-slow-mo_mp3.js';
+import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
+import rotationClockwiseSlowMotionStereoSoundInfo from '../../../sounds/rotate-directions-001-reverse-spatialized-slow-mo_mp3.js';
+import rotationClockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-reverse-spatialized_mp3.js';
+import rotationCounterclockwiseSlowMotionStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized-slow-mo_mp3.js';
+import rotationCounterclockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
 import vibrationSlowMotionStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized-slow-mo_mp3.js';
 import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized_mp3.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
-import merge from '../../../../phet-core/js/merge.js';
 
 // constants
 const ABSORPTION_TO_ACTIVITY_SOUND_DELAY = 0.2; // in seconds
