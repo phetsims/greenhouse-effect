@@ -17,7 +17,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
-import AccessiblePeer from '../../../../scenery/js/accessibility/AccessiblePeer.js';
+import AccessiblePeer from '../../../../scenery/js/accessibility/pdom/AccessiblePeer.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
