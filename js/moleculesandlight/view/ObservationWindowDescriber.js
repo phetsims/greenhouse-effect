@@ -27,7 +27,7 @@ import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
-const photonEmitterDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterDescriptionPattern;
+const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassingPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassingPhaseDescriptionPattern;
 const stretchingString = moleculesAndLightStrings.a11y.stretching;
@@ -202,7 +202,6 @@ class ObservationWindowDescriber {
     const targetMolecule = this.model.targetMolecule;
 
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
-    const emissionRateString = 'PLEASE CHANGE THIS'; // emission rates removed, change this
 
     let targetString = null;
     if ( targetMolecule ) {
@@ -217,9 +216,8 @@ class ObservationWindowDescriber {
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      return StringUtils.fillIn( photonEmitterDescriptionPatternString, {
+      return StringUtils.fillIn( photonEmitterOffDescriptionPatternString, {
         lightSource: lightSourceString,
-        emissionRate: emissionRateString,
         target: targetString
       } );
     }
