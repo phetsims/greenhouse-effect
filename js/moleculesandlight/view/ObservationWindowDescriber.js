@@ -30,11 +30,6 @@ const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
 const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
-const stretchingString = moleculesAndLightStrings.a11y.stretching;
-const bendingString = moleculesAndLightStrings.a11y.bending;
-const glowingString = moleculesAndLightStrings.a11y.glowing;
-const rotatingCounterClockwiseString = moleculesAndLightStrings.a11y.rotatingCounterClockwise;
-const rotatingClockwiseString = moleculesAndLightStrings.a11y.rotatingClockwise;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
 const moleculesOutOfViewPatternString = moleculesAndLightStrings.a11y.moleculesOutOfViewPattern;
 
@@ -231,7 +226,7 @@ class ObservationWindowDescriber {
 
   /**
    * Get a description of the molecule after it emits a photon. Will return something like
-   * "Carbon Monoxide molecule stops stretching and emits absorbed photon up and to the left."
+   * "Absorbed Infrared photon emitted from Carbon Dioxide molecule up and to the left."
    * @private
    *
    * @param {Photon} photon - the emitted photon
@@ -246,23 +241,8 @@ class ObservationWindowDescriber {
       modelViewTransform: this.modelViewTransform
     } );
 
-    let representationString = null;
-    if ( this.moleculeVibrating ) {
-      representationString = this.model.targetMolecule.vibratesByStretching() ? stretchingString : bendingString;
-    }
-    else if ( this.moleculeHighElectronicEnergyState ) {
-      representationString = glowingString;
-    }
-    else if ( this.moleculeRotating ) {
-      representationString = this.moleculeRotatingClockwise ? rotatingClockwiseString : rotatingCounterClockwiseString;
-    }
-    else {
-      throw new Error( 'undhandled excitation representation' );
-    }
-
     return StringUtils.fillIn( emissionPhaseDescriptionPatternString, {
       photonTarget: photonTargetString,
-      excitedRepresentation: representationString,
       lightSource: lightSourceString,
       direction: directionString
     } );
