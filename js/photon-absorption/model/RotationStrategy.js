@@ -9,7 +9,7 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
-//Random boolean generator.
+// random boolean generator
 const RAND = {
   nextBoolean: function() {
     return phet.joist.random.nextDouble() < 0.50;
@@ -26,7 +26,6 @@ function RotationStrategy( molecule ) {
 
   // Supertype constructor
   PhotonHoldStrategy.call( this, molecule );
-
 }
 
 moleculesAndLight.register( 'RotationStrategy', RotationStrategy );
@@ -49,5 +48,4 @@ export default inherit( PhotonHoldStrategy, RotationStrategy, {
     PhotonHoldStrategy.prototype.reemitPhoton.call( this );
     this.molecule.rotatingProperty.set( false );
   }
-
 } );

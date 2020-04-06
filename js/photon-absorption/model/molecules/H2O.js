@@ -59,7 +59,6 @@ function H2O( options ) {
 
   // Set the initial offsets.
   this.initializeAtomOffsets();
-
 }
 
 moleculesAndLight.register( 'H2O', H2O );
@@ -75,7 +74,6 @@ export default inherit( Molecule, H2O, {
     this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( INITIAL_HYDROGEN_HORIZONTAL_OFFSET, this.initialHydrogenVerticalOffset ) );
     this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET, this.initialHydrogenVerticalOffset ) );
     this.updateAtomPositions();
-
   },
 
   /**
@@ -96,6 +94,5 @@ export default inherit( Molecule, H2O, {
     this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
       this.initialHydrogenVerticalOffset + multFactor * maxHydrogenDisplacement ) );
     this.updateAtomPositions();
-
   }
 } );
