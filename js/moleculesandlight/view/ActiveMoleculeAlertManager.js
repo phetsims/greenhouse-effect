@@ -20,7 +20,6 @@ import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 const pausedEmittingPatternString = moleculesAndLightStrings.a11y.pausedEmittingPattern;
 const absorptionPhaseBondsDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseBondsDescriptionPattern;
 const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
-const contractingString = moleculesAndLightStrings.a11y.contracting;
 const bendsUpAndDownString = moleculesAndLightStrings.a11y.bendsUpAndDown;
 const longStretchingAlertString = moleculesAndLightStrings.a11y.longStretchingAlert;
 const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
@@ -44,6 +43,7 @@ const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.br
 const startsGlowingString = moleculesAndLightStrings.a11y.startsGlowing;
 const startsRotatingPatternString = moleculesAndLightStrings.a11y.startsRotatingPattern;
 const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
+const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
 
 // constants
 // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -198,15 +198,10 @@ class ActiveMoleculeAlertManager {
     const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
     if ( targetMolecule.vibratesByStretching() ) {
-
-      // more displacement with -sin( vibrationRadians ) and so when the slope of that function is negative
-      // (derivative of sin is cos) the atoms are expanding
-      const stretching = Math.cos( vibrationRadians ) < 0;
-
       descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
-        excitedRepresentation: stretching ? stretchingString : contractingString
+        excitedRepresentation: stretchBackAndForthString
       } );
     }
     else {
