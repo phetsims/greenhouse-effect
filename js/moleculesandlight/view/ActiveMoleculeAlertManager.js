@@ -225,7 +225,7 @@ class ActiveMoleculeAlertManager {
   /**
    * Get a string the describes the molecule when it starts to glow from its high electronic energy state
    * representation after absorption. Will return a string like
-   * "‪Visible‬ photon absorbed and bonds of ‪Nitrogen Dioxide‬ molecule starts glowing."
+   * "‪Visible‬ photon absorbed and Nitrogen Dioxide‬ molecule starts glowing."
    * @private
    *
    * @returns {string}
@@ -234,7 +234,7 @@ class ActiveMoleculeAlertManager {
     const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
     const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
-    return StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
+    return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
       lightSource: lightSourceString,
       photonTarget: photonTargetString,
       excitedRepresentation: startsGlowingString
