@@ -31,7 +31,7 @@ import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 const buttonNodeReturnMoleculeString = moleculesAndLightStrings.ButtonNode.ReturnMolecule;
 const observationWindowLabelString = moleculesAndLightStrings.a11y.observationWindowLabel;
 const geometryLabelPatternString = moleculesAndLightStrings.a11y.geometryLabelPattern;
-const lookForNewMoleculeButtonString = moleculesAndLightStrings.a11y.lookForNewMoleculeButton;
+const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;
@@ -199,7 +199,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
 
     // PDOM - announce to the user when the button becomes visible
     if ( visible ) {
-      phet.joist.sim.utteranceQueue.addToBack( lookForNewMoleculeButtonString );
+      phet.joist.sim.utteranceQueue.addToBack( resetOrChangeMoleculeString );
     }
   } );
 

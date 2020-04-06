@@ -39,11 +39,11 @@ const slowMotionBreakApartPatternString = moleculesAndLightStrings.a11y.slowMoti
 const glowingString = moleculesAndLightStrings.a11y.glowing;
 const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
 const absorptionPhaseMoleculeDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
-const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
 const startsGlowingString = moleculesAndLightStrings.a11y.startsGlowing;
 const startsRotatingPatternString = moleculesAndLightStrings.a11y.startsRotatingPattern;
 const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
+const moleculesFloatAwayPatternString = moleculesAndLightStrings.a11y.moleculesFloatAwayPattern;
 
 // constants
 // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -262,20 +262,15 @@ class ActiveMoleculeAlertManager {
   /**
    * Returns a string that describes the molecule after it breaks apart into two other molecules. Will return
    * a string like
-   * "Ultraviolet photon absorbed and Ozone molecule breaks apart into O2 and O."
+   * "NO and O floating away."
    *
    * @returns {string}
    */
   getBreakApartPhaseDescription( firstMolecule, secondMolecule ) {
-    const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
-    const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
-
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
-      lightSource: lightSourceString,
-      photonTarget: photonTargetString,
+    return StringUtils.fillIn( moleculesFloatAwayPatternString, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

@@ -32,6 +32,8 @@ const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMolecule
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
 const moleculesOutOfViewPatternString = moleculesAndLightStrings.a11y.moleculesOutOfViewPattern;
+const breakApartDescriptionWithHintPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithHintPattern;
+const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
 
 class ObservationWindowDescriber {
 
@@ -157,7 +159,10 @@ class ObservationWindowDescriber {
       this.moleculeBrokeApart = true;
       this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
-      descriptionNode.innerContent = this.alertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
+      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
+        description: this.alertManager.getBreakApartPhaseDescription( moleculeA, moleculeB ),
+        hint: resetOrChangeMoleculeString
+      } );
 
       const activeMolecules = this.model.activeMolecules;
 
