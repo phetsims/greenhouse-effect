@@ -29,7 +29,7 @@ import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
 const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
-const inactiveAndPassingPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassingPhaseDescriptionPattern;
+const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const stretchingString = moleculesAndLightStrings.a11y.stretching;
 const bendingString = moleculesAndLightStrings.a11y.bending;
 const glowingString = moleculesAndLightStrings.a11y.glowing;
@@ -222,7 +222,7 @@ class ObservationWindowDescriber {
       } );
     }
     else {
-      return StringUtils.fillIn( inactiveAndPassingPhaseDescriptionPatternString, {
+      return StringUtils.fillIn( inactiveAndPassesPhaseDescriptionPatternString, {
         lightSource: lightSourceString,
         target: targetString
       } );
