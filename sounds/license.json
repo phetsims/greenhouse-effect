@@ -87,7 +87,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-directions-001-reverse-spatialized.mp3": {
+  "rotation-clockwise.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -95,7 +95,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-directions-001-reverse-spatialized-slow-mo.mp3": {
+  "rotation-clockwise-slow-motion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -103,7 +103,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-directions-001-spatialized.mp3": {
+  "rotation-counterclockwise.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -111,7 +111,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotate-directions-001-spatialized-slow-mo.mp3": {
+  "rotation-counterclockwise-slow-motion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -127,7 +127,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "vibrate-longer-spatialized-slow-mo.mp3": {
+  "vibration-slow-motion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
