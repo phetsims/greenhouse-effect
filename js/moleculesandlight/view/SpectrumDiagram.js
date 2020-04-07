@@ -17,7 +17,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
-import AccessiblePeer from '../../../../scenery/js/accessibility/pdom/AccessiblePeer.js';
+import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -160,9 +160,9 @@ function SpectrumDiagram( tandem ) {
 
   // PDOM - set label association so the title is read when focus enters the dialog
   this.addAriaLabelledbyAssociation( {
-    thisElementName: AccessiblePeer.PRIMARY_SIBLING,
+    thisElementName: PDOMPeer.PRIMARY_SIBLING,
     otherNode: title,
-    otherElementName: AccessiblePeer.PRIMARY_SIBLING
+    otherElementName: PDOMPeer.PRIMARY_SIBLING
   } );
 
   // PDOM - in descriptions, the decreasing wavelength comes before the spectrum
