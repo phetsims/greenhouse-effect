@@ -16,6 +16,10 @@ const photonsOffString = moleculesAndLightStrings.a11y.photonEmitter.alerts.phot
 const photonsOnSlowSpeedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
 const photonsOnSimPausedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
 const photonsOnSlowSpeedSimPausedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
+const simPausedEmitterOnAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOnAlert;
+const simPausedEmitterOffAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOffAlert;
+const simPlayingHintAlertString = moleculesAndLightStrings.a11y.timeControls.simPlayingHintAlert;
+
 
 class ObservationWindowAlertManager {
   constructor() {
@@ -23,6 +27,8 @@ class ObservationWindowAlertManager {
     // @private {Utterance} - single utterance for all photon emitter related alerts so rapidly activating the
     // photon emitter button does not spam user with this information
     this.photonStateUtterance = new Utterance();
+
+    this.runningStateUtterance = new Utterance();
   }
 
   /**
@@ -40,6 +46,40 @@ class ObservationWindowAlertManager {
       this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, runningProperty.value, slowMotionProperty.value );
       utteranceQueue.addToBack( this.photonStateUtterance );
     } );
+
+    runningProperty.lazyLink( running => {
+
+      // if the sim is running and the photon emitter is on, there is plenty of sound already, don't add
+      // to alerts
+      if ( running && photonEmitterOnProperty.get() ) {
+        return;
+      }
+
+      this.runningStateUtterance.alert = this.getRunningStateAlert( photonEmitterOnProperty.get(), running );
+      utteranceQueue.addToBack( this.runningStateUtterance );
+    } );
+  }
+
+  /**
+   * Get an alert that describes the running state of the simulation. If running and the emitter is off,
+   * a hint is returned that prompts the user to turn on the photon emitter.
+   * @private
+   *
+   * @param {boolean} emitterOn
+   * @param {boolean} running
+   * @returns {string}
+   */
+  getRunningStateAlert( emitterOn, running ) {
+    let alert;
+    if ( running && !emitterOn ) {
+      alert = simPlayingHintAlertString;
+    }
+    else {
+      alert = emitterOn ? simPausedEmitterOnAlertString : simPausedEmitterOffAlertString;
+    }
+
+    assert && assert( alert );
+    return alert;
   }
 
   /**
