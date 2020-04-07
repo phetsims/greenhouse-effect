@@ -49,7 +49,7 @@ import WavelengthConstants from './WavelengthConstants.js';
 // ------- constants -------------
 
 // constants that control where and how photons are emitted.
-const PHOTON_EMISSION_LOCATION = new Vector2( -2000, 0 );
+const PHOTON_EMISSION_LOCATION = new Vector2( -1350, 0 );
 
 // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
 const PHOTON_VELOCITY = 3000; // picometers/second
