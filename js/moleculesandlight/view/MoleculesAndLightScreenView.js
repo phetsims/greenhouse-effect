@@ -196,14 +196,14 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     // turn off default sound generation since dialog makes a sound when it opens
     soundPlayer: Playable.NO_SOUND,
 
-    // a11y
+    // pdom
     innerContent: spectrumButtonLabelString,
     descriptionContent: spectrumButtonDescriptionString,
     appendDescription: true,
     containerTagName: 'div'
   } );
 
-  // a11y - add an attribute that lets the user know the button opens a menu
+  // pdom - add an attribute that lets the user know the button opens a menu
   showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', 'dialog' );
 
   showLightSpectrumButton.centerTop = ( new Vector2( moleculeControlPanel.centerX, timeControlNode.bottom + 13 ) );

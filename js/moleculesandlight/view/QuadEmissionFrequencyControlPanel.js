@@ -204,7 +204,7 @@ function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
   this.addChild( energyArrow );
   this.addChild( energyText );
 
-  // // a11y - link alerts to the model's wavelength property
+  // // pdom - link alerts to the model's wavelength property
   // const handleWavelengthChangeAlert = function( wavelength ) {
   //   const utteranceText = StringUtils.fillIn(
   //     wavelengthSelectionAlertPatternString,

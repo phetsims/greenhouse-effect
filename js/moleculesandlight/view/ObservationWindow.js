@@ -51,7 +51,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
   Rectangle.call( this, 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, {
     fill: 'black',
 
-    // a11y
+    // pdom
     tagName: 'div',
     labelTagName: 'h3',
     labelContent: observationWindowLabelString
@@ -121,7 +121,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
     touchAreaXDilation: 7,
     touchAreaYDilation: 7,
     listener: function() {
-      // a11y
+      // pdom
       // move focus to the emission control slider only when the button is clicked
       // retain focus on other elements if button was clicked without focus
       self.returnMoleculeButtonNode.isFocused() && photonEmitterNode.button.focus();
@@ -132,7 +132,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
     },
     tandem: tandem.createTandem( 'returnMoleculeButton' ),
 
-    // a11y
+    // pdom
     appendDescription: true,
     ariaLabel: buttonNodeReturnMoleculeString
   } );

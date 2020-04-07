@@ -149,7 +149,7 @@ function MoleculeSelectionPanel( model, tandem ) {
     touchAreaYDilation: 0,
     tandem: tandem.createTandem( 'radioButtonGroup' ),
 
-    // a11y
+    // pdom
     a11yHighlightXDilation: HIGHLIGHT_DILATION,
     a11yHighlightYDilation: HIGHLIGHT_DILATION
   } );
