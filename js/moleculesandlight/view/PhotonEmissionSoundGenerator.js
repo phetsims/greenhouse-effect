@@ -32,9 +32,6 @@ import WavelengthConstants from '../../photon-absorption/model/WavelengthConstan
 const PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL = 0.02;
 const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
 
-// X position at which the lamp emission sound is played, empirically determined
-const PLAY_LAMP_EMISSION_X_POSITION = -1400;
-
 // X position at which the molecule emission sound is played
 const PLAY_MOLECULE_EMISSION_X_POSITION = 0;
 
@@ -107,24 +104,8 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
         // this photon was just emitted from the active molecule, so play the appropriate emission sound
         photonEmissionFromMoleculeSoundPlayers.get( photon.wavelength ).play();
       }
-      else if ( photonXPosition < PLAY_LAMP_EMISSION_X_POSITION ) {
-
-        // A photon was emitted from the emitter (e.g. a lamp).  This generally occurs a little behind the lamp so that
-        // the whole image is in place before it is emitted, but these means that we need to wait until it is in a good
-        // position to play the sound.
-        const playEmitFromLampSound = position => {
-          if ( position.x >= PLAY_LAMP_EMISSION_X_POSITION ) {
-            photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
-            photon.locationProperty.unlink( playEmitFromLampSound );
-          }
-        };
-        photon.locationProperty.link( playEmitFromLampSound );
-
-        // Note that there is no need to have a listener for the case where the photon is removed before the sound is
-        // played because photons are disposed when this happens.
-      }
       else {
-        assert && assert( false, 'photon emitted at unexpected location' );
+        photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
       }
     } );
   }

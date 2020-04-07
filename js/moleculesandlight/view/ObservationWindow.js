@@ -87,7 +87,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
 
   // Create and add the photon emitter.
   const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
-  photonEmitterNode.center = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
+  photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
   photonEmitterLayer.addChild( photonEmitterNode );
 
   // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
