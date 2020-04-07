@@ -217,6 +217,9 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   this.pdomPlayAreaNode.accessibleOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
   this.pdomControlAreaNode.accessibleOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
+  // PDOM - alerts or the simulation
+
+
   //-----------------------------------------------------------------------------------------------------------------
   // sound generation
   //-----------------------------------------------------------------------------------------------------------------

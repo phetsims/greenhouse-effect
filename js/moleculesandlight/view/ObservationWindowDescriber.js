@@ -25,6 +25,7 @@ import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
+import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
 const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
@@ -59,9 +60,13 @@ class ObservationWindowDescriber {
     this.moleculeHighElectronicEnergyState = false;
     this.moleculeBrokeApart = false;
 
-    // @private {ActiveMoleculeAlertManager} - reponsible for alerts that describe the active molecule in the
-    // observation window
-    this.alertManager = new ActiveMoleculeAlertManager( model, modelViewTransform );
+    // responsible for general alerts involving things in the observation window
+    const alertManager = new ObservationWindowAlertManager();
+    alertManager.initialize( model.photonEmitterOnProperty, model.runningProperty, model.slowMotionProperty );
+
+    // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
+    // interaction
+    this.activeMoleculeAlertManager = new ActiveMoleculeAlertManager( model, modelViewTransform );
 
     // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
     // to describe the absorbed photon not the photon wavelength currently being emitted
@@ -75,7 +80,7 @@ class ObservationWindowDescriber {
    * @param {number} dt - in seconds
    */
   step( dt ) {
-    this.alertManager.step( dt );
+    this.activeMoleculeAlertManager.step( dt );
   }
 
   /**
@@ -124,7 +129,7 @@ class ObservationWindowDescriber {
 
       if ( this.moleculeVibrating ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.alertManager.getVibrationPhaseDescription( vibrationRadians );
+        descriptionNode.innerContent = this.activeMoleculeAlertManager.getVibrationPhaseDescription( vibrationRadians );
       }
     } );
 
@@ -135,7 +140,7 @@ class ObservationWindowDescriber {
 
       if ( rotating ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.alertManager.getRotationPhaseDescription();
+        descriptionNode.innerContent = this.activeMoleculeAlertManager.getRotationPhaseDescription();
       }
     } );
 
@@ -145,7 +150,7 @@ class ObservationWindowDescriber {
 
       if ( highEnergy ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.alertManager.getHighElectronicEnergyPhaseDescription();
+        descriptionNode.innerContent = this.activeMoleculeAlertManager.getHighElectronicEnergyPhaseDescription();
       }
     } );
 
@@ -160,7 +165,7 @@ class ObservationWindowDescriber {
       this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
       descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
-        description: this.alertManager.getBreakApartPhaseDescription( moleculeA, moleculeB ),
+        description: this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB ),
         hint: resetOrChangeMoleculeString
       } );
 

@@ -55,7 +55,7 @@ const ALERT_DELAY = 5;
 class ActiveMoleculeAlertManager {
   constructor( photonAbsorptionModel, modelViewTransform ) {
 
-    // @private
+    // @privates
     this.photonAbsorptionModel = photonAbsorptionModel;
     this.modelViewTransform = modelViewTransform;
 
