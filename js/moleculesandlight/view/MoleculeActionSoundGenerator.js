@@ -12,11 +12,11 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import photonAbsorbedSoundInfo from '../../../sounds/absorb-based-on-photon_mp3.js';
 import moleculeEnergizedSoundInfo from '../../../sounds/absorb-loop-low-harmonics-reduction_mp3.js';
 import breakApartSoundInfo from '../../../sounds/break-apart-stereo-reverb_mp3.js';
-import rotationClockwiseSlowMotionStereoSoundInfo from '../../../sounds/rotate-directions-001-reverse-spatialized-slow-mo_mp3.js';
-import rotationClockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-reverse-spatialized_mp3.js';
-import rotationCounterclockwiseSlowMotionStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized-slow-mo_mp3.js';
-import rotationCounterclockwiseNormalSpeedStereoSoundInfo from '../../../sounds/rotate-directions-001-spatialized_mp3.js';
-import vibrationSlowMotionStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized-slow-mo_mp3.js';
+import rotationClockwiseSlowMotionSoundInfo from '../../../sounds/rotation-clockwise-slow-motion_mp3.js';
+import rotationClockwiseNormalSpeedSoundInfo from '../../../sounds/rotation-clockwise_mp3.js';
+import rotationCounterclockwiseSlowMotionSoundInfo from '../../../sounds/rotation-counterclockwise-slow-motion_mp3.js';
+import rotationCounterclockwiseNormalSpeedSoundInfo from '../../../sounds/rotation-counterclockwise_mp3.js';
+import vibrationSlowMotionSoundInfo from '../../../sounds/vibration-slow-motion_mp3.js';
 import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized_mp3.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
@@ -75,28 +75,28 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
     // clockwise normal speed
     const rotateClockwiseNormalSpeedLoop = new SoundClip(
-      rotationClockwiseNormalSpeedStereoSoundInfo,
+      rotationClockwiseNormalSpeedSoundInfo,
       rotationLoopOptions
     );
     rotateClockwiseNormalSpeedLoop.connect( this.masterGainNode );
 
     // clockwise slow motion
     const rotateClockwiseSlowMotionLoop = new SoundClip(
-      rotationClockwiseSlowMotionStereoSoundInfo,
+      rotationClockwiseSlowMotionSoundInfo,
       rotationLoopOptions
     );
     rotateClockwiseSlowMotionLoop.connect( this.masterGainNode );
 
     // counterclockwise normal speed
     const rotateCounterclockwiseNormalSpeedLoop = new SoundClip(
-      rotationCounterclockwiseNormalSpeedStereoSoundInfo,
+      rotationCounterclockwiseNormalSpeedSoundInfo,
       rotationLoopOptions
     );
     rotateCounterclockwiseNormalSpeedLoop.connect( this.masterGainNode );
 
     // counterclockwise slow motion
     const rotateCounterclockwiseSlowMotionLoop = new SoundClip(
-      rotationCounterclockwiseSlowMotionStereoSoundInfo,
+      rotationCounterclockwiseSlowMotionSoundInfo,
       rotationLoopOptions
     );
     rotateCounterclockwiseSlowMotionLoop.connect( this.masterGainNode );
@@ -147,7 +147,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     moleculeVibrationNormalSpeedLoop.connect( this.masterGainNode );
 
     // vibration slow motion
-    const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionStereoSoundInfo, {
+    const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionSoundInfo, {
       initialOutputLevel: 0.4,
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]
