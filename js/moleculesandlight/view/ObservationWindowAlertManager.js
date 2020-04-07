@@ -19,27 +19,27 @@ const photonsOnSlowSpeedSimPausedString = moleculesAndLightStrings.a11y.photonEm
 const simPausedEmitterOnAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOnAlert;
 const simPausedEmitterOffAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOffAlert;
 const simPlayingHintAlertString = moleculesAndLightStrings.a11y.timeControls.simPlayingHintAlert;
-
+const stepHintAlertString = moleculesAndLightStrings.a11y.timeControls.stepHintAlert;
 
 class ObservationWindowAlertManager {
   constructor() {
 
-    // @private {Utterance} - single utterance for all photon emitter related alerts so rapidly activating the
-    // photon emitter button does not spam user with this information
+    // @private {Utterance} - single utterances for categories of information so any one set of utterances
+    // dont spam the user on frequent interaction
     this.photonStateUtterance = new Utterance();
-
     this.runningStateUtterance = new Utterance();
+    this.manualStepUtterance = new Utterance();
   }
 
   /**
-   * Initialize the alert manager by attaching listers that trigger alerts to various Properties.
+   * Initialize the alert manager by attaching listers that trigger alerts with various changes to observables.
    * @public
    *
    * @param {BooleanProperty} photonEmitterOnProperty
    * @param {BooleanProperty} runningProperty
    * @param {BooleanProperty} slowMotionProperty
    */
-  initialize( photonEmitterOnProperty, runningProperty, slowMotionProperty ) {
+  initialize( photonEmitterOnProperty, runningProperty, slowMotionProperty, manualStepEmitter ) {
     const utteranceQueue = phet.joist.sim.utteranceQueue;
 
     photonEmitterOnProperty.lazyLink( on => {
@@ -57,6 +57,11 @@ class ObservationWindowAlertManager {
 
       this.runningStateUtterance.alert = this.getRunningStateAlert( photonEmitterOnProperty.get(), running );
       utteranceQueue.addToBack( this.runningStateUtterance );
+    } );
+
+    manualStepEmitter.addListener( () => {
+      this.manualStepUtterance.alert = this.getManualStepAlert( photonEmitterOnProperty.get() );
+      utteranceQueue.addToBack( this.manualStepUtterance );
     } );
   }
 
@@ -114,6 +119,20 @@ class ObservationWindowAlertManager {
         }
       }
     }
+  }
+
+  /**
+   *
+   */
+  getManualStepAlert( emitterOn ) {
+    let alert;
+    if ( !emitterOn ) {
+      alert = stepHintAlertString;
+    }
+    else {
+      alert = 'Step alert not implemented yet.';
+    }
+    return alert;
   }
 }
 

@@ -62,7 +62,7 @@ class ObservationWindowDescriber {
 
     // responsible for general alerts involving things in the observation window
     const alertManager = new ObservationWindowAlertManager();
-    alertManager.initialize( model.photonEmitterOnProperty, model.runningProperty, model.slowMotionProperty );
+    alertManager.initialize( model.photonEmitterOnProperty, model.runningProperty, model.slowMotionProperty, model.manualStepEmitter );
 
     // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
     // interaction
