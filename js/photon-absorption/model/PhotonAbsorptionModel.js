@@ -143,6 +143,9 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @public - Emits when the model has been reset
   this.resetEmitter = new Emitter();
 
+  // @public - Emits an event when the user manually steps forward one frame
+  this.manualStepEmitter = new Emitter();
+
   // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
   // listeners for the activeMolecules observable array have been implemented.
   self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
@@ -322,6 +325,8 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // Step the molecules.
     this.stepMolecules( 1 / 60 );
+
+    this.manualStepEmitter.emit();
   },
 
   /**
