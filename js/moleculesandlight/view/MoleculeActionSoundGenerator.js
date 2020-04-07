@@ -17,7 +17,7 @@ import rotationClockwiseNormalSpeedSoundInfo from '../../../sounds/rotation-cloc
 import rotationCounterclockwiseSlowMotionSoundInfo from '../../../sounds/rotation-counterclockwise-slow-motion_mp3.js';
 import rotationCounterclockwiseNormalSpeedSoundInfo from '../../../sounds/rotation-counterclockwise_mp3.js';
 import vibrationSlowMotionSoundInfo from '../../../sounds/vibration-slow-motion_mp3.js';
-import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibrate-longer-spatialized_mp3.js';
+import vibrationNormalSpeedStereoSoundInfo from '../../../sounds/vibration_mp3.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
 // constants
