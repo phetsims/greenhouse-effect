@@ -20,8 +20,11 @@ class MoleculesAndLightModel extends PhotonAbsorptionModel {
     // Clear all photons to avoid cases where photons of the previous wavelength
     // could be absorbed after new wavelength was selected. Some users interpreted
     // absorption of the previous wavelength as absorption of the selected wavelength
-    this.photonWavelengthProperty.link( () => {
+    this.photonWavelengthProperty.lazyLink( () => {
       this.resetPhotons();
+
+      // after clearing, next photon should be emitted right away
+      this.setEmissionTimerToInitialCountdown();
     } );
   }
 }
