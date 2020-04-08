@@ -266,6 +266,14 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
+   * Sets the timer to the initial countdown time when emission is first enabled.
+   * @public
+   */
+  setEmissionTimerToInitialCountdown: function() {
+    this.photonEmissionCountdownTimer = INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED;
+  },
+
+  /**
    * Step the photons in time.
    *
    * @param {number} dt - the incremental times step, in seconds
@@ -396,7 +404,7 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
       // If we are transitioning from off to on, set the countdown timer such that a photon will be emitted right away
       // so that the user doesn't have to wait too long in order to see something come out.
       if ( this.photonEmissionPeriodTarget === Number.POSITIVE_INFINITY && photonEmissionPeriod !== Number.POSITIVE_INFINITY ) {
-        this.photonEmissionCountdownTimer = INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED;
+        this.setEmissionTimerToInitialCountdown();
       }
       // Handle the case where the new value is smaller than the current countdown value.
       else if ( photonEmissionPeriod < this.photonEmissionCountdownTimer ) {
