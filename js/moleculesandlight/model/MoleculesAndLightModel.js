@@ -24,7 +24,9 @@ class MoleculesAndLightModel extends PhotonAbsorptionModel {
       this.resetPhotons();
 
       // after clearing, next photon should be emitted right away
-      this.setEmissionTimerToInitialCountdown();
+      if ( this.photonEmitterOnProperty.get() ) {
+        this.setEmissionTimerToInitialCountdown();
+      }
     } );
   }
 }
