@@ -37,6 +37,10 @@ const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeM
 const PHOTON_EMITTER_WIDTH = 125;
 const CORNER_RADIUS = 7;
 
+// emitter is a little bit to the right of the emission point so that photons "slide" into view from the emitter,
+// and don't "pop" into free space, see https://github.com/phetsims/molecules-and-light/issues/324
+const EMITTER_OFFSET = new Vector2( 100, 0 );
+
 /**
  * Constructor for a Molecules and Light observation window.
  *
@@ -87,7 +91,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
 
   // Create and add the photon emitter.
   const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
-  photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation() ) );
+  photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation().plus( EMITTER_OFFSET ) ) );
   photonEmitterLayer.addChild( photonEmitterNode );
 
   // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
