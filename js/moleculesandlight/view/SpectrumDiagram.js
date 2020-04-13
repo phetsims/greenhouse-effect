@@ -555,13 +555,13 @@ function addFrequencyAndLabelDescriptions( node, label, frequencyDescription, wa
   node.labelTagName = 'span';
   node.labelContent = label;
 
-  // add to the nested list
-  node.addChild( new Node( { tagName: 'li', innerContent: frequencyDescription } ) );
-  node.addChild( new Node( { tagName: 'li', innerContent: wavelengthDescription } ) );
-
   if ( options.graphicalDescription ) {
     node.addChild( new Node( { tagName: 'li', innerContent: options.graphicalDescription } ) );
   }
+
+  // add to the nested list
+  node.addChild( new Node( { tagName: 'li', innerContent: frequencyDescription } ) );
+  node.addChild( new Node( { tagName: 'li', innerContent: wavelengthDescription } ) );
 }
 
 /**
