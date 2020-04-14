@@ -35,7 +35,6 @@ const breaksApartAlertPatternString = moleculesAndLightStrings.a11y.breaksApartA
 const slowMotionVibratingPatternString = moleculesAndLightStrings.a11y.slowMotionVibratingPattern;
 const slowMotionAbsorbedMoleculeExcitedPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedMoleculeExcitedPattern;
 const slowMotionBreakApartPatternString = moleculesAndLightStrings.a11y.slowMotionBreakApartPattern;
-const glowingString = moleculesAndLightStrings.a11y.glowing;
 const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
 const absorptionPhaseMoleculeDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
 const glowsString = moleculesAndLightStrings.a11y.glowsString;
@@ -362,9 +361,20 @@ class ActiveMoleculeAlertManager {
     }
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
+      let patternString;
+      let excitationString;
+      if ( this.firstExcitationAlert ) {
+        patternString = slowMotionAbsorbedMoleculeExcitedPatternString;
+        excitationString = glowsString;
+      }
+      else {
+        patternString = slowMotionAbsorbedShortPatternString;
+        excitationString = shortGlowingAlertString;
+      }
+
       // we are running in slow motion
-      alert = StringUtils.fillIn( slowMotionAbsorbedMoleculeExcitedPatternString, {
-        excitedRepresentation: glowingString
+      alert = StringUtils.fillIn( patternString, {
+        excitedRepresentation: excitationString
       } );
     }
     else {
