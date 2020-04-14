@@ -94,6 +94,13 @@ class ActiveMoleculeAlertManager {
 
     // attach listeners to the first molecule already in the observation window
     this.attachAbsorptionAlertListeners( photonAbsorptionModel.targetMolecule );
+
+    photonAbsorptionModel.slowMotionProperty.lazyLink( () => {
+
+      // reset counters that control verbosity of the responses so that the first response is always more verbose
+      // after changing play speed
+      this.reset();
+    } );
   }
 
   /**
