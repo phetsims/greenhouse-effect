@@ -23,9 +23,8 @@ import flashlightOnImage from '../../../mipmaps/flashlight_png.js';
 import heatLampOnImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js';
 import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
-import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 const lightSourceButtonLabelPatternString = moleculesAndLightStrings.a11y.lightSource.buttonLabelPattern;
@@ -61,14 +60,13 @@ function PhotonEmitterNode( width, model, tandem ) {
     tandem: tandem.createTandem( 'button' )
   } );
 
-  // still deciding whether we want this role on the button, see https://github.com/phetsims/molecules-and-light/issues/296
-  if ( MoleculesAndLightQueryParameters.switch ) {
-    this.button.setAriaRole( 'switch' );
+  // PDOM - this button is indicated as a 'switch' for assistive technology
+  this.button.setAriaRole( 'switch' );
 
-    // PDOM - signify button is 'pressed' when down
-    const setAriaPressed = value => this.button.setAccessibleAttribute( 'aria-checked', value );
-    model.photonEmitterOnProperty.link( setAriaPressed );
-  }
+  // PDOM - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
+  // supertype) as using both sounds best in NVDA
+  const setAriaPressed = value => this.button.setAccessibleAttribute( 'aria-checked', value );
+  model.photonEmitterOnProperty.link( setAriaPressed );
 
   // update the photon emitter upon changes to the photon wavelength
   model.photonWavelengthProperty.link( function( photonWavelength ) {
