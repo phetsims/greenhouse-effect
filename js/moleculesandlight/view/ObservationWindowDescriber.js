@@ -32,7 +32,7 @@ const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.p
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
-const moleculesOutOfViewPatternString = moleculesAndLightStrings.a11y.moleculesOutOfViewPattern;
+const moleculesFloatingAwayPatternString = moleculesAndLightStrings.a11y.moleculesFloatingAwayPattern;
 const breakApartDescriptionWithHintPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithHintPattern;
 const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
 
@@ -164,10 +164,7 @@ class ObservationWindowDescriber {
       this.moleculeBrokeApart = true;
       this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
-      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
-        description: this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB ),
-        hint: resetOrChangeMoleculeString
-      } );
+      descriptionNode.innerContent = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
 
       const activeMolecules = this.model.activeMolecules;
 
@@ -178,7 +175,11 @@ class ObservationWindowDescriber {
       const addMoleculeRemovalListener = () => {
         const describeMoleculesRemoved = ( molecule, observableArray ) => {
           if ( !activeMolecules.contains( moleculeA ) && !activeMolecules.contains( moleculeB ) ) {
-            descriptionNode.innerContent = this.getMoleculesRemovedDescription( moleculeA, moleculeB );
+
+            descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
+              description: this.getMoleculesFloatingAwayDescription( moleculeA, moleculeB ),
+              hint: resetOrChangeMoleculeString
+            } );
             activeMolecules.removeItemRemovedListener( describeMoleculesRemoved );
           }
         };
@@ -258,11 +259,11 @@ class ObservationWindowDescriber {
     } );
   }
 
-  getMoleculesRemovedDescription( firstMolecule, secondMolecule ) {
+  getMoleculesFloatingAwayDescription( firstMolecule, secondMolecule ) {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return StringUtils.fillIn( moleculesOutOfViewPatternString, {
+    return StringUtils.fillIn( moleculesFloatingAwayPatternString, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

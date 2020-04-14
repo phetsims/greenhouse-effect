@@ -39,11 +39,12 @@ const slowMotionBreakApartPatternString = moleculesAndLightStrings.a11y.slowMoti
 const glowingString = moleculesAndLightStrings.a11y.glowing;
 const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
 const absorptionPhaseMoleculeDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
-const startsGlowingString = moleculesAndLightStrings.a11y.startsGlowing;
-const startsRotatingPatternString = moleculesAndLightStrings.a11y.startsRotatingPattern;
+const glowsString = moleculesAndLightStrings.a11y.glowsString;
+const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
+const rotatesCounterClockwiseString = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
 const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
+const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
-const moleculesFloatAwayPatternString = moleculesAndLightStrings.a11y.moleculesFloatAwayPattern;
 
 // constants
 // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -232,13 +233,13 @@ class ActiveMoleculeAlertManager {
     return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
       lightSource: lightSourceString,
       photonTarget: photonTargetString,
-      excitedRepresentation: startsGlowingString
+      excitedRepresentation: glowsString
     } );
   }
 
   /**
    * Get a description of the molecule in its rotation phase. Will return something like
-   * "Microwave photon absorbed and water molecule starts rotating clockwise."
+   * "Microwave photon absorbed, water molecule rotates clockwise."
    *
    * @returns {string}
    */
@@ -247,22 +248,20 @@ class ActiveMoleculeAlertManager {
     const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
     const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
-    const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
-    const startsRotatingString = StringUtils.fillIn( startsRotatingPatternString, {
-      rotation: rotationString
-    } );
+    const rotationString = targetMolecule.rotationDirectionClockwiseProperty.get() ? rotatesClockwiseString : rotatesCounterClockwiseString;
 
     return StringUtils.fillIn( absorptionPhaseMoleculeDescriptionPatternString, {
       lightSource: lightSourceString,
       photonTarget: photonTargetString,
-      excitedRepresentation: startsRotatingString
+      excitedRepresentation: rotationString
     } );
   }
 
   /**
    * Returns a string that describes the molecule after it breaks apart into two other molecules. Will return
    * a string like
-   * "NO and O floating away."
+   *
+   * "Infrared photon absorbed, Carbon Dioxide molecule breaks into CO and O."
    *
    * @returns {string}
    */
@@ -270,7 +269,12 @@ class ActiveMoleculeAlertManager {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return StringUtils.fillIn( moleculesFloatAwayPatternString, {
+    const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
+    const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+    return StringUtils.fillIn( breakApartPhaseDescriptionPatternString, {
+      lightSource: lightSourceString,
+      photonTarget: photonTargetString,
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );
