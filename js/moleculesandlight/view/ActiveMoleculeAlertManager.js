@@ -23,9 +23,9 @@ const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretching
 const bendsUpAndDownString = moleculesAndLightStrings.a11y.bendsUpAndDown;
 const longStretchingAlertString = moleculesAndLightStrings.a11y.longStretchingAlert;
 const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
-const rotatingClockwiseString = moleculesAndLightStrings.a11y.rotatingClockwise;
+const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
 const longBendingAlertString = moleculesAndLightStrings.a11y.longBendingAlert;
-const rotatingCounterClockwiseString = moleculesAndLightStrings.a11y.rotatingCounterClockwise;
+const rotatesCounterClockwise = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
 const stretchingString = moleculesAndLightStrings.a11y.stretching;
 const pausedPassingPatternString = moleculesAndLightStrings.a11y.pausedPassingPattern;
 const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
@@ -40,11 +40,12 @@ const glowingString = moleculesAndLightStrings.a11y.glowing;
 const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
 const absorptionPhaseMoleculeDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
 const glowsString = moleculesAndLightStrings.a11y.glowsString;
-const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
 const rotatesCounterClockwiseString = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
 const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
 const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
+const rotatingString = moleculesAndLightStrings.a11y.rotating;
+
 
 // constants
 // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -177,6 +178,13 @@ class ActiveMoleculeAlertManager {
       if ( !this.photonAbsorptionModel.runningProperty.get() && !molecule.isPhotonAbsorbed() ) {
         this.absorptionUtterance.alert = this.getPassThroughAlert( photon );
         utteranceQueue.addToBack( this.absorptionUtterance );
+      }
+    } );
+
+    // if rotation direction changes during slow playback, describe the rotation direction in full again
+    molecule.rotationDirectionClockwiseProperty.lazyLink( () => {
+      if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+        this.firstRotationAlert = true;
       }
     } );
   }
@@ -355,7 +363,7 @@ class ActiveMoleculeAlertManager {
   /**
    * Get an alert that describes the Molecules in its "rotating" state. Will return something like
    * "Molecule rotates." or
-   * "Photon absorbed. Molecule rotating counter clockwise."
+   * "Photon absorbed. Molecule rotates counter clockwise."
    * @private
    *
    * @param {Molecule} molecule
@@ -371,10 +379,16 @@ class ActiveMoleculeAlertManager {
     }
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
-      // we are playing in slow motion
-      const rotatingDirectionString = molecule.rotationDirectionClockwiseProperty.get() ? rotatingClockwiseString : rotatingCounterClockwiseString;
+      let representationString;
+      if ( this.firstRotationAlert ) {
+        representationString = molecule.rotationDirectionClockwiseProperty.get() ? rotatesClockwiseString : rotatesCounterClockwise;
+      }
+      else {
+        representationString = rotatingString;
+      }
+
       alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
-        excitedRepresentation: rotatingDirectionString
+        excitedRepresentation: representationString
       } );
     }
     else {
