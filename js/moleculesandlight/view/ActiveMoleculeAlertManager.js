@@ -20,13 +20,12 @@ import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 const pausedEmittingPatternString = moleculesAndLightStrings.a11y.pausedEmittingPattern;
 const absorptionPhaseBondsDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseBondsDescriptionPattern;
 const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
-const bendsUpAndDownString = moleculesAndLightStrings.a11y.bendsUpAndDown;
+const bendUpAndDownString = moleculesAndLightStrings.a11y.bendUpAndDown;
 const longStretchingAlertString = moleculesAndLightStrings.a11y.longStretchingAlert;
 const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
 const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
 const longBendingAlertString = moleculesAndLightStrings.a11y.longBendingAlert;
 const rotatesCounterClockwise = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
-const stretchingString = moleculesAndLightStrings.a11y.stretching;
 const pausedPassingPatternString = moleculesAndLightStrings.a11y.pausedPassingPattern;
 const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
 const longRotatingAlertString = moleculesAndLightStrings.a11y.longRotatingAlert;
@@ -34,7 +33,7 @@ const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
 const longGlowingAlertString = moleculesAndLightStrings.a11y.longGlowingAlert;
 const breaksApartAlertPatternString = moleculesAndLightStrings.a11y.breaksApartAlertPattern;
 const slowMotionVibratingPatternString = moleculesAndLightStrings.a11y.slowMotionVibratingPattern;
-const slowMotionAbsorbedPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedPattern;
+const slowMotionAbsorbedMoleculeExcitedPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedMoleculeExcitedPattern;
 const slowMotionBreakApartPatternString = moleculesAndLightStrings.a11y.slowMotionBreakApartPattern;
 const glowingString = moleculesAndLightStrings.a11y.glowing;
 const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
@@ -44,7 +43,7 @@ const rotatesCounterClockwiseString = moleculesAndLightStrings.a11y.rotatesCount
 const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
 const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
-const rotatingString = moleculesAndLightStrings.a11y.rotating;
+const slowMotionAbsorbedShortPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedShortPattern;
 
 
 // constants
@@ -219,7 +218,7 @@ class ActiveMoleculeAlertManager {
       descriptionString = StringUtils.fillIn( absorptionPhaseBondsDescriptionPatternString, {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
-        excitedRepresentation: bendsUpAndDownString
+        excitedRepresentation: bendUpAndDownString
       } );
     }
 
@@ -308,9 +307,20 @@ class ActiveMoleculeAlertManager {
     }
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
+      let excitedRepresentationString;
+      let patternString;
+      if ( this.firstVibrationAlert ) {
+        excitedRepresentationString = stretches ? stretchBackAndForthString : bendUpAndDownString;
+        patternString = slowMotionVibratingPatternString;
+      }
+      else {
+        excitedRepresentationString = stretches ? shortStretchingAlertString : shortBendingAlertString;
+        patternString = slowMotionAbsorbedShortPatternString;
+      }
+
       // we are running in slow motion
-      alert = StringUtils.fillIn( slowMotionVibratingPatternString, {
-        excitedRepresentation: stretches ? stretchingString : bendsUpAndDownString
+      alert = StringUtils.fillIn( patternString, {
+        excitedRepresentation: excitedRepresentationString
       } );
     }
     else {
@@ -346,7 +356,7 @@ class ActiveMoleculeAlertManager {
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
       // we are running in slow motion
-      alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
+      alert = StringUtils.fillIn( slowMotionAbsorbedMoleculeExcitedPatternString, {
         excitedRepresentation: glowingString
       } );
     }
@@ -380,14 +390,17 @@ class ActiveMoleculeAlertManager {
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
       let representationString;
+      let stringPattern;
       if ( this.firstRotationAlert ) {
         representationString = molecule.rotationDirectionClockwiseProperty.get() ? rotatesClockwiseString : rotatesCounterClockwise;
+        stringPattern = slowMotionAbsorbedMoleculeExcitedPatternString;
       }
       else {
-        representationString = rotatingString;
+        representationString = shortRotatingAlertString;
+        stringPattern = slowMotionAbsorbedShortPatternString;
       }
 
-      alert = StringUtils.fillIn( slowMotionAbsorbedPatternString, {
+      alert = StringUtils.fillIn( stringPattern, {
         excitedRepresentation: representationString
       } );
     }
