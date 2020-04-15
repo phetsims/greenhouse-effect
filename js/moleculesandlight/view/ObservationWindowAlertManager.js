@@ -23,6 +23,10 @@ const simPausedEmitterOffAlertString = moleculesAndLightStrings.a11y.timeControl
 const simPlayingHintAlertString = moleculesAndLightStrings.a11y.timeControls.simPlayingHintAlert;
 const stepHintAlertString = moleculesAndLightStrings.a11y.timeControls.stepHintAlert;
 const pausedPhotonEmittedPatternString = moleculesAndLightStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
+const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
+const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
+const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
+const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
 
 class ObservationWindowAlertManager {
   constructor() {
@@ -62,9 +66,14 @@ class ObservationWindowAlertManager {
     } );
 
     model.manualStepEmitter.addListener( () => {
-      if ( !model.photonEmitterOnProperty.get() ) {
-        this.manualStepUtterance.alert = this.getManualStepAlert( model.photonEmitterOnProperty.get() );
-        utteranceQueue.addToBack( this.manualStepUtterance );
+      const alert = this.getManualStepAlert( model );
+      if ( alert ) {
+        this.manualStepUtterance.alert = this.getManualStepAlert( model );
+
+        // the alerts that result from pressing the step button should come before alerts resulting from model
+        // events because confirmation of button activation should come before other updates, so utterance
+        // is added to front
+        utteranceQueue.addToFront( this.manualStepUtterance );
       }
     } );
 
@@ -141,11 +150,37 @@ class ObservationWindowAlertManager {
   }
 
   /**
+   * Get an alert as a result of the user pressing the StepForwardButton. If nothing is happening in the observation
+   * window, returns an alert that gives the user a hint to activate something. Otherwise, may create an alert
+   * that describes state of active molecule. But may also not produce any alert.
    *
+   * @param {PhotonAbsorptionModel} model
+   * @returns {null|string}
    */
-  getManualStepAlert( emitterOn ) {
-    assert && assert( !emitterOn, 'Photon emitter must be off for this alert.' );
-    return stepHintAlertString;
+  getManualStepAlert( model ) {
+    let alert = null;
+
+    const emitterOn = model.photonEmitterOnProperty.get();
+    const hasPhotons = model.photons.length > 0;
+    const targetMolecule = model.targetMolecule;
+    const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
+
+    if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
+      alert = stepHintAlertString;
+    }
+    else if ( photonAbsorbed ) {
+      if ( targetMolecule.rotatingProperty.get() ) {
+        alert = shortRotatingAlertString;
+      }
+      else if ( targetMolecule.vibratingProperty.get() ) {
+        alert = targetMolecule.vibratesByStretching() ? shortStretchingAlertString : shortBendingAlertString;
+      }
+      else if ( targetMolecule.highElectronicEnergyStateProperty.get() ) {
+        alert = shortGlowingAlertString;
+      }
+    }
+
+    return alert;
   }
 }
 

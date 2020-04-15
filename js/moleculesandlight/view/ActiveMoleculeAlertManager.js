@@ -489,11 +489,9 @@ class ActiveMoleculeAlertManager {
 
     const directionString = this.getPhotonDirectionDescription( photon );
     if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-      const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
       const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
       alert = StringUtils.fillIn( pausedEmittingPatternString, {
-        lightSource: lightSourceString,
         molecularName: molecularNameString,
         direction: directionString
       } );
