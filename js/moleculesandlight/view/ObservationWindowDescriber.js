@@ -23,7 +23,6 @@ import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
-import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
@@ -32,7 +31,6 @@ const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.p
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
-const moleculesFloatingAwayPatternString = moleculesAndLightStrings.a11y.moleculesFloatingAwayPattern;
 const breakApartDescriptionWithHintPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithHintPattern;
 const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
 
@@ -60,9 +58,9 @@ class ObservationWindowDescriber {
     this.moleculeHighElectronicEnergyState = false;
     this.moleculeBrokeApart = false;
 
-    // responsible for general alerts involving things in the observation window
-    const alertManager = new ObservationWindowAlertManager();
-    alertManager.initialize( model );
+    // @private - responsible for general alerts involving things in the observation window
+    this.alertManager = new ObservationWindowAlertManager();
+    this.alertManager.initialize( model );
 
     // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
     // interaction
@@ -177,7 +175,7 @@ class ObservationWindowDescriber {
           if ( !activeMolecules.contains( moleculeA ) && !activeMolecules.contains( moleculeB ) ) {
 
             descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
-              description: this.getMoleculesFloatingAwayDescription( moleculeA, moleculeB ),
+              description: this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB ),
               hint: resetOrChangeMoleculeString
             } );
             activeMolecules.removeItemRemovedListener( describeMoleculesRemoved );
@@ -256,16 +254,6 @@ class ObservationWindowDescriber {
       photonTarget: photonTargetString,
       lightSource: lightSourceString,
       direction: directionString
-    } );
-  }
-
-  getMoleculesFloatingAwayDescription( firstMolecule, secondMolecule ) {
-    const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
-    const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
-
-    return StringUtils.fillIn( moleculesFloatingAwayPatternString, {
-      firstMolecule: firstMolecularFormula,
-      secondMolecule: secondMolecularFormula
     } );
   }
 }
