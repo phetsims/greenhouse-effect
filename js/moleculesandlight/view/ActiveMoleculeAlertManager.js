@@ -43,6 +43,7 @@ const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
 const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
 const slowMotionAbsorbedShortPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedShortPattern;
+const photonPassesString = moleculesAndLightStrings.a11y.photonPasses;
 
 
 // constants
@@ -180,8 +181,8 @@ class ActiveMoleculeAlertManager {
     // photon passed through - only have enough time to speak this if the sim is paused and we are stepping frame by frame
     // this should not be described if the molecule has already absorbed another photon
     molecule.photonPassedThroughEmitter.addListener( photon => {
-      if ( !this.photonAbsorptionModel.runningProperty.get() && !molecule.isPhotonAbsorbed() ) {
-        this.absorptionUtterance.alert = this.getPassThroughAlert( photon );
+      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
+        this.absorptionUtterance.alert = this.getPassThroughAlert( photon, molecule );
         utteranceQueue.addToBack( this.absorptionUtterance );
       }
     } );
@@ -509,7 +510,8 @@ class ActiveMoleculeAlertManager {
   /**
    * Get an alert that describes the photon is passing through the molecule. Will return something like
    *
-   * "Infrared photons passing through carbon monoxide molecule."
+   * "Microwave photon passes through Carbon Monoxide molecule." or simply
+   * "Photon passes."
    *
    * Describing each pass through takes a lot of time, so this is only used while the simulation is paused and
    * user is stepping through frame by frames.
@@ -518,14 +520,23 @@ class ActiveMoleculeAlertManager {
    * @param {Photon} photon
    * @returns {string}
    */
-  getPassThroughAlert( photon ) {
-    const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
-    const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+  getPassThroughAlert( photon, molecule ) {
+    let alert;
 
-    return StringUtils.fillIn( pausedPassingPatternString, {
-      lightSource: lightSourceString,
-      molecularName: molecularNameString
-    } );
+    if ( molecule.isPhotonAbsorbed() ) {
+      alert = photonPassesString;
+    }
+    else {
+      const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+      const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+      alert = StringUtils.fillIn( pausedPassingPatternString, {
+        lightSource: lightSourceString,
+        molecularName: molecularNameString
+      } );
+    }
+
+    return alert;
   }
 
   /**

@@ -7,9 +7,11 @@
  * @author Jesse Greenberg
  */
 
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
+import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 
 const photonsOnString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOn;
 const photonsOffString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOff;
@@ -20,6 +22,7 @@ const simPausedEmitterOnAlertString = moleculesAndLightStrings.a11y.timeControls
 const simPausedEmitterOffAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOffAlert;
 const simPlayingHintAlertString = moleculesAndLightStrings.a11y.timeControls.simPlayingHintAlert;
 const stepHintAlertString = moleculesAndLightStrings.a11y.timeControls.stepHintAlert;
+const pausedPhotonEmittedPatternString = moleculesAndLightStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
 
 class ObservationWindowAlertManager {
   constructor() {
@@ -29,39 +32,47 @@ class ObservationWindowAlertManager {
     this.photonStateUtterance = new Utterance();
     this.runningStateUtterance = new Utterance();
     this.manualStepUtterance = new Utterance();
+    this.photonEmittedUtterance = new Utterance();
   }
 
   /**
    * Initialize the alert manager by attaching listers that trigger alerts with various changes to observables.
    * @public
    *
-   * @param {BooleanProperty} photonEmitterOnProperty
-   * @param {BooleanProperty} runningProperty
-   * @param {BooleanProperty} slowMotionProperty
+   * @param {PhotonAbsorptionModel} model
    */
-  initialize( photonEmitterOnProperty, runningProperty, slowMotionProperty, manualStepEmitter ) {
+  initialize( model ) {
     const utteranceQueue = phet.joist.sim.utteranceQueue;
 
-    photonEmitterOnProperty.lazyLink( on => {
-      this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, runningProperty.value, slowMotionProperty.value );
+    model.photonEmitterOnProperty.lazyLink( on => {
+      this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, model.runningProperty.value, model.slowMotionProperty.value );
       utteranceQueue.addToBack( this.photonStateUtterance );
     } );
 
-    runningProperty.lazyLink( running => {
+    model.runningProperty.lazyLink( running => {
 
       // if the sim is running and the photon emitter is on, there is plenty of sound already, don't add
       // to alerts
-      if ( running && photonEmitterOnProperty.get() ) {
+      if ( running && model.photonEmitterOnProperty.get() ) {
         return;
       }
 
-      this.runningStateUtterance.alert = this.getRunningStateAlert( photonEmitterOnProperty.get(), running );
+      this.runningStateUtterance.alert = this.getRunningStateAlert( model.photonEmitterOnProperty.get(), running );
       utteranceQueue.addToBack( this.runningStateUtterance );
     } );
 
-    manualStepEmitter.addListener( () => {
-      this.manualStepUtterance.alert = this.getManualStepAlert( photonEmitterOnProperty.get() );
-      utteranceQueue.addToBack( this.manualStepUtterance );
+    model.manualStepEmitter.addListener( () => {
+      if ( !model.photonEmitterOnProperty.get() ) {
+        this.manualStepUtterance.alert = this.getManualStepAlert( model.photonEmitterOnProperty.get() );
+        utteranceQueue.addToBack( this.manualStepUtterance );
+      }
+    } );
+
+    model.photonEmittedEmitter.addListener( photon => {
+      if ( !model.runningProperty.get() ) {
+        this.photonEmittedUtterance.alert = this.getPhotonEmittedAlert( photon );
+        utteranceQueue.addToBack( this.photonEmittedUtterance );
+      }
     } );
   }
 
@@ -121,18 +132,20 @@ class ObservationWindowAlertManager {
     }
   }
 
+  getPhotonEmittedAlert( photon ) {
+    const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+
+    return StringUtils.fillIn( pausedPhotonEmittedPatternString, {
+      lightSource: lightSourceString
+    } );
+  }
+
   /**
    *
    */
   getManualStepAlert( emitterOn ) {
-    let alert;
-    if ( !emitterOn ) {
-      alert = stepHintAlertString;
-    }
-    else {
-      alert = 'Step alert not implemented yet.';
-    }
-    return alert;
+    assert && assert( !emitterOn, 'Photon emitter must be off for this alert.' );
+    return stepHintAlertString;
   }
 }
 
