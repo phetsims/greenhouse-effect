@@ -140,6 +140,10 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
     phetioType: ObservableArrayIO( MoleculeIO )
   } ); // Elements are of type Molecule.
 
+  // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
+  // to the photons ObservableArray because this is specifically for photon emission from the light source
+  this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+
   // @public - Emits when the model has been reset
   this.resetEmitter = new Emitter();
 
@@ -350,6 +354,9 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     const emissionAngle = 0; // Straight to the right.
     photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
     this.photons.add( photon );
+
+    // indicate that a photon has been emitted from the initial emission point
+    this.photonEmittedEmitter.emit( photon );
   },
 
   /**
