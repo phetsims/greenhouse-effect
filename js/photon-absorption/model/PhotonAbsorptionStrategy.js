@@ -17,8 +17,9 @@ import Property from '../../../../axon/js/Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
-const MIN_PHOTON_HOLD_TIME = 0.6; // seconds of sim time
-const MAX_PHOTON_HOLD_TIME = 1.2; // seconds of sim time
+// photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
+const MIN_PHOTON_HOLD_TIME = 1.1; // seconds
+const MAX_PHOTON_HOLD_TIME = 1.3; // seconds
 
 /**
  * Constructor for photon absorption strategy.
@@ -65,7 +66,8 @@ export default inherit( Object, PhotonAbsorptionStrategy, {
     const absorbed = ( !this.isPhotonAbsorbed ) && ( phet.joist.random.nextDouble() < this.photonAbsorptionProbabilityProperty.get() );
     if ( absorbed ) {
       this.isPhotonAbsorbed = true;
-      this.photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + phet.joist.random.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
+      this.photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME +
+                                     phet.joist.random.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
     }
     return absorbed;
   },

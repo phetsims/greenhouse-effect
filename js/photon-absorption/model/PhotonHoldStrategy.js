@@ -2,7 +2,8 @@
 
 /**
  * Photon absorption strategy that defines behavior for a molecule holding on to a photon.  The molecule will hold the
- * photon and then after some amount of time re-emit it. This is to be inherited by the general PhotonAbsorptionStrategy class.
+ * photon and then after some amount of time re-emit it. This is to be inherited by the general PhotonAbsorptionStrategy
+ * class.
  *
  * @author Jesse Greenberg
  **/
