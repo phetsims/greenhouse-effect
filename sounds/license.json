@@ -1,5 +1,5 @@
 {
-  "absorb-based-on-photon.mp3": {
+  "absorb-photon.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "absorb-loop-low-harmonics-reduction.mp3": {
+  "energized.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "break-apart-stereo-reverb.mp3": {
+  "break-apart.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
     ],
