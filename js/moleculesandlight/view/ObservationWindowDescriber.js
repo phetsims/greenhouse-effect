@@ -31,8 +31,7 @@ const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.p
 const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
-const breakApartDescriptionWithHintPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithHintPattern;
-const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
+const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
 
 class ObservationWindowDescriber {
 
@@ -172,13 +171,8 @@ class ObservationWindowDescriber {
       // do not exist in activeMolecules at the time of break apart.
       const addMoleculeRemovalListener = () => {
         const describeMoleculesRemoved = ( molecule, observableArray ) => {
-          if ( !activeMolecules.contains( moleculeA ) && !activeMolecules.contains( moleculeB ) ) {
-
-            descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithHintPatternString, {
-              description: this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB ),
-              hint: resetOrChangeMoleculeString
-            } );
-            activeMolecules.removeItemRemovedListener( describeMoleculesRemoved );
+          if ( !this.model.hasAnyConstituentMolecules( moleculeA, moleculeB ) ) {
+            descriptionNode.innerContent = moleculePiecesGoneString;
           }
         };
 
