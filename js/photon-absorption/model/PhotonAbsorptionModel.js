@@ -408,19 +408,26 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
 
     assert && assert( photonEmissionPeriod >= 0 );
     if ( this.photonEmissionPeriodTarget !== photonEmissionPeriod ) {
+
       // If we are transitioning from off to on, set the countdown timer such that a photon will be emitted right away
-      // so that the user doesn't have to wait too long in order to see something come out.
-      if ( this.photonEmissionPeriodTarget === Number.POSITIVE_INFINITY && photonEmissionPeriod !== Number.POSITIVE_INFINITY ) {
+      // so that the user doesn't have to wait too long in order to see something come out, but only if there
+      // are no other photons in the observation window so we don't emit unlimitted photons when turning
+      // on/off rapidly
+      if ( this.photonEmissionPeriodTarget === Number.POSITIVE_INFINITY && photonEmissionPeriod !== Number.POSITIVE_INFINITY && this.photons.length === 0 ) {
+
+        // only reset time on emission of first photon, there should still be a delay after subsequent photons
         this.setEmissionTimerToInitialCountdown();
       }
-      // Handle the case where the new value is smaller than the current countdown value.
       else if ( photonEmissionPeriod < this.photonEmissionCountdownTimer ) {
+
+        // Handle the case where the new value is smaller than the current countdown value.
         this.photonEmissionCountdownTimer = photonEmissionPeriod;
       }
-        // If the new value is infinity, it means that emissions are being
-      // turned off, so set the period to infinity right away.
       else if ( photonEmissionPeriod === Number.POSITIVE_INFINITY ) {
-        this.photonEmissionCountdownTimer = photonEmissionPeriod; // Turn off emissions.
+
+        // If the new value is infinity, it means that emissions are being turned off, so set the period to infinity
+        // right away.
+        this.photonEmissionCountdownTimer = photonEmissionPeriod;
       }
       this.photonEmissionPeriodTarget = photonEmissionPeriod;
     }
