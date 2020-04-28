@@ -29,6 +29,8 @@ const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAler
 const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
 const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
 const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
+const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
+const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
 
 class ObservationWindowAlertManager {
   constructor() {
@@ -48,6 +50,9 @@ class ObservationWindowAlertManager {
     // still describe them floating after they have left the observation window
     this.constituentMolecule1 = null;
     this.constituentMolecule2 = null;
+
+    // @private {MoleculesAndLightModel}
+    this.model = null;
   }
 
   /**
@@ -55,9 +60,13 @@ class ObservationWindowAlertManager {
    * @public
    *
    * @param {PhotonAbsorptionModel} model
+   * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
+   * @param {}
    */
-  initialize( model ) {
+  initialize( model, returnMoleculeButtonVisibleProperty ) {
     const utteranceQueue = phet.joist.sim.utteranceQueue;
+
+    this.model = model;
 
     model.photonEmitterOnProperty.lazyLink( on => {
       this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, model.runningProperty.value, model.slowMotionProperty.value );
@@ -100,6 +109,14 @@ class ObservationWindowAlertManager {
         this.constituentMolecule1 = moleculeA;
         this.constituentMolecule2 = moleculeB;
       } );
+    } );
+
+    returnMoleculeButtonVisibleProperty.link( visible => {
+
+      // PDOM - announce to the user when the button becomes visible
+      if ( visible && model.runningProperty.get() ) {
+        phet.joist.sim.utteranceQueue.addToBack( resetOrChangeMoleculeString );
+      }
     } );
   }
 
@@ -201,10 +218,16 @@ class ObservationWindowAlertManager {
       }
     }
     else if ( this.moleculeWasBrokenLastStep ) {
+      if ( !this.model.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
-      // not target molecule indicates that photon caused target molecule to break apart, describe the
-      // constituent molecules
-      alert = this.getMoleculesFloatingAwayDescription( this.constituentMolecule1, this.constituentMolecule2 );
+        // no target molecule and constituents have been removed
+        alert = moleculePiecesGoneString;
+      }
+      else {
+
+        // no target molecule indicates break apert, but molecules are still floating away
+        alert = this.getMoleculesFloatingAwayDescription( this.constituentMolecule1, this.constituentMolecule2 );
+      }
     }
 
     this.moleculeWasBrokenLastStep = targetMolecule === null;

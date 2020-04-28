@@ -28,18 +28,20 @@ import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
 const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
-const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
+const targetMoleculePatternString = moleculesAndLightStrings. a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
 const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
+const breakApartDescriptionWithFloatPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithFloatPattern;
 
 class ObservationWindowDescriber {
 
   /**
    * @param {PhotonAbsorptionModel} model
    * @param {ModelViewTransform2} modelViewTransform
+   * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
-  constructor( model, modelViewTransform ) {
+  constructor( model, modelViewTransform, returnMoleculeButtonVisibleProperty ) {
 
     // @private {PhotonAbsorptionModel}
     this.model = model;
@@ -59,7 +61,7 @@ class ObservationWindowDescriber {
 
     // @private - responsible for general alerts involving things in the observation window
     this.alertManager = new ObservationWindowAlertManager();
-    this.alertManager.initialize( model );
+    this.alertManager.initialize( model, returnMoleculeButtonVisibleProperty );
 
     // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
     // interaction
@@ -161,7 +163,13 @@ class ObservationWindowDescriber {
       this.moleculeBrokeApart = true;
       this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
 
-      descriptionNode.innerContent = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
+      const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
+      const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
+
+      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithFloatPatternString, {
+        description: breakApartDescription,
+        floatDescription: floatingAwayDescription
+      } );
 
       const activeMolecules = this.model.activeMolecules;
 
@@ -171,8 +179,14 @@ class ObservationWindowDescriber {
       // do not exist in activeMolecules at the time of break apart.
       const addMoleculeRemovalListener = () => {
         const describeMoleculesRemoved = ( molecule, observableArray ) => {
-          if ( !this.model.hasAnyConstituentMolecules( moleculeA, moleculeB ) ) {
-            descriptionNode.innerContent = moleculePiecesGoneString;
+
+          // only update description if the removed molecule is one of the constituents after a break apart
+          if ( molecule === moleculeA || molecule === moleculeB ) {
+
+            // cant use this here because the active molecule
+            if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
+              descriptionNode.innerContent = moleculePiecesGoneString;
+            }
           }
         };
 
