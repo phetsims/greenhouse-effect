@@ -497,15 +497,15 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
-   * Returns true if this model still contains any of the constituent molecules provided after a break apart.
+   * Returns true if this model still contains both of the constituent molecules provided after a break apart.
    * @public
    *
    * @param {Molecule} moleculeA
    * @param {Molecule} moleculeB
    * @returns {boolean}
    */
-  hasAnyConstituentMolecules( moleculeA, moleculeB ) {
-    return this.activeMolecules.contains( moleculeA ) || this.activeMolecules.contains( moleculeB );
+  hasBothConstituentMolecules( moleculeA, moleculeB ) {
+    return this.activeMolecules.contains( moleculeA ) && this.activeMolecules.contains( moleculeB );
   },
 
   /**
