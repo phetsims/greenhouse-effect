@@ -497,6 +497,18 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
+   * Returns true if this model still contains any of the constituent molecules provided after a break apart.
+   * @public
+   *
+   * @param {Molecule} moleculeA
+   * @param {Molecule} moleculeB
+   * @returns {boolean}
+   */
+  hasAnyConstituentMolecules( moleculeA, moleculeB ) {
+    return this.activeMolecules.contains( moleculeA ) || this.activeMolecules.contains( moleculeB );
+  },
+
+  /**
    * This method restores the active molecule.  This may seem nonsensical, and in some cases it is, but it is useful
    * in cases where an atom has broken apart and needs to be restored to its original condition.
    */
