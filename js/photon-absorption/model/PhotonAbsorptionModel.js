@@ -61,12 +61,9 @@ const DEFAULT_PHOTON_EMISSION_PERIOD = Number.POSITIVE_INFINITY; // Milliseconds
 const DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
 const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.0; // seconds, emitted right away
 
-// Minimum for photon emission periods.
-const MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 0.4; // seconds
-
-// emission frequency for when the emitter is "on" and "off", when only those two settings are provided
-const ON_FREQUENCY = 0.5;
-const OFF_FREQUENCY = 0;
+// photon emission periods, in seconds
+const PHOTON_ON_EMISSION_PERIOD = 0.8;
+const PHOTON_OFF_EMISSION_PERIOD = Number.POSITIVE_INFINITY;
 
 // when stepping at "slow" speed, animate rate is reduced by this factor
 const SLOW_SPEED_FACTOR = 0.5;
@@ -154,16 +151,14 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // listeners for the activeMolecules observable array have been implemented.
   self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
 
-  // when the photon emitter is on, set to default "on" and "off" frequency
+  // when the photon emitter is on, set to default "on" and "off" period
   this.photonEmitterOnProperty.link( emitterOn => {
-    const emissionFrequency = emitterOn ? ON_FREQUENCY : OFF_FREQUENCY;
 
-    if ( emissionFrequency === 0 ) {
-      this.setPhotonEmissionPeriod( Number.POSITIVE_INFINITY );
+    if ( !emitterOn ) {
+      this.setPhotonEmissionPeriod( PHOTON_OFF_EMISSION_PERIOD );
     }
     else {
-      const singleTargetPeriodFrequency = this.getSingleTargetPeriodFromFrequency( emissionFrequency );
-      this.setPhotonEmissionPeriod( singleTargetPeriodFrequency );
+      this.setPhotonEmissionPeriod( PHOTON_ON_EMISSION_PERIOD );
     }
   } );
 
@@ -378,16 +373,6 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
    */
   getPhotonEmissionLocation: function() {
     return PHOTON_EMISSION_LOCATION;
-  },
-
-  /**
-   * Map the emission frequency to emission period.
-   *
-   * @param {number} emissionFrequency
-   * @returns {number}
-   */
-  getSingleTargetPeriodFromFrequency: function( emissionFrequency ) {
-    return MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / emissionFrequency;
   },
 
   /**
