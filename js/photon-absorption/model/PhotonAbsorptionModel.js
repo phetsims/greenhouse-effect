@@ -62,8 +62,8 @@ const DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
 const INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 0.0; // seconds, emitted right away
 
 // photon emission periods, in seconds
-const PHOTON_ON_EMISSION_PERIOD = 0.8;
-const PHOTON_OFF_EMISSION_PERIOD = Number.POSITIVE_INFINITY;
+const EMITTER_ON_EMISSION_PERIOD = 0.8;
+const EMITTER_OFF_EMISSION_PERIOD = Number.POSITIVE_INFINITY;
 
 // when stepping at "slow" speed, animate rate is reduced by this factor
 const SLOW_SPEED_FACTOR = 0.5;
@@ -153,7 +153,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   // when the photon emitter is on, set to default "on" and "off" period
   this.photonEmitterOnProperty.link( emitterOn => {
-    this.setPhotonEmissionPeriod( emitterOn ? PHOTON_ON_EMISSION_PERIOD : PHOTON_OFF_EMISSION_PERIOD );
+    this.setPhotonEmissionPeriod( emitterOn ? EMITTER_ON_EMISSION_PERIOD : EMITTER_OFF_EMISSION_PERIOD );
   } );
 
   // Variables that control periodic photon emission.
