@@ -391,15 +391,6 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
-   * Map the emission period to emission frequency for this photon emission period target.
-   *
-   * @returns {number}
-   */
-  getSingleTargetFrequencyFromPeriod: function() {
-    return MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET / this.photonEmissionPeriodTarget;
-  },
-
-  /**
    * Set the emission period, i.e. the time between photons.
    *
    * @param {number} photonEmissionPeriod - Period between photons in milliseconds.
