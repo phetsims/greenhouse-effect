@@ -88,8 +88,8 @@ class ActiveMoleculeAlertManager {
     photonAbsorptionModel.photonWavelengthProperty.link( () => this.reset() );
     photonAbsorptionModel.resetEmitter.addListener( () => this.reset() );
 
-    // allow some time before the next alert after changing the emission frequency as the screen reader will need to
-    // announce the new aria-valuetext
+    // allow some time before the next alert after changing the emission period as the screen reader will need to
+    // announce that the emitter has turned on
     photonAbsorptionModel.photonEmitterOnProperty.link( () => { this.timeSinceFirstAlert = 0; } );
 
     // attach listeners to the first molecule already in the observation window
