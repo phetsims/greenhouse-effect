@@ -153,13 +153,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   // when the photon emitter is on, set to default "on" and "off" period
   this.photonEmitterOnProperty.link( emitterOn => {
-
-    if ( !emitterOn ) {
-      this.setPhotonEmissionPeriod( PHOTON_OFF_EMISSION_PERIOD );
-    }
-    else {
-      this.setPhotonEmissionPeriod( PHOTON_ON_EMISSION_PERIOD );
-    }
+    this.setPhotonEmissionPeriod( emitterOn ? PHOTON_ON_EMISSION_PERIOD : PHOTON_OFF_EMISSION_PERIOD );
   } );
 
   // Variables that control periodic photon emission.
