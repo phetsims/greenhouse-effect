@@ -20,7 +20,7 @@ const controlPanelOxygenString = moleculesAndLightStrings.ControlPanel.Oxygen;
 const controlPanelOzoneString = moleculesAndLightStrings.ControlPanel.Ozone;
 const controlPanelWaterString = moleculesAndLightStrings.ControlPanel.Water;
 
-export default moleculesAndLight.register( 'PhotonTarget', Enumeration.byKeys( [
+const PhotonTarget = Enumeration.byKeys( [
   'SINGLE_CO_MOLECULE',
   'SINGLE_N2_MOLECULE',
   'SINGLE_O2_MOLECULE',
@@ -49,4 +49,6 @@ export default moleculesAndLight.register( 'PhotonTarget', Enumeration.byKeys( [
              assert && assert( false, 'unknown' );
     };
   }
-} ) );
+} );
+moleculesAndLight.register( 'PhotonTarget', PhotonTarget );
+export default PhotonTarget;
