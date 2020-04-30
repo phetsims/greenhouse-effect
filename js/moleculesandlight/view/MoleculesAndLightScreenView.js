@@ -246,7 +246,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
 
 moleculesAndLight.register( 'MoleculesAndLightScreenView', MoleculesAndLightScreenView );
 
-export default inherit( ScreenView, MoleculesAndLightScreenView, {
+inherit( ScreenView, MoleculesAndLightScreenView, {
 
   /**
    * View step, called by joist.
@@ -259,3 +259,5 @@ export default inherit( ScreenView, MoleculesAndLightScreenView, {
     this.observationWindow.step( dt );
   }
 } );
+
+export default MoleculesAndLightScreenView;

@@ -174,7 +174,7 @@ function MoleculeSelectionPanel( model, tandem ) {
 
 moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 
-export default inherit( Panel, MoleculeSelectionPanel, {
+inherit( Panel, MoleculeSelectionPanel, {
 
   /**
    * Get the PDOM label for one of the buttons. Contains the molecular name, molecular formula, and
@@ -196,3 +196,5 @@ export default inherit( Panel, MoleculeSelectionPanel, {
     } );
   }
 } );
+
+export default MoleculeSelectionPanel;

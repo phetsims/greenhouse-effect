@@ -255,7 +255,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
 
 moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
 
-export default inherit( Rectangle, ObservationWindow, {
+inherit( Rectangle, ObservationWindow, {
 
   /**
    * Update the visibility of the button that restores molecules that have broken apart.  This button should be
@@ -306,3 +306,5 @@ export default inherit( Rectangle, ObservationWindow, {
     this.describer.step( dt );
   }
 } );
+
+export default ObservationWindow;

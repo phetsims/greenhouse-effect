@@ -40,7 +40,7 @@ function WindowFrameNode( observationWindow, innerColor, outerColor ) {
 
 moleculesAndLight.register( 'WindowFrameNode', WindowFrameNode );
 
-export default inherit( CanvasNode, WindowFrameNode, {
+inherit( CanvasNode, WindowFrameNode, {
 
   // @param {CanvasRenderingContext2D} context
   // @private
@@ -208,3 +208,5 @@ export default inherit( CanvasNode, WindowFrameNode, {
 
   }
 } );
+
+export default WindowFrameNode;
