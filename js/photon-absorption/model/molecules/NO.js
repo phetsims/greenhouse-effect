@@ -47,7 +47,7 @@ function NO( options ) {
 
 moleculesAndLight.register( 'NO', NO );
 
-export default inherit( Molecule, NO, {
+inherit( Molecule, NO, {
 
   /**
    * Initialize and set the COG positions for each atom which compose this NO molecule.
@@ -61,3 +61,5 @@ export default inherit( Molecule, NO, {
   }
 
 } );
+
+export default NO;

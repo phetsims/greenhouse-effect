@@ -83,7 +83,7 @@ function PhotonEmitterNode( width, model, tandem ) {
 
 moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
 
-export default inherit( Node, PhotonEmitterNode, {
+inherit( Node, PhotonEmitterNode, {
 
   /**
    * Set the appropriate images based on the current setting for the wavelength of the emitted photons.
@@ -144,3 +144,5 @@ export default inherit( Node, PhotonEmitterNode, {
     }
   }
 } );
+
+export default PhotonEmitterNode;

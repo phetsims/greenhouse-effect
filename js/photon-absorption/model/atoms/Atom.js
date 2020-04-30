@@ -45,7 +45,7 @@ function Atom( representationColor, radius, mass, options ) {
 
 moleculesAndLight.register( 'Atom', Atom );
 
-export default inherit( Object, Atom, {
+inherit( Object, Atom, {
 
   /**
    * Set the position of this atom from a single vector.
@@ -96,3 +96,5 @@ export default inherit( Object, Atom, {
     } );
   }
 } );
+
+export default Atom;

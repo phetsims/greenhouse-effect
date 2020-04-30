@@ -59,7 +59,7 @@ function CO2( options ) {
 
 moleculesAndLight.register( 'CO2', CO2 );
 
-export default inherit( Molecule, CO2, {
+inherit( Molecule, CO2, {
 
   /**
    * Set the vibration behavior for this CO2 molecule. Initialize and set center of gravity position offsets for the
@@ -91,3 +91,5 @@ export default inherit( Molecule, CO2, {
   }
 
 } );
+
+export default CO2;

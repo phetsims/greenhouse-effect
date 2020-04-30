@@ -28,7 +28,7 @@ function PhotonHoldStrategy( molecule ) {
 
 moleculesAndLight.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
 
-export default inherit( PhotonAbsorptionStrategy, PhotonHoldStrategy, {
+inherit( PhotonAbsorptionStrategy, PhotonHoldStrategy, {
 
   /**
    * The time step function for the photon holding strategy. Holds on to the photon until the countdown time is zero
@@ -77,3 +77,5 @@ export default inherit( PhotonAbsorptionStrategy, PhotonHoldStrategy, {
   }
 
 } );
+
+export default PhotonHoldStrategy;

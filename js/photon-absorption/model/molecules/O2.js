@@ -45,7 +45,7 @@ function O2( options ) {
 
 moleculesAndLight.register( 'O2', O2 );
 
-export default inherit( Molecule, O2, {
+inherit( Molecule, O2, {
 
   /**
    * Initialize and set the COG offsets for the oxygen atoms which compose this molecule.
@@ -59,3 +59,5 @@ export default inherit( Molecule, O2, {
   }
 
 } );
+
+export default O2;

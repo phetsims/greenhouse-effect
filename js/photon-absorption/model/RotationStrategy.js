@@ -30,7 +30,7 @@ function RotationStrategy( molecule ) {
 
 moleculesAndLight.register( 'RotationStrategy', RotationStrategy );
 
-export default inherit( PhotonHoldStrategy, RotationStrategy, {
+inherit( PhotonHoldStrategy, RotationStrategy, {
 
   /**
    * Handle when a photon is absorbed.  Set the molecule to a rotating state
@@ -49,3 +49,5 @@ export default inherit( PhotonHoldStrategy, RotationStrategy, {
     this.molecule.rotatingProperty.set( false );
   }
 } );
+
+export default RotationStrategy;

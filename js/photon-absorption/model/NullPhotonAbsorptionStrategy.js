@@ -25,7 +25,7 @@ function NullPhotonAbsorptionStrategy( molecule ) {
 
 moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
 
-export default inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
+inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
 
   /**
    * Step method for the null absorption strategy.  This does nothing.
@@ -46,3 +46,5 @@ export default inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, 
     return false;
   }
 } );
+
+export default NullPhotonAbsorptionStrategy;

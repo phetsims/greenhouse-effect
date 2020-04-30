@@ -39,7 +39,7 @@ function O( options ) {
 
 moleculesAndLight.register( 'O', O );
 
-export default inherit( Molecule, O, {
+inherit( Molecule, O, {
 
   /**
    * Initialize and set the center of gravity offsets for the position of this Oxygen atom.
@@ -52,3 +52,5 @@ export default inherit( Molecule, O, {
   }
 
 } );
+
+export default O;

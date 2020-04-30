@@ -26,7 +26,7 @@ function ExcitationStrategy( molecule ) {
 
 moleculesAndLight.register( 'ExcitationStrategy', ExcitationStrategy );
 
-export default inherit( PhotonHoldStrategy, ExcitationStrategy, {
+inherit( PhotonHoldStrategy, ExcitationStrategy, {
 
   photonAbsorbed: function() {
     this.molecule.highElectronicEnergyStateProperty.set( true );
@@ -37,3 +37,5 @@ export default inherit( PhotonHoldStrategy, ExcitationStrategy, {
     this.molecule.highElectronicEnergyStateProperty.set( false );
   }
 } );
+
+export default ExcitationStrategy;

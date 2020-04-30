@@ -43,7 +43,7 @@ function Photon( wavelength, tandem ) {
 
 moleculesAndLight.register( 'Photon', Photon );
 
-export default inherit( PhetioObject, Photon, {
+inherit( PhetioObject, Photon, {
 
   dispose: function() {
     this.locationProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
@@ -71,3 +71,5 @@ export default inherit( PhetioObject, Photon, {
     this.locationProperty.set( new Vector2( this.locationProperty.get().x + this.vx * dt, this.locationProperty.get().y + this.vy * dt ) );
   }
 } );
+
+export default Photon;

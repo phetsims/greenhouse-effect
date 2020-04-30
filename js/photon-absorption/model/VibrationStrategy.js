@@ -26,7 +26,7 @@ function VibrationStrategy( molecule ) {
 
 moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
 
-export default inherit( PhotonHoldStrategy, VibrationStrategy, {
+inherit( PhotonHoldStrategy, VibrationStrategy, {
 
   /**
    * Set this molecule to a vibrating state when a photon is absorbed.
@@ -46,3 +46,5 @@ export default inherit( PhotonHoldStrategy, VibrationStrategy, {
   }
 
 } );
+
+export default VibrationStrategy;

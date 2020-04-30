@@ -63,7 +63,7 @@ function H2O( options ) {
 
 moleculesAndLight.register( 'H2O', H2O );
 
-export default inherit( Molecule, H2O, {
+inherit( Molecule, H2O, {
 
   /**
    * Initialize and set the initial center of gravity  locations for each atom in this molecule.
@@ -96,3 +96,5 @@ export default inherit( Molecule, H2O, {
     this.updateAtomPositions();
   }
 } );
+
+export default H2O;

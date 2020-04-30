@@ -169,7 +169,7 @@ function Molecule( options ) {
 
 moleculesAndLight.register( 'Molecule', Molecule );
 
-export default inherit( Object, Molecule, {
+inherit( Object, Molecule, {
   /**
    * Reset the molecule.  Any photons that have been absorbed are forgotten, and any vibration is reset.
    **/
@@ -591,3 +591,5 @@ export default inherit( Object, Molecule, {
     return molecule;
   }
 } );
+
+export default Molecule;

@@ -42,7 +42,7 @@ function PhotonAbsorptionStrategy( molecule ) {
 
 moleculesAndLight.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
 
-export default inherit( Object, PhotonAbsorptionStrategy, {
+inherit( Object, PhotonAbsorptionStrategy, {
 
   /**
    * Reset the strategy.
@@ -77,3 +77,5 @@ export default inherit( Object, PhotonAbsorptionStrategy, {
   }
 
 } );
+
+export default PhotonAbsorptionStrategy;

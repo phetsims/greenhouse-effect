@@ -60,7 +60,7 @@ function AtomicBondNode( atomicBond, modelViewTransform ) {
 
 moleculesAndLight.register( 'AtomicBondNode', AtomicBondNode );
 
-export default inherit( Node, AtomicBondNode, {
+inherit( Node, AtomicBondNode, {
 
   /**
    * Draw the initial lines which represent the atomic bonds.  This function should only be called once.  Drawing the
@@ -180,3 +180,5 @@ export default inherit( Node, AtomicBondNode, {
     }
   }
 } );
+
+export default AtomicBondNode;

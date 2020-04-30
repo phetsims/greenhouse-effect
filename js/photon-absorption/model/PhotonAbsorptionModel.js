@@ -169,7 +169,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
 moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
-export default inherit( PhetioObject, PhotonAbsorptionModel, {
+inherit( PhetioObject, PhotonAbsorptionModel, {
 
   /**
    * Reset the model to its initial state.
@@ -487,3 +487,5 @@ export default inherit( PhetioObject, PhotonAbsorptionModel, {
     this.updateActiveMolecule( currentTarget, this.photonAbsorptionModel );
   }
 } );
+
+export default PhotonAbsorptionModel;

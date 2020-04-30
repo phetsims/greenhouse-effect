@@ -88,7 +88,7 @@ function O3( options ) {
 
 moleculesAndLight.register( 'O3', O3 );
 
-export default inherit( Molecule, O3, {
+inherit( Molecule, O3, {
 
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions
@@ -165,3 +165,5 @@ export default inherit( Molecule, O3, {
 
   }
 } );
+
+export default O3;

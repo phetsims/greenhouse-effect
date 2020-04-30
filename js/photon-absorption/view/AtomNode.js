@@ -53,7 +53,7 @@ function AtomNode( atom, modelViewTransform ) {
 
 moleculesAndLight.register( 'AtomNode', AtomNode );
 
-export default inherit( Node, AtomNode, {
+inherit( Node, AtomNode, {
 
   /**
    * Highlight this atom to represent that it is in an excited state.
@@ -73,3 +73,5 @@ export default inherit( Node, AtomNode, {
     this.highlightNode.opacity = highlighted ? 0.99 : 0;
   }
 } );
+
+export default AtomNode;

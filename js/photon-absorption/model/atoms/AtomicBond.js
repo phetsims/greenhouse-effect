@@ -34,7 +34,7 @@ function AtomicBond( atom1, atom2, options ) {
 
 moleculesAndLight.register( 'AtomicBond', AtomicBond );
 
-export default inherit( Object, AtomicBond, {
+inherit( Object, AtomicBond, {
 
   // serialization support
   toStateObject: function() {
@@ -45,3 +45,5 @@ export default inherit( Object, AtomicBond, {
     };
   }
 } );
+
+export default AtomicBond;

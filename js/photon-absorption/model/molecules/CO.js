@@ -52,7 +52,7 @@ function CO( options ) {
 
 moleculesAndLight.register( 'CO', CO );
 
-export default inherit( Molecule, CO, {
+inherit( Molecule, CO, {
 
   /**
    * Define vibration behavior of carbon monoxide.  Set the current angle of vibration,
@@ -82,3 +82,5 @@ export default inherit( Molecule, CO, {
   }
 
 } );
+
+export default CO;

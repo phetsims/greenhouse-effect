@@ -26,7 +26,7 @@ function BreakApartStrategy( molecule ) {
 
 moleculesAndLight.register( 'BreakApartStrategy', BreakApartStrategy );
 
-export default inherit( PhotonAbsorptionStrategy, BreakApartStrategy, {
+inherit( PhotonAbsorptionStrategy, BreakApartStrategy, {
 
   /**
    * The step method for the break apart strategy.  This function instructs the molecule to break apart and then reset
@@ -40,3 +40,5 @@ export default inherit( PhotonAbsorptionStrategy, BreakApartStrategy, {
   }
 
 } );
+
+export default BreakApartStrategy;

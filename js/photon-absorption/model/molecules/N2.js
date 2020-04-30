@@ -45,7 +45,7 @@ function N2( options ) {
 
 moleculesAndLight.register( 'N2', N2 );
 
-export default inherit( Molecule, N2, {
+inherit( Molecule, N2, {
 
   /**
    * Initialize and set the center of gravity offsets for the nitrogen atoms which compose this molecule.
@@ -59,3 +59,5 @@ export default inherit( Molecule, N2, {
   }
 
 } );
+
+export default N2;

@@ -92,7 +92,7 @@ function NO2( options ) {
 
 moleculesAndLight.register( 'NO2', NO2 );
 
-export default inherit( Molecule, NO2, {
+inherit( Molecule, NO2, {
 
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions when the
@@ -165,3 +165,5 @@ export default inherit( Molecule, NO2, {
     singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
   }
 } );
+
+export default NO2;

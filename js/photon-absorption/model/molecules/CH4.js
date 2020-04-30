@@ -66,7 +66,7 @@ function CH4( options ) {
 
 moleculesAndLight.register( 'CH4', CH4 );
 
-export default inherit( Molecule, CH4, {
+inherit( Molecule, CH4, {
 
   /**
    * Set the initial positions of the atoms which compose this molecule.
@@ -129,3 +129,5 @@ export default inherit( Molecule, CH4, {
   }
 
 } );
+
+export default CH4;
