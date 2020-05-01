@@ -183,7 +183,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     touchAreaXDilation: 7,
     touchAreaYDilation: 7,
     listener: function() {
-      const dialog = lightSpectrumDialogCapsule.getInstance();
+      const dialog = lightSpectrumDialogCapsule.getElement();
       dialog.show();
 
       // if listener was fired because of accessibility
