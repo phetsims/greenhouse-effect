@@ -26,7 +26,7 @@ class PhotonAbsorptionModelIO extends ObjectIO {
    * @param {Object} stateObject
    * @returns {ChargedParticle}
    */
-  static addChildInstanceDeprecated( photonAbsorptionModel, tandem, stateObject ) {
+  static addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
     validate( photonAbsorptionModel, this.validator );
     const value = PhotonIO.fromStateObject( stateObject );
 
