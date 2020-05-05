@@ -226,7 +226,8 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const globalKeyboardListener = event => {
     if ( !photonAbsorptionModel.runningProperty.get() ) {
       if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
-        photonAbsorptionModel.manualStep( 1 / 60 );
+        const timeStep = MoleculesAndLightQueryParameters.keyboardTimeStep;
+        photonAbsorptionModel.manualStep( timeStep );
       }
     }
   };
