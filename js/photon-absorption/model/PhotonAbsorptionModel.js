@@ -314,18 +314,21 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
-   * Step one frame manually.  Assuming 60 frames per second.
+   * Step one frame manually.
+   * @public
+   *
+   * @param {number} dt - time to step forward the model by, in seconds
    */
-  manualStep: function() {
+  manualStep: function( dt ) {
 
     // Check if it is time to emit any photons.
-    this.checkEmissionTimer( 1 / 60 );
+    this.checkEmissionTimer( dt );
 
     // Step the photons, marking and removing any that have moved beyond the model bounds.
-    this.stepPhotons( 1 / 60 );
+    this.stepPhotons( dt );
 
     // Step the molecules.
-    this.stepMolecules( 1 / 60 );
+    this.stepMolecules( dt );
 
     this.manualStepEmitter.emit();
   },
