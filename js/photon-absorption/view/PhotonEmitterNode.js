@@ -28,7 +28,8 @@ import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 const lightSourceButtonLabelPatternString = moleculesAndLightStrings.a11y.lightSource.buttonLabelPattern;
-const lightSourceButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonHelpText;
+const lightSourcePressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonPressedHelpText;
+const lightSourceUnpressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonUnpressedHelpText;
 
 /**
  * Constructor for the photon emitter node.
@@ -54,7 +55,6 @@ function PhotonEmitterNode( width, model, tandem ) {
     baseColor: '#33dd33',
 
     // PDOM
-    descriptionContent: lightSourceButtonHelpTextString,
     appendDescription: true,
 
     tandem: tandem.createTandem( 'button' )
@@ -78,6 +78,9 @@ function PhotonEmitterNode( width, model, tandem ) {
     if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
       this.photonEmitterOnImage.visible = on;
     }
+
+    // PDOM - update the help text for the emitter
+    this.button.descriptionContent = on ? lightSourcePressedButtonHelpTextString : lightSourceUnpressedButtonHelpTextString;
   } );
 }
 
