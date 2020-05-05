@@ -19,6 +19,8 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import Display from '../../../../scenery/js/display/Display.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -217,8 +219,16 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   this.pdomPlayAreaNode.accessibleOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
   this.pdomControlAreaNode.accessibleOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
-  // PDOM - alerts or the simulation
-
+  // Alternative Input - no matter where focus is in the document, pressing alt + k will manually step forward
+  // in time
+  const globalKeyboardListener = event => {
+    if ( !photonAbsorptionModel.runningProperty.get() ) {
+      if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
+        photonAbsorptionModel.manualStep();
+      }
+    }
+  };
+  Display.keyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
 
   //-----------------------------------------------------------------------------------------------------------------
   // sound generation
