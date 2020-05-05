@@ -144,7 +144,9 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
       },
       stepForwardButtonOptions: {
         radius: 15,
-        listener: function() { photonAbsorptionModel.manualStep(); }
+
+        // assuming 60 frames per second
+        listener: function() { photonAbsorptionModel.manualStep( 1 / 60 ); }
       }
     },
     speedRadioButtonGroupOptions: {
@@ -224,7 +226,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const globalKeyboardListener = event => {
     if ( !photonAbsorptionModel.runningProperty.get() ) {
       if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
-        photonAbsorptionModel.manualStep();
+        photonAbsorptionModel.manualStep( 1 / 60 );
       }
     }
   };
