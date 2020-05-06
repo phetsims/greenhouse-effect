@@ -100,10 +100,10 @@ function MoleculeSelectionPanel( model, tandem ) {
   }
 
 
-  const createElement = ( photonTarget, formulaString, molecule, tandemName, descriptionContent ) => {
+  const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
     return {
       node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
-        formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM ) ),
+        formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
       value: photonTarget,
       tandemName: tandemName,
       labelContent: this.getPDOMLabel( molecule )
@@ -122,7 +122,9 @@ function MoleculeSelectionPanel( model, tandem ) {
     createElement( PhotonTarget.SINGLE_CO2_MOLECULE, MolecularFormulaStrings.CO2_FORMULA_STRING, new CO2( moleculeOptions ),
       'singleCO2MoleculeRadioButton' ),
     createElement( PhotonTarget.SINGLE_CH4_MOLECULE, MolecularFormulaStrings.CH4_FORMULA_STRING, new CH4( moleculeOptions ),
-      'singleCH4MoleculeRadioButton' ),
+      'singleCH4MoleculeRadioButton', {
+        scale: 0.88 // scale applied since CH4 is taller than others, empirically determined
+      } ),
     createElement( PhotonTarget.SINGLE_H2O_MOLECULE, MolecularFormulaStrings.H20_FORMULA_STRING, new H2O( moleculeOptions ),
       'singleH2OMoleculeRadioButton' ),
     createElement( PhotonTarget.SINGLE_NO2_MOLECULE, MolecularFormulaStrings.NO2_FORMULA_STRING, new NO2( moleculeOptions ),
