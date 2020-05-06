@@ -41,7 +41,7 @@ const WavelengthConstants = {
 
   /**
    * Given a wavelength, get the name of the lightSource that it belongs too. This is used by a11y to get the correct
-   * name of the wavelength in human form.
+   * name of the wavelength in a readable form.
    * TODO: use this in QuadEmissionFrequencyControlPanel.js to clean up boilerplate.
    * @param {number} wavelength
    * @returns {string}
