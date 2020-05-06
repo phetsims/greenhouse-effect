@@ -119,8 +119,20 @@ inherit( Node, AtomicBondNode, {
    */
   updateRepresentation: function() {
 
-    let p1; // Point describing position of one end of the line representing this atomic bond.
-    let p2; // Point describing position of the other end of the line representing the atomic bond.
+    // centers of the atoms in view coordinates
+    const atom1Position = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
+    const atom2Position = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
+
+    // bond position offsets in view coordinates
+    const p1BondOffset = this.modelViewTransform.modelToViewDelta( this.atomicBond.atom1PositionOffset );
+    const p2BondOffset = this.modelViewTransform.modelToViewDelta( this.atomicBond.atom2PositionOffset );
+
+    // Point describing position of one end of the line representing this atomic bond.
+    const p1 = atom1Position.plus( p1BondOffset );
+
+    // Point describing position of the other end of the line representing the atomic bond.
+    const p2 = atom2Position.plus( p2BondOffset );
+
     let offsetVector; // Vector which places the atomic bonds an offset away from the center between the atoms.
     let angle; // An angle used to describe the offset vector.
     let transformedRadius; // A position required to calculate the offset vector.
@@ -130,8 +142,6 @@ inherit( Node, AtomicBondNode, {
       case 1:
 
         // Single bond, so connect it from the center of one atom to the center of the other
-        p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-        p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
         this.atomicBonds[ 0 ].setLine( p1.x, p1.y, p2.x, p2.y );
         break;
 
@@ -141,8 +151,6 @@ inherit( Node, AtomicBondNode, {
         transformedRadius = this.modelViewTransform.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
           this.atomicBond.atom2.radius ) );
         // Get the center points of the two atoms.
-        p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-        p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
         angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
         // Create a vector that will act as the offset from the center point to the origin of the bond line.
         offsetVector = Vector2.createPolar( transformedRadius / 3, angle );
@@ -159,8 +167,6 @@ inherit( Node, AtomicBondNode, {
         transformedRadius = this.modelViewTransform.modelToViewDeltaX( Math.min( this.atomicBond.atom1.radius,
           this.atomicBond.atom2.radius ) );
         // Get the center points of the two atoms.
-        p1 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
-        p2 = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom2.positionProperty.get() );
         angle = Math.atan2( p1.x - p2.x, p1.y - p2.y );
         // Create a vector that will act as the offset from the center point to the origin of the bond line.
         offsetVector = Vector2.createPolar( transformedRadius * 0.6, angle );

@@ -30,11 +30,18 @@ function Atom( representationColor, radius, mass, options ) {
 
   options = merge( {
     initialPosition: Vector2.ZERO,
+
+    // if true, the atom will be on the top layer of atoms in the visualization, to support 3D looking molecules
+    topLayer: false,
+
     idOverride: null // used to override the generation of an ID, used only for deserialization
   }, options );
 
   // @public
   this.positionProperty = new Property( options.initialPosition, options );
+
+  // @public (read-only) {boolean}
+  this.topLayer = options.topLayer;
 
   // @public (read-only)
   this.representationColor = representationColor;
@@ -83,10 +90,10 @@ inherit( Object, Atom, {
 }, {
 
   // @static factory functions for creating specific atoms
-  carbon: function() { return new Atom( 'gray', 77, 12.011, {} ); },
-  hydrogen: function() { return new Atom( 'white', 37, 1, {} ); },
-  nitrogen: function() { return new Atom( 'blue', 75, 14.00674, {} ); },
-  oxygen: function() { return new Atom( PhetColorScheme.RED_COLORBLIND.toCSS(), 73, 12.011, {} ); },
+  carbon: function( options ) { return new Atom( 'gray', 77, 12.011, options ); },
+  hydrogen: function( options ) { return new Atom( 'white', 37, 1, options ); },
+  nitrogen: function( options ) { return new Atom( 'blue', 75, 14.00674, options ); },
+  oxygen: function( options ) { return new Atom( PhetColorScheme.RED_COLORBLIND.toCSS(), 73, 12.011, options ); },
 
   // support for deserialization
   fromStateObject: function( stateObject ) {

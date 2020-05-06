@@ -30,30 +30,50 @@ function MoleculeNode( molecule, modelViewTransform ) {
   this.modelViewTransform = modelViewTransform; // @private
 
   // Instance Data
-  const atomLayer = new Node();
-  const bondLayer = new Node();
-  self.addChild( bondLayer ); // Order the bond layer first so that atomic bonds are behind atoms in view
-  self.addChild( atomLayer );
+  const atomTopLayer = new Node();
+  const atomBottomLayer = new Node();
+  const bondTopLayer = new Node();
+  const bondBottomLayer = new Node();
+
+  self.addChild( bondBottomLayer );
+  self.addChild( atomBottomLayer );
+  self.addChild( bondTopLayer );
+  self.addChild( atomTopLayer );
+
+  const atoms = molecule.getAtoms();
 
   // Create nodes and add the atoms which compose this molecule to the atomLayer.
-  for ( let atom = 0; atom < molecule.getAtoms().length; atom++ ) {
-    this.atomNode = new AtomNode( molecule.getAtoms()[ atom ], self.modelViewTransform );
-    atomLayer.addChild( this.atomNode );
+  for ( let i = 0; i < atoms.length; i++ ) {
+    const atom = molecule.getAtoms()[ i ];
+    const atomNode = new AtomNode( atom, self.modelViewTransform );
+    if ( atom.topLayer ) {
+      atomTopLayer.addChild( atomNode );
+    }
+    else {
+      atomBottomLayer.addChild( atomNode );
+    }
   }
 
   // Create and add the atomic bonds which form the structure of this molecule to the bondLayer
   const atomicBonds = molecule.getAtomicBonds();
   for ( let i = 0; i < atomicBonds.length; i++ ) {
-    bondLayer.addChild( new AtomicBondNode( atomicBonds[ i ], this.modelViewTransform ) );
+    const bond = atomicBonds[ i ];
+    const bondNode = new AtomicBondNode( atomicBonds[ i ], this.modelViewTransform );
+    if ( bond.topLayer ) {
+      bondTopLayer.addChild( bondNode );
+    }
+    else {
+      bondBottomLayer.addChild( bondNode );
+    }
   }
 
   // Link the high energy state to the property in the model.
+  const atomNodes = atomTopLayer.children.concat( atomBottomLayer.children );
   molecule.highElectronicEnergyStateProperty.link( function() {
-    for ( let i = 0; i < atomLayer.children.length; i++ ) {
-      const atomNode = atomLayer.getChildAt( i );
+    for ( let i = 0; i < atomNodes.length; i++ ) {
+      const atomNode = atomNodes[ i ];
       atomNode.setHighlighted( molecule.highElectronicEnergyStateProperty.get() );
     }
-
   } );
 }
 

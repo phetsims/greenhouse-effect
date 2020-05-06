@@ -1,7 +1,10 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Class that represents CH4 (methane) in the model.
+ * Class that represents CH4 (methane) in the model. The CH4 molecule has atom and bond positions which make
+ * the molecule appear three dimensional because it was important to convey the bond angles which were
+ * innacurate in two dimensions. No 3D model is used to render this, but offsets are applied to atom
+ * positions to create the appearance of three dimensions.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -20,7 +23,12 @@ import WavelengthConstants from '../WavelengthConstants.js';
 const INITIAL_CARBON_HYDROGEN_DISTANCE = 170; // In picometers.
 
 // Assume that the angle from the carbon to the hydrogen is 45 degrees.
-const ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE = INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( Math.PI / 4 );
+const BOND_ANGLE = Math.PI * 0.9;
+const ROTATED_HORIZONTAL_INITIAL_CARBON_HYDROGEN_DISTANCE = INITIAL_CARBON_HYDROGEN_DISTANCE * Math.cos( BOND_ANGLE );
+const ROTATED_VERTICAL_INITIAL_CARBON_HYDROGEN_DISTANCE = INITIAL_CARBON_HYDROGEN_DISTANCE * Math.sin( BOND_ANGLE );
+
+// offset applied to positions of atoms to create the effect of 3D appearance
+const PERSPECTIVE_OFFSET = 30;
 
 const HYDROGEN_VIBRATION_DISTANCE = 30;
 const HYDROGEN_VIBRATION_ANGLE = Math.PI / 4;
@@ -40,10 +48,10 @@ function CH4( options ) {
 
   // Instance data for the CH4 molecule - @private
   this.carbonAtom = Atom.carbon();
-  this.hydrogenAtom1 = Atom.hydrogen();
+  this.hydrogenAtom1 = Atom.hydrogen( { topLayer: true } );
   this.hydrogenAtom2 = Atom.hydrogen();
   this.hydrogenAtom3 = Atom.hydrogen();
-  this.hydrogenAtom4 = Atom.hydrogen();
+  this.hydrogenAtom4 = Atom.hydrogen( { topLayer: true } );
 
   // Configure the base class.
   this.addAtom( this.carbonAtom );
@@ -51,17 +59,16 @@ function CH4( options ) {
   this.addAtom( this.hydrogenAtom2 );
   this.addAtom( this.hydrogenAtom3 );
   this.addAtom( this.hydrogenAtom4 );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1 ) );
+  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1, { topLayer: true, atom1PositionOffset: new Vector2( 0, PERSPECTIVE_OFFSET ) } ) );
   this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom2 ) );
   this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom3 ) );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4 ) );
+  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4, { topLayer: true, atom1PositionOffset: new Vector2( PERSPECTIVE_OFFSET / 2, -PERSPECTIVE_OFFSET ) } ) );
 
   // Set up the photon wavelengths to absorb.
   this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
 
   // Set the initial offsets.
   this.initializeAtomOffsets();
-
 }
 
 moleculesAndLight.register( 'CH4', CH4 );
@@ -74,14 +81,14 @@ inherit( Molecule, CH4, {
   initializeAtomOffsets: function() {
 
     this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, 0 ) );
-    this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-      ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-    this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-      ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-    this.addInitialAtomCogOffset( this.hydrogenAtom3, new Vector2( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-      -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-    this.addInitialAtomCogOffset( this.hydrogenAtom4, new Vector2( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-      -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+    this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -0,
+      INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+    this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( ROTATED_HORIZONTAL_INITIAL_CARBON_HYDROGEN_DISTANCE,
+      -ROTATED_VERTICAL_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+    this.addInitialAtomCogOffset( this.hydrogenAtom3, new Vector2( -ROTATED_HORIZONTAL_INITIAL_CARBON_HYDROGEN_DISTANCE,
+      -ROTATED_VERTICAL_INITIAL_CARBON_HYDROGEN_DISTANCE + PERSPECTIVE_OFFSET ) );
+    this.addInitialAtomCogOffset( this.hydrogenAtom4, new Vector2( PERSPECTIVE_OFFSET,
+      -INITIAL_CARBON_HYDROGEN_DISTANCE + PERSPECTIVE_OFFSET ) );
 
     this.updateAtomPositions();
 
@@ -98,17 +105,18 @@ inherit( Molecule, CH4, {
     // Molecule.prototype.setVibration.call( this, vibrationRadians );
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
-    const multFactor = Math.sin( vibrationRadians );
+    const multFactor = 1.5 * Math.sin( vibrationRadians );
 
     if ( vibrationRadians !== 0 ) {
-      this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-        ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
-      this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-        ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
-      this.addInitialAtomCogOffset( this.hydrogenAtom3, new Vector2( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-        -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
-      this.addInitialAtomCogOffset( this.hydrogenAtom4, new Vector2( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-        -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+
+      this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+        INITIAL_CARBON_HYDROGEN_DISTANCE + -Math.abs( multFactor ) * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+      this.addInitialAtomCogOffset( this.hydrogenAtom2, new Vector2( ROTATED_HORIZONTAL_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+        -ROTATED_VERTICAL_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+      this.addInitialAtomCogOffset( this.hydrogenAtom3, new Vector2( -ROTATED_HORIZONTAL_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+        -ROTATED_VERTICAL_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_Y + PERSPECTIVE_OFFSET ) );
+      this.addInitialAtomCogOffset( this.hydrogenAtom4, new Vector2( PERSPECTIVE_OFFSET + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+        -INITIAL_CARBON_HYDROGEN_DISTANCE + Math.abs( multFactor ) * HYDROGEN_VIBRATION_DISTANCE_Y + PERSPECTIVE_OFFSET ) );
 
       // Position the carbon atom so that the center of mass of the molecule remains the same.
       const carbonXPos = -( this.hydrogenAtom1.mass / this.carbonAtom.mass ) *
@@ -125,7 +133,6 @@ inherit( Molecule, CH4, {
     }
 
     this.updateAtomPositions();
-
   }
 
 } );
