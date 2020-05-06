@@ -20,10 +20,10 @@ import AtomNode from './AtomNode.js';
  * @param {ModelViewTransform2} modelViewTransform
  * @constructor
  */
-function MoleculeNode( molecule, modelViewTransform ) {
+function MoleculeNode( molecule, modelViewTransform, options ) {
 
   // supertype constructor
-  Node.call( this );
+  Node.call( this, options );
 
   // Carry this node through the scope in nested functions.
   const self = this;

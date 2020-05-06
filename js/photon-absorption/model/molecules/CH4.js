@@ -20,7 +20,7 @@ import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
 
 // Model Data for Methane
-const INITIAL_CARBON_HYDROGEN_DISTANCE = 170; // In picometers.
+const INITIAL_CARBON_HYDROGEN_DISTANCE = 155; // In picometers.
 
 // Assume that the angle from the carbon to the hydrogen is 45 degrees.
 const BOND_ANGLE = Math.PI * 0.9;
