@@ -18,6 +18,7 @@ import AtomNode from './AtomNode.js';
  *
  * @param {Molecule} molecule
  * @param {ModelViewTransform2} modelViewTransform
+ * @param {Object} [options]
  * @constructor
  */
 function MoleculeNode( molecule, modelViewTransform, options ) {
