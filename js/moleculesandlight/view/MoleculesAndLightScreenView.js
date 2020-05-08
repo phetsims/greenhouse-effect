@@ -26,6 +26,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import DialogIO from '../../../../sun/js/DialogIO.js';
 import Playable from '../../../../tambo/js/Playable.js';
+import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
@@ -228,6 +229,8 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
       if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
         const timeStep = MoleculesAndLightQueryParameters.keyboardTimeStep;
         photonAbsorptionModel.manualStep( timeStep );
+
+        stepForwardSoundPlayer.play();
       }
     }
   };
