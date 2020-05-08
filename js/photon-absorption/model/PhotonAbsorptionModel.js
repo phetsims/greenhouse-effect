@@ -491,4 +491,8 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   }
 } );
 
+
+// @public {number} - horizontal velocity of photons when they leave the emitter, in picometers/second
+PhotonAbsorptionModel.PHOTON_VELOCITY = PHOTON_VELOCITY;
+
 export default PhotonAbsorptionModel;

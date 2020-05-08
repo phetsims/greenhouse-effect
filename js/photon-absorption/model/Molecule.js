@@ -592,4 +592,7 @@ inherit( Object, Molecule, {
   }
 } );
 
+// @public {number} - distance from the molecule to query a photon for absorption, in picometers
+Molecule.PHOTON_ABSORPTION_DISTANCE = PHOTON_ABSORPTION_DISTANCE;
+
 export default Molecule;
