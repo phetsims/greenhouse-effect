@@ -33,6 +33,8 @@ import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
 import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
+import Molecule from '../../photon-absorption/model/Molecule.js';
+import PhotonAbsorptionModel from '../../photon-absorption/model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
 import MoleculesAndLightScreenSummaryNode from './MoleculesAndLightScreenSummaryNode.js';
@@ -227,7 +229,12 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const globalKeyboardListener = event => {
     if ( !photonAbsorptionModel.runningProperty.get() ) {
       if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
-        const timeStep = MoleculesAndLightQueryParameters.keyboardTimeStep;
+
+        // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
+        // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
+        // move farther than the absorption window of a molecule in a single step and pass over the molecule without
+        // checking for absorption.
+        const timeStep =  2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
         photonAbsorptionModel.manualStep( timeStep );
 
         stepForwardSoundPlayer.play();
