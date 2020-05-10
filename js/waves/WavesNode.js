@@ -1,10 +1,11 @@
 // Copyright 2020, University of Colorado Boulder
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 /**
  * Prototype code, please use at your own risk.
  * @author Sam Reid (PhET Interactive Simulations)
  */
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
@@ -22,6 +23,7 @@ import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
 import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
+import WavesCanvasNode from './WavesCanvasNode.js';
 
 class WavesNode extends Node {
 
@@ -306,6 +308,11 @@ class WavesNode extends Node {
 
     const delta = 340;
 
+    this.wavesCanvasNode = new WavesCanvasNode( model, null, {
+      canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
+    } );
+    this.addChild( this.wavesCanvasNode );
+
     const x0 = layoutBounds.left + 100;
 
     createRedSet( new Vector2( x0 + delta * 0, groundTopY + 10 ), 400, Math.PI - 0.8 );
@@ -330,14 +337,14 @@ class WavesNode extends Node {
       centerTop: layoutBounds.center.plusXY( 0, 200 )
     } ) );
 
-    this.addChild( yellowRoot );
-    yellowRoot.moveToBack();
-
-    this.addChild( redRoot );
-    redRoot.moveToBack();
-
-    yellowBeam.moveToBack();
-    redBeam.moveToBack();
+    // this.addChild( yellowRoot );
+    // yellowRoot.moveToBack();
+    //
+    // this.addChild( redRoot );
+    // redRoot.moveToBack();
+    //
+    // yellowBeam.moveToBack();
+    // redBeam.moveToBack();
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
@@ -370,6 +377,7 @@ class WavesNode extends Node {
 
   step( dt ) {
     this.waves.forEach( wave => wave.step( dt ) );
+    this.wavesCanvasNode.step( dt );
   }
 }
 

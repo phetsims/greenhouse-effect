@@ -17,7 +17,7 @@ class WaveParameterModel {
 
     this.color = color;
     this.modeProperty = new StringProperty( 'Wave' );
-    this.expandedProperty = new BooleanProperty( true );
+    this.expandedProperty = new BooleanProperty( false );
 
     this.amplitudeProperty = new NumberProperty( 20, {
       range: new Range( 8, 40 )
