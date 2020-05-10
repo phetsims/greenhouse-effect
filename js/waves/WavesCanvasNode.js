@@ -59,7 +59,7 @@ inherit( CanvasNode, WavesCanvasNode, {
         wave.parameterModel.kProperty.value,
         wave.parameterModel.wProperty.value,
         this.model.timeProperty.value,
-        0
+        wave.phi
       );
     } );
   },

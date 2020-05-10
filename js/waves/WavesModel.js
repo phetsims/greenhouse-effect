@@ -29,7 +29,13 @@ class WavesModel {
 
   step( dt ) {
     this.timeProperty.value += dt;
-    this.waves[ 0 ].endPoint.y += 1;
+    this.waves.forEach( wave => wave.step( dt ) );
+
+    const GROUND_Y = 510;
+    if ( this.waves[ 0 ].endPoint.y >= GROUND_Y && !this.redWave1 ) {
+      this.redWave1 = new Wave( new Vector2( this.waves[ 0 ].startPoint.x, GROUND_Y ), Vector2.createPolar( 1, -Math.PI / 4 ), this.redWaveParameterModel, 10 );
+      this.waves.push( this.redWave1 );
+    }
   }
 
   reset() {
@@ -37,8 +43,10 @@ class WavesModel {
     this.yellowWaveParameterModel.reset();
     this.redWaveParameterModel.reset();
 
+    delete this.redWave1;
+
     this.waves.length = 0;
-    this.incomingYellowWave1 = new Wave( new Vector2( 100, 0 ), new Vector2( 100, 0 ), this.yellowWaveParameterModel );
+    this.incomingYellowWave1 = new Wave( new Vector2( 100, 0 ), new Vector2( 0, 1 ), this.yellowWaveParameterModel, 5 );
     this.waves.push( this.incomingYellowWave1 );
     // this.waves.push( new Wave( new Vector2( 200, 0 ), new Vector2( 200, 1000 ), this.redWaveParameterModel ) );
   }
