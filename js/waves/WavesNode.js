@@ -207,7 +207,7 @@ class WavesNode extends Node {
     //   leftBottom: layoutBounds.eroded( 15 ).leftBottom
     // } ) );
 
-    this.addChild( new Checkbox( new Text( 'Show Gap' ), model.showGapProperty, {
+    this.addChild( new Checkbox( new Text( 'Show Gaps' ), model.showGapProperty, {
       leftBottom: layoutBounds.eroded( 15 ).leftBottom
     } ) );
 
