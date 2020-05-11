@@ -34,6 +34,14 @@ class Wave {
   step( dt ) {
     this.time += dt;
   }
+
+  get leadingEdgeReachedDestination() {
+    return this.time >= this.timeForLeadingEdgeToReachDestination;
+  }
+
+  get trailingEdgeReachedDestination() {
+    return this.time >= this.timeForTrailingEdgeToReachDestination;
+  }
 }
 
 greenhouseEffect.register( 'Wave', Wave );

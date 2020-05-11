@@ -36,20 +36,28 @@ class WavesModel {
     this.waves.forEach( wave => wave.step( dt ) );
 
     // Yellow wave leading edge reaches earth
-    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForLeadingEdgeToReachDestination && !this.redWave1 ) {
+    if ( this.waves[ 0 ].leadingEdgeReachedDestination && !this.redWave1Incoming ) {
       const sourcePoint = new Vector2( this.waves[ 0 ].sourcePoint.x, GROUND_Y );
-      const destinationPoint = sourcePoint.plus( Vector2.createPolar( 500, -Math.PI / 4 ) );
-      this.redWave1 = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 400 );
-      this.waves.push( this.redWave1 );
 
-      this.incomingYellowWave2 = new Wave( new Vector2( incomingWaveX + 100, 100 ), new Vector2( incomingWaveX + 100, GROUND_Y ), this.yellowWaveParameterModel, 400 );
-      this.waves.push( this.incomingYellowWave2 );
+      // TODO: may be in phase if integral number of wavelengths
+      // const k=2pi/L;
+      // const L = 2pi/k;
+      const L = Math.PI * 2 / this.redWaveParameterModel.kProperty.value;
+      const destinationPoint = sourcePoint.plus( Vector2.createPolar( L * 5, -Math.PI / 4 ) );
+      this.redWave1Incoming = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 400 );
+      this.waves.push( this.redWave1Incoming );
+
+      // this.incomingYellowWave2 = new Wave( new Vector2( incomingWaveX + 100, 100 ), new Vector2( incomingWaveX + 100, GROUND_Y ), this.yellowWaveParameterModel, 400 );
+      // this.waves.push( this.incomingYellowWave2 );
     }
 
-    // detect tail reaching the destination
-    // if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForTrailingEdgeToReachDestination ) {
-    //   this.reset();
-    // }
+    if ( this.redWave1Incoming && this.redWave1Incoming.leadingEdgeReachedDestination && !this.redWave1Reflected ) {
+      this.redWave1Reflected = new Wave( this.redWave1Incoming.destinationPoint, new Vector2( this.redWave1Incoming.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, this.redWave1Incoming.totalDistance );
+      this.waves.push( this.redWave1Reflected );
+
+      this.redWave1Transmitted = new Wave( this.redWave1Incoming.destinationPoint, new Vector2( this.redWave1Incoming.destinationPoint.x + 50, 0 ), this.redWaveParameterModel, this.redWave1Incoming.totalDistance );
+      this.waves.push( this.redWave1Transmitted );
+    }
   }
 
   reset() {
@@ -57,16 +65,15 @@ class WavesModel {
     this.yellowWaveParameterModel.reset();
     this.redWaveParameterModel.reset();
 
-    delete this.redWave1;
+    delete this.redWave1Incoming;
+    delete this.redWave1Reflected;
 
     this.waves.length = 0;
 
-
     const sourcePoint = new Vector2( incomingWaveX, 100 );
     const destinationPoint = new Vector2( incomingWaveX, GROUND_Y );
-    this.incomingYellowWave1 = new Wave( sourcePoint, destinationPoint, this.yellowWaveParameterModel, 200 );
-    this.waves.push( this.incomingYellowWave1 );
-    // this.waves.push( new Wave( new Vector2( 200, 0 ), new Vector2( 200, 1000 ), this.redWaveParameterModel ) );
+    this.yellowWave1Incoming = new Wave( sourcePoint, destinationPoint, this.yellowWaveParameterModel, 200 );
+    this.waves.push( this.yellowWave1Incoming );
   }
 }
 
