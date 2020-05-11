@@ -40,7 +40,7 @@ class WavesModel {
       const sourcePoint = new Vector2( this.waves[ 0 ].sourcePoint.x, GROUND_Y );
 
       const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 4 ) );
-      this.redWave1Incoming = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 400 );
+      this.redWave1Incoming = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 680 );
       this.waves.push( this.redWave1Incoming );
     }
 

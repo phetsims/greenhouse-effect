@@ -40,7 +40,7 @@ class Wave {
   }
 
   get almostDone() {
-    return this.time >= ( this.timeForLeadingEdgeToReachDestination + this.timeForTrailingEdgeToReachDestination ) / 2;
+    return this.time >= this.timeForLeadingEdgeToReachDestination * 0.3 + this.timeForTrailingEdgeToReachDestination * 0.7;
   }
 
   get trailingEdgeReachedDestination() {
