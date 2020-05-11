@@ -41,12 +41,12 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
-  createIRWave1( x, a, b, angle = 30, straightDown = false ) {
+  createIRWave1( x, a, b, distance, angle = 30, straightDown = false ) {
     const sourcePoint = new Vector2( x, GROUND_Y );
 
     const degreesToRadians = Math.PI * 2 / 360;
     const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + angle * degreesToRadians ) );
-    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, 1000, {
+    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, distance, {
       onLeadingEdgeReachesTarget: parentWave => {
 
         const reflectedDestination = straightDown ? new Vector2( parentWave.destinationPoint.x, GROUND_Y ) : new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y );
@@ -57,7 +57,7 @@ class WavesModel {
         this.waves.push( redWave1Transmitted );
       },
       onTrailingEdgeAppears: parentWave => {
-        this.createIRWave1( x === a ? b : a, a, b );
+        this.createIRWave1( x === a ? b : a, a, b, 1800, angle, straightDown );
       }
     } );
     this.waves.push( redWave1Incoming );
@@ -68,19 +68,18 @@ class WavesModel {
       return;
     }
     this.irWavesBegan = true;
-    this.createIRWave1( 350, 400, 350 );
-    this.createIRWave1( 700, 700, 750 );
-    this.createIRWave1( 200, 200, 150, -20, true );
+    this.createIRWave1( 200, 200, 150, 600, -20, true );
+    this.createIRWave1( 350, 400, 350, 1200 );
+    this.createIRWave1( 700, 700, 750, 1800 );
   }
 
-  createIncomingYellowWave( x, a, b ) {
+  createIncomingYellowWave( x, a, b, distance ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
-    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 600 + phet.joist.random.nextDouble() * 400, {
+    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, distance, {
       onTrailingEdgeAppears: wave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b );
+        this.createIncomingYellowWave( x === a ? b : a, a, b, 1200 );
       },
-      // const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
       onLeadingEdgeReachesTarget: parentWave => {
         this.triggerIRWavesToBegin();
       }
@@ -96,9 +95,10 @@ class WavesModel {
     this.waves.length = 0;
     this.irWavesBegan = false;
 
-    this.createIncomingYellowWave( 250, 300, 250 );
-    this.createIncomingYellowWave( 650, 700, 650 );
+    this.createIncomingYellowWave( 250, 300, 250, 1200 );
+    this.createIncomingYellowWave( 650, 700, 650, 600 );
 
+    // auto-start ir waves
     // this.triggerIRWavesToBegin();
   }
 }
