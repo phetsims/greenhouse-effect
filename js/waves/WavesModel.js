@@ -39,14 +39,17 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
-  createIncomingYellowWave( x, a, b ) {
+  createIncomingYellowWave( x, a, b, isSteadyState ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
-    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
+    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, isSteadyState ? 100000 : 600 + phet.joist.random.nextDouble() * 400, {
+      // const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
       onLeadingEdgeReachesTarget: parentWave => {
         const sourcePoint = parentWave.destinationPoint;
-        const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 4 ) );
-        const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, 680, {
+
+        const degreesToRadians = Math.PI * 2 / 360;
+        const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + 30 * degreesToRadians ) );
+        const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, parentWave.totalDistance, {
           onLeadingEdgeReachesTarget: parentWave => {
 
             const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
@@ -60,7 +63,7 @@ class WavesModel {
       },
 
       onAlmostDone: parentWave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b );
+        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState );
       }
     } );
     this.waves.push( yellowWave1Incoming );
@@ -73,11 +76,14 @@ class WavesModel {
 
     this.waves.length = 0;
 
-    this.createIncomingYellowWave( 100, 100, 200 );
-    this.createIncomingYellowWave( 300, 300, 400 );
-    this.createIncomingYellowWave( 500, 500, 600 );
-    this.createIncomingYellowWave( 700, 700, 800 );
-    this.createIncomingYellowWave( 900, 900, 1000 );
+    // this.createIncomingYellowWave( 100, 100, 200, true );
+
+    //
+
+    // this.createIncomingYellowWave( 300, 300, 400, true );
+    this.createIncomingYellowWave( 250, 300, 250, false );
+    this.createIncomingYellowWave( 650, 700, 650, false );
+    // this.createIncomingYellowWave( 900, 900, 1000, true );
   }
 }
 

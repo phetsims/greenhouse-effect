@@ -24,7 +24,7 @@ class Wave {
     this.time = 0;
     this.phi = 0;
 
-    this.speed = 60;
+    this.speed = 80;
     this.totalDistance = totalDistance;
 
     const totalTime = this.totalDistance / this.speed;
@@ -64,7 +64,7 @@ class Wave {
   }
 
   get almostDone() {
-    return this.time >= this.timeForLeadingEdgeToReachDestination * 0.3 + this.timeForTrailingEdgeToReachDestination * 0.7;
+    return this.time >= this.timeForLeadingEdgeToReachDestination * 0.6 + this.timeForTrailingEdgeToReachDestination * 0.4;
   }
 
   get trailingEdgeReachedDestination() {

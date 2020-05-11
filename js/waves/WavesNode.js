@@ -1,13 +1,11 @@
 // Copyright 2020, University of Colorado Boulder
 
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 /**
  * Prototype code, please use at your own risk.
  * @author Sam Reid (PhET Interactive Simulations)
  */
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
-import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import merge from '../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -144,98 +142,9 @@ class WavesNode extends Node {
       expandedProperty: model.redWaveParameterModel.expandedProperty
     } );
 
-    class WaveNode extends Path {
-      constructor( waveParameterModel, type, startPoint, endPoint, phase, precursorLength = 0 ) {
-        super( null, {
-          stroke: waveParameterModel.color
-        } );
-
-        this.type = type;
-
-        this.precursorLength = precursorLength;
-
-        this.waveParameterModel = waveParameterModel;
-
-        this.kProperty = waveParameterModel.kProperty;
-
-        waveParameterModel.map[ type ].strokeProperty.link( s => {
-          this.lineWidth = s;
-        } );
-
-        waveParameterModel.map[ type ].opacityProperty.link( s => {
-          this.opacity = s;
-        } );
-
-        waveParameterModel.modeProperty.link( mode => {
-          this.visible = mode === 'Wave' || mode === 'Paused';
-        } );
-
-        this.endPoint = endPoint;
-        this.startPoint = startPoint;
-
-        this.time = 0;
-
-        this.step( 0 );
-
-        this.waveDistance = endPoint.distance( startPoint );
-
-        this.phi = phase;
-      }
-
-      step( dt ) {
-
-        const s = new Shape();
-        const phi = this.phi;
-        const waveSpeed = 55; // Tuned manually to match phase
-
-        const timeDelay = this.precursorLength / waveSpeed;// distance = rate * time
-        const dx = this.waveParameterModel.resolutionProperty.value;
-
-        if ( this.visible && this.waveParameterModel.modeProperty.value !== 'Paused' ) {
-          this.time += dt;
-
-          let moved = false;
-
-          const deltaVector = this.endPoint.minus( this.startPoint );
-          const waveDistance = Math.min( deltaVector.magnitude, ( this.time - timeDelay ) * waveSpeed );
-          // const waveDistance = deltaVector.magnitude;
-          const unitVector = deltaVector.normalized();
-          const unitNormal = unitVector.perpendicular;
-
-          const goToPoint = x => {
-            const v = this.startPoint.plus( unitVector.timesScalar( x ) );
-
-            const k = this.kProperty.value;
-            const w = this.waveParameterModel.wProperty.value;
-            const t = model.timeProperty.value;
-            const y = this.waveParameterModel.amplitudeProperty.value * Math.cos( k * x - w * t + phi );
-
-            const pt = v.plus( unitNormal.timesScalar( y ) );
-            if ( !moved ) {
-              s.moveToPoint( pt );
-              moved = true;
-            }
-            else {
-              s.lineToPoint( pt );
-            }
-          };
-
-          for ( let x = 0; x < waveDistance; x += dx ) {
-            goToPoint( x );
-          }
-          goToPoint( waveDistance );
-          this.shape = s;
-        }
-      }
-    }
-
     this.waves = [];
 
-    const yellowRoot = new Node();
-    const redRoot = new Node();
-
     const cloudNode = new Node();
-    yellowRoot.addChild( cloudNode );
 
     const centerYellow = layoutBounds.centerX;
     const yellowSpacing = 120;
@@ -256,76 +165,11 @@ class WavesNode extends Node {
       centerY: layoutBounds.centerY,
       centerX: yellow3
     } );
-    // cloudNode.addChild( cloud2 );
 
     model.cloudsVisibleProperty.linkAttribute( cloudNode, 'visible' );
 
-    const groundTopY = layoutBounds.centerY + 200;
-
-    // Create yellow waves
-
-    const incomingWave1 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud1.centerX, layoutBounds.top ), cloud1.center, 0, 0 );
-    this.waves.push( incomingWave1 ); // incident
-    const transmitWave1 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud1.center, new Vector2( cloud1.centerX, groundTopY ), 0, incomingWave1.waveDistance );
-    this.waves.push( transmitWave1 ); // transmitted
-    const reflectWave1 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud1.center.plusXY( 50, 0 ), cloud1.center.plusXY( 100, -400 ), 0, incomingWave1.waveDistance );
-    this.waves.push( reflectWave1 ); // reflected
-
-    this.waves.push( new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( centerYellow + 120, layoutBounds.top ), new Vector2( centerYellow + 120, 1000 ), 0 ) );
-
-    // const incomingWave2 = new WaveNode( model.yellowWaveParameterModel, 'incoming', new Vector2( cloud2.centerX, layoutBounds.top ), cloud2.center, 0 );
-    // this.waves.push( incomingWave2 ); // incident
-    // const transmitWave2 = new WaveNode( model.yellowWaveParameterModel, 'transmitted', cloud2.center, cloud2.center.plusXY( 0, 500 ), 0, incomingWave2.waveDistance );
-    // this.waves.push( transmitWave2 ); // transmitted
-    // const reflectWave2 = new WaveNode( model.yellowWaveParameterModel, 'reflected', cloud2.center.plusXY( 50, 0 ), cloud2.center.plusXY( 100, -400 ), 0, incomingWave2.waveDistance );
-    // this.waves.push( reflectWave2 ); // reflected
-
-    const ANGLE = 30;
-    const createRedSet = ( red1Start, magnitude, phase ) => {
-
-      const red1End = Vector2.createPolar( magnitude, -Math.PI / 2 + ANGLE * Math.PI / 180 ).plus( red1Start );
-      const incoming = new WaveNode( model.redWaveParameterModel, 'incoming', red1Start, red1End, 0, incomingWave1.waveDistance + transmitWave1.waveDistance );
-      this.waves.push( incoming );
-
-      const reflectedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
-        return red1End.plus( Vector2.createPolar( 400, +Math.PI / 2 - angle / 180 * Math.PI ) );
-      } );
-      const reflected = new WaveNode( model.redWaveParameterModel, 'reflected', red1End, reflectedEndDerivedProperty.value, phase + Math.PI, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
-      reflectedEndDerivedProperty.link( e => {
-        reflected.endPoint = e;
-      } );
-      this.waves.push( reflected );
-
-      const transmittedEndDerivedProperty = new DerivedProperty( [ model.redWaveParameterModel.angleProperty ], angle => {
-        return red1End.plus( Vector2.createPolar( 400, -Math.PI / 2 + angle / 180 * Math.PI ) );
-      } );
-      const transmitted = new WaveNode( model.redWaveParameterModel, 'transmitted', red1End, transmittedEndDerivedProperty.value, phase, incomingWave1.waveDistance + transmitWave1.waveDistance + incoming.waveDistance );
-      transmittedEndDerivedProperty.link( e => {
-        transmitted.endPoint = e;
-      } );
-      this.waves.push( transmitted );
-    };
-
-    const delta = 340;
-
     this.wavesCanvasNode = new WavesCanvasNode( model, null, {
       canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
-    } );
-
-    const x0 = layoutBounds.left + 100;
-
-    createRedSet( new Vector2( x0 + delta * 0, groundTopY + 10 ), 400, Math.PI - 0.8 );
-    createRedSet( new Vector2( x0 + delta * 1, groundTopY + 10 ), 250, 4.3 );
-    createRedSet( new Vector2( x0 + delta * 2 - 80, groundTopY + 10 ), 500, 3 );
-    // createRedSet( new Vector2( x0 + delta * 3, groundTopY + 10 ), 300, 1.8 );
-
-    this.waves.forEach( wave => {
-      if ( wave.color === 'yellow' ) {
-        yellowRoot.addChild( wave );
-      }
-      else {
-        redRoot.addChild( wave );
-      }
     } );
 
     cloud1.moveToFront();
@@ -335,15 +179,6 @@ class WavesNode extends Node {
       fill: '#4EAE1E',
       centerTop: layoutBounds.center.plusXY( 0, 200 )
     } ) );
-
-    // this.addChild( yellowRoot );
-    // yellowRoot.moveToBack();
-    //
-    // this.addChild( redRoot );
-    // redRoot.moveToBack();
-    //
-    // yellowBeam.moveToBack();
-    // redBeam.moveToBack();
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
