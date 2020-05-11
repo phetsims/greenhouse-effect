@@ -25,6 +25,7 @@ class WavesModel {
     this.yellowWaveParameterModel = new WaveParameterModel( 'yellow' );
     this.redWaveParameterModel = new WaveParameterModel( 'red' );
     this.cloudsVisibleProperty = new BooleanProperty( true );
+    this.showGapProperty = new BooleanProperty( true );
 
     this.waves = [];
 
@@ -39,7 +40,7 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
-  createIncomingYellowWave( x, a, b, isSteadyState, deltaRedX,deltaRedX2 ) {
+  createIncomingYellowWave( x, a, b, isSteadyState, deltaRedX, deltaRedX2 ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
     const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, isSteadyState ? 100000 : 600 + phet.joist.random.nextDouble() * 400, {
@@ -61,7 +62,7 @@ class WavesModel {
         } );
         this.waves.push( redWave1Incoming );
 
-        if (deltaRedX2!==null) {
+        if ( deltaRedX2 !== null ) {
 
           const sourcePoint2 = parentWave.destinationPoint.plusXY( deltaRedX2, 0 );
           const destinationPoint = sourcePoint2.plus( Vector2.createPolar( 300, -Math.PI / 2 - 20 * degreesToRadians ) );
@@ -82,7 +83,7 @@ class WavesModel {
       },
 
       onAlmostDone: parentWave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState, deltaRedX,deltaRedX2 );
+        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState, deltaRedX, deltaRedX2 );
       }
     } );
     this.waves.push( yellowWave1Incoming );
@@ -97,11 +98,9 @@ class WavesModel {
 
     // this.createIncomingYellowWave( 100, 100, 200, true );
 
-    //
-
     // this.createIncomingYellowWave( 300, 300, 400, true );
-    this.createIncomingYellowWave( 250, 300, 250, false, 100,-100 );
-    this.createIncomingYellowWave( 650, 700, 650, false, 0,null );
+    this.createIncomingYellowWave( 250, 300, 250, false, 100, -100 );
+    this.createIncomingYellowWave( 650, 700, 650, false, 0, null );
     // this.createIncomingYellowWave( 900, 900, 1000, true );
   }
 }

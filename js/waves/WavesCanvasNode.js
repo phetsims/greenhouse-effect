@@ -13,7 +13,9 @@ function WavesCanvasNode( model, tandem, options ) {
 
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
-const drawSineCurve = ( context, wave, t ) => {
+const drawSineCurve = ( context, wave ) => {
+
+  const t = wave.time;
 
   const sourcePoint = wave.sourcePoint;
   const destinationPoint = wave.destinationPoint;
@@ -74,7 +76,7 @@ const drawSineCurve = ( context, wave, t ) => {
 
 inherit( CanvasNode, WavesCanvasNode, {
   paintCanvas: function( context ) {
-    this.model.waves.forEach( wave => drawSineCurve( context, wave, this.model.timeProperty.value ) );
+    this.model.waves.forEach( wave => drawSineCurve( context, wave ) );
   },
   step: function( dt ) {
     this.invalidatePaint();

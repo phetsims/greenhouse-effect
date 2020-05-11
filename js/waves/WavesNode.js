@@ -18,7 +18,6 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
 import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
-import RectangularPushButton from '../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
@@ -60,7 +59,7 @@ class WavesNode extends Node {
       return new VBox( {
         align: 'left',
         children: [
-          new RadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused', 'Beam', 'Hidden' ].map( toElement ), {
+          new RadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused' ].map( toElement ), {
             orientation: 'horizontal'
           } ),
           // new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
@@ -202,9 +201,13 @@ class WavesNode extends Node {
       rightBottom: layoutBounds.eroded( 15 ).rightBottom
     } ) );
 
-    this.addChild( new RectangularPushButton( {
-      content: new Text( 'Reset Time' ),
-      listener: resetWaveTime,
+    // this.addChild( new RectangularPushButton( {
+    //   content: new Text( 'Reset Time' ),
+    //   listener: resetWaveTime,
+    //   leftBottom: layoutBounds.eroded( 15 ).leftBottom
+    // } ) );
+
+    this.addChild( new Checkbox( new Text( 'Show Gap' ), model.showGapProperty, {
       leftBottom: layoutBounds.eroded( 15 ).leftBottom
     } ) );
 

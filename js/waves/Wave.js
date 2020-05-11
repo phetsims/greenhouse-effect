@@ -43,19 +43,22 @@ class Wave {
   }
 
   step( dt ) {
-    this.time += dt;
 
-    if ( this.onLeadingEdgeReachesTarget && this.leadingEdgeReachedDestination ) {
-      this.onLeadingEdgeReachesTarget( this );
-      delete this.onLeadingEdgeReachesTarget;
-    }
-    if ( this.onAlmostDone && this.almostDone ) {
-      this.onAlmostDone( this );
-      delete this.onAlmostDone;
-    }
-    if ( this.onTrailingEdgeReachesTarget && this.trailingEdgeReachedDestination ) {
-      this.onTrailingEdgeReachesTarget( this );
-      delete this.onTrailingEdgeReachesTarget;
+    if ( this.parameterModel.modeProperty.value !== 'Paused' ) {
+      this.time += dt;
+
+      if ( this.onLeadingEdgeReachesTarget && this.leadingEdgeReachedDestination ) {
+        this.onLeadingEdgeReachesTarget( this );
+        delete this.onLeadingEdgeReachesTarget;
+      }
+      if ( this.onAlmostDone && this.almostDone ) {
+        this.onAlmostDone( this );
+        delete this.onAlmostDone;
+      }
+      if ( this.onTrailingEdgeReachesTarget && this.trailingEdgeReachedDestination ) {
+        this.onTrailingEdgeReachesTarget( this );
+        delete this.onTrailingEdgeReachesTarget;
+      }
     }
   }
 
