@@ -2,6 +2,7 @@
 
 import inherit from '../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../scenery/js/nodes/CanvasNode.js';
+import Color from '../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 function WavesCanvasNode( model, tandem, options ) {
@@ -34,8 +35,11 @@ const drawSineCurve = ( context, wave, t ) => {
     context.fillRect( destinationPoint.x, destinationPoint.y, 20, 20 );
   }
 
-  context.strokeStyle = color;
-  context.lineWidth = 2;
+  const c = new Color( color );
+  c.alpha = wave.parameterModel.map[ wave.type ].opacityProperty.value;
+  context.strokeStyle = c.toCSS();
+
+  context.lineWidth = wave.parameterModel.map[ wave.type ].strokeProperty.value;
   context.beginPath();
 
   const unitVector = deltaVector.normalized();

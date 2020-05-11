@@ -9,7 +9,8 @@
 import greenhouseEffect from '../greenhouseEffect.js';
 
 class Wave {
-  constructor( sourcePoint, destinationPoint, parameterModel, totalDistance ) {
+  constructor( type, sourcePoint, destinationPoint, parameterModel, totalDistance ) {
+    this.type = type;
     this.sourcePoint = sourcePoint;
     this.destinationPoint = destinationPoint;
     this.parameterModel = parameterModel;
