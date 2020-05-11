@@ -1,7 +1,7 @@
 // Copyright 2020, University of Colorado Boulder
 
 /**
- * TODO: Documentation
+ * TODO: Prototype, enter at own risk.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -73,12 +73,12 @@ class WavesModel {
     this.createIRWave1( 200, 200, 150, -20, true );
   }
 
-  createIncomingYellowWave( x, a, b, isSteadyState, deltaRedX, deltaRedX2 ) {
+  createIncomingYellowWave( x, a, b ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
-    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, isSteadyState ? 100000 : 600 + phet.joist.random.nextDouble() * 400, {
+    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 600 + phet.joist.random.nextDouble() * 400, {
       onTrailingEdgeAppears: wave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState, deltaRedX, deltaRedX2 );
+        this.createIncomingYellowWave( x === a ? b : a, a, b );
       },
       // const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
       onLeadingEdgeReachesTarget: parentWave => {
@@ -96,14 +96,10 @@ class WavesModel {
     this.waves.length = 0;
     this.irWavesBegan = false;
 
-    // this.createIncomingYellowWave( 100, 100, 200, true );
+    this.createIncomingYellowWave( 250, 300, 250 );
+    this.createIncomingYellowWave( 650, 700, 650 );
 
-    // this.createIncomingYellowWave( 300, 300, 400, true );
-    this.createIncomingYellowWave( 250, 300, 250, false, 100, -100 );
-    this.createIncomingYellowWave( 650, 700, 650, false, 0, null );
-    // this.createIncomingYellowWave( 900, 900, 1000, true );
-
-    this.triggerIRWavesToBegin();
+    // this.triggerIRWavesToBegin();
   }
 }
 

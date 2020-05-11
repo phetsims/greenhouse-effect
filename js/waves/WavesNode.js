@@ -190,7 +190,7 @@ class WavesNode extends Node {
       spacing: 14,
       align: 'right',
       children: [
-        new Checkbox( new Text( 'Clouds' ), model.cloudsVisibleProperty ),
+        // new Checkbox( new Text( 'Clouds' ), model.cloudsVisibleProperty ),
         new ResetAllButton( {
           listener: () => {
             model.reset();
