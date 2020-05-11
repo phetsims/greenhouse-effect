@@ -9,8 +9,8 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import GreenhouseEffectScreen from './greenhouse-effect/GreenhouseEffectScreen.js';
+import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import WavesScreen from './waves/WavesScreen.js';
 
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
