@@ -48,14 +48,19 @@ const drawSineCurve = ( context, wave, t ) => {
 
   for ( let x = waveStartX; x < waveEndX; x += dx ) {
     const y = amplitude * Math.cos( k * x - w * t + phi );
-    const traversePoint = sourcePoint.plus( unitVector.timesScalar( x ) );
-    const pt = traversePoint.plus( unitNormal.timesScalar( y ) );
+
+    // Vector math seems too slow here, shows up in profiler at 15% or so
+    const traversePointX = sourcePoint.x + x * unitVector.x;
+    const traversePointY = sourcePoint.y + x * unitVector.y;
+
+    const ptX = traversePointX + y * unitNormal.x;
+    const ptY = traversePointY + y * unitNormal.y;
     if ( !moved ) {
-      context.moveTo( pt.x, pt.y );
+      context.moveTo( ptX, ptY );
       moved = true;
     }
     else {
-      context.lineTo( pt.x, pt.y );
+      context.lineTo( ptX, ptY );
     }
   }
   context.stroke();

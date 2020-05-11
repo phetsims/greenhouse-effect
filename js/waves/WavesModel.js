@@ -14,7 +14,8 @@ import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
 
 // constants
-const GROUND_Y = 400;
+const GROUND_Y = 510;
+const incomingWaveX = 400;
 
 class WavesModel {
   constructor( options ) {
@@ -34,22 +35,21 @@ class WavesModel {
     this.timeProperty.value += dt;
     this.waves.forEach( wave => wave.step( dt ) );
 
-    // if ( this.waves[ 0 ].endPoint.y >= GROUND_Y && !this.redWave1 ) {
-    //   const sourcePoint = new Vector2( this.waves[ 0 ].startPoint.x, GROUND_Y );
-    //   const destinationPoint = sourcePoint.plus( Vector2.createPolar( 500, -Math.PI / 4 ) );
-    //   this.redWave1 = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 10 );
-    //   this.waves.push( this.redWave1 );
-    // }
-    // console.log( this.waves[ 0 ].time, this.waves[ 0 ].timeForTrailingEdgeToReachDestination );
+    // Yellow wave leading edge reaches earth
+    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForLeadingEdgeToReachDestination && !this.redWave1 ) {
+      const sourcePoint = new Vector2( this.waves[ 0 ].sourcePoint.x, GROUND_Y );
+      const destinationPoint = sourcePoint.plus( Vector2.createPolar( 500, -Math.PI / 4 ) );
+      this.redWave1 = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 400 );
+      this.waves.push( this.redWave1 );
 
-    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForLeadingEdgeToReachDestination ) {
-      console.log( 'reached target' );
+      this.incomingYellowWave2 = new Wave( new Vector2( incomingWaveX + 100, 100 ), new Vector2( incomingWaveX + 100, GROUND_Y ), this.yellowWaveParameterModel, 400 );
+      this.waves.push( this.incomingYellowWave2 );
     }
 
     // detect tail reaching the destination
-    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForTrailingEdgeToReachDestination ) {
-      this.reset();
-    }
+    // if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForTrailingEdgeToReachDestination ) {
+    //   this.reset();
+    // }
   }
 
   reset() {
@@ -60,8 +60,10 @@ class WavesModel {
     delete this.redWave1;
 
     this.waves.length = 0;
-    const sourcePoint = new Vector2( 100, 100 );
-    const destinationPoint = new Vector2( 100, GROUND_Y );
+
+
+    const sourcePoint = new Vector2( incomingWaveX, 100 );
+    const destinationPoint = new Vector2( incomingWaveX, GROUND_Y );
     this.incomingYellowWave1 = new Wave( sourcePoint, destinationPoint, this.yellowWaveParameterModel, 200 );
     this.waves.push( this.incomingYellowWave1 );
     // this.waves.push( new Wave( new Vector2( 200, 0 ), new Vector2( 200, 1000 ), this.redWaveParameterModel ) );

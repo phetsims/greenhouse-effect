@@ -311,7 +311,6 @@ class WavesNode extends Node {
     this.wavesCanvasNode = new WavesCanvasNode( model, null, {
       canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
     } );
-    this.addChild( this.wavesCanvasNode );
 
     const x0 = layoutBounds.left + 100;
 
@@ -373,6 +372,8 @@ class WavesNode extends Node {
       listener: resetWaveTime,
       leftBottom: layoutBounds.eroded( 15 ).leftBottom
     } ) );
+
+    this.addChild( this.wavesCanvasNode );
   }
 
   step( dt ) {
