@@ -28,6 +28,7 @@ class WavesModel {
     this.showGapProperty = new BooleanProperty( true );
 
     this.waves = [];
+    this.irWavesBegan = true;
 
     this.reset();
   }
@@ -40,6 +41,38 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
+  createIRWave1( x, a, b, angle = 30, straightDown = false ) {
+    const sourcePoint = new Vector2( x, GROUND_Y );
+
+    const degreesToRadians = Math.PI * 2 / 360;
+    const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + angle * degreesToRadians ) );
+    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, 1000, {
+      onLeadingEdgeReachesTarget: parentWave => {
+
+        const reflectedDestination = straightDown ? new Vector2( parentWave.destinationPoint.x, GROUND_Y ) : new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y );
+        const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, reflectedDestination, this.redWaveParameterModel, parentWave.totalDistance );
+        this.waves.push( redWave1Reflected );
+
+        const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
+        this.waves.push( redWave1Transmitted );
+      },
+      onTrailingEdgeAppears: parentWave => {
+        this.createIRWave1( x === a ? b : a, a, b );
+      }
+    } );
+    this.waves.push( redWave1Incoming );
+  }
+
+  triggerIRWavesToBegin() {
+    if ( this.irWavesBegan ) {
+      return;
+    }
+    this.irWavesBegan = true;
+    this.createIRWave1( 350, 400, 350 );
+    this.createIRWave1( 700, 700, 750 );
+    this.createIRWave1( 200, 200, 150, -20, true );
+  }
+
   createIncomingYellowWave( x, a, b, isSteadyState, deltaRedX, deltaRedX2 ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
@@ -49,38 +82,7 @@ class WavesModel {
       },
       // const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
       onLeadingEdgeReachesTarget: parentWave => {
-        const sourcePoint = parentWave.destinationPoint.plusXY( deltaRedX, 0 );
-
-        const degreesToRadians = Math.PI * 2 / 360;
-        const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + 30 * degreesToRadians ) );
-        const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, parentWave.totalDistance, {
-          onLeadingEdgeReachesTarget: parentWave => {
-
-            const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
-            this.waves.push( redWave1Reflected );
-
-            const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
-            this.waves.push( redWave1Transmitted );
-          }
-        } );
-        this.waves.push( redWave1Incoming );
-
-        if ( deltaRedX2 !== null ) {
-
-          const sourcePoint2 = parentWave.destinationPoint.plusXY( deltaRedX2, 0 );
-          const destinationPoint = sourcePoint2.plus( Vector2.createPolar( 300, -Math.PI / 2 - 20 * degreesToRadians ) );
-          const redWave2Incoming = new Wave( 'incoming', sourcePoint2, destinationPoint, this.redWaveParameterModel, parentWave.totalDistance, {
-            onLeadingEdgeReachesTarget: parentWave => {
-
-              const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
-              this.waves.push( redWave1Reflected );
-
-              const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
-              this.waves.push( redWave1Transmitted );
-            }
-          } );
-          this.waves.push( redWave2Incoming );
-        }
+        this.triggerIRWavesToBegin();
       }
     } );
     this.waves.push( yellowWave1Incoming );
@@ -92,13 +94,16 @@ class WavesModel {
     this.redWaveParameterModel.reset();
 
     this.waves.length = 0;
+    this.irWavesBegan = false;
 
     // this.createIncomingYellowWave( 100, 100, 200, true );
 
     // this.createIncomingYellowWave( 300, 300, 400, true );
     this.createIncomingYellowWave( 250, 300, 250, false, 100, -100 );
-    // this.createIncomingYellowWave( 650, 700, 650, false, 0, null );
+    this.createIncomingYellowWave( 650, 700, 650, false, 0, null );
     // this.createIncomingYellowWave( 900, 900, 1000, true );
+
+    this.triggerIRWavesToBegin();
   }
 }
 
