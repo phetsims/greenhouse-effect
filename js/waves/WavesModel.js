@@ -39,7 +39,7 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
-  createIncomingYellowWave( x ) {
+  createIncomingYellowWave( x, a, b ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
     const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
@@ -60,7 +60,7 @@ class WavesModel {
       },
 
       onAlmostDone: parentWave => {
-        this.createIncomingYellowWave( x === 400 ? 500 : 400 );
+        this.createIncomingYellowWave( x === a ? b : a, a, b );
       }
     } );
     this.waves.push( yellowWave1Incoming );
@@ -73,7 +73,11 @@ class WavesModel {
 
     this.waves.length = 0;
 
-    this.createIncomingYellowWave( 400 );
+    this.createIncomingYellowWave( 100, 100, 200 );
+    this.createIncomingYellowWave( 300, 300, 400 );
+    this.createIncomingYellowWave( 500, 500, 600 );
+    this.createIncomingYellowWave( 700, 700, 800 );
+    this.createIncomingYellowWave( 900, 900, 1000 );
   }
 }
 
