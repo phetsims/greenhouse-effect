@@ -39,13 +39,13 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
-  createIncomingYellowWave( x, a, b, isSteadyState ) {
+  createIncomingYellowWave( x, a, b, isSteadyState, deltaRedX,deltaRedX2 ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
     const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, isSteadyState ? 100000 : 600 + phet.joist.random.nextDouble() * 400, {
       // const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, 800, {
       onLeadingEdgeReachesTarget: parentWave => {
-        const sourcePoint = parentWave.destinationPoint;
+        const sourcePoint = parentWave.destinationPoint.plusXY( deltaRedX, 0 );
 
         const degreesToRadians = Math.PI * 2 / 360;
         const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + 30 * degreesToRadians ) );
@@ -60,10 +60,29 @@ class WavesModel {
           }
         } );
         this.waves.push( redWave1Incoming );
+
+        if (deltaRedX2!==null) {
+
+          const sourcePoint2 = parentWave.destinationPoint.plusXY( deltaRedX2, 0 );
+          const destinationPoint = sourcePoint2.plus( Vector2.createPolar( 300, -Math.PI / 2 - 20 * degreesToRadians ) );
+          const redWave2Incoming = new Wave( 'incoming', sourcePoint2, destinationPoint, this.redWaveParameterModel, parentWave.totalDistance, {
+            onLeadingEdgeReachesTarget: parentWave => {
+
+              // TODO: Change directions accordingly
+              const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
+              this.waves.push( redWave1Reflected );
+
+              const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 50, 0 ), this.redWaveParameterModel, parentWave.totalDistance );
+              this.waves.push( redWave1Transmitted );
+            }
+          } );
+          this.waves.push( redWave2Incoming );
+        }
+
       },
 
       onAlmostDone: parentWave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState );
+        this.createIncomingYellowWave( x === a ? b : a, a, b, isSteadyState, deltaRedX,deltaRedX2 );
       }
     } );
     this.waves.push( yellowWave1Incoming );
@@ -81,8 +100,8 @@ class WavesModel {
     //
 
     // this.createIncomingYellowWave( 300, 300, 400, true );
-    this.createIncomingYellowWave( 250, 300, 250, false );
-    this.createIncomingYellowWave( 650, 700, 650, false );
+    this.createIncomingYellowWave( 250, 300, 250, false, 100,-100 );
+    this.createIncomingYellowWave( 650, 700, 650, false, 0,null );
     // this.createIncomingYellowWave( 900, 900, 1000, true );
   }
 }
