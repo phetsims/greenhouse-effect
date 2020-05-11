@@ -56,7 +56,7 @@ class WavesModel {
             const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
             this.waves.push( redWave1Reflected );
 
-            const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 50, 0 ), this.redWaveParameterModel, parentWave.totalDistance );
+            const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
             this.waves.push( redWave1Transmitted );
           }
         } );
@@ -73,7 +73,7 @@ class WavesModel {
               const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
               this.waves.push( redWave1Reflected );
 
-              const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 50, 0 ), this.redWaveParameterModel, parentWave.totalDistance );
+              const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
               this.waves.push( redWave1Transmitted );
             }
           } );

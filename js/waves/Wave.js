@@ -16,6 +16,8 @@ class Wave {
       onAlmostDone: _.noop,
       onTrailingEdgeReachesTarget: _.noop
     }, options );
+
+    this.angle = destinationPoint.minus( sourcePoint ).getAngle();
     this.type = type;
     this.sourcePoint = sourcePoint;
     this.destinationPoint = destinationPoint;
