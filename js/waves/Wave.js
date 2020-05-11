@@ -14,7 +14,8 @@ class Wave {
     options = merge( {
       onLeadingEdgeReachesTarget: _.noop,
       onAlmostDone: _.noop,
-      onTrailingEdgeReachesTarget: _.noop
+      onTrailingEdgeReachesTarget: _.noop,
+      onTrailingEdgeAppears: _.noop
     }, options );
 
     this.angle = destinationPoint.minus( sourcePoint ).getAngle();
@@ -42,6 +43,7 @@ class Wave {
     this.onLeadingEdgeReachesTarget = options.onLeadingEdgeReachesTarget;
     this.onAlmostDone = options.onAlmostDone;
     this.onTrailingEdgeReachesTarget = options.onTrailingEdgeReachesTarget;
+    this.onTrailingEdgeAppears = options.onTrailingEdgeAppears;
   }
 
   step( dt ) {
@@ -60,6 +62,12 @@ class Wave {
       if ( this.onTrailingEdgeReachesTarget && this.trailingEdgeReachedDestination ) {
         this.onTrailingEdgeReachesTarget( this );
         delete this.onTrailingEdgeReachesTarget;
+      }
+
+      // About a 1" gap between tail of parent and head of next wave
+      if ( this.onTrailingEdgeAppears && this.time >= this.totalDistance / this.speed + 1.3 ) {
+        this.onTrailingEdgeAppears( this );
+        delete this.onTrailingEdgeAppears;
       }
     }
   }
