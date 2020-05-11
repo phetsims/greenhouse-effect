@@ -44,10 +44,6 @@ class WavesModel {
       this.waves.push( this.redWave1Incoming );
     }
 
-    // if (this.yellowWave1Incoming)
-    // this.incomingYellowWave2 = new Wave( new Vector2( incomingWaveX + 100, 100 ), new Vector2( incomingWaveX + 100, GROUND_Y ), this.yellowWaveParameterModel, 400 );
-    // this.waves.push( this.incomingYellowWave2 );
-
     if ( this.redWave1Incoming && this.redWave1Incoming.leadingEdgeReachedDestination && !this.redWave1Reflected ) {
       this.redWave1Reflected = new Wave( this.redWave1Incoming.destinationPoint, new Vector2( this.redWave1Incoming.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, this.redWave1Incoming.totalDistance );
       this.waves.push( this.redWave1Reflected );
@@ -70,21 +66,18 @@ class WavesModel {
       this.waves.push( this.yellowWave1Incoming );
     }
 
-    if ( this.yellowWave1Incoming && this.yellowWave1Incoming.trailingEdgeReachedDestination ) {
-      delete this.yellowWave1Incoming;
-    }
-    if ( this.yellowWave2Incoming && this.yellowWave2Incoming.trailingEdgeReachedDestination ) {
-      delete this.yellowWave2Incoming;
-    }
-    if ( this.redWave1Incoming && this.redWave1Incoming.trailingEdgeReachedDestination ) {
-      delete this.redWave1Incoming;
-    }
-    if ( this.redWave1Transmitted && this.redWave1Transmitted.trailingEdgeReachedDestination ) {
-      delete this.redWave1Transmitted;
-    }
-    if ( this.redWave1Reflected && this.redWave1Reflected.trailingEdgeReachedDestination ) {
-      delete this.redWave1Reflected;
-    }
+    const waveNames = [
+      'yellowWave1Incoming',
+      'yellowWave2Incoming',
+      'redWave1Incoming',
+      'redWave1Transmitted',
+      'redWave1Reflected'
+    ];
+    waveNames.forEach( waveName => {
+      if ( this[ waveName ] && this[ waveName ].trailingEdgeReachedDestination ) {
+        delete this[ waveName ];
+      }
+    } );
   }
 
   reset() {
