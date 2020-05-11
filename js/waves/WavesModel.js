@@ -13,6 +13,9 @@ import greenhouseEffect from '../greenhouseEffect.js';
 import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
 
+// constants
+const GROUND_Y = 400;
+
 class WavesModel {
   constructor( options ) {
 
@@ -31,10 +34,21 @@ class WavesModel {
     this.timeProperty.value += dt;
     this.waves.forEach( wave => wave.step( dt ) );
 
-    const GROUND_Y = 510;
-    if ( this.waves[ 0 ].endPoint.y >= GROUND_Y && !this.redWave1 ) {
-      this.redWave1 = new Wave( new Vector2( this.waves[ 0 ].startPoint.x, GROUND_Y ), Vector2.createPolar( 1, -Math.PI / 4 ), this.redWaveParameterModel, 10 );
-      this.waves.push( this.redWave1 );
+    // if ( this.waves[ 0 ].endPoint.y >= GROUND_Y && !this.redWave1 ) {
+    //   const sourcePoint = new Vector2( this.waves[ 0 ].startPoint.x, GROUND_Y );
+    //   const destinationPoint = sourcePoint.plus( Vector2.createPolar( 500, -Math.PI / 4 ) );
+    //   this.redWave1 = new Wave( sourcePoint, destinationPoint, this.redWaveParameterModel, 10 );
+    //   this.waves.push( this.redWave1 );
+    // }
+    // console.log( this.waves[ 0 ].time, this.waves[ 0 ].timeForTrailingEdgeToReachDestination );
+
+    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForLeadingEdgeToReachDestination ) {
+      console.log( 'reached target' );
+    }
+
+    // detect tail reaching the destination
+    if ( this.waves[ 0 ].time >= this.waves[ 0 ].timeForTrailingEdgeToReachDestination ) {
+      this.reset();
     }
   }
 
@@ -46,7 +60,9 @@ class WavesModel {
     delete this.redWave1;
 
     this.waves.length = 0;
-    this.incomingYellowWave1 = new Wave( new Vector2( 100, 0 ), new Vector2( 0, 1 ), this.yellowWaveParameterModel, 5 );
+    const sourcePoint = new Vector2( 100, 100 );
+    const destinationPoint = new Vector2( 100, GROUND_Y );
+    this.incomingYellowWave1 = new Wave( sourcePoint, destinationPoint, this.yellowWaveParameterModel, 200 );
     this.waves.push( this.incomingYellowWave1 );
     // this.waves.push( new Wave( new Vector2( 200, 0 ), new Vector2( 200, 1000 ), this.redWaveParameterModel ) );
   }

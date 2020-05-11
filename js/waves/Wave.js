@@ -9,27 +9,30 @@
 import greenhouseEffect from '../greenhouseEffect.js';
 
 class Wave {
-  constructor( startPoint, unitVector, parameterModel, timeToTriggerEnd ) {
-    this.startPoint = startPoint;
+  constructor( sourcePoint, destinationPoint, parameterModel, totalDistance ) {
+    this.sourcePoint = sourcePoint;
+    this.destinationPoint = destinationPoint;
     this.parameterModel = parameterModel;
-    this.unitVector = unitVector;
-    this.endPoint = this.startPoint;
-    this.timeToTriggerEnd = timeToTriggerEnd;
+    this.endPoint = this.sourcePoint;
     this.time = 0;
     this.phi = 0;
+
+    this.speed = 60;
+    this.totalDistance = totalDistance;
+
+    const totalTime = this.totalDistance / this.speed;
+
+    const travelDistance = this.destinationPoint.minus( this.sourcePoint ).getMagnitude();
+
+    // Time for the trailing edeg to reach the destination
+    this.timeForTrailingEdgeToReachDestination = travelDistance / this.speed + totalTime;
+
+    // Time for the leading edge to reach the destination
+    this.timeForLeadingEdgeToReachDestination = travelDistance / this.speed;
   }
 
   step( dt ) {
     this.time += dt;
-
-    const dx = dt * 60;
-    this.endPoint = this.endPoint.plus( this.unitVector.timesScalar( dx ) );
-    if ( this.time >= this.timeToTriggerEnd ) {
-      this.startPoint = this.startPoint.plus( this.unitVector.timesScalar( dx ) );
-
-      // kx-wt+phi => dphi = dkx
-      this.phi += this.parameterModel.kProperty.value * dx;
-    }
   }
 }
 
