@@ -69,8 +69,7 @@ class WavesModel {
           const redWave2Incoming = new Wave( 'incoming', sourcePoint2, destinationPoint, this.redWaveParameterModel, parentWave.totalDistance, {
             onLeadingEdgeReachesTarget: parentWave => {
 
-              // TODO: Change directions accordingly
-              const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
+              const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, new Vector2( parentWave.destinationPoint.x, GROUND_Y ), this.redWaveParameterModel, parentWave.totalDistance );
               this.waves.push( redWave1Reflected );
 
               const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
@@ -79,7 +78,6 @@ class WavesModel {
           } );
           this.waves.push( redWave2Incoming );
         }
-
       },
 
       onAlmostDone: parentWave => {
