@@ -31,6 +31,17 @@ class WavesModel {
     this.irWavesBegan = true;
 
     this.reset();
+
+    this.showGapProperty.link( () => this.reset() );
+  }
+
+  toWaveDistance( d ) {
+    if ( this.showGapProperty.value ) {
+      return d;
+    }
+    else {
+      return 100000;
+    }
   }
 
   step( dt ) {
@@ -46,14 +57,14 @@ class WavesModel {
 
     const degreesToRadians = Math.PI * 2 / 360;
     const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + angle * degreesToRadians ) );
-    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, distance, {
+    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, this.toWaveDistance( distance ), {
       onLeadingEdgeReachesTarget: parentWave => {
 
         const reflectedDestination = straightDown ? new Vector2( parentWave.destinationPoint.x, GROUND_Y ) : new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y );
-        const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, reflectedDestination, this.redWaveParameterModel, parentWave.totalDistance );
+        const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, reflectedDestination, this.redWaveParameterModel, this.toWaveDistance( parentWave.totalDistance ) );
         this.waves.push( redWave1Reflected );
 
-        const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
+        const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, this.toWaveDistance( parentWave.totalDistance ) );
         this.waves.push( redWave1Transmitted );
       },
       onTrailingEdgeAppears: parentWave => {
@@ -76,7 +87,7 @@ class WavesModel {
   createIncomingYellowWave( x, a, b, distance ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
-    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, distance, {
+    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, this.toWaveDistance( distance ), {
       onTrailingEdgeAppears: wave => {
         this.createIncomingYellowWave( x === a ? b : a, a, b, 1200 );
       },
