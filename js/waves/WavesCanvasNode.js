@@ -28,9 +28,11 @@ const drawSineCurve = ( context, wave, t ) => {
   }
 
   // Debug the start and end points
-  context.fillStyle = 'blue';
-  context.fillRect( sourcePoint.x, sourcePoint.y, 20, 20 );
-  context.fillRect( destinationPoint.x, destinationPoint.y, 20, 20 );
+  if ( phet.chipper.queryParameters.dev ) {
+    context.fillStyle = 'blue';
+    context.fillRect( sourcePoint.x, sourcePoint.y, 20, 20 );
+    context.fillRect( destinationPoint.x, destinationPoint.y, 20, 20 );
+  }
 
   context.strokeStyle = color;
   context.lineWidth = 2;
