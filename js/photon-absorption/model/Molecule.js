@@ -210,6 +210,17 @@ inherit( Object, Molecule, {
   },
 
   /**
+   * Get the absorption strategy for this molecule for the provided wavelength. Note that this does NOT return
+   * the active absorption strategy after an absorption.
+   * @public
+   *
+   * @param {number|null} wavelength - null if there is no strategy for the wavelength
+   */
+  getPhotonAbsorptionStrategyForWavelength: function( wavelength ) {
+    return this.mapWavelengthToAbsorptionStrategy[ wavelength ] || null;
+  },
+
+  /**
    * Checks to see if a photon has been absorbed.
    * @public
    *
