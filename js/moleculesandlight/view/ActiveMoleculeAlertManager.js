@@ -11,6 +11,7 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
@@ -45,6 +46,9 @@ const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndFo
 const slowMotionAbsorbedShortPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedShortPattern;
 const photonPassesString = moleculesAndLightStrings.a11y.photonPasses;
 
+// constants
+const PASS_THROUGH_COUNT_BEFORE_DESCRIPTION = MoleculesAndLightQueryParameters.passThroughCount;
+
 
 // constants
 // in seconds, amount of time before an alert describing molecule/photon interaction goes to the utteranceQueue to
@@ -74,6 +78,11 @@ class ActiveMoleculeAlertManager {
     // wait ALERT_DELAY before making an alert to provide the screen reader some space to finish speaking and
     // prevent a queue
     this.timeSinceFirstAlert = 0;
+
+    // @private {number} - number of times photons of a particular wavelength have passed through the active molecule
+    // consecutively. Allows us to generate descriptions that indicate that no absorption is taking place after
+    // several pass through events have ocurred.
+    this.passThroughCount = 0;
 
     // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
     // to describe the absorbed photon not the photon wavelength currently being emitted
@@ -114,6 +123,7 @@ class ActiveMoleculeAlertManager {
     this.firstRotationAlert = true;
     this.firstExcitationAlert = true;
     this.timeSinceFirstAlert = 0;
+    this.passThroughCount = 0;
   }
 
   /**
@@ -178,12 +188,18 @@ class ActiveMoleculeAlertManager {
       }
     } );
 
-    // photon passed through - only have enough time to speak this if the sim is paused and we are stepping frame by frame
-    // this should not be described if the molecule has already absorbed another photon
+    // photon passed through
     molecule.photonPassedThroughEmitter.addListener( photon => {
-      if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-        this.absorptionUtterance.alert = this.getPassThroughAlert( photon, molecule );
+      this.passThroughCount++;
+
+      const passThroughAlert = this.getPassThroughAlert( photon, molecule );
+      if ( passThroughAlert ) {
+        this.absorptionUtterance.alert = passThroughAlert;
         utteranceQueue.addToBack( this.absorptionUtterance );
+      }
+
+      if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
+        this.passThroughCount = 0;
       }
     } );
 
@@ -513,25 +529,56 @@ class ActiveMoleculeAlertManager {
    * @pubic
    *
    * @param {Photon} photon
-   * @returns {string}
+   * @param {Molecule} molecule
+   * @returns {string|null}
    */
   getPassThroughAlert( photon, molecule ) {
     let alert;
 
-    if ( molecule.isPhotonAbsorbed() ) {
-      alert = photonPassesString;
+    // we only have enough time to speak detailed information about the "pass through" while stepping through frame by
+    // frame, so "pass through" while playing is only described for molecule/photon combos with no absorption
+    // strategy, and after several pass throughs have ocurred
+    if ( this.photonAbsorptionModel.runningProperty.get() ) {
+      const strategy = molecule.getPhotonAbsorptionStrategyForWavelength( photon.wavelength );
+      if ( strategy === null ) {
+        if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
+          if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
+            alert = this.getDetailedPassThroughAlert( photon );
+          }
+          else {
+            alert = photonPassesString;
+          }
+        }
+      }
     }
     else {
-      const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
-      const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
-
-      alert = StringUtils.fillIn( pausedPassingPatternString, {
-        lightSource: lightSourceString,
-        molecularName: molecularNameString
-      } );
+      if ( molecule.isPhotonAbsorbed() ) {
+        alert = photonPassesString;
+      }
+      else {
+        alert = this.getDetailedPassThroughAlert( photon );
+      }
     }
 
     return alert;
+  }
+
+  /**
+   * Get a detailed alert that describes the photon passing through a molecule. This is pretty verbose so this
+   * is intended to describe pass through when we have lots of time for the screen reader to read this in full,
+   * such as during slow motion or step.
+   * @private
+   *
+   * @param {Photon} photon - the Photon passing through the photon target
+   */
+  getDetailedPassThroughAlert( photon ) {
+    const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+    const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
+
+    return StringUtils.fillIn( pausedPassingPatternString, {
+      lightSource: lightSourceString,
+      molecularName: molecularNameString
+    } );
   }
 
   /**
