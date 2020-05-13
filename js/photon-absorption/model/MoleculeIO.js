@@ -16,8 +16,9 @@ class MoleculeIO extends ObjectIO {
 
   /**
    * @param {Molecule} molecule
-   * @returns {Object}
+   * @public
    * @override
+   * @returns {Object}
    */
   static toStateObject( molecule ) {
     validate( molecule, this.validator );
@@ -26,8 +27,9 @@ class MoleculeIO extends ObjectIO {
 
   /**
    * @param {Object} stateObject
-   * @returns {Molecule}
+   * @public
    * @override
+   * @returns {Molecule}
    */
   static fromStateObject( stateObject ) {
     return Molecule.fromStateObject( stateObject );

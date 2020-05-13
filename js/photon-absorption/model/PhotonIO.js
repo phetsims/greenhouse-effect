@@ -16,7 +16,9 @@ import moleculesAndLight from '../../moleculesAndLight.js';
 class PhotonIO extends ObjectIO {
 
   /**
+   * @public
    * @override
+   *
    * @param {Photon} photon
    * @returns {Object}
    */
@@ -33,7 +35,9 @@ class PhotonIO extends ObjectIO {
   /**
    * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
    * then use it.
+   * @public
    * @override
+   *
    * @param {Object} stateObject
    * @returns {Photon}
    */

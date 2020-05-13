@@ -12,6 +12,11 @@ import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonIO from './PhotonIO.js';
 
 class PhotonAbsorptionModelIO extends ObjectIO {
+
+  /**
+   * @public
+   * @param photonAbsorptionModel
+   */
   static clearChildInstances( photonAbsorptionModel ) {
     validate( photonAbsorptionModel, this.validator );
     photonAbsorptionModel.clearPhotons();
@@ -21,6 +26,7 @@ class PhotonAbsorptionModelIO extends ObjectIO {
 
   /**
    * Create a dynamic particle as specified by the phetioID and state.
+   * @public
    * @param {Object} photonAbsorptionModel
    * @param {Tandem} tandem
    * @param {Object} stateObject
