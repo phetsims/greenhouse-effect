@@ -89,6 +89,7 @@ class ObservationWindowDescriber {
    * When the photon wavelength changes or the light source slider turns on or off, we go back to describing
    * the initial phase where photons pass through the molecule. The only exception is when there is no target
    * molecule - in this case we keep the description that guides the user to the 'return molecule' button.
+   * @public
    *
    * @param {Node} descriptionNode
    */
@@ -204,6 +205,9 @@ class ObservationWindowDescriber {
    * Get the description of photon/molecule phase for initial interaction. This will be when photons
    * start to emit and are passing through the molecule. Once a photon is absorbed a new description strategy begins
    * where we describe the absorption.
+   *
+   * This description is specific to the summary of the observation window.
+   * @private
    *
    * @param {boolean} emitterOn
    * @param {number} photonWavelength

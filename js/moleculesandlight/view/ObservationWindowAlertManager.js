@@ -176,6 +176,14 @@ class ObservationWindowAlertManager {
     }
   }
 
+  /**
+   * Get an alert that describes the photon as it is re-emitted from a molecule. Pretty verbose, so generally only
+   * used when paused or in slow motion.
+   * @public
+   *
+   * @param photon
+   * @returns {string}
+   */
   getPhotonEmittedAlert( photon ) {
     const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
 
@@ -188,6 +196,7 @@ class ObservationWindowAlertManager {
    * Get an alert as a result of the user pressing the StepForwardButton. If nothing is happening in the observation
    * window, returns an alert that gives the user a hint to activate something. Otherwise, may create an alert
    * that describes state of active molecule. But may also not produce any alert.
+   * @private
    *
    * @param {PhotonAbsorptionModel} model
    * @returns {null|string}
@@ -236,8 +245,11 @@ class ObservationWindowAlertManager {
   }
 
   /**
-   * @param firstMolecule
-   * @param secondMolecule
+   * A description of the constituent molecules as they float away after a molecule breaks apart.
+   * @public
+   *
+   * @param {Molecule} firstMolecule
+   * @param {Molecule} secondMolecule
    * @returns {string}
    */
   getMoleculesFloatingAwayDescription( firstMolecule, secondMolecule ) {

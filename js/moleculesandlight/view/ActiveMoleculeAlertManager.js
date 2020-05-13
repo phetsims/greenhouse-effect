@@ -128,6 +128,8 @@ class ActiveMoleculeAlertManager {
 
   /**
    * Increment variables watching timing of alerts
+   * @public
+   *
    * @param {[type]} dt [description]
    * @returns {[type]} [description]
    */
@@ -218,6 +220,8 @@ class ActiveMoleculeAlertManager {
    * "Infrared photon absorbed and bonds of carbon monoxide molecule stretching." or
    * "Infrared absorbed and bonds of ozone molecule bending up and down."
    *
+   * @public
+   *
    * @param {number} vibrationRadians
    * @returns {string}
    */
@@ -270,6 +274,7 @@ class ActiveMoleculeAlertManager {
   /**
    * Get a description of the molecule in its rotation phase. Will return something like
    * "Microwave photon absorbed, water molecule rotates clockwise."
+   * @public
    *
    * @returns {string}
    */
@@ -292,6 +297,8 @@ class ActiveMoleculeAlertManager {
    * a string like
    *
    * "Infrared photon absorbed, Carbon Dioxide molecule breaks into CO and O."
+   *
+   * @public
    *
    * @returns {string}
    */
@@ -496,8 +503,9 @@ class ActiveMoleculeAlertManager {
   /**
    * Get an alert that describes a photon being emitted from othe molecule. Verbocity will depend on whether the sim
    * is paused or running in slow motion.
+   * @public
    *
-   * @param {} photon
+   * @param {Photon} photon
    * @returns {string}
    */
   getEmissionAlert( photon ) {
@@ -526,7 +534,7 @@ class ActiveMoleculeAlertManager {
    *
    * Describing each pass through takes a lot of time, so this is only used while the simulation is paused and
    * user is stepping through frame by frames.
-   * @pubic
+   * @public
    *
    * @param {Photon} photon
    * @param {Molecule} molecule
