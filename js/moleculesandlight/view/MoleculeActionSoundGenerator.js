@@ -44,10 +44,10 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     };
 
     // break apart sound
-    const breakApartSound = new SoundClip( breakApartSound, { initialOutputLevel: 1 } );
-    breakApartSound.connect( this.masterGainNode );
+    const breakApartSoundClip = new SoundClip( breakApartSound, { initialOutputLevel: 1 } );
+    breakApartSoundClip.connect( this.masterGainNode );
     const breakApartSoundPlayer = () => {
-      breakApartSound.play();
+      breakApartSoundClip.play();
     };
 
     // "energized" sound, which is played when the molecule enters a higher-energy state (depicted in the view as glowing)
