@@ -12,14 +12,14 @@
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import infraredPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-ir_mp3.js';
-import microwavePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-microwave_mp3.js';
-import ultravioletPhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-uv_mp3.js';
-import visiblePhotonInitialEmissionSoundInfo from '../../../sounds/photon-emit-visible_mp3.js';
-import infraredPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-ir_mp3.js';
-import microwavePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-microwave_mp3.js';
-import ultravioletPhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-uv_mp3.js';
-import visiblePhotonFromMoleculeSoundInfo from '../../../sounds/photon-release-visible_mp3.js';
+import infraredPhotonInitialEmissionSound from '../../../sounds/photon-emit-ir_mp3.js';
+import microwavePhotonInitialEmissionSound from '../../../sounds/photon-emit-microwave_mp3.js';
+import ultravioletPhotonInitialEmissionSound from '../../../sounds/photon-emit-uv_mp3.js';
+import visiblePhotonInitialEmissionSound from '../../../sounds/photon-emit-visible_mp3.js';
+import infraredPhotonFromMoleculeSound from '../../../sounds/photon-release-ir_mp3.js';
+import microwavePhotonFromMoleculeSound from '../../../sounds/photon-release-microwave_mp3.js';
+import ultravioletPhotonFromMoleculeSound from '../../../sounds/photon-release-uv_mp3.js';
+import visiblePhotonFromMoleculeSound from '../../../sounds/photon-release-visible_mp3.js';
 import merge from '../../../../phet-core/js/merge.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
@@ -54,19 +54,19 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
     const photonInitialEmissionSoundPlayers = new Map();
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( microwavePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+      new SoundClip( microwavePhotonInitialEmissionSound, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( infraredPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+      new SoundClip( infraredPhotonInitialEmissionSound, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( visiblePhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+      new SoundClip( visiblePhotonInitialEmissionSound, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( ultravioletPhotonInitialEmissionSoundInfo, photonInitialEmissionSoundClipOptions )
+      new SoundClip( ultravioletPhotonInitialEmissionSound, photonInitialEmissionSoundClipOptions )
     );
     photonInitialEmissionSoundPlayers.forEach( value => {
       soundManager.addSoundGenerator( value );
@@ -77,19 +77,19 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
     const photonEmissionFromMoleculeSoundPlayers = new Map();
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( microwavePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
+      new SoundClip( microwavePhotonFromMoleculeSound, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( infraredPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
+      new SoundClip( infraredPhotonFromMoleculeSound, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( visiblePhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
+      new SoundClip( visiblePhotonFromMoleculeSound, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.set(
       WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( ultravioletPhotonFromMoleculeSoundInfo, photonEmissionFromMoleculeSoundClipOptions )
+      new SoundClip( ultravioletPhotonFromMoleculeSound, photonEmissionFromMoleculeSoundClipOptions )
     );
     photonEmissionFromMoleculeSoundPlayers.forEach( value => {
       soundManager.addSoundGenerator( value );
