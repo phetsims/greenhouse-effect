@@ -28,6 +28,7 @@ const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
 const longBendingAlertString = moleculesAndLightStrings.a11y.longBendingAlert;
 const rotatesCounterClockwise = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
 const pausedPassingPatternString = moleculesAndLightStrings.a11y.pausedPassingPattern;
+const slowMotionPassingPatternString = moleculesAndLightStrings.a11y.slowMotionPassingPattern;
 const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
 const longRotatingAlertString = moleculesAndLightStrings.a11y.longRotatingAlert;
 const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
@@ -45,6 +46,7 @@ const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.br
 const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
 const slowMotionAbsorbedShortPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedShortPattern;
 const photonPassesString = moleculesAndLightStrings.a11y.photonPasses;
+const photonsPassingString = moleculesAndLightStrings.a11y.photonsPassing;
 
 // constants
 const PASS_THROUGH_COUNT_BEFORE_DESCRIPTION = MoleculesAndLightQueryParameters.passThroughCount;
@@ -551,10 +553,10 @@ class ActiveMoleculeAlertManager {
       if ( strategy === null ) {
         if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
           if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
-            alert = this.getDetailedPassThroughAlert( photon );
+            alert = this.getDetailedPassThroughAlert( photon, slowMotionPassingPatternString );
           }
           else {
-            alert = photonPassesString;
+            alert = photonsPassingString;
           }
         }
       }
@@ -564,7 +566,7 @@ class ActiveMoleculeAlertManager {
         alert = photonPassesString;
       }
       else {
-        alert = this.getDetailedPassThroughAlert( photon );
+        alert = this.getDetailedPassThroughAlert( photon, pausedPassingPatternString );
       }
     }
 
@@ -574,16 +576,23 @@ class ActiveMoleculeAlertManager {
   /**
    * Get a detailed alert that describes the photon passing through a molecule. This is pretty verbose so this
    * is intended to describe pass through when we have lots of time for the screen reader to read this in full,
-   * such as during slow motion or step.
+   * such as during slow motion or step. Will return something like
+   *
+   * "Microwave photons passing through Methane molecule." or
+   * "Microwave photon passes through Methane molecule"
+   *
+   * depending on the context and provided patternString.
    * @private
    *
    * @param {Photon} photon - the Photon passing through the photon target
+   * @param {string} patternString - A pattern string to be filled in with light source and molecular names, changing
+   *                                 the verb tense depending on context.
    */
-  getDetailedPassThroughAlert( photon ) {
+  getDetailedPassThroughAlert( photon, patternString ) {
     const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
     const molecularNameString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
-    return StringUtils.fillIn( pausedPassingPatternString, {
+    return StringUtils.fillIn( patternString, {
       lightSource: lightSourceString,
       molecularName: molecularNameString
     } );
