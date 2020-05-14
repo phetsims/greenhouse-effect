@@ -27,7 +27,7 @@ import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
-import TimeControlSpeed from '../../../../scenery-phet/js/TimeControlSpeed.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -118,13 +118,13 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
     tandem: tandem.createTandem( 'runningProperty' )
   } );
 
-  // @public {EnumerationProperty.<TimeControlSpeed>} - controls play speed of the simulation
-  this.timeControlSpeedProperty = new EnumerationProperty( TimeControlSpeed, TimeControlSpeed.NORMAL, {
-    tandem: tandem.createTandem( 'timeControlSpeedProperty' )
+  // @public {EnumerationProperty.<TimeSpeed>} - controls play speed of the simulation
+  this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+    tandem: tandem.createTandem( 'timeSpeedProperty' )
   } );
 
   // @public - convenience Property, indicating whether sim is running in slow motion
-  this.slowMotionProperty = new DerivedProperty( [ this.timeControlSpeedProperty ], speed => speed === TimeControlSpeed.SLOW );
+  this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
   // @public
   this.photons = new ObservableArray( {
@@ -192,7 +192,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     this.photonEmitterOnProperty.reset();
     this.photonWavelengthProperty.reset();
     this.runningProperty.reset();
-    this.timeControlSpeedProperty.reset();
+    this.timeSpeedProperty.reset();
     this.photonTargetProperty.reset();
 
     // broadcast that the model has been reset
