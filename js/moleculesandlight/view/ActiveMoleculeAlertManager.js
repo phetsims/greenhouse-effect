@@ -11,7 +11,6 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
@@ -49,7 +48,9 @@ const photonPassesString = moleculesAndLightStrings.a11y.photonPasses;
 const photonsPassingString = moleculesAndLightStrings.a11y.photonsPassing;
 
 // constants
-const PASS_THROUGH_COUNT_BEFORE_DESCRIPTION = MoleculesAndLightQueryParameters.passThroughCount;
+// Number of "pass through" events before we alert that no absorptions are taking place in the case of molecule/photon
+// pair that has no absorption strategy. See member variable passThroughCount.
+const PASS_THROUGH_COUNT_BEFORE_DESCRIPTION = 5;
 
 
 // constants
