@@ -264,7 +264,7 @@ inherit( Object, Molecule, {
    * Get the current vibration offset from the molecule's center of gravity (COG) for the specified molecule.
    *
    * @param {Atom} atom
-   * @returns {Vector2} - Vector representing location of vibration offset from molecule's center of gravity.
+   * @returns {Vector2} - Vector representing position of vibration offset from molecule's center of gravity.
    */
   getVibrationAtomOffset: function( atom ) {
     if ( !( atom.uniqueID in this.vibrationAtomOffsets ) ) {
@@ -303,7 +303,7 @@ inherit( Object, Molecule, {
   },
 
   /**
-   * Create a new Vector2 describing the location of this molecules center of gravity.
+   * Create a new Vector2 describing the position of this molecule's center of gravity.
    *
    * @returns {Vector2}
    **/
@@ -312,12 +312,12 @@ inherit( Object, Molecule, {
   },
 
   /**
-   * Set the location of this molecule by specifying the center of gravity.  This will be unique to each molecule's
+   * Set the position of this molecule by specifying the center of gravity.  This will be unique to each molecule's
    * configuration, and it will cause the individual molecules to be located such that the center of gravity is in
-   * the specified location.  The relative orientation of the atoms that comprise the molecules will not be changed.
+   * the specified position.  The relative orientation of the atoms that comprise the molecules will not be changed.
    *
-   * @param {number} x - the x location to set
-   * @param {number} y - the y location to set
+   * @param {number} x - the x position to set
+   * @param {number} y - the y position to set
    **/
   setCenterOfGravityPos: function( x, y ) {
     if ( this.centerOfGravityProperty.get().x !== x || this.centerOfGravityProperty.get().y !== y ) {
@@ -327,10 +327,10 @@ inherit( Object, Molecule, {
   },
 
   /**
-   * Set the location of this molecule by specifying the center of gravity. Allows passing a Vector2 into
+   * Set the position of this molecule by specifying the center of gravity. Allows passing a Vector2 into
    * setCenterOfGravityPos.
    *
-   * @param {Vector2} centerOfGravityPos - A vector representing the desired location for this molecule.
+   * @param {Vector2} centerOfGravityPos - A vector representing the desired position for this molecule.
    **/
   setCenterOfGravityPosVec: function( centerOfGravityPos ) {
     this.setCenterOfGravityPos( centerOfGravityPos.x, centerOfGravityPos.y );
@@ -442,7 +442,7 @@ inherit( Object, Molecule, {
     // TODO: Need to determine if the photon as passed through and emit here.
 
     if ( this.absorptionHysteresisCountdownTime <= 0 &&
-         photon.locationProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
+         photon.positionProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&
          !this.isPhotonMarkedForPassThrough( photon ) ) {
 
       // The circumstances for absorption are correct, but do we have an absorption strategy for this photon's
@@ -513,7 +513,7 @@ inherit( Object, Molecule, {
     photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
       ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
     const centerOfGravityPosRef = this.centerOfGravityProperty.get();
-    photonToEmit.location = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
+    photonToEmit.position = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
     this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     this.photonEmittedEmitter.emit( photonToEmit );
     // this.trigger( 'photonEmitted', photonToEmit );
@@ -542,7 +542,7 @@ inherit( Object, Molecule, {
         atomOffset.add( this.vibrationAtomOffsets[ uniqueID ] );
         // Rotate.
         atomOffset.rotate( this.currentRotationRadians );
-        // Set location based on combination of offset and current center
+        // Set position based on combination of offset and current center
         // of gravity.
         this.atomsByID[ uniqueID ].positionProperty.set( new Vector2( this.centerOfGravityProperty.get().x + atomOffset.x, this.centerOfGravityProperty.get().y + atomOffset.y ) );
       }

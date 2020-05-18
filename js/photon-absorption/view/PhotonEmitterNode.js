@@ -139,7 +139,7 @@ inherit( Node, PhotonEmitterNode, {
       lightSource: WavelengthConstants.getLightSourceName( photonWavelength )
     } );
 
-    // add the button to the correct location on the photon emitter
+    // add the button to the correct position on the photon emitter
     this.button.left = this.photonEmitterOffImage.centerX - 20;
     this.button.centerY = this.photonEmitterOffImage.centerY;
     if ( !this.hasChild( this.button ) ) {

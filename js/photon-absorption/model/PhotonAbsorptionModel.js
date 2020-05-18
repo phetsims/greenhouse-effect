@@ -49,7 +49,7 @@ import WavelengthConstants from './WavelengthConstants.js';
 // ------- constants -------------
 
 // constants that control where and how photons are emitted.
-const PHOTON_EMISSION_LOCATION = new Vector2( -1350, 0 );
+const PHOTON_EMISSION_POSITION = new Vector2( -1350, 0 );
 
 // Velocity of emitted photons.  Since they are emitted horizontally, only one value is needed.
 const PHOTON_VELOCITY = 3000; // picometers/second
@@ -336,13 +336,13 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   /**
    * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target,
    * which will decide whether a given photon should be absorbed.
-   * @param advanceAmount - amount of time that the photon should be "advanced" from its starting location.  This
+   * @param advanceAmount - amount of time that the photon should be "advanced" from its starting position.  This
    * makes it possible to make the emission stream look more constant in cases where there was a long delay between
    * frames.
    */
   emitPhoton: function( advanceAmount ) {
     const photon = new Photon( this.photonWavelengthProperty.get(), this.photonGroupTandem.createNextTandem() );
-    photon.locationProperty.set( new Vector2( PHOTON_EMISSION_LOCATION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_LOCATION.y ) );
+    photon.positionProperty.set( new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y ) );
     const emissionAngle = 0; // Straight to the right.
     photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
     this.photons.add( photon );
@@ -364,12 +364,12 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   },
 
   /**
-   * Get the emission location for this photonAbsorptionModel.  Useful when other models need access to this position.
+   * Get the emission position for this photonAbsorptionModel.  Useful when other models need access to this position.
    *
    * @returns {Vector2}
    */
-  getPhotonEmissionLocation: function() {
-    return PHOTON_EMISSION_LOCATION;
+  getPhotonEmissionPosition: function() {
+    return PHOTON_EMISSION_POSITION;
   },
 
   /**

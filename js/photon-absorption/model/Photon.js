@@ -25,8 +25,8 @@ import PhotonIO from './PhotonIO.js';
  */
 function Photon( wavelength, tandem ) {
 
-  this.locationProperty = new Vector2Property( new Vector2( 0, 0 ), {
-    tandem: tandem.createTandem( 'locationProperty' )
+  this.positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
+    tandem: tandem.createTandem( 'positionProperty' )
   } );
 
   // @private
@@ -46,8 +46,8 @@ moleculesAndLight.register( 'Photon', Photon );
 inherit( PhetioObject, Photon, {
 
   dispose: function() {
-    this.locationProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
-    this.locationProperty.dispose();
+    this.positionProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
+    this.positionProperty.dispose();
     PhetioObject.prototype.dispose.call( this );
   },
 
@@ -68,7 +68,7 @@ inherit( PhetioObject, Photon, {
    * @param {number} dt - The incremental time step.
    */
   step: function( dt ) {
-    this.locationProperty.set( new Vector2( this.locationProperty.get().x + this.vx * dt, this.locationProperty.get().y + this.vy * dt ) );
+    this.positionProperty.set( new Vector2( this.positionProperty.get().x + this.vx * dt, this.positionProperty.get().y + this.vy * dt ) );
   }
 } );
 

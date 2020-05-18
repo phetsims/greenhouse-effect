@@ -50,9 +50,9 @@ function PhotonNode( photon, modelViewTransform ) {
   this.addChild( photonImage );
 
   // Observe position changes.
-  photon.locationProperty.link( function( location ) {
+  photon.positionProperty.link( function( position ) {
     // Set overall position.
-    self.center = self.modelViewTransform.modelToViewPosition( location );
+    self.center = self.modelViewTransform.modelToViewPosition( position );
   } );
 }
 

@@ -66,7 +66,7 @@ moleculesAndLight.register( 'H2O', H2O );
 inherit( Molecule, H2O, {
 
   /**
-   * Initialize and set the initial center of gravity  locations for each atom in this molecule.
+   * Initialize and set the initial center of gravity positions for each atom in this molecule.
    */
   initializeAtomOffsets: function() {
 
