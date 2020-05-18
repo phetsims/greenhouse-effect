@@ -97,7 +97,7 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
 
     // listen for new photons and play sounds or set them up to be played later when appropriate
     photons.addItemAddedListener( photon => {
-      const photonXPosition = photon.locationProperty.value.x;
+      const photonXPosition = photon.positionProperty.value.x;
 
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {
 

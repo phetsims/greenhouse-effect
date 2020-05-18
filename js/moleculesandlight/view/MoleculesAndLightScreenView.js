@@ -53,8 +53,8 @@ const spectrumButtonDescriptionString = moleculesAndLightStrings.a11y.spectrumBu
 // Model-view transform for intermediate coordinates.
 const INTERMEDIATE_RENDERING_SIZE = new Dimension2( 500, 300 );
 
-// Location of the top left corner of the observation window.
-const OBSERVATION_WINDOW_LOCATION = new Vector2( 15, 15 );
+// Position for the top left corner of the observation window.
+const OBSERVATION_WINDOW_POSITION = new Vector2( 15, 15 );
 
 // Corner radius of the observation window.
 const CORNER_RADIUS = 7;
@@ -110,16 +110,16 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   this.pdomPlayAreaNode.addChild( windowFrameNode );
 
   // Set positions of the observation window and window frame.
-  this.observationWindow.translate( OBSERVATION_WINDOW_LOCATION );
-  clipRectangle.translate( OBSERVATION_WINDOW_LOCATION );
-  windowFrameNode.translate( OBSERVATION_WINDOW_LOCATION );
+  this.observationWindow.translate( OBSERVATION_WINDOW_POSITION );
+  clipRectangle.translate( OBSERVATION_WINDOW_POSITION );
+  windowFrameNode.translate( OBSERVATION_WINDOW_POSITION );
 
   // Create the control panel for photon emission frequency.
   const photonEmissionControlPanel = new QuadEmissionFrequencyControlPanel(
     photonAbsorptionModel,
     tandem.createTandem( 'photonEmissionControlPanel' )
   );
-  photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_LOCATION.x, 350 ) );
+  photonEmissionControlPanel.leftTop = ( new Vector2( OBSERVATION_WINDOW_POSITION.x, 350 ) );
 
   // Create the molecule control panel
   const moleculeControlPanel = new MoleculeSelectionPanel(

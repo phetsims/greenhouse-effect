@@ -90,7 +90,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
 
   // Create and add the photon emitter.
   const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
-  photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionLocation().plus( EMITTER_OFFSET ) ) );
+  photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ) );
   photonEmitterLayer.addChild( photonEmitterNode );
 
   // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
@@ -179,11 +179,11 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
     const photonPositionObserver = function() {
       self.photonCheckBounds();
     };
-    addedPhoton.locationProperty.link( photonPositionObserver );
+    addedPhoton.positionProperty.link( photonPositionObserver );
 
     photonAbsorptionModel.photons.addItemRemovedListener( function removalListener( removedPhoton ) {
       if ( removedPhoton === addedPhoton ) {
-        addedPhoton.locationProperty.hasListener( photonPositionObserver ) && addedPhoton.locationProperty.unlink( photonPositionObserver );
+        addedPhoton.positionProperty.hasListener( photonPositionObserver ) && addedPhoton.positionProperty.unlink( photonPositionObserver );
         photonLayer.removeChild( photonNode );
         photonAbsorptionModel.photons.removeItemRemovedListener( removalListener );
       }
@@ -284,7 +284,7 @@ inherit( Rectangle, ObservationWindow, {
 
     const photonsToRemove = [];
     for ( let photon = 0; photon < this.photonAbsorptionModel.photons.length; photon++ ) {
-      if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).locationProperty.get() ) ) ) {
+      if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).positionProperty.get() ) ) ) {
         photonsToRemove.push( this.photonAbsorptionModel.photons.get( photon ) );
       }
     }

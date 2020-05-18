@@ -118,7 +118,7 @@ inherit( CanvasNode, WindowFrameNode, {
    */
   drawFrameCorner: function( corner, radialCenter, context ) {
 
-    // Determine the initial and final angles for arc methods based on input location.
+    // Determine the initial and final angles for arc methods based on input corner.
     let initialAngle;
     let finalAngle;
     switch( corner ) {
