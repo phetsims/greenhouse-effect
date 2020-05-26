@@ -61,7 +61,7 @@ class MoleculesAndLightScreenSummaryNode extends Node {
     const summaryProperties = [ model.photonWavelengthProperty, model.photonEmitterOnProperty, model.photonTargetProperty, model.runningProperty, model.slowMotionProperty, returnMoleculeButtonVisibleProperty ];
     Property.multilink( summaryProperties, ( photonWavelength, emitterOn, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) => {
 
-      // TODO: Maybe use accessibleName instead if https://github.com/phetsims/molecules-and-light/issues/237 is fixed
+      // TODO: Maybe use accessibleName instead if https://github.com/phetsims/scenery/issues/1026 is fixed
       dynamicDescription.innerContent = this.getSummaryString();
     } );
 
