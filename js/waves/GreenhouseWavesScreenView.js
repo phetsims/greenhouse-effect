@@ -27,6 +27,10 @@ class GreenhouseWavesScreenView extends ScreenView {
     isHMR && module.hot.accept( './WavesNode.js', initializeWavesNode );
   }
 
+  /**
+   * @param dt
+   * @public
+   */
   step( dt ) {
     this.wavesNode.step( dt );
   }

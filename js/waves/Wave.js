@@ -46,6 +46,10 @@ class Wave {
     this.onTrailingEdgeAppears = options.onTrailingEdgeAppears;
   }
 
+  /**
+   * @param dt
+   * @public
+   */
   step( dt ) {
 
     if ( this.parameterModel.modeProperty.value !== 'Paused' ) {

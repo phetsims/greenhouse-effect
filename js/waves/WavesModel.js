@@ -35,6 +35,11 @@ class WavesModel {
     this.showGapProperty.link( () => this.reset() );
   }
 
+  /**
+   * @param d
+   * @returns {number|*}
+   * @private
+   */
   toWaveDistance( d ) {
     if ( this.showGapProperty.value ) {
       return d;
@@ -44,6 +49,10 @@ class WavesModel {
     }
   }
 
+  /**
+   * @param dt
+   * @public
+   */
   step( dt ) {
     this.timeProperty.value += dt;
     this.waves.forEach( wave => wave.step( dt ) );
@@ -52,6 +61,15 @@ class WavesModel {
     toRemove.forEach( wave => arrayRemove( this.waves, wave ) );
   }
 
+  /**
+   * @param x
+   * @param a
+   * @param b
+   * @param distance
+   * @param angle
+   * @param straightDown
+   * @private
+   */
   createIRWave1( x, a, b, distance, angle = 30, straightDown = false ) {
     const sourcePoint = new Vector2( x, GROUND_Y );
 
@@ -74,6 +92,9 @@ class WavesModel {
     this.waves.push( redWave1Incoming );
   }
 
+  /**
+   * @private
+   */
   triggerIRWavesToBegin() {
     if ( this.irWavesBegan ) {
       return;
@@ -84,6 +105,13 @@ class WavesModel {
     this.createIRWave1( 700, 700, 750, 1800 );
   }
 
+  /**
+   * @param x
+   * @param a
+   * @param b
+   * @param distance
+   * @private
+   */
   createIncomingYellowWave( x, a, b, distance ) {
     const sourcePoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
@@ -98,6 +126,9 @@ class WavesModel {
     this.waves.push( yellowWave1Incoming );
   }
 
+  /**
+   * @public
+   */
   reset() {
     this.timeProperty.reset();
     this.yellowWaveParameterModel.reset();

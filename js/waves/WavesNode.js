@@ -214,6 +214,10 @@ class WavesNode extends Node {
     this.addChild( this.wavesCanvasNode );
   }
 
+  /**
+   * @param {number} dt
+   * @public
+   */
   step( dt ) {
     this.waves.forEach( wave => wave.step( dt ) );
     this.wavesCanvasNode.step( dt );

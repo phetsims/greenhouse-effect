@@ -64,6 +64,9 @@ class WaveParameterModel {
     };
   }
 
+  /**
+   * @public
+   */
   reset() {
     this.modeProperty.reset();
     this.expandedProperty.reset();
