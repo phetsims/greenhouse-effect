@@ -555,6 +555,12 @@ function addFrequencyAndLabelDescriptions( node, label, frequencyDescription, wa
   node.labelTagName = 'span';
   node.labelContent = label;
 
+  // workaround for iOS Safari, which has a bug that pronounces the nested list item role as "unpronouncable" -
+  // removing the default bullet style and setting the role explicitly gets around the problem
+  node.ariaRole = 'list';
+  node.setAccessibleAttribute( 'style', 'list-style: none;' );
+
+
   if ( options.graphicalDescription ) {
     node.addChild( new Node( { tagName: 'li', innerContent: options.graphicalDescription } ) );
   }
