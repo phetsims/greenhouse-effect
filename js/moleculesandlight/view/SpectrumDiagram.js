@@ -368,6 +368,11 @@ function LabeledSpectrumNode( tandem ) {
   scaleUnits( wavelengthUnits );
   wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
   this.addChild( wavelengthUnits );
+
+  // workaround for iOS Safari, which has a bug that pronounces the nested list item role as "unpronouncable" -
+  // removing the default bullet style and setting the role explicitly gets around the problem
+  this.ariaRole = 'list';
+  this.setAccessibleAttribute( 'style', 'list-style: none;' );
 }
 
 inherit( Node, LabeledSpectrumNode );
