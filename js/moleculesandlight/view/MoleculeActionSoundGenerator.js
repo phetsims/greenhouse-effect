@@ -38,14 +38,14 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
     // photon absorbed sound
     const photonAbsorbedSoundClip = new SoundClip( photonAbsorbedSound, { initialOutputLevel: 0.1 } );
-    photonAbsorbedSoundClip.connect( this.masterGainNode );
+    photonAbsorbedSoundClip.connect( this.soundSourceDestination );
     const photonAbsorbedSoundPlayer = () => {
       photonAbsorbedSoundClip.play();
     };
 
     // break apart sound
     const breakApartSoundClip = new SoundClip( breakApartSound, { initialOutputLevel: 1 } );
-    breakApartSoundClip.connect( this.masterGainNode );
+    breakApartSoundClip.connect( this.soundSourceDestination );
     const breakApartSoundPlayer = () => {
       breakApartSoundClip.play();
     };
@@ -56,7 +56,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
       initialOutputLevel: 0.3,
       enableControlProperties: [ simIsRunningProperty ]
     } );
-    moleculeEnergizedLoop.connect( this.masterGainNode );
+    moleculeEnergizedLoop.connect( this.soundSourceDestination );
     const updateMoleculeEnergizedSound = moleculeEnergized => {
       if ( moleculeEnergized ) {
         moleculeEnergizedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
@@ -78,28 +78,28 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
       rotationClockwiseNormalSpeedSound,
       rotationLoopOptions
     );
-    rotateClockwiseNormalSpeedLoop.connect( this.masterGainNode );
+    rotateClockwiseNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // clockwise slow motion
     const rotateClockwiseSlowMotionLoop = new SoundClip(
       rotationClockwiseSlowMotionSound,
       rotationLoopOptions
     );
-    rotateClockwiseSlowMotionLoop.connect( this.masterGainNode );
+    rotateClockwiseSlowMotionLoop.connect( this.soundSourceDestination );
 
     // counterclockwise normal speed
     const rotateCounterclockwiseNormalSpeedLoop = new SoundClip(
       rotationCounterclockwiseNormalSpeedSound,
       rotationLoopOptions
     );
-    rotateCounterclockwiseNormalSpeedLoop.connect( this.masterGainNode );
+    rotateCounterclockwiseNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // counterclockwise slow motion
     const rotateCounterclockwiseSlowMotionLoop = new SoundClip(
       rotationCounterclockwiseSlowMotionSound,
       rotationLoopOptions
     );
-    rotateCounterclockwiseSlowMotionLoop.connect( this.masterGainNode );
+    rotateCounterclockwiseSlowMotionLoop.connect( this.soundSourceDestination );
 
     const updateRotationSound = rotating => {
       if ( rotating ) {
@@ -144,7 +144,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
     // vibration normal speed
     const moleculeVibrationNormalSpeedLoop = new SoundClip( vibrationNormalSpeedStereoSound, vibrationLoopOptions );
-    moleculeVibrationNormalSpeedLoop.connect( this.masterGainNode );
+    moleculeVibrationNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // vibration slow motion
     const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionSound, {
@@ -152,7 +152,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]
     } );
-    moleculeVibrationSlowMotionLoop.connect( this.masterGainNode );
+    moleculeVibrationSlowMotionLoop.connect( this.soundSourceDestination );
 
     // function for updating the vibration sound
     const updateVibrationSound = vibrating => {
