@@ -478,7 +478,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * @returns {boolean}
    */
   hasBothConstituentMolecules( moleculeA, moleculeB ) {
-    return this.activeMolecules.contains( moleculeA ) && this.activeMolecules.contains( moleculeB );
+    return this.activeMolecules.includes( moleculeA ) && this.activeMolecules.includes( moleculeB );
   },
 
   /**
