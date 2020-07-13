@@ -229,15 +229,17 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
   const globalKeyboardListener = event => {
     if ( !photonAbsorptionModel.runningProperty.get() ) {
       if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
+        if ( timeControlNode.accessibleDisplayed ) {
 
-        // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
-        // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
-        // move farther than the absorption window of a molecule in a single step and pass over the molecule without
-        // checking for absorption.
-        const timeStep =  2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
-        photonAbsorptionModel.manualStep( timeStep );
+          // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
+          // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
+          // move farther than the absorption window of a molecule in a single step and pass over the molecule without
+          // checking for absorption.
+          const timeStep = 2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
+          photonAbsorptionModel.manualStep( timeStep );
 
-        stepForwardSoundPlayer.play();
+          stepForwardSoundPlayer.play();
+        }
       }
     }
   };
