@@ -70,21 +70,21 @@ const spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString = molecul
 const spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString = moleculesAndLightStrings.a11y.spectrumWindowLabelledSpectrumGammaRayWavelengthDescription;
 
 // shared constants
-const LABEL_FONT = new PhetFont( 16 );
-const SUBSECTION_WIDTH = 490; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
+const LABEL_FONT = new PhetFont( 21 );
+const SUBSECTION_WIDTH = 657; // width of each subsection on the window (arrows, chirp node, and labeled diagram).
 const MAX_UNITS_WIDTH = SUBSECTION_WIDTH / 10; // maximum width of units text, necessary for long translated units strings.
 
 // constants for LabeledSpectrumNode
-const STRIP_HEIGHT = 65;
+const STRIP_HEIGHT = 87;
 const MIN_FREQUENCY = 1E3;
 const MAX_FREQUENCY = 1E21;
-const TICK_MARK_HEIGHT = 8;
-const TICK_MARK_FONT = new PhetFont( 11 );
+const TICK_MARK_HEIGHT = 11;
+const TICK_MARK_FONT = new PhetFont( 14.7 );
 
 // constants for labeledArrow
-const ARROW_HEAD_HEIGHT = 40;
-const ARROW_HEAD_WIDTH = 40;
-const ARROW_TAIL_WIDTH = 25;
+const ARROW_HEAD_HEIGHT = 54;
+const ARROW_HEAD_WIDTH = 54;
+const ARROW_TAIL_WIDTH = 34;
 
 /**
  * Class that contains the diagram of the EM spectrum.  This class includes the arrows, the spectrum strip, the
@@ -99,7 +99,7 @@ function SpectrumDiagram( tandem ) {
 
   // Add the title and scale for translations.
   const title = new Text( spectrumWindowTitleString, {
-    font: new PhetFont( 30 ),
+    font: new PhetFont( 40 ),
 
     tagName: 'h1',
     innerContent: spectrumWindowTitleString,
@@ -152,7 +152,7 @@ function SpectrumDiagram( tandem ) {
   LayoutBox.call( this, {
     orientation: 'vertical',
     children: children,
-    spacing: 15,
+    spacing: 20,
 
     // PDOM
     tagName: 'div' // so that this Node can be aria-labelledby the title
@@ -194,7 +194,7 @@ function LabeledArrow( length, orientation, captionText, leftColor, rightColor, 
     headHeight: ARROW_HEAD_HEIGHT,
     headWidth: ARROW_HEAD_WIDTH,
     tailWidth: ARROW_TAIL_WIDTH,
-    lineWidth: 2,
+    lineWidth: 2.5,
     tandem: tandem
   }, options );
 
@@ -258,7 +258,7 @@ function LabeledSpectrumNode( tandem ) {
   // marks on the top and bottom.
   const strip = new Rectangle( 0, 0, SUBSECTION_WIDTH, STRIP_HEIGHT, {
     fill: 'rgb(237, 243, 246)',
-    lineWidth: 2,
+    lineWidth: 2.5,
     stroke: 'black'
   } );
   this.addChild( strip );
@@ -336,19 +336,19 @@ function LabeledSpectrumNode( tandem ) {
   );
 
   // Add the label for the visible band.  Scale it down for translations.
-  const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 12 ) } );
+  const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 16 ) } );
   const visibleBandCenterX = wavelengthSpectrumNode.centerX;
   if ( visibleBandLabel.width > strip.width / 2 ) {
     visibleBandLabel.scale( ( strip.width / 2 ) / visibleBandLabel.width );
   }
-  visibleBandLabel.center = new Vector2( visibleBandCenterX, -35 ); // TODO: 35?
+  visibleBandLabel.center = new Vector2( visibleBandCenterX, -47 );
   this.addChild( visibleBandLabel );
 
   // Add the arrow that connects the visible band label to the visible band itself.
   const visibleBandArrow = new ArrowNode( visibleBandCenterX, visibleBandLabel.bottom, visibleBandCenterX, -5, {
-    tailWidth: 2,
-    headWidth: 7,
-    headHeight: 7,
+    tailWidth: 3,
+    headWidth: 9,
+    headHeight: 9,
     tandem: tandem.createTandem( 'visibleBandArrow' )
   } );
   this.addChild( visibleBandArrow );
@@ -529,7 +529,7 @@ function addBandDivider( thisNode, frequency ) {
   const drawDividerSegment = function() {
     return new Line( 0, 0, 0, STRIP_HEIGHT / 9, {
       stroke: 'black',
-      lineWidth: 2
+      lineWidth: 2.5
     } );
   };
   for ( let i = 0; i < 5; i++ ) {
@@ -585,7 +585,7 @@ function ChirpNode( options ) {
 
   options = merge( {
     fill: 'rgb(237, 243, 246)',
-    lineWidth: 2,
+    lineWidth: 2.5,
     stroke: 'black'
   }, options );
 
@@ -612,7 +612,7 @@ function ChirpNode( options ) {
   // Create the chirp node, but create it first with a null shape, then override computeShapeBounds, then set the
   // shape.  This makes the creation of this node far faster.
   const chirpNode = new Path( null, {
-    lineWidth: 2,
+    lineWidth: 2.5,
     stroke: 'black',
     lineJoin: 'bevel'
   } );
