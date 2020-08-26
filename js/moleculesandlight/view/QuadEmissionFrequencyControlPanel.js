@@ -19,7 +19,7 @@ import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
-import radioButtonSoundPlayerFactory from '../../../../tambo/js/radioButtonSoundPlayerFactory.js';
+import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import flashlight2Image from '../../../mipmaps/flashlight_png.js';
 import heatLampImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
@@ -160,7 +160,7 @@ function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
   const radioButtonSoundPlayers = [];
   _.times( radioButtonContent.length, index => {
     radioButtonSoundPlayers.push(
-      radioButtonSoundPlayerFactory.getRadioButtonSoundPlayer( radioButtonContent.length - index - 1 )
+      multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( radioButtonContent.length - index - 1 )
     );
   } );
 
