@@ -1,7 +1,7 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
 /**
- * IO type for Molecule
+ * IO Type for Molecule
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
@@ -36,7 +36,7 @@ class MoleculeIO extends ObjectIO {
   }
 }
 
-MoleculeIO.documentation = 'IO type for a molecule.';
+MoleculeIO.documentation = 'IO Type for a molecule.';
 MoleculeIO.validator = { valueType: Molecule };
 MoleculeIO.typeName = 'MoleculeIO';
 ObjectIO.validateSubtype( MoleculeIO );
