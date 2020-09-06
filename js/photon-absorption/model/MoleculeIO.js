@@ -39,7 +39,7 @@ class MoleculeIO extends ObjectIO {
 MoleculeIO.documentation = 'IO Type for a molecule.';
 MoleculeIO.validator = { valueType: Molecule };
 MoleculeIO.typeName = 'MoleculeIO';
-ObjectIO.validateSubtype( MoleculeIO );
+ObjectIO.validateIOType( MoleculeIO );
 
 moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
 export default MoleculeIO;

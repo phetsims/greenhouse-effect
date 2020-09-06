@@ -46,7 +46,7 @@ class PhotonAbsorptionModelIO extends ObjectIO {
 PhotonAbsorptionModelIO.documentation = 'The model for Photon Absorption';
 PhotonAbsorptionModelIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel };
 PhotonAbsorptionModelIO.typeName = 'PhotonAbsorptionModelIO';
-ObjectIO.validateSubtype( PhotonAbsorptionModelIO );
+ObjectIO.validateIOType( PhotonAbsorptionModelIO );
 
 moleculesAndLight.register( 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO );
 export default PhotonAbsorptionModelIO;

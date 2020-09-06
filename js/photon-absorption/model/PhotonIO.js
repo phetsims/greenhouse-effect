@@ -62,7 +62,7 @@ class PhotonIO extends ObjectIO {
 PhotonIO.documentation = 'A Photon';
 PhotonIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.Photon };
 PhotonIO.typeName = 'PhotonIO';
-ObjectIO.validateSubtype( PhotonIO );
+ObjectIO.validateIOType( PhotonIO );
 
 moleculesAndLight.register( 'PhotonIO', PhotonIO );
 export default PhotonIO;
