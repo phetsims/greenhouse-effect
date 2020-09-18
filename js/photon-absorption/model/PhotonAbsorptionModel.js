@@ -21,7 +21,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ObservableArray from '../../../../axon/js/ObservableArray.js';
-import ObservableArrayIO from '../../../../axon/js/ObservableArrayIO.js';
 import Property from '../../../../axon/js/Property.js';
 import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -129,12 +128,12 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @public
   this.photons = new ObservableArray( {
     tandem: tandem.createTandem( 'photons' ),
-    phetioType: ObservableArrayIO( PhotonIO )
+    phetioType: ObservableArray.ObservableArrayIO( PhotonIO )
   } ); // Elements are of type Photon
 
   this.activeMolecules = new ObservableArray( {
     tandem: tandem.createTandem( 'molecules' ),
-    phetioType: ObservableArrayIO( MoleculeIO )
+    phetioType: ObservableArray.ObservableArrayIO( MoleculeIO )
   } ); // Elements are of type Molecule.
 
   // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
