@@ -14,22 +14,12 @@ import moleculesAndLight from '../../moleculesAndLight.js';
 
 const PhotonIO = new IOType( 'PhotonIO', {
   isValidValue: v => v instanceof phet.moleculesAndLight.Photon,
-
-  /**
-   * @public
-   * @override
-   *
-   * @param {Photon} photon
-   * @returns {Object}
-   */
-  toStateObject( photon ) {
-    return {
-      vx: NumberIO.toStateObject( photon.vx ),
-      vy: NumberIO.toStateObject( photon.vy ),
-      wavelength: NumberIO.toStateObject( photon.wavelength ),
-      phetioID: photon.tandem.phetioID
-    };
-  },
+  toStateObject: photon => ( {
+    vx: NumberIO.toStateObject( photon.vx ),
+    vy: NumberIO.toStateObject( photon.vy ),
+    wavelength: NumberIO.toStateObject( photon.wavelength ),
+    phetioID: photon.tandem.phetioID
+  } ),
 
   /**
    * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
