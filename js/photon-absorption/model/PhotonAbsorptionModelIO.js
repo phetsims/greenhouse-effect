@@ -16,6 +16,7 @@ const PhotonAbsorptionModelIO = new IOType( 'PhotonAbsorptionModelIO', {
   /**
    * @public
    * @param photonAbsorptionModel
+   * // TODO: https://github.com/phetsims/tandem/issues/211 is never called
    */
   clearChildInstances( photonAbsorptionModel ) {
     photonAbsorptionModel.clearPhotons();
