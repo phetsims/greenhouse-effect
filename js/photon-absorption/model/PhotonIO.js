@@ -7,13 +7,13 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import validate from '../../../../axon/js/validate.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
-class PhotonIO extends ObjectIO {
+const PhotonIO = new IOType( 'PhotonIO', {
+  isValidValue: v => v instanceof phet.moleculesAndLight.Photon,
 
   /**
    * @public
@@ -22,15 +22,14 @@ class PhotonIO extends ObjectIO {
    * @param {Photon} photon
    * @returns {Object}
    */
-  static toStateObject( photon ) {
-    validate( photon, this.validator );
+  toStateObject( photon ) {
     return {
       vx: NumberIO.toStateObject( photon.vx ),
       vy: NumberIO.toStateObject( photon.vy ),
       wavelength: NumberIO.toStateObject( photon.wavelength ),
       phetioID: photon.tandem.phetioID
     };
-  }
+  },
 
   /**
    * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
@@ -41,7 +40,7 @@ class PhotonIO extends ObjectIO {
    * @param {Object} stateObject
    * @returns {Photon}
    */
-  static fromStateObject( stateObject ) {
+  fromStateObject( stateObject ) {
     let photon;
     if ( phet.phetio.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
       photon = phet.phetio.phetioEngine.getPhetioObject( stateObject.phetioID );
@@ -51,18 +50,11 @@ class PhotonIO extends ObjectIO {
         Tandem.createFromPhetioID( stateObject.phetioID ) );
     }
 
-    validate( photon, this.validator );
     photon.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
     photon.setVelocity( NumberIO.fromStateObject( stateObject.vx ), NumberIO.fromStateObject( stateObject.vy ) );
 
     return photon;
   }
-}
-
-PhotonIO.documentation = 'A Photon';
-PhotonIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.Photon };
-PhotonIO.typeName = 'PhotonIO';
-ObjectIO.validateIOType( PhotonIO );
-
+} );
 moleculesAndLight.register( 'PhotonIO', PhotonIO );
 export default PhotonIO;

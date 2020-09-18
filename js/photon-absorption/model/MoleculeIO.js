@@ -7,39 +7,15 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import validate from '../../../../axon/js/validate.js';
-import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Molecule from './Molecule.js';
 
-class MoleculeIO extends ObjectIO {
-
-  /**
-   * @param {Molecule} molecule
-   * @public
-   * @override
-   * @returns {Object}
-   */
-  static toStateObject( molecule ) {
-    validate( molecule, this.validator );
-    return molecule.toStateObject();
-  }
-
-  /**
-   * @param {Object} stateObject
-   * @public
-   * @override
-   * @returns {Molecule}
-   */
-  static fromStateObject( stateObject ) {
-    return Molecule.fromStateObject( stateObject );
-  }
-}
-
-MoleculeIO.documentation = 'IO Type for a molecule.';
-MoleculeIO.validator = { valueType: Molecule };
-MoleculeIO.typeName = 'MoleculeIO';
-ObjectIO.validateIOType( MoleculeIO );
+const MoleculeIO = new IOType( 'MoleculeIO', {
+  valueType: Molecule,
+  toStateObject: molecule => molecule.toStateObject(),
+  fromStateObject: Molecule.fromStateObject
+} );
 
 moleculesAndLight.register( 'MoleculeIO', MoleculeIO );
 export default MoleculeIO;

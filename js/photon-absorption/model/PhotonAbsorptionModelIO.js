@@ -6,23 +6,22 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import validate from '../../../../axon/js/validate.js';
-import ObjectIO from '../../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonIO from './PhotonIO.js';
 
-class PhotonAbsorptionModelIO extends ObjectIO {
+const PhotonAbsorptionModelIO = new IOType( 'PhotonAbsorptionModelIO', {
+  isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel,
 
   /**
    * @public
    * @param photonAbsorptionModel
    */
-  static clearChildInstances( photonAbsorptionModel ) {
-    validate( photonAbsorptionModel, this.validator );
+  clearChildInstances( photonAbsorptionModel ) {
     photonAbsorptionModel.clearPhotons();
     // instance.chargedParticles.clear();
     // instance.electricFieldSensors.clear();
-  }
+  },
 
   /**
    * Create a dynamic particle as specified by the phetioID and state.
@@ -32,8 +31,7 @@ class PhotonAbsorptionModelIO extends ObjectIO {
    * @param {Object} stateObject
    * @returns {ChargedParticle}
    */
-  static addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
-    validate( photonAbsorptionModel, this.validator );
+  addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
     const value = PhotonIO.fromStateObject( stateObject );
 
     const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
@@ -41,12 +39,7 @@ class PhotonAbsorptionModelIO extends ObjectIO {
     photonAbsorptionModel.photons.add( photon );
     return photon;
   }
-}
-
-PhotonAbsorptionModelIO.documentation = 'The model for Photon Absorption';
-PhotonAbsorptionModelIO.validator = { isValidValue: v => v instanceof phet.moleculesAndLight.PhotonAbsorptionModel };
-PhotonAbsorptionModelIO.typeName = 'PhotonAbsorptionModelIO';
-ObjectIO.validateIOType( PhotonAbsorptionModelIO );
+} );
 
 moleculesAndLight.register( 'PhotonAbsorptionModelIO', PhotonAbsorptionModelIO );
 export default PhotonAbsorptionModelIO;
