@@ -119,6 +119,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   // @public {EnumerationProperty.<TimeSpeed>} - controls play speed of the simulation
   this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+    validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
     tandem: tandem.createTandem( 'timeSpeedProperty' )
   } );
 
