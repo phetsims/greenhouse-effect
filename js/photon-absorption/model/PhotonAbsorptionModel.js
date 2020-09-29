@@ -22,7 +22,6 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ObservableArray from '../../../../axon/js/ObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
-import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
@@ -98,13 +97,13 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
       WavelengthConstants.VISIBLE_WAVELENGTH,
       WavelengthConstants.UV_WAVELENGTH
     ],
-    phetioType: PropertyIO( NumberIO )
+    phetioType: Property.PropertyIO( NumberIO )
   } );
 
   // {Property.<PhotonTarget>}
   this.photonTargetProperty = new Property( initialPhotonTarget, {
     tandem: tandem.createTandem( 'photonTargetProperty' ),
-    phetioType: PropertyIO( EnumerationIO( PhotonTarget ) ),
+    phetioType: Property.PropertyIO( EnumerationIO( PhotonTarget ) ),
     validValues: PhotonTarget.VALUES
   } );
 
