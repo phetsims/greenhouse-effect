@@ -11,26 +11,25 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
-/**
- * @constructor
- * @param {Node} content - content for the dialog
- * @param {Tandem} tandem
- */
-function LightSpectrumDialog( content, tandem ) {
+class LightSpectrumDialog extends Dialog {
 
-  Dialog.call( this, content, {
+  /**
+   * @param {Node} content - content for the dialog
+   * @param {Tandem} tandem
+   */
+  constructor( content, tandem ) {
 
-    // phet-io
-    tandem: tandem,
-    phetioDynamicElement: true
-  } );
+    super( content, {
+
+      // phet-io
+      tandem: tandem,
+      phetioDynamicElement: true
+    } );
+  }
 }
 
 moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
-
-inherit( Dialog, LightSpectrumDialog );
 export default LightSpectrumDialog;
