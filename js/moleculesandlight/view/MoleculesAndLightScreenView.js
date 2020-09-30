@@ -24,7 +24,7 @@ import Display from '../../../../scenery/js/display/Display.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import DialogIO from '../../../../sun/js/DialogIO.js';
+import Dialog from '../../../../sun/js/Dialog.js';
 import Playable from '../../../../tambo/js/Playable.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -174,7 +174,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     return new LightSpectrumDialog( spectrumButtonLabel, tandem );
   }, [], {
     tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
-    phetioType: PhetioCapsuleIO( DialogIO )
+    phetioType: PhetioCapsuleIO( Dialog.DialogIO )
   } );
 
   // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
