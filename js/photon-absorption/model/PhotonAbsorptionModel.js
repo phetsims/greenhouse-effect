@@ -40,7 +40,6 @@ import NO2 from './molecules/NO2.js';
 import O2 from './molecules/O2.js';
 import O3 from './molecules/O3.js';
 import Photon from './Photon.js';
-import PhotonIO from './PhotonIO.js';
 import PhotonTarget from './PhotonTarget.js';
 import WavelengthConstants from './WavelengthConstants.js';
 
@@ -128,7 +127,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @public
   this.photons = new ObservableArray( {
     tandem: tandem.createTandem( 'photons' ),
-    phetioType: ObservableArray.ObservableArrayIO( PhotonIO )
+    phetioType: ObservableArray.ObservableArrayIO( Photon.PhotonIO )
   } ); // Elements are of type Photon
 
   this.activeMolecules = new ObservableArray( {
@@ -517,7 +516,7 @@ PhotonAbsorptionModel.PhotonAbsorptionModelIO = new IOType( 'PhotonAbsorptionMod
    * @returns {ChargedParticle}
    */
   addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
-    const value = PhotonIO.fromStateObject( stateObject );
+    const value = Photon.PhotonIO.fromStateObject( stateObject );
 
     const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
     photon.setVelocity( stateObject.vx, stateObject.vy );

@@ -13,8 +13,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
-import PhotonIO from './PhotonIO.js';
 
 /**
  * Constructor for a photon.
@@ -37,7 +39,7 @@ function Photon( wavelength, tandem ) {
   // Photons in the play area are instrumented, those in the control panel (for icons) are not.
   PhetioObject.call( this, {
     tandem: tandem,
-    phetioType: PhotonIO
+    phetioType: Photon.PhotonIO
   } );
 }
 
@@ -69,6 +71,41 @@ inherit( PhetioObject, Photon, {
    */
   step: function( dt ) {
     this.positionProperty.set( new Vector2( this.positionProperty.get().x + this.vx * dt, this.positionProperty.get().y + this.vy * dt ) );
+  }
+} );
+
+Photon.PhotonIO = new IOType( 'PhotonIO', {
+  valueType: Photon,
+  toStateObject: photon => ( {
+    vx: NumberIO.toStateObject( photon.vx ),
+    vy: NumberIO.toStateObject( photon.vy ),
+    wavelength: NumberIO.toStateObject( photon.wavelength ),
+    phetioID: photon.tandem.phetioID
+  } ),
+
+  /**
+   * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
+   * then use it.
+   * @public
+   * @override
+   *
+   * @param {Object} stateObject
+   * @returns {Photon}
+   */
+  fromStateObject( stateObject ) {
+    let photon;
+    if ( phet.phetio.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
+      photon = phet.phetio.phetioEngine.getPhetioObject( stateObject.phetioID );
+    }
+    else {
+      photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
+        Tandem.createFromPhetioID( stateObject.phetioID ) );
+    }
+
+    photon.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
+    photon.setVelocity( NumberIO.fromStateObject( stateObject.vx ), NumberIO.fromStateObject( stateObject.vy ) );
+
+    return photon;
   }
 } );
 
