@@ -29,7 +29,6 @@ import Playable from '../../../../tambo/js/Playable.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
-import PhetioCapsuleIO from '../../../../tandem/js/PhetioCapsuleIO.js';
 import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
@@ -174,7 +173,7 @@ function MoleculesAndLightScreenView( photonAbsorptionModel, tandem ) {
     return new LightSpectrumDialog( spectrumButtonLabel, tandem );
   }, [], {
     tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
-    phetioType: PhetioCapsuleIO( Dialog.DialogIO )
+    phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
   } );
 
   // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
