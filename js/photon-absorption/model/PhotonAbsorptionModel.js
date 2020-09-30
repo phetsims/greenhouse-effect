@@ -27,9 +27,10 @@ import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
-import MoleculeIO from './MoleculeIO.js';
+import Molecule from './Molecule.js';
 import CH4 from './molecules/CH4.js';
 import CO from './molecules/CO.js';
 import CO2 from './molecules/CO2.js';
@@ -39,7 +40,6 @@ import NO2 from './molecules/NO2.js';
 import O2 from './molecules/O2.js';
 import O3 from './molecules/O3.js';
 import Photon from './Photon.js';
-import PhotonAbsorptionModelIO from './PhotonAbsorptionModelIO.js';
 import PhotonIO from './PhotonIO.js';
 import PhotonTarget from './PhotonTarget.js';
 import WavelengthConstants from './WavelengthConstants.js';
@@ -133,7 +133,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   this.activeMolecules = new ObservableArray( {
     tandem: tandem.createTandem( 'molecules' ),
-    phetioType: ObservableArray.ObservableArrayIO( MoleculeIO )
+    phetioType: ObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
   } ); // Elements are of type Molecule.
 
   // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
@@ -161,7 +161,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
 
   PhetioObject.call( this, {
     tandem: tandem,
-    phetioType: PhotonAbsorptionModelIO,
+    phetioType: PhotonAbsorptionModel.PhotonAbsorptionModelIO,
     phetioState: false
   } );
 }
@@ -493,5 +493,37 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
 
 // @public {number} - horizontal velocity of photons when they leave the emitter, in picometers/second
 PhotonAbsorptionModel.PHOTON_VELOCITY = PHOTON_VELOCITY;
+
+PhotonAbsorptionModel.PhotonAbsorptionModelIO = new IOType( 'PhotonAbsorptionModelIO', {
+  valueType: PhotonAbsorptionModel,
+
+  /**
+   * @public
+   * @param photonAbsorptionModel
+   * TODO: eliminate this legacy pattern, see https://github.com/phetsims/tandem/issues/87
+   */
+  clearChildInstances( photonAbsorptionModel ) {
+    photonAbsorptionModel.clearPhotons();
+    // instance.chargedParticles.clear();
+    // instance.electricFieldSensors.clear();
+  },
+
+  /**
+   * Create a dynamic particle as specified by the phetioID and state.
+   * @public
+   * @param {Object} photonAbsorptionModel
+   * @param {Tandem} tandem
+   * @param {Object} stateObject
+   * @returns {ChargedParticle}
+   */
+  addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
+    const value = PhotonIO.fromStateObject( stateObject );
+
+    const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
+    photon.setVelocity( stateObject.vx, stateObject.vy );
+    photonAbsorptionModel.photons.add( photon );
+    return photon;
+  }
+} );
 
 export default PhotonAbsorptionModel;

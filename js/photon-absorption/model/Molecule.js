@@ -17,6 +17,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Atom from './atoms/Atom.js';
 import AtomicBond from './atoms/AtomicBond.js';
@@ -605,5 +606,11 @@ inherit( Object, Molecule, {
 
 // @public {number} - distance from the molecule to query a photon for absorption, in picometers
 Molecule.PHOTON_ABSORPTION_DISTANCE = PHOTON_ABSORPTION_DISTANCE;
+
+Molecule.MoleculeIO = new IOType( 'MoleculeIO', {
+  valueType: Molecule,
+  toStateObject: molecule => molecule.toStateObject(),
+  fromStateObject: Molecule.fromStateObject
+} );
 
 export default Molecule;
