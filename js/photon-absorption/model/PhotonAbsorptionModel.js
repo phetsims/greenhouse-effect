@@ -20,7 +20,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
@@ -125,14 +125,14 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
   // @public
-  this.photons = new ObservableArray( {
+  this.photons = createObservableArray( {
     tandem: tandem.createTandem( 'photons' ),
-    phetioType: ObservableArray.ObservableArrayIO( Photon.PhotonIO )
+    phetioType: createObservableArray.ObservableArrayIO( Photon.PhotonIO )
   } ); // Elements are of type Photon
 
-  this.activeMolecules = new ObservableArray( {
+  this.activeMolecules = createObservableArray( {
     tandem: tandem.createTandem( 'molecules' ),
-    phetioType: ObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
+    phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
   } ); // Elements are of type Molecule.
 
   // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
