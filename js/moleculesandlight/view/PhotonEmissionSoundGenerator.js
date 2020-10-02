@@ -38,7 +38,7 @@ const PLAY_MOLECULE_EMISSION_X_POSITION = 0;
 class PhotonEmissionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {ObservableArray<Photon>} photons
+   * @param {ObservableArrayDef<Photon>} photons
    * @param {Object} [options]
    */
   constructor( photons, options ) {

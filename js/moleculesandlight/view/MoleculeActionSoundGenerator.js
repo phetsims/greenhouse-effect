@@ -26,7 +26,7 @@ const ABSORPTION_TO_ACTIVITY_SOUND_DELAY = 0.2; // in seconds
 class MoleculeActionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {ObservableArray<Molecule>}activeMolecules
+   * @param {ObservableArrayDef<Molecule>}activeMolecules
    * @param {BooleanProperty} simIsRunningProperty
    * @param {BooleanProperty} isSlowMotionProperty
    * @param {Object} [options]
