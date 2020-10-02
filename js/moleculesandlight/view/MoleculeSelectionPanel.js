@@ -50,7 +50,6 @@ const MOLECULE_SCALING_FACTOR = 0.0975;
 // the focus highlights are a little larger so they look good in this rounded panel
 const HIGHLIGHT_DILATION = 1.5;
 
-
 /**
  * Constructor for a Molecules and Light control panel.
  *
@@ -99,14 +98,13 @@ function MoleculeSelectionPanel( model, tandem ) {
     return backgroundRectangle;
   }
 
-
   const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
     return {
       node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
         formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
       value: photonTarget,
       tandemName: tandemName,
-      labelContent: this.getPDOMLabel( molecule )
+      labelContent: createPDOMLabel( molecule )
     };
   };
   const moleculeOptions = { isForIcon: true };
@@ -174,29 +172,22 @@ function MoleculeSelectionPanel( model, tandem ) {
   } );
 }
 
+/**
+ * Creates the PDOM label for one of the buttons. Contains the molecular name, molecular formula, and
+ * molecular geometry. Will return something like "Carbon Monoxide, CO, Linear"
+ * @param {Molecule} molecule
+ * @returns {string}
+ */
+function createPDOMLabel( molecule ) {
+  return StringUtils.fillIn( moleculeButtonLabelPatternString, {
+    molecularName: MoleculeUtils.getMolecularName( molecule ),
+    molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
+    geometryTitle: MoleculeUtils.getGeometryTitleString( molecule )
+  } );
+}
+
 moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 
-inherit( Panel, MoleculeSelectionPanel, {
-
-  /**
-   * Get the PDOM label for one of the buttons. Contains the molecular name, molecular formula, and
-   * molecular geometry. Will return something like "Carbon Monoxide, CO, Linear"
-   * @private
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
-   */
-  getPDOMLabel: function( molecule ) {
-    const molecularNameString = MoleculeUtils.getMolecularName( molecule );
-    const geometryTitleString = MoleculeUtils.getGeometryTitleString( molecule );
-    const molecularFormulaString = MoleculeUtils.getMolecularFormula( molecule );
-
-    return StringUtils.fillIn( moleculeButtonLabelPatternString, {
-      molecularName: molecularNameString,
-      molecularFormula: molecularFormulaString,
-      geometryTitle: geometryTitleString
-    } );
-  }
-} );
+inherit( Panel, MoleculeSelectionPanel );
 
 export default MoleculeSelectionPanel;
