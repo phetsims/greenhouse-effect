@@ -136,7 +136,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   } ); // Elements are of type Molecule.
 
   // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
-  // to the photons ObservableArray because this is specifically for photon emission from the light source
+  // to the photons ObservableArrayDef because this is specifically for photon emission from the light source
   this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
   // @public - Emits when the model has been reset
