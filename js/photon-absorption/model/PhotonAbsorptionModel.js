@@ -305,7 +305,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * @param {number} dt - The incremental time step.
    */
   stepMolecules: function( dt ) {
-    const moleculesToStep = this.activeMolecules.getArray().slice( 0 );
+    const moleculesToStep = this.activeMolecules.slice( 0 );
     for ( let molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
       moleculesToStep[ molecule ].step( dt );
     }
@@ -464,7 +464,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * @returns {Array.<Molecule>} activeMolecules
    */
   getMolecules: function() {
-    return this.activeMolecules.getArray().slice( 0 );
+    return this.activeMolecules.slice( 0 );
   },
 
   /**
