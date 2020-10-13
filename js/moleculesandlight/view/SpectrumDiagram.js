@@ -178,61 +178,61 @@ inherit( LayoutBox, SpectrumDiagram, {}, {
 } );
 
 /**
- * Constructor for the labeled arrow in the spectrum window.
- *
- * @param {number} length - Length of the arrow
- * @param {string} orientation - options are 'left' or 'right'.  Determines direction of the arrow.
- * @param {string} captionText - Description of what the arrow node represents.
- * @param {string} leftColor
- * @param {string} rightColor
- * @param {Tandem} tandem
- * @constructor
+ * The labeled arrow in the spectrum window.
  */
-function LabeledArrow( length, orientation, captionText, leftColor, rightColor, tandem, options ) {
+class LabeledArrow extends ArrowNode {
+  /**
+   * @param {number} length - Length of the arrow
+   * @param {string} orientation - options are 'left' or 'right'.  Determines direction of the arrow.
+   * @param {string} captionText - Description of what the arrow node represents.
+   * @param {string} leftColor
+   * @param {string} rightColor
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   */
+  constructor( length, orientation, captionText, leftColor, rightColor, tandem, options ) {
 
-  options = merge( {
-    headHeight: ARROW_HEAD_HEIGHT,
-    headWidth: ARROW_HEAD_WIDTH,
-    tailWidth: ARROW_TAIL_WIDTH,
-    lineWidth: 2.5,
-    tandem: tandem
-  }, options );
+    options = merge( {
+      headHeight: ARROW_HEAD_HEIGHT,
+      headWidth: ARROW_HEAD_WIDTH,
+      tailWidth: ARROW_TAIL_WIDTH,
+      lineWidth: 2.5,
+      tandem: tandem
+    }, options );
 
-  const Orientation = {
-    POINTING_LEFT: 'left',
-    POINTING_RIGHT: 'right'
-  };
+    const Orientation = {
+      POINTING_LEFT: 'left',
+      POINTING_RIGHT: 'right'
+    };
 
-  // Set arrow direction and fill based on desired orientation.
-  let gradientPaint;
-  // Point the node in the right direction.
-  if ( orientation === Orientation.POINTING_LEFT ) {
-    gradientPaint = new LinearGradient( 0, 0, -length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
-    length = -length; // Negate the x component of the arrow head so that it points left.
+    // Set arrow direction and fill based on desired orientation.
+    let gradientPaint;
+    // Point the node in the right direction.
+    if ( orientation === Orientation.POINTING_LEFT ) {
+      gradientPaint = new LinearGradient( 0, 0, -length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
+      length = -length; // Negate the x component of the arrow head so that it points left.
+    }
+    else {
+      assert && assert( orientation === Orientation.POINTING_RIGHT );
+      gradientPaint = new LinearGradient( 0, 0, length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
+    }
+    assert && assert( options.fill === undefined, 'LabeledArrow sets fill' );
+    options.fill = gradientPaint;
+
+    super( 0, 0, length, 0, options );
+
+    // Create and add the textual label.  Scale it so that it can handle translations.  Max label length is the arrow
+    // length minus twice the head length.
+    const label = new Text( captionText, { font: LABEL_FONT } );
+    if ( label.width > this.width - 2 * ARROW_HEAD_WIDTH ) {
+      label.scale( ( this.width - 2 * ARROW_HEAD_WIDTH ) / label.width );
+    }
+    label.center = this.center;
+    this.addChild( label );
   }
-  else {
-    assert && assert( orientation === Orientation.POINTING_RIGHT );
-    gradientPaint = new LinearGradient( 0, 0, length, 0 ).addColorStop( 0, leftColor ).addColorStop( 1, rightColor );
-  }
-  assert && assert( options.fill === undefined, 'LabeledArrow sets fill' );
-  options.fill = gradientPaint;
-
-  ArrowNode.call( this, 0, 0, length, 0, options );
-
-  // Create and add the textual label.  Scale it so that it can handle translations.  Max label length is the arrow
-  // length minus twice the head length.
-  const label = new Text( captionText, { font: LABEL_FONT } );
-  if ( label.width > this.width - 2 * ARROW_HEAD_WIDTH ) {
-    label.scale( ( this.width - 2 * ARROW_HEAD_WIDTH ) / label.width );
-  }
-  label.center = this.center;
-  this.addChild( label );
-
 }
 
 moleculesAndLight.register( 'LabeledArrow', LabeledArrow );
-
-inherit( ArrowNode, LabeledArrow );
 
 /**
  * Class that depicts the frequencies and wavelengths of the EM spectrum and labels the subsections
