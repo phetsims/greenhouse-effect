@@ -80,7 +80,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   this.photonAbsorptionModel = tandem; // @private
 
   // @private
-  this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, tandem ), [ WavelengthConstants.IR_WAVELENGTH ], {
+  this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
     phetioType: PhetioGroup.PhetioGroupIO( Photon.PhotonIO ),
     tandem: tandem.createTandem( 'photonGroup' )
   } );

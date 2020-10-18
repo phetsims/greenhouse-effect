@@ -12,8 +12,10 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
+import merge from '../../../../phet-core/js/merge.js';
 import CouldNotYetDeserializeError from '../../../../tandem/js/CouldNotYetDeserializeError.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -22,13 +24,19 @@ import moleculesAndLight from '../../moleculesAndLight.js';
  * Constructor for a photon.
  *
  * @param {Number} wavelength
- * @param {Tandem} tandem
+ * @param {Object} [options]
  * @constructor
  */
-function Photon( wavelength, tandem ) {
+function Photon( wavelength, options ) {
+
+  options = merge( {
+    tandem: Tandem.REQUIRED,
+    phetioType: Photon.PhotonIO,
+    phetioDynamicElement: true
+  }, options );
 
   this.positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
-    tandem: tandem.createTandem( 'positionProperty' )
+    tandem: options.tandem.createTandem( 'positionProperty' )
   } );
 
   // @private
@@ -37,11 +45,7 @@ function Photon( wavelength, tandem ) {
   this.vy = 0; // y component of the photon velocity
 
   // Photons in the play area are instrumented, those in the control panel (for icons) are not.
-  PhetioObject.call( this, {
-    tandem: tandem,
-    phetioType: Photon.PhotonIO,
-    phetioDynamicElement: true
-  } );
+  PhetioObject.call( this, options );
 }
 
 moleculesAndLight.register( 'Photon', Photon );
