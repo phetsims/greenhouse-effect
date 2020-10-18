@@ -292,7 +292,7 @@ inherit( Rectangle, ObservationWindow, {
 
     // dispose all photons that leave the observation window
     for ( let i = 0; i < photonsToRemove.length; i++ ) {
-      photonsToRemove[ i ].dispose();
+      this.photonAbsorptionModel.photonGroup.disposeElement( photonsToRemove[ i ] );
     }
   },
 
