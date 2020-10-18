@@ -20,6 +20,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import flashlight2Image from '../../../mipmaps/flashlight_png.js';
 import heatLampImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
@@ -72,19 +73,19 @@ function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
   // nodes do not correspond to anything in the model.  They are just visual elements of the control panel.
   const identityTransform = ModelViewTransform2.createIdentity();
   const microwavePhotonNode = new PhotonNode(
-    new Photon( WavelengthConstants.MICRO_WAVELENGTH, tandem.createTandem( 'microwavePhotonNode' ) ),
+    new Photon( WavelengthConstants.MICRO_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
     identityTransform
   );
   const infraredPhotonNode = new PhotonNode(
-    new Photon( WavelengthConstants.IR_WAVELENGTH, tandem.createTandem( 'infraredPhotonNode' ) ),
+    new Photon( WavelengthConstants.IR_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
     identityTransform
   );
   const visiblePhotonNode = new PhotonNode(
-    new Photon( WavelengthConstants.VISIBLE_WAVELENGTH, tandem.createTandem( 'visiblePhotonNode' ) ),
+    new Photon( WavelengthConstants.VISIBLE_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
     identityTransform
   );
   const ultravioletPhotonNode = new PhotonNode(
-    new Photon( WavelengthConstants.UV_WAVELENGTH, tandem.createTandem( 'ultravioletPhotonNode' ) ),
+    new Photon( WavelengthConstants.UV_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
     identityTransform
   );
 
