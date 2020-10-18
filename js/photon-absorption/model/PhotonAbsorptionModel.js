@@ -26,6 +26,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -79,7 +80,10 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   this.photonAbsorptionModel = tandem; // @private
 
   // @private
-  this.photonGroupTandem = tandem.createGroupTandem( 'photons' );
+  this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, tandem ), [ WavelengthConstants.IR_WAVELENGTH ], {
+    phetioType: PhetioGroup.PhetioGroupIO( Photon.PhotonIO ),
+    tandem: tandem.createTandem( 'photonGroup' )
+  } );
 
   // @public - Property that indicating whether photons are being emitted from the photon emittter
   this.photonEmitterOnProperty = new BooleanProperty( false, {
@@ -203,8 +207,12 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   resetPhotons() {
 
     // Remove and dispose any photons that are currently in transit.
-    this.photons.forEach( photon => photon.dispose() );
     this.photons.clear();
+
+    // If setting state, the state engine will do this step.
+    if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
+      this.photonGroup.clear();
+    }
   },
 
   /**
@@ -288,14 +296,12 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     // Remove any photons that were marked for removal.
     this.photons.removeAll( photonsToRemove );
     for ( let i = 0; i < photonsToRemove.length; i++ ) {
-      photonsToRemove[ i ].dispose();
+      this.photonGroup.disposeElement( photonsToRemove[ i ] );
     }
   },
 
   clearPhotons: function() {
-    for ( let i = 0; i < this.photons.length; i++ ) {
-      this.photons.get( i ).dispose();
-    }
+    this.photonGroup.clear();
     this.photons.clear();
   },
 
@@ -339,7 +345,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * frames.
    */
   emitPhoton: function( advanceAmount ) {
-    const photon = new Photon( this.photonWavelengthProperty.get(), this.photonGroupTandem.createNextTandem() );
+    const photon = this.photonGroup.createNextElement( this.photonWavelengthProperty.get() );
     photon.positionProperty.set( new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y ) );
     const emissionAngle = 0; // Straight to the right.
     photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
@@ -435,8 +441,8 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     this.targetMolecule = newMolecule;
     this.activeMolecules.add( newMolecule );
 
-    // Set the photonGroupTandem so that photons created by the molecule can be registered for PhET-iO
-    newMolecule.photonGroupTandem = this.photonGroupTandem;
+    // Set the photonGroup so that photons created by the molecule can be registered for PhET-iO
+    newMolecule.photonGroup = this.photonGroup;
 
     // Emit a new photon from this molecule after absorption.
     newMolecule.photonEmittedEmitter.addListener( function( photon ) {

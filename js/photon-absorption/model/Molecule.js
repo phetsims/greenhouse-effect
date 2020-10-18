@@ -148,7 +148,7 @@ function Molecule( options ) {
   } );
 
   // @public, set by PhotonAbsorptionModel
-  this.photonGroupTandem = null;
+  this.photonGroup = null;
 
   // @public (read-only) {Emitter} - emitter for when a photon is absorbed
   this.photonAbsorbedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
@@ -509,7 +509,7 @@ inherit( Object, Molecule, {
    * @param {number} wavelength - The photon to be emitted.
    **/
   emitPhoton: function( wavelength ) {
-    const photonToEmit = new Photon( wavelength, this.photonGroupTandem.createNextTandem() );
+    const photonToEmit = this.photonGroup.createNextElement( wavelength );
     const emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
     photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
       ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );

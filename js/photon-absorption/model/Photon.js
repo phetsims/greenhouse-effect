@@ -12,8 +12,8 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
+import CouldNotYetDeserializeError from '../../../../tandem/js/CouldNotYetDeserializeError.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -39,7 +39,8 @@ function Photon( wavelength, tandem ) {
   // Photons in the play area are instrumented, those in the control panel (for icons) are not.
   PhetioObject.call( this, {
     tandem: tandem,
-    phetioType: Photon.PhotonIO
+    phetioType: Photon.PhotonIO,
+    phetioDynamicElement: true
   } );
 }
 
@@ -75,38 +76,27 @@ inherit( PhetioObject, Photon, {
 } );
 
 Photon.PhotonIO = new IOType( 'PhotonIO', {
-  valueType: Photon,
-  toStateObject: photon => ( {
-    vx: NumberIO.toStateObject( photon.vx ),
-    vy: NumberIO.toStateObject( photon.vy ),
-    wavelength: NumberIO.toStateObject( photon.wavelength ),
-    phetioID: photon.tandem.phetioID
-  } ),
+    valueType: Photon,
+    toStateObject: photon => ( {
+      vx: NumberIO.toStateObject( photon.vx ),
+      vy: NumberIO.toStateObject( photon.vy ),
+      wavelength: NumberIO.toStateObject( photon.wavelength ),
+      phetioID: photon.tandem.phetioID
+    } ),
 
-  /**
-   * This is sometimes data-type and sometimes reference-type serialization, if the photon has already be created,
-   * then use it.
-   * @public
-   * @override
-   *
-   * @param {Object} stateObject
-   * @returns {Photon}
-   */
-  fromStateObject( stateObject ) {
-    let photon;
-    if ( phet.phetio.phetioEngine.hasPhetioObject( stateObject.phetioID ) ) {
-      photon = phet.phetio.phetioEngine.getPhetioObject( stateObject.phetioID );
-    }
-    else {
-      photon = new phet.moleculesAndLight.Photon( NumberIO.fromStateObject( stateObject.wavelength ),
-        Tandem.createFromPhetioID( stateObject.phetioID ) );
-    }
+    // TODO: Should this use ReferenceIO or other shared code? https://github.com/phetsims/tandem/issues/215
+    fromStateObject: stateObject => {
+      const phetioID = stateObject.phetioID;
+      if ( phet.phetio.phetioEngine.hasPhetioObject( phetioID ) ) {
+        return phet.phetio.phetioEngine.getPhetioObject( phetioID );
+      }
+      else {
+        throw new CouldNotYetDeserializeError();
+      }
+    },
 
-    photon.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
-    photon.setVelocity( NumberIO.fromStateObject( stateObject.vx ), NumberIO.fromStateObject( stateObject.vy ) );
-
-    return photon;
+    stateToArgsForConstructor: stateObject => [ stateObject.wavelength ]
   }
-} );
+);
 
 export default Photon;
