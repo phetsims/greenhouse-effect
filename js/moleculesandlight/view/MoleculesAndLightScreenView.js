@@ -194,7 +194,7 @@ class MoleculesAndLightScreenView extends ScreenView {
         dialog.show();
 
         // if listener was fired because of accessibility
-        if ( showLightSpectrumButton.buttonModel.isA11yClicking() ) {
+        if ( showLightSpectrumButton.isPDOMClicking() ) {
           dialog.focusCloseButton();
         }
       },
