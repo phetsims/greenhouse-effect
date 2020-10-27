@@ -17,7 +17,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import VBox from '../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../sun/js/AccordionBox.js';
-import RadioButtonGroup from '../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
@@ -59,7 +59,7 @@ class WavesNode extends Node {
       return new VBox( {
         align: 'left',
         children: [
-          new RadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused' ].map( toElement ), {
+          new RectangularRadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused' ].map( toElement ), {
             orientation: 'horizontal'
           } ),
           // new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
