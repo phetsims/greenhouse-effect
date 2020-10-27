@@ -15,7 +15,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightPath from '../../../../scenery/js/accessibility/FocusHighlightPath.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
@@ -134,7 +134,7 @@ class MoleculeSelectionPanel extends  Panel {
       _.each( textList, function( text ) { text.scale( scaleFactor ); } );
     }
 
-    const radioButtons = new RadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
+    const radioButtonGroup = new RectangularRadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
       spacing: 1.75,
       baseColor: 'black',
       buttonContentXMargin: 0,
@@ -153,14 +153,14 @@ class MoleculeSelectionPanel extends  Panel {
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
-    const groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtons ) + HIGHLIGHT_DILATION;
-    radioButtons.groupFocusHighlight = new FocusHighlightPath( Shape.bounds( radioButtons.bounds.dilated( groupCoefficient ) ), {
+    const groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtonGroup ) + HIGHLIGHT_DILATION;
+    radioButtonGroup.groupFocusHighlight = new FocusHighlightPath( Shape.bounds( radioButtonGroup.bounds.dilated( groupCoefficient ) ), {
       outerLineWidth: FocusHighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: FocusHighlightPath.GROUP_INNER_LINE_WIDTH,
       innerStroke: FocusHighlightPath.FOCUS_COLOR
     } );
 
-    super( radioButtons, {
+    super( radioButtonGroup, {
       fill: 'black',
       tandem: tandem,
       tagName: 'div',

@@ -18,7 +18,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import LayoutBox from '../../../../scenery/js/nodes/LayoutBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import flashlight2Image from '../../../mipmaps/flashlight_png.js';
@@ -165,7 +165,7 @@ function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
     );
   } );
 
-  const radioButtons = new RadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
+  const radioButtonGroup = new RectangularRadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
     orientation: 'horizontal',
     spacing: 15,
     baseColor: 'black',
@@ -196,12 +196,12 @@ function QuadEmissionFrequencyControlPanel( photonAbsorptionModel, tandem ) {
   }
 
   // Set the positions of all components of the control panel.
-  energyArrow.centerX = energyText.centerX = radioButtons.centerX; // All have the same center x component.
-  energyArrow.top = radioButtons.bottom + 15; // Arrow is below the buttons by an offset which is chosen empirically.
+  energyArrow.centerX = energyText.centerX = radioButtonGroup.centerX; // All have the same center x component.
+  energyArrow.top = radioButtonGroup.bottom + 15; // Arrow is below the buttons by an offset which is chosen empirically.
   energyText.top = energyArrow.bottom;
 
   // Add all components to the control panel.
-  this.addChild( radioButtons );
+  this.addChild( radioButtonGroup );
   this.addChild( energyArrow );
   this.addChild( energyText );
 
