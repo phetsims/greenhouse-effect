@@ -13,7 +13,6 @@
     "requirejsNamespace": "GREENHOUSE_EFFECT",
     "simulation": true,
     "runnable": true,
-    "readmeCreatedManually": true,
     "supportedBrands": [
       "phet",
       "adapted-from-phet"
