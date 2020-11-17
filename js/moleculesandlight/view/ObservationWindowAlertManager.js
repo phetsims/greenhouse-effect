@@ -205,7 +205,7 @@ class ObservationWindowAlertManager {
     let alert = null;
 
     const emitterOn = model.photonEmitterOnProperty.get();
-    const hasPhotons = model.photons.length > 0;
+    const hasPhotons = model.photonGroup.count > 0;
     const targetMolecule = model.targetMolecule;
 
     if ( targetMolecule ) {

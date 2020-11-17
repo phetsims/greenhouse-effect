@@ -171,7 +171,7 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
   photonAbsorptionModel.activeMolecules.addItemAddedListener( addMoleculeToWindow );
 
   // Set up the event listeners for adding and removing photons.
-  photonAbsorptionModel.photons.addItemAddedListener( function( addedPhoton ) {
+  photonAbsorptionModel.photonGroup.elementCreatedEmitter.addListener( function( addedPhoton ) {
     const photonNode = new PhotonNode( addedPhoton, self.modelViewTransform );
     photonLayer.addChild( photonNode );
 
@@ -181,11 +181,11 @@ function ObservationWindow( photonAbsorptionModel, modelViewTransform, tandem ) 
     };
     addedPhoton.positionProperty.link( photonPositionObserver );
 
-    photonAbsorptionModel.photons.addItemRemovedListener( function removalListener( removedPhoton ) {
+    photonAbsorptionModel.photonGroup.elementDisposedEmitter.addListener( function removalListener( removedPhoton ) {
       if ( removedPhoton === addedPhoton ) {
         addedPhoton.positionProperty.hasListener( photonPositionObserver ) && addedPhoton.positionProperty.unlink( photonPositionObserver );
         photonLayer.removeChild( photonNode );
-        photonAbsorptionModel.photons.removeItemRemovedListener( removalListener );
+        photonAbsorptionModel.photonGroup.elementDisposedEmitter.removeListener( removalListener );
       }
     } );
   } );
@@ -282,18 +282,11 @@ inherit( Rectangle, ObservationWindow, {
    */
   photonCheckBounds: function() {
 
-    const photonsToRemove = [];
-    for ( let photon = 0; photon < this.photonAbsorptionModel.photons.length; photon++ ) {
-      if ( !this.particleRemovalBounds.containsPoint( this.modelViewTransform.modelToViewPosition( this.photonAbsorptionModel.photons.get( photon ).positionProperty.get() ) ) ) {
-        photonsToRemove.push( this.photonAbsorptionModel.photons.get( photon ) );
-      }
-    }
-    this.photonAbsorptionModel.photons.removeAll( photonsToRemove );
-
-    // dispose all photons that leave the observation window
-    for ( let i = 0; i < photonsToRemove.length; i++ ) {
-      this.photonAbsorptionModel.photonGroup.disposeElement( photonsToRemove[ i ] );
-    }
+    const photonsToRemove = this.photonAbsorptionModel.photonGroup.filter( photon => {
+      const position = this.modelViewTransform.modelToViewPosition( photon.positionProperty.get() );
+      return !this.particleRemovalBounds.containsPoint( position );
+    } );
+    photonsToRemove.forEach( photon => this.photonAbsorptionModel.photonGroup.disposeElement( photon ) );
   },
 
   /**

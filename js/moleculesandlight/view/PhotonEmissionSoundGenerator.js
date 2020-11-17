@@ -38,10 +38,10 @@ const PLAY_MOLECULE_EMISSION_X_POSITION = 0;
 class PhotonEmissionSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {ObservableArrayDef<Photon>} photons
+   * @param {PhetioGroup} photonGroup
    * @param {Object} [options]
    */
-  constructor( photons, options ) {
+  constructor( photonGroup, options ) {
 
     options = merge( {}, options );
     super( options );
@@ -96,7 +96,7 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
     } );
 
     // listen for new photons and play sounds or set them up to be played later when appropriate
-    photons.addItemAddedListener( photon => {
+    photonGroup.elementCreatedEmitter.addListener( photon => {
       const photonXPosition = photon.positionProperty.value.x;
 
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {

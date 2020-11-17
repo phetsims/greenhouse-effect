@@ -257,7 +257,7 @@ class MoleculesAndLightScreenView extends ScreenView {
     ) );
 
     // add the sound generator that will produce the sounds when photons are emitted by the lamps or the active molecule
-    soundManager.addSoundGenerator( new PhotonEmissionSoundGenerator( photonAbsorptionModel.photons ) );
+    soundManager.addSoundGenerator( new PhotonEmissionSoundGenerator( photonAbsorptionModel.photonGroup ) );
 
     // We may want to disable the PlayPauseButton when the light source is off, but we aren't sure yet. This will let
     // us test behavior and make sure it doesn't have other UX impacts
