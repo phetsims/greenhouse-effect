@@ -28,7 +28,6 @@ import inherit from '../../../../phet-core/js/inherit.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Molecule from './Molecule.js';
@@ -128,12 +127,6 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   // @public - convenience Property, indicating whether sim is running in slow motion
   this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
-  // @public
-  this.photons = createObservableArray( {
-    tandem: tandem.createTandem( 'photons' ),
-    phetioType: createObservableArray.ObservableArrayIO( Photon.PhotonIO )
-  } ); // Elements are of type Photon
-
   this.activeMolecules = createObservableArray( {
     tandem: tandem.createTandem( 'molecules' ),
     phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
@@ -162,11 +155,7 @@ function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
   this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
   this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
 
-  PhetioObject.call( this, {
-    tandem: tandem,
-    phetioType: PhotonAbsorptionModel.PhotonAbsorptionModelIO,
-    phetioState: false
-  } );
+  PhetioObject.call( this );
 }
 
 moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
@@ -205,9 +194,6 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * Clears all photons.
    */
   resetPhotons() {
-
-    // Remove and dispose any photons that are currently in transit.
-    this.photons.clear();
 
     // If setting state, the state engine will do this step.
     if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
@@ -282,8 +268,8 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     const photonsToRemove = [];
 
     // check for possible interaction between each photon and molecule
-    this.photons.forEach( function( photon ) {
-      self.activeMolecules.forEach( function( molecule ) {
+    this.photonGroup.forEach( photon => {
+      self.activeMolecules.forEach( molecule => {
         if ( molecule.queryAbsorbPhoton( photon ) ) {
 
           // the photon was absorbed, so put it on the removal list
@@ -294,15 +280,11 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     } );
 
     // Remove any photons that were marked for removal.
-    this.photons.removeAll( photonsToRemove );
-    for ( let i = 0; i < photonsToRemove.length; i++ ) {
-      this.photonGroup.disposeElement( photonsToRemove[ i ] );
-    }
+    photonsToRemove.forEach( photon => this.photonGroup.disposeElement( photon ) );
   },
 
   clearPhotons: function() {
     this.photonGroup.clear();
-    this.photons.clear();
   },
 
   /**
@@ -349,7 +331,6 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     photon.positionProperty.set( new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y ) );
     const emissionAngle = 0; // Straight to the right.
     photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
-    this.photons.add( photon );
 
     // indicate that a photon has been emitted from the initial emission point
     this.photonEmittedEmitter.emit( photon );
@@ -390,7 +371,8 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
       // so that the user doesn't have to wait too long in order to see something come out, but only if there
       // are no other photons in the observation window so we don't emit unlimitted photons when turning
       // on/off rapidly
-      if ( this.photonEmissionPeriodTarget === Number.POSITIVE_INFINITY && photonEmissionPeriod !== Number.POSITIVE_INFINITY && this.photons.length === 0 ) {
+      if ( this.photonEmissionPeriodTarget === Number.POSITIVE_INFINITY && photonEmissionPeriod !== Number.POSITIVE_INFINITY
+           && this.photonGroup.count === 0 ) {
 
         // only reset time on emission of first photon, there should still be a delay after subsequent photons
         this.setEmissionTimerToInitialCountdown();
@@ -444,11 +426,6 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     // Set the photonGroup so that photons created by the molecule can be registered for PhET-iO
     newMolecule.photonGroup = this.photonGroup;
 
-    // Emit a new photon from this molecule after absorption.
-    newMolecule.photonEmittedEmitter.addListener( function( photon ) {
-      self.photons.add( photon );
-    } );
-
     // Break apart into constituent molecules.
     newMolecule.brokeApartEmitter.addListener( function( constituentMolecule1, constituentMolecule2 ) {
       // Remove the molecule from the photonAbsorptionModel's list of active molecules.
@@ -495,40 +472,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
   }
 } );
 
-
 // @public {number} - horizontal velocity of photons when they leave the emitter, in picometers/second
 PhotonAbsorptionModel.PHOTON_VELOCITY = PHOTON_VELOCITY;
-
-PhotonAbsorptionModel.PhotonAbsorptionModelIO = new IOType( 'PhotonAbsorptionModelIO', {
-  valueType: PhotonAbsorptionModel,
-
-  /**
-   * @public
-   * @param photonAbsorptionModel
-   * TODO: eliminate this legacy pattern, see https://github.com/phetsims/tandem/issues/87
-   */
-  clearChildInstances( photonAbsorptionModel ) {
-    photonAbsorptionModel.clearPhotons();
-    // instance.chargedParticles.clear();
-    // instance.electricFieldSensors.clear();
-  },
-
-  /**
-   * Create a dynamic particle as specified by the phetioID and state.
-   * @public
-   * @param {Object} photonAbsorptionModel
-   * @param {Tandem} tandem
-   * @param {Object} stateObject
-   * @returns {ChargedParticle}
-   */
-  addChildElementDeprecated( photonAbsorptionModel, tandem, stateObject ) {
-    const value = Photon.PhotonIO.fromStateObject( stateObject );
-
-    const photon = new phet.moleculesAndLight.Photon( value.wavelength, tandem );
-    photon.setVelocity( stateObject.vx, stateObject.vy );
-    photonAbsorptionModel.photons.add( photon );
-    return photon;
-  }
-} );
 
 export default PhotonAbsorptionModel;
