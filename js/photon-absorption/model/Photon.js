@@ -13,7 +13,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import inherit from '../../../../phet-core/js/inherit.js';
 import merge from '../../../../phet-core/js/merge.js';
-import CouldNotYetDeserializeError from '../../../../tandem/js/CouldNotYetDeserializeError.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -82,22 +81,10 @@ inherit( PhetioObject, Photon, {
 Photon.PhotonIO = new IOType( 'PhotonIO', {
     valueType: Photon,
     toStateObject: photon => ( {
-      vx: NumberIO.toStateObject( photon.vx ),
-      vy: NumberIO.toStateObject( photon.vy ),
-      wavelength: NumberIO.toStateObject( photon.wavelength ),
-      phetioID: photon.tandem.phetioID
-    } ),
 
-    // TODO: Should this use ReferenceIO or other shared code? https://github.com/phetsims/tandem/issues/215
-    fromStateObject: stateObject => {
-      const phetioID = stateObject.phetioID;
-      if ( phet.phetio.phetioEngine.hasPhetioObject( phetioID ) ) {
-        return phet.phetio.phetioEngine.getPhetioObject( phetioID );
-      }
-      else {
-        throw new CouldNotYetDeserializeError();
-      }
-    },
+      // position is tracked via a child Property
+      wavelength: NumberIO.toStateObject( photon.wavelength )
+    } ),
 
     stateToArgsForConstructor: stateObject => [ stateObject.wavelength ]
   }
