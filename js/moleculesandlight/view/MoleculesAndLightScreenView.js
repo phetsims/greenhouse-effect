@@ -15,15 +15,15 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
-import Display from '../../../../scenery/js/display/Display.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Dialog from '../../../../sun/js/Dialog.js';
 import Playable from '../../../../tambo/js/Playable.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -35,8 +35,8 @@ import Molecule from '../../photon-absorption/model/Molecule.js';
 import PhotonAbsorptionModel from '../../photon-absorption/model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
-import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
 import MoleculesAndLightScreenSummaryNode from './MoleculesAndLightScreenSummaryNode.js';
+import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
 import ObservationWindow from './ObservationWindow.js';
 import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
@@ -228,7 +228,7 @@ class MoleculesAndLightScreenView extends ScreenView {
     // in time
     const globalKeyboardListener = event => {
       if ( !photonAbsorptionModel.runningProperty.get() ) {
-        if ( event.keyCode === KeyboardUtils.KEY_L && Display.keyStateTracker.altKeyDown ) {
+        if ( event.keyCode === KeyboardUtils.KEY_L && globalKeyStateTracker.altKeyDown ) {
           if ( timeControlNode.accessibleDisplayed ) {
 
             // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
@@ -243,7 +243,7 @@ class MoleculesAndLightScreenView extends ScreenView {
         }
       }
     };
-    Display.keyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+    globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
 
     //-----------------------------------------------------------------------------------------------------------------
     // sound generation
