@@ -1,14 +1,25 @@
 // Copyright 2020, University of Colorado Boulder
 
-import inherit from '../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
-function WavesCanvasNode( model, tandem, options ) {
-  this.model = model;
-  CanvasNode.call( this, options );
-  this.invalidatePaint();
+class WavesCanvasNode extends CanvasNode {
+  constructor( model, tandem, options ) {
+    super( options );
+    this.model = model;
+    this.invalidatePaint();
+  }
+
+  // @public
+  paintCanvas( context ) {
+    this.model.waves.forEach( wave => drawSineCurve( context, wave ) );
+  }
+
+  // @public
+  step( dt ) {
+    this.invalidatePaint();
+  }
 }
 
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
@@ -73,14 +84,5 @@ const drawSineCurve = ( context, wave ) => {
   }
   context.stroke();
 };
-
-inherit( CanvasNode, WavesCanvasNode, {
-  paintCanvas: function( context ) {
-    this.model.waves.forEach( wave => drawSineCurve( context, wave ) );
-  },
-  step: function( dt ) {
-    this.invalidatePaint();
-  }
-} );
 
 export default WavesCanvasNode;
