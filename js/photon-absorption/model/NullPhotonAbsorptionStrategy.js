@@ -6,45 +6,45 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
-/**
- * Constructor for the null absorption strategy.  This strategy does nothing.
- *
- * @param {Molecule} molecule - The molecule which will use this strategy.
- * @constructor
- */
-function NullPhotonAbsorptionStrategy( molecule ) {
+class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
 
-  // Supertype constructor
-  PhotonAbsorptionStrategy.call( this, molecule );
+  /**
+   * Constructor for the null absorption strategy.  This strategy does nothing.
+   *
+   * @param {Molecule} molecule - The molecule which will use this strategy.
+   */
+  constructor( molecule ) {
 
-}
+    // Supertype constructor
+    super( molecule );
 
-moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
-
-inherit( PhotonAbsorptionStrategy, NullPhotonAbsorptionStrategy, {
+  }
 
   /**
    * Step method for the null absorption strategy.  This does nothing.
+   * @public
    *
    * @param {number} dt - The incremental time step.
    */
-  step: function( dt ) {
+  step( dt ) {
     // Does nothing.
-  },
+  }
 
   /**
    * This strategy never absorbs.
+   * @public
    *
    * @param {Photon} photon - The photon being queried for absorption.
    * @returns {boolean}
    */
-  queryAndAbsorbPhoton: function( photon ) {
+  queryAndAbsorbPhoton( photon ) {
     return false;
   }
-} );
+}
+
+moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
 
 export default NullPhotonAbsorptionStrategy;

@@ -9,73 +9,77 @@
  **/
 
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
-/**
- * Constructor for the photon hold strategy.
- *
- * @param {Molecule} molecule - The molecule which will use this strategy.
- * @constructor
- */
-function PhotonHoldStrategy( molecule ) {
+class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
 
-  // Supertype constructor
-  PhotonAbsorptionStrategy.call( this, molecule );
-}
+  /**
+   * Constructor for the photon hold strategy.
+   *
+   * @param {Molecule} molecule - The molecule which will use this strategy.
+   */
+  constructor( molecule ) {
 
-moleculesAndLight.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
-
-inherit( PhotonAbsorptionStrategy, PhotonHoldStrategy, {
+    // Supertype constructor
+    super( molecule );
+  }
 
   /**
    * The time step function for the photon holding strategy. Holds on to the photon until the countdown time is zero
    * and then re-emits the photon.
+   * @public
    *
    * @param {number} dt - The incremental time step.
    */
-  step: function( dt ) {
+  step( dt ) {
 
     this.photonHoldCountdownTime -= dt;
     if ( this.photonHoldCountdownTime <= 0 ) {
       this.reemitPhoton();
     }
-  },
+  }
 
   /**
    * Re-emit the absorbed photon and set the molecules absorption strategy to a Null strategy.
+   * @public
    **/
-  reemitPhoton: function() {
+  reemitPhoton() {
 
     this.molecule.emitPhoton( this.absorbedWavelength );
     this.molecule.activePhotonAbsorptionStrategy = new NullPhotonAbsorptionStrategy( this.molecule );
     this.isPhotonAbsorbed = false;
 
-  },
+  }
 
   /**
    * Determine if a particular photon should be absorbed and set this absorbed wavelength to the wavelength of the
    * photon.
+   * @public
    *
    * @param {Photon} photon
    * @returns {boolean} absorbed
    **/
-  queryAndAbsorbPhoton: function( photon ) {
+  queryAndAbsorbPhoton( photon ) {
 
-    const absorbed = PhotonAbsorptionStrategy.prototype.queryAndAbsorbPhoton.call( this, photon );
+    const absorbed = super.queryAndAbsorbPhoton( photon );
     if ( absorbed ) {
       this.absorbedWavelength = photon.wavelength;
       this.photonAbsorbed();
     }
     return absorbed;
-  },
-
-  photonAbsorbed: function() {
-    console.error( 'Error: photonAbsorbed function should be implemented by descendant absorption strategies.' );
   }
 
-} );
+  /**
+   * @public
+   * @abstract
+   */
+  photonAbsorbed() {
+    console.error( 'Error: photonAbsorbed function should be implemented by descendant absorption strategies.' );
+  }
+}
+
+moleculesAndLight.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
 
 export default PhotonHoldStrategy;

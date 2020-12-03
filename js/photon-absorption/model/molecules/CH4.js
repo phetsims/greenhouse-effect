@@ -11,13 +11,12 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 
 // Model Data for Methane
 const INITIAL_CARBON_HYDROGEN_DISTANCE = 155; // In picometers.
@@ -35,50 +34,50 @@ const HYDROGEN_VIBRATION_ANGLE = Math.PI / 4;
 const HYDROGEN_VIBRATION_DISTANCE_X = HYDROGEN_VIBRATION_DISTANCE * Math.cos( HYDROGEN_VIBRATION_ANGLE );
 const HYDROGEN_VIBRATION_DISTANCE_Y = HYDROGEN_VIBRATION_DISTANCE * Math.sin( HYDROGEN_VIBRATION_ANGLE );
 
-/**
- * Constructor for a Methane molecule.
- *
- * @param {Object} [options]
- * @constructor
- */
-function CH4( options ) {
+class CH4 extends Molecule {
 
-  // Supertype constructor
-  Molecule.call( this, options );
+  /**
+   * Constructor for a Methane molecule.
+   *
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Instance data for the CH4 molecule - @private
-  this.carbonAtom = Atom.carbon();
-  this.hydrogenAtom1 = Atom.hydrogen( { topLayer: true } );
-  this.hydrogenAtom2 = Atom.hydrogen();
-  this.hydrogenAtom3 = Atom.hydrogen();
-  this.hydrogenAtom4 = Atom.hydrogen( { topLayer: true } );
+    // Supertype constructor
+    super( options );
 
-  // Configure the base class.
-  this.addAtom( this.carbonAtom );
-  this.addAtom( this.hydrogenAtom1 );
-  this.addAtom( this.hydrogenAtom2 );
-  this.addAtom( this.hydrogenAtom3 );
-  this.addAtom( this.hydrogenAtom4 );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1, { topLayer: true, atom1PositionOffset: new Vector2( 0, PERSPECTIVE_OFFSET ) } ) );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom2 ) );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom3 ) );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4, { topLayer: true, atom1PositionOffset: new Vector2( PERSPECTIVE_OFFSET / 2, -PERSPECTIVE_OFFSET ) } ) );
+    // Instance data for the CH4 molecule - @private
+    this.carbonAtom = Atom.carbon();
+    this.hydrogenAtom1 = Atom.hydrogen( { topLayer: true } );
+    this.hydrogenAtom2 = Atom.hydrogen();
+    this.hydrogenAtom3 = Atom.hydrogen();
+    this.hydrogenAtom4 = Atom.hydrogen( { topLayer: true } );
 
-  // Set up the photon wavelengths to absorb.
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
+    // Configure the base class.
+    this.addAtom( this.carbonAtom );
+    this.addAtom( this.hydrogenAtom1 );
+    this.addAtom( this.hydrogenAtom2 );
+    this.addAtom( this.hydrogenAtom3 );
+    this.addAtom( this.hydrogenAtom4 );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom1, { topLayer: true, atom1PositionOffset: new Vector2( 0, PERSPECTIVE_OFFSET ) } ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom2 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom3 ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.hydrogenAtom4, { topLayer: true, atom1PositionOffset: new Vector2( PERSPECTIVE_OFFSET / 2, -PERSPECTIVE_OFFSET ) } ) );
 
-  // Set the initial offsets.
-  this.initializeAtomOffsets();
-}
+    // Set up the photon wavelengths to absorb.
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
 
-moleculesAndLight.register( 'CH4', CH4 );
+    // Set the initial offsets.
+    this.initializeAtomOffsets();
+  }
 
-inherit( Molecule, CH4, {
 
   /**
    * Set the initial positions of the atoms which compose this molecule.
+   * @private
+   * @override
    */
-  initializeAtomOffsets: function() {
+  initializeAtomOffsets() {
 
     this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, 0 ) );
     this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -0,
@@ -92,17 +91,18 @@ inherit( Molecule, CH4, {
 
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Set the vibration behavior for this CH4 molecule. Initialize and set center of gravity position offsets for the
    * composing atoms in its vibration cycle.
+   * @public
    *
    * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration: function( vibrationRadians ) {
+  setVibration( vibrationRadians ) {
 
-    // Molecule.prototype.setVibration.call( this, vibrationRadians );
+    // super.setVibration( vibrationRadians );
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = 1.5 * Math.sin( vibrationRadians );
@@ -134,7 +134,8 @@ inherit( Molecule, CH4, {
 
     this.updateAtomPositions();
   }
+}
 
-} );
+moleculesAndLight.register( 'CH4', CH4 );
 
 export default CH4;

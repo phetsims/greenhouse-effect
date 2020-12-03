@@ -8,58 +8,55 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
+import Molecule from '../Molecule.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
 
 // Model Data for the nitrogen monoxide molecule.
 const INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
-/**
- * Constructor for a nitrogen monoxide molecule.
- *
- * @param {Object} [options]
- * @constructor
- */
-function NO( options ) {
+class NO extends Molecule {
 
-  // Supertype constructor
-  Molecule.call( this, options );
+  /**
+   * Constructor for a nitrogen monoxide molecule.
+   *
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Instance Data
-  // @private
-  this.nitrogenAtom = Atom.nitrogen();
-  this.oxygenAtom = Atom.oxygen();
+    // Supertype constructor
+    super( options );
 
-  // Configure the base class.
-  this.addAtom( this.nitrogenAtom );
-  this.addAtom( this.oxygenAtom );
-  this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.oxygenAtom, { bondCount: 2 } ) );
+    // Instance Data
+    // @private
+    this.nitrogenAtom = Atom.nitrogen();
+    this.oxygenAtom = Atom.oxygen();
 
-  // Set up the photon wavelengths to absorb.
+    // Configure the base class.
+    this.addAtom( this.nitrogenAtom );
+    this.addAtom( this.oxygenAtom );
+    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.oxygenAtom, { bondCount: 2 } ) );
 
-  // Set the initial offsets.
-  this.initializeAtomOffsets();
+    // Set up the photon wavelengths to absorb.
 
-}
-
-moleculesAndLight.register( 'NO', NO );
-
-inherit( Molecule, NO, {
+    // Set the initial offsets.
+    this.initializeAtomOffsets();
+  }
 
   /**
    * Initialize and set the COG positions for each atom which compose this NO molecule.
+   * @private
    */
-  initializeAtomOffsets: function() {
+  initializeAtomOffsets() {
 
     this.addInitialAtomCogOffset( this.nitrogenAtom, new Vector2( -INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
     this.updateAtomPositions();
 
   }
+}
 
-} );
+moleculesAndLight.register( 'NO', NO );
 
 export default NO;

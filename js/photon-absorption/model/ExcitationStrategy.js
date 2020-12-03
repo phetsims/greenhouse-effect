@@ -8,34 +8,38 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
-/**
- * Constructor for the excitation strategy.
- *
- * @param {Molecule} molecule - The molecule which will use this strategy.
- * @constructor
- */
-function ExcitationStrategy( molecule ) {
+class ExcitationStrategy extends PhotonHoldStrategy {
 
-  // Supertype constructor
-  PhotonHoldStrategy.call( this, molecule );
+  /**
+   * Constructor for the excitation strategy.
+   *
+   * @param {Molecule} molecule - The molecule which will use this strategy.
+   */
+  constructor( molecule ) {
+
+    // Supertype constructor
+    super( molecule );
+  }
+
+  /**
+   * @protected
+   */
+  photonAbsorbed() {
+    this.molecule.highElectronicEnergyStateProperty.set( true );
+  }
+
+  /**
+   * @protected
+   */
+  reemitPhoton() {
+    super.reemitPhoton();
+    this.molecule.highElectronicEnergyStateProperty.set( false );
+  }
 }
 
 moleculesAndLight.register( 'ExcitationStrategy', ExcitationStrategy );
-
-inherit( PhotonHoldStrategy, ExcitationStrategy, {
-
-  photonAbsorbed: function() {
-    this.molecule.highElectronicEnergyStateProperty.set( true );
-  },
-
-  reemitPhoton: function() {
-    PhotonHoldStrategy.prototype.reemitPhoton.call( this );
-    this.molecule.highElectronicEnergyStateProperty.set( false );
-  }
-} );
 
 export default ExcitationStrategy;

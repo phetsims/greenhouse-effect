@@ -11,7 +11,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -31,62 +30,58 @@ const lightSourceButtonLabelPatternString = moleculesAndLightStrings.a11y.lightS
 const lightSourcePressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonPressedHelpText;
 const lightSourceUnpressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonUnpressedHelpText;
 
-/**
- * Constructor for the photon emitter node.
- *
- * @param {number} width - Desired width of the emitter image in screen coords.
- * @param {PhotonAbsorptionModel} model
- * @param {Tandem} tandem
- * @constructor
- */
-function PhotonEmitterNode( width, model, tandem ) {
+class PhotonEmitterNode extends Node {
+  /**
+   * Constructor for the photon emitter node.
+   *
+   * @param {number} width - Desired width of the emitter image in screen coords.
+   * @param {PhotonAbsorptionModel} model
+   * @param {Tandem} tandem
+   */
+  constructor( width, model, tandem ) {
 
-  // supertype constructor
-  Node.call( this );
+    // supertype constructor
+    super();
 
-  // carry this through scope
-  const self = this;
+    // carry this through scope
 
-  this.model = model; // @private
+    this.model = model; // @private
 
-  // create the 'on' button for the emitter
-  this.button = new BooleanRoundStickyToggleButton( this.model.photonEmitterOnProperty, {
-    radius: 15,
-    baseColor: '#33dd33',
+    // create the 'on' button for the emitter
+    this.button = new BooleanRoundStickyToggleButton( this.model.photonEmitterOnProperty, {
+      radius: 15,
+      baseColor: '#33dd33',
 
-    // PDOM
-    appendDescription: true,
+      // PDOM
+      appendDescription: true,
 
-    tandem: tandem.createTandem( 'button' )
-  } );
+      tandem: tandem.createTandem( 'button' )
+    } );
 
-  // PDOM - this button is indicated as a 'switch' for assistive technology
-  this.button.setAriaRole( 'switch' );
+    // PDOM - this button is indicated as a 'switch' for assistive technology
+    this.button.setAriaRole( 'switch' );
 
-  // PDOM - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
-  // supertype) as using both sounds best in NVDA
-  const setAriaPressed = value => this.button.setAccessibleAttribute( 'aria-checked', value );
-  model.photonEmitterOnProperty.link( setAriaPressed );
+    // PDOM - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
+    // supertype) as using both sounds best in NVDA
+    const setAriaPressed = value => this.button.setAccessibleAttribute( 'aria-checked', value );
+    model.photonEmitterOnProperty.link( setAriaPressed );
 
-  // update the photon emitter upon changes to the photon wavelength
-  model.photonWavelengthProperty.link( function( photonWavelength ) {
-    const emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
-    self.updateImage( width, photonWavelength, tandem, emitterTandemName );
-  } );
+    // update the photon emitter upon changes to the photon wavelength
+    model.photonWavelengthProperty.link( photonWavelength => {
+      const emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
+      this.updateImage( width, photonWavelength, tandem, emitterTandemName );
+    } );
 
-  model.photonEmitterOnProperty.link( on => {
-    if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
-      this.photonEmitterOnImage.visible = on;
-    }
+    model.photonEmitterOnProperty.link( on => {
+      if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
+        this.photonEmitterOnImage.visible = on;
+      }
 
-    // PDOM - update the help text for the emitter
-    this.button.descriptionContent = on ? lightSourcePressedButtonHelpTextString : lightSourceUnpressedButtonHelpTextString;
-  } );
-}
+      // PDOM - update the help text for the emitter
+      this.button.descriptionContent = on ? lightSourcePressedButtonHelpTextString : lightSourceUnpressedButtonHelpTextString;
+    } );
+  }
 
-moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
-
-inherit( Node, PhotonEmitterNode, {
 
   /**
    * Set the appropriate images based on the current setting for the wavelength of the emitted photons.
@@ -98,7 +93,7 @@ inherit( Node, PhotonEmitterNode, {
    * @param {string} emitterTandemName
    * @private
    */
-  updateImage: function( emitterWidth, photonWavelength, tandem, emitterTandemName ) {
+  updateImage( emitterWidth, photonWavelength, tandem, emitterTandemName ) {
 
     // remove any existing children
     this.removeAllChildren();
@@ -146,6 +141,8 @@ inherit( Node, PhotonEmitterNode, {
       this.addChild( this.button );
     }
   }
-} );
+}
+
+moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
 
 export default PhotonEmitterNode;

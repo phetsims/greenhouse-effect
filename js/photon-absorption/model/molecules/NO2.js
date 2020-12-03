@@ -8,16 +8,15 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import ExcitationStrategy from '../ExcitationStrategy.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import NO from './NO.js';
 import O from './O.js';
 
@@ -32,73 +31,69 @@ const BREAK_APART_VELOCITY = 3000;
 
 //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
 const RAND = {
-  nextBoolean: function() {
-    return phet.joist.random.nextDouble() < 0.50;
-  }
+  nextBoolean: () => phet.joist.random.nextDouble() < 0.50
 };
 
-/**
- * Constructor for a nitrogen dioxide molecule.
- *
- * @param {Object} [options]
- * @constructor
- */
-function NO2( options ) {
+class NO2 extends Molecule {
+  /**
+   * Constructor for a nitrogen dioxide molecule.
+   *
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Supertype constructor
-  Molecule.call( this, options );
+    // Supertype constructor
+    super( options );
 
-  // Instance Data
-  // @private
-  this.nitrogenAtom = Atom.nitrogen();
-  this.rightOxygenAtom = Atom.oxygen();
-  this.leftOxygenAtom = Atom.oxygen();
-  this.totalMoleculeMass = this.nitrogenAtom.mass + ( 2 * this.rightOxygenAtom.mass );
-  this.initialNitrogenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
-  this.initialOxygenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );
-  this.initialOxygenHorizontalOffset = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
+    // Instance Data
+    // @private
+    this.nitrogenAtom = Atom.nitrogen();
+    this.rightOxygenAtom = Atom.oxygen();
+    this.leftOxygenAtom = Atom.oxygen();
+    this.totalMoleculeMass = this.nitrogenAtom.mass + ( 2 * this.rightOxygenAtom.mass );
+    this.initialNitrogenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
+    this.initialOxygenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );
+    this.initialOxygenHorizontalOffset = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
 
-  // Tracks the side on which the double bond is shown.  More on this where it is initialized.
-  // @private
-  this.doubleBondOnRight = RAND.nextBoolean();
+    // Tracks the side on which the double bond is shown.  More on this where it is initialized.
+    // @private
+    this.doubleBondOnRight = RAND.nextBoolean();
 
-  // Configure the base class.
-  this.addAtom( this.nitrogenAtom );
-  this.addAtom( this.rightOxygenAtom );
-  this.addAtom( this.leftOxygenAtom );
+    // Configure the base class.
+    this.addAtom( this.nitrogenAtom );
+    this.addAtom( this.rightOxygenAtom );
+    this.addAtom( this.leftOxygenAtom );
 
-  // Create the bond structure.  NO2 has a type of bond where each N-O has essentially 1.5 bonds, so we randomly
-  // choose one side to show two bonds and another to show one.
-  if ( this.doubleBondOnRight ) {
-    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
-    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
+    // Create the bond structure.  NO2 has a type of bond where each N-O has essentially 1.5 bonds, so we randomly
+    // choose one side to show two bonds and another to show one.
+    if ( this.doubleBondOnRight ) {
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
+    }
+    else {
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
+      this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
+    }
+
+
+    // Set up the photon wavelengths to absorb.
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.VISIBLE_WAVELENGTH, new ExcitationStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new BreakApartStrategy( this ) );
+
+    // Set the initial offsets.
+    this.initializeAtomOffsets();
+
   }
-  else {
-    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
-    this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
-  }
 
-
-  // Set up the photon wavelengths to absorb.
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.VISIBLE_WAVELENGTH, new ExcitationStrategy( this ) );
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new BreakApartStrategy( this ) );
-
-  // Set the initial offsets.
-  this.initializeAtomOffsets();
-
-}
-
-moleculesAndLight.register( 'NO2', NO2 );
-
-inherit( Molecule, NO2, {
 
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions when the
    * molecule is at rest (not rotating or vibrating).
+   * @private
    */
-  initializeAtomOffsets: function() {
+  initializeAtomOffsets() {
 
     this.addInitialAtomCogOffset( this.nitrogenAtom, new Vector2( 0, this.initialNitrogenVerticalOffset ) );
     this.addInitialAtomCogOffset( this.rightOxygenAtom, new Vector2( this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset ) );
@@ -106,15 +101,16 @@ inherit( Molecule, NO2, {
 
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Set the vibration behavior for this NO2 molecule.  Sets the NO2 molecule to a vibrating state then calculates
    * and sets the new position for each atom in the molecule.
+   * @public
    *
    * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration: function( vibrationRadians ) {
+  setVibration( vibrationRadians ) {
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
@@ -127,13 +123,14 @@ inherit( Molecule, NO2, {
       this.initialOxygenVerticalOffset + multFactor * maxOxygenDisplacement ) );
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Define the break apart behavior for the NO2 molecule.  Initializes and sets the velocity of constituent
    * molecules.
+   * @protected
    */
-  breakApart: function() {
+  breakApart() {
 
     // Create the constituent molecules that result from breaking apart and add them to the activeMolecules observable array.
     const nitrogenMonoxideMolecule = new NO();
@@ -164,6 +161,8 @@ inherit( Molecule, NO2, {
     nitrogenMonoxideMolecule.velocity.set( new Vector2( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) ) );
     singleOxygenMolecule.velocity.set( new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) ) );
   }
-} );
+}
+
+moleculesAndLight.register( 'NO2', NO2 );
 
 export default NO2;

@@ -7,44 +7,44 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
-/**
- * Constructor for the break apart strategy.
- *
- * @param {Molecule} molecule - The molecule which will use this strategy.
- * @constructor
- */
-function VibrationStrategy( molecule ) {
+class VibrationStrategy extends PhotonHoldStrategy {
 
-  // Supertype constructor
-  PhotonHoldStrategy.call( this, molecule );
+  /**
+   * Constructor for the break apart strategy.
+   *
+   * @param {Molecule} molecule - The molecule which will use this strategy.
+   */
+  constructor( molecule ) {
 
-}
+    // Supertype constructor
+    super( molecule );
 
-moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
+  }
 
-inherit( PhotonHoldStrategy, VibrationStrategy, {
 
   /**
    * Set this molecule to a vibrating state when a photon is absorbed.
+   * @public
    */
-  photonAbsorbed: function() {
+  photonAbsorbed() {
     this.molecule.vibratingProperty.set( true );
-  },
+  }
 
   /**
    * Re-emit the absorbed photon and stop the molecule from vibrating.
+   * @public
    */
-  reemitPhoton: function() {
+  reemitPhoton() {
 
-    PhotonHoldStrategy.prototype.reemitPhoton.call( this );
+    super.reemitPhoton();
     this.molecule.vibratingProperty.set( false );
     this.molecule.setVibration( 0 );
   }
+}
 
-} );
+moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
 
 export default VibrationStrategy;

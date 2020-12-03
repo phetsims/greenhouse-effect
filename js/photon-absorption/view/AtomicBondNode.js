@@ -8,7 +8,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
@@ -19,48 +18,44 @@ const BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
 const BOND_WIDTH_PROPORTION_TRIPLE = 0.24;
 const BOND_COLOR = 'rgb(0, 200, 0)';
 
-/**
- * Constructor for an atomic bond node.
- *
- * @param {AtomicBond} atomicBond
- * @param {ModelViewTransform2} modelViewTransform
- * @constructor
- */
+class AtomicBondNode extends Node {
 
-function AtomicBondNode( atomicBond, modelViewTransform ) {
-  assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
+  /**
+   * Constructor for an atomic bond node.
+   *
+   * @param {AtomicBond} atomicBond
+   * @param {ModelViewTransform2} modelViewTransform
+   */
+  constructor( atomicBond, modelViewTransform ) {
+    assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
 
-  // @private
-  this.atomicBond = atomicBond;
-  this.modelViewTransform = modelViewTransform;
-  this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
+    // supertype constructor
+    super();
 
-  // supertype constructor
-  Node.call( this );
+    // @private
+    this.atomicBond = atomicBond;
+    this.modelViewTransform = modelViewTransform;
+    this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
 
-  // Carry this node through the scope in nested functions.
-  const self = this;
+    // Carry this node through the scope in nested functions.
 
-  // Calculate the width to use for the bond representation(s) // @private
+    // Calculate the width to use for the bond representation(s) // @private
 
-  this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
+    this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
 
-  // Create the initial representation.
-  this.initializeRepresentation();
+    // Create the initial representation.
+    this.initializeRepresentation();
 
-  // Link the atomic bond view node to the model.  Atomic bonds must be updated when either atom changes position.
-  this.atomicBond.atom1.positionProperty.link( function() {
-    self.updateRepresentation();
-  } );
-  this.atomicBond.atom2.positionProperty.link( function() {
-    self.updateRepresentation();
-  } );
+    // Link the atomic bond view node to the model.  Atomic bonds must be updated when either atom changes position.
+    this.atomicBond.atom1.positionProperty.link( () => {
+      this.updateRepresentation();
+    } );
+    this.atomicBond.atom2.positionProperty.link( () => {
+      this.updateRepresentation();
+    } );
 
-}
+  }
 
-moleculesAndLight.register( 'AtomicBondNode', AtomicBondNode );
-
-inherit( Node, AtomicBondNode, {
 
   /**
    * Draw the initial lines which represent the atomic bonds.  This function should only be called once.  Drawing the
@@ -68,7 +63,7 @@ inherit( Node, AtomicBondNode, {
    * each case of 1, 2, or 3 atomic bonds.
    * @private
    */
-  initializeRepresentation: function() {
+  initializeRepresentation() {
 
     let bondWidth; // Width of the line representing this bond.  Dependent on the number of bonds between the atoms.
     let bond1; // First bond shared by the atoms.
@@ -110,14 +105,14 @@ inherit( Node, AtomicBondNode, {
         assert && assert( false );
         break;
     }
-  },
+  }
 
   /**
    * Update the atomic bond positions by setting the end points of line to the positions of the
    * atoms which share the bond.
    * @private
    */
-  updateRepresentation: function() {
+  updateRepresentation() {
 
     // centers of the atoms in view coordinates
     const atom1Position = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
@@ -185,6 +180,8 @@ inherit( Node, AtomicBondNode, {
 
     }
   }
-} );
+}
+
+moleculesAndLight.register( 'AtomicBondNode', AtomicBondNode );
 
 export default AtomicBondNode;

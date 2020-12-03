@@ -7,7 +7,6 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import microwavePhotonImage from '../../../images/microwave-photon_png.js';
@@ -24,39 +23,39 @@ mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = photon660Image;
 mapWavelengthToImageName[ WavelengthConstants.VISIBLE_WAVELENGTH ] = thin2Image;
 mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = photon100Image;
 
-/**
- * Constructor for a photon node.
- *
- * @param {Photon} photon
- * @param {ModelViewTransform2} modelViewTransform
- * @constructor
- */
-function PhotonNode( photon, modelViewTransform ) {
+class PhotonNode extends Node {
 
-  // supertype constructor
-  Node.call( this );
+  /**
+   * Constructor for a photon node.
+   *
+   * @param {Photon} photon
+   * @param {ModelViewTransform2} modelViewTransform
+   */
+  constructor( photon, modelViewTransform ) {
 
-  // Carry this node through the scope in nested functions.
-  const self = this;
+    // supertype constructor
+    super();
 
-  // @private
-  this.photon = photon;
-  this.modelViewTransform = modelViewTransform;
+    // Carry this node through the scope in nested functions.
 
-  // Lookup the image file that corresponds to the wavelength and add a centered image.
-  assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
-  const photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ] );
+    // @private
+    this.photon = photon;
+    this.modelViewTransform = modelViewTransform;
 
-  this.addChild( photonImage );
+    // Lookup the image file that corresponds to the wavelength and add a centered image.
+    assert && assert( mapWavelengthToImageName.hasOwnProperty( this.photon.wavelength ) );
+    const photonImage = new Image( mapWavelengthToImageName[ this.photon.wavelength ] );
 
-  // Observe position changes.
-  photon.positionProperty.link( function( position ) {
-    // Set overall position.
-    self.center = self.modelViewTransform.modelToViewPosition( position );
-  } );
+    this.addChild( photonImage );
+
+    // Observe position changes.
+    photon.positionProperty.link( position => {
+      // Set overall position.
+      this.center = this.modelViewTransform.modelToViewPosition( position );
+    } );
+  }
 }
 
 moleculesAndLight.register( 'PhotonNode', PhotonNode );
 
-inherit( Node, PhotonNode );
 export default PhotonNode;

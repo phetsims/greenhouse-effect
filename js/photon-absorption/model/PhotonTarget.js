@@ -8,8 +8,8 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 
 const controlPanelCarbonDioxideString = moleculesAndLightStrings.ControlPanel.CarbonDioxide;
 const controlPanelCarbonMonoxideString = moleculesAndLightStrings.ControlPanel.CarbonMonoxide;
@@ -30,15 +30,14 @@ const PhotonTarget = Enumeration.byKeys( [
   'SINGLE_NO2_MOLECULE',
   'SINGLE_O3_MOLECULE'
 ], {
-  beforeFreeze: function( enumeration ) {
+  beforeFreeze: enumeration => {
 
     /**
      * maps photon target to translatable string
      * @param {PhotonTarget} photonTarget
      * @returns {string} - the control panel molecule name
      */
-    enumeration.getMoleculeName = function( photonTarget ) {
-      return photonTarget === enumeration.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
+    enumeration.getMoleculeName = photonTarget => photonTarget === enumeration.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
              photonTarget === enumeration.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
              photonTarget === enumeration.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
              photonTarget === enumeration.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
@@ -47,7 +46,6 @@ const PhotonTarget = Enumeration.byKeys( [
              photonTarget === enumeration.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
              photonTarget === enumeration.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
              assert && assert( false, 'unknown' );
-    };
   }
 } );
 moleculesAndLight.register( 'PhotonTarget', PhotonTarget );

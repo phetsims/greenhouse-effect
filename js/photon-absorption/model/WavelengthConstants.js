@@ -7,8 +7,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
+import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
 
 const quadWavelengthSelectorInfraredString = moleculesAndLightStrings.QuadWavelengthSelector.Infrared;
 const quadWavelengthSelectorMicrowaveString = moleculesAndLightStrings.QuadWavelengthSelector.Microwave;
@@ -29,7 +29,7 @@ const WavelengthConstants = {
   // This is required because the simulation is driven by the wavelength value.  If this code is too unmaintainable,
   // we could rewrite the sim to use Emitter instances, each of which has a wavelength and a tandem name
   // See, for example: PhotonEmitterNode
-  getTandemName: function( wavelength ) {
+  getTandemName( wavelength ) {
     return wavelength === this.SUNLIGHT_WAVELENGTH ? 'sunlight' :
            wavelength === this.MICRO_WAVELENGTH ? 'microwave' :
            wavelength === this.IR_WAVELENGTH ? 'infrared' :
@@ -46,7 +46,7 @@ const WavelengthConstants = {
    * @param {number} wavelength
    * @returns {string}
    */
-  getLightSourceName: function( wavelength ) {
+  getLightSourceName( wavelength ) {
     return wavelength === this.MICRO_WAVELENGTH ? quadWavelengthSelectorMicrowaveString :
            wavelength === this.IR_WAVELENGTH ? quadWavelengthSelectorInfraredString :
            wavelength === this.VISIBLE_WAVELENGTH ? quadWavelengthSelectorVisibleString :

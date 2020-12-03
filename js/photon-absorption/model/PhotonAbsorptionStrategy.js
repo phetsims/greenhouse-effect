@@ -14,52 +14,51 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
 // photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
 const MIN_PHOTON_HOLD_TIME = 1.1; // seconds
 const MAX_PHOTON_HOLD_TIME = 1.3; // seconds
 
-/**
- * Constructor for photon absorption strategy.
- *
- * @param {Molecule} molecule - The molecule which will use this strategy.
- * @constructor
- */
-function PhotonAbsorptionStrategy( molecule ) {
+class PhotonAbsorptionStrategy {
 
-  // Property that contains the probability that a given photon will be absorbed.
-  this.photonAbsorptionProbabilityProperty = new Property( 0.5 ); // @private
+  /**
+   * Constructor for photon absorption strategy.
+   *
+   * @param {Molecule} molecule - The molecule which will use this strategy.
+   */
+  constructor( molecule ) {
 
-  this.molecule = molecule; // @protected
+    // Property that contains the probability that a given photon will be absorbed.
+    this.photonAbsorptionProbabilityProperty = new Property( 0.5 ); // @private
 
-  // Variables involved in the holding and re-emitting of photons.
-  // @protected
-  this.isPhotonAbsorbed = false;
-  this.photonHoldCountdownTime = 0;
-}
+    this.molecule = molecule; // @protected
 
-moleculesAndLight.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
+    // Variables involved in the holding and re-emitting of photons.
+    // @protected
+    this.isPhotonAbsorbed = false;
+    this.photonHoldCountdownTime = 0;
+  }
 
-inherit( Object, PhotonAbsorptionStrategy, {
 
   /**
    * Reset the strategy.
+   * @public
    */
-  reset: function() {
+  reset() {
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
-  },
+  }
 
   /**
    * Decide whether the provided photon should be absorbed.  By design, a given photon should only be requested once,
    * not multiple times.
+   * @public
    *
    * @param {Photon} photon
    * @returns {boolean} absorbed
    */
-  queryAndAbsorbPhoton: function( photon ) {
+  queryAndAbsorbPhoton( photon ) {
 
     // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
     // actually do it.  This essentially simulates the quantum nature of the absorption.
@@ -70,12 +69,16 @@ inherit( Object, PhotonAbsorptionStrategy, {
                                      phet.joist.random.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
     }
     return absorbed;
-  },
-
-  step: function() {
-    throw new Error( 'step should be implemented in descendant photon absorption strategies.' );
   }
 
-} );
+  /**
+   * @public
+   */
+  step() {
+    throw new Error( 'step should be implemented in descendant photon absorption strategies.' );
+  }
+}
+
+moleculesAndLight.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
 
 export default PhotonAbsorptionStrategy;

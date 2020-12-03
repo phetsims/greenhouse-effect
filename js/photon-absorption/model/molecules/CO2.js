@@ -8,13 +8,12 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 
 // Model Data for the carbon dioxide molecule.
 const INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
@@ -25,49 +24,48 @@ const INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.
 const CARBON_MAX_DEFLECTION = 40;
 const OXYGEN_MAX_DEFLECTION = Atom.carbon().mass * CARBON_MAX_DEFLECTION / ( 2 * Atom.oxygen().mass );
 
-/**
- * Constructor for a carbon dioxide molecule.
- *
- * @param {Object} [options]
- * @constructor
- */
-function CO2( options ) {
+class CO2 extends Molecule {
 
-  // Supertype constructor
-  Molecule.call( this, options );
+  /**
+   * Constructor for a carbon dioxide molecule.
+   *
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Instance data for the carbon dioxide molecule
-  // @private
-  this.carbonAtom = Atom.carbon();
-  this.oxygenAtom1 = Atom.oxygen();
-  this.oxygenAtom2 = Atom.oxygen();
+    // Supertype constructor
+    super( options );
 
-  // Configure the base class.
-  this.addAtom( this.carbonAtom );
-  this.addAtom( this.oxygenAtom1 );
-  this.addAtom( this.oxygenAtom2 );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom1, { bondCount: 2 } ) );
-  this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom2, { bondCount: 2 } ) );
+    // Instance data for the carbon dioxide molecule
+    // @private
+    this.carbonAtom = Atom.carbon();
+    this.oxygenAtom1 = Atom.oxygen();
+    this.oxygenAtom2 = Atom.oxygen();
 
-  // Set up the photon wavelengths to absorb.
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
+    // Configure the base class.
+    this.addAtom( this.carbonAtom );
+    this.addAtom( this.oxygenAtom1 );
+    this.addAtom( this.oxygenAtom2 );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom1, { bondCount: 2 } ) );
+    this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom2, { bondCount: 2 } ) );
 
-  // Set the initial offsets
-  this.initializeAtomOffsets();
+    // Set up the photon wavelengths to absorb.
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
 
-}
+    // Set the initial offsets
+    this.initializeAtomOffsets();
 
-moleculesAndLight.register( 'CO2', CO2 );
+  }
 
-inherit( Molecule, CO2, {
 
   /**
    * Set the vibration behavior for this CO2 molecule. Initialize and set center of gravity position offsets for the
    * composing atoms.
+   * @public
    *
    * @param {number} vibrationRadians Where this molecule is in its vibration cycle in radians.
    */
-  setVibration: function( vibrationRadians ) {
+  setVibration( vibrationRadians ) {
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
@@ -76,20 +74,20 @@ inherit( Molecule, CO2, {
     this.addInitialAtomCogOffset( this.oxygenAtom2, new Vector2( -INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Set the initial positions of the atoms which compose this molecule.
+   * @private
    */
-  initializeAtomOffsets: function() {
-
+  initializeAtomOffsets() {
     this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom1, new Vector2( INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom2, new Vector2( -INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
     this.updateAtomPositions();
-
   }
+}
 
-} );
+moleculesAndLight.register( 'CO2', CO2 );
 
 export default CO2;

@@ -20,17 +20,19 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Property from '../../../../axon/js/Property.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Molecule from './Molecule.js';
+import Photon from './Photon.js';
+import PhotonTarget from './PhotonTarget.js';
+import WavelengthConstants from './WavelengthConstants.js';
 import CH4 from './molecules/CH4.js';
 import CO from './molecules/CO.js';
 import CO2 from './molecules/CO2.js';
@@ -39,9 +41,6 @@ import N2 from './molecules/N2.js';
 import NO2 from './molecules/NO2.js';
 import O2 from './molecules/O2.js';
 import O3 from './molecules/O3.js';
-import Photon from './Photon.js';
-import PhotonTarget from './PhotonTarget.js';
-import WavelengthConstants from './WavelengthConstants.js';
 
 // ------- constants -------------
 
@@ -65,107 +64,103 @@ const EMITTER_OFF_EMISSION_PERIOD = Number.POSITIVE_INFINITY;
 // when stepping at "slow" speed, animate rate is reduced by this factor
 const SLOW_SPEED_FACTOR = 0.5;
 
-/**
- * Constructor for a photon absorption model.
- *
- * @param {PhotonTarget} initialPhotonTarget - Initial molecule which the photon gets fired at.
- * @param {Tandem} tandem
- * @constructor
- */
-function PhotonAbsorptionModel( initialPhotonTarget, tandem ) {
+class PhotonAbsorptionModel extends PhetioObject {
 
-  const self = this;
+  /**
+   * Constructor for a photon absorption model.
+   *
+   * @param {PhotonTarget} initialPhotonTarget - Initial molecule which the photon gets fired at.
+   * @param {Tandem} tandem
+   */
+  constructor( initialPhotonTarget, tandem ) {
+    super();
 
-  this.photonAbsorptionModel = tandem; // @private
+    this.photonAbsorptionModel = tandem; // @private
 
-  // @private
-  this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
-    phetioType: PhetioGroup.PhetioGroupIO( Photon.PhotonIO ),
-    tandem: tandem.createTandem( 'photonGroup' )
-  } );
+    // @private
+    this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
+      phetioType: PhetioGroup.PhetioGroupIO( Photon.PhotonIO ),
+      tandem: tandem.createTandem( 'photonGroup' )
+    } );
 
-  // @public - Property that indicating whether photons are being emitted from the photon emittter
-  this.photonEmitterOnProperty = new BooleanProperty( false, {
-    tandem: tandem.createTandem( 'photonEmitterOnProperty' )
-  } );
+    // @public - Property that indicating whether photons are being emitted from the photon emittter
+    this.photonEmitterOnProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'photonEmitterOnProperty' )
+    } );
 
-  // @public
-  this.photonWavelengthProperty = new Property( WavelengthConstants.IR_WAVELENGTH, {
-    tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-    units: 'meters',
-    validValues: [
-      WavelengthConstants.MICRO_WAVELENGTH,
-      WavelengthConstants.IR_WAVELENGTH,
-      WavelengthConstants.VISIBLE_WAVELENGTH,
-      WavelengthConstants.UV_WAVELENGTH
-    ],
-    phetioType: Property.PropertyIO( NumberIO )
-  } );
+    // @public
+    this.photonWavelengthProperty = new Property( WavelengthConstants.IR_WAVELENGTH, {
+      tandem: tandem.createTandem( 'photonWavelengthProperty' ),
+      units: 'meters',
+      validValues: [
+        WavelengthConstants.MICRO_WAVELENGTH,
+        WavelengthConstants.IR_WAVELENGTH,
+        WavelengthConstants.VISIBLE_WAVELENGTH,
+        WavelengthConstants.UV_WAVELENGTH
+      ],
+      phetioType: Property.PropertyIO( NumberIO )
+    } );
 
-  // {Property.<PhotonTarget>}
-  this.photonTargetProperty = new Property( initialPhotonTarget, {
-    tandem: tandem.createTandem( 'photonTargetProperty' ),
-    phetioType: Property.PropertyIO( EnumerationIO( PhotonTarget ) ),
-    validValues: PhotonTarget.VALUES
-  } );
+    // {Property.<PhotonTarget>}
+    this.photonTargetProperty = new Property( initialPhotonTarget, {
+      tandem: tandem.createTandem( 'photonTargetProperty' ),
+      phetioType: Property.PropertyIO( EnumerationIO( PhotonTarget ) ),
+      validValues: PhotonTarget.VALUES
+    } );
 
-  // @public (read-only) {null|Molecule} - A reference to the current target molecule, determined from the
-  // photonTargetProperty. If the molecule breaks apart this will become null again.
-  this.targetMolecule = null;
+    // @public (read-only) {null|Molecule} - A reference to the current target molecule, determined from the
+    // photonTargetProperty. If the molecule breaks apart this will become null again.
+    this.targetMolecule = null;
 
-  // @public (BooleanProperty) - Whether or the simulation is currently playing or paused
-  this.runningProperty = new BooleanProperty( true, {
-    tandem: tandem.createTandem( 'runningProperty' )
-  } );
+    // @public (BooleanProperty) - Whether or the simulation is currently playing or paused
+    this.runningProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'runningProperty' )
+    } );
 
-  // @public {EnumerationProperty.<TimeSpeed>} - controls play speed of the simulation
-  this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
-    validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
-    tandem: tandem.createTandem( 'timeSpeedProperty' )
-  } );
+    // @public {EnumerationProperty.<TimeSpeed>} - controls play speed of the simulation
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+      validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
+      tandem: tandem.createTandem( 'timeSpeedProperty' )
+    } );
 
-  // @public - convenience Property, indicating whether sim is running in slow motion
-  this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
+    // @public - convenience Property, indicating whether sim is running in slow motion
+    this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
-  this.activeMolecules = createObservableArray( {
-    tandem: tandem.createTandem( 'molecules' ),
-    phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
-  } ); // Elements are of type Molecule.
+    this.activeMolecules = createObservableArray( {
+      tandem: tandem.createTandem( 'molecules' ),
+      phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
+    } ); // Elements are of type Molecule.
 
-  // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
-  // to the photons ObservableArrayDef because this is specifically for photon emission from the light source
-  this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+    // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
+    // to the photons ObservableArrayDef because this is specifically for photon emission from the light source
+    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
 
-  // @public - Emits when the model has been reset
-  this.resetEmitter = new Emitter();
+    // @public - Emits when the model has been reset
+    this.resetEmitter = new Emitter();
 
-  // @public - Emits an event when the user manually steps forward one frame
-  this.manualStepEmitter = new Emitter();
+    // @public - Emits an event when the user manually steps forward one frame
+    this.manualStepEmitter = new Emitter();
 
-  // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
-  // listeners for the activeMolecules observable array have been implemented.
-  self.photonTargetProperty.link( photonTarget => self.updateActiveMolecule( photonTarget, tandem ) );
+    // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
+    // listeners for the activeMolecules observable array have been implemented.
+    this.photonTargetProperty.link( photonTarget => this.updateActiveMolecule( photonTarget, tandem ) );
 
-  // when the photon emitter is on, set to default "on" and "off" period
-  this.photonEmitterOnProperty.link( emitterOn => {
-    this.setPhotonEmissionPeriod( emitterOn ? EMITTER_ON_EMISSION_PERIOD : EMITTER_OFF_EMISSION_PERIOD );
-  } );
+    // when the photon emitter is on, set to default "on" and "off" period
+    this.photonEmitterOnProperty.link( emitterOn => {
+      this.setPhotonEmissionPeriod( emitterOn ? EMITTER_ON_EMISSION_PERIOD : EMITTER_OFF_EMISSION_PERIOD );
+    } );
 
-  // Variables that control periodic photon emission.
-  this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
-  this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
+    // Variables that control periodic photon emission.
+    this.photonEmissionCountdownTimer = Number.POSITIVE_INFINITY; // @private
+    this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
+  }
 
-  PhetioObject.call( this );
-}
-
-moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
-
-inherit( PhetioObject, PhotonAbsorptionModel, {
 
   /**
    * Reset the model to its initial state.
+   * @public
    */
-  reset: function() {
+  reset() {
 
     this.resetPhotons();
 
@@ -188,10 +183,11 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // broadcast that the model has been reset
     this.resetEmitter.emit();
-  },
+  }
 
   /**
    * Clears all photons.
+   * @public
    */
   resetPhotons() {
 
@@ -199,14 +195,15 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
       this.photonGroup.clear();
     }
-  },
+  }
 
   /**
    * Advance the molecules one step in time.  Called by the animation loop.
+   * @public
    *
    * @param {number} dt - The incremental time step.
    */
-  step: function( dt ) {
+  step( dt ) {
 
     // Reject large dt values that often result from returning to this sim when it has been hidden, e.g. when another
     // tab was open in the browser or the browser was minimized.  The nominal dt value is based on 60 fps and is
@@ -231,14 +228,15 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
       // Step the molecules.
       this.stepMolecules( dt );
     }
-  },
+  }
 
   /**
    * Check if it is time to emit any photons from the photon emitter.
+   * @public
    *
    * @param {number} dt - the incremental time step, in seconds
    */
-  checkEmissionTimer: function( dt ) {
+  checkEmissionTimer( dt ) {
 
     if ( this.photonEmissionCountdownTimer !== Number.POSITIVE_INFINITY ) {
       this.photonEmissionCountdownTimer -= dt;
@@ -248,28 +246,28 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
         this.photonEmissionCountdownTimer = this.photonEmissionPeriodTarget;
       }
     }
-  },
+  }
 
   /**
    * Sets the timer to the initial countdown time when emission is first enabled.
    * @public
    */
-  setEmissionTimerToInitialCountdown: function() {
+  setEmissionTimerToInitialCountdown() {
     this.photonEmissionCountdownTimer = INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED;
-  },
+  }
 
   /**
    * Step the photons in time.
+   * @public
    *
    * @param {number} dt - the incremental times step, in seconds
    */
-  stepPhotons: function( dt ) {
-    const self = this;
+  stepPhotons( dt ) {
     const photonsToRemove = [];
 
     // check for possible interaction between each photon and molecule
     this.photonGroup.forEach( photon => {
-      self.activeMolecules.forEach( molecule => {
+      this.activeMolecules.forEach( molecule => {
         if ( molecule.queryAbsorbPhoton( photon ) ) {
 
           // the photon was absorbed, so put it on the removal list
@@ -281,23 +279,27 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // Remove any photons that were marked for removal.
     photonsToRemove.forEach( photon => this.photonGroup.disposeElement( photon ) );
-  },
+  }
 
-  clearPhotons: function() {
+  /**
+   * @public
+   */
+  clearPhotons() {
     this.photonGroup.clear();
-  },
+  }
 
   /**
    * Step the molecules one step in time.
+   * @public
    *
    * @param {number} dt - The incremental time step.
    */
-  stepMolecules: function( dt ) {
+  stepMolecules( dt ) {
     const moleculesToStep = this.activeMolecules.slice( 0 );
     for ( let molecule = 0; molecule < moleculesToStep.length; molecule++ ) {
       moleculesToStep[ molecule ].step( dt );
     }
-  },
+  }
 
   /**
    * Step one frame manually.
@@ -305,7 +307,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    *
    * @param {number} dt - time to step forward the model by, in seconds
    */
-  manualStep: function( dt ) {
+  manualStep( dt ) {
 
     // Check if it is time to emit any photons.
     this.checkEmissionTimer( dt );
@@ -317,7 +319,7 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     this.stepMolecules( dt );
 
     this.manualStepEmitter.emit();
-  },
+  }
 
   /**
    * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target,
@@ -325,8 +327,9 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    * @param advanceAmount - amount of time that the photon should be "advanced" from its starting position.  This
    * makes it possible to make the emission stream look more constant in cases where there was a long delay between
    * frames.
+   * @public
    */
-  emitPhoton: function( advanceAmount ) {
+  emitPhoton( advanceAmount ) {
     const photon = this.photonGroup.createNextElement( this.photonWavelengthProperty.get() );
     photon.positionProperty.set( new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y ) );
     const emissionAngle = 0; // Straight to the right.
@@ -334,35 +337,38 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
 
     // indicate that a photon has been emitted from the initial emission point
     this.photonEmittedEmitter.emit( photon );
-  },
+  }
 
   /**
    * Set the wavelength of the photon to be emitted if desired frequency is not equal to the current value.
+   * @public
    *
    * @param {number} freq
    */
-  setEmittedPhotonWavelength: function( freq ) {
+  setEmittedPhotonWavelength( freq ) {
     if ( this.photonWavelengthProperty.get() !== freq ) {
       // Set the new value and send out notification of change to listeners.
       this.photonWavelengthProperty.set( freq );
     }
-  },
+  }
 
   /**
    * Get the emission position for this photonAbsorptionModel.  Useful when other models need access to this position.
+   * @public
    *
    * @returns {Vector2}
    */
-  getPhotonEmissionPosition: function() {
+  getPhotonEmissionPosition() {
     return PHOTON_EMISSION_POSITION;
-  },
+  }
 
   /**
    * Set the emission period, i.e. the time between photons.
+   * @public
    *
    * @param {number} photonEmissionPeriod - Period between photons in milliseconds.
    */
-  setPhotonEmissionPeriod: function( photonEmissionPeriod ) {
+  setPhotonEmissionPeriod( photonEmissionPeriod ) {
 
     assert && assert( photonEmissionPeriod >= 0 );
     if ( this.photonEmissionPeriodTarget !== photonEmissionPeriod ) {
@@ -390,20 +396,19 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
       }
       this.photonEmissionPeriodTarget = photonEmissionPeriod;
     }
-  },
+  }
 
   /**
    * Update the active molecule to the current photon target.  Clear the old array of active molecules, create a new
    * molecule, and then add it to the active molecules array.  Add listeners to the molecule that check for when
    * the molecule should emit a photon or break apart into constituents.
+   * @public
    *
    * @param {PhotonTarget} photonTarget - The string constant which represents the desired photon target.
    * @param {Tandem} tandem
    */
-  updateActiveMolecule: function( photonTarget, tandem ) {
-    const self = this;
-
-    this.activeMolecules.forEach( function( molecule ) { molecule.dispose(); } );
+  updateActiveMolecule( photonTarget, tandem ) {
+    this.activeMolecules.forEach( molecule => { molecule.dispose(); } );
 
     // Remove the old photon target(s).
     this.activeMolecules.clear(); // Clear the old active molecules array
@@ -427,28 +432,29 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
     newMolecule.photonGroup = this.photonGroup;
 
     // Break apart into constituent molecules.
-    newMolecule.brokeApartEmitter.addListener( function( constituentMolecule1, constituentMolecule2 ) {
+    newMolecule.brokeApartEmitter.addListener( ( constituentMolecule1, constituentMolecule2 ) => {
       // Remove the molecule from the photonAbsorptionModel's list of active molecules.
 
       newMolecule.dispose();
-      self.targetMolecule = null;
+      this.targetMolecule = null;
 
-      self.activeMolecules.remove( newMolecule );
+      this.activeMolecules.remove( newMolecule );
       // Add the constituent molecules to the photonAbsorptionModel.
-      self.activeMolecules.add( constituentMolecule1 );
-      self.activeMolecules.add( constituentMolecule2 );
+      this.activeMolecules.add( constituentMolecule1 );
+      this.activeMolecules.add( constituentMolecule2 );
 
     } );
-  },
+  }
 
   /**
    * Get the active molecules in this photonAbsorption model.  Returns a new array object holding those molecules.
+   * @public
    *
    * @returns {Array.<Molecule>} activeMolecules
    */
-  getMolecules: function() {
+  getMolecules() {
     return this.activeMolecules.slice( 0 );
-  },
+  }
 
   /**
    * Returns true if this model still contains both of the constituent molecules provided after a break apart.
@@ -460,17 +466,20 @@ inherit( PhetioObject, PhotonAbsorptionModel, {
    */
   hasBothConstituentMolecules( moleculeA, moleculeB ) {
     return this.activeMolecules.includes( moleculeA ) && this.activeMolecules.includes( moleculeB );
-  },
+  }
 
   /**
    * This method restores the active molecule.  This may seem nonsensical, and in some cases it is, but it is useful
    * in cases where an atom has broken apart and needs to be restored to its original condition.
+   * @public
    */
-  restoreActiveMolecule: function() {
+  restoreActiveMolecule() {
     const currentTarget = this.photonTargetProperty.get();
     this.updateActiveMolecule( currentTarget, this.photonAbsorptionModel );
   }
-} );
+}
+
+moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
 // @public {number} - horizontal velocity of photons when they leave the emitter, in picometers/second
 PhotonAbsorptionModel.PHOTON_VELOCITY = PHOTON_VELOCITY;

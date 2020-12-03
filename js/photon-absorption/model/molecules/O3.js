@@ -8,15 +8,14 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import inherit from '../../../../../phet-core/js/inherit.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import O from './O.js';
 import O2 from './O2.js';
 
@@ -35,66 +34,63 @@ const BREAK_APART_VELOCITY = 3000;
 
 //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
 const RAND = {
-  nextBoolean: function() {
-    return phet.joist.random.nextDouble() < 0.50;
-  }
+  nextBoolean: () => phet.joist.random.nextDouble() < 0.50
 };
 
-/**
- * Constructor for an ozone molecule.
- *
- * @param {Object} [options]
- * @constructor
- */
-function O3( options ) {
+class O3 extends Molecule {
 
-  // Supertype constructor
-  Molecule.call( this, options );
+  /**
+   * Constructor for an ozone molecule.
+   *
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // Instance Data
-  // @private
-  this.centerOxygenAtom = Atom.oxygen();
-  this.leftOxygenAtom = Atom.oxygen();
-  this.rightOxygenAtom = Atom.oxygen();
+    // Supertype constructor
+    super( options );
 
-  // Tracks the side on which the double bond is shown.  More on this where it is initialized.
-  // @private
-  this.doubleBondOnRight = RAND.nextBoolean();
+    // Instance Data
+    // @private
+    this.centerOxygenAtom = Atom.oxygen();
+    this.leftOxygenAtom = Atom.oxygen();
+    this.rightOxygenAtom = Atom.oxygen();
 
-  // Configure the base class.
-  this.addAtom( this.centerOxygenAtom );
-  this.addAtom( this.leftOxygenAtom );
-  this.addAtom( this.rightOxygenAtom );
+    // Tracks the side on which the double bond is shown.  More on this where it is initialized.
+    // @private
+    this.doubleBondOnRight = RAND.nextBoolean();
 
-  // Create the bond structure.  O3 has a type of bond where each O-O has essentially 1.5 bonds, so we randomly choose
-  // one side to sho two bonds and another to show one.
-  if ( this.doubleBondOnRight ) {
-    this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
-    this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
+    // Configure the base class.
+    this.addAtom( this.centerOxygenAtom );
+    this.addAtom( this.leftOxygenAtom );
+    this.addAtom( this.rightOxygenAtom );
+
+    // Create the bond structure.  O3 has a type of bond where each O-O has essentially 1.5 bonds, so we randomly choose
+    // one side to sho two bonds and another to show one.
+    if ( this.doubleBondOnRight ) {
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 1 } ) );
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 2 } ) );
+    }
+    else {
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
+      this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
+    }
+
+    // Set up the photon wavelengths to absorb.
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
+    this.setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new BreakApartStrategy( this ) );
+
+    // Set the initial offsets.
+    this.initializeAtomOffsets();
   }
-  else {
-    this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.leftOxygenAtom, { bondCount: 2 } ) );
-    this.addAtomicBond( new AtomicBond( this.centerOxygenAtom, this.rightOxygenAtom, { bondCount: 1 } ) );
-  }
 
-  // Set up the photon wavelengths to absorb.
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
-  this.setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new BreakApartStrategy( this ) );
-
-  // Set the initial offsets.
-  this.initializeAtomOffsets();
-}
-
-moleculesAndLight.register( 'O3', O3 );
-
-inherit( Molecule, O3, {
 
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions
    * when the molecule is at rest (not rotating or vibrating).
+   * @private
    */
-  initializeAtomOffsets: function() {
+  initializeAtomOffsets() {
 
     this.addInitialAtomCogOffset( this.centerOxygenAtom, new Vector2( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
     this.addInitialAtomCogOffset( this.leftOxygenAtom, new Vector2( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
@@ -102,15 +98,16 @@ inherit( Molecule, O3, {
 
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Set the vibration behavior for this O3 molecule.  Sets the O3 molecule to a vibrating state then
    * calculates and sets the new position for each atom in the molecule.
+   * @public
    *
    * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration: function( vibrationRadians ) {
+  setVibration( vibrationRadians ) {
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
@@ -121,12 +118,13 @@ inherit( Molecule, O3, {
     this.getVibrationAtomOffset( this.leftOxygenAtom ).setXY( multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
     this.updateAtomPositions();
 
-  },
+  }
 
   /**
    * Define the break apart behavior for the O3 molecule.  Initializes and sets the velocity of constituent molecules.
+   * @public
    */
-  breakApart: function() {
+  breakApart() {
 
     // Create the constituent molecules that result from breaking apart.
     const diatomicOxygenMolecule = new O2();
@@ -162,8 +160,9 @@ inherit( Molecule, O3, {
       new Vector2( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ),
         -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) )
     );
-
   }
-} );
+}
+
+moleculesAndLight.register( 'O3', O3 );
 
 export default O3;

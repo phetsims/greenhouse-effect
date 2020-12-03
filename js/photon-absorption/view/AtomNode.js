@@ -7,59 +7,54 @@
  * @author Jesse Greenberg
  */
 
-import inherit from '../../../../phet-core/js/inherit.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
-/**
- * Constructor for an atom node.
- *
- * @param {Atom} atom
- * @param {ModelViewTransform2} modelViewTransform
- * @constructor
- */
-function AtomNode( atom, modelViewTransform ) {
+class AtomNode extends Node {
 
-  // supertype constructor
-  Node.call( this );
+  /**
+   * Constructor for an atom node.
+   *
+   * @param {Atom} atom
+   * @param {ModelViewTransform2} modelViewTransform
+   */
+  constructor( atom, modelViewTransform ) {
 
-  // Carry this node through the scope in nested functions.
-  const self = this;
+    // supertype constructor
+    super();
 
-  // Instance Data
-  self.atom = atom; // @private
-  self.modelViewTransform = modelViewTransform; // @private
+    // Instance Data
+    this.atom = atom; // @private
+    this.modelViewTransform = modelViewTransform; // @private
 
-  // Scale the radius to the modelViewTransform.
-  const transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
+    // Scale the radius to the modelViewTransform.
+    const transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
-  // Create a color gradient which is used when the molecule enters an excitation state.
-  const haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
-  this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
-  // Don't add the highlight halo now - wait until the first time it is used.  This is done for performance reasons.
+    // Create a color gradient which is used when the molecule enters an excitation state.
+    const haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
+    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
+    // Don't add the highlight halo now - wait until the first time it is used.  This is done for performance reasons.
 
-  // Represent the atom as a shaded sphere node.
-  const atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
-  self.addChild( atomNode );
+    // Represent the atom as a shaded sphere node.
+    const atomNode = new ShadedSphereNode( transformedRadius * 2, { mainColor: this.atom.representationColor } );
+    this.addChild( atomNode );
 
-  // Link the model position to the position of this node.
-  this.atom.positionProperty.link( function() {
-    self.translation = self.modelViewTransform.modelToViewPosition( self.atom.positionProperty.get() );
-  } );
-}
+    // Link the model position to the position of this node.
+    this.atom.positionProperty.link( () => {
+      this.translation = this.modelViewTransform.modelToViewPosition( this.atom.positionProperty.get() );
+    } );
+  }
 
-moleculesAndLight.register( 'AtomNode', AtomNode );
-
-inherit( Node, AtomNode, {
 
   /**
    * Highlight this atom to represent that it is in an excited state.
    * @param {boolean} highlighted
+   * @public
    */
-  setHighlighted: function( highlighted ) {
+  setHighlighted( highlighted ) {
     if ( highlighted && !this.hasChild( this.highlightNode ) ) {
       // add the highlight halo the first time it is needed (i.e. lazily) for better performance.
       this.addChild( this.highlightNode );
@@ -72,6 +67,8 @@ inherit( Node, AtomNode, {
     // with a visibility setting (assuming the hints described in the issue are used).
     this.highlightNode.opacity = highlighted ? 0.99 : 0;
   }
-} );
+}
+
+moleculesAndLight.register( 'AtomNode', AtomNode );
 
 export default AtomNode;
