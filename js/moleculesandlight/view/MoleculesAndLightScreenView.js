@@ -15,15 +15,15 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
 import Display from '../../../../scenery/js/display/Display.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Playable from '../../../../tambo/js/Playable.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -35,8 +35,8 @@ import Molecule from '../../photon-absorption/model/Molecule.js';
 import PhotonAbsorptionModel from '../../photon-absorption/model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
-import MoleculesAndLightScreenSummaryNode from './MoleculesAndLightScreenSummaryNode.js';
 import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
+import MoleculesAndLightScreenSummaryNode from './MoleculesAndLightScreenSummaryNode.js';
 import ObservationWindow from './ObservationWindow.js';
 import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
@@ -130,7 +130,7 @@ class MoleculesAndLightScreenView extends ScreenView {
 
     // Add reset all button.
     const resetAllButton = new ResetAllButton( {
-      listener: function() { photonAbsorptionModel.reset(); },
+      listener: () => { photonAbsorptionModel.reset(); },
       bottom: this.layoutBounds.bottom - 15,
       right: this.layoutBounds.right - 15,
       radius: 18,
@@ -149,7 +149,7 @@ class MoleculesAndLightScreenView extends ScreenView {
           radius: 15,
 
           // assuming 60 frames per second
-          listener: function() { photonAbsorptionModel.manualStep( 1 / 60 ); }
+          listener: () => { photonAbsorptionModel.manualStep( 1 / 60 ); }
         }
       },
       speedRadioButtonGroupOptions: {
@@ -184,12 +184,12 @@ class MoleculesAndLightScreenView extends ScreenView {
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( ( moleculeControlPanel.width - 16 ) / buttonContent.width );
     }
-    var showLightSpectrumButton = new RectangularPushButton( {
+    const showLightSpectrumButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(98, 173, 205)',
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
-      listener: function() {
+      listener: () => {
         const dialog = lightSpectrumDialogCapsule.getElement();
         dialog.show();
 

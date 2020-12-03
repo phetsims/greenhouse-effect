@@ -15,10 +15,11 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import FocusHighlightPath from '../../../../scenery/js/accessibility/FocusHighlightPath.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import CH4 from '../../photon-absorption/model/molecules/CH4.js';
 import CO from '../../photon-absorption/model/molecules/CO.js';
 import CO2 from '../../photon-absorption/model/molecules/CO2.js';
@@ -27,7 +28,6 @@ import N2 from '../../photon-absorption/model/molecules/N2.js';
 import NO2 from '../../photon-absorption/model/molecules/NO2.js';
 import O2 from '../../photon-absorption/model/molecules/O2.js';
 import O3 from '../../photon-absorption/model/molecules/O3.js';
-import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import MolecularFormulaStrings from '../../photon-absorption/view/MolecularFormulaStrings.js';
 import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
@@ -67,7 +67,7 @@ class MoleculeSelectionPanel extends  Panel {
     // Function which creates individual panels of the control panel.  Each panel consists of a molecule name, chemical
     // formula, and a visual node representing the molecule.
     // NOTE! As a side-effect, this computes scaleFactor each time it's called.
-    function createRadioButtonContent( moleculeName, moleculeFormula, moleculeNode ) {
+    const createRadioButtonContent = ( moleculeName, moleculeFormula, moleculeNode ) => {
 
       // Create a rectangle which holds the molecular name and representing node.  Rectangle enables the proper layout
       // which is the molecular name aligned to the left of the panel and the molecule node aligned to the right.
@@ -94,7 +94,7 @@ class MoleculeSelectionPanel extends  Panel {
       backgroundRectangle.addChild( moleculeNode );
 
       return backgroundRectangle;
-    }
+    };
 
     const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
       return {
@@ -131,7 +131,7 @@ class MoleculeSelectionPanel extends  Panel {
 
     // If necessary, scale down molecule names by the minimum scale factor.
     if ( scaleFactor < 1 ) {
-      _.each( textList, function( text ) { text.scale( scaleFactor ); } );
+      _.each( textList, text => { text.scale( scaleFactor ); } );
     }
 
     const radioButtonGroup = new RectangularRadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
@@ -177,13 +177,13 @@ class MoleculeSelectionPanel extends  Panel {
  * @param {Molecule} molecule
  * @returns {string}
  */
-function createPDOMLabel( molecule ) {
+const createPDOMLabel = molecule => {
   return StringUtils.fillIn( moleculeButtonLabelPatternString, {
     molecularName: MoleculeUtils.getMolecularName( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
     geometryTitle: MoleculeUtils.getGeometryTitleString( molecule )
   } );
-}
+};
 
 moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 export default MoleculeSelectionPanel;

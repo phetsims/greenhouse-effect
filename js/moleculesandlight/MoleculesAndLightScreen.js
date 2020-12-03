@@ -21,8 +21,8 @@ class MoleculesAndLightScreen extends Screen {
    */
   constructor( tandem ) {
     super(
-      function() { return new MoleculesAndLightModel( tandem.createTandem( 'model' ) ); },
-      function( model ) { return new MoleculesAndLightScreenView( model, tandem.createTandem( 'view' ) ); }, {
+      () => new MoleculesAndLightModel( tandem.createTandem( 'model' ) ),
+      model => new MoleculesAndLightScreenView( model, tandem.createTandem( 'view' ) ), {
         backgroundColorProperty: new Property( '#C5D6E8' ),
         tandem: tandem,
         keyboardHelpNode: new MoleculesAndLightKeyboardHelpContent()

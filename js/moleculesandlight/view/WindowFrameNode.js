@@ -8,43 +8,42 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
-/**
- * Constructor for the molecules and light window frame. This is a border around the observation window.  Similar
- * to a typical stroke though each side of the border has a linear gradient.
- *
- * @param {ObservationWindow} observationWindow
- * @param {number} lineWidth - width of the window frame, similar to lineWidth for stroke in other scenery objects.
- * @param {string} innerColor - boundary color on the inside of the window frame.
- * @param {string} outerColor - boundary color along the outer edge of the window frame.
- * @constructor
- */
-function WindowFrameNode( observationWindow, innerColor, outerColor ) {
+class WindowFrameNode extends CanvasNode {
 
-  // Set inputs as class variables so they can be used in canvas methods.
-  this.observationWindow = observationWindow; // @private
-  this.lineWidth = observationWindow.frameLineWidth; // @private
-  this.innerColor = innerColor; // @private
-  this.outerColor = outerColor; // @private
+  /**
+   * Constructor for the molecules and light window frame. This is a border around the observation window.  Similar
+   * to a typical stroke though each side of the border has a linear gradient.
+   *
+   * @param {ObservationWindow} observationWindow
+   * @param {number} lineWidth - width of the window frame, similar to lineWidth for stroke in other scenery objects.
+   * @param {string} innerColor - boundary color on the inside of the window frame.
+   * @param {string} outerColor - boundary color along the outer edge of the window frame.
+   */
+  constructor( observationWindow, innerColor, outerColor ) {
 
-  // Set the canvas bounds to the observation window dilated by the desired line width.
-  const canvasBounds = observationWindow.bounds.dilated( this.lineWidth );
+    // Set the canvas bounds to the observation window dilated by the desired line width.
+    const canvasBounds = observationWindow.bounds.dilated( observationWindow.frameLineWidth );
 
-  CanvasNode.call( this, { canvasBounds: canvasBounds } );
-  this.invalidatePaint();
+    super( { canvasBounds: canvasBounds } );
 
-}
+    // Set inputs as class variables so they can be used in canvas methods.
+    this.observationWindow = observationWindow; // @private
+    this.lineWidth = observationWindow.frameLineWidth; // @private
+    this.innerColor = innerColor; // @private
+    this.outerColor = outerColor; // @private
 
-moleculesAndLight.register( 'WindowFrameNode', WindowFrameNode );
 
-inherit( CanvasNode, WindowFrameNode, {
+    this.invalidatePaint();
+
+  }
 
   // @param {CanvasRenderingContext2D} context
-  // @private
-  paintCanvas: function( context ) {
+  // @override
+  // @protected
+  paintCanvas( context ) {
 
     // Draw the top section of the window frame
     this.drawFrameSide(
@@ -106,7 +105,7 @@ inherit( CanvasNode, WindowFrameNode, {
       'topRight',
       new Vector2( this.observationWindow.rectWidth - this.observationWindow.cornerXRadius, this.observationWindow.cornerYRadius ),
       context );
-  },
+  }
 
   /**
    * Draw a corner of the window frame.
@@ -116,7 +115,7 @@ inherit( CanvasNode, WindowFrameNode, {
    * @param {CanvasRenderingContext2D} context - Context for the canvas methods.
    * @private
    */
-  drawFrameCorner: function( corner, radialCenter, context ) {
+  drawFrameCorner( corner, radialCenter, context ) {
 
     // Determine the initial and final angles for arc methods based on input corner.
     let initialAngle;
@@ -156,7 +155,7 @@ inherit( CanvasNode, WindowFrameNode, {
     context.lineWidth = this.lineWidth;
     context.stroke();
 
-  },
+  }
 
   /**
    * Function which creates the sections of the frame that span the width.  These sections are the top and
@@ -170,7 +169,7 @@ inherit( CanvasNode, WindowFrameNode, {
    * @param {CanvasRenderingContext2D} context - The drawing context
    * @private
    */
-  drawFrameSide: function( side, x, y, width, height, context ) {
+  drawFrameSide( side, x, y, width, height, context ) {
 
     // Create the linear gradient and add some length or height buffers for the window frame pieces.  Parameters of
     // the gradient are dependent on the desired side of the frame.
@@ -207,6 +206,8 @@ inherit( CanvasNode, WindowFrameNode, {
     context.fillRect( x, y, width, height );
 
   }
-} );
+}
+
+moleculesAndLight.register( 'WindowFrameNode', WindowFrameNode );
 
 export default WindowFrameNode;
