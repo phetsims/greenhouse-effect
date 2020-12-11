@@ -245,6 +245,13 @@ class MoleculesAndLightScreenView extends ScreenView {
     };
     globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
 
+    // the light spectrum dialog and emission frequency control panel are removed in the
+    // Open Sci Ed version
+    if ( MoleculesAndLightQueryParameters.openSciEd ) {
+      this.pdomPlayAreaNode.removeChild( showLightSpectrumButton );
+      this.pdomPlayAreaNode.removeChild( photonEmissionControlPanel );
+    }
+
     //-----------------------------------------------------------------------------------------------------------------
     // sound generation
     //-----------------------------------------------------------------------------------------------------------------

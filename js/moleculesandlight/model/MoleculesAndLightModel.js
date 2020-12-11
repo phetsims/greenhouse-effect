@@ -6,6 +6,7 @@
  * @author Jesse Greenberg
  */
 
+import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonAbsorptionModel from '../../photon-absorption/model/PhotonAbsorptionModel.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
@@ -15,7 +16,9 @@ import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
  */
 class MoleculesAndLightModel extends PhotonAbsorptionModel {
   constructor( tandem ) {
-    super( PhotonTarget.SINGLE_CO_MOLECULE, tandem );
+
+    const initialTarget = MoleculesAndLightQueryParameters.openSciEd ? PhotonTarget.SINGLE_N2_MOLECULE : PhotonTarget.SINGLE_CO_MOLECULE;
+    super( initialTarget, tandem );
 
     // Clear all photons to avoid cases where photons of the previous wavelength
     // could be absorbed after new wavelength was selected. Some users interpreted
