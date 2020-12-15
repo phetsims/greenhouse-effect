@@ -61,7 +61,6 @@ class PhotonEmitterNode extends Node {
         font: new PhetFont( 12 ),
         fill: 'white',
         maxWidth: 100
-        // centerTop: this.photonEmitterOffImage.centerBottom
       } );
       this.addChild( this.lightSourceLabel );
 
@@ -153,7 +152,7 @@ class PhotonEmitterNode extends Node {
     if ( MoleculesAndLightQueryParameters.openSciEd ) {
       assert && assert( this.lightSourceLabel, 'label should be defined for Open Sci Ed' );
       this.addChild( this.lightSourceLabel );
-      this.lightSourceLabel.centerTop = this.centerBottom;
+      this.lightSourceLabel.centerTop = this.photonEmitterOnImage.centerBottom;
     }
 
     // PDOM - update the accessible name for the button
