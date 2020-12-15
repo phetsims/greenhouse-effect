@@ -88,7 +88,7 @@ class ObservationWindow extends Rectangle {
 
     // Create and add the photon emitter.
     const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
-    photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ) );
+    photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ).plus( new Vector2( 0, photonEmitterNode.openSciEdLabelHeight / 2 ) ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
     // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
