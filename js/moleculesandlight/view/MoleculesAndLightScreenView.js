@@ -20,6 +20,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
 import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
+import AriaHasPopUpMutator from '../../../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -211,7 +212,7 @@ class MoleculesAndLightScreenView extends ScreenView {
     } );
 
     // pdom - add an attribute that lets the user know the button opens a menu
-    showLightSpectrumButton.setAccessibleAttribute( 'aria-haspopup', 'dialog' );
+    AriaHasPopUpMutator.mutateNode( showLightSpectrumButton, true );
 
     showLightSpectrumButton.centerTop = ( new Vector2( moleculeControlPanel.centerX, timeControlNode.bottom + 13 ) );
     this.pdomPlayAreaNode.addChild( showLightSpectrumButton );
