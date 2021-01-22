@@ -5,12 +5,13 @@
  * some length of time.  This is to be inherited by the general PhotonAbsorptionStrategy class.
  */
 
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 // random boolean generator
 const RAND = {
-  nextBoolean: () => phet.joist.random.nextDouble() < 0.50
+  nextBoolean: () => dotRandom.nextDouble() < 0.50
 };
 
 class RotationStrategy extends PhotonHoldStrategy {

@@ -14,6 +14,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 
 // photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
@@ -62,11 +63,11 @@ class PhotonAbsorptionStrategy {
 
     // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
     // actually do it.  This essentially simulates the quantum nature of the absorption.
-    const absorbed = ( !this.isPhotonAbsorbed ) && ( phet.joist.random.nextDouble() < this.photonAbsorptionProbabilityProperty.get() );
+    const absorbed = ( !this.isPhotonAbsorbed ) && ( dotRandom.nextDouble() < this.photonAbsorptionProbabilityProperty.get() );
     if ( absorbed ) {
       this.isPhotonAbsorbed = true;
       this.photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME +
-                                     phet.joist.random.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
+                                     dotRandom.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
     }
     return absorbed;
   }

@@ -7,6 +7,7 @@
  * @author Jesse Greenberg
  */
 
+import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
@@ -34,7 +35,7 @@ const BREAK_APART_VELOCITY = 3000;
 
 //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
 const RAND = {
-  nextBoolean: () => phet.joist.random.nextDouble() < 0.50
+  nextBoolean: () => dotRandom.nextDouble() < 0.50
 };
 
 class O3 extends Molecule {
@@ -142,12 +143,12 @@ class O3 extends Molecule {
       diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
       diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.rightOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
         ( this.getInitialAtomCogOffset( this.centerOxygenAtom ).y + this.getInitialAtomCogOffset( this.rightOxygenAtom ).y ) / 2 );
-      breakApartAngle = Math.PI / 4 + phet.joist.random.nextDouble() * Math.PI / 4;
+      breakApartAngle = Math.PI / 4 + dotRandom.nextDouble() * Math.PI / 4;
       singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
     }
     else {
       diatomicOxygenMolecule.rotate( diatomicMoleculeRotationAngle );
-      breakApartAngle = Math.PI / 2 + phet.joist.random.nextDouble() * Math.PI / 4;
+      breakApartAngle = Math.PI / 2 + dotRandom.nextDouble() * Math.PI / 4;
       diatomicOxygenMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).x + this.getInitialAtomCogOffset( this.centerOxygenAtom ).x ) / 2,
         ( this.getInitialAtomCogOffset( this.leftOxygenAtom ).y + this.getInitialAtomCogOffset( this.centerOxygenAtom ).y ) / 2 );
       singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );

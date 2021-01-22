@@ -7,6 +7,7 @@
  * @author Jesse Greenberg
  */
 
+import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import moleculesAndLight from '../../../moleculesAndLight.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
@@ -31,7 +32,7 @@ const BREAK_APART_VELOCITY = 3000;
 
 //Random boolean generator.  Used to control the side on which the delocalized bond is depicted.
 const RAND = {
-  nextBoolean: () => phet.joist.random.nextDouble() < 0.50
+  nextBoolean: () => dotRandom.nextDouble() < 0.50
 };
 
 class NO2 extends Molecule {
@@ -148,12 +149,12 @@ class NO2 extends Molecule {
       nitrogenMonoxideMolecule.rotate( -diatomicMoleculeRotationAngle );
       nitrogenMonoxideMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.nitrogenAtom ).x + this.getInitialAtomCogOffset( this.rightOxygenAtom ).x ) / 2,
         ( this.getInitialAtomCogOffset( this.nitrogenAtom ).y + this.getInitialAtomCogOffset( this.rightOxygenAtom ).y ) / 2 );
-      breakApartAngle = Math.PI / 4 + phet.joist.random.nextDouble() * Math.PI / 4;
+      breakApartAngle = Math.PI / 4 + dotRandom.nextDouble() * Math.PI / 4;
       singleOxygenMolecule.setCenterOfGravityPos( -this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset );
     }
     else {
       nitrogenMonoxideMolecule.rotate( Math.PI + diatomicMoleculeRotationAngle );
-      breakApartAngle = Math.PI / 2 + phet.joist.random.nextDouble() * Math.PI / 4;
+      breakApartAngle = Math.PI / 2 + dotRandom.nextDouble() * Math.PI / 4;
       nitrogenMonoxideMolecule.setCenterOfGravityPos( ( this.getInitialAtomCogOffset( this.nitrogenAtom ).x + this.getInitialAtomCogOffset( this.leftOxygenAtom ).x ) / 2,
         ( this.getInitialAtomCogOffset( this.nitrogenAtom ).y + this.getInitialAtomCogOffset( this.leftOxygenAtom ).y ) / 2 );
       singleOxygenMolecule.setCenterOfGravityPos( this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset );

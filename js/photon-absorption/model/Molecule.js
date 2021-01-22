@@ -12,6 +12,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -529,7 +530,7 @@ class Molecule {
    **/
   emitPhoton( wavelength ) {
     const photonToEmit = this.photonGroup.createNextElement( wavelength );
-    const emissionAngle = phet.joist.random.nextDouble() * Math.PI * 2;
+    const emissionAngle = dotRandom.nextDouble() * Math.PI * 2;
     photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
       ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
     const centerOfGravityPosRef = this.centerOfGravityProperty.get();
