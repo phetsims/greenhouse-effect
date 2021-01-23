@@ -193,11 +193,7 @@ class MoleculesAndLightScreenView extends ScreenView {
       listener: () => {
         const dialog = lightSpectrumDialogCapsule.getElement();
         dialog.show();
-
-        // if listener was fired because of accessibility
-        if ( showLightSpectrumButton.isPDOMClicking() ) {
-          dialog.focusCloseButton();
-        }
+        dialog.focusCloseButton();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 

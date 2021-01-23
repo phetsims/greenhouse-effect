@@ -125,7 +125,7 @@ class ObservationWindow extends Rectangle {
         // pdom
         // move focus to the emission control slider only when the button is clicked
         // retain focus on other elements if button was clicked without focus
-        this.returnMoleculeButtonNode.isFocused() && photonEmitterNode.button.focus();
+        photonEmitterNode.button.focus();
 
         photonAbsorptionModel.restoreActiveMolecule();
         this.returnMoleculeButtonVisibleProperty.set( false );
