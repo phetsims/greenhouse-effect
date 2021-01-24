@@ -68,7 +68,7 @@ class Molecule {
       tandem: Tandem.OPTIONAL // not needed when part of the selection radio buttons.
     }, options );
 
-    // TODO: Instrument using PhetioGroup, see https://github.com/phetsims/tandem/issues/87
+    // TODO (phet-io): Should this be an assertion?  Why is this here?
     options.tandem = Tandem.OPTIONAL;
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
