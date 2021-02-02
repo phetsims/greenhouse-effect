@@ -218,8 +218,8 @@ class MoleculesAndLightScreenView extends ScreenView {
     this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
     // PDOM - the accessible order for the control area contents
-    this.pdomPlayAreaNode.accessibleOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
-    this.pdomControlAreaNode.accessibleOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
+    this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
+    this.pdomControlAreaNode.pdomOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
     // Alternative Input - no matter where focus is in the document, pressing alt + k will manually step forward
     // in time

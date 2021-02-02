@@ -165,7 +165,7 @@ class SpectrumDiagram extends LayoutBox {
     } );
 
     // PDOM - in descriptions, the decreasing wavelength comes before the spectrum
-    this.accessibleOrder = [ title, frequencyArrow, decreasingWavelengthNode, spectrum ];
+    this.pdomOrder = [ title, frequencyArrow, decreasingWavelengthNode, spectrum ];
   }
 
 
