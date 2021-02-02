@@ -371,7 +371,7 @@ class LabeledSpectrumNode extends Node {
     // workaround for iOS Safari, which has a bug that pronounces the nested list item role as "unpronouncable" -
     // removing the default bullet style and setting the role explicitly gets around the problem
     this.ariaRole = 'list';
-    this.setAccessibleAttribute( 'style', 'list-style: none;' );
+    this.setPDOMAttribute( 'style', 'list-style: none;' );
   }
 }
 
@@ -559,7 +559,7 @@ const addFrequencyAndLabelDescriptions = ( node, label, frequencyDescription, wa
   // workaround for iOS Safari, which has a bug that pronounces the nested list item role as "unpronouncable" -
   // removing the default bullet style and setting the role explicitly gets around the problem
   node.ariaRole = 'list';
-  node.setAccessibleAttribute( 'style', 'list-style: none;' );
+  node.setPDOMAttribute( 'style', 'list-style: none;' );
 
 
   if ( options.graphicalDescription ) {
