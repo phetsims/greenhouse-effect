@@ -226,7 +226,7 @@ class MoleculesAndLightScreenView extends ScreenView {
     const globalKeyboardListener = event => {
       if ( !photonAbsorptionModel.runningProperty.get() ) {
         if ( event.keyCode === KeyboardUtils.KEY_L && globalKeyStateTracker.altKeyDown ) {
-          if ( timeControlNode.accessibleDisplayed ) {
+          if ( timeControlNode.pdomDisplayed ) {
 
             // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
             // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
