@@ -28,7 +28,7 @@ import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
 const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
-const targetMoleculePatternString = moleculesAndLightStrings. a11y.targetMoleculePattern;
+const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
 const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
 const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
 const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
