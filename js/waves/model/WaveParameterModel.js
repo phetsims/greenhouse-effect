@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * TODO: Documentation
@@ -6,11 +6,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import StringProperty from '../../../axon/js/StringProperty.js';
-import Range from '../../../dot/js/Range.js';
-import greenhouseEffect from '../greenhouseEffect.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WaveParameterModel {
   constructor( color ) {

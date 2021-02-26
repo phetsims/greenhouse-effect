@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Prototype for greenhouse waves.  It's a prototype, enter at your own risk
@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import ScreenView from '../../../joist/js/ScreenView.js';
-import isHMR from '../../../phet-core/js/isHMR.js';
-import greenhouseEffect from '../greenhouseEffect.js';
+import ScreenView from '../../../../joist/js/ScreenView.js';
+import isHMR from '../../../../phet-core/js/isHMR.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesNode from './WavesNode.js';
 
-class GreenhouseWavesScreenView extends ScreenView {
+class WavesScreenView extends ScreenView {
   constructor( model ) {
     super();
 
@@ -36,6 +36,6 @@ class GreenhouseWavesScreenView extends ScreenView {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseWavesScreenView', GreenhouseWavesScreenView );
+greenhouseEffect.register( 'WavesScreenView', WavesScreenView );
 
-export default GreenhouseWavesScreenView;
+export default WavesScreenView;

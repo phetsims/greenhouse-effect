@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * TODO: Documentation
@@ -6,8 +6,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import greenhouseEffect from '../greenhouseEffect.js';
+import merge from '../../../../phet-core/js/merge.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class Wave {
   constructor( type, sourcePoint, destinationPoint, parameterModel, totalDistance, options ) {

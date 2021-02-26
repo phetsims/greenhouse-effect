@@ -1,25 +1,25 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Prototype code, please use at your own risk.
  * @author Sam Reid (PhET Interactive Simulations)
  */
-import Bounds2 from '../../../dot/js/Bounds2.js';
-import Dimension2 from '../../../dot/js/Dimension2.js';
-import Shape from '../../../kite/js/Shape.js';
-import merge from '../../../phet-core/js/merge.js';
-import ResetAllButton from '../../../scenery-phet/js/buttons/ResetAllButton.js';
-import NumberControl from '../../../scenery-phet/js/NumberControl.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Path from '../../../scenery/js/nodes/Path.js';
-import Plane from '../../../scenery/js/nodes/Plane.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../scenery/js/nodes/Text.js';
-import VBox from '../../../scenery/js/nodes/VBox.js';
-import AccordionBox from '../../../sun/js/AccordionBox.js';
-import RectangularRadioButtonGroup from '../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import Checkbox from '../../../sun/js/Checkbox.js';
-import greenhouseEffect from '../greenhouseEffect.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Shape from '../../../../kite/js/Shape.js';
+import merge from '../../../../phet-core/js/merge.js';
+import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Plane from '../../../../scenery/js/nodes/Plane.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
+import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import Checkbox from '../../../../sun/js/Checkbox.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 
 class WavesNode extends Node {

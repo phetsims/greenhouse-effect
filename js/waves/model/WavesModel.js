@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * TODO: Prototype, enter at own risk.
@@ -6,11 +6,11 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import Vector2 from '../../../dot/js/Vector2.js';
-import arrayRemove from '../../../phet-core/js/arrayRemove.js';
-import greenhouseEffect from '../greenhouseEffect.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
 

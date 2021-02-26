@@ -7,8 +7,8 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import GreenhouseWavesScreenView from './GreenhouseWavesScreenView.js';
-import WavesModel from './WavesModel.js';
+import WavesScreenView from './view/WavesScreenView.js';
+import WavesModel from './model/WavesModel.js';
 
 class WavesScreen extends Screen {
 
@@ -25,7 +25,7 @@ class WavesScreen extends Screen {
 
     super(
       () => {return new WavesModel();},
-      model => new GreenhouseWavesScreenView( model ),
+      model => new WavesScreenView( model ),
       options
     );
   }
