@@ -9,10 +9,10 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-class GreenhouseEffectScreenView extends ScreenView {
+class LayersScreenView extends ScreenView {
 
   /**
-   * @param {GreenhouseEffectModel} model
+   * @param {LayersModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -52,5 +52,5 @@ class GreenhouseEffectScreenView extends ScreenView {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectScreenView', GreenhouseEffectScreenView );
-export default GreenhouseEffectScreenView;
+greenhouseEffect.register( 'LayersScreenView', LayersScreenView );
+export default LayersScreenView;

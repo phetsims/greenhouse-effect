@@ -1,5 +1,17 @@
 {
   "greenhouse-effect.title": {
     "value": "Greenhouse Effect"
+  },
+  "screen.waves": {
+    "value": "Waves"
+  },
+  "screen.photons": {
+    "value": "Photons"
+  },
+  "screen.model": {
+    "value": "Model"
+  },
+  "screen.micro": {
+    "value": "Micro"
   }
 }

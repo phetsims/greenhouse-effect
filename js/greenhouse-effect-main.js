@@ -9,8 +9,10 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import GreenhouseEffectScreen from './greenhouse-effect/GreenhouseEffectScreen.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
+import LayersModelScreen from './layers-model/LayersModelScreen.js';
+import MicroScreen from './micro/MicroScreen.js';
+import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
 
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
@@ -19,12 +21,11 @@ const simOptions = {
   credits: {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: '',
-    softwareDevelopment: '',
+    softwareDevelopment: 'John Blanco, Sam Reid',
     team: '',
     qualityAssurance: '',
     graphicArts: '',
-    soundDesign: '',
-    thanks: ''
+    soundDesign: 'Ashton Morris'
   }
 };
 
@@ -32,8 +33,10 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
   const sim = new Sim( greenhouseEffectTitleString, [
-    new GreenhouseEffectScreen( Tandem.ROOT.createTandem( 'greenhouseEffectScreen' ) ),
-    new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) )
+    new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) ),
+    new PhotonsScreen( Tandem.ROOT.createTandem( 'photonsScreen' ) ),
+    new LayersModelScreen( Tandem.ROOT.createTandem( 'layersModelScreen' ) ),
+    new MicroScreen( Tandem.ROOT.createTandem( 'microScreen' ) )
   ], simOptions );
   sim.start();
 } );
