@@ -38,14 +38,14 @@ const PhotonTarget = Enumeration.byKeys( [
      * @returns {string} - the control panel molecule name
      */
     enumeration.getMoleculeName = photonTarget => photonTarget === enumeration.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
-             photonTarget === enumeration.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
-             photonTarget === enumeration.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
-             photonTarget === enumeration.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
-             photonTarget === enumeration.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
-             photonTarget === enumeration.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
-             photonTarget === enumeration.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
-             photonTarget === enumeration.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
-             assert && assert( false, 'unknown' );
+                                                  photonTarget === enumeration.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
+                                                  photonTarget === enumeration.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
+                                                  photonTarget === enumeration.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
+                                                  photonTarget === enumeration.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
+                                                  photonTarget === enumeration.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
+                                                  photonTarget === enumeration.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
+                                                  photonTarget === enumeration.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
+                                                  assert && assert( false, 'unknown' );
   }
 } );
 moleculesAndLight.register( 'PhotonTarget', PhotonTarget );
