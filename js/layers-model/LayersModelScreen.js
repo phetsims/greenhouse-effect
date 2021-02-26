@@ -6,6 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import LayersModel from './model/LayersModel.js';
@@ -20,6 +21,7 @@ class LayersModelScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( 'white' ),
+      homeScreenIcon: new RandomIcon( 544 ),
       tandem: tandem,
       name: greenhouseEffectStrings.screen.model
     };

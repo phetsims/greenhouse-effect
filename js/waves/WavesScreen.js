@@ -6,6 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import WavesScreenView from './view/WavesScreenView.js';
 import WavesModel from './model/WavesModel.js';
@@ -18,7 +19,8 @@ class WavesScreen extends Screen {
   constructor( tandem ) {
 
     const options = {
-      backgroundColorProperty: new Property( 'black' ),
+      backgroundColorProperty: new Property( 'white' ),
+      homeScreenIcon: new RandomIcon( 552 ),
       tandem: tandem,
       name: 'Waves'
     };
