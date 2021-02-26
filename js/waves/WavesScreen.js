@@ -19,7 +19,7 @@ class WavesScreen extends Screen {
   constructor( tandem ) {
 
     const options = {
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: new Property( '#020E5D' ),
       homeScreenIcon: new RandomIcon( 552 ),
       tandem: tandem,
       name: 'Waves'
