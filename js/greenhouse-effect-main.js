@@ -8,6 +8,7 @@
 
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
+import mockupOpacityControl from '../../number-line-common/js/common/view/mockupOpacityControl.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayersModelScreen from './layers-model/LayersModelScreen.js';
@@ -26,7 +27,10 @@ const simOptions = {
     qualityAssurance: '',
     graphicArts: '',
     soundDesign: 'Ashton Morris'
-  }
+  },
+
+  // TODO: This should be removed once we no longer need mockups for comparisons.  See
+  createOptionsDialogContent: () => mockupOpacityControl
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds

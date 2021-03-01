@@ -6,8 +6,10 @@
 
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
 
 class PhotonsScreenView extends ScreenView {
 
@@ -20,6 +22,15 @@ class PhotonsScreenView extends ScreenView {
     super( {
       tandem: tandem
     } );
+
+    const mockup = new Image( photonsScreenMockup, {
+      center: this.layoutBounds.center,
+      minWidth: this.layoutBounds.width,
+      maxWidth: this.layoutBounds.width,
+      opacity: window.phet.mockupOpacityProperty.value
+    } );
+    this.addChild( mockup );
+    window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     const resetAllButton = new ResetAllButton( {
       listener: () => {

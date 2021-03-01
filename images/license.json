@@ -1,2 +1,10 @@
 {
+  "photons-screen-mockup.png": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar, clipped from design doc"
+  }
 }
