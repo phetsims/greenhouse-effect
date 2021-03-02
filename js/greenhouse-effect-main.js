@@ -8,7 +8,7 @@
 
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import mockupOpacityControl from '../../number-line-common/js/common/view/mockupOpacityControl.js';
+import mockupOpacityControl from './common/view/mockupOpacityControl.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayersModelScreen from './layers-model/LayersModelScreen.js';
