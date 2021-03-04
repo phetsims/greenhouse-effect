@@ -6,6 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
@@ -20,7 +21,7 @@ class PhotonsScreen extends Screen {
   constructor( tandem ) {
 
     const options = {
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
       homeScreenIcon: new RandomIcon( 1 ),
       tandem: tandem,
       name: greenhouseEffectStrings.screen.photons

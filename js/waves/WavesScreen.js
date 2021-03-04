@@ -9,8 +9,8 @@ import Screen from '../../../joist/js/Screen.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
-import WavesScreenView from './view/WavesScreenView.js';
 import WavesModel from './model/WavesModel.js';
+import WavesScreenView from './view/WavesScreenView.js';
 
 class WavesScreen extends Screen {
 

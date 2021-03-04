@@ -24,7 +24,7 @@ class MicroScreenView extends ScreenView {
     } );
 
     const mockup = new Text( 'No mockup available (yet).', {
-      font: new PhetFont( 80 ),
+      font: new PhetFont( 50 ),
       center: this.layoutBounds.center,
       opacity: window.phet.mockupOpacityProperty.value
     } );
