@@ -10,7 +10,7 @@ import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import LayersModel from './model/LayersModel.js';
-import LayersScreenView from './view/LayersScreenView.js';
+import LayersModelScreenView from './view/LayersModelScreenView.js';
 
 class LayersModelScreen extends Screen {
 
@@ -28,7 +28,7 @@ class LayersModelScreen extends Screen {
 
     super(
       () => new LayersModel( tandem.createTandem( 'model' ) ),
-      model => new LayersScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new LayersModelScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
