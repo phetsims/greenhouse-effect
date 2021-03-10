@@ -20,6 +20,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -27,7 +28,6 @@ import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import moleculesAndLight from '../../moleculesAndLight.js';
 import Molecule from './Molecule.js';
 import Photon from './Photon.js';
@@ -89,7 +89,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     } );
 
     // @public
-    this.photonWavelengthProperty = new Property( WavelengthConstants.IR_WAVELENGTH, {
+    this.photonWavelengthProperty = new NumberProperty( WavelengthConstants.IR_WAVELENGTH, {
       tandem: tandem.createTandem( 'photonWavelengthProperty' ),
       units: 'meters',
       validValues: [
@@ -97,8 +97,7 @@ class PhotonAbsorptionModel extends PhetioObject {
         WavelengthConstants.IR_WAVELENGTH,
         WavelengthConstants.VISIBLE_WAVELENGTH,
         WavelengthConstants.UV_WAVELENGTH
-      ],
-      phetioType: Property.PropertyIO( NumberIO )
+      ]
     } );
 
     // {Property.<PhotonTarget>}
