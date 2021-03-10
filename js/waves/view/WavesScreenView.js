@@ -8,8 +8,11 @@
 
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import isHMR from '../../../../phet-core/js/isHMR.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesNode from './WavesNode.js';
+
 
 class WavesScreenView extends ScreenView {
   constructor( model ) {
@@ -22,6 +25,15 @@ class WavesScreenView extends ScreenView {
     };
 
     initializeWavesNode();
+
+    const mockup = new Image( wavesScreenMockup, {
+      center: this.layoutBounds.center,
+      minWidth: this.layoutBounds.width,
+      maxWidth: this.layoutBounds.width,
+      opacity: window.phet.mockupOpacityProperty.value
+    } );
+    this.addChild( mockup );
+    window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     // Enable hot module replacement for fast iteration
     isHMR && module.hot.accept( './WavesNode.js', initializeWavesNode );

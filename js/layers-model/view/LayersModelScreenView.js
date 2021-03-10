@@ -7,7 +7,7 @@
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import photonsScreenMockup from '../../../images/model-screen-mockup_png.js';
+import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -23,7 +23,7 @@ class LayersModelScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const mockup = new Image( photonsScreenMockup, {
+    const mockup = new Image( layerModelScreenMockup, {
       center: this.layoutBounds.center,
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
