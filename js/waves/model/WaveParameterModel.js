@@ -24,7 +24,7 @@ class WaveParameterModel {
     } );
     this.angleProperty = new NumberProperty( 10, {
       range: new Range( -20, 20 ),
-      units: 'degrees'
+      units: '\u00B0' // degrees
     } );
     this.kProperty = new NumberProperty( 0.07, {
       range: new Range( 0.01, 0.2 )
