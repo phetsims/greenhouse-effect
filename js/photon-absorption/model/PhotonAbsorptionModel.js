@@ -91,7 +91,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @public
     this.photonWavelengthProperty = new NumberProperty( WavelengthConstants.IR_WAVELENGTH, {
       tandem: tandem.createTandem( 'photonWavelengthProperty' ),
-      units: 'meters',
+      units: 'm',
       validValues: [
         WavelengthConstants.MICRO_WAVELENGTH,
         WavelengthConstants.IR_WAVELENGTH,
