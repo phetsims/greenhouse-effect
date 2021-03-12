@@ -398,7 +398,7 @@ const getOffsetFromFrequency = frequency => {
 const createExponentialLabel = value => {
 
   const superscript = Utils.roundSymmetric( log10( value ) );
-  return new RichText( '10<sup>' + superscript + '</sup>', {
+  return new RichText( `10<sup>${superscript}</sup>`, {
     font: TICK_MARK_FONT,
     supScale: 0.65,
     supYOffset: 1
