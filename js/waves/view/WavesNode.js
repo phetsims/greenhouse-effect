@@ -4,11 +4,9 @@
  * Prototype code, please use at your own risk.
  * @author Sam Reid (PhET Interactive Simulations)
  */
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -16,15 +14,25 @@ import Plane from '../../../../scenery/js/nodes/Plane.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 
+// constants
+const ACCORDION_BOX_INSET = 5;
+const ACCORDION_BOX_CORNER_RADIUS = 4;
+const SKY_VERTICAL_PROPORTION = 0.75; // vertical proportion occupied by the sky, the rest is the ground
+
 class WavesNode extends Node {
 
-  constructor( model, layoutBounds ) {
+  /**
+   * @param {WavesModel} model
+   * @param {Dimension2} size
+   */
+  constructor( model, size ) {
     super();
 
     const yellowBeam = new Plane( {
@@ -132,27 +140,42 @@ class WavesNode extends Node {
 
     const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
       titleNode: new Text( 'Yellow' ),
-      leftTop: layoutBounds.leftTop,
+      cornerRadius: ACCORDION_BOX_CORNER_RADIUS,
+      left: ACCORDION_BOX_INSET,
+      top: ACCORDION_BOX_INSET,
       expandedProperty: model.yellowWaveParameterModel.expandedProperty
     } );
     const redAccordionBox = new AccordionBox( createContent( model.redWaveParameterModel ), {
       titleNode: new Text( 'Red' ),
-      rightTop: layoutBounds.rightTop,
+      cornerRadius: ACCORDION_BOX_CORNER_RADIUS,
+      right: size.width - ACCORDION_BOX_INSET,
+      top: ACCORDION_BOX_INSET,
       expandedProperty: model.redWaveParameterModel.expandedProperty
     } );
+
+    // Add the sky.
+    const skyRectHeight = size.height * SKY_VERTICAL_PROPORTION;
+    this.addChild(
+      new Rectangle( 0, 0, size.width, skyRectHeight, {
+        fill: new LinearGradient( 0, 0, 0, skyRectHeight )
+          .addColorStop( 0, '#000010' )
+          .addColorStop( 0.25, '#000057' )
+          .addColorStop( 1, '#87ceeb' )
+      } )
+    );
 
     this.waves = [];
 
     const cloudNode = new Node();
 
-    const centerYellow = layoutBounds.centerX;
+    const centerYellow = size.width / 2;
     const yellowSpacing = 120;
 
     // Cloud
     const yellow1 = centerYellow - yellowSpacing;
     const cloud1 = new Path( Shape.ellipse( 0, 0, 90, 20 ), {
       fill: 'gray',
-      centerY: layoutBounds.centerY,
+      centerY: size.width / 2,
       centerX: yellow1
     } );
     cloudNode.addChild( cloud1 );
@@ -161,54 +184,39 @@ class WavesNode extends Node {
     const yellow3 = centerYellow + yellowSpacing;
     const cloud2 = new Path( Shape.ellipse( 0, 0, 90, 20 ), {
       fill: 'gray',
-      centerY: layoutBounds.centerY,
+      centerY: size.width / 2,
       centerX: yellow3
     } );
 
     model.cloudsVisibleProperty.linkAttribute( cloudNode, 'visible' );
 
     this.wavesCanvasNode = new WavesCanvasNode( model, null, {
-      canvasBounds: new Bounds2( 0, 0, 1000, 1000 )
+      canvasBounds: size.toBounds()
     } );
 
     cloud1.moveToFront();
     cloud2.moveToFront();
 
-    this.addChild( new Rectangle( 0, 0, 5000, 5000, {
-      fill: '#4EAE1E',
-      centerTop: layoutBounds.center.plusXY( 0, 200 )
-    } ) );
+    // Add the ground.
+    const groundRectHeight = size.height * ( 1 - SKY_VERTICAL_PROPORTION );
+    this.addChild(
+      new Rectangle( 0, 0, size.width, groundRectHeight, {
+        fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
+        bottom: size.height
+      } )
+    );
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
 
-    const resetWaveTime = () => this.waves.forEach( wave => {
+    // @private
+    this.resetWaveTime = () => this.waves.forEach( wave => {
       wave.time = 0;
     } );
 
-    this.addChild( new VBox( {
-      spacing: 14,
-      align: 'right',
-      children: [
-        // new Checkbox( new Text( 'Clouds' ), model.cloudsVisibleProperty ),
-        new ResetAllButton( {
-          listener: () => {
-            model.reset();
-            resetWaveTime();
-          }
-        } )
-      ],
-      rightBottom: layoutBounds.eroded( 15 ).rightBottom
-    } ) );
-
-    // this.addChild( new RectangularPushButton( {
-    //   content: new Text( 'Reset Time' ),
-    //   listener: resetWaveTime,
-    //   leftBottom: layoutBounds.eroded( 15 ).leftBottom
-    // } ) );
-
     this.addChild( new Checkbox( new Text( 'Show Gaps' ), model.showGapProperty, {
-      leftBottom: layoutBounds.eroded( 15 ).leftBottom
+      left: 10,
+      bottom: size.height - 10
     } ) );
 
     this.addChild( this.wavesCanvasNode );
@@ -221,6 +229,13 @@ class WavesNode extends Node {
   step( dt ) {
     this.waves.forEach( wave => wave.step( dt ) );
     this.wavesCanvasNode.step( dt );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.resetWaveTime();
   }
 }
 

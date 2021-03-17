@@ -15,10 +15,10 @@ import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
 
 // constants
-const GROUND_Y = 510;
+const GROUND_Y = 450;
 
 class WavesModel {
-  constructor( options ) {
+  constructor() {
 
     this.timeProperty = new NumberProperty( 0 );
 
