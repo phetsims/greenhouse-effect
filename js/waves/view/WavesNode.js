@@ -195,8 +195,9 @@ class WavesNode extends Node {
       canvasBounds: size.toBounds()
     } );
 
-    cloud1.moveToFront();
-    cloud2.moveToFront();
+    // I (@jbphet) am not sure why this is needed, but without it the waves go a little beyond the provided bounds.
+    // Since WavesNode is for prototyping, this was a quick fix that worked, and is reasonable for now.
+    this.clipArea = Shape.bounds( size.toBounds() );
 
     // Add the ground.
     const groundRectHeight = size.height * ( 1 - SKY_VERTICAL_PROPORTION );
@@ -206,6 +207,9 @@ class WavesNode extends Node {
         bottom: size.height
       } )
     );
+
+    cloud1.moveToFront();
+    cloud2.moveToFront();
 
     this.addChild( yellowAccordionBox );
     this.addChild( redAccordionBox );
