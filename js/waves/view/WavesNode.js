@@ -159,8 +159,9 @@ class WavesNode extends Node {
       new Rectangle( 0, 0, size.width, skyRectHeight, {
         fill: new LinearGradient( 0, 0, 0, skyRectHeight )
           .addColorStop( 0, '#000010' )
-          .addColorStop( 0.25, '#000057' )
-          .addColorStop( 1, '#87ceeb' )
+          .addColorStop( 0.15, '#000057' )
+          .addColorStop( 0.45, '#00bfff' )
+          .addColorStop( 1, '#CCF2FF' )
       } )
     );
 
