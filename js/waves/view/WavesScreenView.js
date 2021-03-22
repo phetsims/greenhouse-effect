@@ -6,47 +6,27 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import ScreenView from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import CloudsCheckbox from './CloudsCheckbox.js';
+import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WavesNode from './WavesNode.js';
 
-// constants
-const OBSERVATION_WINDOW_SIZE = new Dimension2( 780, 525 );
-
-class WavesScreenView extends ScreenView {
+class WavesScreenView extends GreenhouseEffectScreenView {
   constructor( model, tandem ) {
-    super();
+    super( model, tandem );
 
-    // This rectangle is a temporary placeholder for the observation window.
-    const observationWindow = Rectangle.dimension( OBSERVATION_WINDOW_SIZE, {
-      lineWidth: 2,
-      stroke: 'black',
-      left: 5,
-      top: 10
-    } );
-    this.addChild( observationWindow );
+    // @private {WavesNode}
+    this.wavesNode = new WavesNode( model, GreenhouseEffectScreenView.OBSERVATION_WINDOW_SIZE );
+    this.observationWindow.addChild( this.wavesNode );
 
-    this.wavesNode = new WavesNode( model, OBSERVATION_WINDOW_SIZE );
-    observationWindow.addChild( this.wavesNode );
-
-    // reset all button
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
-        this.wavesNode.reset();
-      },
-      right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: tandem.createTandem( 'resetAllButton' )
-    } );
-    this.addChild( resetAllButton );
+    const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
+    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
+    const cloudsCheckbox = new CloudsCheckbox( model.cloudsVisibleProperty );
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
@@ -56,8 +36,22 @@ class WavesScreenView extends ScreenView {
       maxWidth: this.layoutBounds.width,
       opacity: window.phet.mockupOpacityProperty.value
     } );
-    this.addChild( mockup );
     window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+
+    // layout code
+    const visibilityBox = new VBox( {
+      children: [ surfaceThermometerCheckbox, surfaceTemperatureCheckbox ],
+      spacing: 5,
+      align: 'left'
+    } );
+    visibilityBox.left = this.observationWindow.left + 5;
+    visibilityBox.centerY = this.timeControlNode.centerY;
+
+    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectScreenView.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+
+    this.addChild( visibilityBox );
+    this.addChild( cloudsCheckbox );
+    this.addChild( mockup );
   }
 
   /**

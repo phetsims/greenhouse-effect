@@ -1,0 +1,66 @@
+// Copyright 2021, University of Colorado Boulder
+
+/**
+ * A GreenhouseEffectModel that includes setting concentration of greenhouse gasses in the atmosphere. Also
+ * includes clouds for photon-cloud interactions.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
+ */
+
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectModel from './GreenhouseEffectModel.js';
+
+// constants
+// values for how concentration can be controlled, either by direct value or by selecting a value for Earth's
+// concentration at a particular date
+const CONCENTRATION_CONTROL = Enumeration.byKeys( [ 'VALUE', 'DATE' ] );
+
+// dates with recorded values of greenhouse concentration
+const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWO_THOUSAND_NINETEEN' ] );
+
+class ConcentrationModel extends GreenhouseEffectModel {
+  constructor() {
+    super();
+
+    // @public {Boolean} - whether or not a graphic displaying the net balance of energy is visible
+    this.energyBalanceVisibleProperty = new BooleanProperty( true );
+
+    // @public {ObservableArray.<Cloud> - observable list of Clouds in the simulation that may interact with photons
+    this.clouds = createObservableArray();
+
+    // @public {NumberProperty} - numeric value for greenhouse gas concentration
+    // NOTE: This will likely move to a model for Atmosphere with other responsibilities
+    this.concentrationProperty = new NumberProperty( 0 );
+
+    // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
+    // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
+    this.concentrationControlProperty = new EnumerationProperty( CONCENTRATION_CONTROL, CONCENTRATION_CONTROL.DATE );
+
+    // @public {EnumerationProperty} - selected date which will select a value for concentration
+    this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
+  }
+
+  /**
+   * Resets all aspects of the model.
+   *
+   * @override
+   * @public
+   */
+  reset() {
+    this.energyBalanceVisibleProperty.reset();
+    this.clouds.reset();
+    this.concentrationProperty.reset();
+    this.concentrationControlProperty.reset();
+    this.dateProperty.reset();
+
+    super.reset();
+  }
+}
+
+greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
+export default ConcentrationModel;

@@ -4,24 +4,19 @@
  * @author John Blanco
  */
 
-import ScreenView from '../../../../joist/js/ScreenView.js';
-import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-class LayersModelScreenView extends ScreenView {
+class LayersModelScreenView extends GreenhouseEffectScreenView {
 
   /**
    * @param {LayersModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-
-    super( {
-      tandem: tandem
-    } );
+    super( model, tandem );
 
     const mockup = new Image( layerModelScreenMockup, {
       center: this.layoutBounds.center,
@@ -31,18 +26,6 @@ class LayersModelScreenView extends ScreenView {
     } );
     this.addChild( mockup );
     window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
-
-    const resetAllButton = new ResetAllButton( {
-      listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
-        this.reset();
-      },
-      right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
-      bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: tandem.createTandem( 'resetAllButton' )
-    } );
-    this.addChild( resetAllButton );
   }
 
   /**

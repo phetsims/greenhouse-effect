@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
+import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
@@ -17,10 +18,14 @@ import WaveParameterModel from './WaveParameterModel.js';
 // constants
 const GROUND_Y = 450;
 
-class WavesModel {
+class WavesModel extends ConcentrationModel {
   constructor() {
+    super();
 
     this.timeProperty = new NumberProperty( 0 );
+
+    // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
+    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false );
 
     this.yellowWaveParameterModel = new WaveParameterModel( 'yellow' );
     this.redWaveParameterModel = new WaveParameterModel( 'red' );
@@ -50,10 +55,13 @@ class WavesModel {
   }
 
   /**
-   * @param dt
-   * @public
+   * Step the model forward by the provided time.
+   * @protected
+   * @override
+   *
+   * @param {number} dt - in seconds
    */
-  step( dt ) {
+  stepModel( dt ) {
     this.timeProperty.value += dt;
     this.waves.forEach( wave => wave.step( dt ) );
 

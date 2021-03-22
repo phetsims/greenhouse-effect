@@ -13,5 +13,14 @@
   },
   "screen.micro": {
     "value": "Micro"
+  },
+  "surfaceThermometer": {
+    "value": "Surface Thermometer"
+  },
+  "showSurfaceTemperature": {
+    "value": "Show Surface Temperature"
+  },
+  "clouds": {
+    "value": "Clouds"
   }
 }

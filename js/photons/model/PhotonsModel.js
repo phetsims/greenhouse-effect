@@ -4,18 +4,19 @@
  * @author John Blanco
  */
 
+import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
  * @constructor
  */
-class PhotonsModel {
+class PhotonsModel extends ConcentrationModel {
 
   /**
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    //TODO
+    super( tandem );
   }
 
   /**
