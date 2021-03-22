@@ -30,6 +30,9 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     super();
 
+    // @private {GreenhouseEffectModel}
+    this.model = model;
+
     // @public {Rectangle} - This rectangle is a temporary placeholder for the observation window.
     // Public for layout purposes in subtypes.
     this.observationWindow = Rectangle.dimension( OBSERVATION_WINDOW_SIZE, {
@@ -56,8 +59,7 @@ class GreenhouseEffectScreenView extends ScreenView {
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
-        this.wavesNode.reset();
+        this.reset();
       },
       right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
@@ -74,6 +76,14 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.centerY = this.timeControlNode.centerY;
+  }
+
+  /**
+   * Resets view components.
+   * @protected
+   */
+  reset() {
+    this.model.reset();
   }
 }
 

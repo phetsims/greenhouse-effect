@@ -61,6 +61,16 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   step( dt ) {
     this.wavesNode.step( dt );
   }
+
+  /**
+   * Reset view components.
+   * @protected
+   * @override
+   */
+  reset() {
+    super.reset();
+    this.wavesNode.reset();
+  }
 }
 
 greenhouseEffect.register( 'WavesScreenView', WavesScreenView );
