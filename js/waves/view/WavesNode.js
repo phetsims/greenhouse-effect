@@ -11,10 +11,8 @@ import NumberControl from '../../../../scenery-phet/js/NumberControl.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Plane from '../../../../scenery/js/nodes/Plane.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
@@ -24,7 +22,6 @@ import WavesCanvasNode from './WavesCanvasNode.js';
 // constants
 const ACCORDION_BOX_INSET = 5;
 const ACCORDION_BOX_CORNER_RADIUS = 4;
-const SKY_VERTICAL_PROPORTION = 0.75; // vertical proportion occupied by the sky, the rest is the ground
 
 class WavesNode extends Node {
 
@@ -153,18 +150,6 @@ class WavesNode extends Node {
       expandedProperty: model.redWaveParameterModel.expandedProperty
     } );
 
-    // Add the sky.
-    const skyRectHeight = size.height * SKY_VERTICAL_PROPORTION;
-    this.addChild(
-      new Rectangle( 0, 0, size.width, skyRectHeight, {
-        fill: new LinearGradient( 0, 0, 0, skyRectHeight )
-          .addColorStop( 0, '#000010' )
-          .addColorStop( 0.15, '#000057' )
-          .addColorStop( 0.45, '#00bfff' )
-          .addColorStop( 1, '#CCF2FF' )
-      } )
-    );
-
     this.waves = [];
 
     const cloudNode = new Node();
@@ -198,15 +183,6 @@ class WavesNode extends Node {
     // I (@jbphet) am not sure why this is needed, but without it the waves go a little beyond the provided bounds.
     // Since WavesNode is for prototyping, this was a quick fix that worked, and is reasonable for now.
     this.clipArea = Shape.bounds( size.toBounds() );
-
-    // Add the ground.
-    const groundRectHeight = size.height * ( 1 - SKY_VERTICAL_PROPORTION );
-    this.addChild(
-      new Rectangle( 0, 0, size.width, groundRectHeight, {
-        fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
-        bottom: size.height
-      } )
-    );
 
     cloud1.moveToFront();
     cloud2.moveToFront();

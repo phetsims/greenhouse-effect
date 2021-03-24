@@ -27,7 +27,7 @@ import WavesNode from '../../waves/view/WavesNode.js';
 // constants
 const SIZE = new Dimension2( 780, 525 );
 const SKY_VERTICAL_PROPORTION = 0.75; // vertical proportion occupied by the sky, the rest is the ground
-const DARKNESS_OPACITY = 0.75;
+const DARKNESS_OPACITY = 0.85;
 
 class ObservationWindow extends Node {
 
