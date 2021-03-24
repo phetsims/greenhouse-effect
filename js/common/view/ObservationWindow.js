@@ -14,8 +14,11 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import Easing from '../../../../twixt/js/Easing.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
@@ -24,6 +27,7 @@ import WavesNode from '../../waves/view/WavesNode.js';
 // constants
 const SIZE = new Dimension2( 780, 525 );
 const SKY_VERTICAL_PROPORTION = 0.75; // vertical proportion occupied by the sky, the rest is the ground
+const DARKNESS_OPACITY = 0.75;
 
 class ObservationWindow extends Node {
 
@@ -79,6 +83,16 @@ class ObservationWindow extends Node {
       } );
     }
 
+    // Add a node that will make everything behind it look darkened.  The idea is that this will make it looking
+    // somewhat like it's night, and then will fade away once the sun is shining, allowing the background to be seen
+    // more clearly.
+    const darknessNode = Rectangle.dimension( SIZE, {
+      fill: new Color( 0, 0, 0, DARKNESS_OPACITY )
+    } );
+
+    // {Animation|null} - an animation for fading the darkness out and thus the daylight in
+    let fadeToDayAnimation = null;
+
     // Add the button that will be used to start and restart the model behavior.
     const startButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
@@ -100,9 +114,43 @@ class ObservationWindow extends Node {
         model.isStartedProperty.set( true );
       }
     } );
-    model.isStartedProperty.link( isStarted => { startButton.visible = !isStarted; } );
 
-    super( merge( { children: [ skyNode, groundNode, presentationNode, startButton, windowFrame ] }, options ) );
+    // Manage the visibility of the start button and the darkness overlay.
+    model.isStartedProperty.link( isStarted => {
+      startButton.visible = !isStarted;
+
+      if ( isStarted ) {
+
+        // state checking
+        assert && assert( fadeToDayAnimation === null, 'there shouldn\'t be an in-progress animation when starting' );
+
+        // Fade out the darkness and let the sun shine!
+        fadeToDayAnimation = new Animation( {
+          from: darknessNode.opacity,
+          to: 0,
+          setValue: opacity => { darknessNode.opacity = opacity; },
+          duration: 2, // empirically determined
+          easing: Easing.CUBIC_IN_OUT
+        } );
+        fadeToDayAnimation.endedEmitter.addListener( () => {
+          fadeToDayAnimation = null;
+          darknessNode.visible = false;
+        } );
+        fadeToDayAnimation.start();
+      }
+      else {
+        if ( fadeToDayAnimation ) {
+          fadeToDayAnimation.stop();
+          fadeToDayAnimation = null;
+        }
+        darknessNode.visible = true;
+        darknessNode.opacity = DARKNESS_OPACITY;
+      }
+    } );
+
+    super( merge( {
+      children: [ skyNode, groundNode, presentationNode, darknessNode, startButton, windowFrame ]
+    }, options ) );
 
     // @private - Make the presentation node available for stepping.
     this.presentationNode = presentationNode;
