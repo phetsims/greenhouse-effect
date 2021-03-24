@@ -22,5 +22,8 @@
   },
   "clouds": {
     "value": "Clouds"
+  },
+  "startSunlight": {
+    "value": "Start Sunlight"
   }
 }

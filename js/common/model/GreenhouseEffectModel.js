@@ -4,6 +4,7 @@
  * The base model class for Greenhouse Effect.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -14,10 +15,13 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 // units of temperature used by Greenhouse Effect
-const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FARENHEIT' ] );
+const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 class GreenhouseEffectModel {
   constructor() {
+
+    // @public {BooleanProperty} - controls whether the model has been started
+    this.isStartedProperty = new BooleanProperty( false );
 
     // @public {NumberProperty} - playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL );
@@ -53,7 +57,7 @@ class GreenhouseEffectModel {
    * @param {number} dt - in seconds
    */
   step( dt ) {
-    if ( this.isPlayingProperty.value ) {
+    if ( this.isStartedProperty.value && this.isPlayingProperty.value ) {
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
       this.stepModel( timeStep );
     }
@@ -65,6 +69,7 @@ class GreenhouseEffectModel {
    * @public
    */
   reset() {
+    this.isStartedProperty.reset();
     this.timeSpeedProperty.reset();
     this.isPlayingProperty.reset();
     this.allPhotonsVisibleProperty.reset();

@@ -34,7 +34,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
    * @public
    */
   reset() {
-    //TODO
+    super.reset();
   }
 
   /**

@@ -4,19 +4,19 @@
  * @author John Blanco
  */
 
+import ScreenView from '../../../../joist/js/ScreenView.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-class MicroScreenView extends GreenhouseEffectScreenView {
+class MicroScreenView extends ScreenView {
 
   /**
    * @param {LayersModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-    super( model, tandem );
+    super();
 
     const mockup = new Text( 'No mockup available (yet).', {
       font: new PhetFont( 50 ),

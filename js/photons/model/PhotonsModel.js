@@ -24,7 +24,7 @@ class PhotonsModel extends ConcentrationModel {
    * @public
    */
   reset() {
-    //TODO
+    super.reset();
   }
 
   /**

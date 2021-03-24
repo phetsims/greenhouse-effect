@@ -33,7 +33,7 @@ class LayersModelScreenView extends GreenhouseEffectScreenView {
    * @public
    */
   reset() {
-    //TODO
+    super.reset();
   }
 
   /**

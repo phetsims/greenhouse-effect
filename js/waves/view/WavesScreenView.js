@@ -14,15 +14,10 @@ import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerChec
 import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudsCheckbox from './CloudsCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
-import WavesNode from './WavesNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   constructor( model, tandem ) {
     super( model, tandem );
-
-    // @private {WavesNode}
-    this.wavesNode = new WavesNode( model, GreenhouseEffectScreenView.OBSERVATION_WINDOW_SIZE );
-    this.observationWindow.addChild( this.wavesNode );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
@@ -59,7 +54,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
    * @public
    */
   step( dt ) {
-    this.wavesNode.step( dt );
+    this.observationWindow.step( dt );
   }
 
   /**
@@ -69,7 +64,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
    */
   reset() {
     super.reset();
-    this.wavesNode.reset();
+    this.observationWindow.reset();
   }
 }
 

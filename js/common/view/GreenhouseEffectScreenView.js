@@ -11,9 +11,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import ObservationWindow from './ObservationWindow.js';
 
 const OBSERVATION_WINDOW_SIZE = new Dimension2( 780, 525 );
 
@@ -33,14 +33,9 @@ class GreenhouseEffectScreenView extends ScreenView {
     // @private {GreenhouseEffectModel}
     this.model = model;
 
-    // @public {Rectangle} - This rectangle is a temporary placeholder for the observation window.
-    // Public for layout purposes in subtypes.
-    this.observationWindow = Rectangle.dimension( OBSERVATION_WINDOW_SIZE, {
-      lineWidth: 2,
-      stroke: 'black',
-      left: 5,
-      top: 10
-    } );
+    // @protected (read-only) - The observation window where the ground, sky, waves, photons, and such will appear. This
+    // is protected for layout purposes in subtypes.
+    this.observationWindow = new ObservationWindow( model, tandem );
     this.addChild( this.observationWindow );
 
     // @public {TimeControlNode} - for layout in subtypes

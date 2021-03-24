@@ -141,6 +141,7 @@ class WavesModel extends ConcentrationModel {
     this.timeProperty.reset();
     this.yellowWaveParameterModel.reset();
     this.redWaveParameterModel.reset();
+    super.reset();
 
     this.waves.length = 0;
     this.irWavesBegan = false;

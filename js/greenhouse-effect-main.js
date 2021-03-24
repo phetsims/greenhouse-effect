@@ -22,7 +22,7 @@ const simOptions = {
   credits: {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: '',
-    softwareDevelopment: 'John Blanco, Sam Reid',
+    softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',
     team: '',
     qualityAssurance: '',
     graphicArts: '',

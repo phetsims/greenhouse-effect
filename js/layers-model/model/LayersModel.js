@@ -26,7 +26,7 @@ class LayersModel extends GreenhouseEffectModel {
    * @public
    */
   reset() {
-    //TODO
+    super.reset();
   }
 
   /**
