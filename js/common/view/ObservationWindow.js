@@ -8,7 +8,9 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -23,10 +25,11 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesNode from '../../waves/view/WavesNode.js';
+import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 // constants
-const SIZE = new Dimension2( 780, 525 );
-const SKY_VERTICAL_PROPORTION = 0.75; // vertical proportion occupied by the sky, the rest is the ground
+const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
+const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 const DARKNESS_OPACITY = 0.85;
 
 class ObservationWindow extends Node {
@@ -46,6 +49,28 @@ class ObservationWindow extends Node {
 
     }, options );
 
+    // In the model, the ground is a horizontal line at y = 0, but in the view we add some perspective, so the ground
+    // spans some horizontal distance.  This number is the y distance in screen coordinates from the bottom of the
+    // window where the ground in the model will be projected.
+    const groundOffsetFromBottom = SIZE.height * GROUND_VERTICAL_PROPORTION / 2;
+
+    // Calculate the aspect ratio of the portion of the observation window that is above the ground.
+    const aboveGroundAspectRatio = SIZE.width / ( SIZE.height - groundOffsetFromBottom );
+
+    // Check that the aspect ratio of the model will work when mapped into this window.
+    assert && assert(
+      Math.abs( aboveGroundAspectRatio - ( GreenhouseEffectModel.SUNLIGHT_SPAN / GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) ) < 0.1,
+      'the aspect ratio of the observation window doesn\'t match that of the model'
+    );
+
+    // Create the model-view transform.  In the model, the ground is a horizontal line at y = 0.  In the view, we give
+    // it a bit of perspective, so the ground has some depth.
+    const mvt = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+      Vector2.ZERO,
+      new Vector2( SIZE.width / 2, SIZE.height - groundOffsetFromBottom ),
+      ( SIZE.height - groundOffsetFromBottom ) / GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
+    );
+
     // @public {Rectangle} - main window frame into which other items will need to fit
     const windowFrame = Rectangle.dimension( SIZE, {
       lineWidth: 2,
@@ -53,7 +78,7 @@ class ObservationWindow extends Node {
     } );
 
     // Add the sky.
-    const skyRectHeight = SIZE.height * SKY_VERTICAL_PROPORTION;
+    const skyRectHeight = -mvt.modelToViewDeltaY( GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
     const skyNode = new Rectangle( 0, 0, SIZE.width, skyRectHeight, {
       fill: new LinearGradient( 0, 0, 0, skyRectHeight )
         .addColorStop( 0, '#000010' )
@@ -63,7 +88,7 @@ class ObservationWindow extends Node {
     } );
 
     // Add the ground.
-    const groundRectHeight = SIZE.height * ( 1 - SKY_VERTICAL_PROPORTION );
+    const groundRectHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
     const groundNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
       fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
       bottom: SIZE.height

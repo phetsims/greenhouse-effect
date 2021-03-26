@@ -14,6 +14,9 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
+const HEIGHT_OF_ATMOSPHERE = 10; // in km
+const SUNLIGHT_SPAN = 17; // in km, horizontal distance over which sunlight is simulated
+
 // units of temperature used by Greenhouse Effect
 const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
@@ -79,8 +82,10 @@ class GreenhouseEffectModel {
   }
 }
 
-// @public
-GreenhouseEffectModel.TEMPERATURE_UNTS = TEMPERATURE_UNITS;
+// statics
+GreenhouseEffectModel.TEMPERATURE_UNITS = TEMPERATURE_UNITS;
+GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
+GreenhouseEffectModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
 
 greenhouseEffect.register( 'GreenhouseEffectModel', GreenhouseEffectModel );
 export default GreenhouseEffectModel;
