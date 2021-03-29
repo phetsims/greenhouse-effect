@@ -17,7 +17,8 @@
       "phet",
       "adapted-from-phet"
     ],
-    "supportsInteractiveDescription": true
+    "supportsInteractiveDescription": true,
+    "supportsSound": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
