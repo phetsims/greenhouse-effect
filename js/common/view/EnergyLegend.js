@@ -23,8 +23,6 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants that define shape of wave icon, in view coordinates
 const WAVE_ICON_AMPLITUDE = 7;
-const WAVE_ICON_WAVELENGTH = 15;
-const WAVE_ICON_WAVELENGTHS = 3.5; // how many wavelengths to draw
 
 // spacing used for contents in the legend
 const SPACING = 10;
@@ -38,7 +36,7 @@ const LABEL_OPTIONS = {
   fill: 'white'
 };
 
-// Text options for the legend Title
+// Text options for the legend title
 const TITLE_OPTIONS = {
   font: GreenhouseEffectConstants.TITLE_FONT,
   fill: 'white'
@@ -73,8 +71,11 @@ class EnergyLegend extends Panel {
     let infraredIcon;
 
     // eagerly create all icons so we can be sure that all have the same width for identical layout in all screens
-    const sunlightWaveIcon = createWaveIcon( { stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR } );
-    const infraredWaveIcon = createWaveIcon( { stroke: GreenhouseEffectConstants.INFRARED_COLOR } );
+    const sunlightWavelength = 15;
+    const sunlightWavelengths = 3.5;
+    const infraredWavelengths = 2.5;
+    const sunlightWaveIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, { stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR } );
+    const infraredWaveIcon = createWaveIcon( sunlightWavelength * sunlightWavelengths / infraredWavelengths, infraredWavelengths, { stroke: GreenhouseEffectConstants.INFRARED_COLOR } );
     const sunlightPhotonIcon = new Image( thin2Image );
     const infraredPhotonIcon = new Image( photon660Image );
 
@@ -117,10 +118,12 @@ class EnergyLegend extends Panel {
 
 /**
  * Creates a wave icon for the legend.
+ * @param {number} wavelength - wavelength for the wave icon in view coordinates
+ * @param {number} wavelengthsToDraw - how many wavelengths to draw for the icon
  * @param {Object} [options] - options for the wave Path
  * @returns {Path}
  */
-const createWaveIcon = options => {
+const createWaveIcon = ( wavelength, wavelengthsToDraw, options ) => {
 
   options = merge( {
 
@@ -128,11 +131,10 @@ const createWaveIcon = options => {
     lineWidth: 1.5
   }, options );
 
-  const iconLength = WAVE_ICON_WAVELENGTH * WAVE_ICON_WAVELENGTHS;
-  const wavelengthRadians = WAVE_ICON_WAVELENGTH / ( Math.PI * 2 );
+  const iconLength = wavelength * wavelengthsToDraw;
+  const wavelengthRadians = wavelength / ( Math.PI * 2 );
 
   const numberOfWavePoints = 100;
-
   const waveShape = new Shape();
   waveShape.moveTo( 0, -Math.cos( 0 ) * WAVE_ICON_AMPLITUDE );
   for ( let x = 0; x < iconLength; x += iconLength / numberOfWavePoints ) {
