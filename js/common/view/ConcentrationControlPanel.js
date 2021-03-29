@@ -43,7 +43,7 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   selectedLineWidth: 2
 };
 
-class ConcentrationControlsPanel extends Panel {
+class ConcentrationControlPanel extends Panel {
 
   /**
    * @param {number} width - width the panel contents are limited to, for i18n and layout with other screen components
@@ -264,5 +264,5 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
   }
 }
 
-greenhouseEffect.register( 'ConcentrationControlsPanel', ConcentrationControlsPanel );
-export default ConcentrationControlsPanel;
+greenhouseEffect.register( 'ConcentrationControlPanel', ConcentrationControlPanel );
+export default ConcentrationControlPanel;
