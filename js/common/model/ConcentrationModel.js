@@ -11,6 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
@@ -34,8 +35,9 @@ class ConcentrationModel extends GreenhouseEffectModel {
     this.clouds = createObservableArray();
 
     // @public {NumberProperty} - numeric value for greenhouse gas concentration
-    // NOTE: This will likely move to a model for Atmosphere with other responsibilities
-    this.concentrationProperty = new NumberProperty( 0 );
+    // NOTE: This will likely move to a model for Atmosphere with other responsibilities. Range is arbitrary for now.
+    const concentrationRange = new Range( 0, 100 );
+    this.concentrationProperty = new NumberProperty( 0, { range: concentrationRange } );
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
@@ -43,6 +45,23 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
+
+    // the dateProperty directly controls the concentration, though this is just a temporary listener to test some of
+    // the UI components
+    this.dateProperty.link( date => {
+      if ( date === CONCENTRATION_DATE.ICE_AGE ) {
+        this.concentrationProperty.set( concentrationRange.min );
+      }
+      else if ( date === CONCENTRATION_DATE.SEVENTEEN_FIFTY ) {
+        this.concentrationProperty.set( concentrationRange.min + concentrationRange.getLength() / 14 );
+      }
+      else if ( date === CONCENTRATION_DATE.NINETEEN_FIFTY ) {
+        this.concentrationProperty.set( concentrationRange.min + concentrationRange.getLength() / 5 );
+      }
+      else {
+        this.concentrationProperty.set( concentrationRange.max );
+      }
+    } );
   }
 
   /**
@@ -61,6 +80,9 @@ class ConcentrationModel extends GreenhouseEffectModel {
     super.reset();
   }
 }
+
+ConcentrationModel.CONCENTRATION_CONTROL = CONCENTRATION_CONTROL;
+ConcentrationModel.CONCENTRATION_DATE = CONCENTRATION_DATE;
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export default ConcentrationModel;

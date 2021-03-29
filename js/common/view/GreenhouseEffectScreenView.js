@@ -57,8 +57,10 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // area between right edge of ScreenView and observation window
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN - this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
-    const energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
-    this.addChild( energyLegend );
+
+    // @protected {EnergyLegend} - for layout in subtypes
+    this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
+    this.addChild( this.energyLegend );
 
     // reset all button
     const resetAllButton = new ResetAllButton( {
@@ -79,7 +81,7 @@ class GreenhouseEffectScreenView extends ScreenView {
     // several controls have layout relative to the TimeControlNode
     this.timeControlNode.center = new Vector2( this.observationWindow.centerX, this.observationWindow.bottom + bottomHeight / 2 );
 
-    energyLegend.leftTop = this.observationWindow.rightTop.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+    this.energyLegend.leftTop = this.observationWindow.rightTop.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
 
     resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.centerY = this.timeControlNode.centerY;

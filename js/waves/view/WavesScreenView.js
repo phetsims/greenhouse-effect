@@ -10,6 +10,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import ConcentrationControls from '../../common/view/ConcentrationControls.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
@@ -28,6 +29,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
     const cloudsCheckbox = new CloudsCheckbox( model.cloudsVisibleProperty );
+
+    const concentrationControls = new ConcentrationControls( this.energyLegend.width, model.concentrationProperty, model.concentrationControlProperty, model.dateProperty );
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
@@ -49,9 +52,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     visibilityBox.centerY = this.timeControlNode.centerY;
 
     cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+    concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.addChild( visibilityBox );
     this.addChild( cloudsCheckbox );
+    this.addChild( concentrationControls );
     this.addChild( mockup );
   }
 

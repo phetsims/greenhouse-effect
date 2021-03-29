@@ -25,5 +25,11 @@
   },
   "startSunlight": {
     "value": "Start Sunlight"
+  },
+  "lots": {
+    "value": "Lots"
+  },
+  "none": {
+    "value": "None"
   }
 }
