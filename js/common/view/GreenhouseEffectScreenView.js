@@ -9,16 +9,15 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
+import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EnergyLegend from './EnergyLegend.js';
 import ObservationWindow from './ObservationWindow.js';
 
 const OBSERVATION_WINDOW_SIZE = new Dimension2( 780, 525 );
-
-// spacing between observation window and UI components to its right
-const OBSERVATION_WINDOW_RIGHT_SPACING = 10;
 
 class GreenhouseEffectScreenView extends ScreenView {
 
@@ -26,7 +25,13 @@ class GreenhouseEffectScreenView extends ScreenView {
    * @param {GreenhouseEffectModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model, tandem, options ) {
+
+    options = merge( {
+
+      // passed along to the EnergyLegend
+      energyLegendOptions: null
+    }, options );
 
     super();
 
@@ -50,6 +55,11 @@ class GreenhouseEffectScreenView extends ScreenView {
     } );
     this.addChild( this.timeControlNode );
 
+    // area between right edge of ScreenView and observation window
+    const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN - this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
+    const energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
+    this.addChild( energyLegend );
+
     // reset all button
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -69,6 +79,8 @@ class GreenhouseEffectScreenView extends ScreenView {
     // several controls have layout relative to the TimeControlNode
     this.timeControlNode.center = new Vector2( this.observationWindow.centerX, this.observationWindow.bottom + bottomHeight / 2 );
 
+    energyLegend.leftTop = this.observationWindow.rightTop.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+
     resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     resetAllButton.centerY = this.timeControlNode.centerY;
   }
@@ -83,7 +95,6 @@ class GreenhouseEffectScreenView extends ScreenView {
 }
 
 GreenhouseEffectScreenView.OBSERVATION_WINDOW_SIZE = OBSERVATION_WINDOW_SIZE;
-GreenhouseEffectScreenView.OBSERVATION_WINDOW_RIGHT_SPACING = OBSERVATION_WINDOW_RIGHT_SPACING;
 
 greenhouseEffect.register( 'GreenhouseEffectScreenView', GreenhouseEffectScreenView );
 export default GreenhouseEffectScreenView;

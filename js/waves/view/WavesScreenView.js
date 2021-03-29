@@ -9,6 +9,8 @@
 import Image from '../../../../scenery/js/nodes/Image.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -17,7 +19,11 @@ import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   constructor( model, tandem ) {
-    super( model, tandem );
+    super( model, tandem, {
+      energyLegendOptions: {
+        energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
+      }
+    } );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
@@ -42,7 +48,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     visibilityBox.left = this.observationWindow.left + 5;
     visibilityBox.centerY = this.timeControlNode.centerY;
 
-    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectScreenView.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
 
     this.addChild( visibilityBox );
     this.addChild( cloudsCheckbox );

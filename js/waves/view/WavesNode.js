@@ -16,6 +16,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 
@@ -33,13 +34,13 @@ class WavesNode extends Node {
     super();
 
     const yellowBeam = new Plane( {
-      fill: 'yellow',
+      fill: GreenhouseEffectConstants.SUNLIGHT_COLOR,
       opacity: 0.25
     } );
     this.addChild( yellowBeam );
 
     const redBeam = new Plane( {
-      fill: 'red',
+      fill: GreenhouseEffectConstants.INFRARED_COLOR,
       opacity: 0.25
     } );
     this.addChild( redBeam );

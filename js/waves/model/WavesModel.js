@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
@@ -27,8 +28,8 @@ class WavesModel extends ConcentrationModel {
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false );
 
-    this.yellowWaveParameterModel = new WaveParameterModel( 'yellow' );
-    this.redWaveParameterModel = new WaveParameterModel( 'red' );
+    this.yellowWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.SUNLIGHT_COLOR );
+    this.redWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.INFRARED_COLOR );
     this.cloudsVisibleProperty = new BooleanProperty( true );
     this.showGapProperty = new BooleanProperty( true );
 
