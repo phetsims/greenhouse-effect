@@ -12,9 +12,11 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
@@ -30,12 +32,17 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 // constants
 const lotsString = greenhouseEffectStrings.lots;
 const noneString = greenhouseEffectStrings.none;
+const waterConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
+const carbonDioxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
+const methaneConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
+const nitrousOxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPattern;
 
 const CONCENTRATION_METER_HEIGHT = 150; // height in view coordinates of the concentration meter (without labels)
 const CONCENTRATION_METER_MACRO_TICK_WIDTH = 15;
 const CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS = 14;
 
-const PANEL_MARGINS = 5; // margins for content within the panel
+const PANEL_MARGINS = 5; // margins between content and panel borders
+const CONTENT_SPACING = 10; // spacing between contents within the panel
 
 const RADIO_BUTTON_GROUP_OPTIONS = {
   baseColor: 'white',
@@ -53,6 +60,13 @@ class ConcentrationControlPanel extends Panel {
    * @param {Object} [options]
    */
   constructor( width, concentrationProperty, concentrationControlProperty, dateProperty, options ) {
+
+    options = merge( {
+
+      // {boolean} - if true, the panel will include a readout of the composition of greenhouse gasses when selecting
+      // concentrations by date
+      includeCompositionData: false
+    }, options );
 
     const titleNode = new Text( 'Greenhouse Gas Concentration', {
       font: GreenhouseEffectConstants.TITLE_FONT,
@@ -73,9 +87,23 @@ class ConcentrationControlPanel extends Panel {
     } );
     sliderControl.center = dateControl.center;
 
-    const content = new VBox( {
-      children: [ titleNode, controlsParentNode, controlRadioButtonGroup ],
-      spacing: 10
+    const contentChildren = [ titleNode, controlsParentNode, controlRadioButtonGroup ];
+
+    // layout
+    controlsParentNode.centerTop = titleNode.centerBottom.plusXY( 0, CONTENT_SPACING );
+    controlRadioButtonGroup.centerTop = controlsParentNode.centerBottom.plusXY( 0, CONTENT_SPACING );
+
+    let compositionDataNode = null;
+    if ( options.includeCompositionData ) {
+      compositionDataNode = new CompositionDataNode( dateProperty );
+      contentChildren.push( compositionDataNode );
+
+      compositionDataNode.left = titleNode.left;
+      compositionDataNode.top = controlRadioButtonGroup.bottom + CONTENT_SPACING;
+    }
+
+    const content = new Node( {
+      children: contentChildren
     } );
 
     super( content, {
@@ -87,6 +115,10 @@ class ConcentrationControlPanel extends Panel {
     concentrationControlProperty.link( concentrationControl => {
       sliderControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.VALUE === concentrationControl;
       dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.DATE === concentrationControl;
+
+      if ( compositionDataNode ) {
+        compositionDataNode.visible = dateControl.visible;
+      }
     } );
   }
 }
@@ -228,6 +260,47 @@ class SliderControl extends Node {
 
     lotsText.centerBottom = concentrationSlider.centerTop;
     noneText.centerTop = concentrationSlider.centerBottom;
+  }
+}
+
+class CompositionDataNode extends VBox {
+
+  /**
+   * @param {EnumerationProperty} dateProperty
+   */
+  constructor( dateProperty ) {
+    super( {
+      align: 'left'
+    } );
+
+    const textOptions = { font: GreenhouseEffectConstants.CONTENT_FONT };
+    this.waterText = new RichText( '', textOptions );
+    this.carbondDioxideText = new RichText( '', textOptions );
+    this.methaneText = new RichText( '', textOptions );
+    this.nitrousOxideText = new RichText( '', textOptions );
+
+    this.children = [ this.waterText, this.carbondDioxideText, this.methaneText, this.nitrousOxideText ];
+
+    dateProperty.link( this.updateCompositionReadout.bind( this ) );
+  }
+
+  /**
+   * Update the readout of greenhouse gas composition data for the provided date.
+   * NOTE: Don't have data or lookup yet, that needs to be implemented.
+   * @private
+   *
+   * @param {ConcentrationModel.CONCENTRATION_DATE} date
+   */
+  updateCompositionReadout( date ) {
+    const waterString = StringUtils.fillIn( waterConcentrationPatternString, { value: 70 } );
+    const carbonDioxideString = StringUtils.fillIn( carbonDioxideConcentrationPatternString, { value: 414 } );
+    const methaneString = StringUtils.fillIn( methaneConcentrationPatternString, { value: 1.876 } );
+    const nitrousOxideString = StringUtils.fillIn( nitrousOxideConcentrationPatternString, { value: 0.332 } );
+
+    this.waterText.text = waterString;
+    this.carbondDioxideText.text = carbonDioxideString;
+    this.methaneText.text = methaneString;
+    this.nitrousOxideText.text = nitrousOxideString;
   }
 }
 

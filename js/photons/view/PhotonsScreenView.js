@@ -6,6 +6,7 @@
 
 import Image from '../../../../scenery/js/nodes/Image.js';
 import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
+import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -19,6 +20,15 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     super( model, tandem );
 
+    const concentrationControlPanel = new ConcentrationControlPanel(
+      this.energyLegend.width,
+      model.concentrationProperty,
+      model.concentrationControlProperty,
+      model.dateProperty, {
+        includeCompositionData: true
+      } );
+    this.addChild( concentrationControlPanel );
+
     const mockup = new Image( photonsScreenMockup, {
       center: this.layoutBounds.center,
       minWidth: this.layoutBounds.width,
@@ -27,6 +37,8 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     } );
     this.addChild( mockup );
     window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+
+    concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
   }
 
   /**

@@ -31,5 +31,17 @@
   },
   "none": {
     "value": "None"
+  },
+  "concentrationPanel.waterConcentrationPattern": {
+    "value": "H<sub>2</sub>O: {{value}}% relative humidity"
+  },
+  "concentrationPanel.carbonDioxideConcentrationPattern": {
+    "value": "CO<sub>2</sub>: {{value}} ppm"
+  },
+  "concentrationPanel.methaneConcentrationPattern": {
+    "value": "CH<sub>4</sub>: {{value}} ppm"
+  },
+  "concentrationPanel.nitrousOxideConcentrationPattern": {
+    "value": "N<sub>2</sub>O: {{value}} ppm"
   }
 }
