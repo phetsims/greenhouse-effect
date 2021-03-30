@@ -77,6 +77,10 @@ class ConcentrationModel extends GreenhouseEffectModel {
     this.concentrationControlProperty.reset();
     this.dateProperty.reset();
 
+    // The concentrationProperty is dependent on the dateProperty. Resetting both while the dateProperty doesn't
+    // change from reset can result in value of concentration value being incorrect b. Find another way to do this.
+    this.dateProperty.notifyListenersStatic();
+
     super.reset();
   }
 }
