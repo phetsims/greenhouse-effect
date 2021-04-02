@@ -127,6 +127,9 @@ class ObservationWindow extends Node {
       centerX: windowFrame.centerX,
       centerY: windowFrame.height * 0.4,
 
+      // keep the size reasonable
+      maxTextWidth: SIZE.width * 0.5,
+
       listener: () => {
 
         // state checking

@@ -56,7 +56,8 @@ class GreenhouseEffectScreenView extends ScreenView {
     this.addChild( this.timeControlNode );
 
     // area between right edge of ScreenView and observation window
-    const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN - this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
+    const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
+                       this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
 
     // @protected {EnergyLegend} - for layout in subtypes
     this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
