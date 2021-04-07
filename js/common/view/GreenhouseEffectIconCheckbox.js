@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
@@ -28,6 +29,9 @@ class GreenhouseEffectIconCheckbox extends Checkbox {
    * @param {Object} [options]
    */
   constructor( labelString, iconNode, property, options ) {
+
+    options = merge( { accessibleName: labelString }, options );
+
     const labelText = new Text( labelString, { font: LABEL_FONT } );
     const checkboxContent = new HBox( {
       children: [ labelText, iconNode ],
