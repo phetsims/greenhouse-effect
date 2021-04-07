@@ -43,5 +43,10 @@
   },
   "concentrationPanel.nitrousOxideConcentrationPattern": {
     "value": "N<sub>2</sub>O: {{value}} ppm"
+  },
+  "a11y": {
+    "observationWindowLabel": {
+      "value": "Observation Window"
+    }
   }
 }

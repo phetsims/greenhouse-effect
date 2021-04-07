@@ -77,7 +77,7 @@ class ObservationWindow extends Node {
       stroke: 'black'
     } );
 
-    // Add the sky.
+    // sky
     const skyRectHeight = -mvt.modelToViewDeltaY( GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
     const skyNode = new Rectangle( 0, 0, SIZE.width, skyRectHeight, {
       fill: new LinearGradient( 0, 0, 0, skyRectHeight )
@@ -87,7 +87,7 @@ class ObservationWindow extends Node {
         .addColorStop( 1, '#CCF2FF' )
     } );
 
-    // Add the ground.
+    // ground
     const groundRectHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
     const groundNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
       fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
@@ -135,7 +135,7 @@ class ObservationWindow extends Node {
         // state checking
         assert && assert(
           !model.isStartedProperty.value,
-          'it should not be possible to press this button when model is started'
+          'it should not be possible to press this button when the model has been started'
         );
 
         // Start the model.
@@ -177,7 +177,13 @@ class ObservationWindow extends Node {
     } );
 
     super( merge( {
-      children: [ skyNode, groundNode, presentationNode, darknessNode, startButton, windowFrame ]
+      children: [ skyNode, groundNode, presentationNode, darknessNode, startButton, windowFrame ],
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
+
     }, options ) );
 
     // @private - Make the presentation node available for stepping.

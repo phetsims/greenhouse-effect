@@ -141,14 +141,20 @@ class WavesNode extends Node {
       cornerRadius: ACCORDION_BOX_CORNER_RADIUS,
       left: ACCORDION_BOX_INSET,
       top: ACCORDION_BOX_INSET,
-      expandedProperty: model.yellowWaveParameterModel.expandedProperty
+      expandedProperty: model.yellowWaveParameterModel.expandedProperty,
+
+      // pdom
+      pdomVisible: false
     } );
     const redAccordionBox = new AccordionBox( createContent( model.redWaveParameterModel ), {
       titleNode: new Text( 'Red' ),
       cornerRadius: ACCORDION_BOX_CORNER_RADIUS,
       right: size.width - ACCORDION_BOX_INSET,
       top: ACCORDION_BOX_INSET,
-      expandedProperty: model.redWaveParameterModel.expandedProperty
+      expandedProperty: model.redWaveParameterModel.expandedProperty,
+
+      // pdom
+      pdomVisible: false
     } );
 
     this.waves = [];
