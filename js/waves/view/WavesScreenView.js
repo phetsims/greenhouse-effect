@@ -54,10 +54,19 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
-    this.addChild( visibilityBox );
-    this.addChild( cloudsCheckbox );
-    this.addChild( concentrationControls );
-    this.addChild( mockup );
+    this.pdomControlAreaNode.addChild( visibilityBox );
+    this.pdomControlAreaNode.addChild( cloudsCheckbox );
+    this.pdomControlAreaNode.addChild( concentrationControls );
+    this.pdomControlAreaNode.addChild( mockup );
+
+    // tab order (a11y)
+    this.pdomControlAreaNode.pdomOrder = [
+      concentrationControls,
+      cloudsCheckbox,
+      visibilityBox,
+      this.timeControlNode,
+      this.resetAllButton
+    ];
   }
 
   /**

@@ -24,6 +24,7 @@ class GreenhouseEffectScreenView extends ScreenView {
   /**
    * @param {GreenhouseEffectModel} model
    * @param {Tandem} tandem
+   * @param {Object} [options]
    */
   constructor( model, tandem, options ) {
 
@@ -63,8 +64,8 @@ class GreenhouseEffectScreenView extends ScreenView {
     this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
     this.pdomControlAreaNode.addChild( this.energyLegend );
 
-    // reset all button
-    const resetAllButton = new ResetAllButton( {
+    // @protected {ResetAllButton}
+    this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         this.reset();
@@ -73,7 +74,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.pdomControlAreaNode.addChild( resetAllButton );
+    this.pdomControlAreaNode.addChild( this.resetAllButton );
 
     // layout code
     // height of area between bottom of the screen view and bottom of the observation window
@@ -84,8 +85,8 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     this.energyLegend.leftTop = this.observationWindow.rightTop.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
 
-    resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
-    resetAllButton.centerY = this.timeControlNode.centerY;
+    this.resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
+    this.resetAllButton.centerY = this.timeControlNode.centerY;
   }
 
   /**
