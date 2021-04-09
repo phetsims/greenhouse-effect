@@ -9,6 +9,7 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
@@ -124,6 +125,9 @@ class ObservationWindow extends Node {
       } );
     }
 
+    // clip the presentation to stay within the window frame
+    presentationNode.clipArea = Shape.bounds( windowFrame.bounds );
+
     // Add a node that will make everything behind it look darkened.  The idea is that this will make it looking
     // somewhat like it's night, and then will fade away once the sun is shining, allowing the background to be seen
     // more clearly.
@@ -202,7 +206,7 @@ class ObservationWindow extends Node {
 
     }, options ) );
 
-    // @private - Make the presentation node available for stepping.
+      // @private - Make the presentation node available for stepping.
     this.presentationNode = presentationNode;
   }
 

@@ -187,10 +187,6 @@ class WavesNode extends Node {
       canvasBounds: size.toBounds()
     } );
 
-    // I (@jbphet) am not sure why this is needed, but without it the waves go a little beyond the provided bounds.
-    // Since WavesNode is for prototyping, this was a quick fix that worked, and is reasonable for now.
-    this.clipArea = Shape.bounds( size.toBounds() );
-
     cloud1.moveToFront();
     cloud2.moveToFront();
 
