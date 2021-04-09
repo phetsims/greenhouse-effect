@@ -31,7 +31,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
     // @public {Boolean} - whether or not a graphic displaying the net balance of energy is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( true );
 
-    // @public {ObservableArray.<Cloud> - observable list of Clouds in the simulation that may interact with photons
+    // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
     this.clouds = createObservableArray();
 
     // @public {NumberProperty} - numeric value for greenhouse gas concentration

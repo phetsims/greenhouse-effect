@@ -26,6 +26,7 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesNode from '../../waves/view/WavesNode.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import PhotonNode from './PhotonNode.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -100,6 +101,21 @@ class ObservationWindow extends Node {
     let presentationNode;
     if ( model instanceof WavesModel ) {
       presentationNode = new WavesNode( model, SIZE );
+    }
+    else if ( model.photons ) {
+
+      presentationNode = new Node();
+
+      // Add and remove photon nodes as they come and go in the model.
+      model.photons.addItemAddedListener( addedPhoton => {
+        const photonNode = new PhotonNode( addedPhoton, mvt, { scale: 0.5 } );
+        presentationNode.addChild( photonNode );
+        model.photons.addItemRemovedListener( removedPhoton => {
+          if ( removedPhoton === addedPhoton ) {
+            presentationNode.removeChild( photonNode );
+          }
+        } );
+      } );
     }
     else {
       presentationNode = new Text( 'No dynamic view for this model type yet.', {
