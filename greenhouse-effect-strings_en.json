@@ -47,6 +47,11 @@
   "a11y": {
     "observationWindowLabel": {
       "value": "Observation Window"
+    },
+    "waves": {
+      "homeScreenDescription": {
+        "value" : "Explore greenhouse effect with wave representation."
+      }
     }
   }
 }

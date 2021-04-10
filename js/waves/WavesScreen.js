@@ -24,7 +24,8 @@ class WavesScreen extends Screen {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
       homeScreenIcon: new RandomIcon( 552 ),
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.waves
+      name: greenhouseEffectStrings.screen.waves,
+      descriptionContent: greenhouseEffectStrings.a11y.waves.homeScreenDescription
     };
 
     super(
