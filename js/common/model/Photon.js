@@ -27,7 +27,7 @@ class Photon {
       initialVelocity: null
     }, options );
 
-    assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
+    assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
 
     // @public (read-only) - position in model space
     this.positionProperty = new Vector2Property( initialPosition, {
