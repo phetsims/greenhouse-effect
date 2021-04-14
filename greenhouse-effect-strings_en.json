@@ -26,11 +26,17 @@
   "startSunlight": {
     "value": "Start Sunlight"
   },
-  "lots": {
+  "concentrationPanel.greenhouseGasConcentration": {
+    "value": "Greenhouse Gas Concentration"
+  },
+  "concentrationPanel.lots": {
     "value": "Lots"
   },
-  "none": {
+  "concentrationPanel.none": {
     "value": "None"
+  },
+  "concentrationPanel.iceAge": {
+    "value": "Ice Age"
   },
   "concentrationPanel.waterConcentrationPattern": {
     "value": "H<sub>2</sub>O: {{value}}% relative humidity"
@@ -51,6 +57,26 @@
     "waves": {
       "homeScreenDescription": {
         "value" : "Explore greenhouse effect with wave representation."
+      }
+    },
+    "concentrationPanel": {
+      "title": {
+        "value": "Greenhouse Gas Exploration Controls"
+      },
+      "timePeriod": {
+        "value": "Time Period"
+      },
+      "exploreMode": {
+        "value": "Explore Mode"
+      },
+      "byConcentration": {
+        "value": "By concentration"
+      },
+      "byTimePeriod": {
+        "value": "By time period"
+      },
+      "greenhouseGasConcentration": {
+        "value": "Greenhouse Gas Concentration"
       }
     }
   }

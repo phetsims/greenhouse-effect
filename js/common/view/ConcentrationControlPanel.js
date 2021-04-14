@@ -5,6 +5,7 @@
  * or greenhouse gas concentration can be selected from a particular date.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -30,8 +31,8 @@ import ConcentrationModel from '../model/ConcentrationModel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 // constants
-const lotsString = greenhouseEffectStrings.lots;
-const noneString = greenhouseEffectStrings.none;
+const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
+const noneString = greenhouseEffectStrings.concentrationPanel.none;
 const waterConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
 const carbonDioxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
 const methaneConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
@@ -63,12 +64,20 @@ class ConcentrationControlPanel extends Panel {
 
     options = merge( {
 
+      xMargin: PANEL_MARGINS,
+      yMargin: PANEL_MARGINS,
+
       // {boolean} - if true, the panel will include a readout of the composition of greenhouse gasses when selecting
       // concentrations by date
-      includeCompositionData: false
+      includeCompositionData: false,
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.title
     }, options );
 
-    const titleNode = new Text( 'Greenhouse Gas Concentration', {
+    const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2
     } );
@@ -106,10 +115,7 @@ class ConcentrationControlPanel extends Panel {
       children: contentChildren
     } );
 
-    super( content, {
-      xMargin: PANEL_MARGINS,
-      yMargin: PANEL_MARGINS
-    } );
+    super( content, options );
 
     // only one form of controls is visible at a time
     concentrationControlProperty.link( concentrationControl => {
@@ -138,26 +144,39 @@ class DateControl extends Node {
   constructor( dateProperty, concentrationProperty ) {
     super();
 
+    const twentyNineteenLabel = '2019';
+    const nineteenFiftyLabel = '1950';
+    const seventeenFiftyLabel = '1750';
+    const iceAgeLabel = greenhouseEffectStrings.concentrationPanel.iceAge;
+
     // the radio buttons for the date control
     const items = [
       {
-        node: new Text( '2019', { font: GreenhouseEffectConstants.CONTENT_FONT } ),
-        value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN
+        node: new Text( twentyNineteenLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN,
+        labelContent: twentyNineteenLabel
       },
       {
-        node: new Text( '1950', { font: GreenhouseEffectConstants.CONTENT_FONT } ),
-        value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY
+        node: new Text( nineteenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
+        labelContent: nineteenFiftyLabel
       },
       {
-        node: new Text( '1750', { font: GreenhouseEffectConstants.CONTENT_FONT } ),
-        value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY
+        node: new Text( seventeenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
+        labelContent: seventeenFiftyLabel
       },
       {
-        node: new Text( 'Ice Age', { font: GreenhouseEffectConstants.CONTENT_FONT } ),
-        value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE
+        node: new Text( iceAgeLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
+        labelContent: iceAgeLabel
       }
     ];
-    const dateRadioButtonGroup = new RectangularRadioButtonGroup( dateProperty, items, RADIO_BUTTON_GROUP_OPTIONS );
+    const dateRadioButtonGroup = new RectangularRadioButtonGroup(
+      dateProperty,
+      items,
+      merge( { labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod }, RADIO_BUTTON_GROUP_OPTIONS )
+    );
 
     // relative concentration graphic
     const meterLineOptions = { stroke: 'black' };
@@ -241,7 +260,9 @@ class SliderControl extends Node {
     const concentrationRange = concentrationProperty.range;
     const concentrationSlider = new VSlider( concentrationProperty, concentrationProperty.range, {
       trackSize: new Dimension2( 1, 100 ),
-      thumbSize: new Dimension2( 20, 10 )
+      thumbSize: new Dimension2( 20, 10 ),
+      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.greenhouseGasConcentration,
+      labelTagName: 'label'
     } );
 
     const delta = concentrationRange.getLength() / 10;
@@ -325,15 +346,27 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     const items = [
       {
         node: sliderIcon,
-        value: ConcentrationModel.CONCENTRATION_CONTROL.VALUE
+        value: ConcentrationModel.CONCENTRATION_CONTROL.VALUE,
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration
       },
       {
         node: dateIcon,
-        value: ConcentrationModel.CONCENTRATION_CONTROL.DATE
+        value: ConcentrationModel.CONCENTRATION_CONTROL.DATE,
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod
       }
     ];
 
-    super( property, items, merge( { orientation: 'horizontal' }, RADIO_BUTTON_GROUP_OPTIONS ) );
+    super(
+      property,
+      items,
+      merge(
+        {
+          orientation: 'horizontal',
+          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode
+        },
+        RADIO_BUTTON_GROUP_OPTIONS
+      )
+    );
   }
 }
 
