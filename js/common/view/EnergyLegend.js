@@ -12,6 +12,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
@@ -19,6 +20,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import photon660Image from '../../../images/photon-660_png.js';
 import thin2Image from '../../../images/thin2_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants that define shape of wave icon, in view coordinates
@@ -94,8 +96,22 @@ class EnergyLegend extends Panel {
       infraredIcon = infraredPhotonBox;
     }
 
-    const sunlightRow = new HBox( { children: [ sunlightLabel, sunlightIcon ], spacing: SPACING } );
-    const infraredRow = new HBox( { children: [ infraredLabel, infraredIcon ], spacing: SPACING } );
+    const sunlightRow = new HBox( {
+      children: [ sunlightLabel, sunlightIcon ],
+      spacing: SPACING,
+
+      // pdom
+      tagName: 'li',
+      innerContent: greenhouseEffectStrings.a11y.energyLegend.sunlightRadiation
+    } );
+    const infraredRow = new HBox( {
+      children: [ infraredLabel, infraredIcon ],
+      spacing: SPACING,
+
+      // pdom
+      tagName: 'li',
+      innerContent: greenhouseEffectStrings.a11y.energyLegend.infraredRadiation
+    } );
 
     // determine how much to extend width of contents so legend takes up desired width in the view
     const maxItemWidth = _.maxBy( [ titleNode, sunlightRow, infraredRow ], item => item.width ).width;
@@ -107,12 +123,30 @@ class EnergyLegend extends Panel {
     const sunlightBox = legendAlignGroup.createBox( sunlightRow, { xAlign: 'left', rightMargin: marginWidth } );
     const infraredBox = legendAlignGroup.createBox( infraredRow, { xAlign: 'left', rightMargin: marginWidth } );
 
-    const content = new VBox( { spacing: SPACING, children: [ titleBox, sunlightBox, infraredBox ] } );
+    const content = new VBox( {
+      spacing: SPACING,
+      children: [ titleBox, sunlightBox, infraredBox ],
+
+      // pdom
+      tagName: 'ul'
+    } );
 
     super( content, {
       fill: 'black',
-      xMargin: PANEL_X_MARGIN
+      xMargin: PANEL_X_MARGIN,
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: greenhouseEffectStrings.a11y.energyLegend.title
     } );
+
+    // pdom
+    const pdomParagraph = new Node( {
+      tagName: 'p',
+      innerContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow
+    } );
+    this.insertChild( 0, pdomParagraph ); // needs to precede the other content in the pdom
   }
 }
 

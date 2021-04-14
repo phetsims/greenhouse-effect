@@ -54,6 +54,20 @@
     "observationWindowLabel": {
       "value": "Observation Window"
     },
+    "energyLegend": {
+      "title": {
+        "value": "Energy Legend"
+      },
+      "inObservationWindow": {
+        "value": "In observation window:"
+      },
+      "sunlightRadiation": {
+        "value": "Sunlight radiation: yellow waves, wavelength shorter than infrared"
+      },
+      "infraredRadiation": {
+        "value": "Infrared radiation: red waves, wavelength longer than sunlight"
+      }
+    },
     "waves": {
       "homeScreenDescription": {
         "value" : "Explore greenhouse effect with wave representation."

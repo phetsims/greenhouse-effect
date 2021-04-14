@@ -175,7 +175,13 @@ class DateControl extends Node {
     const dateRadioButtonGroup = new RectangularRadioButtonGroup(
       dateProperty,
       items,
-      merge( { labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod }, RADIO_BUTTON_GROUP_OPTIONS )
+      merge(
+        {
+          labelTagName: 'h4',
+          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod
+        },
+        RADIO_BUTTON_GROUP_OPTIONS
+      )
     );
 
     // relative concentration graphic
@@ -362,6 +368,9 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
       merge(
         {
           orientation: 'horizontal',
+
+          // pdom
+          labelTagName: 'h4',
           labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode
         },
         RADIO_BUTTON_GROUP_OPTIONS
