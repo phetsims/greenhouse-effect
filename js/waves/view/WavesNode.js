@@ -200,7 +200,10 @@ class WavesNode extends Node {
 
     this.addChild( new Checkbox( new Text( 'Show Gaps' ), model.showGapProperty, {
       left: 10,
-      bottom: size.height - 10
+      bottom: size.height - 10,
+
+      // pdom
+      pdomVisible: false
     } ) );
 
     this.addChild( this.wavesCanvasNode );

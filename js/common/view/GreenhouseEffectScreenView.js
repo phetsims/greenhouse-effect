@@ -42,6 +42,16 @@ class GreenhouseEffectScreenView extends ScreenView {
     // @protected (read-only) - The observation window where the ground, sky, waves, photons, and such will appear. This
     // is protected for layout purposes in subtypes.
     this.observationWindow = new ObservationWindow( model, tandem );
+
+    // area between right edge of ScreenView and observation window
+    const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
+                       this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
+
+    // @protected {EnergyLegend} - for layout in subtypes
+    this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
+
+    // add these nodes to the play area
+    this.pdomPlayAreaNode.addChild( this.energyLegend );
     this.pdomPlayAreaNode.addChild( this.observationWindow );
 
     // @public {TimeControlNode} - for layout in subtypes
@@ -55,14 +65,6 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     } );
     this.pdomControlAreaNode.addChild( this.timeControlNode );
-
-    // area between right edge of ScreenView and observation window
-    const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
-                       this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
-
-    // @protected {EnergyLegend} - for layout in subtypes
-    this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
-    this.pdomControlAreaNode.addChild( this.energyLegend );
 
     // @protected {ResetAllButton}
     this.resetAllButton = new ResetAllButton( {

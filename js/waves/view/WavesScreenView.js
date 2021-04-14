@@ -30,7 +30,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
     const cloudsCheckbox = new CloudsCheckbox( model.cloudsVisibleProperty );
 
-    const concentrationControls = new ConcentrationControlPanel( this.energyLegend.width, model.concentrationProperty, model.concentrationControlProperty, model.dateProperty );
+    const concentrationControls = new ConcentrationControlPanel(
+      this.energyLegend.width,
+      model.concentrationProperty,
+      model.concentrationControlProperty,
+      model.dateProperty
+    );
+    this.pdomPlayAreaNode.addChild( concentrationControls );
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
@@ -56,12 +62,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     this.pdomControlAreaNode.addChild( visibilityBox );
     this.pdomControlAreaNode.addChild( cloudsCheckbox );
-    this.pdomControlAreaNode.addChild( concentrationControls );
     this.pdomControlAreaNode.addChild( mockup );
 
     // tab order (a11y)
     this.pdomControlAreaNode.pdomOrder = [
-      concentrationControls,
       cloudsCheckbox,
       visibilityBox,
       this.timeControlNode,
