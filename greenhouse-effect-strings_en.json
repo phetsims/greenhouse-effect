@@ -73,6 +73,11 @@
         "value" : "Explore greenhouse effect with wave representation."
       }
     },
+    "photons": {
+      "homeScreenDescription": {
+        "value" : "Explore greenhouse effect with photon representation."
+      }
+    },
     "concentrationPanel": {
       "title": {
         "value": "Greenhouse Gas Exploration Controls"

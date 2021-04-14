@@ -24,7 +24,8 @@ class PhotonsScreen extends Screen {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
       homeScreenIcon: new RandomIcon( 1 ),
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.photons
+      name: greenhouseEffectStrings.screen.photons,
+      descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription
     };
 
     super(
