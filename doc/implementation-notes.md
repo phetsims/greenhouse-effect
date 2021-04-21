@@ -1,3 +1,6 @@
+#TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
+See https://github.com/phetsims/greenhouse-effect/issues/19 
+
 # Implementation notes for 'Molecules and Light'
 
 'Molecules and Light' is a single screen sim.  The Java version of this simulation shared a significant amount of code
