@@ -144,6 +144,7 @@ class DateControl extends Node {
   constructor( dateProperty, concentrationProperty ) {
     super();
 
+    // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
     const twentyNineteenLabel = '2019';
     const nineteenFiftyLabel = '1950';
     const seventeenFiftyLabel = '1750';
