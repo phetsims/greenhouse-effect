@@ -12,7 +12,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import AlignGroup from '../../../../scenery/js/nodes/AlignGroup.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
@@ -138,15 +137,10 @@ class EnergyLegend extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.energyLegend.title
+      labelContent: greenhouseEffectStrings.a11y.energyLegend.title,
+      descriptionTagName: 'p',
+      descriptionContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow
     } );
-
-    // pdom
-    const pdomParagraph = new Node( {
-      tagName: 'p',
-      innerContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow
-    } );
-    this.insertChild( 0, pdomParagraph ); // needs to precede the other content in the pdom
   }
 }
 
