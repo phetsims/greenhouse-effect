@@ -10,15 +10,15 @@ import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import photonAbsorbedSound from '../../../sounds/absorb-photon_mp3.js';
-import moleculeEnergizedSound from '../../../sounds/energized_mp3.js';
 import breakApartSound from '../../../sounds/break-apart_mp3.js';
+import moleculeEnergizedSound from '../../../sounds/energized_mp3.js';
 import rotationClockwiseSlowMotionSound from '../../../sounds/rotation-clockwise-slow-motion_mp3.js';
 import rotationClockwiseNormalSpeedSound from '../../../sounds/rotation-clockwise_mp3.js';
 import rotationCounterclockwiseSlowMotionSound from '../../../sounds/rotation-counterclockwise-slow-motion_mp3.js';
 import rotationCounterclockwiseNormalSpeedSound from '../../../sounds/rotation-counterclockwise_mp3.js';
 import vibrationSlowMotionSound from '../../../sounds/vibration-slow-motion_mp3.js';
 import vibrationNormalSpeedStereoSound from '../../../sounds/vibration_mp3.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const ABSORPTION_TO_ACTIVITY_SOUND_DELAY = 0.2; // in seconds
@@ -249,5 +249,5 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
   }
 }
 
-moleculesAndLight.register( 'MoleculeActionSoundGenerator', MoleculeActionSoundGenerator );
+greenhouseEffect.register( 'MoleculeActionSoundGenerator', MoleculeActionSoundGenerator );
 export default MoleculeActionSoundGenerator;

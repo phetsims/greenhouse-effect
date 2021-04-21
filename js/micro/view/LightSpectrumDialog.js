@@ -12,7 +12,7 @@
  */
 
 import Dialog from '../../../../sun/js/Dialog.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class LightSpectrumDialog extends Dialog {
 
@@ -31,5 +31,5 @@ class LightSpectrumDialog extends Dialog {
   }
 }
 
-moleculesAndLight.register( 'LightSpectrumDialog', LightSpectrumDialog );
+greenhouseEffect.register( 'LightSpectrumDialog', LightSpectrumDialog );
 export default LightSpectrumDialog;

@@ -9,7 +9,7 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 
 class AtomicBond {
 
@@ -55,6 +55,6 @@ class AtomicBond {
   }
 }
 
-moleculesAndLight.register( 'AtomicBond', AtomicBond );
+greenhouseEffect.register( 'AtomicBond', AtomicBond );
 
 export default AtomicBond;

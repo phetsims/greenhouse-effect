@@ -1,12 +1,12 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that causes a molecule to rotate after absorbing a photon, and re-emit the photon after
+ * MicroPhoton absorption strategy that causes a molecule to rotate after absorbing a photon, and re-emit the photon after
  * some length of time.  This is to be inherited by the general PhotonAbsorptionStrategy class.
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 // random boolean generator
@@ -48,6 +48,6 @@ class RotationStrategy extends PhotonHoldStrategy {
   }
 }
 
-moleculesAndLight.register( 'RotationStrategy', RotationStrategy );
+greenhouseEffect.register( 'RotationStrategy', RotationStrategy );
 
 export default RotationStrategy;

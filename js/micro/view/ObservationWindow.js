@@ -19,17 +19,17 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 import PhotonEmitterNode from '../../photon-absorption/view/PhotonEmitterNode.js';
 import PhotonNode from '../../photon-absorption/view/PhotonNode.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 
-const buttonNodeReturnMoleculeString = moleculesAndLightStrings.ButtonNode.ReturnMolecule;
-const observationWindowLabelString = moleculesAndLightStrings.a11y.observationWindowLabel;
-const geometryLabelPatternString = moleculesAndLightStrings.a11y.geometryLabelPattern;
+const buttonNodeReturnMoleculeString = greenhouseEffectStrings.ButtonNode.ReturnMolecule;
+const observationWindowLabelString = greenhouseEffectStrings.a11y.observationWindowLabel;
+const geometryLabelPatternString = greenhouseEffectStrings.a11y.geometryLabelPattern;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;
@@ -91,9 +91,9 @@ class ObservationWindow extends Rectangle {
     photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ).plus( new Vector2( 0, photonEmitterNode.openSciEdLabelHeight / 2 ) ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
-    // TODO: This clip area has been replaced with a layered rectangle in MoleculesAndLightScreenView because of a
+    // TODO: This clip area has been replaced with a layered rectangle in MicroScreenView because of a
     // Safari specific SVG bug caused by clipping.  Once we discover the cause of this bug, the clipping area can
-    // replace the layered rectangle in MoleculesAndLightScreenView.  See
+    // replace the layered rectangle in MicroScreenView.  See
     // https://github.com/phetsims/molecules-and-light/issues/105 and https://github.com/phetsims/scenery/issues/412.
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
     //    this.clipArea = new Shape().roundRect(
@@ -298,6 +298,6 @@ class ObservationWindow extends Rectangle {
   }
 }
 
-moleculesAndLight.register( 'ObservationWindow', ObservationWindow );
+greenhouseEffect.register( 'ObservationWindow', ObservationWindow );
 
 export default ObservationWindow;

@@ -13,7 +13,7 @@ import microwavePhotonImage from '../../../images/microwave-photon_png.js';
 import photon100Image from '../../../images/photon-100_png.js';
 import photon660Image from '../../../images/photon-660_png.js';
 import thin2Image from '../../../images/thin2_png.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 // Map of photon wavelengths to visual images used for representing them.
@@ -56,6 +56,6 @@ class PhotonNode extends Node {
   }
 }
 
-moleculesAndLight.register( 'PhotonNode', PhotonNode );
+greenhouseEffect.register( 'PhotonNode', PhotonNode );
 
 export default PhotonNode;

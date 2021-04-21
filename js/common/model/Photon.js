@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Photon is a model of a simple photon with the attributes needed by the Greenhouse Effect simulation.
+ * MicroPhoton is a model of a simple photon with the attributes needed by the Greenhouse Effect simulation.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */

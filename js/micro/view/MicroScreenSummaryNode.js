@@ -8,26 +8,26 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import PhotonTarget from '../model/PhotonTarget.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const playAreaSummaryString = moleculesAndLightStrings.a11y.playAreaSummary;
-const controlAreaSummaryString = moleculesAndLightStrings.a11y.controlAreaSummary;
-const interactionHintString = moleculesAndLightStrings.a11y.interactionHint;
-const simIsPausedString = moleculesAndLightStrings.a11y.simIsPaused;
-const simIsPausedOnSlowSpeedString = moleculesAndLightStrings.a11y.simIsPausedOnSlowSpeed;
-const dynamicPlayingScreenSummaryPatternString = moleculesAndLightStrings.a11y.dynamicPlayingScreenSummaryPattern;
-const dynamicPausedScreenSummaryPatternString = moleculesAndLightStrings.a11y.dynamicPausedScreenSummaryPattern;
-const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
-const screenSummaryWithHintPatternString = moleculesAndLightStrings.a11y.screenSummaryWithHintPattern;
-const emitsPhotonsString = moleculesAndLightStrings.a11y.emitsPhotons;
-const emitsPhotonsOnSlowSpeedString = moleculesAndLightStrings.a11y.emitsPhotonsOnSlowSpeed;
-const isOffAndPointsString = moleculesAndLightStrings.a11y.isOffAndPoints;
-const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
+const playAreaSummaryString = greenhouseEffectStrings.a11y.playAreaSummary;
+const controlAreaSummaryString = greenhouseEffectStrings.a11y.controlAreaSummary;
+const interactionHintString = greenhouseEffectStrings.a11y.interactionHint;
+const simIsPausedString = greenhouseEffectStrings.a11y.simIsPaused;
+const simIsPausedOnSlowSpeedString = greenhouseEffectStrings.a11y.simIsPausedOnSlowSpeed;
+const dynamicPlayingScreenSummaryPatternString = greenhouseEffectStrings.a11y.dynamicPlayingScreenSummaryPattern;
+const dynamicPausedScreenSummaryPatternString = greenhouseEffectStrings.a11y.dynamicPausedScreenSummaryPattern;
+const targetMoleculePatternString = greenhouseEffectStrings.a11y.targetMoleculePattern;
+const screenSummaryWithHintPatternString = greenhouseEffectStrings.a11y.screenSummaryWithHintPattern;
+const emitsPhotonsString = greenhouseEffectStrings.a11y.emitsPhotons;
+const emitsPhotonsOnSlowSpeedString = greenhouseEffectStrings.a11y.emitsPhotonsOnSlowSpeed;
+const isOffAndPointsString = greenhouseEffectStrings.a11y.isOffAndPoints;
+const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;
 
-class MoleculesAndLightScreenSummaryNode extends Node {
+class MicroScreenSummaryNode extends Node {
 
   /**
    * @param {PhotonAbsorptionModel} model
@@ -141,5 +141,5 @@ class MoleculesAndLightScreenSummaryNode extends Node {
   }
 }
 
-moleculesAndLight.register( 'MoleculesAndLightScreenSummaryNode', MoleculesAndLightScreenSummaryNode );
-export default MoleculesAndLightScreenSummaryNode;
+greenhouseEffect.register( 'MicroScreenSummaryNode', MicroScreenSummaryNode );
+export default MicroScreenSummaryNode;

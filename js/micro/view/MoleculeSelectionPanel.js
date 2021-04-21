@@ -17,9 +17,9 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
-import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CH4 from '../../photon-absorption/model/molecules/CH4.js';
 import CO from '../../photon-absorption/model/molecules/CO.js';
 import CO2 from '../../photon-absorption/model/molecules/CO2.js';
@@ -33,10 +33,10 @@ import MolecularFormulaStrings from '../../photon-absorption/view/MolecularFormu
 import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 
-const molecularNamePatternString = moleculesAndLightStrings.molecularNamePattern;
-const moleculesString = moleculesAndLightStrings.a11y.molecules;
-const moleculesRadioButtonHelpTextString = moleculesAndLightStrings.a11y.moleculesRadioButtonHelpText;
-const moleculeButtonLabelPatternString = moleculesAndLightStrings.a11y.moleculeButtonLabelPattern;
+const molecularNamePatternString = greenhouseEffectStrings.molecularNamePattern;
+const moleculesString = greenhouseEffectStrings.a11y.molecules;
+const moleculesRadioButtonHelpTextString = greenhouseEffectStrings.a11y.moleculesRadioButtonHelpText;
+const moleculeButtonLabelPatternString = greenhouseEffectStrings.a11y.moleculeButtonLabelPattern;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except
@@ -121,7 +121,7 @@ class MoleculeSelectionPanel extends Panel {
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
     let radioButtonContent = [];
-    if ( MoleculesAndLightQueryParameters.openSciEd ) {
+    if ( GreenhouseEffectQueryParameters.openSciEd ) {
 
       // the specific molecules requested by Open Science Ed
       radioButtonContent = [ nitrogenElement, oxygenElement, carbonDioxideElement, methaneElement, waterElement ];
@@ -189,5 +189,5 @@ const createPDOMLabel = molecule => {
   } );
 };
 
-moleculesAndLight.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
+greenhouseEffect.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 export default MoleculeSelectionPanel;

@@ -8,7 +8,7 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import Molecule from '../Molecule.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
@@ -57,6 +57,6 @@ class O2 extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'O2', O2 );
+greenhouseEffect.register( 'O2', O2 );
 
 export default O2;

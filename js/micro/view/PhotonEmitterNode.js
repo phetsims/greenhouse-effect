@@ -24,15 +24,15 @@ import flashlightOnImage from '../../../mipmaps/flashlight_png.js';
 import heatLampOnImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js';
 import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
-import MoleculesAndLightQueryParameters from '../../common/MoleculesAndLightQueryParameters.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const lightSourceButtonLabelPatternString = moleculesAndLightStrings.a11y.lightSource.buttonLabelPattern;
-const lightSourcePressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonPressedHelpText;
-const lightSourceUnpressedButtonHelpTextString = moleculesAndLightStrings.a11y.lightSource.buttonUnpressedHelpText;
-const openSciEdEnergySourceString = moleculesAndLightStrings.openSciEd.energySource;
+const lightSourceButtonLabelPatternString = greenhouseEffectStrings.a11y.lightSource.buttonLabelPattern;
+const lightSourcePressedButtonHelpTextString = greenhouseEffectStrings.a11y.lightSource.buttonPressedHelpText;
+const lightSourceUnpressedButtonHelpTextString = greenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpText;
+const openSciEdEnergySourceString = greenhouseEffectStrings.openSciEd.energySource;
 
 class PhotonEmitterNode extends Node {
 
@@ -54,7 +54,7 @@ class PhotonEmitterNode extends Node {
     // @public (read-only) {number} height of the label requested by Open Sci Ed, will be 0 if not in that mode
     this.openSciEdLabelHeight = 0;
 
-    if ( MoleculesAndLightQueryParameters.openSciEd ) {
+    if ( GreenhouseEffectQueryParameters.openSciEd ) {
 
       // add a label to the photon emitter since there is only one possible light source
       this.lightSourceLabel = new Text( openSciEdEnergySourceString, {
@@ -149,7 +149,7 @@ class PhotonEmitterNode extends Node {
     this.photonEmitterOnImage.center = new Vector2( 0, 0 );
     this.addChild( this.photonEmitterOnImage );
 
-    if ( MoleculesAndLightQueryParameters.openSciEd ) {
+    if ( GreenhouseEffectQueryParameters.openSciEd ) {
       assert && assert( this.lightSourceLabel, 'label should be defined for Open Sci Ed' );
       this.addChild( this.lightSourceLabel );
       this.lightSourceLabel.centerTop = this.photonEmitterOnImage.centerBottom.plusXY( 0, 5 );
@@ -169,6 +169,6 @@ class PhotonEmitterNode extends Node {
   }
 }
 
-moleculesAndLight.register( 'PhotonEmitterNode', PhotonEmitterNode );
+greenhouseEffect.register( 'PhotonEmitterNode', PhotonEmitterNode );
 
 export default PhotonEmitterNode;

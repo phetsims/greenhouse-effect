@@ -28,9 +28,9 @@ import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from './Molecule.js';
-import Photon from './Photon.js';
+import MicroPhoton from './MicroPhoton.js';
 import PhotonTarget from './PhotonTarget.js';
 import WavelengthConstants from './WavelengthConstants.js';
 import CH4 from './molecules/CH4.js';
@@ -78,8 +78,8 @@ class PhotonAbsorptionModel extends PhetioObject {
     this.photonAbsorptionModel = tandem; // @private
 
     // @private
-    this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new Photon( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
-      phetioType: PhetioGroup.PhetioGroupIO( Photon.PhotonIO ),
+    this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new MicroPhoton( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
+      phetioType: PhetioGroup.PhetioGroupIO( MicroPhoton.PhotonIO ),
       tandem: tandem.createTandem( 'photonGroup' )
     } );
 
@@ -132,7 +132,7 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
     // to the photons ObservableArrayDef because this is specifically for photon emission from the light source
-    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: MicroPhoton } ] } );
 
     // @public - Emits when the model has been reset
     this.resetEmitter = new Emitter();
@@ -147,6 +147,18 @@ class PhotonAbsorptionModel extends PhetioObject {
     // when the photon emitter is on, set to default "on" and "off" period
     this.photonEmitterOnProperty.link( emitterOn => {
       this.setPhotonEmissionPeriod( emitterOn ? EMITTER_ON_EMISSION_PERIOD : EMITTER_OFF_EMISSION_PERIOD );
+    } );
+
+    // Clear all photons to avoid cases where photons of the previous wavelength
+    // could be absorbed after new wavelength was selected. Some users interpreted
+    // absorption of the previous wavelength as absorption of the selected wavelength
+    this.photonWavelengthProperty.lazyLink( () => {
+      this.resetPhotons();
+
+      // after clearing, next photon should be emitted right away
+      if ( this.photonEmitterOnProperty.get() ) {
+        this.setEmissionTimerToInitialCountdown();
+      }
     } );
 
     // Variables that control periodic photon emission.
@@ -478,7 +490,7 @@ class PhotonAbsorptionModel extends PhetioObject {
   }
 }
 
-moleculesAndLight.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
+greenhouseEffect.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
 // @public {number} - horizontal velocity of photons when they leave the emitter, in picometers/second
 PhotonAbsorptionModel.PHOTON_VELOCITY = PHOTON_VELOCITY;

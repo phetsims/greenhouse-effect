@@ -18,9 +18,9 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
-import Photon from './Photon.js';
+import MicroPhoton from './MicroPhoton.js';
 import Atom from './atoms/Atom.js';
 import AtomicBond from './atoms/AtomicBond.js';
 
@@ -114,7 +114,7 @@ class Molecule {
     // (essentially a simulation of quantum properties).  If this molecule has no absorption strategy for the photon,
     // it is also added to this list. This is needed since the absorption of a given photon will likely be tested at
     // many time steps as the photon moves past the molecule, and we don't want to keep deciding about the same photon.
-    // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type Photon.
+    // Array will have size PASS_THROUGH_PHOTON_LIST_SIZE with type MicroPhoton.
     // @private
     this.passThroughPhotonList = [];
 
@@ -152,13 +152,13 @@ class Molecule {
     this.photonGroup = null;
 
     // @public (read-only) {Emitter} - emitter for when a photon is absorbed
-    this.photonAbsorbedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+    this.photonAbsorbedEmitter = new Emitter( { parameters: [ { valueType: MicroPhoton } ] } );
 
     // @public (read-only) {Emitter} - emitter for when a photon is emitted
-    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+    this.photonEmittedEmitter = new Emitter( { parameters: [ { valueType: MicroPhoton } ] } );
 
     // @public {Emitter} - emitter for when a photon passes through the molecule without absorptions
-    this.photonPassedThroughEmitter = new Emitter( { parameters: [ { valueType: Photon } ] } );
+    this.photonPassedThroughEmitter = new Emitter( { parameters: [ { valueType: MicroPhoton } ] } );
 
     // @public Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
     this.brokeApartEmitter = new Emitter( {
@@ -403,7 +403,7 @@ class Molecule {
    * Mark a photon for passing through the molecule.  This means that the photon will not interact with the molecule.
    * @public
    *
-   * @param {Photon} photon - The photon to be passed through.
+   * @param {MicroPhoton} photon - The photon to be passed through.
    **/
   markPhotonForPassThrough( photon ) {
     if ( this.passThroughPhotonList.length >= PASS_THROUGH_PHOTON_LIST_SIZE ) {
@@ -417,7 +417,7 @@ class Molecule {
    * Determine if a photon is marked to be passed through this molecule.
    * @public
    *
-   * @param {Photon} photon
+   * @param {MicroPhoton} photon
    * @returns {boolean}
    **/
   isPhotonMarkedForPassThrough( photon ) {
@@ -450,7 +450,7 @@ class Molecule {
    * is set so that it can control the molecule's post-absorption behavior.
    * @public
    *
-   * @param {Photon} photon - the photon offered for absorption
+   * @param {MicroPhoton} photon - the photon offered for absorption
    * @returns {boolean} absorbPhoton
    **/
   queryAbsorbPhoton( photon ) {
@@ -630,7 +630,7 @@ class Molecule {
   }
 }
 
-moleculesAndLight.register( 'Molecule', Molecule );
+greenhouseEffect.register( 'Molecule', Molecule );
 
 // @public {number} - distance from the molecule to query a photon for absorption, in picometers
 Molecule.PHOTON_ABSORPTION_DISTANCE = PHOTON_ABSORPTION_DISTANCE;

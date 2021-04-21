@@ -11,7 +11,7 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -136,6 +136,6 @@ class CH4 extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'CH4', CH4 );
+greenhouseEffect.register( 'CH4', CH4 );
 
 export default CH4;

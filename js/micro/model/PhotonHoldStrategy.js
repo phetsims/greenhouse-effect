@@ -1,7 +1,7 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that defines behavior for a molecule holding on to a photon.  The molecule will hold the
+ * MicroPhoton absorption strategy that defines behavior for a molecule holding on to a photon.  The molecule will hold the
  * photon and then after some amount of time re-emit it. This is to be inherited by the general PhotonAbsorptionStrategy
  * class.
  *
@@ -9,7 +9,7 @@
  **/
 
 
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
@@ -80,6 +80,6 @@ class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
   }
 }
 
-moleculesAndLight.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
+greenhouseEffect.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
 
 export default PhotonHoldStrategy;

@@ -9,7 +9,7 @@
 
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
@@ -164,6 +164,6 @@ class O3 extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'O3', O3 );
+greenhouseEffect.register( 'O3', O3 );
 
 export default O3;

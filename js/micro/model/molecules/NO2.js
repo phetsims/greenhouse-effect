@@ -9,7 +9,7 @@
 
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import ExcitationStrategy from '../ExcitationStrategy.js';
 import Molecule from '../Molecule.js';
@@ -164,6 +164,6 @@ class NO2 extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'NO2', NO2 );
+greenhouseEffect.register( 'NO2', NO2 );
 
 export default NO2;

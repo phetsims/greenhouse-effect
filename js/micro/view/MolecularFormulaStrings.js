@@ -8,7 +8,7 @@
  */
 
 import ChemUtils from '../../../../nitroglycerin/js/ChemUtils.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 const MolecularFormulaStrings = {
   CO_FORMULA_STRING: 'CO',
@@ -23,5 +23,5 @@ const MolecularFormulaStrings = {
   O_FORMULA_STRING: 'O'
 };
 
-moleculesAndLight.register( 'MolecularFormulaStrings', MolecularFormulaStrings );
+greenhouseEffect.register( 'MolecularFormulaStrings', MolecularFormulaStrings );
 export default MolecularFormulaStrings;

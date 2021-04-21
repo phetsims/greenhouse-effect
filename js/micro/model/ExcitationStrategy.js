@@ -1,14 +1,14 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that causes a molecule to enter an exited state after absorbing a photon, and then re-emit
+ * MicroPhoton absorption strategy that causes a molecule to enter an exited state after absorbing a photon, and then re-emit
  * the photon after some length of time.  The "excited state" is depicted in the view as a glow that surrounds the
  * molecule.
  *
  * @author Jesse Greenberg
  */
 
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 class ExcitationStrategy extends PhotonHoldStrategy {
@@ -40,6 +40,6 @@ class ExcitationStrategy extends PhotonHoldStrategy {
   }
 }
 
-moleculesAndLight.register( 'ExcitationStrategy', ExcitationStrategy );
+greenhouseEffect.register( 'ExcitationStrategy', ExcitationStrategy );
 
 export default ExcitationStrategy;

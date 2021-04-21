@@ -1,12 +1,12 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that does nothing, meaning that it will never cause a photon to be absorbed.
+ * MicroPhoton absorption strategy that does nothing, meaning that it will never cause a photon to be absorbed.
  *
  * @author Jesse Greenberg
  */
 
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
 class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
@@ -37,7 +37,7 @@ class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
    * This strategy never absorbs.
    * @public
    *
-   * @param {Photon} photon - The photon being queried for absorption.
+   * @param {MicroPhoton} photon - The photon being queried for absorption.
    * @returns {boolean}
    */
   queryAndAbsorbPhoton( photon ) {
@@ -45,6 +45,6 @@ class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
   }
 }
 
-moleculesAndLight.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
+greenhouseEffect.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
 
 export default NullPhotonAbsorptionStrategy;

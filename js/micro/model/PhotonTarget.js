@@ -1,24 +1,24 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon targets for a photon absorption model.  The photon target names correspond to molecules which the photons are
+ * MicroPhoton targets for a photon absorption model.  The photon target names correspond to molecules which the photons are
  * being fired at.
  *
  * @author Jesse Greenberg
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
-const controlPanelCarbonDioxideString = moleculesAndLightStrings.ControlPanel.CarbonDioxide;
-const controlPanelCarbonMonoxideString = moleculesAndLightStrings.ControlPanel.CarbonMonoxide;
-const controlPanelMethaneString = moleculesAndLightStrings.ControlPanel.Methane;
-const controlPanelNitrogenDioxideString = moleculesAndLightStrings.ControlPanel.NitrogenDioxide;
-const controlPanelNitrogenString = moleculesAndLightStrings.ControlPanel.Nitrogen;
-const controlPanelOxygenString = moleculesAndLightStrings.ControlPanel.Oxygen;
-const controlPanelOzoneString = moleculesAndLightStrings.ControlPanel.Ozone;
-const controlPanelWaterString = moleculesAndLightStrings.ControlPanel.Water;
+const controlPanelCarbonDioxideString = greenhouseEffectStrings.ControlPanel.CarbonDioxide;
+const controlPanelCarbonMonoxideString = greenhouseEffectStrings.ControlPanel.CarbonMonoxide;
+const controlPanelMethaneString = greenhouseEffectStrings.ControlPanel.Methane;
+const controlPanelNitrogenDioxideString = greenhouseEffectStrings.ControlPanel.NitrogenDioxide;
+const controlPanelNitrogenString = greenhouseEffectStrings.ControlPanel.Nitrogen;
+const controlPanelOxygenString = greenhouseEffectStrings.ControlPanel.Oxygen;
+const controlPanelOzoneString = greenhouseEffectStrings.ControlPanel.Ozone;
+const controlPanelWaterString = greenhouseEffectStrings.ControlPanel.Water;
 
 const PhotonTarget = Enumeration.byKeys( [
   'SINGLE_CO_MOLECULE',
@@ -48,5 +48,5 @@ const PhotonTarget = Enumeration.byKeys( [
                                                   assert && assert( false, 'unknown' );
   }
 } );
-moleculesAndLight.register( 'PhotonTarget', PhotonTarget );
+greenhouseEffect.register( 'PhotonTarget', PhotonTarget );
 export default PhotonTarget;

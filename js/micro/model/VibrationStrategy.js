@@ -1,13 +1,13 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that causes a molecule to vibrate after absorbing a photon, and re-emit the photon after
+ * MicroPhoton absorption strategy that causes a molecule to vibrate after absorbing a photon, and re-emit the photon after
  * some length of time. This is to be inherited by the general PhotonAbsorptionStrategy class.
  *
  * @author Jesse Greenberg
  */
 
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 class VibrationStrategy extends PhotonHoldStrategy {
@@ -45,6 +45,6 @@ class VibrationStrategy extends PhotonHoldStrategy {
   }
 }
 
-moleculesAndLight.register( 'VibrationStrategy', VibrationStrategy );
+greenhouseEffect.register( 'VibrationStrategy', VibrationStrategy );
 
 export default VibrationStrategy;

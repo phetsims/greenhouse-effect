@@ -8,7 +8,7 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
@@ -96,6 +96,6 @@ class H2O extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'H2O', H2O );
+greenhouseEffect.register( 'H2O', H2O );
 
 export default H2O;

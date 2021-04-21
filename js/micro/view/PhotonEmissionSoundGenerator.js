@@ -21,7 +21,7 @@ import microwavePhotonFromMoleculeSound from '../../../sounds/photon-release-mic
 import ultravioletPhotonFromMoleculeSound from '../../../sounds/photon-release-uv_mp3.js';
 import visiblePhotonFromMoleculeSound from '../../../sounds/photon-release-visible_mp3.js';
 import merge from '../../../../phet-core/js/merge.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -111,5 +111,5 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
   }
 }
 
-moleculesAndLight.register( 'PhotonEmissionSoundGenerator', PhotonEmissionSoundGenerator );
+greenhouseEffect.register( 'PhotonEmissionSoundGenerator', PhotonEmissionSoundGenerator );
 export default PhotonEmissionSoundGenerator;

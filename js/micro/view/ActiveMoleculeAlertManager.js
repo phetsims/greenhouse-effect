@@ -11,41 +11,41 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 
-const pausedEmittingPatternString = moleculesAndLightStrings.a11y.pausedEmittingPattern;
-const absorptionPhaseBondsDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseBondsDescriptionPattern;
-const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
-const bendUpAndDownString = moleculesAndLightStrings.a11y.bendUpAndDown;
-const longStretchingAlertString = moleculesAndLightStrings.a11y.longStretchingAlert;
-const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
-const rotatesClockwiseString = moleculesAndLightStrings.a11y.rotatesClockwise;
-const longBendingAlertString = moleculesAndLightStrings.a11y.longBendingAlert;
-const rotatesCounterClockwise = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
-const pausedPassingPatternString = moleculesAndLightStrings.a11y.pausedPassingPattern;
-const slowMotionPassingPatternString = moleculesAndLightStrings.a11y.slowMotionPassingPattern;
-const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
-const longRotatingAlertString = moleculesAndLightStrings.a11y.longRotatingAlert;
-const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
-const longGlowingAlertString = moleculesAndLightStrings.a11y.longGlowingAlert;
-const breaksApartAlertPatternString = moleculesAndLightStrings.a11y.breaksApartAlertPattern;
-const slowMotionVibratingPatternString = moleculesAndLightStrings.a11y.slowMotionVibratingPattern;
-const slowMotionAbsorbedMoleculeExcitedPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedMoleculeExcitedPattern;
-const slowMotionBreakApartPatternString = moleculesAndLightStrings.a11y.slowMotionBreakApartPattern;
-const slowMotionEmittedPatternString = moleculesAndLightStrings.a11y.slowMotionEmittedPattern;
-const absorptionPhaseMoleculeDescriptionPatternString = moleculesAndLightStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
-const glowsString = moleculesAndLightStrings.a11y.glowsString;
-const rotatesCounterClockwiseString = moleculesAndLightStrings.a11y.rotatesCounterClockwise;
-const breaksApartString = moleculesAndLightStrings.a11y.breaksApart;
-const breakApartPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.breakApartPhaseDescriptionPattern;
-const stretchBackAndForthString = moleculesAndLightStrings.a11y.stretchBackAndForth;
-const slowMotionAbsorbedShortPatternString = moleculesAndLightStrings.a11y.slowMotionAbsorbedShortPattern;
-const photonPassesString = moleculesAndLightStrings.a11y.photonPasses;
-const photonsPassingString = moleculesAndLightStrings.a11y.photonsPassing;
+const pausedEmittingPatternString = greenhouseEffectStrings.a11y.pausedEmittingPattern;
+const absorptionPhaseBondsDescriptionPatternString = greenhouseEffectStrings.a11y.absorptionPhaseBondsDescriptionPattern;
+const shortStretchingAlertString = greenhouseEffectStrings.a11y.shortStretchingAlert;
+const bendUpAndDownString = greenhouseEffectStrings.a11y.bendUpAndDown;
+const longStretchingAlertString = greenhouseEffectStrings.a11y.longStretchingAlert;
+const shortBendingAlertString = greenhouseEffectStrings.a11y.shortBendingAlert;
+const rotatesClockwiseString = greenhouseEffectStrings.a11y.rotatesClockwise;
+const longBendingAlertString = greenhouseEffectStrings.a11y.longBendingAlert;
+const rotatesCounterClockwise = greenhouseEffectStrings.a11y.rotatesCounterClockwise;
+const pausedPassingPatternString = greenhouseEffectStrings.a11y.pausedPassingPattern;
+const slowMotionPassingPatternString = greenhouseEffectStrings.a11y.slowMotionPassingPattern;
+const shortRotatingAlertString = greenhouseEffectStrings.a11y.shortRotatingAlert;
+const longRotatingAlertString = greenhouseEffectStrings.a11y.longRotatingAlert;
+const shortGlowingAlertString = greenhouseEffectStrings.a11y.shortGlowingAlert;
+const longGlowingAlertString = greenhouseEffectStrings.a11y.longGlowingAlert;
+const breaksApartAlertPatternString = greenhouseEffectStrings.a11y.breaksApartAlertPattern;
+const slowMotionVibratingPatternString = greenhouseEffectStrings.a11y.slowMotionVibratingPattern;
+const slowMotionAbsorbedMoleculeExcitedPatternString = greenhouseEffectStrings.a11y.slowMotionAbsorbedMoleculeExcitedPattern;
+const slowMotionBreakApartPatternString = greenhouseEffectStrings.a11y.slowMotionBreakApartPattern;
+const slowMotionEmittedPatternString = greenhouseEffectStrings.a11y.slowMotionEmittedPattern;
+const absorptionPhaseMoleculeDescriptionPatternString = greenhouseEffectStrings.a11y.absorptionPhaseMoleculeDescriptionPattern;
+const glowsString = greenhouseEffectStrings.a11y.glowsString;
+const rotatesCounterClockwiseString = greenhouseEffectStrings.a11y.rotatesCounterClockwise;
+const breaksApartString = greenhouseEffectStrings.a11y.breaksApart;
+const breakApartPhaseDescriptionPatternString = greenhouseEffectStrings.a11y.breakApartPhaseDescriptionPattern;
+const stretchBackAndForthString = greenhouseEffectStrings.a11y.stretchBackAndForth;
+const slowMotionAbsorbedShortPatternString = greenhouseEffectStrings.a11y.slowMotionAbsorbedShortPattern;
+const photonPassesString = greenhouseEffectStrings.a11y.photonPasses;
+const photonsPassingString = greenhouseEffectStrings.a11y.photonsPassing;
 
 // constants
 // Number of "pass through" events before we alert that no absorptions are taking place in the case of molecule/photon
@@ -417,7 +417,7 @@ class ActiveMoleculeAlertManager {
   /**
    * Get an alert that describes the Molecules in its "rotating" state. Will return something like
    * "Molecule rotates." or
-   * "Photon absorbed. Molecule rotates counter clockwise."
+   * "MicroPhoton absorbed. Molecule rotates counter clockwise."
    * @private
    *
    * @param {Molecule} molecule
@@ -533,7 +533,7 @@ class ActiveMoleculeAlertManager {
    * Get an alert that describes the photon is passing through the molecule. Will return something like
    *
    * "Microwave photon passes through Carbon Monoxide molecule." or simply
-   * "Photon passes."
+   * "MicroPhoton passes."
    *
    * Describing each pass through takes a lot of time, so this is only used while the simulation is paused and
    * user is stepping through frame by frames.
@@ -585,7 +585,7 @@ class ActiveMoleculeAlertManager {
    * depending on the context and provided patternString.
    * @private
    *
-   * @param {Photon} photon - the Photon passing through the photon target
+   * @param {Photon} photon - the MicroPhoton passing through the photon target
    * @param {string} patternString - A pattern string to be filled in with light source and molecular names, changing
    *                                 the verb tense depending on context.
    */
@@ -618,5 +618,5 @@ class ActiveMoleculeAlertManager {
   }
 }
 
-moleculesAndLight.register( 'ActiveMoleculeAlertManager', ActiveMoleculeAlertManager );
+greenhouseEffect.register( 'ActiveMoleculeAlertManager', ActiveMoleculeAlertManager );
 export default ActiveMoleculeAlertManager;

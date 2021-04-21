@@ -24,19 +24,19 @@ import flashlight2Image from '../../../mipmaps/flashlight_png.js';
 import heatLampImage from '../../../mipmaps/infrared-source_png.js';
 import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
 import uvLight2 from '../../../mipmaps/uv-source_png.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
-import Photon from '../../photon-absorption/model/Photon.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import Photon from '../../photon-absorption/model/MicroPhoton.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import PhotonNode from '../../photon-absorption/view/PhotonNode.js';
 
-const quadWavelengthSelectorHigherEnergyString = moleculesAndLightStrings.QuadWavelengthSelector.HigherEnergy;
-const quadWavelengthSelectorInfraredString = moleculesAndLightStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = moleculesAndLightStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = moleculesAndLightStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = moleculesAndLightStrings.QuadWavelengthSelector.Visible;
-const lightSourcesString = moleculesAndLightStrings.a11y.lightSources;
-const lightSourceRadioButtonHelpTextString = moleculesAndLightStrings.a11y.lightSourceRadioButtonHelpText;
+const quadWavelengthSelectorHigherEnergyString = greenhouseEffectStrings.QuadWavelengthSelector.HigherEnergy;
+const quadWavelengthSelectorInfraredString = greenhouseEffectStrings.QuadWavelengthSelector.Infrared;
+const quadWavelengthSelectorMicrowaveString = greenhouseEffectStrings.QuadWavelengthSelector.Microwave;
+const quadWavelengthSelectorUltravioletString = greenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
+const quadWavelengthSelectorVisibleString = greenhouseEffectStrings.QuadWavelengthSelector.Visible;
+const lightSourcesString = greenhouseEffectStrings.a11y.lightSources;
+const lightSourceRadioButtonHelpTextString = greenhouseEffectStrings.a11y.lightSourceRadioButtonHelpText;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;
@@ -206,6 +206,6 @@ class QuadEmissionFrequencyControlPanel extends Node {
   }
 }
 
-moleculesAndLight.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );
+greenhouseEffect.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );
 
 export default QuadEmissionFrequencyControlPanel;

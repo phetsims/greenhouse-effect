@@ -26,7 +26,7 @@ class PhotonsModel extends ConcentrationModel {
   constructor( tandem ) {
     super( tandem );
 
-    // @public (read-only) {ObservableArray.<Photon>}
+    // @public (read-only) {ObservableArray.<MicroPhoton>}
     this.photons = createObservableArray();
 
     // @private

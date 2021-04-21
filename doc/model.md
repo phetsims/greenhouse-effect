@@ -1,7 +1,7 @@
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
 See https://github.com/phetsims/greenhouse-effect/issues/19 
 
-## Photon Absorption
+## MicroPhoton Absorption
 
 The model describes the interaction between photons and molecules.  In general, a photon emitter fires a
 photon at a molecule with which it will or will not interact.  Whether or not a photon interacts with a given

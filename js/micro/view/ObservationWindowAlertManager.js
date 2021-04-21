@@ -9,28 +9,28 @@
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
 
-const moleculesFloatingAwayPatternString = moleculesAndLightStrings.a11y.moleculesFloatingAwayPattern;
-const photonsOnString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOn;
-const photonsOffString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOff;
-const photonsOnSlowSpeedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
-const photonsOnSimPausedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
-const photonsOnSlowSpeedSimPausedString = moleculesAndLightStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
-const simPausedEmitterOnAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOnAlert;
-const simPausedEmitterOffAlertString = moleculesAndLightStrings.a11y.timeControls.simPausedEmitterOffAlert;
-const simPlayingHintAlertString = moleculesAndLightStrings.a11y.timeControls.simPlayingHintAlert;
-const stepHintAlertString = moleculesAndLightStrings.a11y.timeControls.stepHintAlert;
-const pausedPhotonEmittedPatternString = moleculesAndLightStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
-const shortRotatingAlertString = moleculesAndLightStrings.a11y.shortRotatingAlert;
-const shortStretchingAlertString = moleculesAndLightStrings.a11y.shortStretchingAlert;
-const shortBendingAlertString = moleculesAndLightStrings.a11y.shortBendingAlert;
-const shortGlowingAlertString = moleculesAndLightStrings.a11y.shortGlowingAlert;
-const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
-const resetOrChangeMoleculeString = moleculesAndLightStrings.a11y.resetOrChangeMolecule;
+const moleculesFloatingAwayPatternString = greenhouseEffectStrings.a11y.moleculesFloatingAwayPattern;
+const photonsOnString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOn;
+const photonsOffString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOff;
+const photonsOnSlowSpeedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
+const photonsOnSimPausedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
+const photonsOnSlowSpeedSimPausedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
+const simPausedEmitterOnAlertString = greenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlert;
+const simPausedEmitterOffAlertString = greenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlert;
+const simPlayingHintAlertString = greenhouseEffectStrings.a11y.timeControls.simPlayingHintAlert;
+const stepHintAlertString = greenhouseEffectStrings.a11y.timeControls.stepHintAlert;
+const pausedPhotonEmittedPatternString = greenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
+const shortRotatingAlertString = greenhouseEffectStrings.a11y.shortRotatingAlert;
+const shortStretchingAlertString = greenhouseEffectStrings.a11y.shortStretchingAlert;
+const shortBendingAlertString = greenhouseEffectStrings.a11y.shortBendingAlert;
+const shortGlowingAlertString = greenhouseEffectStrings.a11y.shortGlowingAlert;
+const moleculePiecesGoneString = greenhouseEffectStrings.a11y.moleculePiecesGone;
+const resetOrChangeMoleculeString = greenhouseEffectStrings.a11y.resetOrChangeMolecule;
 
 class ObservationWindowAlertManager {
   constructor() {
@@ -263,5 +263,5 @@ class ObservationWindowAlertManager {
   }
 }
 
-moleculesAndLight.register( 'ObservationWindowAlertManager', ObservationWindowAlertManager );
+greenhouseEffect.register( 'ObservationWindowAlertManager', ObservationWindowAlertManager );
 export default ObservationWindowAlertManager;

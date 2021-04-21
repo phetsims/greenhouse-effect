@@ -7,13 +7,13 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
-const quadWavelengthSelectorInfraredString = moleculesAndLightStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = moleculesAndLightStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = moleculesAndLightStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = moleculesAndLightStrings.QuadWavelengthSelector.Visible;
+const quadWavelengthSelectorInfraredString = greenhouseEffectStrings.QuadWavelengthSelector.Infrared;
+const quadWavelengthSelectorMicrowaveString = greenhouseEffectStrings.QuadWavelengthSelector.Microwave;
+const quadWavelengthSelectorUltravioletString = greenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
+const quadWavelengthSelectorVisibleString = greenhouseEffectStrings.QuadWavelengthSelector.Visible;
 
 const WavelengthConstants = {
 
@@ -55,6 +55,6 @@ const WavelengthConstants = {
   }
 };
 
-moleculesAndLight.register( 'WavelengthConstants', WavelengthConstants );
+greenhouseEffect.register( 'WavelengthConstants', WavelengthConstants );
 
 export default WavelengthConstants;

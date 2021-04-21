@@ -1,7 +1,7 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Ported from the original file Photon.java.  This will model a particular photon.  Primarily keeps track of
+ * Ported from the original file MicroPhoton.java.  This will model a particular photon.  Primarily keeps track of
  * wavelength, position, and velocity (as odd as that may seem) and can be stepped in order to make the photon move in
  * model space.
  *
@@ -16,9 +16,9 @@ import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
-class Photon extends PhetioObject {
+class MicroPhoton extends PhetioObject {
 
   /**
    * Constructor for a photon.
@@ -30,7 +30,7 @@ class Photon extends PhetioObject {
 
     options = merge( {
       tandem: Tandem.REQUIRED,
-      phetioType: Photon.PhotonIO,
+      phetioType: MicroPhoton.PhotonIO,
       phetioDynamicElement: true
     }, options );
 
@@ -79,10 +79,10 @@ class Photon extends PhetioObject {
   }
 }
 
-moleculesAndLight.register( 'Photon', Photon );
+greenhouseEffect.register( 'MicroPhoton', MicroPhoton );
 
-Photon.PhotonIO = new IOType( 'PhotonIO', {
-    valueType: Photon,
+MicroPhoton.PhotonIO = new IOType( 'PhotonIO', {
+    valueType: MicroPhoton,
     toStateObject: photon => ( {
 
       // position is tracked via a child Property
@@ -93,4 +93,4 @@ Photon.PhotonIO = new IOType( 'PhotonIO', {
   }
 );
 
-export default Photon;
+export default MicroPhoton;

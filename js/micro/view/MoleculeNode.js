@@ -8,7 +8,7 @@
  */
 
 import Node from '../../../../scenery/js/nodes/Node.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import AtomNode from './AtomNode.js';
 import AtomicBondNode from './AtomicBondNode.js';
 
@@ -78,6 +78,6 @@ class MoleculeNode extends Node {
   }
 }
 
-moleculesAndLight.register( 'MoleculeNode', MoleculeNode );
+greenhouseEffect.register( 'MoleculeNode', MoleculeNode );
 
 export default MoleculeNode;

@@ -11,7 +11,7 @@ import Property from '../../../../../axon/js/Property.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import merge from '../../../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../../../scenery-phet/js/PhetColorScheme.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 
 // Static data
 let instanceCount = 0; // Base count for the unique ID of this atom.
@@ -114,6 +114,6 @@ class Atom {
   }
 }
 
-moleculesAndLight.register( 'Atom', Atom );
+greenhouseEffect.register( 'Atom', Atom );
 
 export default Atom;

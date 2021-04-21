@@ -11,8 +11,8 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -25,22 +25,22 @@ import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
-const carbonDioxideString = moleculesAndLightStrings.a11y.carbonDioxide;
-const carbonMonoxideString = moleculesAndLightStrings.a11y.carbonMonoxide;
-const diatomicOxygenString = moleculesAndLightStrings.a11y.diatomicOxygen;
-const methaneString = moleculesAndLightStrings.a11y.methane;
-const nitrogenDioxideString = moleculesAndLightStrings.a11y.nitrogenDioxide;
-const nitrogenString = moleculesAndLightStrings.a11y.nitrogen;
-const oxygenString = moleculesAndLightStrings.a11y.oxygen;
-const ozoneString = moleculesAndLightStrings.a11y.ozone;
-const waterString = moleculesAndLightStrings.a11y.water;
-const linearString = moleculesAndLightStrings.a11y.linear;
-const bentString = moleculesAndLightStrings.a11y.bent;
-const tetrahedralString = moleculesAndLightStrings.a11y.tetrahedral;
-const diatomicString = moleculesAndLightStrings.a11y.diatomic;
-const bentGeometryDescriptionString = moleculesAndLightStrings.a11y.bentGeometryDescription;
-const tetrahedralGeometryDescriptionString = moleculesAndLightStrings.a11y.tetrahedralGeometryDescription;
-const linearGeometryDescriptionString = moleculesAndLightStrings.a11y.linearGeometryDescription;
+const carbonDioxideString = greenhouseEffectStrings.a11y.carbonDioxide;
+const carbonMonoxideString = greenhouseEffectStrings.a11y.carbonMonoxide;
+const diatomicOxygenString = greenhouseEffectStrings.a11y.diatomicOxygen;
+const methaneString = greenhouseEffectStrings.a11y.methane;
+const nitrogenDioxideString = greenhouseEffectStrings.a11y.nitrogenDioxide;
+const nitrogenString = greenhouseEffectStrings.a11y.nitrogen;
+const oxygenString = greenhouseEffectStrings.a11y.oxygen;
+const ozoneString = greenhouseEffectStrings.a11y.ozone;
+const waterString = greenhouseEffectStrings.a11y.water;
+const linearString = greenhouseEffectStrings.a11y.linear;
+const bentString = greenhouseEffectStrings.a11y.bent;
+const tetrahedralString = greenhouseEffectStrings.a11y.tetrahedral;
+const diatomicString = greenhouseEffectStrings.a11y.diatomic;
+const bentGeometryDescriptionString = greenhouseEffectStrings.a11y.bentGeometryDescription;
+const tetrahedralGeometryDescriptionString = greenhouseEffectStrings.a11y.tetrahedralGeometryDescription;
+const linearGeometryDescriptionString = greenhouseEffectStrings.a11y.linearGeometryDescription;
 
 // constants
 const Geometry = Enumeration.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
@@ -197,5 +197,5 @@ MoleculeUtils.MolecularGeometryMap = MolecularGeometryMap;
 // {Enumeration}
 MoleculeUtils.Geometry = Geometry;
 
-moleculesAndLight.register( 'MoleculeUtils', MoleculeUtils );
+greenhouseEffect.register( 'MoleculeUtils', MoleculeUtils );
 export default MoleculeUtils;

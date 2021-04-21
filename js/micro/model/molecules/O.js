@@ -9,7 +9,7 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import Molecule from '../Molecule.js';
 import Atom from '../atoms/Atom.js';
 
@@ -48,6 +48,6 @@ class O extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'O', O );
+greenhouseEffect.register( 'O', O );
 
 export default O;

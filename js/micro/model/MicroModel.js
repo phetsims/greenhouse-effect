@@ -4,19 +4,20 @@
  * @author John Blanco
  */
 
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import PhotonAbsorptionModel from './PhotonAbsorptionModel.js';
+import PhotonTarget from './PhotonTarget.js';
 
 /**
  * @constructor
  */
-class MicroModel extends GreenhouseEffectModel {
+class MicroModel extends PhotonAbsorptionModel {
 
   /**
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    super( tandem );
+    super( PhotonTarget.SINGLE_CO_MOLECULE, tandem );
   }
 
   /**

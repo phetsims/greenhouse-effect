@@ -1,12 +1,12 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Photon absorption strategy that causes a molecule to break apart after absorbing a photon.
+ * MicroPhoton absorption strategy that causes a molecule to break apart after absorbing a photon.
  *
  * @author Jesse Greenberg
  */
 
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
@@ -37,6 +37,6 @@ class BreakApartStrategy extends PhotonAbsorptionStrategy {
   }
 }
 
-moleculesAndLight.register( 'BreakApartStrategy', BreakApartStrategy );
+greenhouseEffect.register( 'BreakApartStrategy', BreakApartStrategy );
 
 export default BreakApartStrategy;

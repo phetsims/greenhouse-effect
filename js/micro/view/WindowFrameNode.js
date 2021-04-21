@@ -9,7 +9,7 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WindowFrameNode extends CanvasNode {
 
@@ -208,6 +208,6 @@ class WindowFrameNode extends CanvasNode {
   }
 }
 
-moleculesAndLight.register( 'WindowFrameNode', WindowFrameNode );
+greenhouseEffect.register( 'WindowFrameNode', WindowFrameNode );
 
 export default WindowFrameNode;

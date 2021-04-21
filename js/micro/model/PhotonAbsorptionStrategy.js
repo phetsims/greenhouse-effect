@@ -15,7 +15,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 // photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
 const MIN_PHOTON_HOLD_TIME = 1.1; // seconds
@@ -80,6 +80,6 @@ class PhotonAbsorptionStrategy {
   }
 }
 
-moleculesAndLight.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
+greenhouseEffect.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
 
 export default PhotonAbsorptionStrategy;

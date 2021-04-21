@@ -8,7 +8,7 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import moleculesAndLight from '../../../moleculesAndLight.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -88,6 +88,6 @@ class CO2 extends Molecule {
   }
 }
 
-moleculesAndLight.register( 'CO2', CO2 );
+greenhouseEffect.register( 'CO2', CO2 );
 
 export default CO2;

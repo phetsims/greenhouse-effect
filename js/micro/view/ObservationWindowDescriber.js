@@ -19,20 +19,20 @@
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
-import moleculesAndLightStrings from '../../moleculesAndLightStrings.js';
-import moleculesAndLight from '../../moleculesAndLight.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
 import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
-const emptySpaceString = moleculesAndLightStrings.a11y.emptySpace;
-const photonEmitterOffDescriptionPatternString = moleculesAndLightStrings.a11y.photonEmitterOffDescriptionPattern;
-const targetMoleculePatternString = moleculesAndLightStrings.a11y.targetMoleculePattern;
-const inactiveAndPassesPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
-const emissionPhaseDescriptionPatternString = moleculesAndLightStrings.a11y.emissionPhaseDescriptionPattern;
-const moleculePiecesGoneString = moleculesAndLightStrings.a11y.moleculePiecesGone;
-const breakApartDescriptionWithFloatPatternString = moleculesAndLightStrings.a11y.breakApartDescriptionWithFloatPattern;
+const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;
+const photonEmitterOffDescriptionPatternString = greenhouseEffectStrings.a11y.photonEmitterOffDescriptionPattern;
+const targetMoleculePatternString = greenhouseEffectStrings.a11y.targetMoleculePattern;
+const inactiveAndPassesPhaseDescriptionPatternString = greenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
+const emissionPhaseDescriptionPatternString = greenhouseEffectStrings.a11y.emissionPhaseDescriptionPattern;
+const moleculePiecesGoneString = greenhouseEffectStrings.a11y.moleculePiecesGone;
+const breakApartDescriptionWithFloatPatternString = greenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPattern;
 
 class ObservationWindowDescriber {
 
@@ -270,5 +270,5 @@ class ObservationWindowDescriber {
   }
 }
 
-moleculesAndLight.register( 'ObservationWindowDescriber', ObservationWindowDescriber );
+greenhouseEffect.register( 'ObservationWindowDescriber', ObservationWindowDescriber );
 export default ObservationWindowDescriber;
