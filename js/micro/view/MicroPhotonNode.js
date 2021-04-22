@@ -23,7 +23,7 @@ mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = photon660Image;
 mapWavelengthToImageName[ WavelengthConstants.VISIBLE_WAVELENGTH ] = thin2Image;
 mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = photon100Image;
 
-class PhotonNode extends Node {
+class MicroPhotonNode extends Node {
 
   /**
    * Constructor for a photon node.
@@ -56,6 +56,6 @@ class PhotonNode extends Node {
   }
 }
 
-greenhouseEffect.register( 'PhotonNode', PhotonNode );
+greenhouseEffect.register( 'MicroPhotonNode', MicroPhotonNode );
 
-export default PhotonNode;
+export default MicroPhotonNode;

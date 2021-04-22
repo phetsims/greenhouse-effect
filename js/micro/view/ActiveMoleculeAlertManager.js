@@ -8,14 +8,14 @@
  * @author Jesse Greenberg
  */
 
+import MoleculeUtils from './MoleculeUtils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
-import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
+import PhotonTarget from '../model/PhotonTarget.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 
 const pausedEmittingPatternString = greenhouseEffectStrings.a11y.pausedEmittingPattern;
 const absorptionPhaseBondsDescriptionPatternString = greenhouseEffectStrings.a11y.absorptionPhaseBondsDescriptionPattern;

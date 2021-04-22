@@ -19,23 +19,6 @@ class MicroModel extends PhotonAbsorptionModel {
   constructor( tandem ) {
     super( PhotonTarget.SINGLE_CO_MOLECULE, tandem );
   }
-
-  /**
-   * Resets the model.
-   * @public
-   */
-  reset() {
-    //TODO
-  }
-
-  /**
-   * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt ) {
-    //TODO
-  }
 }
 
 greenhouseEffect.register( 'MicroModel', MicroModel );

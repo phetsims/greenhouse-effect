@@ -26,9 +26,9 @@ import microwaveTransmitter from '../../../mipmaps/microwave-source_png.js';
 import uvLight2 from '../../../mipmaps/uv-source_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import Photon from '../../photon-absorption/model/MicroPhoton.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
-import PhotonNode from '../../photon-absorption/view/PhotonNode.js';
+import MicroPhoton from '../model/MicroPhoton.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
+import MicroPhotonNode from './MicroPhotonNode.js';
 
 const quadWavelengthSelectorHigherEnergyString = greenhouseEffectStrings.QuadWavelengthSelector.HigherEnergy;
 const quadWavelengthSelectorInfraredString = greenhouseEffectStrings.QuadWavelengthSelector.Infrared;
@@ -71,20 +71,20 @@ class QuadEmissionFrequencyControlPanel extends Node {
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
     // nodes do not correspond to anything in the model.  They are just visual elements of the control panel.
     const identityTransform = ModelViewTransform2.createIdentity();
-    const microwavePhotonNode = new PhotonNode(
-      new Photon( WavelengthConstants.MICRO_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
+    const microwavePhotonNode = new MicroPhotonNode(
+      new MicroPhoton( WavelengthConstants.MICRO_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
       identityTransform
     );
-    const infraredPhotonNode = new PhotonNode(
-      new Photon( WavelengthConstants.IR_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
+    const infraredPhotonNode = new MicroPhotonNode(
+      new MicroPhoton( WavelengthConstants.IR_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
       identityTransform
     );
-    const visiblePhotonNode = new PhotonNode(
-      new Photon( WavelengthConstants.VISIBLE_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
+    const visiblePhotonNode = new MicroPhotonNode(
+      new MicroPhoton( WavelengthConstants.VISIBLE_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
       identityTransform
     );
-    const ultravioletPhotonNode = new PhotonNode(
-      new Photon( WavelengthConstants.UV_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
+    const ultravioletPhotonNode = new MicroPhotonNode(
+      new MicroPhoton( WavelengthConstants.UV_WAVELENGTH, { tandem: Tandem.OPT_OUT } ),
       identityTransform
     );
 

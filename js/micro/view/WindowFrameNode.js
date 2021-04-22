@@ -17,7 +17,7 @@ class WindowFrameNode extends CanvasNode {
    * Constructor for the molecules and light window frame. This is a border around the observation window.  Similar
    * to a typical stroke though each side of the border has a linear gradient.
    *
-   * @param {ObservationWindow} observationWindow
+   * @param {MicroObservationWindow} observationWindow
    * @param {number} lineWidth - width of the window frame, similar to lineWidth for stroke in other scenery objects.
    * @param {string} innerColor - boundary color on the inside of the window frame.
    * @param {string} outerColor - boundary color along the outer edge of the window frame.

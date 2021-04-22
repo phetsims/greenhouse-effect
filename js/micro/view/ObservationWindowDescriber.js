@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * Manages PDOM content that describes the ObservationWindow. This contains a single light source, and a target
+ * Manages PDOM content that describes the MicroObservationWindow. This contains a single light source, and a target
  * molecule. This will describe the state of the target molecule as it absorbs and emits photons or breaks
  * apart into constituent molecules.
  *
@@ -21,9 +21,9 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import PhotonTarget from '../../photon-absorption/model/PhotonTarget.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
+import PhotonTarget from '../model/PhotonTarget.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;

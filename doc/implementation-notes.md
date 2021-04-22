@@ -22,7 +22,7 @@ axon.Property is used throughout the model and view for storage of properties an
 Spatial units are relevant in this sim and model distances are described in picometers.  A model-view
 transform is used throughout the sim and is defined in MicroScreenView.  This transform performs scaling,
 inverts the y-axis, and transforms the reference point of the view.  The view reference point is the center left of the
-ObservationWindow.
+MicroObservationWindow.
 
 In the QuadEmissionFrequencyControlPanel, an identity transform is used because spatial elements are not relevant.
 Nodes are simply added to the control panel as visual descriptions of what the control panel does.

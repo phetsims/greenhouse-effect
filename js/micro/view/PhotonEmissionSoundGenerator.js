@@ -22,7 +22,7 @@ import ultravioletPhotonFromMoleculeSound from '../../../sounds/photon-release-u
 import visiblePhotonFromMoleculeSound from '../../../sounds/photon-release-visible_mp3.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import WavelengthConstants from '../../photon-absorption/model/WavelengthConstants.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 
 //---------------------------------------------------------------------------------------------------------------------
 // constants

@@ -6,7 +6,6 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
@@ -21,7 +20,7 @@ class MicroScreen extends Screen {
   constructor( tandem ) {
 
     const options = {
-      backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
+      backgroundColorProperty: new Property( '#C5D6E8' ),
       homeScreenIcon: new RandomIcon( 549 ),
       tandem: tandem,
       name: greenhouseEffectStrings.screen.micro

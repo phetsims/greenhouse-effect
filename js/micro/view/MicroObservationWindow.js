@@ -21,11 +21,11 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import MoleculeNode from '../../photon-absorption/view/MoleculeNode.js';
-import MoleculeUtils from '../../photon-absorption/view/MoleculeUtils.js';
-import PhotonEmitterNode from '../../photon-absorption/view/PhotonEmitterNode.js';
-import PhotonNode from '../../photon-absorption/view/PhotonNode.js';
+import MoleculeNode from './MoleculeNode.js';
+import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
+import PhotonEmitterNode from './PhotonEmitterNode.js';
+import MicroPhotonNode from './MicroPhotonNode.js';
 
 const buttonNodeReturnMoleculeString = greenhouseEffectStrings.ButtonNode.ReturnMolecule;
 const observationWindowLabelString = greenhouseEffectStrings.a11y.observationWindowLabel;
@@ -39,7 +39,7 @@ const CORNER_RADIUS = 7;
 // and don't "pop" into free space, see https://github.com/phetsims/molecules-and-light/issues/324
 const EMITTER_OFFSET = new Vector2( 100, 0 );
 
-class ObservationWindow extends Rectangle {
+class MicroObservationWindow extends Rectangle {
   /**
    * Constructor for a Molecules and Light observation window.
    *
@@ -171,7 +171,7 @@ class ObservationWindow extends Rectangle {
 
     // Set up the event listeners for adding and removing photons.
     photonAbsorptionModel.photonGroup.elementCreatedEmitter.addListener( addedPhoton => {
-      const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform );
+      const photonNode = new MicroPhotonNode( addedPhoton, this.modelViewTransform );
       photonLayer.addChild( photonNode );
 
       // Watch photon positions and determine if photon should be removed from window.
@@ -298,6 +298,6 @@ class ObservationWindow extends Rectangle {
   }
 }
 
-greenhouseEffect.register( 'ObservationWindow', ObservationWindow );
+greenhouseEffect.register( 'MicroObservationWindow', MicroObservationWindow );
 
-export default ObservationWindow;
+export default MicroObservationWindow;

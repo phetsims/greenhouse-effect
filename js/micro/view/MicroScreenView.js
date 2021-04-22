@@ -38,7 +38,7 @@ import LightSpectrumDialog from './LightSpectrumDialog.js';
 import MicroScreenSummaryNode from './MicroScreenSummaryNode.js';
 import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
 import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
-import ObservationWindow from './ObservationWindow.js';
+import MicroObservationWindow from './MicroObservationWindow.js';
 import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
 import SpectrumDiagram from './SpectrumDiagram.js';
@@ -77,7 +77,7 @@ class MicroScreenView extends ScreenView {
 
     // Create the observation window. This will hold all photons, molecules, and photonEmitters for this photon
     // absorption model.
-    const observationWindow = new ObservationWindow(
+    const observationWindow = new MicroObservationWindow(
       photonAbsorptionModel,
       modelViewTransform,
       tandem.createTandem( 'observationWindow' )
@@ -95,7 +95,7 @@ class MicroScreenView extends ScreenView {
     this.pdomPlayAreaNode.addChild( this.observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
-    // TODO: This rectangle is a temporary workaround that replaces the clipping area in ObservationWindow because of a
+    // TODO: This rectangle is a temporary workaround that replaces the clipping area in MicroObservationWindow because of a
     // Safari specific SVG bug caused by clipping.  See https://github.com/phetsims/molecules-and-light/issues/105 and
     // https://github.com/phetsims/scenery/issues/412.
     const clipRectangle = new Rectangle( this.observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),

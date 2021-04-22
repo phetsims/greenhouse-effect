@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * ObservationWindow is a Scenery Node that presents a background with a view of a sky and ground, and takes as input
+ * MicroObservationWindow is a Scenery Node that presents a background with a view of a sky and ground, and takes as input
  * a "presentation node" that will be shown above this background in the z-order, but below the window frame.
  *
  * @author John Blanco (PhET Interactive Simulations)

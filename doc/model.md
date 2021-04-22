@@ -11,7 +11,7 @@ This model is composed of a photon emitter, photons, and molecules.  The molecul
 atoms and atomic bonds.
 
 The photon emitter, photons, and molecules are contained in an isolated window on the screen called the
-ObservationWindow.  This is where the user observes all photon and molecule interactions.  The flashlight
+MicroObservationWindow.  This is where the user observes all photon and molecule interactions.  The flashlight
 looking object in the center left of the observation window is the photon emitter.
 A molecule can have many different absorption strategies which describe how it will interact with a given
 photon.  The possible options are BreakApartStrategy, which causes the molecule to break apart into two or more
