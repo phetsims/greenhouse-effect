@@ -26,7 +26,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesNode from '../../waves/view/WavesNode.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import PhotonNode from './PhotonNode.js';
 
 // constants
@@ -96,8 +98,14 @@ class ObservationWindow extends Node {
       bottom: SIZE.height
     } );
 
+    // Temporary code for representing layers.
+    const groundLayerNode = new EnergyAbsorbingEmittingLayerNode( model.groundLayer, mvt, {
+      lineOptions: { stroke: Color.GREEN },
+      visible: GreenhouseEffectQueryParameters.showAllLayers
+    } );
+
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
-    // TODO: This may handled differently once we're further along in how the models work, see
+    // TODO: This may be handled differently once we're further along in how the models work, see
     //       https://github.com/phetsims/greenhouse-effect/issues/17.
     let presentationNode;
     if ( model instanceof WavesModel ) {
@@ -197,7 +205,7 @@ class ObservationWindow extends Node {
     } );
 
     super( merge( {
-      children: [ skyNode, groundNode, presentationNode, darknessNode, startButton, windowFrame ],
+      children: [ skyNode, groundNode, groundLayerNode, presentationNode, darknessNode, startButton, windowFrame ],
 
       // pdom
       tagName: 'div',

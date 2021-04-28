@@ -11,7 +11,10 @@ import greenhouseEffect from '../greenhouseEffect.js';
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
   // whether or not to run with customizations for Open Sci Ed
-  openSciEd: { type: 'flag' }
+  openSciEd: { type: 'flag' },
+
+  // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
+  showAllLayers: { type: 'flag' }
 } );
 
 greenhouseEffect.register( 'GreenhouseEffectQueryParameters', GreenhouseEffectQueryParameters );

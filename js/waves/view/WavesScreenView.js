@@ -19,6 +19,7 @@ import CloudsCheckbox from './CloudsCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
+
   constructor( model, tandem ) {
     super( model, tandem, {
       energyLegendOptions: {

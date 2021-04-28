@@ -9,7 +9,6 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -52,20 +51,13 @@ class EnergyAbsorbingEmittingLayer {
 
     }, options );
 
+    // @public (read-only) - altitude in meters where this layer resides
+    this.altitude = altitude;
+
     // @public (read-only) - The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( STARTING_TEMPERATURE );
-
-    // TODO temp
-    let temperatureOutputCounter = 0;
-    this.temperatureProperty.lazyLink( temperature => {
-      temperatureOutputCounter++;
-      if ( temperatureOutputCounter > 30 ) {
-        console.log( Utils.toFixed( temperature, 2 ) );
-        temperatureOutputCounter = 0;
-      }
-    } );
 
     // @private
     this.energySuppliers = energySuppliers;
@@ -95,7 +87,7 @@ class EnergyAbsorbingEmittingLayer {
     // not real, but is needed for the desired behavior of the sim.
     let radiatedEnergy = 0;
     if ( this.temperatureProperty.value > STARTING_TEMPERATURE ) {
-      radiatedEnergy = Math.pow( this.temperatureProperty.value + temperatureChangeDueToIncomingEnergy, 4 ) *
+      radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) *
                        STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
     }
 
@@ -120,6 +112,7 @@ class EnergyAbsorbingEmittingLayer {
 }
 
 // statics
+EnergyAbsorbingEmittingLayer.WIDTH = SURFACE_DIMENSIONS.width;
 EnergyAbsorbingEmittingLayer.SURFACE_AREA = SURFACE_AREA;
 EnergyAbsorbingEmittingLayer.Substance = Substance;
 

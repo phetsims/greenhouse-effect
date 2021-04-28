@@ -58,7 +58,7 @@ class GreenhouseEffectModel {
 
     // TODO: Temporary layer model experimentation.
     this.sunToGroundEnergyDelay = new EnergyDelay( 6 );
-    this.ground = new EnergyAbsorbingEmittingLayer( 0, [ this.sunToGroundEnergyDelay ], {
+    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, [ this.sunToGroundEnergyDelay ], {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
     } );
   }
@@ -78,7 +78,7 @@ class GreenhouseEffectModel {
     const sunEnergyHittingTheGround = ( ENERGY_FROM_SUN * adjustedDt ) * EnergyAbsorbingEmittingLayer.SURFACE_AREA;
 
     this.sunToGroundEnergyDelay.step( sunEnergyHittingTheGround, dt );
-    this.ground.step( adjustedDt );
+    this.groundLayer.step( adjustedDt );
   }
 
   /**
@@ -108,7 +108,7 @@ class GreenhouseEffectModel {
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
     this.sunToGroundEnergyDelay.reset();
-    this.ground.reset();
+    this.groundLayer.reset();
   }
 }
 
