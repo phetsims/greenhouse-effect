@@ -79,17 +79,16 @@ class EnergyAbsorbingEmittingLayer {
       energySupplier.clearOutputEnergy();
     } );
 
-    // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
-    const temperatureChangeDueToIncomingEnergy = incomingEnergy / ( this.mass * this.specificHeatCapacity );
-
     // Calculate the amount of energy that this layer will radiate at the current temperature using the Stefan-Boltzmann
     // equation.  This calculation doesn't allow the energy to radiate if it is below the initial temperature, which is
     // not real, but is needed for the desired behavior of the sim.
     let radiatedEnergy = 0;
     if ( this.temperatureProperty.value > STARTING_TEMPERATURE ) {
-      radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) *
-                       STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
+      radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
     }
+
+    // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
+    const temperatureChangeDueToIncomingEnergy = incomingEnergy / ( this.mass * this.specificHeatCapacity );
 
     this.outputEnergy += radiatedEnergy;
 

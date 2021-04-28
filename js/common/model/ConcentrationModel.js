@@ -46,8 +46,8 @@ class ConcentrationModel extends GreenhouseEffectModel {
     // @public {EnumerationProperty} - selected date which will select a value for concentration
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
 
-    // the dateProperty directly controls the concentration, though this is just a temporary listener to test some of
-    // the UI components
+    // The dateProperty directly controls the concentration, though this is just a temporary listener to test some of
+    // the UI components.
     this.dateProperty.link( date => {
       if ( date === CONCENTRATION_DATE.ICE_AGE ) {
         this.concentrationProperty.set( concentrationRange.min );
