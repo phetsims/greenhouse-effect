@@ -41,7 +41,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
-    this.concentrationControlProperty = new EnumerationProperty( CONCENTRATION_CONTROL, CONCENTRATION_CONTROL.DATE );
+    this.concentrationControlProperty = new EnumerationProperty( CONCENTRATION_CONTROL, CONCENTRATION_CONTROL.VALUE );
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
