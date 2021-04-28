@@ -155,17 +155,17 @@ class DateControl extends Node {
       {
         node: new Text( twentyNineteenLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
         value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN,
-        labelContent: twentyNineteenLabel
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyNineteen
       },
       {
         node: new Text( nineteenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
         value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
-        labelContent: nineteenFiftyLabel
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty
       },
       {
         node: new Text( seventeenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
         value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
-        labelContent: seventeenFiftyLabel
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty
       },
       {
         node: new Text( iceAgeLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
@@ -179,7 +179,8 @@ class DateControl extends Node {
       merge(
         {
           labelTagName: 'h4',
-          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod
+          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
+          helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText
         },
         RADIO_BUTTON_GROUP_OPTIONS
       )
@@ -268,7 +269,7 @@ class SliderControl extends Node {
     const concentrationSlider = new VSlider( concentrationProperty, concentrationProperty.range, {
       trackSize: new Dimension2( 1, 100 ),
       thumbSize: new Dimension2( 20, 10 ),
-      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.greenhouseGasConcentration,
+      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label'
     } );
 
@@ -372,7 +373,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
 
           // pdom
           labelTagName: 'h4',
-          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode
+          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
+          helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText
         },
         RADIO_BUTTON_GROUP_OPTIONS
       )

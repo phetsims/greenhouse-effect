@@ -181,11 +181,11 @@
       "title": {
         "value": "Greenhouse Gas Exploration Controls"
       },
-      "timePeriod": {
-        "value": "Time Period"
-      },
       "exploreMode": {
         "value": "Explore Mode"
+      },
+      "exploreModeHelpText": {
+        "value": "Explore concentration manually or by time period."
       },
       "byConcentration": {
         "value": "By concentration"
@@ -193,8 +193,30 @@
       "byTimePeriod": {
         "value": "By time period"
       },
-      "greenhouseGasConcentration": {
-        "value": "Greenhouse Gas Concentration"
+      "timePeriod": {
+        "label": {
+          "value": "Time Period"
+        },
+        "helpText": {
+          "value": "Explore greenhouse concentrations at specific time periods."
+        },
+        "yearTwentyNineteen": {
+          "value": "Year Twenty Nineteen"
+        },
+        "yearNineteenFifty": {
+          "value": "Year Nineteen Fifty"
+        },
+        "yearSeventeenFifty": {
+          "value": "Year Seventeen Fifty"
+        }
+      },
+      "concentration": {
+        "label": {
+          "value": "Concentration"
+        },
+        "greenhouseGasConcentration": {
+          "value": "Greenhouse Gas Concentration"
+        }
       }
     },
     "playAreaSummary": {
