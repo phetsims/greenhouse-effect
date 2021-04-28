@@ -12,10 +12,12 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectConstants = {
 
+  // margins
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
-  SCREEN_VIEW_BACKGROUND_COLOR: new Color( 254, 252, 231 ),
 
+  // colors
+  SCREEN_VIEW_BACKGROUND_COLOR: new Color( 254, 252, 231 ),
   SUNLIGHT_COLOR: 'yellow',
   INFRARED_COLOR: 'red',
 
@@ -29,7 +31,10 @@ const GreenhouseEffectConstants = {
   LABEL_FONT: new PhetFont( { size: 14 } ),
 
   // font used to label supplementary content
-  CONTENT_FONT: new PhetFont( { size: 12 } )
+  CONTENT_FONT: new PhetFont( { size: 12 } ),
+
+  // horizontal span of the sunlight modeled in the first three screens, in meters
+  SUNLIGHT_SPAN: 85000
 };
 
 greenhouseEffect.register( 'GreenhouseEffectConstants', GreenhouseEffectConstants );

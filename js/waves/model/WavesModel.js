@@ -63,6 +63,7 @@ class WavesModel extends ConcentrationModel {
    * @param {number} dt - in seconds
    */
   stepModel( dt ) {
+    super.stepModel( dt );
     this.timeProperty.value += dt;
     this.waves.forEach( wave => wave.step( dt ) );
 

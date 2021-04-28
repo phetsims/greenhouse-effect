@@ -12,13 +12,25 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import EnergyDelay from './EnergyDelay.js';
 
 // constants
-const HEIGHT_OF_ATMOSPHERE = 50; // in km
-const SUNLIGHT_SPAN = 85; // in km, horizontal distance over which sunlight is simulated
+const HEIGHT_OF_ATMOSPHERE = 50000; // in m
+const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 
 // units of temperature used by Greenhouse Effect
 const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
+
+// Energy coming in from the sun in Watts per square meter.  This value is based on a number of factors, but the bottom
+// line is that it is the value that gets to the desired blackbody temperature of the Earth when using the Stefan-
+// Boltzmann equation.
+const ENERGY_FROM_SUN = 240;
+
+// We want things to heat up faster than they would in real life, so this is the amount by which this process is sped up
+// versus real live.
+const TIME_ACCELERATION_FACTOR = 1000;
 
 class GreenhouseEffectModel {
   constructor() {
@@ -43,6 +55,12 @@ class GreenhouseEffectModel {
 
     // @public {EnumerationProperty} - displayed units of temperature
     this.temperatureUnitsProperty = new EnumerationProperty( TEMPERATURE_UNITS, TEMPERATURE_UNITS.KELVIN );
+
+    // TODO: Temporary layer model experimentation.
+    this.sunToGroundEnergyDelay = new EnergyDelay( 6 );
+    this.ground = new EnergyAbsorbingEmittingLayer( 0, [ this.sunToGroundEnergyDelay ], {
+      substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
+    } );
   }
 
   /**
@@ -51,7 +69,17 @@ class GreenhouseEffectModel {
    *
    * @param {number} dt - in seconds
    */
-  stepModel( dt ) {}
+  stepModel( dt ) {
+
+    // Speed things up a bit.
+    const adjustedDt = dt * TIME_ACCELERATION_FACTOR;
+
+    // The source of energy is the sun.
+    const sunEnergyHittingTheGround = ( ENERGY_FROM_SUN * adjustedDt ) * EnergyAbsorbingEmittingLayer.SURFACE_AREA;
+
+    this.sunToGroundEnergyDelay.step( sunEnergyHittingTheGround, dt );
+    this.ground.step( adjustedDt );
+  }
 
   /**
    * Step the simulation, called by Joist framework.
@@ -79,6 +107,8 @@ class GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
+    this.sunToGroundEnergyDelay.reset();
+    this.ground.reset();
   }
 }
 
