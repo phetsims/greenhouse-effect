@@ -18,10 +18,13 @@ import EnergyTransferInterface from './EnergyTransferInterface.js';
 // constants
 const STARTING_TEMPERATURE = 245; // in degrees Kelvin
 
+// enum for the direction in which a layer can radiate energy
+const LayerRadiationDirection = Enumeration.byKeys( [ 'DOWN_ONLY', 'UP_ONLY', 'UP_AND_DOWN' ] );
+
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
-  GLASS: { density: 2500, specificHeatCapacity: 840 },
-  EARTH: { density: 1250, specificHeatCapacity: 1000 }
+  GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirection: LayerRadiationDirection.UP_AND_DOWN },
+  EARTH: { density: 1250, specificHeatCapacity: 1000, radiationDirection: LayerRadiationDirection.UP_ONLY }
 } );
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
@@ -49,7 +52,10 @@ class EnergyAbsorbingEmittingLayer {
     options = merge( {
 
       // {Substance} - default to glass
-      substance: Substance.GLASS
+      substance: Substance.GLASS,
+
+      // {number} - initial setting for the absorption proportion, must be from 0 to 1 inclusive
+      initialEnergyAbsorptionProportion: 1
 
     }, options );
 
@@ -60,6 +66,10 @@ class EnergyAbsorbingEmittingLayer {
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( STARTING_TEMPERATURE );
+
+    // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
+    // in temperature.  Non-absorbed energy is simply based from the input to the output.
+    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion );
 
     // @public - The energy that is coming out of this layer in this step.  Other layers will use the values contained
     // in this object as their input energy.
@@ -95,21 +105,24 @@ class EnergyAbsorbingEmittingLayer {
       radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
     }
 
-    // Get the amount of incoming energy and clear the energy sources.
-    let incomingEnergy = 0;
+    // Determine the amount of energy that is absorbed and passed through in each direction, and clear the sources.
+    const absorptionProportion = this.energyAbsorptionProportionProperty.value;
+    let absorbedEnergy = 0;
+    let energyPassingThroughTopToBottom = 0;
+    let energyPassingThroughBottomToTop = 0;
     this.energySourcesAbove.forEach( energySource => {
-      incomingEnergy += energySource.outputEnergyDownProperty.value;
+      absorbedEnergy += energySource.outputEnergyDownProperty.value * absorptionProportion;
+      energyPassingThroughTopToBottom += energySource.outputEnergyDownProperty.value * ( 1 - absorptionProportion );
       energySource.outputEnergyDownProperty.set( 0 );
     } );
     this.energySourcesBelow.forEach( energySource => {
-      incomingEnergy += energySource.outputEnergyUpProperty.value;
+      absorbedEnergy += energySource.outputEnergyUpProperty.value * absorptionProportion;
+      energyPassingThroughBottomToTop += energySource.outputEnergyUpProperty.value * ( 1 - absorptionProportion );
       energySource.outputEnergyUpProperty.set( 0 );
     } );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
-    const temperatureChangeDueToIncomingEnergy = incomingEnergy / ( this.mass * this.specificHeatCapacity );
-
-    this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy;
+    const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
 
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -radiatedEnergy / ( this.mass * this.specificHeatCapacity );
@@ -119,6 +132,25 @@ class EnergyAbsorbingEmittingLayer {
     this.temperatureProperty.set( this.temperatureProperty.value +
                                   temperatureChangeDueToIncomingEnergy +
                                   temperatureChangeDueToRadiatedEnergy );
+
+    // Assign the radiated energy to the outputs based on the direction in which this layer is set to radiate.
+    if ( this.substance.radiationDirection === LayerRadiationDirection.UP_ONLY ) {
+      this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy;
+    }
+    else if ( this.substance.radiationDirection === LayerRadiationDirection.DOWN_ONLY ) {
+      this.energyOutput.outputEnergyDownProperty.value += radiatedEnergy;
+    }
+    else {
+
+      // Split the radiated energy into the up and down directions.
+      this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy / 2;
+      this.energyOutput.outputEnergyDownProperty.value += radiatedEnergy / 2;
+    }
+
+    // Add any energy that is just passing through to the output energy for this step.
+    this.energyOutput.outputEnergyUpProperty.value += energyPassingThroughBottomToTop;
+    this.energyOutput.outputEnergyDownProperty.value += energyPassingThroughTopToBottom;
+
   }
 
   /**
