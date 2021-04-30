@@ -13,6 +13,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EnergyTransferInterface from './EnergyTransferInterface.js';
 
 // constants
 const STARTING_TEMPERATURE = 245; // in degrees Kelvin
@@ -39,10 +40,11 @@ class EnergyAbsorbingEmittingLayer {
 
   /**
    * @param {number} altitude
-   * @param {Array<>EnergyAbsorbingEmittingLayer|EnergySource>} energySuppliers
+   * @param {EnergyTransferInterface[]} energySourcesAbove - sources that are providing energy to this layer from above
+   * @param {EnergyTransferInterface[]} energySourcesBelow - sources that are providing energy to this layer from below
    * @param {Object} [options]
    */
-  constructor( altitude, energySuppliers, options ) {
+  constructor( altitude, energySourcesAbove, energySourcesBelow, options ) {
 
     options = merge( {
 
@@ -59,8 +61,21 @@ class EnergyAbsorbingEmittingLayer {
     // to the surface of the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( STARTING_TEMPERATURE );
 
+    // @public - The energy that is coming out of this layer in this step.  Other layers will use the values contained
+    // in this object as their input energy.
+    this.energyOutput = new EnergyTransferInterface();
+
+    // @private {EnergyTransferInterface[]} - A set of zero or more energy sources that indicate the amount of energy
+    // coming into this layer from above in the current step.  This layer will absorb some or all of the energy and will
+    // transfer what it doesn't absorb to its own downward output.
+    this.energySourcesAbove = energySourcesAbove;
+
+    // @private {EnergyTransferInterface[]} - A set of zero or more energy sources that indicate the amount of energy
+    // coming into this layer from below in the current step.  This layer will absorb some or all of the energy and will
+    // transfer what it doesn't absorb to its own upward output.
+    this.energySourcesBelow = energySourcesBelow;
+
     // @private
-    this.energySuppliers = energySuppliers;
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
@@ -72,25 +87,29 @@ class EnergyAbsorbingEmittingLayer {
    */
   step( dt ) {
 
-    // Get the amount of incoming energy and clear the energy suppliers.
-    let incomingEnergy = 0;
-    this.energySuppliers.forEach( energySupplier => {
-      incomingEnergy += energySupplier.outputEnergy;
-      energySupplier.clearOutputEnergy();
-    } );
-
-    // Calculate the amount of energy that this layer will radiate at the current temperature using the Stefan-Boltzmann
+    // Calculate the amount of energy that this layer will radiate at its current temperature using the Stefan-Boltzmann
     // equation.  This calculation doesn't allow the energy to radiate if it is below the initial temperature, which is
-    // not real, but is needed for the desired behavior of the sim.
+    // not real physics, but is needed for the desired behavior of the sim.
     let radiatedEnergy = 0;
     if ( this.temperatureProperty.value > STARTING_TEMPERATURE ) {
       radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
     }
 
+    // Get the amount of incoming energy and clear the energy sources.
+    let incomingEnergy = 0;
+    this.energySourcesAbove.forEach( energySource => {
+      incomingEnergy += energySource.outputEnergyDownProperty.value;
+      energySource.outputEnergyDownProperty.set( 0 );
+    } );
+    this.energySourcesBelow.forEach( energySource => {
+      incomingEnergy += energySource.outputEnergyUpProperty.value;
+      energySource.outputEnergyUpProperty.set( 0 );
+    } );
+
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = incomingEnergy / ( this.mass * this.specificHeatCapacity );
 
-    this.outputEnergy += radiatedEnergy;
+    this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy;
 
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -radiatedEnergy / ( this.mass * this.specificHeatCapacity );

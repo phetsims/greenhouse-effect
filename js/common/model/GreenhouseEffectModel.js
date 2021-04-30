@@ -15,6 +15,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDelay from './EnergyDelay.js';
+import EnergyTransferInterface from './EnergyTransferInterface.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in m
@@ -58,7 +59,8 @@ class GreenhouseEffectModel {
 
     // TODO: Temporary layer model experimentation.
     this.sunToGroundEnergyDelay = new EnergyDelay( 6 );
-    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, [ this.sunToGroundEnergyDelay ], {
+    this.sunEnergy = new EnergyTransferInterface();
+    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, [ this.sunEnergy ], [], {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
     } );
   }
@@ -78,6 +80,8 @@ class GreenhouseEffectModel {
     const sunEnergyHittingTheGround = ( ENERGY_FROM_SUN * adjustedDt ) * EnergyAbsorbingEmittingLayer.SURFACE_AREA;
 
     this.sunToGroundEnergyDelay.step( sunEnergyHittingTheGround, dt );
+    this.sunEnergy.outputEnergyDownProperty.set( this.sunToGroundEnergyDelay.outputEnergy );
+    this.sunToGroundEnergyDelay.clearOutputEnergy();
     this.groundLayer.step( adjustedDt );
   }
 
@@ -108,6 +112,7 @@ class GreenhouseEffectModel {
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
     this.sunToGroundEnergyDelay.reset();
+    this.sunEnergy.reset();
     this.groundLayer.reset();
   }
 }
