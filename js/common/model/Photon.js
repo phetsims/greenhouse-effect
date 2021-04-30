@@ -12,7 +12,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
-const PHOTON_SPEED = 8; // in meters/s, obviously far slower than real light, chosen to look good
+const PHOTON_SPEED = 8000; // in meters/s, obviously far slower than real light, chosen to look good
 
 // TODO - These should be consolidated with the molecules-and-light code, see https://github.com/phetsims/greenhouse-effect/issues/19
 const IR_WAVELENGTH = 850E-9; // in meters

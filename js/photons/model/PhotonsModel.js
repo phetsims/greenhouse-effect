@@ -35,16 +35,6 @@ class PhotonsModel extends ConcentrationModel {
   }
 
   /**
-   * Resets the model.
-   * @public
-   */
-  reset() {
-    this.photons.clear();
-    this.photonCreationCountdown = 0;
-    super.reset();
-  }
-
-  /**
    * Steps the model.
    * @param {number} dt - time step, in seconds
    * @public
@@ -93,6 +83,16 @@ class PhotonsModel extends ConcentrationModel {
 
     photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
     photonsToAdd.forEach( photon => { this.photons.push( photon ); } );
+  }
+
+  /**
+   * Resets the model.
+   * @public
+   */
+  reset() {
+    this.photons.clear();
+    this.photonCreationCountdown = 0;
+    super.reset();
   }
 }
 

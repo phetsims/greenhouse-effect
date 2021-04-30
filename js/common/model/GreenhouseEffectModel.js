@@ -14,8 +14,9 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
-import EnergyDelay from './EnergyDelay.js';
+import EnergyDelayLine from './EnergyDelayLine.js';
 import EnergyTransferInterface from './EnergyTransferInterface.js';
+import Photon from './Photon.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in m
@@ -27,7 +28,7 @@ const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT
 // Energy coming in from the sun in Watts per square meter.  This value is based on a number of factors, but the bottom
 // line is that it is the value that gets to the desired blackbody temperature of the Earth when using the Stefan-
 // Boltzmann equation.
-const ENERGY_FROM_SUN = 240;
+const SUN_OUTPUT_ENERGY_RATE = 240;
 
 // We want things to heat up faster than they would in real life, so this is the amount by which this process is sped up
 // versus real live.
@@ -58,9 +59,13 @@ class GreenhouseEffectModel {
     this.temperatureUnitsProperty = new EnumerationProperty( TEMPERATURE_UNITS, TEMPERATURE_UNITS.KELVIN );
 
     // TODO: Temporary layer model experimentation.
-    this.sunToGroundEnergyDelay = new EnergyDelay( 6 );
     this.sunEnergy = new EnergyTransferInterface();
-    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, [ this.sunEnergy ], [], {
+    this.sunToGroundEnergyDelayLine = new EnergyDelayLine(
+      this.sunEnergy,
+      null,
+      HEIGHT_OF_ATMOSPHERE / Photon.SPEED
+    );
+    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, [ this.sunToGroundEnergyDelayLine.energyOutput ], [], {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
     } );
   }
@@ -73,16 +78,22 @@ class GreenhouseEffectModel {
    */
   stepModel( dt ) {
 
-    // Speed things up a bit.
-    const adjustedDt = dt * TIME_ACCELERATION_FACTOR;
+    // The speed of energy transfer and related processes is sped up versus "real life" so as not to tax our users'
+    // patience.
+    const acceleratedDt = dt * TIME_ACCELERATION_FACTOR;
 
-    // The source of energy is the sun.
-    const sunEnergyHittingTheGround = ( ENERGY_FROM_SUN * adjustedDt ) * EnergyAbsorbingEmittingLayer.SURFACE_AREA;
+    // Calculate the amount of solar energy that is coming into the system in this step.
+    this.sunEnergy.outputEnergyDownProperty.set(
+      ( SUN_OUTPUT_ENERGY_RATE * acceleratedDt ) * EnergyAbsorbingEmittingLayer.SURFACE_AREA
+    );
 
-    this.sunToGroundEnergyDelay.step( sunEnergyHittingTheGround, dt );
-    this.sunEnergy.outputEnergyDownProperty.set( this.sunToGroundEnergyDelay.outputEnergy );
-    this.sunToGroundEnergyDelay.clearOutputEnergy();
-    this.groundLayer.step( adjustedDt );
+    // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
+    // assuming real values.
+    this.sunToGroundEnergyDelayLine.step( dt );
+
+    // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
+    // is faster than real life.
+    this.groundLayer.step( acceleratedDt );
   }
 
   /**
@@ -111,7 +122,7 @@ class GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
-    this.sunToGroundEnergyDelay.reset();
+    this.sunToGroundEnergyDelayLine.reset();
     this.sunEnergy.reset();
     this.groundLayer.reset();
   }
