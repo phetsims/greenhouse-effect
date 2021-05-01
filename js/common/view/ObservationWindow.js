@@ -103,6 +103,14 @@ class ObservationWindow extends Node {
       lineOptions: { stroke: Color.GREEN },
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
+    const lowerAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.lowerAtmosphereLayer, mvt, {
+      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+      visible: GreenhouseEffectQueryParameters.showAllLayers
+    } );
+    const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
+      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+      visible: GreenhouseEffectQueryParameters.showAllLayers
+    } );
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
     // TODO: This may be handled differently once we're further along in how the models work, see
@@ -205,7 +213,18 @@ class ObservationWindow extends Node {
     } );
 
     super( merge( {
-      children: [ skyNode, groundNode, groundLayerNode, presentationNode, darknessNode, startButton, windowFrame ],
+
+      children: [
+        skyNode,
+        groundNode,
+        groundLayerNode,
+        lowerAtmosphereLayerNode,
+        upperAtmosphereLayerNode,
+        presentationNode,
+        darknessNode,
+        startButton,
+        windowFrame
+      ],
 
       // pdom
       tagName: 'div',

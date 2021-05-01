@@ -15,26 +15,39 @@ import EnergyTransferInterface from './EnergyTransferInterface.js';
 class EnergyDelayLine {
 
   /**
-   * @param {EnergyTransferInterface|null} sourceOfDownwardMovingEnergy
-   * @param {EnergyTransferInterface|null} sourceOfUpwardMovingEnergy
    * @param {number} delayTime - in seconds
    */
-  constructor( sourceOfDownwardMovingEnergy, sourceOfUpwardMovingEnergy, delayTime ) {
-
-    assert && assert(
-      !( sourceOfDownwardMovingEnergy === null && sourceOfUpwardMovingEnergy === null ),
-      'must have at least one energy source'
-    );
+  constructor( delayTime ) {
 
     // @public - The energy that is coming out of this delay line in this step.
     this.energyOutput = new EnergyTransferInterface();
 
+    // @private {NumberProperty|null} 
+    this.incomingUpwardMovingEnergyProperty = null;
+
+    // @private {NumberProperty|null} 
+    this.incomingDownwardMovingEnergyProperty = null;
+
     // @private
-    this.sourceOfDownwardMovingEnergy = sourceOfDownwardMovingEnergy;
-    this.sourceOfUpwardMovingEnergy = sourceOfUpwardMovingEnergy;
     this.delayTime = delayTime;
     this.delayedDownwardMovingEnergy = [];
     this.delayedUpwardMovingEnergy = [];
+  }
+
+  /**
+   * @param {EnergyTransferInterface} energyTransferObject
+   * @public
+   */
+  setSourceOfUpwardMovingEnergy( energyTransferObject ) {
+    this.incomingUpwardMovingEnergyProperty = energyTransferObject.outputEnergyUpProperty;
+  }
+
+  /**
+   * @param {EnergyTransferInterface} energyTransferObject
+   * @public
+   */
+  setSourceOfDownwardMovingEnergy( energyTransferObject ) {
+    this.incomingDownwardMovingEnergyProperty = energyTransferObject.outputEnergyDownProperty;
   }
 
   /**
@@ -51,52 +64,51 @@ class EnergyDelayLine {
       'there should be no energy at the output at start of step'
     );
 
-    const currentTime = ( phet.joist.elapsedTime ) / 1000; // Why oh why is joist's elapsed time in milliseconds?
+    // Update the delay queues, and extract any entries that have expired and put it into the outgoing energy.
+    this.delayedDownwardMovingEnergy.forEach( delayQueueEntry => {
+      delayQueueEntry.remainingTimeInQueue -= dt;
+      if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
+        this.energyOutput.outputEnergyDownProperty.value += delayQueueEntry.energyAmount;
+      }
+    } );
+    this.delayedDownwardMovingEnergy = this.delayedDownwardMovingEnergy.filter(
+      delayQueueEntry => delayQueueEntry.remainingTimeInQueue > 0
+    );
+    this.delayedUpwardMovingEnergy.forEach( delayQueueEntry => {
+      delayQueueEntry.remainingTimeInQueue -= dt;
+      if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
+        this.energyOutput.outputEnergyUpProperty.value += delayQueueEntry.energyAmount;
+      }
+    } );
+    this.delayedUpwardMovingEnergy = this.delayedUpwardMovingEnergy.filter(
+      delayQueueEntry => delayQueueEntry.remainingTimeInQueue > 0
+    );
 
-    if ( this.sourceOfDownwardMovingEnergy && this.sourceOfDownwardMovingEnergy.outputEnergyDownProperty.value > 0 ) {
+    // Add new delay entries for any incoming energy.
+    if ( this.incomingDownwardMovingEnergyProperty && this.incomingDownwardMovingEnergyProperty.value > 0 ) {
 
       // There is some available energy in this direction, so put it into the delay queue.
       this.delayedDownwardMovingEnergy.push( {
-          energyAmount: this.sourceOfDownwardMovingEnergy.outputEnergyDownProperty.value,
-          exitTime: currentTime + this.delayTime
+          energyAmount: this.incomingDownwardMovingEnergyProperty.value,
+          remainingTimeInQueue: this.delayTime
         }
       );
 
       // Clear the energy from the source.
-      this.sourceOfDownwardMovingEnergy.outputEnergyDownProperty.set( 0 );
+      this.incomingDownwardMovingEnergyProperty.set( 0 );
     }
 
-    if ( this.sourceOfUpwardMovingEnergy && this.sourceOfUpwardMovingEnergy.outputEnergyUpProperty.value > 0 ) {
+    if ( this.incomingUpwardMovingEnergyProperty && this.incomingUpwardMovingEnergyProperty.value > 0 ) {
 
       // There is some available energy in this direction, so put it into the delay queue.
       this.delayedUpwardMovingEnergy.push( {
-          energyAmount: this.sourceOfUpwardMovingEnergy.outputEnergyUpProperty.value,
-          exitTime: currentTime + this.delayTime
+          energyAmount: this.incomingUpwardMovingEnergyProperty.value,
+          remainingTimeInQueue: this.delayTime
         }
       );
 
       // Clear the energy from the source.
-      this.delayedUpwardMovingEnergy.outputEnergyUpProperty.set( 0 );
-    }
-
-    // Add any energy that has been sufficiently delayed to the output energy and delete the entry from the delay queue.
-    for ( let i = 0; i < this.delayedDownwardMovingEnergy.length; i++ ) {
-      if ( this.delayedDownwardMovingEnergy[ 0 ].exitTime <= currentTime ) {
-        const sufficientlyDelayedEnergy = this.delayedDownwardMovingEnergy.shift();
-        this.energyOutput.outputEnergyDownProperty.value += sufficientlyDelayedEnergy.energyAmount;
-      }
-      else {
-        break;
-      }
-    }
-    for ( let i = 0; i < this.delayedUpwardMovingEnergy.length; i++ ) {
-      if ( this.delayedUpwardMovingEnergy[ 0 ].exitTime <= currentTime ) {
-        const sufficientlyDelayedEnergy = this.delayedUpwardMovingEnergy.shift();
-        this.energyOutput.outputEnergyUpProperty.value += sufficientlyDelayedEnergy.energyAmount;
-      }
-      else {
-        break;
-      }
+      this.incomingUpwardMovingEnergyProperty.set( 0 );
     }
   }
 
