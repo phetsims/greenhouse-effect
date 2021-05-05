@@ -134,18 +134,6 @@
   "SpectrumWindow.metersUnits": {
     "value": "m"
   },
-  "keyboardHelpDialog.observationWindow": {
-    "value": "Observation Window"
-  },
-  "keyboardHelpDialog.turnLightSourceOnOrOff": {
-    "value": "Turn light source on or off"
-  },
-  "keyboardHelpDialog.pauseOrPlayShortcut": {
-    "value": "Pause or play action in Observation Window"
-  },
-  "keyboardHelpDialog.stepForwardShortcut": {
-    "value": "When action is paused step forward in bigger steps"
-  },
   "openSciEd.energySource": {
     "value": "Energy from Earth’s Surface"
   },
@@ -575,17 +563,6 @@
       },
       "stepHintAlert": {
         "value": "Turn light source on to use Step Forward."
-      }
-    },
-    "keyboardHelpDialog": {
-      "turnLightSourceOnOrOffDescription": {
-        "value": "Turn light source on or off with Space or Enter keys."
-      },
-      "pauseOrPlayShortcutDescription": {
-        "value": "Pause or play action in Observation Window with Alt key plus K."
-      },
-      "stepForwardShortcutDescription": {
-        "value": "When action is paused step forward in bigger steps with Alt key plus L."
       }
     }
   }
