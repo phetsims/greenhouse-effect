@@ -55,7 +55,10 @@ class ObservationWindow extends Node {
 
       // default position in the GreenhouseEffect sim
       left: 5,
-      top: 10
+      top: 10,
+
+      // options passed to the ObservationWindowVisibilityControls
+      visibilityControlsOptions: null
 
     }, options );
 
@@ -201,10 +204,10 @@ class ObservationWindow extends Node {
     // controls
     const visibilityControls = new ObservationWindowVisibilityControls(
       model.energyBalanceVisibleProperty,
-      model.fluxMeterVisibleProperty, {
-        rightBottom: windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING )
-      }
+      model.fluxMeterVisibleProperty,
+      options.visibilityControlsOptions
     );
+    visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // Manage the visibility of the start button and the darkness overlay.
     model.isStartedProperty.link( isStarted => {

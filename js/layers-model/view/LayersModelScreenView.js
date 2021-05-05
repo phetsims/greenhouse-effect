@@ -16,7 +16,13 @@ class LayersModelScreenView extends GreenhouseEffectScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-    super( model, tandem );
+    super( model, tandem, {
+      observationWindowOptions: {
+        visibilityControlsOptions: {
+          includeEnergyBalance: false
+        }
+      }
+    } );
 
     const mockup = new Image( layerModelScreenMockup, {
       center: this.layoutBounds.center,

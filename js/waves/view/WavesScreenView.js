@@ -29,6 +29,12 @@ class WavesScreenView extends GreenhouseEffectScreenView {
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
       },
 
+      observationWindowOptions: {
+        visibilityControlsOptions: {
+          includeFluxMeter: false
+        }
+      },
+
       // pdom
       screenSummaryContent: new Node( {
         children: [

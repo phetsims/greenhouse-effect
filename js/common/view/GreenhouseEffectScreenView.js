@@ -31,7 +31,10 @@ class GreenhouseEffectScreenView extends ScreenView {
     options = merge( {
 
       // passed along to the EnergyLegend
-      energyLegendOptions: null
+      energyLegendOptions: null,
+
+      // {Object|null} - options passed to the ObservationWindow
+      observationWindowOptions: null
     }, options );
 
     super( options );
@@ -41,7 +44,7 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // @protected (read-only) - The observation window where the ground, sky, waves, photons, and such will appear. This
     // is protected for layout purposes in subtypes.
-    this.observationWindow = new ObservationWindow( model, tandem );
+    this.observationWindow = new ObservationWindow( model, tandem, options.observationWindowOptions );
 
     // area between right edge of ScreenView and observation window
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
