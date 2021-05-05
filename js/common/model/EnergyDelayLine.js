@@ -9,24 +9,24 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EnergyTransferInterface from './EnergyTransferInterface.js';
+import EnergySource from './EnergySource.js';
 
-class EnergyDelayLine {
+class EnergyDelayLine extends EnergySource {
 
   /**
    * @param {number} delayTime - in seconds
    */
   constructor( delayTime ) {
 
-    // @public - The energy that is coming out of this delay line in this step.
-    this.energyOutput = new EnergyTransferInterface();
+    super();
 
-    // @private {NumberProperty|null} 
-    this.incomingUpwardMovingEnergyProperty = null;
+    // @public {read-only} - Energy coming in that is moving in the downward direction, so coming from above.
+    this.incomingDownwardMovingEnergyProperty = new NumberProperty( 0 );
 
-    // @private {NumberProperty|null} 
-    this.incomingDownwardMovingEnergyProperty = null;
+    // @public {read-only} - Energy coming in that is moving in the upward direction, so coming from underneath.
+    this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
 
     // @private
     this.delayTime = delayTime;
@@ -35,40 +35,16 @@ class EnergyDelayLine {
   }
 
   /**
-   * @param {EnergyTransferInterface} energyTransferObject
-   * @public
-   */
-  setSourceOfUpwardMovingEnergy( energyTransferObject ) {
-    this.incomingUpwardMovingEnergyProperty = energyTransferObject.outputEnergyUpProperty;
-  }
-
-  /**
-   * @param {EnergyTransferInterface} energyTransferObject
-   * @public
-   */
-  setSourceOfDownwardMovingEnergy( energyTransferObject ) {
-    this.incomingDownwardMovingEnergyProperty = energyTransferObject.outputEnergyDownProperty;
-  }
-
-  /**
    * @param {number} dt - delta time, in seconds
    * @public
    */
   step( dt ) {
 
-    // At the beginning of each step, the output energy should be zero, since the expected use is that any energy that
-    // reaches the output is consumed before the next step.  If the output energy is non-zero, this isn't being used as
-    // intended.
-    assert && assert(
-    this.energyOutput.outputEnergyDownProperty.value === 0 && this.energyOutput.outputEnergyUpProperty.value === 0,
-      'there should be no energy at the output at start of step'
-    );
-
     // Update the delay queues, and extract any entries that have expired and put it into the outgoing energy.
     this.delayedDownwardMovingEnergy.forEach( delayQueueEntry => {
       delayQueueEntry.remainingTimeInQueue -= dt;
       if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
-        this.energyOutput.outputEnergyDownProperty.value += delayQueueEntry.energyAmount;
+        this.incomingDownwardMovingEnergyProperty.value += delayQueueEntry.energyAmount;
       }
     } );
     this.delayedDownwardMovingEnergy = this.delayedDownwardMovingEnergy.filter(
@@ -77,7 +53,7 @@ class EnergyDelayLine {
     this.delayedUpwardMovingEnergy.forEach( delayQueueEntry => {
       delayQueueEntry.remainingTimeInQueue -= dt;
       if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
-        this.energyOutput.outputEnergyUpProperty.value += delayQueueEntry.energyAmount;
+        this.incomingUpwardMovingEnergyProperty.value += delayQueueEntry.energyAmount;
       }
     } );
     this.delayedUpwardMovingEnergy = this.delayedUpwardMovingEnergy.filter(
@@ -116,7 +92,8 @@ class EnergyDelayLine {
    * @public
    */
   reset() {
-    this.energyOutput.reset();
+    this.incomingDownwardMovingEnergyProperty.reset();
+    this.incomingUpwardMovingEnergyProperty.reset();
     this.delayedDownwardMovingEnergy = [];
     this.delayedUpwardMovingEnergy = [];
   }

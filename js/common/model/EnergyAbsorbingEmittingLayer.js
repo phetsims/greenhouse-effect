@@ -13,18 +13,19 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyTransferInterface from './EnergyTransferInterface.js';
+import EnergyDirection from './EnergyDirection.js';
+import EnergyRateTracker from './EnergyRateTracker.js';
+import EnergySource from './EnergySource.js';
 
 // constants
 const STARTING_TEMPERATURE = 245; // in degrees Kelvin
 
-// enum for the direction in which a layer can radiate energy
-const LayerRadiationDirection = Enumeration.byKeys( [ 'DOWN_ONLY', 'UP_ONLY', 'UP_AND_DOWN' ] );
-
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
-  GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirection: LayerRadiationDirection.UP_AND_DOWN },
-  EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirection: LayerRadiationDirection.UP_ONLY }
+  // GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  GLASS: { density: 2500, specificHeatCapacity: 0.84, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  // EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
+  EARTH: { density: 1250, specificHeatCapacity: 1.25, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
@@ -39,7 +40,7 @@ const LAYER_DEPTH = 0.01; // in meters
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_DEPTH;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8;
 
-class EnergyAbsorbingEmittingLayer {
+class EnergyAbsorbingEmittingLayer extends EnergySource {
 
   /**
    * @param {number} altitude
@@ -57,6 +58,8 @@ class EnergyAbsorbingEmittingLayer {
 
     }, options );
 
+    super();
+
     // @public (read-only) - altitude in meters where this layer resides
     this.altitude = altitude;
 
@@ -69,42 +72,22 @@ class EnergyAbsorbingEmittingLayer {
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion );
 
-    // @public - The energy that is coming out of this layer in this step.  Other layers will use the values contained
-    // in this object as their input energy.
-    this.energyOutput = new EnergyTransferInterface();
+    // @public {read-only} - Energy coming in that is moving in the downward direction, so coming from above.
+    this.incomingDownwardMovingEnergyProperty = new NumberProperty( 0 );
 
-    // @private {NumberProperty[]} - A set of zero or more Properties that contain numerical values representing energy
-    // that is coming in to this layer in the downward direction in the current step.  This layer will absorb some or
-    // all of the energy and will transfer what it doesn't absorb to its own downward output.
-    this.sourcesOfDownwardMovingEnergy = [];
+    // @public {read-only} - Energy coming in that is moving in the upward direction, so coming from underneath.
+    this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
 
-    // @private {NumberProperty[]} - A set of zero or more Properties that contain numerical values representing energy
-    // that is coming in to this layer in the upward direction in the current step.  This layer will absorb some or all
-    // of the energy and will transfer what it doesn't absorb to its own upward output.
-    this.sourcesOfUpwardMovingEnergy = [];
+    // @public {read-only} - energy rate tracking for incoming downward-moving energy, used for debugging
+    this.incomingDownwardMovingEnergyRateTracker = new EnergyRateTracker();
+
+    // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
+    this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
 
     // @private
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
-  }
-
-  /**
-   * Add a source of energy that is coming in from below and moving in the upward direction.
-   * @param {EnergyTransferInterface} energyTransferObject
-   * @public
-   */
-  addSourceOfUpwardMovingEnergy( energyTransferObject ) {
-    this.sourcesOfUpwardMovingEnergy.push( energyTransferObject.outputEnergyUpProperty );
-  }
-
-  /**
-   * Add a source of energy that is coming in from above and moving in the downward direction.
-   * @param {EnergyTransferInterface} energyTransferObject
-   * @public
-   */
-  addSourceOfDownwardMovingEnergy( energyTransferObject ) {
-    this.sourcesOfDownwardMovingEnergy.push( energyTransferObject.outputEnergyDownProperty );
   }
 
   /**
@@ -121,25 +104,21 @@ class EnergyAbsorbingEmittingLayer {
       radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
     }
 
-    // Determine the amount of energy that is absorbed and passed through in each direction, and clear the sources.
+    // Update the energy rate trackers.
+    this.incomingDownwardMovingEnergyRateTracker.logEnergy( this.incomingDownwardMovingEnergyProperty.value, dt );
+    this.incomingUpwardMovingEnergyRateTracker.logEnergy( this.incomingUpwardMovingEnergyProperty.value, dt );
+
+    // Determine the amount of energy that is absorbed and passed through in each direction.
     const absorptionProportion = this.energyAbsorptionProportionProperty.value;
     let absorbedEnergy = 0;
     let energyPassingThroughTopToBottom = 0;
     let energyPassingThroughBottomToTop = 0;
-    this.sourcesOfDownwardMovingEnergy.forEach( energySource => {
-      absorbedEnergy += energySource.value * absorptionProportion;
-      energyPassingThroughTopToBottom += energySource.value * ( 1 - absorptionProportion );
-      energySource.set( 0 );
-    } );
-    this.sourcesOfUpwardMovingEnergy.forEach( energySource => {
-      absorbedEnergy += energySource.value * absorptionProportion;
-      energyPassingThroughBottomToTop += energySource.value * ( 1 - absorptionProportion );
-      energySource.set( 0 );
-    } );
-
-    if ( phet.jbDebug ) {
-      console.log( `${this.jbId} absorbedEnergy = ${absorbedEnergy}` );
-    }
+    absorbedEnergy += this.incomingDownwardMovingEnergyProperty.value * absorptionProportion;
+    energyPassingThroughTopToBottom += this.incomingDownwardMovingEnergyProperty.value * ( 1 - absorptionProportion );
+    this.incomingDownwardMovingEnergyProperty.reset();
+    absorbedEnergy += this.incomingUpwardMovingEnergyProperty.value * absorptionProportion;
+    energyPassingThroughBottomToTop += this.incomingUpwardMovingEnergyProperty.value * ( 1 - absorptionProportion );
+    this.incomingUpwardMovingEnergyProperty.reset();
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
@@ -153,23 +132,13 @@ class EnergyAbsorbingEmittingLayer {
                                   temperatureChangeDueToIncomingEnergy +
                                   temperatureChangeDueToRadiatedEnergy );
 
-    // Assign the radiated energy to the outputs based on the direction in which this layer is set to radiate.
-    if ( this.substance.radiationDirection === LayerRadiationDirection.UP_ONLY ) {
-      this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy;
+    // Send out the radiated energy.
+    if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
+      this.outputEnergy( EnergyDirection.DOWN, radiatedEnergy + energyPassingThroughTopToBottom );
     }
-    else if ( this.substance.radiationDirection === LayerRadiationDirection.DOWN_ONLY ) {
-      this.energyOutput.outputEnergyDownProperty.value += radiatedEnergy;
+    if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
+      this.outputEnergy( EnergyDirection.UP, radiatedEnergy + energyPassingThroughBottomToTop );
     }
-    else {
-
-      // Split the radiated energy into the up and down directions.
-      this.energyOutput.outputEnergyUpProperty.value += radiatedEnergy / 2;
-      this.energyOutput.outputEnergyDownProperty.value += radiatedEnergy / 2;
-    }
-
-    // Add any energy that is just passing through to the output energy for this step.
-    this.energyOutput.outputEnergyUpProperty.value += energyPassingThroughBottomToTop;
-    this.energyOutput.outputEnergyDownProperty.value += energyPassingThroughTopToBottom;
   }
 
   /**
@@ -177,6 +146,8 @@ class EnergyAbsorbingEmittingLayer {
    */
   reset() {
     this.temperatureProperty.reset();
+    this.incomingDownwardMovingEnergyRateTracker.reset();
+    this.incomingUpwardMovingEnergyRateTracker.reset();
   }
 }
 

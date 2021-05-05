@@ -20,6 +20,8 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -30,6 +32,8 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import PhotonNode from './PhotonNode.js';
+// import startSunlightSound from '../../../sounds/start-sunlight-arpeggio_mp3.js';
+import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -107,10 +111,10 @@ class ObservationWindow extends Node {
       lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
-    const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
-      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
-      visible: GreenhouseEffectQueryParameters.showAllLayers
-    } );
+    // const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
+    //   lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+    //   visible: GreenhouseEffectQueryParameters.showAllLayers
+    // } );
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
     // TODO: This may be handled differently once we're further along in how the models work, see
@@ -154,7 +158,13 @@ class ObservationWindow extends Node {
     // {Animation|null} - an animation for fading the darkness out and thus the daylight in
     let fadeToDayAnimation = null;
 
-    // Add the button that will be used to start and restart the model behavior.
+    // sound generation for sunlight starting
+    const sunlightStartingSoundClip = new SoundClip( startSunlightSound, {
+      initialOutputLevel: 0.5
+    } );
+    soundManager.addSoundGenerator( sunlightStartingSoundClip );
+
+    // Add the button that will be used to start and restart the model.
     const startButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
@@ -165,6 +175,9 @@ class ObservationWindow extends Node {
 
       // keep the size reasonable
       maxTextWidth: SIZE.width * 0.5,
+
+      // sound generation
+      soundPlayer: sunlightStartingSoundClip,
 
       listener: () => {
 
@@ -219,7 +232,7 @@ class ObservationWindow extends Node {
         groundNode,
         groundLayerNode,
         lowerAtmosphereLayerNode,
-        upperAtmosphereLayerNode,
+        // upperAtmosphereLayerNode,
         presentationNode,
         darknessNode,
         startButton,
