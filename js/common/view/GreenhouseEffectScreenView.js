@@ -34,7 +34,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       energyLegendOptions: null
     }, options );
 
-    super();
+    super( options );
 
     // @private {GreenhouseEffectModel}
     this.model = model;

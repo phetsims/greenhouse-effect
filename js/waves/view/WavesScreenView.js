@@ -7,6 +7,7 @@
  */
 
 import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
@@ -15,16 +16,26 @@ import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CloudsCheckbox from './CloudsCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
   constructor( model, tandem ) {
+
     super( model, tandem, {
       energyLegendOptions: {
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
-      }
+      },
+
+      // pdom
+      screenSummaryContent: new Node( {
+        children: [
+          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription } ),
+          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription } )
+        ]
+      } )
     } );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );

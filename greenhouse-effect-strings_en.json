@@ -170,6 +170,14 @@
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."
+      },
+      "screenSummary": {
+        "playAreaDescription": {
+          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space. It has controls to adjust the greenhouse gas concentration or explore by time period, add clouds, and measure the energy balance."
+        },
+        "controlAreaDescription": {
+          "value": "The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+        }
       }
     },
     "photons": {
