@@ -23,9 +23,9 @@ const STARTING_TEMPERATURE = 245; // in degrees Kelvin
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
   // GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  GLASS: { density: 2500, specificHeatCapacity: 0.84, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  GLASS: { density: 2500, specificHeatCapacity: 0.4, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
   // EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
-  EARTH: { density: 1250, specificHeatCapacity: 1.25, radiationDirections: [ EnergyDirection.UP ] }
+  EARTH: { density: 1250, specificHeatCapacity: 0.6, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.

@@ -40,7 +40,7 @@ class EnergyRateTracker {
     // Loop through all entries and calculate the total for the time period, mark expired entries for removal.
     this.energyAccumulator.forEach( energyAndTimeEntry => {
 
-      if ( totalAccumulatedTime <= ACCUMULATION_TIME && totalAccumulatedTime + energyAndTimeEntry.dt <= ACCUMULATION_TIME ) {
+      if ( totalAccumulatedTime + energyAndTimeEntry.dt <= ACCUMULATION_TIME ) {
 
         // This energy entry is completely inside the accumulation period, so use all of it.
         energyTotal += energyAndTimeEntry.energy;

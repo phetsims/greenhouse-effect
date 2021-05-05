@@ -1,10 +1,9 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * EnergyDelayLine is a model element that that serves to delay energy in both the upward and downward directions.  It
- * has an interface similar to that of the EnergyAbsorbingEmittingLayer class, but it only delays the energy, and does
- * no other modifications to it.  Functionally, this can be thought of as a bidirectional digital delay line, see
- * https://en.wikipedia.org/wiki/Digital_delay_line.
+ * EnergyDelayLine is a model element that that serves to delay energy.  Functionally, this can be thought of as a
+ * digital delay line, though it can't assume that it is being clocked consistently.  See
+ * https://en.wikipedia.org/wiki/Digital_delay_line for more information on delay lines
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -17,21 +16,19 @@ class EnergyDelayLine extends EnergySource {
 
   /**
    * @param {number} delayTime - in seconds
+   * @param {EnergyDirection} direction - Is this energy moving up or down?
    */
-  constructor( delayTime ) {
+  constructor( delayTime, direction ) {
 
     super();
 
-    // @public {read-only} - Energy coming in that is moving in the downward direction, so coming from above.
-    this.incomingDownwardMovingEnergyProperty = new NumberProperty( 0 );
-
-    // @public {read-only} - Energy coming in that is moving in the upward direction, so coming from underneath.
-    this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
+    // @public - incoming energy this step
+    this.incomingEnergyProperty = new NumberProperty( 0 );
 
     // @private
+    this.direction = direction;
     this.delayTime = delayTime;
-    this.delayedDownwardMovingEnergy = [];
-    this.delayedUpwardMovingEnergy = [];
+    this.delayedEnergy = [];
   }
 
   /**
@@ -40,62 +37,52 @@ class EnergyDelayLine extends EnergySource {
    */
   step( dt ) {
 
-    // Update the delay queues, and extract any entries that have expired and put it into the outgoing energy.
-    this.delayedDownwardMovingEnergy.forEach( delayQueueEntry => {
-      delayQueueEntry.remainingTimeInQueue -= dt;
-      if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
-        this.incomingDownwardMovingEnergyProperty.value += delayQueueEntry.energyAmount;
+    let energyToOutputThisStep = 0;
+    let accumulatedTime = 0;
+
+    // Update the delay queues, total up any outgoing entries, and mark expired entries for removal.
+    this.delayedEnergy.forEach( delayQueueEntry => {
+
+      if ( accumulatedTime + delayQueueEntry.dt < this.delayTime ) {
+
+        // This entry has not been delayed enough yet, so add its dt to the accumulated time and move on.
+        accumulatedTime += delayQueueEntry.dt;
+      }
+      else if ( accumulatedTime < this.delayTime && accumulatedTime + delayQueueEntry.dt >= this.delayTime ) {
+
+        // This entry is on the border line, so use the portion HAS been delayed long enough and rewrite it to keep the
+        // remainder.
+        const proportionToUse = ( ( this.delayTime - accumulatedTime ) / delayQueueEntry.dt );
+        energyToOutputThisStep += proportionToUse * delayQueueEntry.energy;
+        accumulatedTime += proportionToUse * delayQueueEntry.dt;
+        delayQueueEntry.energy = ( 1 - proportionToUse ) * delayQueueEntry.energy;
+        delayQueueEntry.dt = ( 1 - proportionToUse ) * dt;
+      }
+      else {
+
+        // The entry has been delayed for the full amount of time, accumulate its energy and mark it for deletion.
+        energyToOutputThisStep += delayQueueEntry.energy;
+        accumulatedTime += delayQueueEntry.dt;
+        delayQueueEntry.dt = -1;
       }
     } );
-    this.delayedDownwardMovingEnergy = this.delayedDownwardMovingEnergy.filter(
-      delayQueueEntry => delayQueueEntry.remainingTimeInQueue > 0
-    );
-    this.delayedUpwardMovingEnergy.forEach( delayQueueEntry => {
-      delayQueueEntry.remainingTimeInQueue -= dt;
-      if ( delayQueueEntry.remainingTimeInQueue <= 0 ) {
-        this.incomingUpwardMovingEnergyProperty.value += delayQueueEntry.energyAmount;
-      }
-    } );
-    this.delayedUpwardMovingEnergy = this.delayedUpwardMovingEnergy.filter(
-      delayQueueEntry => delayQueueEntry.remainingTimeInQueue > 0
-    );
 
-    // Add new delay entries for any incoming energy.
-    if ( this.incomingDownwardMovingEnergyProperty && this.incomingDownwardMovingEnergyProperty.value > 0 ) {
+    // Remove expired entries from the delay queue.
+    this.delayedEnergy = this.delayedEnergy.filter( delayedEnergyEntry => delayedEnergyEntry.dt > 0 );
 
-      // There is some available energy in this direction, so put it into the delay queue.
-      this.delayedDownwardMovingEnergy.push( {
-          energyAmount: this.incomingDownwardMovingEnergyProperty.value,
-          remainingTimeInQueue: this.delayTime
-        }
-      );
+    // Put the incoming energy into the delay queue and clear the input.
+    this.delayedEnergy.unshift( { dt: dt, energy: this.incomingEnergyProperty.value } );
+    this.incomingEnergyProperty.set( 0 );
 
-      // Clear the energy from the source.
-      this.incomingDownwardMovingEnergyProperty.set( 0 );
-    }
-
-    if ( this.incomingUpwardMovingEnergyProperty && this.incomingUpwardMovingEnergyProperty.value > 0 ) {
-
-      // There is some available energy in this direction, so put it into the delay queue.
-      this.delayedUpwardMovingEnergy.push( {
-          energyAmount: this.incomingUpwardMovingEnergyProperty.value,
-          remainingTimeInQueue: this.delayTime
-        }
-      );
-
-      // Clear the energy from the source.
-      this.incomingUpwardMovingEnergyProperty.set( 0 );
-    }
+    // Output the energy for this step, if any.
+    this.outputEnergy( this.direction, energyToOutputThisStep );
   }
 
   /**
    * @public
    */
   reset() {
-    this.incomingDownwardMovingEnergyProperty.reset();
-    this.incomingUpwardMovingEnergyProperty.reset();
-    this.delayedDownwardMovingEnergy = [];
-    this.delayedUpwardMovingEnergy = [];
+    this.delayedEnergy = [];
   }
 }
 

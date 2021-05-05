@@ -1,8 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * EnergySource is a base class for objects that can provide energy to other objects.  Its main purpose is to provide a
- * consistent interface for connecting objects that provide energy to those that consume it.
+ * EnergySource is an abstract base class for objects that can provide energy to other objects.  Its main purpose is to
+ * provide a consistent interface for connecting objects that provide energy to those that consume it.
  *
  * Note that saying something is an "energy source" does not necessarily mean that it produces that energy - it may be
  * getting it from somewhere else and making some sort of conversion or simply passing it on.
