@@ -7,11 +7,11 @@
  */
 
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import GreenhouseEffectIconCheckbox from '../../common/view/GreenhouseEffectIconCheckbox.js';
+import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
-class CloudsCheckbox extends GreenhouseEffectIconCheckbox {
+class CloudsCheckbox extends GreenhouseEffectCheckbox {
 
   /**
    * @param {BooleanProperty} property - controls whether clouds are visible
@@ -24,7 +24,9 @@ class CloudsCheckbox extends GreenhouseEffectIconCheckbox {
       fill: 'rgb(17,209,243)'
     } );
 
-    super( greenhouseEffectStrings.clouds, iconNode, property );
+    super( greenhouseEffectStrings.clouds, property, {
+      iconNode: iconNode
+    } );
   }
 }
 

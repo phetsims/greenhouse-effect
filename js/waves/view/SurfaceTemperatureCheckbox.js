@@ -8,11 +8,11 @@
 
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
-import GreenhouseEffectIconCheckbox from '../../common/view/GreenhouseEffectIconCheckbox.js';
+import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
-class SurfaceTemperatureCheckbox extends GreenhouseEffectIconCheckbox {
+class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
   /**
    * @param {BooleanProperty} property - controls whether surface temperature is displayed
@@ -31,7 +31,9 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectIconCheckbox {
         .addColorStop( 1, 'rgb(232,9,0)' )
     } );
 
-    super( greenhouseEffectStrings.showSurfaceTemperature, iconNode, property );
+    super( greenhouseEffectStrings.showSurfaceTemperature, property, {
+      iconNode: iconNode
+    } );
   }
 }
 

@@ -50,6 +50,9 @@ class GreenhouseEffectModel {
     // @public {BooleanProperty} - whether or not the flux meter is visible
     this.fluxMeterVisibleProperty = new BooleanProperty( false );
 
+    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
+    this.energyBalanceVisibleProperty = new BooleanProperty( false );
+
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
 

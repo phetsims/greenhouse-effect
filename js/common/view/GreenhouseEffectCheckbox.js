@@ -20,21 +20,29 @@ const LABEL_FONT = new PhetFont( {
   size: 14
 } );
 
-class GreenhouseEffectIconCheckbox extends Checkbox {
+class GreenhouseEffectCheckbox extends Checkbox {
 
   /**
    * @param {string} labelString
-   * @param {Node} iconNode
    * @param {Property.<boolean>} property
    * @param {Object} [options]
    */
-  constructor( labelString, iconNode, property, options ) {
+  constructor( labelString, property, options ) {
 
-    options = merge( { accessibleName: labelString }, options );
+    options = merge( {
+
+      // {Node|null} - if provided, will be included in the icon for the checkbox
+      iconNode: null,
+
+      // pdom
+      accessibleName: labelString
+    }, options );
 
     const labelText = new Text( labelString, { font: LABEL_FONT } );
+
+    const contentChildren = options.iconNode ? [ labelText, options.iconNode ] : [ labelText ];
     const checkboxContent = new HBox( {
-      children: [ labelText, iconNode ],
+      children: contentChildren,
       spacing: LABEL_ICON_SPACING
     } );
 
@@ -42,5 +50,5 @@ class GreenhouseEffectIconCheckbox extends Checkbox {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectIconCheckbox', GreenhouseEffectIconCheckbox );
-export default GreenhouseEffectIconCheckbox;
+greenhouseEffect.register( 'GreenhouseEffectCheckbox', GreenhouseEffectCheckbox );
+export default GreenhouseEffectCheckbox;

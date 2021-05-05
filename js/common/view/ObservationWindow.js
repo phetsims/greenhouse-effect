@@ -31,6 +31,7 @@ import WavesNode from '../../waves/view/WavesNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
+import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 // import startSunlightSound from '../../../sounds/start-sunlight-arpeggio_mp3.js';
 import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
@@ -39,6 +40,7 @@ import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
 const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 const DARKNESS_OPACITY = 0.85;
+const WINDOW_FRAME_SPACING = 10;
 
 class ObservationWindow extends Node {
 
@@ -196,6 +198,14 @@ class ObservationWindow extends Node {
 
     } );
 
+    // controls
+    const visibilityControls = new ObservationWindowVisibilityControls(
+      model.energyBalanceVisibleProperty,
+      model.fluxMeterVisibleProperty, {
+        rightBottom: windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING )
+      }
+    );
+
     // Manage the visibility of the start button and the darkness overlay.
     model.isStartedProperty.link( isStarted => {
       startSunlightButton.visible = !isStarted;
@@ -240,6 +250,7 @@ class ObservationWindow extends Node {
         presentationNode,
         darknessNode,
         startSunlightButton,
+        visibilityControls,
         windowFrame
       ],
 
