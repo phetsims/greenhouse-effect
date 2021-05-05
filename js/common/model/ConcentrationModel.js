@@ -7,7 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -27,9 +26,6 @@ const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', '
 class ConcentrationModel extends GreenhouseEffectModel {
   constructor() {
     super();
-
-    // @public {Boolean} - whether or not a graphic displaying the net balance of energy is visible
-    this.energyBalanceVisibleProperty = new BooleanProperty( true );
 
     // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
     this.clouds = createObservableArray();
@@ -71,7 +67,6 @@ class ConcentrationModel extends GreenhouseEffectModel {
    * @public
    */
   reset() {
-    this.energyBalanceVisibleProperty.reset();
     this.clouds.reset();
     this.concentrationProperty.reset();
     this.concentrationControlProperty.reset();

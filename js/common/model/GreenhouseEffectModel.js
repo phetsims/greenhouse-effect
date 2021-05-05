@@ -186,6 +186,7 @@ class GreenhouseEffectModel {
     this.isPlayingProperty.reset();
     this.allPhotonsVisibleProperty.reset();
     this.fluxMeterVisibleProperty.reset();
+    this.energyBalanceVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
     this.sunToGroundEnergyDelayLine.reset();
