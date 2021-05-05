@@ -33,7 +33,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       screenSummaryContent: new Node( {
         children: [
           new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription } ),
-          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription } )
+          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription } ),
+          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.startSunlightHint } )
         ]
       } )
     } );

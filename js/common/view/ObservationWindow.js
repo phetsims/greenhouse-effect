@@ -165,7 +165,7 @@ class ObservationWindow extends Node {
     soundManager.addSoundGenerator( sunlightStartingSoundClip );
 
     // Add the button that will be used to start and restart the model.
-    const startButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
+    const startSunlightButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
@@ -175,9 +175,6 @@ class ObservationWindow extends Node {
 
       // keep the size reasonable
       maxTextWidth: SIZE.width * 0.5,
-
-      // sound generation
-      soundPlayer: sunlightStartingSoundClip,
 
       listener: () => {
 
@@ -189,12 +186,19 @@ class ObservationWindow extends Node {
 
         // Start the model.
         model.isStartedProperty.set( true );
-      }
+      },
+
+      // sound generation
+      soundPlayer: sunlightStartingSoundClip,
+
+      // pdom
+      helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText
+
     } );
 
     // Manage the visibility of the start button and the darkness overlay.
     model.isStartedProperty.link( isStarted => {
-      startButton.visible = !isStarted;
+      startSunlightButton.visible = !isStarted;
 
       if ( isStarted ) {
 
@@ -235,7 +239,7 @@ class ObservationWindow extends Node {
         // upperAtmosphereLayerNode,
         presentationNode,
         darknessNode,
-        startButton,
+        startSunlightButton,
         windowFrame
       ],
 

@@ -185,6 +185,12 @@
         "value": "Explore greenhouse effect with photon representation."
       }
     },
+    "startSunlightHint": {
+      "value": "Start sunlight to play."
+    },
+    "startSunlightButtonHelpText": {
+      "value": "Start sunlight to begin observations."
+    },
     "concentrationPanel": {
       "title": {
         "value": "Greenhouse Gas Exploration Controls"
