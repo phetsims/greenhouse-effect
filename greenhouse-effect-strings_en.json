@@ -38,6 +38,21 @@
   "concentrationPanel.iceAge": {
     "value": "Ice Age"
   },
+  "energyBalancePanel.title": {
+    "value": "Energy Balance"
+  },
+  "energyBalancePanel.subTitle": {
+    "value": "Top of Atmosphere"
+  },
+  "energyBalancePanel.in": {
+    "value": "In"
+  },
+  "energyBalancePanel.out": {
+    "value": "Out"
+  },
+  "energyBalancePanel.net": {
+    "value": "Net"
+  },
   "concentrationPanel.waterConcentrationPattern": {
     "value": "H<sub>2</sub>O: {{value}}% relative humidity"
   },

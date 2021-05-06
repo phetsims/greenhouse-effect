@@ -31,6 +31,7 @@ import WavesNode from '../../waves/view/WavesNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
+import EnergyBalancePanel from './EnergyBalancePanel.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 // import startSunlightSound from '../../../sounds/start-sunlight-arpeggio_mp3.js';
@@ -201,6 +202,10 @@ class ObservationWindow extends Node {
 
     } );
 
+    // energy balance
+    const energyBalancePanel = new EnergyBalancePanel( model.energyBalanceVisibleProperty );
+    energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+
     // controls
     const visibilityControls = new ObservationWindowVisibilityControls(
       model.energyBalanceVisibleProperty,
@@ -250,10 +255,11 @@ class ObservationWindow extends Node {
         groundLayerNode,
         lowerAtmosphereLayerNode,
         // upperAtmosphereLayerNode,
+        visibilityControls,
         presentationNode,
+        energyBalancePanel,
         darknessNode,
         startSunlightButton,
-        visibilityControls,
         windowFrame
       ],
 
@@ -264,7 +270,7 @@ class ObservationWindow extends Node {
 
     }, options ) );
 
-      // @private - Make the presentation node available for stepping.
+    // @private - Make the presentation node available for stepping.
     this.presentationNode = presentationNode;
   }
 
