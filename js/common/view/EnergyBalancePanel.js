@@ -106,9 +106,8 @@ class EnergyBalancePlot extends Node {
       modelYRange: new Range( 0, verticalModelRange )
     } );
 
-    // although the data is set in the multilink below, the BarPlot needs all bar entries to exist on construction
-    // that may be fixed soon, see https://github.com/phetsims/bamboo/issues/30
-    const barPlot = new BarPlot( chartTransform, [ new Vector2( 0, 0 ), new Vector2( 0, 0 ), new Vector2( 0, 0 ) ], {
+    // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
+    const barPlot = new BarPlot( chartTransform, [], {
       pointToColor: point => BAR_COLOR
     } );
 
