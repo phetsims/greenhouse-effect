@@ -136,7 +136,7 @@ class EnergyBalancePlot extends Node {
     } );
 
     // contains all plot components and provides consistent bounds as bar sizes change with model data
-    const chartRectangle = new Rectangle( 0, 0, PLOT_VIEW_WIDTH, PLOT_VIEW_HEIGHT * 2, { stroke: 'red' } );
+    const chartRectangle = new Rectangle( 0, 0, PLOT_VIEW_WIDTH, PLOT_VIEW_HEIGHT * 2 );
 
     chartRectangle.addChild( gridLines );
     chartRectangle.addChild( barPlot );
