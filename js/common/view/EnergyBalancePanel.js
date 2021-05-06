@@ -28,6 +28,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';
+const BAR_STROKE = 'grey';
 const PLOT_VIEW_WIDTH = 100; // view coordinates
 const PLOT_VIEW_HEIGHT = 60; // view coordinates
 
@@ -108,7 +109,9 @@ class EnergyBalancePlot extends Node {
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
     const barPlot = new BarPlot( chartTransform, [], {
-      pointToColor: point => BAR_COLOR
+      pointToPaintableFields: point => {
+        return { fill: BAR_COLOR, stroke: BAR_STROKE };
+      }
     } );
 
     const gridLines = new GridLineSet( chartTransform, Orientation.VERTICAL, verticalModelRange * 2, {
