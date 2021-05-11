@@ -34,7 +34,6 @@ import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
-// import startSunlightSound from '../../../sounds/start-sunlight-arpeggio_mp3.js';
 import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 
 // constants
