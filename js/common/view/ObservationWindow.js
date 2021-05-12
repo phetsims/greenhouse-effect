@@ -24,6 +24,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
@@ -34,7 +35,7 @@ import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
-import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
+import SurfaceThermometer from './SurfaceThermometer.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -204,6 +205,11 @@ class ObservationWindow extends Node {
     const energyBalancePanel = new EnergyBalancePanel( model.energyBalanceVisibleProperty );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
+    // thermometer
+    const listParentNode = new Node();
+    const surfaceThermometer = new SurfaceThermometer( model.surfaceTemperatureProperty, model.temperatureUnitsProperty, model.surfaceThermometerVisibleProperty, listParentNode );
+    surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -listParentNode.height - WINDOW_FRAME_SPACING );
+
     // controls
     const visibilityControls = new ObservationWindowVisibilityControls(
       model.energyBalanceVisibleProperty,
@@ -254,7 +260,9 @@ class ObservationWindow extends Node {
         lowerAtmosphereLayerNode,
         // upperAtmosphereLayerNode,
         visibilityControls,
+        listParentNode,
         presentationNode,
+        surfaceThermometer,
         energyBalancePanel,
         darknessNode,
         startSunlightButton,

@@ -9,11 +9,14 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDelayLine from './EnergyDelayLine.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -26,7 +29,7 @@ const HEIGHT_OF_ATMOSPHERE = 50000; // in m
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 
 // units of temperature used by Greenhouse Effect
-const TEMPERATURE_UNITS = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
+const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 // We want things to heat up faster than they would in real life, so this is the amount by which this process is sped up
 // versus real live.
@@ -36,7 +39,7 @@ class GreenhouseEffectModel {
   constructor() {
 
     // @public {BooleanProperty} - controls whether the model has been started
-    this.isStartedProperty = new BooleanProperty( false );
+    this.isStartedProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted );
 
     // @public {NumberProperty} - playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL );
@@ -53,11 +56,15 @@ class GreenhouseEffectModel {
     // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false );
 
+    // @public {NumberProperty} - representing the temperature of the surface
+    // NOTE: Very likely this will be moved to maybe a model for the earths surface. Range is arbitrary
+    this.surfaceTemperatureProperty = new NumberProperty( 0, { range: new Range( 0, 100 ) } );
+
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
 
     // @public {EnumerationProperty} - displayed units of temperature
-    this.temperatureUnitsProperty = new EnumerationProperty( TEMPERATURE_UNITS, TEMPERATURE_UNITS.KELVIN );
+    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN );
 
     // Create the energy sources, energy absorbing/emitting layers (including the ground), and the delays that simulate
     // the propagation time.
@@ -187,7 +194,6 @@ class GreenhouseEffectModel {
     this.allPhotonsVisibleProperty.reset();
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
-    this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
     this.sunToGroundEnergyDelayLine.reset();
     this.groundToLowerAtmosphereDelayLine.reset();
@@ -199,7 +205,7 @@ class GreenhouseEffectModel {
 }
 
 // statics
-GreenhouseEffectModel.TEMPERATURE_UNITS = TEMPERATURE_UNITS;
+GreenhouseEffectModel.TemperatureUnits = TemperatureUnits;
 GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
 GreenhouseEffectModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
 

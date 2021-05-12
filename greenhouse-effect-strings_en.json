@@ -53,6 +53,21 @@
   "energyBalancePanel.net": {
     "value": "Net"
   },
+  "temperature.units.kelvin": {
+    "value": "K"
+  },
+  "temperature.units.celcius": {
+    "value": "C"
+  },
+  "temperature.units.fahrenheit": {
+    "value": "F"
+  },
+  "temperature.units.valueKelvinPattern": {
+    "value": "{{value}} {{units}}"
+  },
+  "temperature.units.valueDegreesUnitsPattern": {
+    "value": "{{value}} {{degrees}}{{units}}"
+  },
   "concentrationPanel.waterConcentrationPattern": {
     "value": "H<sub>2</sub>O: {{value}}% relative humidity"
   },
