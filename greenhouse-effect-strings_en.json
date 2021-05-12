@@ -29,6 +29,15 @@
   "concentrationPanel.greenhouseGasConcentration": {
     "value": "Greenhouse Gas Concentration"
   },
+  "fluxMeter.energyFlux": {
+    "value": "Energy Flux"
+  },
+  "fluxMeter.sunlight": {
+    "value": "Sunlight"
+  },
+  "fluxMeter.infrared": {
+    "value": "Infrared"
+  },
   "concentrationPanel.lots": {
     "value": "Lots"
   },

@@ -33,6 +33,7 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
+import FluxMeter from './FluxMeter.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
@@ -205,6 +206,10 @@ class ObservationWindow extends Node {
     const energyBalancePanel = new EnergyBalancePanel( model.energyBalanceVisibleProperty );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
+    // flux meter
+    const fluxMeter = new FluxMeter( model.fluxMeterVisibleProperty );
+    fluxMeter.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+
     // thermometer
     const listParentNode = new Node();
     const surfaceThermometer = new SurfaceThermometer( model.surfaceTemperatureProperty, model.temperatureUnitsProperty, model.surfaceThermometerVisibleProperty, listParentNode );
@@ -262,6 +267,7 @@ class ObservationWindow extends Node {
         visibilityControls,
         listParentNode,
         presentationNode,
+        fluxMeter,
         surfaceThermometer,
         energyBalancePanel,
         darknessNode,
