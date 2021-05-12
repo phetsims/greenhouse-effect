@@ -57,6 +57,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
     this.pdomPlayAreaNode.addChild( concentrationControls );
 
+    // clouds checkbox
+    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+    this.pdomPlayAreaNode.addChild( cloudsCheckbox );
+
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
     const mockup = new Image( wavesScreenMockup, {
@@ -76,16 +80,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     visibilityBox.left = this.observationWindow.left + 5;
     visibilityBox.centerY = this.timeControlNode.centerY;
 
-    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.pdomControlAreaNode.addChild( visibilityBox );
-    this.pdomControlAreaNode.addChild( cloudsCheckbox );
     this.pdomControlAreaNode.addChild( mockup );
 
     // tab order (a11y)
     this.pdomControlAreaNode.pdomOrder = [
-      cloudsCheckbox,
       visibilityBox,
       this.timeControlNode,
       this.resetAllButton
