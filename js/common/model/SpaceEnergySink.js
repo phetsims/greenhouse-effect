@@ -11,6 +11,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import EnergyRateTracker from './EnergyRateTracker.js';
 
 class SpaceEnergySink {
 
@@ -18,6 +19,10 @@ class SpaceEnergySink {
 
     // @public {read-only} - Energy coming in that is moving in the upward direction.
     this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
+
+    // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
+    this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
+
   }
 
   /**
@@ -25,6 +30,9 @@ class SpaceEnergySink {
    * @public
    */
   step( dt ) {
+
+    // Log the energy.
+    this.incomingUpwardMovingEnergyRateTracker.logEnergy( this.incomingUpwardMovingEnergyProperty.value, dt );
 
     // Do nothing with the energy.
     this.incomingUpwardMovingEnergyProperty.reset();
