@@ -194,6 +194,9 @@
     "startSunlightButtonHelpText": {
       "value": "Start sunlight to begin observations."
     },
+    "cloudsCheckboxHelpText": {
+      "value": "Add cloud to sky."
+    },
     "concentrationPanel": {
       "title": {
         "value": "Greenhouse Gas Exploration Controls"
@@ -215,7 +218,7 @@
           "value": "Time Period"
         },
         "helpText": {
-          "value": "Explore greenhouse concentrations at specific time periods."
+          "value": "Explore greenhouse concentrations during specific time periods."
         },
         "yearTwentyNineteen": {
           "value": "Year Twenty Nineteen"
@@ -233,6 +236,9 @@
         },
         "greenhouseGasConcentration": {
           "value": "Greenhouse Gas Concentration"
+        },
+        "concentrationSliderHelpText": {
+          "value": "Adjust amount of greenhouse gases in the atmosphere."
         }
       }
     },

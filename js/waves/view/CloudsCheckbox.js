@@ -25,7 +25,8 @@ class CloudsCheckbox extends GreenhouseEffectCheckbox {
     } );
 
     super( greenhouseEffectStrings.clouds, property, {
-      iconNode: iconNode
+      iconNode: iconNode,
+      helpText: greenhouseEffectStrings.a11y.cloudsCheckboxHelpText
     } );
   }
 }

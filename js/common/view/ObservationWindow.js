@@ -198,7 +198,6 @@ class ObservationWindow extends Node {
 
       // pdom
       helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText
-
     } );
 
     // energy balance

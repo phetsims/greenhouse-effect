@@ -270,7 +270,8 @@ class SliderControl extends Node {
       trackSize: new Dimension2( 1, 100 ),
       thumbSize: new Dimension2( 20, 10 ),
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
-      labelTagName: 'label'
+      labelTagName: 'label',
+      helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText
     } );
 
     const delta = concentrationRange.getLength() / 10;
