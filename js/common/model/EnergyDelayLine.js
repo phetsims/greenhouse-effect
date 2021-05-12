@@ -75,6 +75,7 @@ class EnergyDelayLine extends EnergySource {
    */
   reset() {
     this.delayedEnergyQueue = [];
+    this.totalTimeInEnergyQueue = 0;
   }
 }
 

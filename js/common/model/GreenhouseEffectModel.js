@@ -104,25 +104,25 @@ class GreenhouseEffectModel {
     this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
 
     // Interconnect the energy sources, layers, and delays.
-    // this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
-    // this.sunToGroundEnergyDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    // this.groundLayer.connectOutput( EnergyDirection.UP, this.groundToLowerAtmosphereDelayLine.incomingEnergyProperty );
-    // this.groundToLowerAtmosphereDelayLine.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
-    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereToGroundDelayLine.incomingEnergyProperty );
-    // this.lowerAtmosphereToGroundDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.incomingEnergyProperty );
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
-    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.incomingEnergyProperty );
-    // this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
-    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
+    this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
+    this.sunToGroundEnergyDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    this.groundLayer.connectOutput( EnergyDirection.UP, this.groundToLowerAtmosphereDelayLine.incomingEnergyProperty );
+    this.groundToLowerAtmosphereDelayLine.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereToGroundDelayLine.incomingEnergyProperty );
+    this.lowerAtmosphereToGroundDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.incomingEnergyProperty );
+    this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.incomingEnergyProperty );
+    this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
+    this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
 
     // TODO: Debug connection configuration with the delay lines omitted.
-    this.sun.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    this.groundLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
-    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
-    this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
-    this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
+    // this.sun.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    // this.groundLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
+    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
 
     // Connect up the surface temperature property to that of the ground layer model element.
     this.groundLayer.temperatureProperty.link( groundTemperature => {
@@ -157,11 +157,11 @@ class GreenhouseEffectModel {
 
     // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
     // assuming real values.
-    // this.sunToGroundEnergyDelayLine.step( dt );
-    // this.groundToLowerAtmosphereDelayLine.step( dt );
-    // this.lowerAtmosphereToGroundDelayLine.step( dt );
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.step( dt );
-    // this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.step( dt );
+    this.sunToGroundEnergyDelayLine.step( dt );
+    this.groundToLowerAtmosphereDelayLine.step( dt );
+    this.lowerAtmosphereToGroundDelayLine.step( dt );
+    this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.step( dt );
+    this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.step( dt );
 
     // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
     // is faster than real life.
