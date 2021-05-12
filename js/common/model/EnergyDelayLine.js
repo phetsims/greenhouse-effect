@@ -28,7 +28,8 @@ class EnergyDelayLine extends EnergySource {
     // @private
     this.direction = direction;
     this.delayTime = delayTime;
-    this.delayedEnergy = [];
+    this.totalTimeInEnergyQueue = 0;
+    this.delayedEnergyQueueQueue = [];
   }
 
   /**
@@ -37,42 +38,33 @@ class EnergyDelayLine extends EnergySource {
    */
   step( dt ) {
 
+    // Put the incoming energy into the delay queue and clear the input.
+    this.delayedEnergyQueue.push( { dt: dt, energy: this.incomingEnergyProperty.value, time: Date.now() } );
+    this.incomingEnergyProperty.set( 0 );
+    this.totalTimeInEnergyQueue += dt;
+
+    // Go through the queue and extract the energy that should go out this step.
     let energyToOutputThisStep = 0;
-    let accumulatedTime = 0;
+    while ( this.totalTimeInEnergyQueue > this.delayTime ) {
 
-    // Update the delay queues, total up any outgoing entries, and mark expired entries for removal.
-    this.delayedEnergy.forEach( delayQueueEntry => {
-
-      if ( accumulatedTime + delayQueueEntry.dt < this.delayTime ) {
-
-        // This entry has not been delayed enough yet, so add its dt to the accumulated time and move on.
-        accumulatedTime += delayQueueEntry.dt;
-      }
-      else if ( accumulatedTime < this.delayTime && accumulatedTime + delayQueueEntry.dt >= this.delayTime ) {
-
-        // This entry is on the border line, so use the portion HAS been delayed long enough and rewrite it to keep the
-        // remainder.
-        const proportionToUse = ( ( this.delayTime - accumulatedTime ) / delayQueueEntry.dt );
-        energyToOutputThisStep += proportionToUse * delayQueueEntry.energy;
-        accumulatedTime += proportionToUse * delayQueueEntry.dt;
-        delayQueueEntry.energy = ( 1 - proportionToUse ) * delayQueueEntry.energy;
-        delayQueueEntry.dt = ( 1 - proportionToUse ) * dt;
+      // The first entry in the queue is the oldest.  If the incoming dt value indicates that all of this entry should
+      // go out this step, remove the entry from the queue and add its energy to the amount to be output this step.
+      if ( dt >= this.delayedEnergyQueue[ 0 ].dt ) {
+        const removedEntry = this.delayedEnergyQueue.shift();
+        energyToOutputThisStep += removedEntry.energy;
+        this.totalTimeInEnergyQueue -= this.delayedEnergyQueue[ 0 ].dt;
       }
       else {
 
-        // The entry has been delayed for the full amount of time, accumulate its energy and mark it for deletion.
-        energyToOutputThisStep += delayQueueEntry.energy;
-        accumulatedTime += delayQueueEntry.dt;
-        delayQueueEntry.dt = -1;
+        // Part of the energy from this entry should go out in this step, and part of it should remain.  Extract the
+        // amount of energy based on the energy rate that it represents and the current dt value, and then modify the
+        // entry to have the residual time and energy.
+        const proportionToUse = dt / this.delayedEnergyQueue[ 0 ].dt;
+        energyToOutputThisStep += this.delayedEnergyQueue[ 0 ].energy * proportionToUse;
+        this.delayedEnergyQueue[ 0 ].energy = ( 1 - proportionToUse ) * this.delayedEnergyQueue[ 0 ].energy;
+        this.delayedEnergyQueue[ 0 ].dt = ( 1 - proportionToUse ) * this.delayedEnergyQueue[ 0 ].dt;
       }
-    } );
-
-    // Remove expired entries from the delay queue.
-    this.delayedEnergy = this.delayedEnergy.filter( delayedEnergyEntry => delayedEnergyEntry.dt > 0 );
-
-    // Put the incoming energy into the delay queue and clear the input.
-    this.delayedEnergy.unshift( { dt: dt, energy: this.incomingEnergyProperty.value } );
-    this.incomingEnergyProperty.set( 0 );
+    }
 
     // Output the energy for this step, if any.
     this.outputEnergy( this.direction, energyToOutputThisStep );
@@ -82,7 +74,7 @@ class EnergyDelayLine extends EnergySource {
    * @public
    */
   reset() {
-    this.delayedEnergy = [];
+    this.delayedEnergyQueue = [];
   }
 }
 
