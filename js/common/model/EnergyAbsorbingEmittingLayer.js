@@ -23,9 +23,9 @@ const STARTING_TEMPERATURE = 245; // in degrees Kelvin
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
   // GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  GLASS: { density: 2500, specificHeatCapacity: 0.4, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  GLASS: { density: 2500, specificHeatCapacity: 0.84, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
   // EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
-  EARTH: { density: 1250, specificHeatCapacity: 0.6, radiationDirections: [ EnergyDirection.UP ] }
+  EARTH: { density: 1250, specificHeatCapacity: 1.25, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
@@ -96,13 +96,15 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
    */
   step( dt ) {
 
-    // Calculate the amount of energy that this layer will radiate at its current temperature using the Stefan-Boltzmann
-    // equation.  This calculation doesn't allow the energy to radiate if it is below the initial temperature, which is
-    // not real physics, but is needed for the desired behavior of the sim.
-    let radiatedEnergy = 0;
-    if ( this.temperatureProperty.value > STARTING_TEMPERATURE ) {
-      radiatedEnergy = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * SURFACE_AREA * dt;
-    }
+    // Calculate the amount of energy that this layer will radiate per unit area at its current temperature using the
+    // Stefan-Boltzmann equation.  This calculation doesn't allow the energy to radiate if it is below the initial
+    // temperature, which is not real physics, but is needed for the desired behavior of the sim.
+    const radiatedEnergyPerUnitSurfaceArea = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * dt;
+
+    // The total radiated energy depends on whether this layer is radiating in one direction or two.
+    const numberOfRadiatingSurfaces = this.substance.radiationDirections.length;
+    assert && assert( numberOfRadiatingSurfaces === 1 || numberOfRadiatingSurfaces === 2 );
+    const totalRadiatedEnergyThisStep = radiatedEnergyPerUnitSurfaceArea * SURFACE_AREA * numberOfRadiatingSurfaces;
 
     // Update the energy rate trackers.
     this.incomingDownwardMovingEnergyRateTracker.logEnergy( this.incomingDownwardMovingEnergyProperty.value, dt );
@@ -124,20 +126,30 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
 
     // Calculate the temperature change that would occur due to the radiated energy.
-    const temperatureChangeDueToRadiatedEnergy = -radiatedEnergy / ( this.mass * this.specificHeatCapacity );
+    const temperatureChangeDueToRadiatedEnergy = -totalRadiatedEnergyThisStep / ( this.mass * this.specificHeatCapacity );
 
     // Calculate the new temperature using the previous temperature and the changes due to energy absorption and
-    // emission.
-    this.temperatureProperty.set( this.temperatureProperty.value +
-                                  temperatureChangeDueToIncomingEnergy +
-                                  temperatureChangeDueToRadiatedEnergy );
+    // emission, but don't let the temperature drop below the starting temperature.  Having the minimum temperature is
+    // non-physical, but prevents the temperature from dipping before the incoming radiation is sufficient to maintain
+    // the temperature, and the dips can be confusing to users.
+    this.temperatureProperty.set(
+      Math.max(
+        this.temperatureProperty.value + temperatureChangeDueToIncomingEnergy + temperatureChangeDueToRadiatedEnergy,
+        STARTING_TEMPERATURE
+      )
+    );
 
-    // Send out the radiated energy.
     if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
-      this.outputEnergy( EnergyDirection.DOWN, radiatedEnergy + energyPassingThroughTopToBottom );
+      this.outputEnergy(
+        EnergyDirection.DOWN,
+        totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces + energyPassingThroughTopToBottom
+      );
     }
     if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
-      this.outputEnergy( EnergyDirection.UP, radiatedEnergy + energyPassingThroughBottomToTop );
+      this.outputEnergy(
+        EnergyDirection.UP,
+        totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces + energyPassingThroughBottomToTop
+      );
     }
   }
 

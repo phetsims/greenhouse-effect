@@ -56,9 +56,8 @@ class GreenhouseEffectModel {
     // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false );
 
-    // @public {NumberProperty} - representing the temperature of the surface
-    // NOTE: Very likely this will be moved to maybe a model for the earths surface. Range is arbitrary
-    this.surfaceTemperatureProperty = new NumberProperty( 0, { range: new Range( 0, 100 ) } );
+    // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
+    this.surfaceTemperatureProperty = new NumberProperty( 0, { range: new Range( 0, 500 ) } );
 
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
@@ -70,6 +69,7 @@ class GreenhouseEffectModel {
     // the propagation time.
     this.sun = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA );
     this.sunToGroundEnergyDelayLine = new EnergyDelayLine( HEIGHT_OF_ATMOSPHERE / Photon.SPEED, EnergyDirection.DOWN );
+    this.sunToGroundEnergyDelayLine.jbId = 'sunToGroundEnergyDelayLine';
     this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
     } );
@@ -83,9 +83,10 @@ class GreenhouseEffectModel {
       altitudeOfLowerAtmosphereLayer / Photon.SPEED,
       EnergyDirection.DOWN
     );
-    this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer, {
-      initialEnergyAbsorptionProportion: 0.5
-    } );
+    // this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer, {
+    //   initialEnergyAbsorptionProportion: 0.5
+    // } );
+    this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer );
     this.lowerAtmosphereLayer.jbId = 'lowerAtmosphere';
     this.outerSpace = new SpaceEnergySink();
     const altitudeOfUpperAtmosphereLayer = 2 * HEIGHT_OF_ATMOSPHERE / 3;

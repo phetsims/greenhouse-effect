@@ -6,6 +6,7 @@
  * @author John Blanco
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -39,7 +40,20 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
     const widthInView = mvt.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH );
     const line = new Line( 0, centerY, widthInView, centerY, options.lineOptions );
 
-    const numberDisplay = new NumberDisplay( layerModel.temperatureProperty, new Range( 0, 700 ), {
+    // Create our own property for the temperature so that some hysteresis can be used to keep the display from being
+    // too jumpy.
+    const temperatureWithHysteresis = new NumberProperty( layerModel.temperatureProperty.value );
+
+    layerModel.temperatureProperty.lazyLink( modelTemperature => {
+      if ( modelTemperature > temperatureWithHysteresis.value ) {
+        temperatureWithHysteresis.set( modelTemperature );
+      }
+      else if ( modelTemperature + 0.5 < temperatureWithHysteresis.value ) {
+        temperatureWithHysteresis.set( modelTemperature );
+      }
+    } );
+
+    const numberDisplay = new NumberDisplay( temperatureWithHysteresis, new Range( 0, 700 ), {
       centerY: line.centerY,
       right: widthInView - 20,
       numberFormatter: number => `${Utils.toFixed( number, 0 )} ${MathSymbols.DEGREES}K`
