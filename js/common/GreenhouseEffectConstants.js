@@ -11,7 +11,7 @@ import Color from '../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectConstants = {
-
+  
   // margins
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,

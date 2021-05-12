@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
@@ -18,18 +19,17 @@ import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 class SurfaceThermometer extends Node {
 
   /**
-   * @param {NumberProperty} temperatureProperty
-   * @param {EnumerationProperty} unitsProperty
-   * @param {BooleanProperty} visibleProperty
+   * @param {GreenhouseEffectModel} model
    * @param {Node} listParentNode
    * @param {Object} [options]
    */
-  constructor( temperatureProperty, unitsProperty, visibleProperty, listParentNode, options ) {
+  constructor( model, listParentNode, options ) {
     super();
 
     options = merge( {
@@ -44,19 +44,24 @@ class SurfaceThermometer extends Node {
     }, options );
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
-    const thermometerNode = new ThermometerNode( 200, 500, temperatureProperty, options.thermometerNodeOptions );
+    const thermometerNode = new ThermometerNode( 200, 500, model.surfaceTemperatureKelvinProperty, options.thermometerNodeOptions );
     this.addChild( thermometerNode );
+
+    // ranges for each temperature Property, so the NumberDisplay can determine space needed for each readout
+    const kelvinRange = model.surfaceTemperatureKelvinProperty.range;
+    const celsiusRange = new Range( GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.min ), GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.max ) );
+    const fahrenheitRange = new Range( GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.min ), GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.max ) );
 
     const comboBoxItems = [
       this.createComboBoxItem(
-        greenhouseEffectStrings.temperature.units.kelvin, temperatureProperty, temperatureProperty.range, GreenhouseEffectModel.TemperatureUnits.KELVIN, {
+        greenhouseEffectStrings.temperature.units.kelvin, model.surfaceTemperatureKelvinProperty, model.surfaceTemperatureKelvinProperty.range, GreenhouseEffectModel.TemperatureUnits.KELVIN, {
           valuePattern: greenhouseEffectStrings.temperature.units.valueKelvinPattern
         } ),
-      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.celcius, temperatureProperty, temperatureProperty.range, GreenhouseEffectModel.TemperatureUnits.CELSIUS ),
-      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.fahrenheit, temperatureProperty, temperatureProperty.range, GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT )
+      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.celcius, model.surfaceTemperatureCelsiusProperty, celsiusRange, GreenhouseEffectModel.TemperatureUnits.CELSIUS ),
+      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.fahrenheit, model.surfaceTemperatureFahrenheitProperty, fahrenheitRange, GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT )
     ];
 
-    this.comboBox = new ComboBox( comboBoxItems, unitsProperty, listParentNode, {
+    this.comboBox = new ComboBox( comboBoxItems, model.temperatureUnitsProperty, listParentNode, {
       yMargin: 4,
       xMargin: 4
     } );

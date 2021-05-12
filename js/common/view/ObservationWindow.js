@@ -212,7 +212,7 @@ class ObservationWindow extends Node {
 
     // thermometer
     const listParentNode = new Node();
-    const surfaceThermometer = new SurfaceThermometer( model.surfaceTemperatureProperty, model.temperatureUnitsProperty, model.surfaceThermometerVisibleProperty, listParentNode );
+    const surfaceThermometer = new SurfaceThermometer( model, listParentNode );
     surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -listParentNode.height - WINDOW_FRAME_SPACING );
 
     // controls

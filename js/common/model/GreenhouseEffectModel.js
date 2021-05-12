@@ -8,15 +8,17 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
+import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDelayLine from './EnergyDelayLine.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -57,9 +59,15 @@ class GreenhouseEffectModel {
     this.energyBalanceVisibleProperty = new BooleanProperty( false );
 
     // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
-    this.surfaceTemperatureProperty = new NumberProperty( EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE, {
+    this.surfaceTemperatureKelvinProperty = new NumberProperty( EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE, {
       range: new Range( 0, 500 )
     } );
+
+    // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
+    this.surfaceTemperatureCelsiusProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToCelsius );
+
+    // @public {DerivedProperty.<number> - the temperature, but in
+    this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
 
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
@@ -126,7 +134,7 @@ class GreenhouseEffectModel {
 
     // Connect up the surface temperature property to that of the ground layer model element.
     this.groundLayer.temperatureProperty.link( groundTemperature => {
-      this.surfaceTemperatureProperty.set( groundTemperature );
+      this.surfaceTemperatureKelvinProperty.set( groundTemperature );
     } );
   }
 
