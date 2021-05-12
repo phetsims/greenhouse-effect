@@ -199,7 +199,7 @@ class WavesNode extends Node {
     } );
 
     this.addChild( new Checkbox( new Text( 'Show Gaps' ), model.showGapProperty, {
-      left: 200,
+      left: 10,
       bottom: size.height - 10,
 
       // pdom
