@@ -167,6 +167,7 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
 EnergyAbsorbingEmittingLayer.WIDTH = SURFACE_DIMENSIONS.width;
 EnergyAbsorbingEmittingLayer.SURFACE_AREA = SURFACE_AREA;
 EnergyAbsorbingEmittingLayer.Substance = Substance;
+EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE = STARTING_TEMPERATURE;
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;

@@ -57,7 +57,9 @@ class GreenhouseEffectModel {
     this.energyBalanceVisibleProperty = new BooleanProperty( false );
 
     // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
-    this.surfaceTemperatureProperty = new NumberProperty( 0, { range: new Range( 0, 500 ) } );
+    this.surfaceTemperatureProperty = new NumberProperty( EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE, {
+      range: new Range( 0, 500 )
+    } );
 
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
@@ -121,6 +123,11 @@ class GreenhouseEffectModel {
     this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
     this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
     this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
+
+    // Connect up the surface temperature property to that of the ground layer model element.
+    this.groundLayer.temperatureProperty.link( groundTemperature => {
+      this.surfaceTemperatureProperty.set( groundTemperature );
+    } );
   }
 
   /**

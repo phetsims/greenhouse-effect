@@ -43,7 +43,8 @@ class SurfaceThermometer extends Node {
       }
     }, options );
 
-    const thermometerNode = new ThermometerNode( 0, 100, temperatureProperty, options.thermometerNodeOptions );
+    // thermometer - range chosen empirically to make it look reasonable in the sim
+    const thermometerNode = new ThermometerNode( 200, 500, temperatureProperty, options.thermometerNodeOptions );
     this.addChild( thermometerNode );
 
     const comboBoxItems = [
