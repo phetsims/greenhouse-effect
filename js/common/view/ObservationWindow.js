@@ -117,10 +117,10 @@ class ObservationWindow extends Node {
       lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
-    // const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
-    //   lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
-    //   visible: GreenhouseEffectQueryParameters.showAllLayers
-    // } );
+    const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
+      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+      visible: GreenhouseEffectQueryParameters.showAllLayers
+    } );
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
     // TODO: This may be handled differently once we're further along in how the models work, see
@@ -258,7 +258,7 @@ class ObservationWindow extends Node {
         groundNode,
         groundLayerNode,
         lowerAtmosphereLayerNode,
-        // upperAtmosphereLayerNode,
+        upperAtmosphereLayerNode,
         visibilityControls,
         listParentNode,
         presentationNode,

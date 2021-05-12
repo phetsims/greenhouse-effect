@@ -88,38 +88,44 @@ class GreenhouseEffectModel {
     } );
     this.lowerAtmosphereLayer.jbId = 'lowerAtmosphere';
     this.outerSpace = new SpaceEnergySink();
-    // const altitudeOfUpperAtmosphereLayer = 2 * HEIGHT_OF_ATMOSPHERE / 3;
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine = new EnergyDelayLine(
-    //   ( altitudeOfUpperAtmosphereLayer - altitudeOfLowerAtmosphereLayer ) / Photon.SPEED
-    // );
-    // this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer );
-    // this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
+    const altitudeOfUpperAtmosphereLayer = 2 * HEIGHT_OF_ATMOSPHERE / 3;
+    this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine = new EnergyDelayLine(
+      ( altitudeOfUpperAtmosphereLayer - altitudeOfLowerAtmosphereLayer ) / Photon.SPEED,
+      EnergyDirection.UP
+    );
+    this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine = new EnergyDelayLine(
+      ( altitudeOfUpperAtmosphereLayer - altitudeOfLowerAtmosphereLayer ) / Photon.SPEED,
+      EnergyDirection.DOWN
+    );
+    this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer );
+    this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
 
     // Interconnect the energy sources, layers, and delays.
-    this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
-    this.sunToGroundEnergyDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    this.groundLayer.connectOutput( EnergyDirection.UP, this.groundToLowerAtmosphereDelayLine.incomingEnergyProperty );
-    this.groundToLowerAtmosphereDelayLine.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
-    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereToGroundDelayLine.incomingEnergyProperty );
-    this.lowerAtmosphereToGroundDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
-    // this.sunToGroundEnergyDelayLine.setSourceOfDownwardMovingEnergy( this.sunEnergy );
-    // this.groundLayer.addSourceOfDownwardMovingEnergy( this.sunToGroundEnergyDelayLine.energyOutput );
-    // this.groundLayer.addSourceOfDownwardMovingEnergy( this.groundToLowerAtmosphereLayerDelayLine.energyOutput );
-    // this.groundToLowerAtmosphereLayerDelayLine.setSourceOfUpwardMovingEnergy( this.groundLayer.energyOutput );
-    // this.groundToLowerAtmosphereLayerDelayLine.setSourceOfDownwardMovingEnergy( this.lowerAtmosphereLayer.energyOutput );
-    // this.lowerAtmosphereLayer.addSourceOfUpwardMovingEnergy( this.groundToLowerAtmosphereLayerDelayLine.energyOutput );
-    // this.lowerAtmosphereLayer.addSourceOfDownwardMovingEnergy( this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.energyOutput );
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.setSourceOfUpwardMovingEnergy( this.lowerAtmosphereLayer.energyOutput );
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.setSourceOfDownwardMovingEnergy( this.upperAtmosphereLayer.energyOutput );
-    // this.upperAtmosphereLayer.addSourceOfUpwardMovingEnergy( this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.energyOutput );
+    // this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
+    // this.sunToGroundEnergyDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    // this.groundLayer.connectOutput( EnergyDirection.UP, this.groundToLowerAtmosphereDelayLine.incomingEnergyProperty );
+    // this.groundToLowerAtmosphereDelayLine.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereToGroundDelayLine.incomingEnergyProperty );
+    // this.lowerAtmosphereToGroundDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    // this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.incomingEnergyProperty );
+    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.incomingEnergyProperty );
+    // this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
+    // this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
+
+    // TODO: Debug connection configuration with the delay lines omitted.
+    this.sun.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    this.groundLayer.connectOutput( EnergyDirection.UP, this.lowerAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
+    this.lowerAtmosphereLayer.connectOutput( EnergyDirection.UP, this.upperAtmosphereLayer.incomingUpwardMovingEnergyProperty );
+    this.upperAtmosphereLayer.connectOutput( EnergyDirection.DOWN, this.lowerAtmosphereLayer.incomingDownwardMovingEnergyProperty );
+    this.upperAtmosphereLayer.connectOutput( EnergyDirection.UP, this.outerSpace.incomingUpwardMovingEnergyProperty );
   }
 
   /**
    * TODO: This is a temporary method used for debugging.
-   * @param message
-   * @param energy
-   * @param dt
+   * @param {string} message
+   * @param {number} energy
    * @private
    */
   logScaledEnergy( message, energy ) {
@@ -143,17 +149,17 @@ class GreenhouseEffectModel {
 
     // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
     // assuming real values.
-    this.sunToGroundEnergyDelayLine.step( dt );
-    this.groundToLowerAtmosphereDelayLine.step( dt );
-    this.lowerAtmosphereToGroundDelayLine.step( dt );
+    // this.sunToGroundEnergyDelayLine.step( dt );
+    // this.groundToLowerAtmosphereDelayLine.step( dt );
+    // this.lowerAtmosphereToGroundDelayLine.step( dt );
     // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.step( dt );
-    // this.lowerAtmosphereLayerToUpperAtmosphereLayerDelayLine.step( dt );
+    // this.upperAtmosphereLayerToLowerAtmosphereLayerDelayLine.step( dt );
 
     // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
     // is faster than real life.
     this.groundLayer.step( acceleratedDt );
     this.lowerAtmosphereLayer.step( acceleratedDt );
-    // this.upperAtmosphereLayer.step( acceleratedDt );
+    this.upperAtmosphereLayer.step( acceleratedDt );
     this.outerSpace.step( dt );
 
     // Log debug information to console if flag is set.
@@ -161,8 +167,9 @@ class GreenhouseEffectModel {
       console.log( '------------------------------------' );
       this.logScaledEnergy( 'sun output energy:', this.sun.outputEnergyRateTracker.energyRate );
       this.logScaledEnergy( 'ground incoming downward-moving energy:', this.groundLayer.incomingDownwardMovingEnergyRateTracker.energyRate );
-      this.logScaledEnergy( 'ground incoming upward-moving energy:', this.groundLayer.incomingUpwardMovingEnergyRateTracker.energyRate );
       this.logScaledEnergy( 'layer 1 incoming upward-moving energy:', this.lowerAtmosphereLayer.incomingUpwardMovingEnergyRateTracker.energyRate );
+      this.logScaledEnergy( 'layer 2 incoming upward-moving energy:', this.upperAtmosphereLayer.incomingUpwardMovingEnergyRateTracker.energyRate );
+      this.logScaledEnergy( 'space incoming upward-moving energy:', this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRate );
 
       phet.jbDebug = false;
     }
@@ -200,7 +207,7 @@ class GreenhouseEffectModel {
     this.lowerAtmosphereToGroundDelayLine.reset();
     this.groundLayer.reset();
     this.lowerAtmosphereLayer.reset();
-    // this.upperAtmosphereLayer.reset();
+    this.upperAtmosphereLayer.reset();
   }
 }
 
