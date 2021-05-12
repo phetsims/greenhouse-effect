@@ -29,7 +29,7 @@ class EnergyDelayLine extends EnergySource {
     this.direction = direction;
     this.delayTime = delayTime;
     this.totalTimeInEnergyQueue = 0;
-    this.delayedEnergyQueueQueue = [];
+    this.delayedEnergyQueue = [];
   }
 
   /**
