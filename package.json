@@ -12,7 +12,8 @@
   "phet": {
     "requirejsNamespace": "GREENHOUSE_EFFECT",
     "phetLibs": [
-      "nitroglycerin"
+      "nitroglycerin",
+      "bamboo"
     ],
     "simulation": true,
     "runnable": true,
