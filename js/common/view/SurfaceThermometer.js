@@ -62,6 +62,7 @@ class SurfaceThermometer extends Node {
     ];
 
     this.comboBox = new ComboBox( comboBoxItems, model.temperatureUnitsProperty, listParentNode, {
+      align: 'right',
       yMargin: 4,
       xMargin: 4
     } );
