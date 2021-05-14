@@ -17,7 +17,7 @@ import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreen
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import CloudsCheckbox from './CloudsCheckbox.js';
+import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
@@ -47,7 +47,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
-    const cloudsCheckbox = new CloudsCheckbox( model.cloudsVisibleProperty );
+    const cloudCheckbox = new CloudCheckbox( model.cloudVisibleProperty );
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
@@ -57,9 +57,12 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
     this.pdomPlayAreaNode.addChild( concentrationControls );
 
-    // clouds checkbox
-    cloudsCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
-    this.pdomPlayAreaNode.addChild( cloudsCheckbox );
+    // cloud checkbox
+    cloudCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY(
+      GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING,
+      0
+    );
+    this.pdomPlayAreaNode.addChild( cloudCheckbox );
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.

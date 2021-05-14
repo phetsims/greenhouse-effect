@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * A reusable checkbox that enables/disables clouds in the Waves screen.
+ * A reusable checkbox that enables/disables the cloud in the Waves screen.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -11,10 +11,10 @@ import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
-class CloudsCheckbox extends GreenhouseEffectCheckbox {
+class CloudCheckbox extends GreenhouseEffectCheckbox {
 
   /**
-   * @param {BooleanProperty} property - controls whether clouds are visible
+   * @param {BooleanProperty} property - controls whether the cloud is visible
    * @param {Object} [options]
    */
   constructor( property, options ) {
@@ -24,12 +24,12 @@ class CloudsCheckbox extends GreenhouseEffectCheckbox {
       fill: 'rgb(17,209,243)'
     } );
 
-    super( greenhouseEffectStrings.clouds, property, {
+    super( greenhouseEffectStrings.cloud, property, {
       iconNode: iconNode,
-      helpText: greenhouseEffectStrings.a11y.cloudsCheckboxHelpText
+      helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText
     } );
   }
 }
 
-greenhouseEffect.register( 'CloudsCheckbox', CloudsCheckbox );
-export default CloudsCheckbox;
+greenhouseEffect.register( 'CloudCheckbox', CloudCheckbox );
+export default CloudCheckbox;

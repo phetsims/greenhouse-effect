@@ -181,7 +181,7 @@ class WavesNode extends Node {
       centerX: yellow3
     } );
 
-    model.cloudsVisibleProperty.linkAttribute( cloudNode, 'visible' );
+    model.cloudVisibleProperty.linkAttribute( cloudNode, 'visible' );
 
     this.wavesCanvasNode = new WavesCanvasNode( model, null, {
       canvasBounds: size.toBounds()

@@ -20,8 +20,8 @@
   "showSurfaceTemperature": {
     "value": "Show Surface Temperature"
   },
-  "clouds": {
-    "value": "Clouds"
+  "cloud": {
+    "value": "Cloud"
   },
   "startSunlight": {
     "value": "Start Sunlight"
@@ -218,7 +218,7 @@
     "startSunlightButtonHelpText": {
       "value": "Start sunlight to begin observations."
     },
-    "cloudsCheckboxHelpText": {
+    "cloudCheckboxHelpText": {
       "value": "Add cloud to sky."
     },
     "concentrationPanel": {

@@ -30,7 +30,7 @@ class WavesModel extends ConcentrationModel {
 
     this.yellowWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.SUNLIGHT_COLOR );
     this.redWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.INFRARED_COLOR );
-    this.cloudsVisibleProperty = new BooleanProperty( true );
+    this.cloudVisibleProperty = new BooleanProperty( false );
     this.showGapProperty = new BooleanProperty( true );
 
     this.waves = [];
@@ -140,6 +140,8 @@ class WavesModel extends ConcentrationModel {
    * @public
    */
   reset() {
+    this.cloudVisibleProperty.reset();
+    this.surfaceTemperatureVisibleProperty.reset();
     this.timeProperty.reset();
     this.yellowWaveParameterModel.reset();
     this.redWaveParameterModel.reset();
