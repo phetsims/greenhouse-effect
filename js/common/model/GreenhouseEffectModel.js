@@ -214,6 +214,7 @@ class GreenhouseEffectModel {
     this.isStartedProperty.reset();
     this.timeSpeedProperty.reset();
     this.isPlayingProperty.reset();
+    this.surfaceThermometerVisibleProperty.reset();
     this.allPhotonsVisibleProperty.reset();
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();

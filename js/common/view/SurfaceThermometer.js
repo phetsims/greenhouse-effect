@@ -30,7 +30,6 @@ class SurfaceThermometer extends Node {
    * @param {Object} [options]
    */
   constructor( model, listParentNode, options ) {
-    super();
 
     options = merge( {
 
@@ -42,6 +41,11 @@ class SurfaceThermometer extends Node {
         backgroundFill: 'white'
       }
     }, options );
+
+    super( options );
+
+    // visibility
+    model.surfaceThermometerVisibleProperty.linkAttribute( this, 'visible' );
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
     const thermometerNode = new ThermometerNode( 200, 500, model.surfaceTemperatureKelvinProperty, options.thermometerNodeOptions );
