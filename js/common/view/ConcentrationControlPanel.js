@@ -17,18 +17,18 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import CalendarAlt from '../../../../sherpa/js/fontawesome-5/regular/CalendarAlt.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -269,9 +269,14 @@ class SliderControl extends Node {
     const concentrationSlider = new VSlider( concentrationProperty, concentrationProperty.range, {
       trackSize: new Dimension2( 1, 100 ),
       thumbSize: new Dimension2( 20, 10 ),
+
+      // pdom
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label',
-      helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText
+      helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
+      keyboardStep: concentrationProperty.range.max / 10,
+      shiftKeyboardStep: concentrationProperty.range.max / 20, // finer grain
+      pageKeyboardStep: concentrationProperty.range.max / 4 // coarser grain
     } );
 
     const delta = concentrationRange.getLength() / 10;
