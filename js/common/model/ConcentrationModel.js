@@ -61,7 +61,6 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
     // Hook up the concentration to the layers created in the parent class.
     this.concentrationProperty.link( concentration => {
-      console.log( `concentration = ${concentration}` );
       this.lowerAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
       this.upperAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
     } );
