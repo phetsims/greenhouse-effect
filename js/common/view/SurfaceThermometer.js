@@ -48,7 +48,7 @@ class SurfaceThermometer extends Node {
     model.surfaceThermometerVisibleProperty.linkAttribute( this, 'visible' );
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
-    const thermometerNode = new ThermometerNode( 200, 500, model.surfaceTemperatureKelvinProperty, options.thermometerNodeOptions );
+    const thermometerNode = new ThermometerNode( 0, 500, model.surfaceTemperatureKelvinProperty, options.thermometerNodeOptions );
     this.addChild( thermometerNode );
 
     // ranges for each temperature Property, so the NumberDisplay can determine space needed for each readout

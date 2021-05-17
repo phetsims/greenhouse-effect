@@ -32,7 +32,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
     // @public {NumberProperty} - numeric value for greenhouse gas concentration
     // NOTE: This will likely move to a model for Atmosphere with other responsibilities. Range is arbitrary for now.
-    const concentrationRange = new Range( 0, 100 );
+    const concentrationRange = new Range( 0, 1 );
     this.concentrationProperty = new NumberProperty( 0, { range: concentrationRange } );
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
@@ -57,6 +57,13 @@ class ConcentrationModel extends GreenhouseEffectModel {
       else {
         this.concentrationProperty.set( concentrationRange.max );
       }
+    } );
+
+    // Hook up the concentration to the layers created in the parent class.
+    this.concentrationProperty.link( concentration => {
+      console.log( `concentration = ${concentration}` );
+      this.lowerAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
+      this.upperAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
     } );
   }
 

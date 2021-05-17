@@ -18,7 +18,7 @@ import EnergyRateTracker from './EnergyRateTracker.js';
 import EnergySource from './EnergySource.js';
 
 // constants
-const STARTING_TEMPERATURE = 245; // in degrees Kelvin
+const STARTING_TEMPERATURE = 0; // in degrees Kelvin
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {

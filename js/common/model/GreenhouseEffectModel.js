@@ -93,9 +93,6 @@ class GreenhouseEffectModel {
       altitudeOfLowerAtmosphereLayer / Photon.SPEED,
       EnergyDirection.DOWN
     );
-    // this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer, {
-    //   initialEnergyAbsorptionProportion: 0.5
-    // } );
     this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer );
     this.lowerAtmosphereLayer.jbId = 'lowerAtmosphere';
     this.outerSpace = new SpaceEnergySink();
