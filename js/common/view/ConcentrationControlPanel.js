@@ -290,7 +290,9 @@ class SliderControl extends Node {
       thumbSize: new Dimension2( 20, 10 ),
 
       // sound generation
-      drag: () => { concentrationSliderSoundGenerator.drag(); },
+      drag: event => {
+        concentrationSliderSoundGenerator.drag( event );
+      },
 
       // pdom
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
@@ -457,7 +459,7 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
   /**
    * @public
    */
-  drag() {
+  drag( event ) {
 
     const currentConcentration = this.concentrationProperty.value;
 
@@ -472,9 +474,11 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
       }
       else {
 
-        // Play a sound if a threshold has been crossed.
+        const previousBin = this.getBin( this.previousConcentration );
         const currentBin = this.getBin( currentConcentration );
-        if ( currentBin !== this.getBin( this.previousConcentration ) ) {
+
+        // Play a sound if a bin threshold has been crossed or if the change was due to keyboard interaction.
+        if ( currentBin !== previousBin || event.pointer.type === 'pdom' ) {
           this.playAssociatedSound( currentBin );
         }
 
