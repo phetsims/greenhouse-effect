@@ -25,6 +25,19 @@ import CalendarAlt from '../../../../sherpa/js/fontawesome-5/regular/CalendarAlt
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
+import MultiClip from '../../../../tambo/js/sound-generators/MultiClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import sliderSound01 from '../../../sounds/greenhouse-gas-concentration-slider-001_mp3.js';
+import sliderSound02 from '../../../sounds/greenhouse-gas-concentration-slider-002_mp3.js';
+import sliderSound03 from '../../../sounds/greenhouse-gas-concentration-slider-003_mp3.js';
+import sliderSound04 from '../../../sounds/greenhouse-gas-concentration-slider-004_mp3.js';
+import sliderSound05 from '../../../sounds/greenhouse-gas-concentration-slider-005_mp3.js';
+import sliderSound06 from '../../../sounds/greenhouse-gas-concentration-slider-006_mp3.js';
+import sliderSound07 from '../../../sounds/greenhouse-gas-concentration-slider-007_mp3.js';
+import sliderSound08 from '../../../sounds/greenhouse-gas-concentration-slider-008_mp3.js';
+import sliderSound09 from '../../../sounds/greenhouse-gas-concentration-slider-009_mp3.js';
+import sliderSound10 from '../../../sounds/greenhouse-gas-concentration-slider-010_mp3.js';
+import sliderSound11 from '../../../sounds/greenhouse-gas-concentration-slider-011_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -265,10 +278,19 @@ class SliderControl extends Node {
   constructor( concentrationProperty ) {
     super();
 
+    // Create and hook up the sound generator.
+    const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( concentrationProperty, {
+      initialOutputValue: 0.1
+    } );
+    soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
+
     const concentrationRange = concentrationProperty.range;
     const concentrationSlider = new VSlider( concentrationProperty, concentrationProperty.range, {
       trackSize: new Dimension2( 1, 100 ),
       thumbSize: new Dimension2( 20, 10 ),
+
+      // sound generation
+      drag: () => { concentrationSliderSoundGenerator.drag(); },
 
       // pdom
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
@@ -385,6 +407,83 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
         RADIO_BUTTON_GROUP_OPTIONS
       )
     );
+  }
+}
+
+// TODO: When and if this is finalized it should probably be moved into a separate file.  See
+//       https://github.com/phetsims/greenhouse-effect/issues/28.
+class ConcentrationSliderSoundGenerator extends MultiClip {
+
+  constructor( concentrationProperty, options ) {
+
+    const sounds = [
+      sliderSound01,
+      sliderSound02,
+      sliderSound03,
+      sliderSound04,
+      sliderSound05,
+      sliderSound06,
+      sliderSound07,
+      sliderSound08,
+      sliderSound09,
+      sliderSound10,
+      sliderSound11
+    ];
+
+    // There is basically a sound for each tick mark.
+    const valueToSoundMap = new Map();
+    sounds.forEach( ( sound, index ) => {
+      valueToSoundMap.set( index, sound );
+    } );
+
+    super( valueToSoundMap, options );
+
+    // TODO: Why do I have to do this?
+    this.setOutputLevel( 0.1 );
+
+    // @private
+    this.concentrationProperty = concentrationProperty;
+    this.numBins = sounds.length;
+    this.binSize = this.concentrationProperty.range.max / this.numBins;
+    this.previousConcentration = this.concentrationProperty.value;
+  }
+
+  /**
+   * @param {number} concentration
+   * @returns {number}
+   * @private
+   */
+  getBin( concentration ) {
+    return Math.floor( concentration / this.binSize );
+  }
+
+  /**
+   * @public
+   */
+  drag() {
+
+    const currentConcentration = this.concentrationProperty.value;
+
+    if ( this.previousConcentration !== currentConcentration ) {
+
+      // Check min and max.
+      if ( this.concentrationProperty.value === this.concentrationProperty.range.min ) {
+        this.playAssociatedSound( 0 );
+      }
+      else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
+        this.playAssociatedSound( this.numBins - 1 );
+      }
+      else {
+
+        // Play a sound if a threshold has been crossed.
+        const currentBin = this.getBin( currentConcentration );
+        if ( currentBin !== this.getBin( this.previousConcentration ) ) {
+          this.playAssociatedSound( currentBin );
+        }
+
+      }
+      this.previousConcentration = currentConcentration;
+    }
   }
 }
 
