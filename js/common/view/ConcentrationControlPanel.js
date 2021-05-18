@@ -304,7 +304,7 @@ class SliderControl extends Node {
     } );
 
     const delta = concentrationRange.getLength() / 10;
-    for ( let i = concentrationRange.min + delta; i < concentrationRange.max; i += delta ) {
+    for ( let i = concentrationRange.min; i < concentrationRange.max + delta; i += delta ) {
       concentrationSlider.addMinorTick( i );
     }
     concentrationSlider.scale( -1, 1 );
