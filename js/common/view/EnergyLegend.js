@@ -117,7 +117,10 @@ class EnergyLegend extends Panel {
     // determine how much to extend width of contents so legend takes up desired width in the view
     const maxItemWidth = _.maxBy( [ titleNode, sunlightRow, infraredRow ], item => item.width ).width;
     const marginWidth = width - maxItemWidth - PANEL_X_MARGIN * 2;
-    assert && assert( marginWidth >= 0, 'one of the items in the legend is too large, extends beyond width' );
+    assert && assert(
+      marginWidth >= 0,
+      'provided width of is not large enough to fit contents, provide larger width or make contents smaller'
+    );
 
     const legendAlignGroup = new AlignGroup( { matchVertical: false } );
     const titleBox = legendAlignGroup.createBox( titleNode, { xMargin: marginWidth / 2 } );
