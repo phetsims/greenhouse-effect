@@ -280,7 +280,7 @@ class SliderControl extends Node {
 
     // Create and hook up the sound generator.
     const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( concentrationProperty, {
-      initialOutputValue: 0.1
+      initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
@@ -437,9 +437,6 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
     } );
 
     super( valueToSoundMap, options );
-
-    // TODO: Why do I have to do this?
-    this.setOutputLevel( 0.1 );
 
     // @private
     this.concentrationProperty = concentrationProperty;
