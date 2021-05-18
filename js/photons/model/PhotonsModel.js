@@ -39,7 +39,7 @@ class PhotonsModel extends ConcentrationModel {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt ) {
+  stepModel( dt ) {
     if ( this.isStartedProperty.value ) {
 
       // Create photons if it's time to do so.
