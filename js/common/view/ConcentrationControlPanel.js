@@ -278,7 +278,7 @@ class SliderControl extends Node {
   constructor( concentrationProperty ) {
     super();
 
-    // Create and hook up the sound generator.
+    // Create the sound generator.
     const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( concentrationProperty, {
       initialOutputLevel: 0.1
     } );
@@ -412,8 +412,9 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
   }
 }
 
-// TODO: When and if this is finalized it should probably be moved into a separate file.  See
-//       https://github.com/phetsims/greenhouse-effect/issues/28.
+/**
+ * Inner class used to generate the sounds for slider movements.
+ */
 class ConcentrationSliderSoundGenerator extends MultiClip {
 
   constructor( concentrationProperty, options ) {
@@ -432,7 +433,7 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
       sliderSound11
     ];
 
-    // There is basically a sound for each tick mark.
+    // Map the sounds to a set of values.  These basically correspond to the tick mark positions.
     const valueToSoundMap = new Map();
     sounds.forEach( ( sound, index ) => {
       valueToSoundMap.set( index, sound );
@@ -440,7 +441,7 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
 
     super( valueToSoundMap, options );
 
-    // @private
+    // @private - variables used by the methods below
     this.concentrationProperty = concentrationProperty;
     this.numBins = sounds.length;
     this.binSize = this.concentrationProperty.range.max / this.numBins;
@@ -448,6 +449,7 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
   }
 
   /**
+   * Get an integer value, i.e. a "bin", for the provided value.
    * @param {number} concentration
    * @returns {number}
    * @private
@@ -457,6 +459,8 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
   }
 
   /**
+   * Handle a slider drag event by checking if the changes to the concentration warrant the playing of a sound and, if
+   * so, play the appropriate sound.
    * @public
    */
   drag( event ) {
