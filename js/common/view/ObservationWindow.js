@@ -214,6 +214,7 @@ class ObservationWindow extends Node {
     const listParentNode = new Node();
     const surfaceThermometer = new SurfaceThermometer( model, listParentNode );
     surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -listParentNode.height - WINDOW_FRAME_SPACING );
+    listParentNode.leftBottom = surfaceThermometer.leftBottom;
 
     // controls
     const visibilityControls = new ObservationWindowVisibilityControls(

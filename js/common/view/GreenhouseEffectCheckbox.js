@@ -34,6 +34,9 @@ class GreenhouseEffectCheckbox extends Checkbox {
       // {Node|null} - if provided, will be included in the icon for the checkbox
       iconNode: null,
 
+      // i18n
+      maxWidth: 200,
+
       // pdom
       accessibleName: labelString
     }, options );

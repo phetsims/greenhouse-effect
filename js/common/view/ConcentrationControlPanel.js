@@ -55,8 +55,13 @@ const CONCENTRATION_METER_HEIGHT = 150; // height in view coordinates of the con
 const CONCENTRATION_METER_MACRO_TICK_WIDTH = 15;
 const CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS = 14;
 
-const PANEL_MARGINS = 5; // margins between content and panel borders
-const CONTENT_SPACING = 10; // spacing between contents within the panel
+// margins between content and panel borders
+const PANEL_MARGINS = 5;
+
+// spacing between contents within the panel
+const CONTENT_SPACING = 10;
+
+const LABEL_OPTIONS = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 60 };
 
 const RADIO_BUTTON_GROUP_OPTIONS = {
   baseColor: 'white',
@@ -166,22 +171,22 @@ class DateControl extends Node {
     // the radio buttons for the date control
     const items = [
       {
-        node: new Text( twentyNineteenLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        node: new Text( twentyNineteenLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyNineteen
       },
       {
-        node: new Text( nineteenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty
       },
       {
-        node: new Text( seventeenFiftyLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty
       },
       {
-        node: new Text( iceAgeLabel, { font: GreenhouseEffectConstants.CONTENT_FONT } ),
+        node: new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
         labelContent: iceAgeLabel
       }
@@ -217,8 +222,8 @@ class DateControl extends Node {
     }
 
     // labels for the macro line
-    const lotsText = new Text( lotsString, { font: GreenhouseEffectConstants.CONTENT_FONT } );
-    const noneText = new Text( noneString, { font: GreenhouseEffectConstants.CONTENT_FONT } );
+    const lotsText = new Text( lotsString, LABEL_OPTIONS );
+    const noneText = new Text( noneString, LABEL_OPTIONS );
 
     // lines between macro and micro lines showing that the micro line is a zoomed in view of the macro line, end
     // points are set after layout
@@ -310,8 +315,8 @@ class SliderControl extends Node {
     concentrationSlider.scale( -1, 1 );
 
     // add labels to the slider
-    const lotsText = new Text( lotsString, { font: GreenhouseEffectConstants.CONTENT_FONT } );
-    const noneText = new Text( noneString, { font: GreenhouseEffectConstants.CONTENT_FONT } );
+    const lotsText = new Text( lotsString, LABEL_OPTIONS );
+    const noneText = new Text( noneString, LABEL_OPTIONS );
 
     this.addChild( concentrationSlider );
     this.addChild( lotsText );
@@ -332,7 +337,10 @@ class CompositionDataNode extends VBox {
       align: 'left'
     } );
 
-    const textOptions = { font: GreenhouseEffectConstants.CONTENT_FONT };
+    const textOptions = {
+      font: GreenhouseEffectConstants.CONTENT_FONT,
+      maxWidth: 200
+    };
     this.waterText = new RichText( '', textOptions );
     this.carbondDioxideText = new RichText( '', textOptions );
     this.methaneText = new RichText( '', textOptions );

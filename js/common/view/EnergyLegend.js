@@ -34,13 +34,15 @@ const PANEL_X_MARGIN = 8;
 // Text options for legend labels
 const LABEL_OPTIONS = {
   font: GreenhouseEffectConstants.LABEL_FONT,
-  fill: 'white'
+  fill: 'white',
+  maxWidth: 100
 };
 
 // Text options for the legend title
 const TITLE_OPTIONS = {
   font: GreenhouseEffectConstants.TITLE_FONT,
-  fill: 'white'
+  fill: 'white',
+  maxWidth: 130
 };
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
@@ -61,11 +63,11 @@ class EnergyLegend extends Panel {
     }, options );
 
     // title
-    const titleNode = new Text( 'Energy', TITLE_OPTIONS );
+    const titleNode = new Text( greenhouseEffectStrings.energyLegend.title, TITLE_OPTIONS );
 
     // labels
-    const sunlightLabel = new Text( 'Sunlight', LABEL_OPTIONS );
-    const infraredLabel = new Text( 'Infrared', LABEL_OPTIONS );
+    const sunlightLabel = new Text( greenhouseEffectStrings.energyLegend.sunlight, LABEL_OPTIONS );
+    const infraredLabel = new Text( greenhouseEffectStrings.energyLegend.infrared, LABEL_OPTIONS );
 
     // icons
     let sunlightIcon;

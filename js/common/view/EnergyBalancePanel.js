@@ -49,8 +49,14 @@ class EnergyBalancePanel extends Panel {
     }, options );
 
     // title
-    const titleText = new Text( greenhouseEffectStrings.energyBalancePanel.title, { font: GreenhouseEffectConstants.TITLE_FONT } );
-    const subTitleText = new Text( greenhouseEffectStrings.energyBalancePanel.subTitle, { font: GreenhouseEffectConstants.CONTENT_FONT } );
+    const titleText = new Text( greenhouseEffectStrings.energyBalancePanel.title, {
+      font: GreenhouseEffectConstants.TITLE_FONT,
+      maxWidth: 150
+    } );
+    const subTitleText = new Text( greenhouseEffectStrings.energyBalancePanel.subTitle, {
+      font: GreenhouseEffectConstants.CONTENT_FONT,
+      maxWidth: 120
+    } );
     const titleNode = new Node( { children: [ titleText, subTitleText ] } );
 
     // TODO: These are dummy Properties to get the visuals up and running, to be replaced with model Properties
@@ -120,7 +126,7 @@ class EnergyBalancePlot extends Node {
     } );
 
     // labels
-    const labelOptions = { font: GreenhouseEffectConstants.CONTENT_FONT };
+    const labelOptions = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 30 };
     const gridLabels = new LabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
 
       // the 'extent' is extra spacing between tick marks and labels, negative value because this is vertically

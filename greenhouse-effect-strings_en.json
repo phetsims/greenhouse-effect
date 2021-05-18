@@ -26,6 +26,15 @@
   "startSunlight": {
     "value": "Start Sunlight"
   },
+  "energyLegend.title": {
+    "value": "Energy"
+  },
+  "energyLegend.sunlight": {
+    "value": "Sunlight"
+  },
+  "energyLegend.infrared": {
+    "value": "Infrared"
+  },
   "concentrationPanel.greenhouseGasConcentration": {
     "value": "Greenhouse Gas Concentration"
   },

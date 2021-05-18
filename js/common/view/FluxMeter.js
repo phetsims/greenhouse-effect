@@ -42,7 +42,10 @@ class FluxMeter extends Node {
     const infraredInProperty = new NumberProperty( 40 );
     const infraredOutProperty = new NumberProperty( -60 );
 
-    const titleText = new Text( energyFluxString, { font: GreenhouseEffectConstants.LABEL_FONT } );
+    const titleText = new Text( energyFluxString, {
+      font: GreenhouseEffectConstants.LABEL_FONT,
+      maxWidth: 120
+    } );
 
     const sunlightDisplayArrow = new EnergyFluxDisplayArrow( sunlightInProperty, sunlightOutProperty, sunlightString, {
       arrowNodeOptions: {
@@ -92,7 +95,10 @@ class EnergyFluxDisplayArrow extends Node {
 
     super();
 
-    const labelText = new Text( labelString, { font: GreenhouseEffectConstants.CONTENT_FONT } );
+    const labelText = new Text( labelString, {
+      font: GreenhouseEffectConstants.CONTENT_FONT,
+      maxWidth: 80
+    } );
     this.addChild( labelText );
 
     const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.4, options.height );
