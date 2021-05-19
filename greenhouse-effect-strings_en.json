@@ -8,8 +8,8 @@
   "screen.photons": {
     "value": "Photons"
   },
-  "screen.model": {
-    "value": "Model"
+  "screen.layerModel": {
+    "value": "Layer Model"
   },
   "screen.micro": {
     "value": "Micro"

@@ -10,10 +10,10 @@ import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
-import LayersModel from './model/LayersModel.js';
-import LayersModelScreenView from './view/LayersModelScreenView.js';
+import LayerModelModel from './model/LayerModelModel.js';
+import LayerModelScreenView from './view/LayerModelScreenView.js';
 
-class LayersModelScreen extends Screen {
+class LayerModelScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
@@ -24,16 +24,16 @@ class LayersModelScreen extends Screen {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
       homeScreenIcon: new RandomIcon( 544 ),
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.model
+      name: greenhouseEffectStrings.screen.layerModel
     };
 
     super(
-      () => new LayersModel( tandem.createTandem( 'model' ) ),
-      model => new LayersModelScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new LayerModelModel( tandem.createTandem( 'model' ) ),
+      model => new LayerModelScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-greenhouseEffect.register( 'LayersModelScreen', LayersModelScreen );
-export default LayersModelScreen;
+greenhouseEffect.register( 'LayerModelScreen', LayerModelScreen );
+export default LayerModelScreen;

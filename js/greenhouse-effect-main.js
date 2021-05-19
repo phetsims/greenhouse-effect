@@ -11,7 +11,7 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import mockupOpacityControl from './common/view/mockupOpacityControl.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
-import LayersModelScreen from './layers-model/LayersModelScreen.js';
+import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import MicroScreen from './micro/MicroScreen.js';
 import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
@@ -39,7 +39,7 @@ simLauncher.launch( () => {
   const sim = new Sim( greenhouseEffectTitleString, [
     new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) ),
     new PhotonsScreen( Tandem.ROOT.createTandem( 'photonsScreen' ) ),
-    new LayersModelScreen( Tandem.ROOT.createTandem( 'layersModelScreen' ) ),
+    new LayerModelScreen( Tandem.ROOT.createTandem( 'LayerModelScreen' ) ),
     new MicroScreen( Tandem.ROOT.createTandem( 'microScreen' ) )
   ], simOptions );
   sim.start();

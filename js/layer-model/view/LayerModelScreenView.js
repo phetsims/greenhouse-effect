@@ -9,10 +9,10 @@ import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-class LayersModelScreenView extends GreenhouseEffectScreenView {
+class LayerModelScreenView extends GreenhouseEffectScreenView {
 
   /**
-   * @param {LayersModel} model
+   * @param {LayerModelModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -52,5 +52,5 @@ class LayersModelScreenView extends GreenhouseEffectScreenView {
   }
 }
 
-greenhouseEffect.register( 'LayersModelScreenView', LayersModelScreenView );
-export default LayersModelScreenView;
+greenhouseEffect.register( 'LayerModelScreenView', LayerModelScreenView );
+export default LayerModelScreenView;

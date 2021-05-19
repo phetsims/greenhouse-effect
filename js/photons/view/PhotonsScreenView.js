@@ -13,7 +13,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
   /**
-   * @param {LayersModel} model
+   * @param {LayerModelModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {

@@ -10,7 +10,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 /**
  * @constructor
  */
-class LayersModel extends GreenhouseEffectModel {
+class LayerModelModel extends GreenhouseEffectModel {
 
   /**
    * @param {Tandem} tandem
@@ -39,5 +39,5 @@ class LayersModel extends GreenhouseEffectModel {
   }
 }
 
-greenhouseEffect.register( 'LayersModel', LayersModel );
-export default LayersModel;
+greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
+export default LayerModelModel;
