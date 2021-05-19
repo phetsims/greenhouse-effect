@@ -35,7 +35,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
       iconNode: null,
 
       // i18n
-      maxWidth: 200,
+      maxWidth: 250,
 
       // pdom
       accessibleName: labelString
