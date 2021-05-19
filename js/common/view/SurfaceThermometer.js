@@ -58,9 +58,7 @@ class SurfaceThermometer extends Node {
 
     const comboBoxItems = [
       this.createComboBoxItem(
-        greenhouseEffectStrings.temperature.units.kelvin, model.surfaceTemperatureKelvinProperty, model.surfaceTemperatureKelvinProperty.range, GreenhouseEffectModel.TemperatureUnits.KELVIN, {
-          valuePattern: greenhouseEffectStrings.temperature.units.valueKelvinPattern
-        } ),
+        greenhouseEffectStrings.temperature.units.kelvin, model.surfaceTemperatureKelvinProperty, model.surfaceTemperatureKelvinProperty.range, GreenhouseEffectModel.TemperatureUnits.KELVIN ),
       this.createComboBoxItem( greenhouseEffectStrings.temperature.units.celcius, model.surfaceTemperatureCelsiusProperty, celsiusRange, GreenhouseEffectModel.TemperatureUnits.CELSIUS ),
       this.createComboBoxItem( greenhouseEffectStrings.temperature.units.fahrenheit, model.surfaceTemperatureFahrenheitProperty, fahrenheitRange, GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT )
     ];
@@ -101,19 +99,14 @@ class SurfaceThermometer extends Node {
           font: GreenhouseEffectConstants.CONTENT_FONT,
           maxWidth: 120
         }
-      },
-
-      // the pattern for the value in the NumberDisplay - not passed directly to the NumberDisplay
-      valuePattern: greenhouseEffectStrings.temperature.units.valueDegreesUnitsPattern
+      }
     }, options );
     assert && assert( options.numberDisplayOptions.valuePattern === undefined );
 
-    const valuePattern = StringUtils.fillIn( options.valuePattern, {
+    options.numberDisplayOptions.valuePattern = StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       degrees: MathSymbols.DEGREES,
       units: unitsString
     } );
-
-    options.numberDisplayOptions.valuePattern = valuePattern;
 
     return new ComboBoxItem( new NumberDisplay( property, propertyRange, options.numberDisplayOptions ), propertyValue );
   }

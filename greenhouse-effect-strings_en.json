@@ -75,16 +75,13 @@
     "value": "K"
   },
   "temperature.units.celcius": {
-    "value": "C"
+    "value": "℃"
   },
   "temperature.units.fahrenheit": {
-    "value": "F"
+    "value": "℉"
   },
-  "temperature.units.valueKelvinPattern": {
+  "temperature.units.valueUnitsPattern": {
     "value": "{{value}} {{units}}"
-  },
-  "temperature.units.valueDegreesUnitsPattern": {
-    "value": "{{value}} {{degrees}}{{units}}"
   },
   "concentrationPanel.waterConcentrationPattern": {
     "value": "H<sub>2</sub>O: {{value}}% relative humidity"
