@@ -33,7 +33,7 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
-import FluxMeter from './FluxMeter.js';
+import FluxMeter from './FluxMeterNode.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
