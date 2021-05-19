@@ -38,6 +38,9 @@
   "concentrationPanel.greenhouseGasConcentration": {
     "value": "Greenhouse Gas Concentration"
   },
+  "fluxMeter.title": {
+    "value": "Flux Meter"
+  },
   "fluxMeter.energyFlux": {
     "value": "Energy Flux"
   },
@@ -182,9 +185,27 @@
   "openSciEd.energySource": {
     "value": "Energy from Earth’s Surface"
   },
+  "energyBalance": {
+    "value": "Energy Balance"
+  },
   "a11y": {
     "observationWindowLabel": {
       "value": "Observation Window"
+    },
+    "energyBalance": {
+      "helpText": {
+        "value": "Measure incoming and outgoing energy at top of atmosphere."
+      }
+    },
+    "surfaceThermometer": {
+      "helpText": {
+        "value": "Measure Earth’s surface temperature."
+      }
+    },
+    "showSurfaceTemperature": {
+      "helpText": {
+        "value": "Explore temperature without exact measurements."
+      }
     },
     "energyLegend": {
       "title": {

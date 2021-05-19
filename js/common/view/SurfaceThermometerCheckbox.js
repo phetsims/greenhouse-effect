@@ -20,7 +20,10 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
   constructor( property ) {
     const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
     super( greenhouseEffectStrings.surfaceThermometer, property, {
-      iconNode: iconNode
+      iconNode: iconNode,
+
+      // pdom
+      helpText: greenhouseEffectStrings.a11y.surfaceThermometer.helpText
     } );
   }
 }
