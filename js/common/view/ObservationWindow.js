@@ -213,7 +213,7 @@ class ObservationWindow extends Node {
     // thermometer
     const listParentNode = new Node();
     const surfaceThermometer = new SurfaceThermometer( model, listParentNode );
-    surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -listParentNode.height - WINDOW_FRAME_SPACING );
+    surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
     listParentNode.leftBottom = surfaceThermometer.leftBottom;
 
     // controls
@@ -266,10 +266,12 @@ class ObservationWindow extends Node {
         lowerAtmosphereLayerNode,
         upperAtmosphereLayerNode,
         visibilityControls,
-        listParentNode,
         presentationNode,
         fluxMeter,
         surfaceThermometer,
+
+        // for the temperature ComboBox, above the thermometer so it opens on top of it
+        listParentNode,
         energyBalancePanel,
         darknessNode,
         startSunlightButton,
