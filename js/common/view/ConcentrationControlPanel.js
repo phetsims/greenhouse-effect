@@ -438,9 +438,11 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
       sliderSound08,
       sliderSound09,
       sliderSound10,
-      sliderSound11
+      sliderSound11,
+      sliderSound11 // TODO: We need an additional sound over what was provided, so this repeat is temporary, see
+                    //       https://github.com/phetsims/greenhouse-effect/issues/28
     ];
-
+    
     // Map the sounds to a set of values.  These basically correspond to the tick mark positions.
     const valueToSoundMap = new Map();
     sounds.forEach( ( sound, index ) => {
@@ -449,26 +451,29 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
 
     super( valueToSoundMap, options );
 
+    // @private - There is a sound for each bin plus a sound for min and max, so the number of bins is the number of
+    // sounds minus 2.
+    this.numberOfBins = sounds.length - 2;
+
     // @private - variables used by the methods below
     this.concentrationProperty = concentrationProperty;
-    this.numBins = sounds.length;
-    this.binSize = this.concentrationProperty.range.max / this.numBins;
+    this.binSize = this.concentrationProperty.range.max / this.numberOfBins;
     this.previousConcentration = this.concentrationProperty.value;
   }
 
   /**
-   * Get an integer value, i.e. a "bin", for the provided value.
+   * Get an zero-based index value (an integer) that indicates the bin into which the provided value falls.
    * @param {number} concentration
    * @returns {number}
    * @private
    */
   getBin( concentration ) {
-    return Math.floor( concentration / this.binSize );
+    return Math.min( Math.floor( concentration / this.binSize ), this.numberOfBins - 1 );
   }
 
   /**
-   * Handle a slider drag event by checking if the changes to the concentration warrant the playing of a sound and, if
-   * so, play the appropriate sound.
+   * Handle a slider drag event by checking if the changes to the associated Property warrant the playing of a sound
+   * and, if so, play it.
    * @public
    */
   drag( event ) {
@@ -477,12 +482,16 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
 
     if ( this.previousConcentration !== currentConcentration ) {
 
-      // Check min and max.
+      // First check for hitting a min or max and, if that didn't happen, check for a change of bins.
       if ( this.concentrationProperty.value === this.concentrationProperty.range.min ) {
+
+        // Play sound for the minimum value.
         this.playAssociatedSound( 0 );
       }
       else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
-        this.playAssociatedSound( this.numBins - 1 );
+
+        // Play sound for the maximum value.
+        this.playAssociatedSound( this.numberOfBins - 1 );
       }
       else {
 
@@ -493,7 +502,6 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
         if ( currentBin !== previousBin || event.pointer.type === 'pdom' ) {
           this.playAssociatedSound( currentBin );
         }
-
       }
       this.previousConcentration = currentConcentration;
     }
