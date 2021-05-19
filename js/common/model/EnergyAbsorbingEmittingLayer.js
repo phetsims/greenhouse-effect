@@ -22,6 +22,11 @@ const STARTING_TEMPERATURE = 0; // in degrees Kelvin
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
+
+  // TODO: There are some variations below, mostly done to make things heat up and cool off faster.  If kept, these
+  //       should be clearly documented.  In general, (at least at the time of this writing), the upper values on the
+  //       list are the "real" ones.
+
   // GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
   GLASS: { density: 2500, specificHeatCapacity: 0.84, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
   // EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
