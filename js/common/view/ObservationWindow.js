@@ -124,8 +124,8 @@ class ObservationWindow extends Node {
     } );
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
-    // TODO: This may be handled differently once we're further along in how the models work, see
-    //       https://github.com/phetsims/greenhouse-effect/issues/17.
+    // TODO: This will probably be handled differently (e.g. in subclasses) once we're further along in how the models
+    //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
     let presentationNode;
     if ( model instanceof WavesModel ) {
       presentationNode = new WavesNode( model, SIZE );
@@ -146,10 +146,13 @@ class ObservationWindow extends Node {
       } );
     }
     else {
-      presentationNode = new Text( 'No dynamic view for this model type yet.', {
-        font: new PhetFont( 32 ),
-        center: windowFrame.center
-      } );
+      presentationNode = new Node( { children: [
+        new Text( 'No dynamic view for this model type yet.', {
+          font: new PhetFont( 32 ),
+          center: windowFrame.center
+        } )
+      ] } );
+      presentationNode.jbTest = true;
     }
 
     // clip the presentation to stay within the window frame
