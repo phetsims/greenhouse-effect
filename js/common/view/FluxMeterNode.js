@@ -8,10 +8,14 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import WireNode from '../../../../scenery-phet/js/WireNode.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -30,29 +34,40 @@ const METER_SPACING = 8; // spacing used in a few places for layout, in view coo
 const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 
-class FluxMeter extends Node {
-  constructor( visibleProperty ) {
+class FluxMeterNode extends Node {
+
+  /**
+   * @param {FluxMeter} model - model component for the FluxMeter
+   * @param {BooleanProperty} visibleProperty
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Bounds2} observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
+   */
+  constructor( model, visibleProperty, modelViewTransform, observationWindowViewBounds ) {
     super();
 
-    // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the
-    // sensor that will include its position, bounds, and calculate the flux of Photons in the model through
-    // the bounds of the sensor to count values for these Properties per unit time.
-    const sunlightInProperty = new NumberProperty( 70 );
-    const sunlightOutProperty = new NumberProperty( -20 );
-    const infraredInProperty = new NumberProperty( 40 );
-    const infraredOutProperty = new NumberProperty( -60 );
+    // wire connecting panel and sensor, beneath both so it appears like the wire is solidly connected to both
+    const wireNode = new WireNode(
+      new DerivedProperty( [ model.wireSensorAttachmentPositionProperty ], position => modelViewTransform.modelToViewPosition( position ) ),
+      new Vector2Property( new Vector2( 100, 0 ) ),
+      new DerivedProperty( [ model.wireMeterAttachmentPositionProperty ], position => modelViewTransform.modelToViewPosition( position ) ),
+      new Vector2Property( new Vector2( -100, 0 ) ), {
+        stroke: 'grey',
+        lineWidth: 5
+      }
+    );
+    this.addChild( wireNode );
 
     const titleText = new Text( energyFluxString, {
       font: GreenhouseEffectConstants.LABEL_FONT,
       maxWidth: 120
     } );
 
-    const sunlightDisplayArrow = new EnergyFluxDisplayArrow( sunlightInProperty, sunlightOutProperty, sunlightString, {
+    const sunlightDisplayArrow = new EnergyFluxDisplayArrow( model.sunlightInProperty, model.sunlightOutProperty, sunlightString, {
       arrowNodeOptions: {
         fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
       }
     } );
-    const infraredDisplayArrow = new EnergyFluxDisplayArrow( infraredInProperty, infraredOutProperty, infraredString, {
+    const infraredDisplayArrow = new EnergyFluxDisplayArrow( model.infraredInProperty, model.infraredOutProperty, infraredString, {
       arrowNodeOptions: {
         fill: GreenhouseEffectConstants.INFRARED_COLOR
       }
@@ -61,20 +76,46 @@ class FluxMeter extends Node {
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
 
-    const fluxPanel = new Panel( content );
-    this.addChild( fluxPanel );
-
-    const fluxSensor = new Rectangle( 0, 0, 160, 30, 10, 10, {
+    const fluxSensor = new Rectangle( modelViewTransform.modelToViewBounds( model.sensorBounds ), 10, 10, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
       lineWidth: 5
     } );
     this.addChild( fluxSensor );
-    fluxSensor.rightTop = fluxPanel.leftTop;
+
+    // @public {Panel} - contains the display showing energy flux, public for positioning in the view
+    this.fluxPanel = new Panel( content );
+    this.addChild( this.fluxPanel );
 
     // listeners
     visibleProperty.link( visible => {
       this.visible = visible;
+    } );
+
+    // the offset position for the drag pickup, so that the translation doesn't snap to the cursor position
+    let startOffset = null;
+
+    // the sensor is constrained to the bounds of the observation window - the center is allowed to reach y=0, but
+    // the top of the sensor cannot leave the observation window
+    const dragViewBounds = observationWindowViewBounds.withMinY( observationWindowViewBounds.minY + fluxSensor.height );
+
+    fluxSensor.addInputListener( new DragListener( {
+      start: event => {
+        startOffset = fluxSensor.globalToParentPoint( event.pointer.point ).subtract( fluxSensor.center );
+      },
+      drag: event => {
+        const viewPoint = fluxSensor.globalToParentPoint( event.pointer.point ).subtract( startOffset );
+        const constrainedViewPoint = dragViewBounds.closestPointTo( viewPoint );
+
+        // do not let the sensor go below ground (y=0)
+        const modelY = Math.max( 0, modelViewTransform.viewToModelY( constrainedViewPoint.y ) );
+        model.sensorPositionProperty.value = new Vector2( 0, modelY );
+      },
+      useInputListenerCursor: true
+    } ) );
+
+    model.sensorPositionProperty.link( sensorPosition => {
+      fluxSensor.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
   }
 }
@@ -126,5 +167,5 @@ class EnergyFluxDisplayArrow extends Node {
   }
 }
 
-greenhouseEffect.register( 'FluxMeter', FluxMeter );
-export default FluxMeter;
+greenhouseEffect.register( 'FluxMeterNode', FluxMeterNode );
+export default FluxMeterNode;

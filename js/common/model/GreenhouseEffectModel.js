@@ -22,6 +22,7 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDelayLine from './EnergyDelayLine.js';
 import EnergyDirection from './EnergyDirection.js';
+import FluxMeter from './FluxMeter.js';
 import Photon from './Photon.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
@@ -107,6 +108,9 @@ class GreenhouseEffectModel {
     );
     this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer );
     this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
+
+    // @private - model component for the FluxMeter
+    this.fluxMeter = new FluxMeter();
 
     // Interconnect the energy sources, layers, and delays.
     this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );

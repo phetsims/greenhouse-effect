@@ -33,7 +33,7 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
-import FluxMeter from './FluxMeterNode.js';
+import FluxMeterNode from './FluxMeterNode.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
@@ -207,8 +207,11 @@ class ObservationWindow extends Node {
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // flux meter
-    const fluxMeter = new FluxMeter( model.fluxMeterVisibleProperty );
-    fluxMeter.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, mvt, windowFrame.bounds );
+    fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+
+    // set the position of the wire to attach to the flux panel
+    model.fluxMeter.wireMeterAttachmentPositionProperty.set( mvt.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) ) );
 
     // thermometer
     const listParentNode = new Node();
@@ -267,7 +270,7 @@ class ObservationWindow extends Node {
         upperAtmosphereLayerNode,
         visibilityControls,
         presentationNode,
-        fluxMeter,
+        fluxMeterNode,
         surfaceThermometer,
 
         // for the temperature ComboBox, above the thermometer so it opens on top of it
