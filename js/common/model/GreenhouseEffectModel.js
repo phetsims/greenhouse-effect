@@ -60,7 +60,7 @@ class GreenhouseEffectModel {
     this.energyBalanceVisibleProperty = new BooleanProperty( false );
 
     // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
-    this.surfaceTemperatureKelvinProperty = new NumberProperty( EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE, {
+    this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 500 )
     } );
 
@@ -82,7 +82,8 @@ class GreenhouseEffectModel {
     this.sunToGroundEnergyDelayLine = new EnergyDelayLine( HEIGHT_OF_ATMOSPHERE / Photon.SPEED, EnergyDirection.DOWN );
     this.sunToGroundEnergyDelayLine.jbId = 'sunToGroundEnergyDelayLine';
     this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
-      substance: EnergyAbsorbingEmittingLayer.Substance.EARTH
+      substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
+      minimumTemperature: 245
     } );
     this.groundLayer.jbId = 'ground';
     const altitudeOfLowerAtmosphereLayer = HEIGHT_OF_ATMOSPHERE / 3;
@@ -94,7 +95,9 @@ class GreenhouseEffectModel {
       altitudeOfLowerAtmosphereLayer / Photon.SPEED,
       EnergyDirection.DOWN
     );
-    this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer );
+    this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer, {
+      minimumTemperature: 200
+    } );
     this.lowerAtmosphereLayer.jbId = 'lowerAtmosphere';
     this.outerSpace = new SpaceEnergySink();
     const altitudeOfUpperAtmosphereLayer = 2 * HEIGHT_OF_ATMOSPHERE / 3;
@@ -106,7 +109,9 @@ class GreenhouseEffectModel {
       ( altitudeOfUpperAtmosphereLayer - altitudeOfLowerAtmosphereLayer ) / Photon.SPEED,
       EnergyDirection.DOWN
     );
-    this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer );
+    this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer, {
+      minimumTemperature: 200
+    } );
     this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
 
     // @private - model component for the FluxMeter

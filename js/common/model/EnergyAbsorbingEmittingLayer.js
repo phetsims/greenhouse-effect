@@ -18,7 +18,6 @@ import EnergyRateTracker from './EnergyRateTracker.js';
 import EnergySource from './EnergySource.js';
 
 // constants
-const STARTING_TEMPERATURE = 0; // in degrees Kelvin
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
@@ -59,7 +58,12 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
       substance: Substance.GLASS,
 
       // {number} - initial setting for the absorption proportion, must be from 0 to 1 inclusive
-      initialEnergyAbsorptionProportion: 1
+      initialEnergyAbsorptionProportion: 1,
+
+      // {number} - The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the
+      // temperature at which it is originally set to.  When at this temperature, the layer will radiate no energy.
+      // TODO: Decide whether this is really worth keeping.  It's tricky, and may not be what we really ultimately want.
+      minimumTemperature: 0
 
     }, options );
 
@@ -71,7 +75,7 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // @public (read-only) - The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
-    this.temperatureProperty = new NumberProperty( STARTING_TEMPERATURE );
+    this.temperatureProperty = new NumberProperty( options.minimumTemperature );
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
@@ -93,6 +97,7 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
+    this.minimumTemperature = options.minimumTemperature;
   }
 
   /**
@@ -109,7 +114,7 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // The total radiated energy depends on whether this layer is radiating in one direction or two.
     const numberOfRadiatingSurfaces = this.substance.radiationDirections.length;
     assert && assert( numberOfRadiatingSurfaces === 1 || numberOfRadiatingSurfaces === 2 );
-    const totalRadiatedEnergyThisStep = radiatedEnergyPerUnitSurfaceArea * SURFACE_AREA * numberOfRadiatingSurfaces;
+    let totalRadiatedEnergyThisStep = radiatedEnergyPerUnitSurfaceArea * SURFACE_AREA * numberOfRadiatingSurfaces;
 
     // Update the energy rate trackers.
     this.incomingDownwardMovingEnergyRateTracker.logEnergy( this.incomingDownwardMovingEnergyProperty.value, dt );
@@ -133,17 +138,30 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -totalRadiatedEnergyThisStep / ( this.mass * this.specificHeatCapacity );
 
-    // Calculate the new temperature using the previous temperature and the changes due to energy absorption and
-    // emission, but don't let the temperature drop below the starting temperature.  Having the minimum temperature is
-    // non-physical, but prevents the temperature from dipping before the incoming radiation is sufficient to maintain
-    // the temperature, and the dips can be confusing to users.
-    this.temperatureProperty.set(
-      Math.max(
-        this.temperatureProperty.value + temperatureChangeDueToIncomingEnergy + temperatureChangeDueToRadiatedEnergy,
-        STARTING_TEMPERATURE
-      )
-    );
+    // Total the two temperature change values.  This may be modified.
+    let netTemperatureChange = temperatureChangeDueToIncomingEnergy + temperatureChangeDueToRadiatedEnergy;
 
+    // Check whether the calculated temperature changes would cause this layer's temperature to go below its minimum
+    // value.  If so, limit the radiated energy so that this doesn't happen.  THIS IS NON-PHYSICAL, but is necessary so
+    // that the layer doesn't fall below the minimum temperature.  In a real system, it would radiate until it reached
+    // absolute zero.
+    if ( this.temperatureProperty.value + netTemperatureChange < this.minimumTemperature ) {
+
+      // Reduce the magnitude of the temperature change such that it will not take the temperature below the min value.
+      netTemperatureChange = this.minimumTemperature - this.temperatureProperty.value;
+
+      // Sanity check - this all only makes sense if the net change is negative.
+      assert && assert( netTemperatureChange <= 0, 'unexpected positive temperature change' );
+
+      // Reduce the amount of radiated energy to match this temperature change.
+      totalRadiatedEnergyThisStep = -netTemperatureChange * this.mass * this.specificHeatCapacity;
+    }
+
+    // Calculate the new temperature using the previous temperature and the changes due to energy absorption and
+    // emission.
+    this.temperatureProperty.set( this.temperatureProperty.value + netTemperatureChange );
+
+    // Send out the radiated energy.
     if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
       this.outputEnergy(
         EnergyDirection.DOWN,
@@ -172,7 +190,6 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
 EnergyAbsorbingEmittingLayer.WIDTH = SURFACE_DIMENSIONS.width;
 EnergyAbsorbingEmittingLayer.SURFACE_AREA = SURFACE_AREA;
 EnergyAbsorbingEmittingLayer.Substance = Substance;
-EnergyAbsorbingEmittingLayer.STARTING_TEMPERATURE = STARTING_TEMPERATURE;
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;
