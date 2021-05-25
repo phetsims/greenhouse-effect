@@ -463,22 +463,30 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
   /**
    * Play the main sound clip multiple times with some randomization around the center pitch and the delay between each
    * play.
+   *
+   * The algorithm used here was determine by informed trial-and-error based on an initial sound design that used a
+   * bunch of separate sound clips.  See https://github.com/phetsims/greenhouse-effect/issues/28.
+   *
    * @param {number} minimumPlaybackRate
    * @param {number} numberOfTimesToPlay
    * @private
    */
   playMultipleTimesRandomized( minimumPlaybackRate, numberOfTimesToPlay ) {
 
-    // If the sound clip is already playing, reduce the number of plays to half so things don't get too noisy.
-    if ( this.mainSoundClip.isPlaying ) {
-      numberOfTimesToPlay = Math.max( Utils.roundSymmetric( numberOfTimesToPlay / 2 ), 1 );
-    }
+    const minimumInterSoundTime = 0.06;
+    const maximumInterSoundTime = minimumInterSoundTime * 1.5;
 
-    // The algorithm below was determine by informed trial-and-error based on an initial sound design that used a bunch
-    // of separate sound clips.  See https://github.com/phetsims/greenhouse-effect/issues/28.
-    _.times( numberOfTimesToPlay, index => {
-      this.mainSoundClip.setPlaybackRate( minimumPlaybackRate + dotRandom.nextDouble() * 0.75, 0 );
-      this.mainSoundClip.play( index * 0.08 + dotRandom.nextDouble() * 0.02 );
+    let delayAmount = 0;
+    _.times( numberOfTimesToPlay, () => {
+
+      // Set the playback rate with some randomization.
+      // this.mainSoundClip.setPlaybackRate( minimumPlaybackRate + dotRandom.nextDouble() * 0.5, 0 );
+      this.mainSoundClip.setPlaybackRate( minimumPlaybackRate * ( 1 + dotRandom.nextDouble() * 0.2 ), 0 );
+
+      // Put some spacing between each playing of the clip.  The parameters of the calculation are broken out to make
+      // experimentation and adjustment easier.
+      this.mainSoundClip.play( delayAmount );
+      delayAmount = delayAmount + minimumInterSoundTime + dotRandom.nextDouble() * ( maximumInterSoundTime - minimumInterSoundTime );
     } );
     this.mainSoundClip.setPlaybackRate( 1, 0 );
   }
