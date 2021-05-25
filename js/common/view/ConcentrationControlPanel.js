@@ -10,8 +10,10 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
@@ -25,19 +27,10 @@ import CalendarAlt from '../../../../sherpa/js/fontawesome-5/regular/CalendarAlt
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
-import MultiClip from '../../../../tambo/js/sound-generators/MultiClip.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import sliderSound01 from '../../../sounds/greenhouse-gas-concentration-slider-001_mp3.js';
-import sliderSound02 from '../../../sounds/greenhouse-gas-concentration-slider-002_mp3.js';
-import sliderSound03 from '../../../sounds/greenhouse-gas-concentration-slider-003_mp3.js';
-import sliderSound04 from '../../../sounds/greenhouse-gas-concentration-slider-004_mp3.js';
-import sliderSound05 from '../../../sounds/greenhouse-gas-concentration-slider-005_mp3.js';
-import sliderSound06 from '../../../sounds/greenhouse-gas-concentration-slider-006_mp3.js';
-import sliderSound07 from '../../../sounds/greenhouse-gas-concentration-slider-007_mp3.js';
-import sliderSound08 from '../../../sounds/greenhouse-gas-concentration-slider-008_mp3.js';
-import sliderSound09 from '../../../sounds/greenhouse-gas-concentration-slider-009_mp3.js';
-import sliderSound10 from '../../../sounds/greenhouse-gas-concentration-slider-010_mp3.js';
-import sliderSound11 from '../../../sounds/greenhouse-gas-concentration-slider-011_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -423,37 +416,33 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
 /**
  * Inner class used to generate the sounds for slider movements.
  */
-class ConcentrationSliderSoundGenerator extends MultiClip {
+class ConcentrationSliderSoundGenerator extends SoundGenerator {
 
   constructor( concentrationProperty, options ) {
 
-    const sounds = [
-      sliderSound01,
-      sliderSound02,
-      sliderSound03,
-      sliderSound04,
-      sliderSound05,
-      sliderSound06,
-      sliderSound07,
-      sliderSound08,
-      sliderSound09,
-      sliderSound10,
-      sliderSound11,
-      sliderSound11 // TODO: We need an additional sound over what was provided, so this repeat is temporary, see
-                    //       https://github.com/phetsims/greenhouse-effect/issues/28
-    ];
-    
-    // Map the sounds to a set of values.  These basically correspond to the tick mark positions.
-    const valueToSoundMap = new Map();
-    sounds.forEach( ( sound, index ) => {
-      valueToSoundMap.set( index, sound );
+    super( options );
+
+    // Create a dynamics compressor so that the output of this sound generator doesn't go too high when lots of sounds
+    // are being played.
+    const dynamicsCompressorNode = this.audioContext.createDynamicsCompressor();
+
+    // The following values were empirically determined through informed experimentation.
+    const now = this.audioContext.currentTime;
+    dynamicsCompressorNode.threshold.setValueAtTime( -3, now );
+    dynamicsCompressorNode.knee.setValueAtTime( 0, now ); // hard knee
+    dynamicsCompressorNode.ratio.setValueAtTime( 12, now );
+    dynamicsCompressorNode.attack.setValueAtTime( 0, now );
+    dynamicsCompressorNode.release.setValueAtTime( 0.25, now );
+    dynamicsCompressorNode.connect( this.masterGainNode );
+
+    // @private - sound clip that forms the basis of all sounds that are produced
+    this.mainSoundClip = new SoundClip( sliderSound01, {
+      rateChangesAffectPlayingSounds: false
     } );
+    this.mainSoundClip.connect( dynamicsCompressorNode );
 
-    super( valueToSoundMap, options );
-
-    // @private - There is a sound for each bin plus a sound for min and max, so the number of bins is the number of
-    // sounds minus 2.
-    this.numberOfBins = sounds.length - 2;
+    // @private - The number of bins was chosen to match the design of the slider.
+    this.numberOfBins = 10;
 
     // @private - variables used by the methods below
     this.concentrationProperty = concentrationProperty;
@@ -472,6 +461,29 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
   }
 
   /**
+   * Play the main sound clip multiple times with some randomization around the center pitch and the delay between each
+   * play.
+   * @param {number} minimumPlaybackRate
+   * @param {number} numberOfTimesToPlay
+   * @private
+   */
+  playMultipleTimesRandomized( minimumPlaybackRate, numberOfTimesToPlay ) {
+
+    // If the sound clip is already playing, reduce the number of plays to half so things don't get too noisy.
+    if ( this.mainSoundClip.isPlaying ) {
+      numberOfTimesToPlay = Math.max( Utils.roundSymmetric( numberOfTimesToPlay / 2 ), 1 );
+    }
+
+    // The algorithm below was determine by informed trial-and-error based on an initial sound design that used a bunch
+    // of separate sound clips.  See https://github.com/phetsims/greenhouse-effect/issues/28.
+    _.times( numberOfTimesToPlay, index => {
+      this.mainSoundClip.setPlaybackRate( minimumPlaybackRate + dotRandom.nextDouble() * 0.75, 0 );
+      this.mainSoundClip.play( index * 0.08 + dotRandom.nextDouble() * 0.02 );
+    } );
+    this.mainSoundClip.setPlaybackRate( 1, 0 );
+  }
+
+  /**
    * Handle a slider drag event by checking if the changes to the associated Property warrant the playing of a sound
    * and, if so, play it.
    * @public
@@ -486,21 +498,20 @@ class ConcentrationSliderSoundGenerator extends MultiClip {
       if ( this.concentrationProperty.value === this.concentrationProperty.range.min ) {
 
         // Play sound for the minimum value.
-        this.playAssociatedSound( 0 );
+        this.mainSoundClip.play();
       }
       else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
 
         // Play sound for the maximum value.
-        this.playAssociatedSound( this.numberOfBins - 1 );
+        this.playMultipleTimesRandomized( 3, Math.ceil( this.numberOfBins / 3 ) );
       }
       else {
-
         const previousBin = this.getBin( this.previousConcentration );
         const currentBin = this.getBin( currentConcentration );
 
         // Play a sound if a bin threshold has been crossed or if the change was due to keyboard interaction.
         if ( currentBin !== previousBin || event.pointer.type === 'pdom' ) {
-          this.playAssociatedSound( currentBin );
+          this.playMultipleTimesRandomized( 2 * currentBin / this.numberOfBins + 1, Math.floor( currentBin / 3 ) + 2 );
         }
       }
       this.previousConcentration = currentConcentration;
