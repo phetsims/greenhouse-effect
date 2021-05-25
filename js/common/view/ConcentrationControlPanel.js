@@ -427,6 +427,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     const dynamicsCompressorNode = this.audioContext.createDynamicsCompressor();
 
     // The following values were empirically determined through informed experimentation.
+    // TODO: Use the peak detector and make sure this is doing what is intended.  See https://github.com/phetsims/greenhouse-effect/issues/28.
     const now = this.audioContext.currentTime;
     dynamicsCompressorNode.threshold.setValueAtTime( -3, now );
     dynamicsCompressorNode.knee.setValueAtTime( 0, now ); // hard knee
