@@ -51,9 +51,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
-      model.concentrationProperty,
-      model.concentrationControlProperty,
-      model.dateProperty
+      model
     );
     this.pdomPlayAreaNode.addChild( concentrationControls );
 

@@ -13,7 +13,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
   /**
-   * @param {LayerModelModel} model
+   * @param {ConcentrationModel} model
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
@@ -22,9 +22,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     const concentrationControlPanel = new ConcentrationControlPanel(
       this.energyLegend.width,
-      model.concentrationProperty,
-      model.concentrationControlProperty,
-      model.dateProperty, {
+      model, {
         includeCompositionData: true
       } );
     this.addChild( concentrationControlPanel );

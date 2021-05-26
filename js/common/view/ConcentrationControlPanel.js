@@ -13,7 +13,6 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
@@ -66,12 +65,10 @@ class ConcentrationControlPanel extends Panel {
 
   /**
    * @param {number} width - width the panel contents are limited to, for i18n and layout with other screen components
-   * @param {NumberProperty} concentrationProperty
-   * @param {EnumerationProperty} concentrationControlProperty
-   * @param {EnumerationProperty} dateProperty
+   * @param {ConcentrationModel} concentrationModel
    * @param {Object} [options]
    */
-  constructor( width, concentrationProperty, concentrationControlProperty, dateProperty, options ) {
+  constructor( width, concentrationModel, options ) {
 
     options = merge( {
 
@@ -94,13 +91,13 @@ class ConcentrationControlPanel extends Panel {
     } );
 
     // directly controls concentration by value
-    const sliderControl = new SliderControl( concentrationProperty );
+    const sliderControl = new SliderControl( concentrationModel.manuallyControlledConcentrationProperty );
 
     // controls to select greenhouse gas concentration by date, and a visualization of relative concentration
-    const dateControl = new DateControl( dateProperty, concentrationProperty );
+    const dateControl = new DateControl( concentrationModel.dateProperty, concentrationModel.concentrationProperty );
 
     // selects how the user is controlling concentration, by date or by value
-    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationControlProperty );
+    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationModel.concentrationControlProperty );
 
     const controlsParentNode = new Node( {
       children: [ sliderControl, dateControl ]
@@ -115,7 +112,7 @@ class ConcentrationControlPanel extends Panel {
 
     let compositionDataNode = null;
     if ( options.includeCompositionData ) {
-      compositionDataNode = new CompositionDataNode( dateProperty );
+      compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty );
       contentChildren.push( compositionDataNode );
 
       compositionDataNode.left = titleNode.left;
@@ -129,7 +126,7 @@ class ConcentrationControlPanel extends Panel {
     super( content, options );
 
     // only one form of controls is visible at a time
-    concentrationControlProperty.link( concentrationControl => {
+    concentrationModel.concentrationControlProperty.link( concentrationControl => {
       sliderControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.VALUE === concentrationControl;
       dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.DATE === concentrationControl;
 
@@ -150,7 +147,7 @@ class DateControl extends Node {
 
   /**
    * @param {EnumerationProperty} dateProperty
-   * @param {NumberProperty} concentrationProperty - setting date will modify concentration
+   * @param {Property.<number>} concentrationProperty - setting date will modify concentration
    */
   constructor( dateProperty, concentrationProperty ) {
     super();
@@ -256,7 +253,7 @@ class DateControl extends Node {
     dateRadioButtonGroup.leftTop = microConcentrationLine.rightTop.plusXY( 10, 0 );
 
     // place the value circle at a position representing current concentration
-    const concentrationRange = concentrationProperty.range;
+    const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
     const concentrationHeightFunction = new LinearFunction( concentrationRange.min, concentrationRange.max, microConcentrationLine.bottom, microConcentrationLine.top );
     valueCircle.centerX = microConcentrationLine.centerX;
     concentrationProperty.link( concentration => {
@@ -271,19 +268,19 @@ class DateControl extends Node {
 class SliderControl extends Node {
 
   /**
-   * @param {NumberProperty} concentrationProperty
+   * @param {NumberProperty} manuallyControlledConcentrationProperty
    */
-  constructor( concentrationProperty ) {
+  constructor( manuallyControlledConcentrationProperty ) {
     super();
 
     // Create the sound generator.
-    const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( concentrationProperty, {
+    const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( manuallyControlledConcentrationProperty, {
       initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
-    const concentrationRange = concentrationProperty.range;
-    const concentrationSlider = new VSlider( concentrationProperty, concentrationProperty.range, {
+    const concentrationRange = manuallyControlledConcentrationProperty.range;
+    const concentrationSlider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
       trackSize: new Dimension2( 1, 100 ),
       thumbSize: new Dimension2( 20, 10 ),
 
@@ -296,9 +293,9 @@ class SliderControl extends Node {
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label',
       helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
-      keyboardStep: concentrationProperty.range.max / 10,
-      shiftKeyboardStep: concentrationProperty.range.max / 20, // finer grain
-      pageKeyboardStep: concentrationProperty.range.max / 4 // coarser grain
+      keyboardStep: manuallyControlledConcentrationProperty.range.max / 10,
+      shiftKeyboardStep: manuallyControlledConcentrationProperty.range.max / 20, // finer grain
+      pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4 // coarser grain
     } );
 
     const delta = concentrationRange.getLength() / 10;
