@@ -9,6 +9,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
@@ -94,10 +95,14 @@ class ConcentrationControlPanel extends Panel {
     const sliderControl = new SliderControl( concentrationModel.manuallyControlledConcentrationProperty );
 
     // controls to select greenhouse gas concentration by date, and a visualization of relative concentration
-    const dateControl = new DateControl( concentrationModel.dateProperty, concentrationModel.concentrationProperty );
+    const dateControl = new DateControl(
+      concentrationModel.dateProperty,
+      concentrationModel.concentrationProperty,
+      concentrationModel.concentrationControlModeProperty
+    );
 
     // selects how the user is controlling concentration, by date or by value
-    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationModel.concentrationControlProperty );
+    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationModel.concentrationControlModeProperty );
 
     const controlsParentNode = new Node( {
       children: [ sliderControl, dateControl ]
@@ -126,9 +131,9 @@ class ConcentrationControlPanel extends Panel {
     super( content, options );
 
     // only one form of controls is visible at a time
-    concentrationModel.concentrationControlProperty.link( concentrationControl => {
-      sliderControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.VALUE === concentrationControl;
-      dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL.DATE === concentrationControl;
+    concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
+      sliderControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
+      dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE === concentrationControl;
 
       if ( compositionDataNode ) {
         compositionDataNode.visible = dateControl.visible;
@@ -148,8 +153,9 @@ class DateControl extends Node {
   /**
    * @param {EnumerationProperty} dateProperty
    * @param {Property.<number>} concentrationProperty - setting date will modify concentration
+   * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
    */
-  constructor( dateProperty, concentrationProperty ) {
+  constructor( dateProperty, concentrationProperty, concentrationControlModeProperty ) {
     super();
 
     // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
@@ -199,15 +205,31 @@ class DateControl extends Node {
     const macroConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_METER_HEIGHT, meterLineOptions );
     const microConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_METER_HEIGHT, meterLineOptions );
 
+    // Create the macroBox, which is the little rectangle that depicts the area that is being magnified.  This is sized
+    // to automatically hold all of the possible concentration values that are associated with dates.
+    const macroBoxProportionateHeight = ConcentrationModel.DATE_CONCENTRATION_RANGE.getLength() /
+                                        ConcentrationModel.CONCENTRATION_RANGE.getLength() *
+                                        1.2;
+    const macroBoxProportionateCenterY = ConcentrationModel.DATE_CONCENTRATION_RANGE.getCenter() /
+                                         ConcentrationModel.CONCENTRATION_RANGE.getLength();
     const macroValueTick = new Line( 0, 0, CONCENTRATION_METER_MACRO_TICK_WIDTH, 0, meterLineOptions );
-    const macroValueBox = new Rectangle( 0, 0, CONCENTRATION_METER_MACRO_TICK_WIDTH * 2, CONCENTRATION_METER_MACRO_TICK_WIDTH, meterLineOptions );
+    const macroValueBox = new Rectangle(
+      0,
+      0,
+      CONCENTRATION_METER_MACRO_TICK_WIDTH * 2,
+      CONCENTRATION_METER_HEIGHT * macroBoxProportionateHeight,
+      meterLineOptions
+    );
 
     // minor ticks on the micro line
     const minorTickLineOptions = { stroke: 'grey' };
-    for ( let i = 0; i < CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS; i++ ) {
+    for ( let i = 0; i <= CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS; i++ ) {
       const tick = new Line( 0, 0, 9, 0, minorTickLineOptions );
 
-      tick.center = microConcentrationLine.centerTop.plusXY( 0, i * CONCENTRATION_METER_HEIGHT / CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS );
+      tick.center = microConcentrationLine.centerTop.plusXY(
+        0,
+        i * CONCENTRATION_METER_HEIGHT / CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS
+      );
       microConcentrationLine.addChild( tick );
     }
 
@@ -241,8 +263,12 @@ class DateControl extends Node {
 
     microConcentrationLine.center = macroConcentrationLine.center.plusXY( 70, 0 );
 
-    macroValueTick.center = macroConcentrationLine.centerTop.plusXY( 0, CONCENTRATION_METER_HEIGHT / 4 );
-    macroValueBox.center = macroValueTick.center;
+    const macroBoxCenter = macroConcentrationLine.centerBottom.plusXY(
+      0,
+      -CONCENTRATION_METER_HEIGHT * macroBoxProportionateCenterY
+    );
+    macroValueTick.center = macroBoxCenter;
+    macroValueBox.center = macroBoxCenter;
 
     topConnectionLine.setPoint1( macroValueBox.rightTop );
     topConnectionLine.setPoint2( microConcentrationLine.centerTop );
@@ -254,11 +280,23 @@ class DateControl extends Node {
 
     // place the value circle at a position representing current concentration
     const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
-    const concentrationHeightFunction = new LinearFunction( concentrationRange.min, concentrationRange.max, microConcentrationLine.bottom, microConcentrationLine.top );
+    const concentrationHeightFunction = new LinearFunction(
+      concentrationRange.getLength() * ( macroBoxProportionateCenterY - macroBoxProportionateHeight / 2 ),
+      concentrationRange.getLength() * ( macroBoxProportionateCenterY + macroBoxProportionateHeight / 2 ),
+      microConcentrationLine.bottom,
+      microConcentrationLine.top
+    );
     valueCircle.centerX = microConcentrationLine.centerX;
-    concentrationProperty.link( concentration => {
-      valueCircle.centerY = concentrationHeightFunction( concentration );
-    } );
+    Property.multilink(
+      [ concentrationProperty, concentrationControlModeProperty ],
+      ( concentration, concentrationControlMode ) => {
+        if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+          const centerY = concentrationHeightFunction( concentration );
+          console.log( `centerY = ${centerY}` );
+          valueCircle.centerY = centerY;
+        }
+      }
+    );
   }
 }
 
@@ -382,12 +420,12 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     const items = [
       {
         node: sliderIcon,
-        value: ConcentrationModel.CONCENTRATION_CONTROL.VALUE,
+        value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration
       },
       {
         node: dateIcon,
-        value: ConcentrationModel.CONCENTRATION_CONTROL.DATE,
+        value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod
       }
     ];

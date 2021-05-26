@@ -19,7 +19,7 @@ import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 // constants
 // values for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date
-const CONCENTRATION_CONTROL = Enumeration.byKeys( [ 'VALUE', 'DATE' ] );
+const CONCENTRATION_CONTROL_MODE = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
 
 // dates with recorded values of greenhouse concentration
 const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWO_THOUSAND_NINETEEN' ] );
@@ -28,10 +28,10 @@ const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', '
 // to get the UI components working
 const CONCENTRATION_RANGE = new Range( 0, 1 );
 const DATE_TO_CONCENTRATION_MAP = new Map( [
-  [ CONCENTRATION_DATE.ICE_AGE, CONCENTRATION_RANGE.min ],
-  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, CONCENTRATION_RANGE.min + CONCENTRATION_RANGE.getLength() / 14 ],
-  [ CONCENTRATION_DATE.NINETEEN_FIFTY, CONCENTRATION_RANGE.min + CONCENTRATION_RANGE.getLength() / 5 ],
-  [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, CONCENTRATION_RANGE.max ]
+  [ CONCENTRATION_DATE.ICE_AGE, 0.5 ],
+  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.6 ],
+  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.65 ],
+  [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, 0.67 ]
 ] );
 
 class ConcentrationModel extends GreenhouseEffectModel {
@@ -51,22 +51,29 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
-    this.concentrationControlProperty = new EnumerationProperty( CONCENTRATION_CONTROL, CONCENTRATION_CONTROL.VALUE );
+    this.concentrationControlModeProperty = new EnumerationProperty(
+      CONCENTRATION_CONTROL_MODE,
+      CONCENTRATION_CONTROL_MODE.BY_VALUE
+    );
 
     // @public {DerivedProperty.<number>} - The actual value of concentration for the model, depending on how the
     // concentration is to be controlled.
     this.concentrationProperty = new DerivedProperty(
-      [ this.dateProperty, this.manuallyControlledConcentrationProperty, this.concentrationControlProperty ],
+      [ this.dateProperty, this.manuallyControlledConcentrationProperty, this.concentrationControlModeProperty ],
       ( date, manuallyControlledConcentration, concentrationControl ) => {
-        return concentrationControl === CONCENTRATION_CONTROL.VALUE ?
+        return concentrationControl === CONCENTRATION_CONTROL_MODE.BY_VALUE ?
                manuallyControlledConcentration :
                DATE_TO_CONCENTRATION_MAP.get( date );
       } );
 
     // Hook up the concentration to the layers created in the parent class.
     this.concentrationProperty.link( concentration => {
-      this.lowerAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
-      this.upperAtmosphereLayer.energyAbsorptionProportionProperty.set( concentration );
+
+      // Map the normalized concentration to a value for the layer opacity that gives us the temperature values that
+      // match the historical record.
+      const layerAbsorptionProportion = concentration / 2;
+      this.lowerAtmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
+      this.upperAtmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
     } );
   }
 
@@ -78,7 +85,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
    */
   reset() {
     this.clouds.reset();
-    this.concentrationControlProperty.reset();
+    this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();
 
@@ -87,9 +94,19 @@ class ConcentrationModel extends GreenhouseEffectModel {
 }
 
 // @public @static
-ConcentrationModel.CONCENTRATION_CONTROL = CONCENTRATION_CONTROL;
+ConcentrationModel.CONCENTRATION_CONTROL_MODE = CONCENTRATION_CONTROL_MODE;
 ConcentrationModel.CONCENTRATION_DATE = CONCENTRATION_DATE;
 ConcentrationModel.CONCENTRATION_RANGE = CONCENTRATION_RANGE;
+ConcentrationModel.DATE_CONCENTRATION_RANGE = new Range(
+  Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
+    ( minSoFar, currentValue ) => Math.min( minSoFar, currentValue ),
+    Number.POSITIVE_INFINITY
+  ),
+  Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
+    ( maxSoFar, currentValue ) => Math.max( maxSoFar, currentValue ),
+    Number.NEGATIVE_INFINITY
+  )
+);
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export default ConcentrationModel;

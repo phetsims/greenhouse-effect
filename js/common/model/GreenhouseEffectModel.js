@@ -96,7 +96,7 @@ class GreenhouseEffectModel {
       EnergyDirection.DOWN
     );
     this.lowerAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfLowerAtmosphereLayer, {
-      minimumTemperature: 200
+      minimumTemperature: 0
     } );
     this.lowerAtmosphereLayer.jbId = 'lowerAtmosphere';
     this.outerSpace = new SpaceEnergySink();
@@ -110,7 +110,7 @@ class GreenhouseEffectModel {
       EnergyDirection.DOWN
     );
     this.upperAtmosphereLayer = new EnergyAbsorbingEmittingLayer( altitudeOfUpperAtmosphereLayer, {
-      minimumTemperature: 200
+      minimumTemperature: 0
     } );
     this.upperAtmosphereLayer.jbId = 'upperAtmosphere';
 
