@@ -217,7 +217,7 @@ class MicroScreenView extends ScreenView {
     this.pdomPlayAreaNode.addChild( photonEmissionControlPanel );
     this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
-    // PDOM - the accessible order for contents in each PDOM section
+    // pdom - the accessible order for contents in each PDOM section
     this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, photonEmissionControlPanel, moleculeControlPanel ];
     this.pdomControlAreaNode.pdomOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 

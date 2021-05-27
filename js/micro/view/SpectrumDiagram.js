@@ -153,18 +153,18 @@ class SpectrumDiagram extends LayoutBox {
       children: children,
       spacing: 20,
 
-      // PDOM
+      // pdom
       tagName: 'div' // so that this Node can be aria-labelledby the title
     } );
 
-    // PDOM - set label association so the title is read when focus enters the dialog
+    // pdom - set label association so the title is read when focus enters the dialog
     this.addAriaLabelledbyAssociation( {
       thisElementName: PDOMPeer.PRIMARY_SIBLING,
       otherNode: title,
       otherElementName: PDOMPeer.PRIMARY_SIBLING
     } );
 
-    // PDOM - in descriptions, the decreasing wavelength comes before the spectrum
+    // pdom - in descriptions, the decreasing wavelength comes before the spectrum
     this.pdomOrder = [ title, frequencyArrow, decreasingWavelengthNode, spectrum ];
   }
 
@@ -512,7 +512,7 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
   }
   labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
 
-  // PDOM
+  // pdom
   addFrequencyAndLabelDescriptions( labelText, pdomLabel, frequencyDescription, wavelengthDescription );
 };
 

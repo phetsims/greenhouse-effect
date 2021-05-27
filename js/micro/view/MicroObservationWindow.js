@@ -202,19 +202,19 @@ class MicroObservationWindow extends Rectangle {
       this.returnMoleculeButtonNode.visible = this.returnMoleculeButtonVisibleProperty.get();
     } );
 
-    // PDOM
+    // pdom
     // @public - generates descriptions for the target molecule
     this.describer = new ObservationWindowDescriber( photonAbsorptionModel, this.modelViewTransform, this.returnMoleculeButtonVisibleProperty );
 
-    // PDOM - list that describes the state of contents in the Observation Window
+    // pdom - list that describes the state of contents in the Observation Window
     const phaseItem = new Node( { tagName: 'li' } );
     const geometryLabelItem = new Node( { tagName: 'li' } );
     const geometryDescriptionItem = new Node( { tagName: 'li' } );
 
-    // PDOM - attach listeners that will describe the initial phase of photons passing through the molecule
+    // pdom - attach listeners that will describe the initial phase of photons passing through the molecule
     this.describer.attachInitialPhaseDescriptionListeners( phaseItem );
 
-    // PDOM - when a new molecule is added to the observation window, add listeners that will generate descriptions
+    // pdom - when a new molecule is added to the observation window, add listeners that will generate descriptions
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
       this.describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
@@ -234,7 +234,7 @@ class MicroObservationWindow extends Rectangle {
     } );
     this.describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
-    // PDOM - update geometry descriptions when target changes
+    // pdom - update geometry descriptions when target changes
     photonAbsorptionModel.photonTargetProperty.link( target => {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
 
@@ -250,7 +250,7 @@ class MicroObservationWindow extends Rectangle {
     } );
     this.addChild( descriptionList );
 
-    // PDOM - description list first
+    // pdom - description list first
     this.pdomOrder = [ descriptionList, photonEmitterNode ];
   }
 

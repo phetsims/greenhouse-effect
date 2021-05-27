@@ -72,16 +72,16 @@ class PhotonEmitterNode extends Node {
       radius: 15,
       baseColor: '#33dd33',
 
-      // PDOM
+      // pdom
       appendDescription: true,
 
       tandem: tandem.createTandem( 'button' )
     } );
 
-    // PDOM - this button is indicated as a 'switch' for assistive technology
+    // pdom - this button is indicated as a 'switch' for assistive technology
     this.button.setAriaRole( 'switch' );
 
-    // PDOM - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
+    // pdom - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
     // supertype) as using both sounds best in NVDA
     const setAriaPressed = value => this.button.setPDOMAttribute( 'aria-checked', value );
     model.photonEmitterOnProperty.link( setAriaPressed );
@@ -97,7 +97,7 @@ class PhotonEmitterNode extends Node {
         this.photonEmitterOnImage.visible = on;
       }
 
-      // PDOM - update the help text for the emitter
+      // pdom - update the help text for the emitter
       this.button.descriptionContent = on ? lightSourcePressedButtonHelpTextString : lightSourceUnpressedButtonHelpTextString;
     } );
   }
@@ -155,7 +155,7 @@ class PhotonEmitterNode extends Node {
       this.lightSourceLabel.centerTop = this.photonEmitterOnImage.centerBottom.plusXY( 0, 5 );
     }
 
-    // PDOM - update the accessible name for the button
+    // pdom - update the accessible name for the button
     this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternString, {
       lightSource: WavelengthConstants.getLightSourceName( photonWavelength )
     } );

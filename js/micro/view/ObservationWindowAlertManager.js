@@ -113,7 +113,7 @@ class ObservationWindowAlertManager {
 
     returnMoleculeButtonVisibleProperty.link( visible => {
 
-      // PDOM - announce to the user when the button becomes visible
+      // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
         phet.joist.sim.utteranceQueue.addToBack( resetOrChangeMoleculeString );
       }
