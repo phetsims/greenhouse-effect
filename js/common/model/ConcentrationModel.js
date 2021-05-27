@@ -72,8 +72,9 @@ class ConcentrationModel extends GreenhouseEffectModel {
       // Map the normalized concentration to a value for the layer opacity that gives us the temperature values that
       // match the historical record.
       const layerAbsorptionProportion = concentration / 2;
-      this.lowerAtmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
-      this.upperAtmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
+      this.atmospherLayers.forEach( atmosphereLayer => {
+        atmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
+      } );
     } );
   }
 

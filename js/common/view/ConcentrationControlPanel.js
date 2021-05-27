@@ -292,7 +292,6 @@ class DateControl extends Node {
       ( concentration, concentrationControlMode ) => {
         if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
           const centerY = concentrationHeightFunction( concentration );
-          console.log( `centerY = ${centerY}` );
           valueCircle.centerY = centerY;
         }
       }

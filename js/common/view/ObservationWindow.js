@@ -114,13 +114,12 @@ class ObservationWindow extends Node {
       lineOptions: { stroke: Color.GREEN },
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
-    const lowerAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.lowerAtmosphereLayer, mvt, {
-      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
-      visible: GreenhouseEffectQueryParameters.showAllLayers
-    } );
-    const upperAtmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( model.upperAtmosphereLayer, mvt, {
-      lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
-      visible: GreenhouseEffectQueryParameters.showAllLayers
+    const atmosphereLayerNodes = [];
+    model.atmospherLayers.forEach( atmosphereLayer => {
+      atmosphereLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, mvt, {
+        lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+        visible: GreenhouseEffectQueryParameters.showAllLayers
+      } ) );
     } );
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
@@ -269,8 +268,7 @@ class ObservationWindow extends Node {
         skyNode,
         groundNode,
         groundLayerNode,
-        lowerAtmosphereLayerNode,
-        upperAtmosphereLayerNode,
+        ...atmosphereLayerNodes,
         visibilityControls,
         presentationNode,
         fluxMeterNode,
