@@ -86,7 +86,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.pdomControlAreaNode.addChild( visibilityBox );
     this.pdomControlAreaNode.addChild( mockup );
 
-    // tab order (a11y)
+    // pdom
     this.pdomControlAreaNode.pdomOrder = [
       visibilityBox,
       this.timeControlNode,
