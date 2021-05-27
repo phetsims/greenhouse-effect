@@ -217,8 +217,8 @@ class MicroScreenView extends ScreenView {
     this.pdomPlayAreaNode.addChild( photonEmissionControlPanel );
     this.pdomPlayAreaNode.addChild( moleculeControlPanel );
 
-    // PDOM - the accessible order for the control area contents
-    this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, clipRectangle, windowFrameNode, photonEmissionControlPanel, moleculeControlPanel ];
+    // PDOM - the accessible order for contents in each PDOM section
+    this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, photonEmissionControlPanel, moleculeControlPanel ];
     this.pdomControlAreaNode.pdomOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
     // Alternative Input - no matter where focus is in the document, pressing alt + k will manually step forward
