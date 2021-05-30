@@ -17,7 +17,11 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import MicroPhoton from './MicroPhoton.js';
@@ -638,7 +642,19 @@ Molecule.PHOTON_ABSORPTION_DISTANCE = PHOTON_ABSORPTION_DISTANCE;
 Molecule.MoleculeIO = new IOType( 'MoleculeIO', {
   valueType: Molecule,
   toStateObject: molecule => molecule.toStateObject(),
-  fromStateObject: Molecule.fromStateObject
+  fromStateObject: Molecule.fromStateObject,
+  stateSchema: {
+    highElectronicEnergyState: BooleanIO,
+    centerOfGravity: Vector2.Vector2IO,
+
+    // TODO: https://github.com/phetsims/phet-io/issues/1774 more specific schema
+    atoms: ArrayIO( ObjectLiteralIO ),
+    atomicBonds: ArrayIO( ObjectLiteralIO ),
+    velocity: Vector2.Vector2IO,
+    absorptionHysteresisCountdownTime: NumberIO,
+    currentVibrationRadians: NumberIO,
+    currentRotationRadians: NumberIO
+  }
 } );
 
 export default Molecule;
