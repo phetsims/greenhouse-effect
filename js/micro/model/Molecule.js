@@ -647,7 +647,7 @@ Molecule.MoleculeIO = new IOType( 'MoleculeIO', {
     highElectronicEnergyState: BooleanIO,
     centerOfGravity: Vector2.Vector2IO,
 
-    // TODO: https://github.com/phetsims/phet-io/issues/1774 more specific schema
+    // TODO: https://github.com/phetsims/greenhouse-effect/issues/40 more specific schema
     atoms: ArrayIO( ObjectLiteralIO ),
     atomicBonds: ArrayIO( ObjectLiteralIO ),
     velocity: Vector2.Vector2IO,
