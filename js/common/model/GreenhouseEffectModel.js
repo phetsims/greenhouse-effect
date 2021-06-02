@@ -28,9 +28,9 @@ import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 
 // constants
-const HEIGHT_OF_ATMOSPHERE = 50000; // in m
+const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
-const NUMBER_OF_ATMOSPHERE_LAYERS = 5;
+const NUMBER_OF_ATMOSPHERE_LAYERS = 16; // empirically determined to give us good behavior for temperature and energy flux
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );

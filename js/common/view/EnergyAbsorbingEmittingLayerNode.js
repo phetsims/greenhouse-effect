@@ -56,7 +56,7 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
     const numberDisplay = new NumberDisplay( temperatureWithHysteresis, new Range( 0, 700 ), {
       centerY: line.centerY,
       right: widthInView - 20,
-      numberFormatter: number => `${Utils.toFixed( number, 0 )} ${MathSymbols.DEGREES}K`
+      numberFormatter: number => `${Utils.toFixed( number, 2 )} ${MathSymbols.DEGREES}K`
     } );
 
     // supertype constructor

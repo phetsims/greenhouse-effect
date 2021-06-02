@@ -17,6 +17,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 
 // constants
+const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
+
 // values for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date
 const CONCENTRATION_CONTROL_MODE = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
@@ -29,9 +31,9 @@ const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', '
 const CONCENTRATION_RANGE = new Range( 0, 1 );
 const DATE_TO_CONCENTRATION_MAP = new Map( [
   [ CONCENTRATION_DATE.ICE_AGE, 0.5 ],
-  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.6 ],
-  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.65 ],
-  [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, 0.67 ]
+  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.7 ],
+  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.8 ],
+  [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, 0.83 ]
 ] );
 
 class ConcentrationModel extends GreenhouseEffectModel {
@@ -69,11 +71,14 @@ class ConcentrationModel extends GreenhouseEffectModel {
     // Hook up the concentration to the layers created in the parent class.
     this.concentrationProperty.link( concentration => {
 
-      // Map the normalized concentration to a value for the layer opacity that gives us the temperature values that
-      // match the historical record.
-      const layerAbsorptionProportion = concentration / 2;
+      // Map the normalized concentration to a value for the layer absorption proportion.  The higher layers absorb
+      // less.  This numerical mapping is very important to the correct operation of the simulation with respect to
+      // temperature, and was empirically adjusted to make the concentration slider correspond to the temperatures in a
+      // linear fashion.
       this.atmospherLayers.forEach( atmosphereLayer => {
-        atmosphereLayer.energyAbsorptionProportionProperty.set( layerAbsorptionProportion );
+        const proportionToAbsorbAtSeaLevel = 0.59 * concentration; // multiplier empirically determined to get the desired behavior
+        const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitude / SCALE_HEIGHT_OF_ATMOSPHERE );
+        atmosphereLayer.energyAbsorptionProportionProperty.set( proportionToAbsorbAtSeaLevel * altitudeProportionFactor );
       } );
     } );
   }
@@ -89,7 +94,6 @@ class ConcentrationModel extends GreenhouseEffectModel {
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();
-
     super.reset();
   }
 }
