@@ -24,7 +24,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
   constructor( model, tandem ) {
 
-    super( model, tandem, {
+    super( model, {
       energyLegendOptions: {
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
       },
@@ -34,6 +34,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
           includeFluxMeter: false
         }
       },
+
+      // phet-io
+      tandem: tandem,
 
       // pdom
       screenSummaryContent: new Node( {

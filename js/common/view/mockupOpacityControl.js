@@ -27,6 +27,7 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -35,7 +36,10 @@ const QUERY_PARAMETER = 'mockupOpacity';
 
 class MockupOpacityControl extends VBox {
 
-  constructor() {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
     let initialOpacity = 0;
     if ( QueryStringMachine.containsKey( QUERY_PARAMETER ) ) {
@@ -48,7 +52,10 @@ class MockupOpacityControl extends VBox {
       mockupOpacityProperty,
       new Range( 0, 1 ), {
         trackSize: new Dimension2( 200, 5 ),
-        thumbSize: new Dimension2( 20, 40 )
+        thumbSize: new Dimension2( 20, 40 ),
+
+        // phet-io
+        tandem: tandem.createTandem( 'mockupOpacitySlider' )
       }
     );
 
@@ -76,7 +83,7 @@ class MockupOpacityControl extends VBox {
   }
 }
 
-const mockupOpacityControl = new MockupOpacityControl();
+const mockupOpacityControl = new MockupOpacityControl( Tandem.GENERAL_VIEW );
 
 greenhouseEffect.register( 'mockupOpacityControl', mockupOpacityControl );
 export default mockupOpacityControl;

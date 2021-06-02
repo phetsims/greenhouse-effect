@@ -16,6 +16,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
@@ -49,7 +50,9 @@ class WavesNode extends Node {
       scale: 1,
       sliderOptions: {
         thumbSize: new Dimension2( 10, 18 )
-      }
+      },
+
+      tandem: Tandem.OPT_OUT
     };
 
     const toNumberControlOptions = options => merge( {}, NUMBER_CONTROL_OPTIONS, options );
@@ -57,7 +60,8 @@ class WavesNode extends Node {
     const toElement = text => {
       return {
         value: text,
-        node: new Text( text )
+        node: new Text( text ),
+        tandemName: `${text}TandemName`
       };
     };
 
@@ -66,7 +70,8 @@ class WavesNode extends Node {
         align: 'left',
         children: [
           new RectangularRadioButtonGroup( waveParameterModel.modeProperty, [ 'Wave', 'Paused' ].map( toElement ), {
-            orientation: 'horizontal'
+            orientation: 'horizontal',
+            tandem: Tandem.OPT_OUT
           } ),
           // new Checkbox( new Text( 'Enabled' ), waveParameterModel.enabledProperty ),
           new NumberControl( 'amplitude', waveParameterModel.amplitudeProperty, waveParameterModel.amplitudeProperty.range, NUMBER_CONTROL_OPTIONS ),
@@ -144,7 +149,10 @@ class WavesNode extends Node {
       expandedProperty: model.redWaveParameterModel.expandedProperty,
 
       // pdom
-      pdomVisible: false
+      pdomVisible: false,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
     const yellowAccordionBox = new AccordionBox( createContent( model.yellowWaveParameterModel ), {
       titleNode: new Text( 'Yellow' ),
@@ -154,7 +162,10 @@ class WavesNode extends Node {
       expandedProperty: model.yellowWaveParameterModel.expandedProperty,
 
       // pdom
-      pdomVisible: false
+      pdomVisible: false,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } );
 
     this.waves = [];

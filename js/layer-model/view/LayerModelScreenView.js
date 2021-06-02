@@ -16,12 +16,15 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-    super( model, tandem, {
+    super( model, {
       observationWindowOptions: {
         visibilityControlsOptions: {
           includeEnergyBalance: false
         }
-      }
+      },
+
+      // phet-io
+      tandem: tandem
     } );
 
     const mockup = new Image( layerModelScreenMockup, {

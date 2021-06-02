@@ -12,6 +12,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyLegend from './EnergyLegend.js';
@@ -26,7 +27,7 @@ class GreenhouseEffectScreenView extends ScreenView {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, tandem, options ) {
+  constructor( model, options ) {
 
     options = merge( {
 
@@ -34,7 +35,9 @@ class GreenhouseEffectScreenView extends ScreenView {
       energyLegendOptions: null,
 
       // {Object|null} - options passed to the ObservationWindow
-      observationWindowOptions: null
+      observationWindowOptions: null,
+
+      tandem: Tandem.REQUIRED
     }, options );
 
     super( options );
@@ -44,7 +47,11 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // @protected (read-only) - The observation window where the ground, sky, waves, photons, and such will appear. This
     // is protected for layout purposes in subtypes.
-    this.observationWindow = new ObservationWindow( model, tandem, options.observationWindowOptions );
+    this.observationWindow = new ObservationWindow(
+      model,
+      options.tandem.createTandem( 'observationWindow' ),
+      options.observationWindowOptions
+    );
 
     // area between right edge of ScreenView and observation window
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
@@ -77,7 +84,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       },
       right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: tandem.createTandem( 'resetAllButton' )
+      tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.pdomControlAreaNode.addChild( this.resetAllButton );
 
