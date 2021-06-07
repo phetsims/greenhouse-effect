@@ -44,16 +44,25 @@ const carbonDioxideConcentrationPatternString = greenhouseEffectStrings.concentr
 const methaneConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
 const nitrousOxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPattern;
 
-const CONCENTRATION_METER_HEIGHT = 150; // height in view coordinates of the concentration meter (without labels)
+// Height in view coordinates of the concentration slider track (when controlling concentration by value) and the
+// concentration meter graphic (when controlling by date). These are the same height so that the positions of values
+// along the slider are at the same positions of values along the concentration meter.
+const CONCENTRATION_SLIDER_TRACK_HEIGHT = 150;
+
+// Size of the concentration slider thumb, also used for layout of labels.
+const CONCENTRATION_SLIDER_THUMB_SIZE = new Dimension2( 20, 10 );
+
+// Tick sizes for the concentration meter.
 const CONCENTRATION_METER_MACRO_TICK_WIDTH = 15;
 const CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS = 14;
 
-// margins between content and panel borders
+// Margins between content and panel borders.
 const PANEL_MARGINS = 5;
 
-// spacing between contents within the panel
+// Spacing between contents within the panel.
 const CONTENT_SPACING = 10;
 
+// For text labels for the slider and meter.
 const LABEL_OPTIONS = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 60 };
 
 const RADIO_BUTTON_GROUP_OPTIONS = {
@@ -86,15 +95,16 @@ class ConcentrationControlPanel extends Panel {
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.title
     }, options );
 
+    // Title for the whole panel
     const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2
     } );
 
-    // directly controls concentration by value
-    const sliderControl = new SliderControl( concentrationModel.manuallyControlledConcentrationProperty );
+    // controls the concentration directly by value
+    const concentrationSlider = new ConcentrationSlider( concentrationModel.manuallyControlledConcentrationProperty );
 
-    // controls to select greenhouse gas concentration by date, and a visualization of relative concentration
+    // controls to select greenhouse gas concentration by date, and a meter displaying relative concentration
     const dateControl = new DateControl(
       concentrationModel.dateProperty,
       concentrationModel.concentrationProperty,
@@ -105,9 +115,9 @@ class ConcentrationControlPanel extends Panel {
     const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationModel.concentrationControlModeProperty );
 
     const controlsParentNode = new Node( {
-      children: [ sliderControl, dateControl ]
+      children: [ concentrationSlider, dateControl ]
     } );
-    sliderControl.center = dateControl.center;
+    concentrationSlider.center = dateControl.center;
 
     const contentChildren = [ titleNode, controlsParentNode, controlRadioButtonGroup ];
 
@@ -132,7 +142,7 @@ class ConcentrationControlPanel extends Panel {
 
     // only one form of controls is visible at a time
     concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
-      sliderControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
+      concentrationSlider.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
       dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE === concentrationControl;
 
       if ( compositionDataNode ) {
@@ -202,8 +212,8 @@ class DateControl extends Node {
 
     // relative concentration graphic
     const meterLineOptions = { stroke: 'black' };
-    const macroConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_METER_HEIGHT, meterLineOptions );
-    const microConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_METER_HEIGHT, meterLineOptions );
+    const macroConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_SLIDER_TRACK_HEIGHT, meterLineOptions );
+    const microConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_SLIDER_TRACK_HEIGHT, meterLineOptions );
 
     // Create the macroBox, which is the little rectangle that depicts the area that is being magnified.  This is sized
     // to automatically hold all of the possible concentration values that are associated with dates.
@@ -217,7 +227,7 @@ class DateControl extends Node {
       0,
       0,
       CONCENTRATION_METER_MACRO_TICK_WIDTH * 2,
-      CONCENTRATION_METER_HEIGHT * macroBoxProportionateHeight,
+      CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateHeight,
       meterLineOptions
     );
 
@@ -228,7 +238,7 @@ class DateControl extends Node {
 
       tick.center = microConcentrationLine.centerTop.plusXY(
         0,
-        i * CONCENTRATION_METER_HEIGHT / CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS
+        i * CONCENTRATION_SLIDER_TRACK_HEIGHT / CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS
       );
       microConcentrationLine.addChild( tick );
     }
@@ -257,15 +267,16 @@ class DateControl extends Node {
     this.addChild( noneText );
     this.addChild( dateRadioButtonGroup );
 
-    // layout
-    lotsText.centerBottom = macroConcentrationLine.centerTop;
-    noneText.centerTop = macroConcentrationLine.centerBottom;
+    // layout - label text at top and bottom of line, offset to match position of text
+    // for the slider which allows extra space for the thumb
+    lotsText.centerBottom = macroConcentrationLine.centerTop.minusXY( 0, CONCENTRATION_SLIDER_THUMB_SIZE.height / 2 );
+    noneText.centerTop = macroConcentrationLine.centerBottom.plusXY( 0, CONCENTRATION_SLIDER_THUMB_SIZE.height / 2 );
 
     microConcentrationLine.center = macroConcentrationLine.center.plusXY( 70, 0 );
 
     const macroBoxCenter = macroConcentrationLine.centerBottom.plusXY(
       0,
-      -CONCENTRATION_METER_HEIGHT * macroBoxProportionateCenterY
+      -CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateCenterY
     );
     macroValueTick.center = macroBoxCenter;
     macroValueBox.center = macroBoxCenter;
@@ -302,7 +313,7 @@ class DateControl extends Node {
 /**
  * Inner class that is a labelled VSlider that directly controls greenhouse gas concentration in the sim.
  */
-class SliderControl extends Node {
+class ConcentrationSlider extends Node {
 
   /**
    * @param {NumberProperty} manuallyControlledConcentrationProperty
@@ -318,7 +329,7 @@ class SliderControl extends Node {
 
     const concentrationRange = manuallyControlledConcentrationProperty.range;
     const concentrationSlider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
-      trackSize: new Dimension2( 1, 100 ),
+      trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
       // sound generation
