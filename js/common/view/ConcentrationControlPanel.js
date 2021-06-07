@@ -53,7 +53,7 @@ const CONCENTRATION_SLIDER_TRACK_HEIGHT = 150;
 const CONCENTRATION_SLIDER_THUMB_SIZE = new Dimension2( 20, 10 );
 
 // Tick sizes for the concentration meter.
-const CONCENTRATION_METER_MACRO_TICK_WIDTH = 15;
+const CONCENTRATION_METER_MACRO_BOX_WIDTH = 30;
 const CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS = 14;
 
 // Margins between content and panel borders.
@@ -222,11 +222,10 @@ class DateControl extends Node {
                                         1.2;
     const macroBoxProportionateCenterY = ConcentrationModel.DATE_CONCENTRATION_RANGE.getCenter() /
                                          ConcentrationModel.CONCENTRATION_RANGE.getLength();
-    const macroValueTick = new Line( 0, 0, CONCENTRATION_METER_MACRO_TICK_WIDTH, 0, meterLineOptions );
     const macroValueBox = new Rectangle(
       0,
       0,
-      CONCENTRATION_METER_MACRO_TICK_WIDTH * 2,
+      CONCENTRATION_METER_MACRO_BOX_WIDTH,
       CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateHeight,
       meterLineOptions
     );
@@ -256,7 +255,6 @@ class DateControl extends Node {
     const valueCircle = new Circle( 5, { fill: 'black' } );
 
     // add components
-    this.addChild( macroValueTick );
     this.addChild( macroValueBox );
     this.addChild( macroConcentrationLine );
     this.addChild( microConcentrationLine );
@@ -274,12 +272,10 @@ class DateControl extends Node {
 
     microConcentrationLine.center = macroConcentrationLine.center.plusXY( 70, 0 );
 
-    const macroBoxCenter = macroConcentrationLine.centerBottom.plusXY(
+    macroValueBox.center = macroConcentrationLine.centerBottom.plusXY(
       0,
       -CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateCenterY
     );
-    macroValueTick.center = macroBoxCenter;
-    macroValueBox.center = macroBoxCenter;
 
     topConnectionLine.setPoint1( macroValueBox.rightTop );
     topConnectionLine.setPoint2( microConcentrationLine.centerTop );
