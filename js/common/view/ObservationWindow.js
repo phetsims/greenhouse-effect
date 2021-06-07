@@ -145,12 +145,14 @@ class ObservationWindow extends Node {
       } );
     }
     else {
-      presentationNode = new Node( { children: [
-        new Text( 'No dynamic view for this model type yet.', {
-          font: new PhetFont( 32 ),
-          center: windowFrame.center
-        } )
-      ] } );
+      presentationNode = new Node( {
+        children: [
+          new Text( 'No dynamic view for this model type yet.', {
+            font: new PhetFont( 32 ),
+            center: windowFrame.center
+          } )
+        ]
+      } );
       presentationNode.jbTest = true;
     }
 
@@ -229,9 +231,49 @@ class ObservationWindow extends Node {
     );
     visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
+    // most contents are contained in this node with the exception of a few that need to be added separately
+    // for controlling z-order or enabled state of input
+    const contentNode = new Node( {
+      children: [
+        skyNode,
+        groundNode,
+        groundLayerNode,
+        ...atmosphereLayerNodes,
+        visibilityControls,
+        presentationNode,
+        fluxMeterNode,
+        surfaceThermometer,
+
+        // for the temperature ComboBox, above the thermometer so it opens on top of it
+        listParentNode,
+
+        energyBalancePanel
+      ]
+    } );
+
+    super( merge( {
+
+      children: [
+        contentNode,
+        darknessNode,
+        startSunlightButton,
+        windowFrame
+      ],
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
+
+    }, options ) );
+
+    // @private - Make the presentation node available for stepping.
+    this.presentationNode = presentationNode;
+
     // Manage the visibility of the start button and the darkness overlay.
     model.isStartedProperty.link( isStarted => {
       startSunlightButton.visible = !isStarted;
+      contentNode.inputEnabled = isStarted;
 
       if ( isStarted ) {
 
@@ -261,36 +303,6 @@ class ObservationWindow extends Node {
         darknessNode.opacity = DARKNESS_OPACITY;
       }
     } );
-
-    super( merge( {
-
-      children: [
-        skyNode,
-        groundNode,
-        groundLayerNode,
-        ...atmosphereLayerNodes,
-        visibilityControls,
-        presentationNode,
-        fluxMeterNode,
-        surfaceThermometer,
-
-        // for the temperature ComboBox, above the thermometer so it opens on top of it
-        listParentNode,
-        energyBalancePanel,
-        darknessNode,
-        startSunlightButton,
-        windowFrame
-      ],
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
-
-    }, options ) );
-
-    // @private - Make the presentation node available for stepping.
-    this.presentationNode = presentationNode;
   }
 
   /**
