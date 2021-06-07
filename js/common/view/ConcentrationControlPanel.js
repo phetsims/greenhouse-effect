@@ -65,6 +65,9 @@ const CONTENT_SPACING = 10;
 // For text labels for the slider and meter.
 const LABEL_OPTIONS = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 60 };
 
+// color of meters and controls in this panel
+const CONCENTRATION_CONTROLS_STROKE = 'black';
+
 const RADIO_BUTTON_GROUP_OPTIONS = {
   baseColor: 'white',
   selectedStroke: 'rgb(0,173,221)',
@@ -211,7 +214,7 @@ class DateControl extends Node {
     );
 
     // relative concentration graphic
-    const meterLineOptions = { stroke: 'black' };
+    const meterLineOptions = { stroke: CONCENTRATION_CONTROLS_STROKE, lineWidth: 2 };
     const macroConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_SLIDER_TRACK_HEIGHT, meterLineOptions );
     const microConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_SLIDER_TRACK_HEIGHT, meterLineOptions );
 
@@ -227,7 +230,9 @@ class DateControl extends Node {
       0,
       CONCENTRATION_METER_MACRO_BOX_WIDTH,
       CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateHeight,
-      meterLineOptions
+      {
+        stroke: CONCENTRATION_CONTROLS_STROKE
+      }
     );
 
     // minor ticks on the micro line
@@ -323,7 +328,6 @@ class ConcentrationSlider extends Node {
     } );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
-    const concentrationRange = manuallyControlledConcentrationProperty.range;
     const concentrationSlider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
@@ -341,11 +345,6 @@ class ConcentrationSlider extends Node {
       shiftKeyboardStep: manuallyControlledConcentrationProperty.range.max / 20, // finer grain
       pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4 // coarser grain
     } );
-
-    const delta = concentrationRange.getLength() / 10;
-    for ( let i = concentrationRange.min; i < concentrationRange.max + delta; i += delta ) {
-      concentrationSlider.addMinorTick( i );
-    }
     concentrationSlider.scale( -1, 1 );
 
     // add labels to the slider
