@@ -7,7 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -39,9 +38,6 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
 class ConcentrationModel extends GreenhouseEffectModel {
   constructor() {
     super();
-
-    // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
-    this.clouds = createObservableArray();
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
@@ -90,7 +86,6 @@ class ConcentrationModel extends GreenhouseEffectModel {
    * @public
    */
   reset() {
-    this.clouds.reset();
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();

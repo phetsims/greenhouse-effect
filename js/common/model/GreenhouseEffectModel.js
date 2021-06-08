@@ -8,6 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -86,6 +87,9 @@ class GreenhouseEffectModel {
       minimumTemperature: 245
     } );
     this.groundLayer.jbId = 'ground'; // TODO: for debug, remove before publication
+
+    // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
+    this.clouds = createObservableArray();
 
     // Put the delay between the sun and the ground.  This one is a bit different from the delay lines that interconnect
     // the energy absorbing and emitting layers, so we keep track of it separately.
@@ -223,6 +227,7 @@ class GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
+    this.clouds.reset();
     this.groundLayer.reset();
     this.atmospherLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
     this.sunToGroundEnergyDelayLine.reset();

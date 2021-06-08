@@ -11,6 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
@@ -18,6 +19,13 @@ import WaveParameterModel from './WaveParameterModel.js';
 
 // constants
 const GROUND_Y = 450;
+
+const INCOMING_SUNLIGHT_X_POSITION = -15238;
+
+// model properties for the Cloud of the Waves screen, in meters
+const CLOUD_HEIGHT = 18200; // center y for the cloud
+const CLOUD_WIDTH = 20000; // cloud width
+const CLOUD_DEPTH = 8000; // cloud depth
 
 class WavesModel extends ConcentrationModel {
   constructor() {
@@ -37,6 +45,21 @@ class WavesModel extends ConcentrationModel {
     this.irWavesBegan = true;
 
     this.reset();
+
+    // Add/remove a Cloud from the single Cloud model when it becomes visible/invisible
+    const wavesCloud = new Cloud( new Vector2( INCOMING_SUNLIGHT_X_POSITION, CLOUD_HEIGHT ), CLOUD_WIDTH, CLOUD_DEPTH );
+    this.cloudVisibleProperty.link( visible => {
+      if ( visible ) {
+        assert && assert( !this.clouds.includes( wavesCloud ), 'wavesCloud already added to the model' );
+        this.clouds.push( wavesCloud );
+      }
+      else {
+        const index = this.clouds.indexOf( wavesCloud );
+        if ( index >= 0 ) {
+          this.clouds.splice( index, 1 );
+        }
+      }
+    } );
 
     this.showGapProperty.link( () => this.reset() );
   }

@@ -31,6 +31,7 @@ import WavesModel from '../../waves/model/WavesModel.js';
 import WavesNode from '../../waves/view/WavesNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode from './FluxMeterNode.js';
@@ -302,6 +303,24 @@ class ObservationWindow extends Node {
         darknessNode.visible = true;
         darknessNode.opacity = DARKNESS_OPACITY;
       }
+    } );
+
+    // clouds
+    model.clouds.addItemAddedListener( addedCloud => {
+
+      // add a visualization of the added cloud
+      const cloudNode = new CloudNode( addedCloud, mvt );
+      contentNode.addChild( cloudNode );
+
+      const removalListener = removedCloud => {
+        if ( addedCloud === removedCloud ) {
+          contentNode.removeChild( cloudNode );
+          model.clouds.removeItemRemovedListener( removalListener );
+          cloudNode.dispose();
+        }
+      };
+
+      model.clouds.addItemRemovedListener( removalListener );
     } );
   }
 
