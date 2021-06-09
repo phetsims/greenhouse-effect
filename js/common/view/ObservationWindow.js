@@ -287,6 +287,9 @@ class ObservationWindow extends Node {
       startSunlightButton.visible = !isStarted;
       contentNode.inputEnabled = isStarted;
 
+      // hide all of the content from a screen reader until sunlight has started
+      contentNode.pdomVisible = isStarted;
+
       if ( isStarted ) {
 
         // state checking
