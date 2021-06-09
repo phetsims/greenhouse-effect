@@ -27,7 +27,10 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     const concentrationControlPanel = new ConcentrationControlPanel(
       this.energyLegend.width,
       model, {
-        includeCompositionData: true
+        includeCompositionData: true,
+
+        // phet-io
+        tandem: tandem.createTandem( 'concentrationControlPanel' )
       } );
     this.addChild( concentrationControlPanel );
 

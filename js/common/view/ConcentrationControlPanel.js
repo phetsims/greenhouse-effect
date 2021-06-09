@@ -30,6 +30,7 @@ import VSlider from '../../../../sun/js/VSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import sliderSound01 from '../../../sounds/greenhouse-gas-concentration-slider-001_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -95,7 +96,10 @@ class ConcentrationControlPanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.title
+      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.title,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
 
     // Title for the whole panel
@@ -105,7 +109,9 @@ class ConcentrationControlPanel extends Panel {
     } );
 
     // controls the concentration directly by value
-    const concentrationSlider = new ConcentrationSlider( concentrationModel.manuallyControlledConcentrationProperty );
+    const concentrationSlider = new ConcentrationSlider(
+      concentrationModel.manuallyControlledConcentrationProperty,
+      options.tandem.createTandem( 'concentrationSlider' ) );
 
     // controls to select greenhouse gas concentration by date, and a meter displaying relative concentration
     const dateControl = new DateControl(
@@ -115,7 +121,10 @@ class ConcentrationControlPanel extends Panel {
     );
 
     // selects how the user is controlling concentration, by date or by value
-    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup( concentrationModel.concentrationControlModeProperty );
+    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup(
+      concentrationModel.concentrationControlModeProperty,
+      options.tandem.createTandem( 'controlRadioButtonGroup' )
+    );
 
     const controlsParentNode = new Node( {
       children: [ concentrationSlider, dateControl ]
@@ -318,8 +327,9 @@ class ConcentrationSlider extends Node {
 
   /**
    * @param {NumberProperty} manuallyControlledConcentrationProperty
+   * @param {Tandem} tandem
    */
-  constructor( manuallyControlledConcentrationProperty ) {
+  constructor( manuallyControlledConcentrationProperty, tandem ) {
     super();
 
     // Create the sound generator.
@@ -328,7 +338,7 @@ class ConcentrationSlider extends Node {
     } );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
-    const concentrationSlider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
+    const slider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
@@ -343,20 +353,23 @@ class ConcentrationSlider extends Node {
       helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
       keyboardStep: manuallyControlledConcentrationProperty.range.max / 10,
       shiftKeyboardStep: manuallyControlledConcentrationProperty.range.max / 20, // finer grain
-      pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4 // coarser grain
+      pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4, // coarser grain,
+
+      // phet-io
+      tandem: tandem.createTandem( 'slider' )
     } );
-    concentrationSlider.scale( -1, 1 );
+    slider.scale( -1, 1 );
 
     // add labels to the slider
     const lotsText = new Text( lotsString, LABEL_OPTIONS );
     const noneText = new Text( noneString, LABEL_OPTIONS );
 
-    this.addChild( concentrationSlider );
+    this.addChild( slider );
     this.addChild( lotsText );
     this.addChild( noneText );
 
-    lotsText.centerBottom = concentrationSlider.centerTop;
-    noneText.centerTop = concentrationSlider.centerBottom;
+    lotsText.centerBottom = slider.centerTop;
+    noneText.centerTop = slider.centerBottom;
   }
 }
 
@@ -404,8 +417,17 @@ class CompositionDataNode extends VBox {
   }
 }
 
+/**
+ * An inner class for the control panel that creates a RadioButtonGroup that selects between controlling concentration
+ * by date or by value.
+ */
 class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
-  constructor( property ) {
+
+  /**
+   * @param {EnumerationProperty} property - Property for the method of contorlling concentration
+   * @param {Tandem} tandem
+   */
+  constructor( property, tandem ) {
 
     const dateIcon = new CalendarAlt( {
       fill: 'black'
@@ -419,7 +441,10 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',
-      pickable: false
+      pickable: false,
+
+      // phet-io - opting out of the Tandem for the icon
+      tandem: Tandem.OPT_OUT
     } );
 
     const items = [
@@ -445,7 +470,10 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
           // pdom
           labelTagName: 'h4',
           labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
-          helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText
+          helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
+
+          // phet-io
+          tandem: tandem
         },
         RADIO_BUTTON_GROUP_OPTIONS
       )

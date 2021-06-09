@@ -9,6 +9,7 @@
 import merge from '../../../../phet-core/js/merge.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
@@ -38,7 +39,10 @@ class ObservationWindowVisibilityControls extends Rectangle {
       vBoxOptions: {
         align: 'left',
         spacing: 5
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
     assert && assert( options.vBoxOptions.children === undefined, 'ObservationWindowVisibilityControls sets children through options' );
 
@@ -46,11 +50,20 @@ class ObservationWindowVisibilityControls extends Rectangle {
     const children = [];
     if ( options.includeEnergyBalance ) {
       children.push( new GreenhouseEffectCheckbox( greenhouseEffectStrings.energyBalance, energyBalanceVisibleProperty, {
+
+        // phet-io
+        tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
+
+        // pdom
         helpText: greenhouseEffectStrings.a11y.energyBalance.helpText
       } ) );
     }
     if ( options.includeFluxMeter ) {
-      children.push( new GreenhouseEffectCheckbox( greenhouseEffectStrings.fluxMeter.title, fluxMeterVisibleProperty ) );
+      children.push( new GreenhouseEffectCheckbox( greenhouseEffectStrings.fluxMeter.title, fluxMeterVisibleProperty, {
+
+        // phet-io
+        tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
+      } ) );
     }
 
     // layout

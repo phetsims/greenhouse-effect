@@ -54,7 +54,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
-      model
+      model, {
+
+        // phet-io
+        tandem: tandem.createTandem( 'concentrationControlPanel' )
+      }
     );
     this.pdomPlayAreaNode.addChild( concentrationControls );
 

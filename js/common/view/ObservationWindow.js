@@ -204,7 +204,10 @@ class ObservationWindow extends Node {
       soundPlayer: sunlightStartingSoundClip,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText
+      helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText,
+
+      // phet-io
+      tandem: tandem.createTandem( 'startSunlightButton' )
     } );
 
     // energy balance
@@ -212,7 +215,7 @@ class ObservationWindow extends Node {
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // flux meter
-    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, mvt, windowFrame.bounds );
+    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, mvt, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
     fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
 
     // set the position of the wire to attach to the flux panel
@@ -220,7 +223,11 @@ class ObservationWindow extends Node {
 
     // thermometer
     const listParentNode = new Node();
-    const surfaceThermometer = new SurfaceThermometer( model, listParentNode );
+    const surfaceThermometer = new SurfaceThermometer( model, listParentNode, {
+
+      // phet-io
+      tandem: tandem.createTandem( 'surfaceThermometer' )
+    } );
     surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
     listParentNode.leftBottom = surfaceThermometer.leftBottom;
 
@@ -228,7 +235,11 @@ class ObservationWindow extends Node {
     const visibilityControls = new ObservationWindowVisibilityControls(
       model.energyBalanceVisibleProperty,
       model.fluxMeterVisibleProperty,
-      options.visibilityControlsOptions
+      options.visibilityControlsOptions, {
+
+        // phet-io
+        tandem: tandem.createTandem( 'visibilityControls' )
+      }
     );
     visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 

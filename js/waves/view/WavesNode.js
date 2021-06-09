@@ -214,7 +214,10 @@ class WavesNode extends Node {
       bottom: size.height - 10,
 
       // pdom
-      pdomVisible: false
+      pdomVisible: false,
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
     } ) );
 
     this.addChild( this.wavesCanvasNode );

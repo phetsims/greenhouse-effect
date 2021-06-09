@@ -16,11 +16,17 @@ import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import ComboBox from '../../../../sun/js/ComboBox.js';
 import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+
+// constants
+const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
+const celciusUnitsString = greenhouseEffectStrings.temperature.units.celcius;
+const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
 class SurfaceThermometer extends Node {
 
@@ -39,10 +45,14 @@ class SurfaceThermometer extends Node {
         tubeHeight: 150,
         tubeWidth: 20,
         backgroundFill: 'white'
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
 
-    super( options );
+    // options passed to the supertype later in mutate
+    super();
 
     // visibility
     model.surfaceThermometerVisibleProperty.linkAttribute( this, 'visible' );
@@ -58,24 +68,47 @@ class SurfaceThermometer extends Node {
 
     const comboBoxItems = [
       this.createComboBoxItem(
-        greenhouseEffectStrings.temperature.units.kelvin, model.surfaceTemperatureKelvinProperty, model.surfaceTemperatureKelvinProperty.range, GreenhouseEffectModel.TemperatureUnits.KELVIN ),
-      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.celcius, model.surfaceTemperatureCelsiusProperty, celsiusRange, GreenhouseEffectModel.TemperatureUnits.CELSIUS ),
-      this.createComboBoxItem( greenhouseEffectStrings.temperature.units.fahrenheit, model.surfaceTemperatureFahrenheitProperty, fahrenheitRange, GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT )
+        kelvinUnitsString,
+        model.surfaceTemperatureKelvinProperty,
+        model.surfaceTemperatureKelvinProperty.range,
+        GreenhouseEffectModel.TemperatureUnits.KELVIN, {
+            tandemName: 'kelvinItem'
+        }
+      ),
+      this.createComboBoxItem(
+        celciusUnitsString,
+        model.surfaceTemperatureCelsiusProperty,
+        celsiusRange,
+        GreenhouseEffectModel.TemperatureUnits.CELSIUS, {
+          tandemName: 'celciusItem'
+        }
+      ),
+      this.createComboBoxItem(
+        fahrenheitUnitsString,
+        model.surfaceTemperatureFahrenheitProperty,
+        fahrenheitRange,
+        GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT, {
+          tandemName: 'fahrenheitItem'
+        }
+      )
     ];
 
-    this.comboBox = new ComboBox( comboBoxItems, model.temperatureUnitsProperty, listParentNode, {
+    const comboBox = new ComboBox( comboBoxItems, model.temperatureUnitsProperty, listParentNode, {
       align: 'right',
       listPosition: 'above',
       yMargin: 4,
-      xMargin: 4
+      xMargin: 4,
+
+      // phet-io
+      tandem: options.tandem.createTandem( 'comboBox' )
     } );
-    this.addChild( this.comboBox );
+    this.addChild( comboBox );
 
     // layout
-    this.comboBox.centerTop = thermometerNode.centerBottom.plusXY( 0, 15 );
+    comboBox.centerTop = thermometerNode.centerBottom.plusXY( 0, 15 );
 
     // mutate with layout options after the Node has been assembled
-    this.mutate( options );
+    this.mutate();
   }
 
   /**
@@ -109,7 +142,7 @@ class SurfaceThermometer extends Node {
       units: unitsString
     } );
 
-    return new ComboBoxItem( new NumberDisplay( property, propertyRange, options.numberDisplayOptions ), propertyValue );
+    return new ComboBoxItem( new NumberDisplay( property, propertyRange, options.numberDisplayOptions ), propertyValue, options );
   }
 }
 

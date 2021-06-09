@@ -41,8 +41,9 @@ class FluxMeterNode extends Node {
    * @param {BooleanProperty} visibleProperty
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Bounds2} observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
+   * @param {Tandem} tandem
    */
-  constructor( model, visibleProperty, modelViewTransform, observationWindowViewBounds ) {
+  constructor( model, visibleProperty, modelViewTransform, observationWindowViewBounds, tandem ) {
     super();
 
     // wire connecting panel and sensor, beneath both so it appears like the wire is solidly connected to both
@@ -111,7 +112,10 @@ class FluxMeterNode extends Node {
         const modelY = Math.max( 0, modelViewTransform.viewToModelY( constrainedViewPoint.y ) );
         model.sensorPositionProperty.value = new Vector2( 0, modelY );
       },
-      useInputListenerCursor: true
+      useInputListenerCursor: true,
+
+      // phet-io
+      tandem: tandem.createTandem( 'dragListener' )
     } ) );
 
     model.sensorPositionProperty.link( sensorPosition => {
@@ -120,6 +124,9 @@ class FluxMeterNode extends Node {
   }
 }
 
+/**
+ * An inner class that implements the arrows displaying the amount of energy flux.
+ */
 class EnergyFluxDisplayArrow extends Node {
   constructor( energyInProperty, energyOutProperty, labelString, options ) {
 

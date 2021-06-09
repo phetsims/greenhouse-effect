@@ -20,12 +20,13 @@ import WaveParameterModel from './WaveParameterModel.js';
 // constants
 const GROUND_Y = 450;
 
+// position of incoming sunlight, in meters
 const INCOMING_SUNLIGHT_X_POSITION = -15238;
 
 // model properties for the Cloud of the Waves screen, in meters
 const CLOUD_HEIGHT = 18200; // center y for the cloud
 const CLOUD_WIDTH = 20000; // cloud width
-const CLOUD_DEPTH = 8000; // cloud depth
+const CLOUD_DEPTH = 3000; // cloud depth
 
 class WavesModel extends ConcentrationModel {
   constructor() {
