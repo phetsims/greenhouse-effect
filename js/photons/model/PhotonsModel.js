@@ -7,6 +7,7 @@
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
 import Photon from '../../common/model/Photon.js';
@@ -51,7 +52,7 @@ class PhotonsModel extends ConcentrationModel {
             GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
           ),
           Photon.VISIBLE_WAVELENGTH,
-          this.tandem,
+          Tandem.OPT_OUT,
           { initialVelocity: new Vector2( 0, -Photon.SPEED ) }
         ) );
         this.photonCreationCountdown += 1 / PHOTON_CREATION_RATE;
@@ -74,7 +75,7 @@ class PhotonsModel extends ConcentrationModel {
         photonsToAdd.push( new Photon(
           photon.positionProperty.value,
           Photon.IR_WAVELENGTH,
-          this.tandem,
+          Tandem.OPT_OUT,
           { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 4 ) }
         ) );
       }
