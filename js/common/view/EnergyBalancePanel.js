@@ -9,10 +9,10 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import BarPlot from '../../../../bamboo/js/BarPlot.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
 import LabelSet from '../../../../bamboo/js/LabelSet.js';
+import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -60,9 +60,12 @@ class EnergyBalancePanel extends Panel {
     const titleNode = new Node( { children: [ titleText, subTitleText ] } );
 
     // TODO: These are dummy Properties to get the visuals up and running, to be replaced with model Properties
-    // value of 240 comes from SunEnergySource
-    const netEnergyInProperty = new NumberProperty( 240 );
-    const netEnergyOutProperty = new NumberProperty( -240 );
+    // value of 240 comes from SunEnergySource. Note that net "in" is negative so it points down, perhaps the model
+    // will automatically work that way or we may need to derive this value so that the net "In" points down
+    // and net "out" points up, which was requested by design team. See
+    // https://github.com/phetsims/greenhouse-effect/issues/44
+    const netEnergyInProperty = new NumberProperty( -240 );
+    const netEnergyOutProperty = new NumberProperty( 240 );
     const netEnergyProperty = new DerivedProperty( [ netEnergyInProperty, netEnergyOutProperty ], ( netIn, netOut ) => {
       return netIn + netOut;
     } );
@@ -114,8 +117,8 @@ class EnergyBalancePlot extends Node {
     } );
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
-    const barPlot = new BarPlot( chartTransform, [], {
-      pointToPaintableFields: point => {
+    const barPlot = new UpDownArrowPlot( chartTransform, [], {
+      pointToArrowNodeFields: point => {
         return { fill: BAR_COLOR, stroke: BAR_STROKE };
       }
     } );
