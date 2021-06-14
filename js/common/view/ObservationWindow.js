@@ -61,7 +61,11 @@ class ObservationWindow extends Node {
       top: 10,
 
       // options passed to the ObservationWindowVisibilityControls
-      visibilityControlsOptions: null
+      visibilityControlsOptions: {
+
+        // phet-io
+        tandem: tandem.createTandem( 'visibilityControls' )
+      }
 
     }, options );
 
@@ -235,11 +239,7 @@ class ObservationWindow extends Node {
     const visibilityControls = new ObservationWindowVisibilityControls(
       model.energyBalanceVisibleProperty,
       model.fluxMeterVisibleProperty,
-      options.visibilityControlsOptions, {
-
-        // phet-io
-        tandem: tandem.createTandem( 'visibilityControls' )
-      }
+      options.visibilityControlsOptions
     );
     visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 

@@ -16,9 +16,9 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
   /**
    * @param {BooleanProperty} property - controls whether surface temperature is displayed
-   * @param {Object} [options]
+   * @param {Tandem} tandem
    */
-  constructor( property, options ) {
+  constructor( property, tandem ) {
 
     const iconWidth = 15;
     const halfIconWidth = iconWidth / 2;
@@ -35,7 +35,10 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       iconNode: iconNode,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.showSurfaceTemperature.helpText
+      helpText: greenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
+
+      // phetio
+      tandem: tandem
     } );
   }
 }

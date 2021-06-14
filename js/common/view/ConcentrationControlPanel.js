@@ -117,7 +117,8 @@ class ConcentrationControlPanel extends Panel {
     const dateControl = new DateControl(
       concentrationModel.dateProperty,
       concentrationModel.concentrationProperty,
-      concentrationModel.concentrationControlModeProperty
+      concentrationModel.concentrationControlModeProperty,
+      options.tandem.createTandem( 'dateControl' )
     );
 
     // selects how the user is controlling concentration, by date or by value
@@ -176,8 +177,9 @@ class DateControl extends Node {
    * @param {EnumerationProperty} dateProperty
    * @param {Property.<number>} concentrationProperty - setting date will modify concentration
    * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
+   * @param {Tandem} tandem
    */
-  constructor( dateProperty, concentrationProperty, concentrationControlModeProperty ) {
+  constructor( dateProperty, concentrationProperty, concentrationControlModeProperty, tandem ) {
     super();
 
     // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
@@ -191,22 +193,26 @@ class DateControl extends Node {
       {
         node: new Text( twentyNineteenLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyNineteen
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyNineteen,
+        tandemName: 'twentyNineteenRadioButton'
       },
       {
         node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
+        tandemName: 'nineteenFiftyRadioButton'
       },
       {
         node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
+        tandemName: 'seventeenFiftyRadioButton'
       },
       {
         node: new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
-        labelContent: iceAgeLabel
+        labelContent: iceAgeLabel,
+        tandemName: 'iceAgeRadioButton'
       }
     ];
     const dateRadioButtonGroup = new RectangularRadioButtonGroup(
@@ -214,9 +220,14 @@ class DateControl extends Node {
       items,
       merge(
         {
+
+          // pdom
           labelTagName: 'h4',
           labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
-          helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText
+          helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText,
+
+          // phet-io
+          tandem: tandem.createTandem( 'dateRadioButtonGroup' )
         },
         RADIO_BUTTON_GROUP_OPTIONS
       )
@@ -451,12 +462,14 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
       {
         node: sliderIcon,
         value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
+        tandemName: 'byConcentrationRadioButton'
       },
       {
         node: dateIcon,
         value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
+        tandemName: 'byTimePeriodRadioButton'
       }
     ];
 

@@ -15,9 +15,9 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
   /**
    * @param {BooleanProperty} property - controls whether the cloud is visible
-   * @param {Object} [options]
+   * @param {Tandem} tandem
    */
-  constructor( property, options ) {
+  constructor( property, tandem ) {
 
     // temporary icon, something else will eventually be added
     const iconNode = new Rectangle( 0, 0, 15, 15, {
@@ -26,7 +26,10 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     super( greenhouseEffectStrings.cloud, property, {
       iconNode: iconNode,
-      helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText
+      helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
+
+      // phet-io
+      tandem: tandem
     } );
   }
 }

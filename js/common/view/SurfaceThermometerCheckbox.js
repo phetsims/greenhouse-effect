@@ -16,14 +16,18 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
   /**
    * @param {BooleanProperty} property
+   * @param {Tandem} tandem
    */
-  constructor( property ) {
+  constructor( property, tandem ) {
     const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
     super( greenhouseEffectStrings.surfaceThermometer, property, {
       iconNode: iconNode,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.surfaceThermometer.helpText
+      helpText: greenhouseEffectStrings.a11y.surfaceThermometer.helpText,
+
+      // phet-io
+      tandem: tandem
     } );
   }
 }

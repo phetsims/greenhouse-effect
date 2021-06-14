@@ -48,9 +48,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       } )
     } );
 
-    const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty );
-    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty );
-    const cloudCheckbox = new CloudCheckbox( model.cloudVisibleProperty );
+    const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty, tandem.createTandem( 'surfaceThermometerCheckbox' ) );
+    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
+    const cloudCheckbox = new CloudCheckbox( model.cloudVisibleProperty, tandem.createTandem( 'cloudCheckbox' ) );
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,

@@ -71,8 +71,10 @@ class GreenhouseEffectScreenView extends ScreenView {
         stepForwardButtonOptions: {
           listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
         }
-      }
+      },
 
+      // phet-io
+      tandem: options.tandem.createTandem( 'timeControlNode' )
     } );
     this.pdomControlAreaNode.addChild( this.timeControlNode );
 
