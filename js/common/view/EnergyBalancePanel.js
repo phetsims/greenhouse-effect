@@ -7,10 +7,9 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import AxisLine from '../../../../bamboo/js/AxisLine.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
-import GridLineSet from '../../../../bamboo/js/GridLineSet.js';
 import LabelSet from '../../../../bamboo/js/LabelSet.js';
 import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
@@ -36,9 +35,11 @@ class EnergyBalancePanel extends Panel {
 
   /**
    * @param {BooleanProperty} energyBalanceVisibleProperty - controls whether this Panel is visible in the view
+   * @param {NumberProperty} netEnergyInProperty
+   * @param {NumberProperty} netEnergyOutProperty
    * @param {Object} [options]
    */
-  constructor( energyBalanceVisibleProperty, options ) {
+  constructor( energyBalanceVisibleProperty, netEnergyInProperty, netEnergyOutProperty, options ) {
 
     options = merge( {
 
@@ -59,19 +60,16 @@ class EnergyBalancePanel extends Panel {
     } );
     const titleNode = new Node( { children: [ titleText, subTitleText ] } );
 
-    // TODO: These are dummy Properties to get the visuals up and running, to be replaced with model Properties
-    // value of 240 comes from SunEnergySource. Note that net "in" is negative so it points down, perhaps the model
-    // will automatically work that way or we may need to derive this value so that the net "In" points down
-    // and net "out" points up, which was requested by design team. See
-    // https://github.com/phetsims/greenhouse-effect/issues/44
-    const netEnergyInProperty = new NumberProperty( -240 );
-    const netEnergyOutProperty = new NumberProperty( 240 );
-    const netEnergyProperty = new DerivedProperty( [ netEnergyInProperty, netEnergyOutProperty ], ( netIn, netOut ) => {
+
+    // Energy In needs to be plotted in the negative y direction
+    const negatedEnergyInProperty = new DerivedProperty( [ netEnergyInProperty ], netEnergyIn => -netEnergyIn );
+
+    const netEnergyProperty = new DerivedProperty( [ negatedEnergyInProperty, netEnergyOutProperty ], ( netIn, netOut ) => {
       return netIn + netOut;
     } );
 
     // the plot
-    const balancePlot = new EnergyBalancePlot( netEnergyInProperty, netEnergyOutProperty, netEnergyProperty );
+    const balancePlot = new EnergyBalancePlot( negatedEnergyInProperty, netEnergyOutProperty, netEnergyProperty );
 
     const content = new Node( { children: [ titleNode, balancePlot ] } );
     super( content, options );
@@ -93,9 +91,9 @@ class EnergyBalancePanel extends Panel {
 class EnergyBalancePlot extends Node {
 
   /**
-   * @param {NumberProperty} netEnergyInProperty - Representing net energy in, read-only
-   * @param {NumberProperty} netEnergyOutProperty - Representing net energy out, read-only
-   * @param {NumberProperty} netEnergyProperty - Representing net energy of the system, read-only
+   * @param {Property.<number>} netEnergyInProperty - Representing net energy in, read-only
+   * @param {Property.<number>} netEnergyOutProperty - Representing net energy out, read-only
+   * @param {Property.<number>} netEnergyProperty - Representing net energy of the system, read-only
    */
   constructor( netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ) {
     super();
@@ -107,23 +105,28 @@ class EnergyBalancePlot extends Node {
     const horizontalModelRange = new Range( inEnergyModelPosition, netEnergyModelPosition );
 
     // range of the entire plot, in model coordinates
-    const verticalModelRange = 300;
+    // TODO: Derive this from the model.
+    const verticalModelSpan = 400000;
 
     const chartTransform = new ChartTransform( {
       viewWidth: PLOT_VIEW_WIDTH,
       modelXRange: horizontalModelRange,
       viewHeight: PLOT_VIEW_HEIGHT,
-      modelYRange: new Range( 0, verticalModelRange )
+
+
+      // TODO: Range should go from some negative value to a positive value. Why does that add more space in the
+      // negative y and put the AxisLine off-center?
+      modelYRange: new Range( 0, verticalModelSpan )
     } );
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
     const barPlot = new UpDownArrowPlot( chartTransform, [], {
-      pointToArrowNodeFields: point => {
+      pointToPaintableFields: point => {
         return { fill: BAR_COLOR, stroke: BAR_STROKE };
       }
     } );
 
-    const gridLines = new GridLineSet( chartTransform, Orientation.VERTICAL, verticalModelRange * 2, {
+    const axisLine = new AxisLine( chartTransform, Orientation.HORIZONTAL, {
       stroke: 'grey',
       lineDash: [ 10, 5 ]
     } );
@@ -137,7 +140,7 @@ class EnergyBalancePlot extends Node {
       extent: -20,
 
       // place the labels at the max value of the plot
-      value: verticalModelRange,
+      value: verticalModelSpan,
 
       createLabel: value => {
         return value === inEnergyModelPosition ? new Text( greenhouseEffectStrings.energyBalancePanel.in, labelOptions ) :
@@ -147,9 +150,11 @@ class EnergyBalancePlot extends Node {
     } );
 
     // contains all plot components and provides consistent bounds as bar sizes change with model data
-    const chartRectangle = new Rectangle( 0, 0, PLOT_VIEW_WIDTH, PLOT_VIEW_HEIGHT * 2 );
+    const chartRectangle = new Rectangle( 0, 0, PLOT_VIEW_WIDTH, PLOT_VIEW_HEIGHT * 2, {
+      fill: 'pink'
+    } );
 
-    chartRectangle.addChild( gridLines );
+    chartRectangle.addChild( axisLine );
     chartRectangle.addChild( barPlot );
     chartRectangle.addChild( gridLabels );
     this.addChild( chartRectangle );

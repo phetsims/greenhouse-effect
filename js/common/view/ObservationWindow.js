@@ -215,7 +215,11 @@ class ObservationWindow extends Node {
     } );
 
     // energy balance
-    const energyBalancePanel = new EnergyBalancePanel( model.energyBalanceVisibleProperty );
+    const energyBalancePanel = new EnergyBalancePanel(
+      model.energyBalanceVisibleProperty,
+      model.sunToGroundEnergyDelayLine.incomingEnergyProperty,
+      model.outerSpace.incomingUpwardMovingEnergyProperty
+    );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // flux meter
