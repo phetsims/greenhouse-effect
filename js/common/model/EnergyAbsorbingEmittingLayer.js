@@ -39,7 +39,7 @@ const SURFACE_DIMENSIONS = new Dimension2( GreenhouseEffectConstants.SUNLIGHT_SP
 const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
 
 // The depth of the layer is primarily used in volume calculations which are then used in the specific heat formula.
-const LAYER_DEPTH = 0.01; // in meters
+const LAYER_DEPTH = 0.0005; // in meters
 
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_DEPTH;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8;

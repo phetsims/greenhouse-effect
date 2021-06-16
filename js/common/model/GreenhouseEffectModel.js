@@ -31,7 +31,7 @@ import SunEnergySource from './SunEnergySource.js';
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
-const NUMBER_OF_ATMOSPHERE_LAYERS = 16; // empirically determined to give us good behavior for temperature and energy flux
+const NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
@@ -86,7 +86,6 @@ class GreenhouseEffectModel {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       minimumTemperature: 245
     } );
-    this.groundLayer.jbId = 'ground'; // TODO: for debug, remove before publication
 
     // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
     this.clouds = createObservableArray();
@@ -94,7 +93,6 @@ class GreenhouseEffectModel {
     // Put the delay between the sun and the ground.  This one is a bit different from the delay lines that interconnect
     // the energy absorbing and emitting layers, so we keep track of it separately.
     this.sunToGroundEnergyDelayLine = new EnergyDelayLine( HEIGHT_OF_ATMOSPHERE / Photon.SPEED, EnergyDirection.DOWN );
-    this.sunToGroundEnergyDelayLine.jbId = 'sunToGroundEnergyDelayLine';
 
     // Connect the sun to the ground.
     this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
