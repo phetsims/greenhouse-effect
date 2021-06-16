@@ -217,8 +217,8 @@ class ObservationWindow extends Node {
     // energy balance
     const energyBalancePanel = new EnergyBalancePanel(
       model.energyBalanceVisibleProperty,
-      model.sunToGroundEnergyDelayLine.incomingEnergyProperty,
-      model.outerSpace.incomingUpwardMovingEnergyProperty
+      model.sun.outputEnergyRateTracker.energyRateProperty,
+      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty
     );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 

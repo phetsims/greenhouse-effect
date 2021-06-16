@@ -188,13 +188,13 @@ class GreenhouseEffectModel {
     // Log debug information to console if flag is set.
     if ( phet.jbDebug ) {
       console.log( '------------------------------------' );
-      this.logScaledEnergy( 'sun output energy:', this.sun.outputEnergyRateTracker.energyRate );
-      this.logScaledEnergy( 'ground incoming energy from above:', this.groundLayer.incomingDownwardMovingEnergyRateTracker.energyRate );
+      this.logScaledEnergy( 'sun output energy:', this.sun.outputEnergyRateTracker.energyRateProperty.value );
+      this.logScaledEnergy( 'ground incoming energy from above:', this.groundLayer.incomingDownwardMovingEnergyRateTracker.energyRateProperty.value );
       this.atmospherLayers.forEach( ( atmosphereLayer, index ) => {
-        this.logScaledEnergy( `layer ${index} incoming energy from below:`, atmosphereLayer.incomingUpwardMovingEnergyRateTracker.energyRate );
-        this.logScaledEnergy( `layer ${index} incoming energy from above:`, atmosphereLayer.incomingDownwardMovingEnergyRateTracker.energyRate );
+        this.logScaledEnergy( `layer ${index} incoming energy from below:`, atmosphereLayer.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value );
+        this.logScaledEnergy( `layer ${index} incoming energy from above:`, atmosphereLayer.incomingDownwardMovingEnergyRateTracker.energyRateProperty.value );
       } );
-      this.logScaledEnergy( 'space incoming upward-moving energy:', this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRate );
+      this.logScaledEnergy( 'space incoming upward-moving energy:', this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value );
 
       phet.jbDebug = false;
     }
@@ -227,6 +227,7 @@ class GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
+    this.sun.reset();
     this.clouds.reset();
     this.groundLayer.reset();
     this.atmospherLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );

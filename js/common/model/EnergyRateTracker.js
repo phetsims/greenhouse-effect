@@ -1,23 +1,26 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * EnergyRateTracker is used primarily for debugging, and it allows clients to track the average amount of energy moving
- * through a system in Watts, which is joules per second.
+ * EnergyRateTracker uses a moving average calculation to track the amount of energy that is moving into or out of a
+ * system.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 // constants
-const ACCUMULATION_TIME = 1; // in seconds
+const ACCUMULATION_PERIOD = 1; // in seconds
+const DECIMAL_PLACES = 1; // used to round the output value so that there isn't too much "noise" due to floating point error and such
 
 class EnergyRateTracker {
 
   constructor() {
 
-    // @public (read-only) {number} - current total for the accumulation period
-    this.energyRate = 0;
+    // @public (read-only) {Property.<number>} - current total for the accumulation period
+    this.energyRateProperty = new NumberProperty( 0 );
 
     // @private {Object[]}, each object has a dt and energy value
     this.energyAccumulator = [];
@@ -40,16 +43,16 @@ class EnergyRateTracker {
     // Loop through all entries and calculate the total for the time period, mark expired entries for removal.
     this.energyAccumulator.forEach( energyAndTimeEntry => {
 
-      if ( totalAccumulatedTime + energyAndTimeEntry.dt <= ACCUMULATION_TIME ) {
+      if ( totalAccumulatedTime + energyAndTimeEntry.dt <= ACCUMULATION_PERIOD ) {
 
         // This energy entry is completely inside the accumulation period, so use all of it.
         energyTotal += energyAndTimeEntry.energy;
         accumulatedEntryTime += energyAndTimeEntry.dt;
       }
-      else if ( totalAccumulatedTime <= ACCUMULATION_TIME && totalAccumulatedTime + energyAndTimeEntry.dt > ACCUMULATION_TIME ) {
+      else if ( totalAccumulatedTime <= ACCUMULATION_PERIOD && totalAccumulatedTime + energyAndTimeEntry.dt > ACCUMULATION_PERIOD ) {
 
         // This energy entry is partially in the window, so use the appropriate proportionate amount.
-        const proportionToUse = ( ( ACCUMULATION_TIME - totalAccumulatedTime ) / energyAndTimeEntry.dt );
+        const proportionToUse = ( ( ACCUMULATION_PERIOD - totalAccumulatedTime ) / energyAndTimeEntry.dt );
         energyTotal += proportionToUse * energyAndTimeEntry.energy;
         accumulatedEntryTime += proportionToUse * energyAndTimeEntry.dt;
       }
@@ -66,7 +69,7 @@ class EnergyRateTracker {
     } );
 
     // Update the publicly available energy total value.
-    this.energyRate = energyTotal / accumulatedEntryTime;
+    this.energyRateProperty.set( Utils.toFixedNumber( energyTotal / accumulatedEntryTime, DECIMAL_PLACES ) );
   }
 
   /**
@@ -74,7 +77,7 @@ class EnergyRateTracker {
    */
   reset() {
     this.energyAccumulator = [];
-    this.energyRate = 0;
+    this.energyRateProperty.reset();
   }
 }
 

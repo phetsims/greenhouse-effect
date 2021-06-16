@@ -24,6 +24,8 @@ import scenery from '../../../../scenery/js/scenery.js';
 import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
+import SunEnergySource from '../model/SunEnergySource.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';
@@ -104,9 +106,8 @@ class EnergyBalancePlot extends Node {
     const netEnergyModelPosition = 2;
     const horizontalModelRange = new Range( inEnergyModelPosition, netEnergyModelPosition );
 
-    // range of the entire plot, in model coordinates
-    // TODO: Derive this from the model.
-    const verticalModelSpan = 400000;
+    // range of the entire plot, in model watts, based on the max output of the sun
+    const verticalModelSpan = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 
     const chartTransform = new ChartTransform( {
       viewWidth: PLOT_VIEW_WIDTH,

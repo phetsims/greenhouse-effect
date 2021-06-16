@@ -15,7 +15,7 @@ import EnergySource from './EnergySource.js';
 
 // Energy produced the sun in Watts per square meter.  This value is pretty realistic, and was adjusted so that it is
 // the value that gets to the desired blackbody temperature of the Earth when using the Stefan-Boltzmann equation.
-const SUN_OUTPUT_ENERGY_RATE = 240;
+const OUTPUT_ENERGY_RATE = 240;
 
 class SunEnergySource extends EnergySource {
 
@@ -38,7 +38,7 @@ class SunEnergySource extends EnergySource {
    * @public
    */
   step( dt ) {
-    const radiatedEnergyThisStep = SUN_OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
+    const radiatedEnergyThisStep = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
     this.outputEnergyRateTracker.logEnergy( radiatedEnergyThisStep, dt );
     this.outputEnergy( EnergyDirection.DOWN, radiatedEnergyThisStep );
   }
@@ -50,6 +50,9 @@ class SunEnergySource extends EnergySource {
     this.outputEnergyRateTracker.reset();
   }
 }
+
+// statics
+SunEnergySource.OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );
 export default SunEnergySource;
