@@ -9,6 +9,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import AxisLine from '../../../../bamboo/js/AxisLine.js';
+import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
 import LabelSet from '../../../../bamboo/js/LabelSet.js';
 import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
@@ -18,7 +19,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import scenery from '../../../../scenery/js/scenery.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -29,7 +29,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 const BAR_COLOR = 'rgb(0,187,115)';
 const BAR_STROKE = 'grey';
 const PLOT_VIEW_WIDTH = 100; // view coordinates
-const PLOT_VIEW_HEIGHT = 60; // view coordinates
+const PLOT_VIEW_HEIGHT = 120; // view coordinates
 
 class EnergyBalancePanel extends Panel {
 
@@ -60,8 +60,8 @@ class EnergyBalancePanel extends Panel {
     } );
     const titleNode = new Node( { children: [ titleText, subTitleText ] } );
 
-
-    // Energy In needs to be plotted in the negative y direction
+    // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
+    // in this sim
     const negatedEnergyInProperty = new DerivedProperty( [ netEnergyInProperty ], netEnergyIn => -netEnergyIn );
 
     const netEnergyProperty = new DerivedProperty( [ negatedEnergyInProperty, netEnergyOutProperty ], ( netIn, netOut ) => {
@@ -112,11 +112,7 @@ class EnergyBalancePlot extends Node {
       viewWidth: PLOT_VIEW_WIDTH,
       modelXRange: horizontalModelRange,
       viewHeight: PLOT_VIEW_HEIGHT,
-
-
-      // TODO: Range should go from some negative value to a positive value. Why does that add more space in the
-      // negative y and put the AxisLine off-center?
-      modelYRange: new Range( 0, verticalModelSpan )
+      modelYRange: new Range( -verticalModelSpan, verticalModelSpan )
     } );
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
@@ -137,7 +133,7 @@ class EnergyBalancePlot extends Node {
 
       // the 'extent' is extra spacing between tick marks and labels, negative value because this is vertically
       // above the plot
-      extent: -20,
+      extent: -30,
 
       // place the labels at the max value of the plot
       value: verticalModelSpan,
@@ -149,17 +145,13 @@ class EnergyBalancePlot extends Node {
       }
     } );
 
-    // contains all plot components and provides consistent bounds as bar sizes change with model data
-    const chartRectangle = new Rectangle( 0, 0, PLOT_VIEW_WIDTH, PLOT_VIEW_HEIGHT * 2, {
-      fill: 'pink'
+    // contains all plot components and provides consistent bounds as the arrows change size with model data
+    const chartRectangle = new ChartRectangle( chartTransform, {
+      children: [ axisLine, barPlot, gridLabels ]
     } );
-
-    chartRectangle.addChild( axisLine );
-    chartRectangle.addChild( barPlot );
-    chartRectangle.addChild( gridLabels );
     this.addChild( chartRectangle );
 
-    // plot bars will get cut off if they extend outside of the initial bounds
+    // Arrows will get cut off if they extend outside of the initial bounds of the plot
     this.clipArea = Shape.bounds( this.bounds );
 
     // listeners
