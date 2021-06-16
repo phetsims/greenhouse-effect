@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * MicroPhoton absorption strategy that defines behavior for a molecule holding on to a photon.  The molecule will hold the

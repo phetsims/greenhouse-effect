@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Class that represents an atom in the model.  This model is expected to be extended by specific atoms.

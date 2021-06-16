@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * RandomIcon is a Scenery node that meets the size constraints of the screen icons needed for PhET simulations.  It is

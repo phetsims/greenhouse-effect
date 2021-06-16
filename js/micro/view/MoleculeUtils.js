@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Provides utility functions to get information about molecules, such as their name, molecular formula

@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Manages alerts for the "Active Molecule" in the observation window. In molecules-and-light you can only have one

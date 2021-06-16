@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * Manages PDOM content that describes the MicroObservationWindow. This contains a single light source, and a target

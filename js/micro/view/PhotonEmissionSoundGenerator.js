@@ -1,4 +1,4 @@
-// Copyright 2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * PhotonEmissionSoundGenerator is a sound generator that produces sounds when photons are emitted.  Photons that are

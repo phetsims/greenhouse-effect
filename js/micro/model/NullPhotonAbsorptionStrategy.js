@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * MicroPhoton absorption strategy that does nothing, meaning that it will never cause a photon to be absorbed.

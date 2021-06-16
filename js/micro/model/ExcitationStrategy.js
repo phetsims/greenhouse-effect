@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * MicroPhoton absorption strategy that causes a molecule to enter an exited state after absorbing a photon, and then re-emit
