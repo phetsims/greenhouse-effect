@@ -39,7 +39,7 @@ class SunEnergySource extends EnergySource {
    */
   step( dt ) {
     const radiatedEnergyThisStep = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
-    this.outputEnergyRateTracker.logEnergy( radiatedEnergyThisStep, dt );
+    this.outputEnergyRateTracker.addEnergyInfo( radiatedEnergyThisStep, dt );
     this.outputEnergy( EnergyDirection.DOWN, radiatedEnergyThisStep );
   }
 

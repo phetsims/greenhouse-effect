@@ -31,7 +31,7 @@ class SpaceEnergySink {
   step( dt ) {
 
     // Log the energy.
-    this.incomingUpwardMovingEnergyRateTracker.logEnergy( this.incomingUpwardMovingEnergyProperty.value, dt );
+    this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( this.incomingUpwardMovingEnergyProperty.value, dt );
 
     // Do nothing with the energy.
     this.incomingUpwardMovingEnergyProperty.reset();

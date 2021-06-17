@@ -34,7 +34,10 @@ const GreenhouseEffectConstants = {
   CONTENT_FONT: new PhetFont( { size: 12 } ),
 
   // horizontal span of the sunlight modeled in the first three screens, in meters
-  SUNLIGHT_SPAN: 85000
+  SUNLIGHT_SPAN: 85000,
+
+  // miscellaneous shared constants
+  MAX_DT: 0.1 // in seconds
 };
 
 greenhouseEffect.register( 'GreenhouseEffectConstants', GreenhouseEffectConstants );

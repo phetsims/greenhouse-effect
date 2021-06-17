@@ -23,6 +23,7 @@ class LayerModelScreen extends Screen {
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
       homeScreenIcon: new RandomIcon( 544 ),
+      maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: greenhouseEffectStrings.screen.layerModel
     };

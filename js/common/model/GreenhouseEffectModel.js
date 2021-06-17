@@ -32,13 +32,10 @@ import SunEnergySource from './SunEnergySource.js';
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
+const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
-
-// We want things to heat up faster than they would in real life, so this is the amount by which this process is sped up
-// versus real live.
-const TIME_ACCELERATION_FACTOR = 1;
 
 class GreenhouseEffectModel {
   constructor() {
@@ -145,6 +142,9 @@ class GreenhouseEffectModel {
 
     // @private - model component for the FluxMeter
     this.fluxMeter = new FluxMeter();
+
+    // @private - used to track how much stepping of the model needs to occur
+    this.modelSteppingTime = 0;
   }
 
   /**
@@ -165,23 +165,29 @@ class GreenhouseEffectModel {
    */
   stepModel( dt ) {
 
-    // The speed of energy transfer and related processes is sped up versus "real life" so as not to tax our users'
-    // patience.
-    const acceleratedDt = dt * TIME_ACCELERATION_FACTOR;
+    // Step the model components at a consistent value in order to avoid instabilities in the layer interactions.  See
+    // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
+    this.modelSteppingTime += dt;
 
-    // Calculate the amount of solar energy that is coming into the system in this step.
-    this.sun.step( acceleratedDt );
+    while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
-    // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
-    // assuming real values.
-    this.sunToGroundEnergyDelayLine.step( dt );
-    this.energyDelayLines.forEach( energyDelayLine => { energyDelayLine.step( dt ); } );
+      // Calculate the amount of solar energy that is coming into the system in this step.
+      this.sun.step( MODEL_TIME_STEP );
 
-    // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
-    // is faster than real life.
-    this.groundLayer.step( acceleratedDt );
-    this.atmospherLayers.forEach( atmosphereLayer => { atmosphereLayer.step( dt ); } );
-    this.outerSpace.step( dt );
+      // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
+      // assuming real values.
+      this.sunToGroundEnergyDelayLine.step( MODEL_TIME_STEP );
+      this.energyDelayLines.forEach( energyDelayLine => { energyDelayLine.step( MODEL_TIME_STEP ); } );
+
+      // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
+      // is faster than real life.
+      this.groundLayer.step( MODEL_TIME_STEP );
+      this.atmospherLayers.forEach( atmosphereLayer => { atmosphereLayer.step( MODEL_TIME_STEP ); } );
+      this.outerSpace.step( MODEL_TIME_STEP );
+
+      // Adjust remaining time for stepping the model.
+      this.modelSteppingTime -= MODEL_TIME_STEP;
+    }
 
     // Log debug information to console if flag is set.
     if ( phet.jbDebug ) {

@@ -72,7 +72,14 @@ class ConcentrationModel extends GreenhouseEffectModel {
       // temperature, and was empirically adjusted to make the concentration slider correspond to the temperatures in a
       // linear fashion.
       this.atmospherLayers.forEach( atmosphereLayer => {
-        const proportionToAbsorbAtSeaLevel = 0.59 * concentration; // multiplier empirically determined to get the desired behavior
+
+        // The multiplier used in this calculation was empirically determined to make the model equilibrate at the max
+        // temperature value defined in the spec (295 K as of this writing).  This may need to change if the number of
+        // layers is adjusted or other changes are made to the model.
+        const proportionToAbsorbAtSeaLevel = 0.775 * concentration;
+
+        // Adjust the energy absorption amounts for each of the layers based on their altitude.  The calculation uses
+        // the barometric formula, see https://en.wikipedia.org/wiki/Barometric_formula.
         const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitude / SCALE_HEIGHT_OF_ATMOSPHERE );
         atmosphereLayer.energyAbsorptionProportionProperty.set( proportionToAbsorbAtSeaLevel * altitudeProportionFactor );
       } );

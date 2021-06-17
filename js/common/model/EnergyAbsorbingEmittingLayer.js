@@ -106,19 +106,9 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
    */
   step( dt ) {
 
-    // Calculate the amount of energy that this layer will radiate per unit area at its current temperature using the
-    // Stefan-Boltzmann equation.  This calculation doesn't allow the energy to radiate if it is below the initial
-    // temperature, which is not real physics, but is needed for the desired behavior of the sim.
-    const radiatedEnergyPerUnitSurfaceArea = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * dt;
-
-    // The total radiated energy depends on whether this layer is radiating in one direction or two.
-    const numberOfRadiatingSurfaces = this.substance.radiationDirections.length;
-    assert && assert( numberOfRadiatingSurfaces === 1 || numberOfRadiatingSurfaces === 2 );
-    let totalRadiatedEnergyThisStep = radiatedEnergyPerUnitSurfaceArea * SURFACE_AREA * numberOfRadiatingSurfaces;
-
     // Update the energy rate trackers.
-    this.incomingDownwardMovingEnergyRateTracker.logEnergy( this.incomingDownwardMovingEnergyProperty.value, dt );
-    this.incomingUpwardMovingEnergyRateTracker.logEnergy( this.incomingUpwardMovingEnergyProperty.value, dt );
+    this.incomingDownwardMovingEnergyRateTracker.addEnergyInfo( this.incomingDownwardMovingEnergyProperty.value, dt );
+    this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( this.incomingUpwardMovingEnergyProperty.value, dt );
 
     // Determine the amount of energy that is absorbed and passed through in each direction.
     const absorptionProportion = this.energyAbsorptionProportionProperty.value;
@@ -134,6 +124,16 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
+
+    // Calculate the amount of energy that this layer will radiate per unit area at its current temperature using the
+    // Stefan-Boltzmann equation.  This calculation doesn't allow the energy to radiate if it is below the initial
+    // temperature, which is not real physics, but is needed for the desired behavior of the sim.
+    const radiatedEnergyPerUnitSurfaceArea = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * dt;
+
+    // The total radiated energy depends on whether this layer is radiating in one direction or two.
+    const numberOfRadiatingSurfaces = this.substance.radiationDirections.length;
+    assert && assert( numberOfRadiatingSurfaces === 1 || numberOfRadiatingSurfaces === 2 );
+    let totalRadiatedEnergyThisStep = radiatedEnergyPerUnitSurfaceArea * SURFACE_AREA * numberOfRadiatingSurfaces;
 
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -totalRadiatedEnergyThisStep / ( this.mass * this.specificHeatCapacity );
