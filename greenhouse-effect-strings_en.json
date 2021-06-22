@@ -77,7 +77,7 @@
   "temperature.units.kelvin": {
     "value": "K"
   },
-  "temperature.units.celcius": {
+  "temperature.units.celsius": {
     "value": "℃"
   },
   "temperature.units.fahrenheit": {

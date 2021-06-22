@@ -25,7 +25,7 @@ import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 // constants
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
-const celciusUnitsString = greenhouseEffectStrings.temperature.units.celcius;
+const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
 class SurfaceThermometer extends Node {
@@ -76,11 +76,11 @@ class SurfaceThermometer extends Node {
         }
       ),
       this.createComboBoxItem(
-        celciusUnitsString,
+        celsiusUnitsString,
         model.surfaceTemperatureCelsiusProperty,
         celsiusRange,
         GreenhouseEffectModel.TemperatureUnits.CELSIUS, {
-          tandemName: 'celciusItem'
+          tandemName: 'celsiusItem'
         }
       ),
       this.createComboBoxItem(
