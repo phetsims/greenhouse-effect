@@ -22,15 +22,8 @@ import EnergySource from './EnergySource.js';
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
-
-  // TODO: There are some variations below, mostly done to make things heat up and cool off faster.  If kept, these
-  //       should be clearly documented.  In general, (at least at the time of this writing), the upper values on the
-  //       list are the "real" ones.
-
-  // GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  GLASS: { density: 2500, specificHeatCapacity: 0.84, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  // EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
-  EARTH: { density: 1250, specificHeatCapacity: 1.25, radiationDirections: [ EnergyDirection.UP ] }
+  GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
@@ -40,10 +33,13 @@ const SURFACE_DIMENSIONS = new Dimension2( GreenhouseEffectConstants.SUNLIGHT_SP
 const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
 
 // The depth of the layer is primarily used in volume calculations which are then used in the specific heat formula.
-const LAYER_DEPTH = 0.0005; // in meters
+// The value used here is in meters, and it is ridiculously small.  This is done so that the layers change temperature
+// very quickly in response to incoming energy.  This is the main place where adjustments should be made to increase or
+// decrease the rates at which temperatures change in the sim.
+const LAYER_DEPTH = 0.00000005;
 
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_DEPTH;
-const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8;
+const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
 class EnergyAbsorbingEmittingLayer extends EnergySource {
 
@@ -93,10 +89,10 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // @public {read-only} - Energy coming in that is moving in the upward direction, so coming from underneath.
     this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
 
-    // @public {read-only} - energy rate tracking for incoming downward-moving energy, used for debugging
+    // @public {read-only} - energy rate tracking for incoming downward-moving energy
     this.incomingDownwardMovingEnergyRateTracker = new EnergyRateTracker();
 
-    // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
+    // @public {read-only} - energy rate tracking for incoming upward-moving energy
     this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
 
     // @private
