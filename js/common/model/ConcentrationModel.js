@@ -12,6 +12,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 
@@ -36,22 +37,31 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
 ] );
 
 class ConcentrationModel extends GreenhouseEffectModel {
-  constructor() {
-    super();
+
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
+    super( tandem );
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
-    this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY );
+    this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY, {
+      tandem: tandem.createTandem( 'dateProperty' )
+    } );
 
     // @public {NumberProperty} - Property for the concentration, when the concentration is controlled directly by value
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
-      range: CONCENTRATION_RANGE
+      range: CONCENTRATION_RANGE,
+      tandem: tandem.createTandem( 'manuallyControlledConcentrationProperty' )
     } );
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
     this.concentrationControlModeProperty = new EnumerationProperty(
       CONCENTRATION_CONTROL_MODE,
-      CONCENTRATION_CONTROL_MODE.BY_VALUE
+      CONCENTRATION_CONTROL_MODE.BY_VALUE, {
+        tandem: tandem.createTandem( 'concentrationControlModeProperty' )
+      }
     );
 
     // @public {DerivedProperty.<number>} - The actual value of concentration for the model, depending on how the
@@ -62,6 +72,9 @@ class ConcentrationModel extends GreenhouseEffectModel {
         return concentrationControl === CONCENTRATION_CONTROL_MODE.BY_VALUE ?
                manuallyControlledConcentration :
                DATE_TO_CONCENTRATION_MAP.get( date );
+      }, {
+        tandem: tandem.createTandem( 'concentrationProperty' ),
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
       } );
 
     // Hook up the concentration to the layers created in the parent class.

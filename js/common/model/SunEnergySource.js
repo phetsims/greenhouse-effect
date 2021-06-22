@@ -21,13 +21,16 @@ class SunEnergySource extends EnergySource {
 
   /**
    * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
+   * @param {Tandem} tandem
    */
-  constructor( surfaceAreaOfIncidentLight ) {
+  constructor( surfaceAreaOfIncidentLight, tandem ) {
 
-    super();
+    super( tandem );
 
     // @public - tracks the average energy output, used primarily for debugging
-    this.outputEnergyRateTracker = new EnergyRateTracker();
+    this.outputEnergyRateTracker = new EnergyRateTracker( {
+      tandem: tandem.createTandem( 'outputEnergyRateTracker' )
+    } );
 
     // @private {number}
     this.surfaceAreaOfIncidentLight = surfaceAreaOfIncidentLight;

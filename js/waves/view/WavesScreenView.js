@@ -91,7 +91,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.pdomControlAreaNode.addChild( visibilityBox );
-    this.pdomControlAreaNode.addChild( mockup );
+    this.pdomPlayAreaNode.addChild( mockup );
 
     // pdom
     this.pdomControlAreaNode.pdomOrder = [

@@ -11,6 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -63,7 +64,10 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
       // {number} - The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the
       // temperature at which it is originally set to.  When at this temperature, the layer will radiate no energy.
       // TODO: Decide whether this is really worth keeping.  It's tricky, and may not be what we really ultimately want.
-      minimumTemperature: 0
+      minimumTemperature: 0,
+
+      // phet-io
+      tandem: Tandem.OPTIONAL
 
     }, options );
 
@@ -75,7 +79,9 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // @public (read-only) - The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
-    this.temperatureProperty = new NumberProperty( options.minimumTemperature );
+    this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
+      tandem: options.tandem.createTandem( 'temperatureProperty' )
+    } );
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.

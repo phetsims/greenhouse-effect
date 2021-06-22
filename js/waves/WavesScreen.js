@@ -30,7 +30,7 @@ class WavesScreen extends Screen {
     };
 
     super(
-      () => {return new WavesModel();},
+      () => new WavesModel( tandem.createTandem( 'model' ) ),
       model => new WavesScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );

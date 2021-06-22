@@ -9,6 +9,8 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import merge from '../../../../phet-core/js/merge.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergySource from './EnergySource.js';
 
@@ -17,13 +19,22 @@ class EnergyDelayLine extends EnergySource {
   /**
    * @param {number} delayTime - in seconds
    * @param {EnergyDirection} direction - Is this energy moving up or down?
+   * @param {Object} [options]
    */
-  constructor( delayTime, direction ) {
+  constructor( delayTime, direction, options ) {
+
+    options = merge( {
+
+      // phet-io
+      tandem: Tandem.OPTIONAL
+    }, options );
 
     super();
 
     // @public - incoming energy this step
-    this.incomingEnergyProperty = new NumberProperty( 0 );
+    this.incomingEnergyProperty = new NumberProperty( 0, {
+      tandem: options.tandem.createTandem( 'incomingEnergyProperty' )
+    } );
 
     // @private
     this.direction = direction;

@@ -38,29 +38,46 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 class GreenhouseEffectModel {
-  constructor() {
+
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
     // @public {BooleanProperty} - controls whether the model has been started
-    this.isStartedProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted );
+    this.isStartedProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
+      tandem: tandem.createTandem( 'isStartedProperty' )
+    } );
 
     // @public {NumberProperty} - playing speed for the model
-    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL );
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+      tandem: tandem.createTandem( 'timeSpeedProperty' )
+    } );
 
     // @public {BooleanProperty} - controls whether the model is stepping through time or paused
-    this.isPlayingProperty = new BooleanProperty( true );
+    this.isPlayingProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'isPlayingProperty' )
+    } );
 
     // @public {BooleanProperty} - if true, a larger number of photons are shown
-    this.allPhotonsVisibleProperty = new BooleanProperty( false );
+    this.allPhotonsVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
+    } );
 
     // @public {BooleanProperty} - whether or not the flux meter is visible
-    this.fluxMeterVisibleProperty = new BooleanProperty( false );
+    this.fluxMeterVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
+    } );
 
     // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
-    this.energyBalanceVisibleProperty = new BooleanProperty( false );
+    this.energyBalanceVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
+    } );
 
     // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
-      range: new Range( 0, 500 )
+      range: new Range( 0, 500 ),
+      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' )
     } );
 
     // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
@@ -70,18 +87,23 @@ class GreenhouseEffectModel {
     this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
 
     // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
-    this.surfaceThermometerVisibleProperty = new BooleanProperty( true );
+    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
+    } );
 
     // @public {EnumerationProperty} - displayed units of temperature
-    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN );
+    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
+      tandem: tandem.createTandem( 'temperatureUnitsProperty' )
+    } );
 
     // @private - main energy source coming into the system
-    this.sun = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA );
+    this.sun = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA, tandem.createTandem( 'sun' ) );
 
     // @public (read-only) - model of the ground that absorbs energy, heats up, and radiates
     this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
-      minimumTemperature: 245
+      minimumTemperature: 245,
+      tandem: tandem.createTandem( 'groundLayer' )
     } );
 
     // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
@@ -89,7 +111,12 @@ class GreenhouseEffectModel {
 
     // Put the delay between the sun and the ground.  This one is a bit different from the delay lines that interconnect
     // the energy absorbing and emitting layers, so we keep track of it separately.
-    this.sunToGroundEnergyDelayLine = new EnergyDelayLine( HEIGHT_OF_ATMOSPHERE / Photon.SPEED, EnergyDirection.DOWN );
+    this.sunToGroundEnergyDelayLine = new EnergyDelayLine(
+      HEIGHT_OF_ATMOSPHERE / Photon.SPEED,
+      EnergyDirection.DOWN, {
+        tandem: tandem.createTandem( 'sunToGroundEnergyDelayLine' )
+      }
+    );
 
     // Connect the sun to the ground.
     this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
@@ -113,9 +140,15 @@ class GreenhouseEffectModel {
       this.atmospherLayers.push( atmosphereLayer );
 
       // Create the delay lines that will connect the just-created layer to the layer below.
-      const upwardEnergyDelayLine = new EnergyDelayLine( distanceBetweenLayers / Photon.SPEED, EnergyDirection.UP );
+      const upwardEnergyDelayLine = new EnergyDelayLine(
+        distanceBetweenLayers / Photon.SPEED,
+        EnergyDirection.UP
+      );
       this.energyDelayLines.push( upwardEnergyDelayLine );
-      const downwardEnergyDelayLine = new EnergyDelayLine( distanceBetweenLayers / Photon.SPEED, EnergyDirection.DOWN );
+      const downwardEnergyDelayLine = new EnergyDelayLine(
+        distanceBetweenLayers / Photon.SPEED,
+        EnergyDirection.DOWN
+      );
       this.energyDelayLines.push( downwardEnergyDelayLine );
 
       // Interconnect the layers via the delay lines.
@@ -141,7 +174,7 @@ class GreenhouseEffectModel {
     } );
 
     // @private - model component for the FluxMeter
-    this.fluxMeter = new FluxMeter();
+    this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
 
     // @private - used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;

@@ -29,17 +29,29 @@ const CLOUD_WIDTH = 20000; // cloud width
 const CLOUD_DEPTH = 3000; // cloud depth
 
 class WavesModel extends ConcentrationModel {
-  constructor() {
-    super();
 
-    this.timeProperty = new NumberProperty( 0 );
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
+    super( tandem );
+
+    this.timeProperty = new NumberProperty( 0, {
+      tandem: tandem.createTandem( 'timeProperty' )
+    } );
 
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
-    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false );
+    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
+    } );
+
+    // @public {BooleanProperty} - whether or not the Cloud in the WavesModel is added to the model
+    this.cloudVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'cloudVisibleProperty' )
+    } );
 
     this.yellowWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.SUNLIGHT_COLOR );
     this.redWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.INFRARED_COLOR );
-    this.cloudVisibleProperty = new BooleanProperty( false );
     this.showGapProperty = new BooleanProperty( true );
 
     this.waves = [];

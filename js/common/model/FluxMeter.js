@@ -8,14 +8,18 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 class FluxMeter {
-  constructor() {
+
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
     // @public {NumberProperty} - These are dummy Properties for now. I am guessing that the real way to do this will
     // be to have a Model for the sensor that will include its position, bounds, and calculate the flux of Photons in
@@ -29,7 +33,9 @@ class FluxMeter {
     this.sensorBounds = new Bounds2( 0, 0, 20000, 3500 );
 
     // @public {Vector2Property} - the center of the flux sensor in model coordinates (meters)
-    this.sensorPositionProperty = new Vector2Property( new Vector2( 0, 30000 ) );
+    this.sensorPositionProperty = new Vector2Property( new Vector2( 0, 30000 ), {
+      tandem: tandem.createTandem( 'sensorPositionProperty' )
+    } );
 
     // @public {DerivedProperty<Vector2>} - The position in model coordinates where the flux meter wire
     // connects to the sensor, in meters

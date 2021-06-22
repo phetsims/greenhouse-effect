@@ -9,6 +9,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Utils from '../../../../dot/js/Utils.js';
 
@@ -23,11 +24,16 @@ class EnergyRateTracker {
     options = merge( {
 
       // {number} - the period of time over which the recorded values are averaged
-      accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD
+      accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD,
+
+      // phet-io
+      tandem: Tandem.OPTIONAL
     }, options );
 
     // @public (read-only) {Property.<number>} - current total for the accumulation period
-    this.energyRateProperty = new NumberProperty( 0 );
+    this.energyRateProperty = new NumberProperty( 0, {
+      tandem: options.tandem.createTandem( 'energyRateProperty' )
+    } );
 
     // @private {Object[]}, each object has a dt and energy value
     this.energyInfoQueue = [];
