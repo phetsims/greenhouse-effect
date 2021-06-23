@@ -32,13 +32,13 @@ const Substance = Enumeration.byMap( {
 const SURFACE_DIMENSIONS = new Dimension2( GreenhouseEffectConstants.SUNLIGHT_SPAN, 1 );
 const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
 
-// The depth of the layer is primarily used in volume calculations which are then used in the specific heat formula.
+// The thickness of the layer is primarily used in volume calculations which are then used in the specific heat formula.
 // The value used here is in meters, and it is ridiculously small.  This is done so that the layers change temperature
 // very quickly in response to incoming energy.  This is the main place where adjustments should be made to increase or
 // decrease the rates at which temperatures change in the sim.
-const LAYER_DEPTH = 0.00000005;
+const LAYER_THICKNESS = 0.0000001;
 
-const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_DEPTH;
+const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
 class EnergyAbsorbingEmittingLayer extends EnergySource {
