@@ -221,23 +221,23 @@ class MicroScreenView extends ScreenView {
     this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, photonEmissionControlPanel, moleculeControlPanel ];
     this.pdomControlAreaNode.pdomOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
 
-    // Alternative Input - no matter where focus is in the document, pressing alt + k will manually step forward
+    // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
     // in time
     const globalKeyboardListener = event => {
-      if ( !photonAbsorptionModel.runningProperty.get() ) {
-        if ( KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_L ) && globalKeyStateTracker.altKeyDown ) {
-          if ( timeControlNode.pdomDisplayed ) {
+      if (
+        timeControlNode.pdomDisplayed &&
+        !photonAbsorptionModel.runningProperty.get() &&
+        globalKeyStateTracker.altKeyDown &&
+        KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_L ) ) {
 
-            // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
-            // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
-            // move farther than the absorption window of a molecule in a single step and pass over the molecule without
-            // checking for absorption.
-            const timeStep = 2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
-            photonAbsorptionModel.manualStep( timeStep );
+        // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
+        // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
+        // move farther than the absorption window of a molecule in a single step and pass over the molecule without
+        // checking for absorption.
+        const timeStep = 2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
+        photonAbsorptionModel.manualStep( timeStep );
 
-            stepForwardSoundPlayer.play();
-          }
-        }
+        stepForwardSoundPlayer.play();
       }
     };
     globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
