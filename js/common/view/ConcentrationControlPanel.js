@@ -32,6 +32,10 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sliderSound01 from '../../../sounds/greenhouse-gas-concentration-slider-001_mp3.js';
+import sliderSoundBell from '../../../sounds/greenhouse-gas-concentration-bell_mp3.js';
+import sliderSoundOctaveDown from '../../../sounds/greenhouse-gas-concentration-slider-octave-down_mp3.js';
+import sliderSoundOctaveUp from '../../../sounds/greenhouse-gas-concentration-slider-octave-up_mp3.js';
+import sliderSoundSineWoop from '../../../sounds/greenhouse-gas-concentration-slider-sine-woop_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -74,6 +78,14 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   selectedStroke: 'rgb(0,173,221)',
   selectedLineWidth: 2
 };
+
+const CANDIDATE_SLIDER_SOUNDS = [
+  sliderSound01,
+  sliderSoundOctaveDown,
+  sliderSoundOctaveUp,
+  sliderSoundBell,
+  sliderSoundSineWoop
+];
 
 class ConcentrationControlPanel extends Panel {
 
@@ -518,7 +530,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     dynamicsCompressorNode.connect( this.masterGainNode );
 
     // @private - sound clip that forms the basis of all sounds that are produced
-    this.mainSoundClip = new SoundClip( sliderSound01, {
+    this.mainSoundClip = new SoundClip( CANDIDATE_SLIDER_SOUNDS[ 4 ], {
       rateChangesAffectPlayingSounds: false
     } );
     this.mainSoundClip.connect( dynamicsCompressorNode );
@@ -562,7 +574,6 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     _.times( numberOfTimesToPlay, () => {
 
       // Set the playback rate with some randomization.
-      // this.mainSoundClip.setPlaybackRate( minimumPlaybackRate + dotRandom.nextDouble() * 0.5, 0 );
       this.mainSoundClip.setPlaybackRate( minimumPlaybackRate * ( 1 + dotRandom.nextDouble() * 0.2 ), 0 );
 
       // Put some spacing between each playing of the clip.  The parameters of the calculation are broken out to make
@@ -593,7 +604,8 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
       else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
 
         // Play sound for the maximum value.
-        this.playMultipleTimesRandomized( 3, Math.ceil( this.numberOfBins / 3 ) );
+        this.mainSoundClip.setPlaybackRate( 2 * ( this.numberOfBins + 1 ) / this.numberOfBins + 1 );
+        this.mainSoundClip.play();
       }
       else {
         const previousBin = this.getBin( this.previousConcentration );

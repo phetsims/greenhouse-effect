@@ -1,0 +1,21 @@
+/* eslint-disable */
+import asyncLoader from '../../phet-core/js/asyncLoader.js';
+import base64SoundToByteArray from '../../tambo/js/base64SoundToByteArray.js';
+import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
+import phetAudioContext from '../../tambo/js/phetAudioContext.js';
+
+const soundURI = 'data:audio/mpeg;base64,//swxAAAA2AXG1QwADFNCGx/N4ZCAADzbAUABCrgbvoBuIAQ4P+p2D4f9///+IAQAAAABGFoBXVng4owFowAANmdT3WU0szOY4CyJgaYa8oGmGxkRKLAocaXRIglhhQqXJBw8UBQOBCDoce4hsqh3/r7woe3XvC7HaPR7/mlf6UeU/uVAAAaCIAAAwWAdDAVFnMS8bAxGhJzEeTY//syxAwCCeRvLV3igAEOBmOJ3+xKPvQ3UyyhozEaDXMAoEQwJQNDBDA6MEUDYOAmEAAI8A04TTqwIAoRBQFDuqUzGm/9LeIfR///9IAQAbEugdve6VScM9xxMK7SXDHRBsEwxsJcMBbADzaA0WmDn1AzwZMzFDFQ0yUFRFZlA+L/duds3lBr/9vkv/+v+S9KACoTIQAYAlh3vXHMCv/7MsQGggeYJR7ueyJQ6QRj6b9sQmcqMJi2x5HfGH8Y44VgcJIdqhmJmwmYBKYohFRWd7tMaABWV3/f0evnPpu5Jn93tAu9zVoAwSEPHVD72ww0gMWEiA2GycDU4czQoAyuFQUwIESHDAWnltTM6GpYs2DW7R779OXuv/3f0+oAau///B+kQWQDgAZ882KGSsONkJGjxiJqzCBIIy//+zLEDwAHTEc3LDzGcKKDZIjMMBbHvb1ufpiAkSIBOBHrKO7+GCeTRo/jjh/PsyCdI0RYtBUvCIYD4jhstYBlDIcj56pEFRDll+/e3DRHIlf/uPdv/79x3+hMQU1FMy45OS41qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//swxCGDwAABpAAAACAAADSAAAAEqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpMQU1FMy45OS41qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//syxGUDwAABpAAAACAAADSAAAAEqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpMQU1FMy45OS41qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv/7MsSpA8AAAaQAAAAgAAA0gAAABKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqTEFNRTMuOTkuNaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/+zLEu4PAAAGkAAAAIAAANIAAAASqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//swxLwDwAABpAAAACAAADSAAAAEqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//syxLuDwAABpAAAACAAADSAAAAEqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqg==';
+const soundByteArray = base64SoundToByteArray( phetAudioContext, soundURI );
+const unlock = asyncLoader.createLock( soundURI );
+const wrappedAudioBuffer = new WrappedAudioBuffer();
+const onDecodeSuccess = decodedAudio => {
+  wrappedAudioBuffer.audioBufferProperty.set( decodedAudio );
+  unlock();
+};
+const onDecodeError = decodeError => {
+  console.warn( 'decode of audio data failed, using stubbed sound, error: ' + decodeError );
+  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 0, phetAudioContext.sampleRate ) );
+  unlock();
+};
+phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError );
+export default wrappedAudioBuffer;
