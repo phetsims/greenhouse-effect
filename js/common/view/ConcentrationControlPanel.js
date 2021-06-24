@@ -530,7 +530,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     dynamicsCompressorNode.connect( this.masterGainNode );
 
     // @private - sound clip that forms the basis of all sounds that are produced
-    this.mainSoundClip = new SoundClip( CANDIDATE_SLIDER_SOUNDS[ 4 ], {
+    this.mainSoundClip = new SoundClip( CANDIDATE_SLIDER_SOUNDS[ 1 ], {
       rateChangesAffectPlayingSounds: false
     } );
     this.mainSoundClip.connect( dynamicsCompressorNode );
