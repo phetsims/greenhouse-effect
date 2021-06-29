@@ -31,11 +31,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import sliderSound01 from '../../../sounds/greenhouse-gas-concentration-slider-001_mp3.js';
-import sliderSoundBell from '../../../sounds/greenhouse-gas-concentration-bell_mp3.js';
-import sliderSoundOctaveDown from '../../../sounds/greenhouse-gas-concentration-slider-octave-down_mp3.js';
-import sliderSoundOctaveUp from '../../../sounds/greenhouse-gas-concentration-slider-octave-up_mp3.js';
-import sliderSoundSineWoop from '../../../sounds/greenhouse-gas-concentration-slider-sine-woop_mp3.js';
+import sliderBaseSound from '../../../sounds/greenhouse-gas-concentration-slider-octave-down_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -78,14 +74,6 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   selectedStroke: 'rgb(0,173,221)',
   selectedLineWidth: 2
 };
-
-const CANDIDATE_SLIDER_SOUNDS = [
-  sliderSound01,
-  sliderSoundOctaveDown,
-  sliderSoundOctaveUp,
-  sliderSoundBell,
-  sliderSoundSineWoop
-];
 
 class ConcentrationControlPanel extends Panel {
 
@@ -530,10 +518,10 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     dynamicsCompressorNode.connect( this.masterGainNode );
 
     // @private - sound clip that forms the basis of all sounds that are produced
-    this.mainSoundClip = new SoundClip( CANDIDATE_SLIDER_SOUNDS[ 1 ], {
+    this.baseSoundClip = new SoundClip( sliderBaseSound, {
       rateChangesAffectPlayingSounds: false
     } );
-    this.mainSoundClip.connect( dynamicsCompressorNode );
+    this.baseSoundClip.connect( dynamicsCompressorNode );
 
     // @private - The number of bins was chosen to match the design of the slider.
     this.numberOfBins = 10;
@@ -567,6 +555,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
    */
   playMultipleTimesRandomized( minimumPlaybackRate, numberOfTimesToPlay ) {
 
+    // parameters the bound the randomization, empirically determined
     const minimumInterSoundTime = 0.06;
     const maximumInterSoundTime = minimumInterSoundTime * 1.5;
 
@@ -574,14 +563,14 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     _.times( numberOfTimesToPlay, () => {
 
       // Set the playback rate with some randomization.
-      this.mainSoundClip.setPlaybackRate( minimumPlaybackRate * ( 1 + dotRandom.nextDouble() * 0.2 ), 0 );
+      this.baseSoundClip.setPlaybackRate( minimumPlaybackRate * ( 1 + dotRandom.nextDouble() * 0.2 ), 0 );
 
       // Put some spacing between each playing of the clip.  The parameters of the calculation are broken out to make
       // experimentation and adjustment easier.
-      this.mainSoundClip.play( delayAmount );
+      this.baseSoundClip.play( delayAmount );
       delayAmount = delayAmount + minimumInterSoundTime + dotRandom.nextDouble() * ( maximumInterSoundTime - minimumInterSoundTime );
     } );
-    this.mainSoundClip.setPlaybackRate( 1, 0 );
+    this.baseSoundClip.setPlaybackRate( 1, 0 );
   }
 
   /**
@@ -599,13 +588,13 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
       if ( this.concentrationProperty.value === this.concentrationProperty.range.min ) {
 
         // Play sound for the minimum value.
-        this.mainSoundClip.play();
+        this.baseSoundClip.play();
       }
       else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
 
         // Play sound for the maximum value.
-        this.mainSoundClip.setPlaybackRate( 2 * ( this.numberOfBins + 1 ) / this.numberOfBins + 1 );
-        this.mainSoundClip.play();
+        this.baseSoundClip.setPlaybackRate( 2 * ( this.numberOfBins + 1 ) / this.numberOfBins + 1 );
+        this.baseSoundClip.play();
       }
       else {
         const previousBin = this.getBin( this.previousConcentration );
