@@ -602,7 +602,14 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
 
         // Play a sound if a bin threshold has been crossed or if the change was due to keyboard interaction.
         if ( currentBin !== previousBin || event.pointer.type === 'pdom' ) {
-          this.playMultipleTimesRandomized( 2 * currentBin / this.numberOfBins + 1, Math.floor( currentBin / 3 ) + 2 );
+
+          // Play a number of sounds, more as the value increases.  However, if there are already a number of sounds
+          // playing, only add one more.  Otherwise, it gets to be a bit much.
+          const numberOfInstancesToPlay = this.baseSoundClip.getNumberOfPlayingInstances() >= 2 ?
+                                          1 :
+                                          Math.floor( currentBin / 3 ) + 2;
+
+          this.playMultipleTimesRandomized( 2 * currentBin / this.numberOfBins + 1, numberOfInstancesToPlay );
         }
       }
       this.previousConcentration = currentConcentration;
