@@ -15,14 +15,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-gas-concentration-slider-octave-down.mp3": {
-    "text": [
-      "Copyright 2020 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
-  },
   "break-apart.mp3": {
     "text": [
       "Copyright 2018 University of Colorado Boulder"
@@ -126,6 +118,14 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "slider-movement.mp3": {
+    "text": [
+      "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
   },
   "start-sunlight-chord.mp3": {
     "text": [
