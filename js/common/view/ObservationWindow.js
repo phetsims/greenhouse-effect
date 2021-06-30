@@ -120,7 +120,7 @@ class ObservationWindow extends Node {
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
     const atmosphereLayerNodes = [];
-    model.atmospherLayers.forEach( atmosphereLayer => {
+    model.atmosphereLayers.forEach( atmosphereLayer => {
       atmosphereLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, mvt, {
         lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
         visible: GreenhouseEffectQueryParameters.showAllLayers

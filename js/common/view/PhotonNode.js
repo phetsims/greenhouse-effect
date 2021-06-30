@@ -9,8 +9,8 @@
 
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import visiblePhotonImage from '../../../images/thin2_png.js';
 import infraredPhotonImage from '../../../images/photon-660_png.js';
+import visiblePhotonImage from '../../../images/thin2_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Photon from '../model/Photon.js';
 

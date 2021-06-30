@@ -72,7 +72,7 @@ class SurfaceThermometer extends Node {
         model.surfaceTemperatureKelvinProperty,
         model.surfaceTemperatureKelvinProperty.range,
         GreenhouseEffectModel.TemperatureUnits.KELVIN, {
-            tandemName: 'kelvinItem'
+          tandemName: 'kelvinItem'
         }
       ),
       this.createComboBoxItem(

@@ -10,9 +10,9 @@
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
 
 // constants
 const LABEL_ICON_SPACING = 10;

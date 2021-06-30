@@ -7,9 +7,11 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
-import EnergySource from './EnergySource.js';
+import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 
 // constants
 
@@ -17,7 +19,7 @@ import EnergySource from './EnergySource.js';
 // the value that gets to the desired blackbody temperature of the Earth when using the Stefan-Boltzmann equation.
 const OUTPUT_ENERGY_RATE = 240;
 
-class SunEnergySource extends EnergySource {
+class SunEnergySource {
 
   /**
    * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
@@ -25,9 +27,7 @@ class SunEnergySource extends EnergySource {
    */
   constructor( surfaceAreaOfIncidentLight, tandem ) {
 
-    super( tandem );
-
-    // @public - tracks the average energy output, used primarily for debugging
+    // @public - tracks the average energy output
     this.outputEnergyRateTracker = new EnergyRateTracker( {
       tandem: tandem.createTandem( 'outputEnergyRateTracker' )
     } );
@@ -37,13 +37,20 @@ class SunEnergySource extends EnergySource {
   }
 
   /**
-   * @param {number} dt - delta time, in seconds
+   * Produce an energy packet that represents the sun shining towards the earth for the specified amount of time.
+   * @param {number} dt
+   * @returns {EMEnergyPacket}
    * @public
    */
-  step( dt ) {
-    const radiatedEnergyThisStep = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
-    this.outputEnergyRateTracker.addEnergyInfo( radiatedEnergyThisStep, dt );
-    this.outputEnergy( EnergyDirection.DOWN, radiatedEnergyThisStep );
+  produceEnergy( dt ) {
+    const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
+    this.outputEnergyRateTracker.addEnergyInfo( energyToProduce, dt );
+    return new EMEnergyPacket(
+      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
+      energyToProduce,
+      GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE,
+      EnergyDirection.DOWN
+    );
   }
 
   /**

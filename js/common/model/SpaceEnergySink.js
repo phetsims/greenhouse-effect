@@ -9,32 +9,44 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 
 class SpaceEnergySink {
 
-  constructor( ) {
+  constructor( altitude ) {
 
-    // @public {read-only} - Energy coming in that is moving in the upward direction.
-    this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
+    // @private
+    this.altitude = altitude;
 
     // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
     this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
   }
 
   /**
-   * @param {number} dt - delta time, in seconds
+   * Check for interaction with the provided energy.  In this case, energy that is emitted into space is removed.
+   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @param {number} dt
    * @public
    */
-  step( dt ) {
+  interactWithEnergy( emEnergyPackets, dt ) {
 
-    // Log the energy.
-    this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( this.incomingUpwardMovingEnergyProperty.value, dt );
+    let energyEmittedIntoSpace = 0;
 
-    // Do nothing with the energy.
-    this.incomingUpwardMovingEnergyProperty.reset();
+    emEnergyPackets.forEach( energyPacket => {
+
+      if ( energyPacket.altitude >= this.altitude && energyPacket.directionOfTravel === EnergyDirection.UP ) {
+        energyEmittedIntoSpace += energyPacket.energy;
+        energyPacket.energy = 0; // Zero out the packet so it can be removed from the list below.
+      }
+    } );
+
+    // Track the incoming energy rate.
+    this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( energyEmittedIntoSpace, dt );
+
+    // Remove any energy that emitted into space, since we don't need it anymore.
+    _.remove( emEnergyPackets, energyPacket => energyPacket.energy === 0 );
   }
 }
 

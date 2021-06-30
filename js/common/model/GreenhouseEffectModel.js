@@ -13,7 +13,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -21,10 +20,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
-import EnergyDelayLine from './EnergyDelayLine.js';
-import EnergyDirection from './EnergyDirection.js';
 import FluxMeter from './FluxMeter.js';
-import Photon from './Photon.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 
@@ -96,6 +92,9 @@ class GreenhouseEffectModel {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
+    // @private {EMEnergyPacket[]} - electromagnetic energy that is moving within the model
+    this.emEnergyPackets = [];
+
     // @private - main energy source coming into the system
     this.sun = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA, tandem.createTandem( 'sun' ) );
 
@@ -109,64 +108,22 @@ class GreenhouseEffectModel {
     // @public {ObservableArray.<Cloud>} - observable list of Clouds in the simulation that may interact with photons
     this.clouds = createObservableArray();
 
-    // Put the delay between the sun and the ground.  This one is a bit different from the delay lines that interconnect
-    // the energy absorbing and emitting layers, so we keep track of it separately.
-    this.sunToGroundEnergyDelayLine = new EnergyDelayLine(
-      HEIGHT_OF_ATMOSPHERE / Photon.SPEED,
-      EnergyDirection.DOWN, {
-        tandem: tandem.createTandem( 'sunToGroundEnergyDelayLine' )
-      }
-    );
-
-    // Connect the sun to the ground.
-    this.sun.connectOutput( EnergyDirection.DOWN, this.sunToGroundEnergyDelayLine.incomingEnergyProperty );
-    this.sunToGroundEnergyDelayLine.connectOutput( EnergyDirection.DOWN, this.groundLayer.incomingDownwardMovingEnergyProperty );
-
     // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy absorbing and emitting layers for the atmosphere
-    this.atmospherLayers = [];
+    this.atmosphereLayers = [];
 
-    // @private {EnergyDelayLine[]} - Delay lines that are used to delay the transfer of energy, thus simulating
-    // the propagation of electromagnetic radiation over a distance.
-    this.energyDelayLines = [];
-
-    // Create the energy absorbing and emitting layers that model the atmosphere and interconnect them with delay lines.
-    const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / ( NUMBER_OF_ATMOSPHERE_LAYERS + 1 );
+    // Create the energy absorbing and emitting layers that model the atmosphere.
+    const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
 
       // Create the energy absorbing/emitting layer in the atmosphere.
       const atmosphereLayer = new EnergyAbsorbingEmittingLayer( distanceBetweenLayers * ( index + 1 ), {
         minimumTemperature: 0
       } );
-      this.atmospherLayers.push( atmosphereLayer );
-
-      // Create the delay lines that will connect the just-created layer to the layer below.
-      const upwardEnergyDelayLine = new EnergyDelayLine(
-        distanceBetweenLayers / Photon.SPEED,
-        EnergyDirection.UP
-      );
-      this.energyDelayLines.push( upwardEnergyDelayLine );
-      const downwardEnergyDelayLine = new EnergyDelayLine(
-        distanceBetweenLayers / Photon.SPEED,
-        EnergyDirection.DOWN
-      );
-      this.energyDelayLines.push( downwardEnergyDelayLine );
-
-      // Interconnect the layers via the delay lines.
-      const lowerLayer = index === 0 ? this.groundLayer : this.atmospherLayers[ index - 1 ];
-      lowerLayer.connectOutput( EnergyDirection.UP, upwardEnergyDelayLine.incomingEnergyProperty );
-      upwardEnergyDelayLine.connectOutput( EnergyDirection.UP, atmosphereLayer.incomingUpwardMovingEnergyProperty );
-      atmosphereLayer.connectOutput( EnergyDirection.DOWN, downwardEnergyDelayLine.incomingEnergyProperty );
-      downwardEnergyDelayLine.connectOutput( EnergyDirection.DOWN, lowerLayer.incomingDownwardMovingEnergyProperty );
+      this.atmosphereLayers.push( atmosphereLayer );
     } );
 
     // @public (read-only) - the endpoint where energy radiating from the top layer goes
-    this.outerSpace = new SpaceEnergySink();
-
-    // Connect the topmost atmosphere layer to outer space.
-    this.atmospherLayers[ this.atmospherLayers.length - 1 ].connectOutput(
-      EnergyDirection.UP,
-      this.outerSpace.incomingUpwardMovingEnergyProperty
-    );
+    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers );
 
     // Connect up the surface temperature property to that of the ground layer model element.
     this.groundLayer.temperatureProperty.link( groundTemperature => {
@@ -178,16 +135,6 @@ class GreenhouseEffectModel {
 
     // @private - used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
-  }
-
-  /**
-   * TODO: This is a temporary method used for debugging.
-   * @param {string} message
-   * @param {number} energy
-   * @private
-   */
-  logScaledEnergy( message, energy ) {
-    console.log( `${message} ${Utils.toFixed( energy / EnergyAbsorbingEmittingLayer.SURFACE_AREA, 0 )}` );
   }
 
   /**
@@ -204,36 +151,21 @@ class GreenhouseEffectModel {
 
     while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
-      // Calculate the amount of solar energy that is coming into the system in this step.
-      this.sun.step( MODEL_TIME_STEP );
+      // Add the energy produced by the sun.
+      this.emEnergyPackets.push( this.sun.produceEnergy( MODEL_TIME_STEP ) );
 
-      // Step the energy delay lines.  These use normal, non-accelerated time because the delay values are calculated
-      // assuming real values.
-      this.sunToGroundEnergyDelayLine.step( MODEL_TIME_STEP );
-      this.energyDelayLines.forEach( energyDelayLine => { energyDelayLine.step( MODEL_TIME_STEP ); } );
+      // Step the energy packets, which causes them to move.
+      this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
 
-      // Step the energy absorbing/emitting layers.  These use accelerated time so that they heat and cool at a rate that
-      // is faster than real life.
-      this.groundLayer.step( MODEL_TIME_STEP );
-      this.atmospherLayers.forEach( atmosphereLayer => { atmosphereLayer.step( MODEL_TIME_STEP ); } );
-      this.outerSpace.step( MODEL_TIME_STEP );
+      // Check for interaction between the energy packets and ground, the atmosphere, and space.
+      this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      this.atmosphereLayers.forEach( atmosphereLayer => {
+        atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      } );
+      this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
       // Adjust remaining time for stepping the model.
       this.modelSteppingTime -= MODEL_TIME_STEP;
-    }
-
-    // Log debug information to console if flag is set.
-    if ( phet.jbDebug ) {
-      console.log( '------------------------------------' );
-      this.logScaledEnergy( 'sun output energy:', this.sun.outputEnergyRateTracker.energyRateProperty.value );
-      this.logScaledEnergy( 'ground incoming energy from above:', this.groundLayer.incomingDownwardMovingEnergyRateTracker.energyRateProperty.value );
-      this.atmospherLayers.forEach( ( atmosphereLayer, index ) => {
-        this.logScaledEnergy( `layer ${index} incoming energy from below:`, atmosphereLayer.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value );
-        this.logScaledEnergy( `layer ${index} incoming energy from above:`, atmosphereLayer.incomingDownwardMovingEnergyRateTracker.energyRateProperty.value );
-      } );
-      this.logScaledEnergy( 'space incoming upward-moving energy:', this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value );
-
-      phet.jbDebug = false;
     }
   }
 
@@ -267,9 +199,8 @@ class GreenhouseEffectModel {
     this.sun.reset();
     this.clouds.reset();
     this.groundLayer.reset();
-    this.atmospherLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
-    this.sunToGroundEnergyDelayLine.reset();
-    this.energyDelayLines.forEach( energyDelayLine => {energyDelayLine.reset(); } );
+    this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
+    this.emEnergyPackets = [];
   }
 }
 

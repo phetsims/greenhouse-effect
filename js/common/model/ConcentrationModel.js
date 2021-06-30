@@ -84,7 +84,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
       // less.  This numerical mapping is very important to the correct operation of the simulation with respect to
       // temperature, and was empirically adjusted to make the concentration slider correspond to the temperatures in a
       // linear fashion.
-      this.atmospherLayers.forEach( atmosphereLayer => {
+      this.atmosphereLayers.forEach( atmosphereLayer => {
 
         // The multiplier used in this calculation was empirically determined to make the model equilibrate at the max
         // temperature value defined in the spec (295 K as of this writing).  This may need to change if the number of

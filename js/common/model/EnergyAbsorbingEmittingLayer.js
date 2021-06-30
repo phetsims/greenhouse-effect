@@ -14,9 +14,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
-import EnergyRateTracker from './EnergyRateTracker.js';
-import EnergySource from './EnergySource.js';
 
 // constants
 
@@ -41,7 +40,7 @@ const LAYER_THICKNESS = 0.0000001;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
-class EnergyAbsorbingEmittingLayer extends EnergySource {
+class EnergyAbsorbingEmittingLayer {
 
   /**
    * @param {number} altitude
@@ -67,8 +66,6 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
 
     }, options );
 
-    super();
-
     // @public (read-only) - altitude in meters where this layer resides
     this.altitude = altitude;
 
@@ -83,18 +80,6 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion );
 
-    // @public {read-only} - Energy coming in that is moving in the downward direction, so coming from above.
-    this.incomingDownwardMovingEnergyProperty = new NumberProperty( 0 );
-
-    // @public {read-only} - Energy coming in that is moving in the upward direction, so coming from underneath.
-    this.incomingUpwardMovingEnergyProperty = new NumberProperty( 0 );
-
-    // @public {read-only} - energy rate tracking for incoming downward-moving energy
-    this.incomingDownwardMovingEnergyRateTracker = new EnergyRateTracker();
-
-    // @public {read-only} - energy rate tracking for incoming upward-moving energy
-    this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
-
     // @private
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;
@@ -103,26 +88,41 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
   }
 
   /**
-   * @param {number} dt - time, in seconds
+   * Check for interaction with the provided energy.  Energy may be reflected, absorbed, or ignored.
+   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @param {number} dt - delta time, in seconds
    * @public
    */
-  step( dt ) {
+  interactWithEnergy( emEnergyPackets, dt ) {
 
-    // Update the energy rate trackers.
-    this.incomingDownwardMovingEnergyRateTracker.addEnergyInfo( this.incomingDownwardMovingEnergyProperty.value, dt );
-    this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( this.incomingUpwardMovingEnergyProperty.value, dt );
-
-    // Determine the amount of energy that is absorbed and passed through in each direction.
-    const absorptionProportion = this.energyAbsorptionProportionProperty.value;
     let absorbedEnergy = 0;
-    let energyPassingThroughTopToBottom = 0;
-    let energyPassingThroughBottomToTop = 0;
-    absorbedEnergy += this.incomingDownwardMovingEnergyProperty.value * absorptionProportion;
-    energyPassingThroughTopToBottom += this.incomingDownwardMovingEnergyProperty.value * ( 1 - absorptionProportion );
-    this.incomingDownwardMovingEnergyProperty.reset();
-    absorbedEnergy += this.incomingUpwardMovingEnergyProperty.value * absorptionProportion;
-    energyPassingThroughBottomToTop += this.incomingUpwardMovingEnergyProperty.value * ( 1 - absorptionProportion );
-    this.incomingUpwardMovingEnergyProperty.reset();
+
+    emEnergyPackets.forEach( energyPacket => {
+      if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
+           ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude ) ) {
+
+        // Should this energy packet be fully or partially absorbed?
+        // TODO: The ground is handled quirkily here, it should probably be separate out at some point.
+        if ( this.altitude === 0 ) {
+
+          // The ground fully absorbs all energy that comes into it.
+          absorbedEnergy += energyPacket.energy;
+          energyPacket.energy = 0;
+        }
+        else {
+
+          // This is an atmospheric layer.  These partially absorb IR and ignore visible light.
+          if ( energyPacket.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+            const energyToAbsorb = energyPacket.energy * this.energyAbsorptionProportionProperty.value;
+            absorbedEnergy += energyToAbsorb;
+            energyPacket.energy -= energyToAbsorb;
+          }
+        }
+      }
+    } );
+
+    // Remove any energy packets that were fully absorbed.
+    _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
@@ -153,7 +153,7 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
       netTemperatureChange = this.minimumTemperature - this.temperatureProperty.value;
 
       // Sanity check - this all only makes sense if the net change is negative.
-      assert && assert( netTemperatureChange <= 0, 'unexpected positive temperature change' );
+      assert && assert( netTemperatureChange <= 0, 'unexpected negative or zero temperature change' );
 
       // Reduce the amount of radiated energy to match this temperature change.
       totalRadiatedEnergyThisStep = -netTemperatureChange * this.mass * this.specificHeatCapacity;
@@ -163,18 +163,24 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
     // emission.
     this.temperatureProperty.set( this.temperatureProperty.value + netTemperatureChange );
 
-    // Send out the radiated energy.
-    if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
-      this.outputEnergy(
-        EnergyDirection.DOWN,
-        totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces + energyPassingThroughTopToBottom
-      );
-    }
-    if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
-      this.outputEnergy(
-        EnergyDirection.UP,
-        totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces + energyPassingThroughBottomToTop
-      );
+    // Send out the radiated energy by adding new EM energy packets.
+    if ( totalRadiatedEnergyThisStep > 0 ) {
+      if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
+        emEnergyPackets.push( new EMEnergyPacket(
+          GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+          totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
+          this.altitude,
+          EnergyDirection.DOWN
+        ) );
+      }
+      if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
+        emEnergyPackets.push( new EMEnergyPacket(
+          GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+          totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
+          this.altitude,
+          EnergyDirection.UP
+        ) );
+      }
     }
   }
 
@@ -183,8 +189,6 @@ class EnergyAbsorbingEmittingLayer extends EnergySource {
    */
   reset() {
     this.temperatureProperty.reset();
-    this.incomingDownwardMovingEnergyRateTracker.reset();
-    this.incomingUpwardMovingEnergyRateTracker.reset();
   }
 }
 

@@ -11,7 +11,7 @@ import Color from '../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectConstants = {
-  
+
   // margins
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
@@ -35,6 +35,12 @@ const GreenhouseEffectConstants = {
 
   // horizontal span of the sunlight modeled in the first three screens, in meters
   SUNLIGHT_SPAN: 85000,
+
+  // wavelengths of light used, in meters
+  VISIBLE_WAVELENGTH: 580E-9,
+  INFRARED_WAVELENGTH: 850E-9,
+
+  SPEED_OF_LIGHT: 8000, // in meters/s, obviously far slower than real light, chosen to look good
 
   // miscellaneous shared constants
   MAX_DT: 0.1 // in seconds
