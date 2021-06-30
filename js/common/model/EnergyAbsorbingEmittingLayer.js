@@ -88,7 +88,7 @@ class EnergyAbsorbingEmittingLayer {
   }
 
   /**
-   * Check for interaction with the provided energy.  Energy may be reflected, absorbed, or ignored.
+   * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt - delta time, in seconds
    * @public
