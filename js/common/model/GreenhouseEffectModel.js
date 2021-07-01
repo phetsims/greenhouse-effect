@@ -196,16 +196,19 @@ class GreenhouseEffectModel {
 
     while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
-      // Add the energy produced by the sun.
+      // Add the energy produced by the sun to the system.
       this.emEnergyPackets.push( this.sun.produceEnergy( MODEL_TIME_STEP ) );
 
       // Step the energy packets, which causes them to move.
       this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
 
-      // Check for interaction between the energy packets and ground, the atmosphere, and space.
+      // Check for interaction between the energy packets and ground, the atmosphere, clouds, and space.
       this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
       this.atmosphereLayers.forEach( atmosphereLayer => {
         atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      } );
+      this.clouds.forEach( cloud => {
+        cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
       } );
       this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
