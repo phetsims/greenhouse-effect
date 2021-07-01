@@ -60,14 +60,14 @@ class WavesScreenView extends GreenhouseEffectScreenView {
         tandem: tandem.createTandem( 'concentrationControlPanel' )
       }
     );
-    this.pdomPlayAreaNode.addChild( concentrationControls );
+    this.addChild( concentrationControls );
 
     // cloud checkbox
     cloudCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY(
       GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING,
       0
     );
-    this.pdomPlayAreaNode.addChild( cloudCheckbox );
+    this.addChild( cloudCheckbox );
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
@@ -90,10 +90,16 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
-    this.pdomControlAreaNode.addChild( visibilityBox );
-    this.pdomPlayAreaNode.addChild( mockup );
+    this.addChild( visibilityBox );
+    this.addChild( mockup );
 
-    // pdom
+    // pdom - override the pdomOrders for the supertype to insert subtype components
+    this.pdomPlayAreaNode.pdomOrder = [
+      this.energyLegend,
+      this.observationWindow,
+      concentrationControls,
+      cloudCheckbox
+    ];
     this.pdomControlAreaNode.pdomOrder = [
       visibilityBox,
       this.timeControlNode,

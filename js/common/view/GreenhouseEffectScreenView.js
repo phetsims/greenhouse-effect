@@ -61,8 +61,8 @@ class GreenhouseEffectScreenView extends ScreenView {
     this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
 
     // add these nodes to the play area
-    this.pdomPlayAreaNode.addChild( this.energyLegend );
-    this.pdomPlayAreaNode.addChild( this.observationWindow );
+    this.addChild( this.energyLegend );
+    this.addChild( this.observationWindow );
 
     // @public {TimeControlNode} - for layout in subtypes
     this.timeControlNode = new TimeControlNode( model.isPlayingProperty, {
@@ -76,7 +76,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       // phet-io
       tandem: options.tandem.createTandem( 'timeControlNode' )
     } );
-    this.pdomControlAreaNode.addChild( this.timeControlNode );
+    this.addChild( this.timeControlNode );
 
     // @protected {ResetAllButton}
     this.resetAllButton = new ResetAllButton( {
@@ -88,7 +88,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
-    this.pdomControlAreaNode.addChild( this.resetAllButton );
+    this.addChild( this.resetAllButton );
 
     // layout code
     // height of area between bottom of the screen view and bottom of the observation window
@@ -101,6 +101,17 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     this.resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.centerY = this.timeControlNode.centerY;
+
+    // pdom - order and assign components to their sections in the PDOM, for default components but can
+    // be overridden by subtypes
+    this.pdomPlayAreaNode.pdomOrder = [
+      this.energyLegend,
+      this.observationWindow
+    ];
+    this.pdomControlAreaNode.pdomOrder = [
+      this.timeControlNode,
+      this.resetAllButton
+    ];
   }
 
   /**

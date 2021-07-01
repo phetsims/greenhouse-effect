@@ -245,8 +245,8 @@ class MicroScreenView extends ScreenView {
     // the light spectrum dialog and emission frequency control panel are removed in the
     // Open Sci Ed version
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
-      this.pdomPlayAreaNode.removeChild( showLightSpectrumButton );
-      this.pdomPlayAreaNode.removeChild( photonEmissionControlPanel );
+      this.removeChild( showLightSpectrumButton );
+      this.removeChild( photonEmissionControlPanel );
     }
 
     //-----------------------------------------------------------------------------------------------------------------
