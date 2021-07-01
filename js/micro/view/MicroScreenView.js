@@ -92,7 +92,7 @@ class MicroScreenView extends ScreenView {
     // @private
     this.observationWindow = observationWindow;
 
-    this.pdomPlayAreaNode.addChild( this.observationWindow );
+    this.addChild( this.observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
     // TODO: This rectangle is a temporary workaround that replaces the clipping area in MicroObservationWindow because of a
@@ -104,11 +104,11 @@ class MicroScreenView extends ScreenView {
         lineWidth: 8 * FRAME_LINE_WIDTH,
         pickable: false
       } );
-    this.pdomPlayAreaNode.addChild( clipRectangle );
+    this.addChild( clipRectangle );
 
     // Create the window frame node that borders the observation window.
     const windowFrameNode = new WindowFrameNode( this.observationWindow, '#BED0E7', '#4070CE' );
-    this.pdomPlayAreaNode.addChild( windowFrameNode );
+    this.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
     this.observationWindow.translate( OBSERVATION_WINDOW_POSITION );
@@ -137,7 +137,7 @@ class MicroScreenView extends ScreenView {
       radius: 18,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
-    this.pdomControlAreaNode.addChild( resetAllButton );
+    this.addChild( resetAllButton );
 
     const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
       timeSpeedProperty: photonAbsorptionModel.timeSpeedProperty,
@@ -164,7 +164,7 @@ class MicroScreenView extends ScreenView {
 
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
-    this.pdomControlAreaNode.addChild( timeControlNode );
+    this.addChild( timeControlNode );
 
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
@@ -211,11 +211,11 @@ class MicroScreenView extends ScreenView {
     AriaHasPopUpMutator.mutateNode( showLightSpectrumButton, true );
 
     showLightSpectrumButton.centerTop = ( new Vector2( moleculeControlPanel.centerX, timeControlNode.bottom + 13 ) );
-    this.pdomPlayAreaNode.addChild( showLightSpectrumButton );
+    this.addChild( showLightSpectrumButton );
 
     // Add the nodes in the order necessary for correct layering.
-    this.pdomPlayAreaNode.addChild( photonEmissionControlPanel );
-    this.pdomPlayAreaNode.addChild( moleculeControlPanel );
+    this.addChild( photonEmissionControlPanel );
+    this.addChild( moleculeControlPanel );
 
     // pdom - the accessible order for contents in each PDOM section
     this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, photonEmissionControlPanel, moleculeControlPanel ];
