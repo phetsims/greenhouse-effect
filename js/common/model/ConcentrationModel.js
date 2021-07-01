@@ -40,9 +40,10 @@ class ConcentrationModel extends GreenhouseEffectModel {
 
   /**
    * @param {Tandem} tandem
+   * @param {Object} [options]
    */
-  constructor( tandem ) {
-    super( tandem );
+  constructor( tandem, options ) {
+    super( tandem, options );
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY, {

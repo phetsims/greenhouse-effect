@@ -1,8 +1,9 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * Prototype for greenhouse waves.  It's a prototype, enter at your own risk
+ * Main view class for the Waves screen.
  *
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
@@ -22,6 +23,10 @@ import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
+  /**
+   * @param {WavesModel} model
+   * @param {tandem} tandem
+   */
   constructor( model, tandem ) {
 
     super( model, {
@@ -50,7 +55,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty, tandem.createTandem( 'surfaceThermometerCheckbox' ) );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
-    const cloudCheckbox = new CloudCheckbox( model.cloudVisibleProperty, tandem.createTandem( 'cloudCheckbox' ) );
+    const cloudCheckbox = new CloudCheckbox( model.numberOfActiveCloudsProperty, tandem.createTandem( 'cloudCheckbox' ) );
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,

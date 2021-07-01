@@ -16,6 +16,7 @@
  * @author Jesse Greenberg
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Shape from '../../../../kite/js/Shape.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -34,6 +35,9 @@ class Cloud {
     // @public (read-only) {number}
     this.width = width;
     this.height = height;
+
+    // @public - controls whether the cloud is enabled, and thus reflecting light
+    this.enabledProperty = new BooleanProperty( false );
 
     // @public (read-only) {Shape} - elliptical shape modelling the Cloud
     this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2 );

@@ -25,7 +25,7 @@ class PhotonsModel extends ConcentrationModel {
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    super( tandem );
+    super( tandem, { numberOfClouds: 3 } );
 
     // @public (read-only) {ObservableArray.<MicroPhoton>}
     this.photons = createObservableArray();

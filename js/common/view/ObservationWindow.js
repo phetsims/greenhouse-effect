@@ -324,21 +324,8 @@ class ObservationWindow extends Node {
     } );
 
     // clouds
-    model.clouds.addItemAddedListener( addedCloud => {
-
-      // add a visualization of the added cloud
-      const cloudNode = new CloudNode( addedCloud, mvt );
-      contentNode.addChild( cloudNode );
-
-      const removalListener = removedCloud => {
-        if ( addedCloud === removedCloud ) {
-          contentNode.removeChild( cloudNode );
-          model.clouds.removeItemRemovedListener( removalListener );
-          cloudNode.dispose();
-        }
-      };
-
-      model.clouds.addItemRemovedListener( removalListener );
+    model.clouds.forEach( cloud => {
+      contentNode.addChild( new CloudNode( cloud, mvt ) );
     } );
   }
 
