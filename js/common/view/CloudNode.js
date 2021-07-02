@@ -1,9 +1,9 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Node for a Cloud of Greenhouse Effect.
+ * Node for a Cloud in the Greenhouse Effect simulation.
  *
- * @author Jesse Greenberg
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  */
 
@@ -16,8 +16,8 @@ import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
-const CLOUD_FILL = 'white';
-const CLOUD_BACKGROUND_STROKE = 'black';
+const CLOUD_FILL = Color.WHITE;
+const CLOUD_BACKGROUND_STROKE = Color.BLACK;
 
 class CloudNode extends Node {
 
@@ -37,7 +37,7 @@ class CloudNode extends Node {
 
     super( options );
 
-    const cloudBackgroundPath = new Path( this.createBlobShape(
+    const cloudPath = new Path( this.createBlobShape(
       modelViewTransform.modelToViewPosition( cloud.position ),
       Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
       Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
@@ -46,8 +46,9 @@ class CloudNode extends Node {
       stroke: CLOUD_BACKGROUND_STROKE,
       miterLimit: 1
     } );
-    this.addChild( cloudBackgroundPath );
+    this.addChild( cloudPath );
 
+    // If specified, show an ellipse that corresponds to the strict model shape of the cloud.  This is useful for debug.
     if ( options.showReferenceEllipse ) {
       this.addChild( new Path( modelViewTransform.modelToViewShape( cloud.modelShape ), {
         fill: new Color( 255, 0, 0, 0.5 ),
@@ -56,6 +57,7 @@ class CloudNode extends Node {
       } ) );
     }
 
+    // Control the visibility of the cloud.
     const cloudEnabledObserver = cloud.enabledProperty.linkAttribute( this, 'visible' );
 
     this.disposeCloudNode = () => {
@@ -64,16 +66,15 @@ class CloudNode extends Node {
   }
 
   /**
-   * Create a blobby cloud like shape to represent the cloud. Returns a Shape to be used with a Path.
+   * Create a blobby cloud-like shape to represent the cloud. Returns a Shape to be used with a Path.
    *
    * TODO: This is probably temporary, since we may have artwork or may refine the look of the cloud sometime in the
    *       future.
    *
    * @private
-   *
-   * @param position
-   * @param width
-   * @param height
+   * @param {Vector2} position
+   * @param {number} width
+   * @param {number} height
    * @returns {Shape}
    */
   createBlobShape( position, width, height ) {
@@ -100,7 +101,7 @@ class CloudNode extends Node {
     // used to align the circles
     let firstCircleRadius = 0;
 
-    // Add a set of overlapping circles with some randomness of size and center position to create the cloud shape.
+    // Add a set of overlapping circles with some randomness of size and position to create the cloud shape.
     while ( leftBound + drawnWidth < rightBound ) {
 
       const proportionDrawn = drawnWidth / width;
@@ -123,6 +124,8 @@ class CloudNode extends Node {
         minArcRadius = reductionMultiplier * minArcRadius;
         maxArcRadius = reductionMultiplier * maxArcRadius;
       }
+
+      // Choose the arc radius using randomness and the constraints determined above.
       const arcRadius = dotRandom.nextDoubleBetween( minArcRadius, maxArcRadius );
 
       if ( circleShapes.length === 0 ) {
@@ -138,23 +141,11 @@ class CloudNode extends Node {
                          adjustedReferenceCenterY - ( arcRadius - firstCircleRadius ) - dotRandom.nextDoubleBetween( -maxYShift, maxYShift ) :
                          adjustedReferenceCenterY;
 
-      // Add the circle.
+      // Add this circle to our collection.
       const circleShape = Shape.arc( arcCenterX, arcCenterY, arcRadius, 0, 2 * Math.PI );
       circleShapes.push( circleShape );
 
       drawnWidth = arcCenterX + arcRadius - leftBound;
-
-      // If the collective shape is within one small circle of being drawn, add the last one, and make sure it fits.
-      // const remainingWidth = rightBound - drawnWidth;
-      // if ( remainingWidth < smallerCircleMaximumRadius ){
-      //   console.log( 'last one' );
-      //   arcRadius = dotRandom.nextDoubleBetween( smallerCircleMinimumRadius, smallerCircleMaximumRadius );
-      //   arcCenterX = drawnWidth - arcRadius;
-      //   arcCenterY = position.y + dotRandom.nextDoubleBetween( -0.15, 0.15 ) * height;
-      //   const circleShape = Shape.arc( arcCenterX, arcCenterY, arcRadius, 0, 2 * Math.PI );
-      //   circleShapes.push( circleShape );
-      //   drawnWidth = rightBound;
-      // }
     }
 
     return Shape.union( circleShapes );
