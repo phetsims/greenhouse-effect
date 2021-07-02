@@ -146,28 +146,26 @@ class GreenhouseEffectModel {
       }
     }
 
-    // Hook up the enable/disable of the clouds to the Property that controls the number of them that are active.
+    // Enable and disable clouds based on how many are currently active.
     this.numberOfActiveCloudsProperty.link( numberOfActiveCloudsProperty => {
       this.clouds.forEach( ( cloud, index ) => {
         cloud.enabledProperty.set( numberOfActiveCloudsProperty > index );
       } );
     } );
 
-    // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy absorbing and emitting layers for the atmosphere
+    // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy-absorbing-and-emitting layers for the atmosphere
     this.atmosphereLayers = [];
 
     // Create the energy absorbing and emitting layers that model the atmosphere.
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
-
-      // Create the energy absorbing/emitting layer in the atmosphere.
       const atmosphereLayer = new EnergyAbsorbingEmittingLayer( distanceBetweenLayers * ( index + 1 ), {
         minimumTemperature: 0
       } );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
-    // @public (read-only) - the endpoint where energy radiating from the top layer goes
+    // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers );
 
     // Connect up the surface temperature property to that of the ground layer model element.
@@ -190,7 +188,7 @@ class GreenhouseEffectModel {
    */
   stepModel( dt ) {
 
-    // Step the model components at a consistent value in order to avoid instabilities in the layer interactions.  See
+    // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
     this.modelSteppingTime += dt;
 
