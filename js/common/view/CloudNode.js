@@ -49,8 +49,7 @@ class CloudNode extends Node {
     this.addChild( cloudBackgroundPath );
 
     if ( options.showReferenceEllipse ) {
-      const ellipseShape = Shape.ellipse( cloud.position.x, cloud.position.y, cloud.width / 2, cloud.height / 2 );
-      this.addChild( new Path( modelViewTransform.modelToViewShape( ellipseShape ), {
+      this.addChild( new Path( modelViewTransform.modelToViewShape( cloud.modelShape ), {
         fill: new Color( 255, 0, 0, 0.5 ),
         stroke: new Color( 255, 0, 0, 0.9 ),
         lineWidth: 3
