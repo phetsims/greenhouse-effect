@@ -38,6 +38,7 @@ import FluxMeterNode from './FluxMeterNode.js';
 import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
+import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -327,6 +328,16 @@ class ObservationWindow extends Node {
     model.clouds.forEach( cloud => {
       contentNode.addChild( new CloudNode( cloud, mvt ) );
     } );
+
+    // sound generation
+    soundManager.addSoundGenerator(
+      new TemperatureSoundGenerator(
+        model.isStartedProperty,
+        model.isPlayingProperty,
+        model.surfaceTemperatureKelvinProperty,
+        { initialOutputLevel: 0.1 }
+      )
+    );
   }
 
   /**

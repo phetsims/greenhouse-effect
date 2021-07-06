@@ -31,6 +31,7 @@ const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
+const MINIMUM_GROUND_TEMPERATURE = 245;
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
@@ -117,7 +118,7 @@ class GreenhouseEffectModel {
     // @public (read-only) - model of the ground that absorbs energy, heats up, and radiates
     this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
-      minimumTemperature: 245,
+      minimumTemperature: MINIMUM_GROUND_TEMPERATURE,
       tandem: tandem.createTandem( 'groundLayer' )
     } );
 
@@ -254,6 +255,7 @@ class GreenhouseEffectModel {
 GreenhouseEffectModel.TemperatureUnits = TemperatureUnits;
 GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
 GreenhouseEffectModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
+GreenhouseEffectModel.MINIMUM_GROUND_TEMPERATURE = MINIMUM_GROUND_TEMPERATURE;
 
 greenhouseEffect.register( 'GreenhouseEffectModel', GreenhouseEffectModel );
 export default GreenhouseEffectModel;
