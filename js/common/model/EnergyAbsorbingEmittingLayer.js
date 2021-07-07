@@ -78,7 +78,9 @@ class EnergyAbsorbingEmittingLayer {
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
-    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion );
+    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
+      tandem: options.tandem.createTandem( 'energyAbsorptionProperty' )
+    } );
 
     // @private
     this.substance = options.substance;
