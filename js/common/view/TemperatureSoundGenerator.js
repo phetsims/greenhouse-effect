@@ -18,9 +18,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 // constants
-const LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE = 260; // in Kelvin
-const MEDIUM_TO_HUMAN_IDEAL_CROSSOVER_TEMPERATURE = 270; // in Kelvin
-const HUMAN_IDEAL_TO_HIGH_CROSSOVER_TEMPERATURE = 280; // in Kelvin
+const LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE = 266; // in Kelvin
+const MEDIUM_TO_HUMAN_IDEAL_CROSSOVER_TEMPERATURE = 280; // in Kelvin
+const HUMAN_IDEAL_TO_HIGH_CROSSOVER_TEMPERATURE = 289; // in Kelvin
 const ORDERED_TEMPERATURE_SOUNDS = [
   temperatureLowSound,
   temperatureMediumSound,

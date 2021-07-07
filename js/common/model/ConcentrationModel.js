@@ -90,7 +90,7 @@ class ConcentrationModel extends GreenhouseEffectModel {
         // The multiplier used in this calculation was empirically determined to make the model equilibrate at the max
         // temperature value defined in the spec (295 K as of this writing).  This may need to change if the number of
         // layers is adjusted or other changes are made to the model.
-        const proportionToAbsorbAtSeaLevel = 0.775 * concentration;
+        const proportionToAbsorbAtSeaLevel = 0.85 * concentration;
 
         // Adjust the energy absorption amounts for each of the layers based on their altitude.  The calculation uses
         // the barometric formula, see https://en.wikipedia.org/wiki/Barometric_formula.
