@@ -16,7 +16,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
-const CLOUD_FILL = Color.WHITE;
+const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
 const CLOUD_BACKGROUND_STROKE = Color.BLACK;
 
 class CloudNode extends Node {
