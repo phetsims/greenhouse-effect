@@ -167,7 +167,7 @@ class GreenhouseEffectModel {
     } );
 
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
-    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers );
+    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers, tandem.createTandem( 'outerSpace' ) );
 
     // Connect up the surface temperature property to that of the ground layer model element.
     this.groundLayer.temperatureProperty.link( groundTemperature => {

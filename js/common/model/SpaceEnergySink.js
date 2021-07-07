@@ -15,13 +15,19 @@ import EnergyRateTracker from './EnergyRateTracker.js';
 
 class SpaceEnergySink {
 
-  constructor( altitude ) {
+  /**
+   * @param {number} altitude
+   * @param {Tandem} tandem
+   */
+  constructor( altitude, tandem ) {
 
     // @private
     this.altitude = altitude;
 
     // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
-    this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker();
+    this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker( {
+      tandem: tandem.createTandem( 'incomingUpwardMovingEnergyRateTracker' )
+    } );
   }
 
   /**
