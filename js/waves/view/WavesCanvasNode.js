@@ -65,6 +65,7 @@ const drawSineCurve = ( context, wave ) => {
     context.fillRect( destinationPoint.x, destinationPoint.y, 20, 20 );
   }
 
+  context.lineCap = 'round';
   const c = new Color( color );
   c.alpha = wave.parameterModel.map[ wave.type ].opacityProperty.value;
   context.strokeStyle = c.toCSS();
