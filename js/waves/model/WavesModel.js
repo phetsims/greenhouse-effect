@@ -106,6 +106,7 @@ class WavesModel extends ConcentrationModel {
         this.createIRWave1( x === a ? b : a, a, b, 1800, angle, straightDown );
       }
     } );
+    redWave1Incoming.jbFlag = true;
     this.waves.push( redWave1Incoming );
   }
 

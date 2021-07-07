@@ -1,10 +1,24 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
+/**
+ * WavesCanvasNode is a Scenery CanvasNode used to draw sinusoidal waves that represent different frequencies of light
+ * moving around on the screen.
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
+ */
+
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WavesCanvasNode extends CanvasNode {
+
+  /**
+   * @param {WavesModel} model
+   * @param {Tandem} tandem
+   * @param {Object} [options]
+   */
   constructor( model, tandem, options ) {
     super( options );
     this.model = model;
@@ -17,7 +31,7 @@ class WavesCanvasNode extends CanvasNode {
   }
 
   // @public
-  step( dt ) {
+  step() {
     this.invalidatePaint();
   }
 }
@@ -30,6 +44,9 @@ const drawSineCurve = ( context, wave ) => {
 
   const sourcePoint = wave.sourcePoint;
   const destinationPoint = wave.destinationPoint;
+
+  assert && assert( sourcePoint.y !== destinationPoint.y, 'horizontal waves are not supported' );
+
   const color = wave.parameterModel.color;
   const amplitude = wave.parameterModel.amplitudeProperty.value;
   const k = wave.parameterModel.kProperty.value;
@@ -41,7 +58,7 @@ const drawSineCurve = ( context, wave ) => {
     return;
   }
 
-  // Debug the start and end points
+  // debug the start and end points
   if ( phet.chipper.queryParameters.dev ) {
     context.fillStyle = 'blue';
     context.fillRect( sourcePoint.x, sourcePoint.y, 20, 20 );
@@ -58,7 +75,6 @@ const drawSineCurve = ( context, wave ) => {
   const unitVector = deltaVector.normalized();
   const unitNormal = unitVector.perpendicular;
 
-  // const waveDistance = deltaVector.getMagnitude();
   const dx = 2;
   let moved = false;
 
@@ -68,7 +84,7 @@ const drawSineCurve = ( context, wave ) => {
   for ( let x = waveStartX; x < waveEndX; x += dx ) {
     const y = amplitude * Math.cos( k * x - w * t + phi );
 
-    // Vector math seems too slow here, shows up in profiler at 15% or so
+    // Vector math seems too slow here, shows up in profiler at 15% or so.
     const traversePointX = sourcePoint.x + x * unitVector.x;
     const traversePointY = sourcePoint.y + x * unitVector.y;
 
