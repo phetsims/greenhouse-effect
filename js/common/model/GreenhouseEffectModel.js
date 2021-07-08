@@ -18,7 +18,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import Cloud from './Cloud.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
@@ -50,11 +49,6 @@ class GreenhouseEffectModel {
       numberOfClouds: 0
 
     }, options );
-
-    // @public {BooleanProperty} - controls whether the model has been started
-    this.isStartedProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
-      tandem: tandem.createTandem( 'isStartedProperty' )
-    } );
 
     // @public {NumberProperty} - playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
@@ -196,7 +190,10 @@ class GreenhouseEffectModel {
     while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
       // Add the energy produced by the sun to the system.
-      this.emEnergyPackets.push( this.sun.produceEnergy( MODEL_TIME_STEP ) );
+      const energyFromSun = this.sun.produceEnergy( MODEL_TIME_STEP );
+      if ( energyFromSun ) {
+        this.emEnergyPackets.push( energyFromSun );
+      }
 
       // Step the energy packets, which causes them to move.
       this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
@@ -223,7 +220,7 @@ class GreenhouseEffectModel {
    * @param {number} dt - in seconds
    */
   step( dt ) {
-    if ( this.isStartedProperty.value && this.isPlayingProperty.value ) {
+    if ( this.isPlayingProperty.value && this.sun.isShiningProperty.value ) {
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
       this.stepModel( timeStep );
     }
@@ -235,7 +232,6 @@ class GreenhouseEffectModel {
    * @public
    */
   reset() {
-    this.isStartedProperty.reset();
     this.timeSpeedProperty.reset();
     this.isPlayingProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();

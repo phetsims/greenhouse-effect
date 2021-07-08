@@ -41,7 +41,7 @@ class PhotonsModel extends ConcentrationModel {
    * @public
    */
   stepModel( dt ) {
-    if ( this.isStartedProperty.value ) {
+    if ( this.sun.isShiningProperty.value ) {
 
       // Create photons if it's time to do so.
       this.photonCreationCountdown -= dt;
