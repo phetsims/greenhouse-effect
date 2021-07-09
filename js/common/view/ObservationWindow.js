@@ -28,7 +28,7 @@ import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
-import WavesNode from '../../waves/view/WavesNode.js';
+import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import CloudNode from './CloudNode.js';
@@ -133,7 +133,9 @@ class ObservationWindow extends Node {
     //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
     let presentationNode;
     if ( model instanceof WavesModel ) {
-      presentationNode = new WavesNode( model, SIZE );
+      presentationNode = new WavesCanvasNode( model, tandem, {
+        canvasBounds: SIZE.toBounds()
+      } );
     }
     else if ( model.photons ) {
 
