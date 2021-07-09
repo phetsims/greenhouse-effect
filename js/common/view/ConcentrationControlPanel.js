@@ -19,11 +19,12 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import CalendarAlt from '../../../../sherpa/js/fontawesome-5/regular/CalendarAlt.js';
+import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
@@ -440,7 +441,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
    */
   constructor( property, tandem ) {
 
-    const dateIcon = new CalendarAlt( {
+    const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'
     } );
 
