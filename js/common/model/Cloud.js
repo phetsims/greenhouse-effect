@@ -17,7 +17,8 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
-const REFLECTIVITY = 0.5; // This is a proportion from 0 to 1 that controls how much incident light is reflected.
+const VISIBLE_LIGHT_REFLECTIVITY = 0.3; // proportion from 0 to 1 that controls how much visible light is reflected
+const INFRARED_REFLECTIVITY = 0; // proportion from 0 to 1 that controls how much infrared radiation is reflected
 
 class Cloud {
 
@@ -44,12 +45,19 @@ class Cloud {
     // @public (read-only) {Shape} - elliptical shape that defines the space which the cloud occupies
     this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2 );
 
-    // @private - The total reflectivity is the proportion of light that this will reflect, and is based on the
-    // reflectivity characteristic of the cloud and its width relative to the span of the incoming sunlight.
-    this.totalReflectivity = width / GreenhouseEffectConstants.SUNLIGHT_SPAN * REFLECTIVITY;
-
-    // sanity check
-    assert && assert( this.totalReflectivity <= 1, 'total reflectivity should never exceed 1' );
+    // @private - Map of EM wavelengths to total reflectivity proportion for this cloud.  The reflectivity for a given
+    // wavelength is the proportion of light that this cloud will reflect, and is based on the reflectivity
+    // characteristics of the cloud and its width relative to the span of the incoming sunlight.
+    this.reflectivityTable = new Map( [
+      [
+        GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
+        width / GreenhouseEffectConstants.SUNLIGHT_SPAN * VISIBLE_LIGHT_REFLECTIVITY
+      ],
+      [
+        GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+        width / GreenhouseEffectConstants.SUNLIGHT_SPAN * INFRARED_REFLECTIVITY
+      ]
+    ] );
   }
 
   /**
@@ -62,31 +70,33 @@ class Cloud {
 
     emEnergyPackets.forEach( energyPacket => {
 
-      // TODO: The following code reflects all downward moving energy based on the cloud's reflectivity and does nothing
-      //       with the upward-moving energy.  This is temporary, and I (jbphet) need to work with the designers to find
-      //       out exactly what the cloud should really do.
-
       // convenience variable
       const altitude = this.position.y;
 
       // Check for energy that may be interacting with this cloud.
       if ( this.enabledProperty.value &&
-           ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ) {
+           ( ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
+             ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ) ) {
 
-        // This energy packet has reached or crossed through the cloud.  Reflect it.
-        const reflectedEnergy = energyPacket.energy * this.totalReflectivity;
+        assert && assert( this.reflectivityTable.has( energyPacket.wavelength ) );
 
-        // Reduce the amount of energy in the reflected packet by the amount the was reflected.
-        energyPacket.energy = energyPacket.energy - reflectedEnergy;
+        // Calculate the amount of energy reflected by the cloud.
+        const reflectedEnergy = energyPacket.energy * this.reflectivityTable.get( energyPacket.wavelength );
 
-        // Create a new packet of the same type with the reflected energy, heading in the opposite direction.
-        const reflectedEnergyPacket = new EMEnergyPacket(
-          energyPacket.wavelength,
-          reflectedEnergy,
-          altitude + ( altitude - energyPacket.altitude ),
-          EnergyDirection.UP
-        );
-        emEnergyPackets.push( reflectedEnergyPacket );
+        if ( reflectedEnergy > 0 ) {
+
+          // Attenuate the amount of energy in the non-reflected packet by the amount the was reflected.
+          energyPacket.energy = energyPacket.energy - reflectedEnergy;
+
+          // Create a new packet of the same type with the reflected energy, heading in the opposite direction.
+          const reflectedEnergyPacket = new EMEnergyPacket(
+            energyPacket.wavelength,
+            reflectedEnergy,
+            altitude + ( altitude - energyPacket.altitude ),
+            energyPacket.directionOfTravel === EnergyDirection.UP ? EnergyDirection.DOWN : EnergyDirection.UP
+          );
+          emEnergyPackets.push( reflectedEnergyPacket );
+        }
       }
     } );
   }

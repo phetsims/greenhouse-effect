@@ -197,12 +197,12 @@ class ObservationWindow extends Node {
 
         // state checking
         assert && assert(
-          !model.isStartedProperty.value,
-          'it should not be possible to press this button when the model has been started'
+          !model.sun.isShiningProperty.value,
+          'it should not be possible to press this button when the sun is already shining'
         );
 
-        // Start the model.
-        model.isStartedProperty.set( true );
+        // Start the sun shining.
+        model.sun.isShiningProperty.set( true );
       },
 
       // sound generation
@@ -288,14 +288,14 @@ class ObservationWindow extends Node {
     this.presentationNode = presentationNode;
 
     // Manage the visibility of the start button and the darkness overlay.
-    model.isStartedProperty.link( isStarted => {
-      startSunlightButton.visible = !isStarted;
-      contentNode.inputEnabled = isStarted;
+    model.sun.isShiningProperty.link( isShining => {
+      startSunlightButton.visible = !isShining;
+      contentNode.inputEnabled = isShining;
 
       // hide all of the content from a screen reader until sunlight has started
-      contentNode.pdomVisible = isStarted;
+      contentNode.pdomVisible = isShining;
 
-      if ( isStarted ) {
+      if ( isShining ) {
 
         // state checking
         assert && assert( fadeToDayAnimation === null, 'there shouldn\'t be an in-progress animation when starting' );
@@ -332,7 +332,7 @@ class ObservationWindow extends Node {
     // sound generation
     soundManager.addSoundGenerator(
       new TemperatureSoundGenerator(
-        model.isStartedProperty,
+        model.sun.isShiningProperty,
         model.isPlayingProperty,
         model.surfaceTemperatureKelvinProperty,
         { initialOutputLevel: 0.1 }
