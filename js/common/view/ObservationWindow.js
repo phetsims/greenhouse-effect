@@ -86,7 +86,7 @@ class ObservationWindow extends Node {
 
     // Create the model-view transform.  In the model, the ground is a horizontal line at y = 0.  In the view, we give
     // it a bit of perspective, so the ground has some depth.
-    const mvt = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
+    const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( SIZE.width / 2, SIZE.height - groundOffsetFromBottom ),
       ( SIZE.height - groundOffsetFromBottom ) / GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
@@ -99,7 +99,7 @@ class ObservationWindow extends Node {
     } );
 
     // sky
-    const skyRectHeight = -mvt.modelToViewDeltaY( GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
+    const skyRectHeight = -modelViewTransform.modelToViewDeltaY( GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
     const skyNode = new Rectangle( 0, 0, SIZE.width, skyRectHeight, {
       fill: new LinearGradient( 0, 0, 0, skyRectHeight )
         .addColorStop( 0, '#000010' )
@@ -116,13 +116,13 @@ class ObservationWindow extends Node {
     } );
 
     // Temporary code for representing layers.
-    const groundLayerNode = new EnergyAbsorbingEmittingLayerNode( model.groundLayer, mvt, {
+    const groundLayerNode = new EnergyAbsorbingEmittingLayerNode( model.groundLayer, modelViewTransform, {
       lineOptions: { stroke: Color.GREEN },
       visible: GreenhouseEffectQueryParameters.showAllLayers
     } );
     const atmosphereLayerNodes = [];
     model.atmosphereLayers.forEach( atmosphereLayer => {
-      atmosphereLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, mvt, {
+      atmosphereLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, modelViewTransform, {
         lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
         visible: GreenhouseEffectQueryParameters.showAllLayers
       } ) );
@@ -133,7 +133,7 @@ class ObservationWindow extends Node {
     //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
     let presentationNode;
     if ( model instanceof WavesModel ) {
-      presentationNode = new WavesCanvasNode( model, tandem, {
+      presentationNode = new WavesCanvasNode( model, modelViewTransform, tandem, {
         canvasBounds: SIZE.toBounds()
       } );
     }
@@ -143,7 +143,7 @@ class ObservationWindow extends Node {
 
       // Add and remove photon nodes as they come and go in the model.
       model.photons.addItemAddedListener( addedPhoton => {
-        const photonNode = new PhotonNode( addedPhoton, mvt, { scale: 0.5 } );
+        const photonNode = new PhotonNode( addedPhoton, modelViewTransform, { scale: 0.5 } );
         presentationNode.addChild( photonNode );
         model.photons.addItemRemovedListener( removedPhoton => {
           if ( removedPhoton === addedPhoton ) {
@@ -199,12 +199,12 @@ class ObservationWindow extends Node {
 
         // state checking
         assert && assert(
-          !model.sun.isShiningProperty.value,
+          !model.sunEnergySource.isShiningProperty.value,
           'it should not be possible to press this button when the sun is already shining'
         );
 
         // Start the sun shining.
-        model.sun.isShiningProperty.set( true );
+        model.sunEnergySource.isShiningProperty.set( true );
       },
 
       // sound generation
@@ -220,17 +220,17 @@ class ObservationWindow extends Node {
     // energy balance
     const energyBalancePanel = new EnergyBalancePanel(
       model.energyBalanceVisibleProperty,
-      model.sun.outputEnergyRateTracker.energyRateProperty,
+      model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty
     );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // flux meter
-    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, mvt, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
+    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, modelViewTransform, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
     fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
 
     // set the position of the wire to attach to the flux panel
-    model.fluxMeter.wireMeterAttachmentPositionProperty.set( mvt.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) ) );
+    model.fluxMeter.wireMeterAttachmentPositionProperty.set( modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) ) );
 
     // thermometer
     const listParentNode = new Node();
@@ -290,7 +290,7 @@ class ObservationWindow extends Node {
     this.presentationNode = presentationNode;
 
     // Manage the visibility of the start button and the darkness overlay.
-    model.sun.isShiningProperty.link( isShining => {
+    model.sunEnergySource.isShiningProperty.link( isShining => {
       startSunlightButton.visible = !isShining;
       contentNode.inputEnabled = isShining;
 
@@ -328,13 +328,13 @@ class ObservationWindow extends Node {
 
     // clouds
     model.clouds.forEach( cloud => {
-      contentNode.addChild( new CloudNode( cloud, mvt ) );
+      contentNode.addChild( new CloudNode( cloud, modelViewTransform ) );
     } );
 
     // sound generation
     soundManager.addSoundGenerator(
       new TemperatureSoundGenerator(
-        model.sun.isShiningProperty,
+        model.sunEnergySource.isShiningProperty,
         model.isPlayingProperty,
         model.surfaceTemperatureKelvinProperty,
         { initialOutputLevel: 0.1 }

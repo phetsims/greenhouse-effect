@@ -107,7 +107,7 @@ class GreenhouseEffectModel {
     this.emEnergyPackets = [];
 
     // @private - main energy source coming into the system
-    this.sun = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA, tandem.createTandem( 'sun' ) );
+    this.sunEnergySource = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA, tandem.createTandem( 'sun' ) );
 
     // @public (read-only) - model of the ground that absorbs energy, heats up, and radiates
     this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
@@ -190,7 +190,7 @@ class GreenhouseEffectModel {
     while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
       // Add the energy produced by the sun to the system.
-      const energyFromSun = this.sun.produceEnergy( MODEL_TIME_STEP );
+      const energyFromSun = this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
       if ( energyFromSun ) {
         this.emEnergyPackets.push( energyFromSun );
       }
@@ -220,7 +220,7 @@ class GreenhouseEffectModel {
    * @param {number} dt - in seconds
    */
   step( dt ) {
-    if ( this.isPlayingProperty.value && this.sun.isShiningProperty.value ) {
+    if ( this.isPlayingProperty.value && this.sunEnergySource.isShiningProperty.value ) {
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
       this.stepModel( timeStep );
     }
@@ -239,7 +239,7 @@ class GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
-    this.sun.reset();
+    this.sunEnergySource.reset();
     this.groundLayer.reset();
     this.numberOfActiveCloudsProperty.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );

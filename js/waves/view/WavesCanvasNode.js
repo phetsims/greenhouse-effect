@@ -1,33 +1,61 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * WavesCanvasNode is a Scenery CanvasNode used to draw sinusoidal waves that represent different frequencies of light
+ * WavesCanvasNode is a Scenery CanvasNode used to render sinusoidal waves that represent different frequencies of light
  * moving around on the screen.
  *
  * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+
+// constants
+const TWO_PI = 2 * Math.PI;
+const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
+const WAVE_DRAWING_PARAMETERS = new Map(
+  [
+    [
+      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
+      {
+        color: Color.YELLOW,
+        amplitude: 20, // in screen coordinates
+        wavelength: 70 // in screen coordinates, view only, independent of the value in the wave model
+      }
+    ],
+    [
+      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+      {
+        color: Color.RED,
+        amplitude: 20, // in screen coordinates
+        wavelength: 70 // in screen coordinates, view only, independent of the value in the wave model
+      }
+    ]
+  ]
+);
 
 class WavesCanvasNode extends CanvasNode {
 
   /**
    * @param {WavesModel} model
+   * @param {ModelViewTransform2} modelViewTransform
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, tandem, options ) {
+  constructor( model, modelViewTransform, tandem, options ) {
     super( options );
     this.model = model;
+    this.modelViewTransform = modelViewTransform;
     this.invalidatePaint();
   }
 
   // @public
   paintCanvas( context ) {
-    this.model.waves.forEach( wave => drawSineCurve( context, wave ) );
+    this.model.waves.forEach( wave => drawWave( context, wave, this.modelViewTransform ) );
   }
 
   // @public
@@ -38,32 +66,15 @@ class WavesCanvasNode extends CanvasNode {
 
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
-const drawSineCurve = ( context, wave ) => {
+const drawWave = ( context, wave, modelViewTransform ) => {
 
-  const t = wave.time;
+  const startPoint = modelViewTransform.modelToViewPosition( wave.startPoint );
 
-  const sourcePoint = wave.sourcePoint;
-  const destinationPoint = wave.destinationPoint;
-
-  assert && assert( sourcePoint.y !== destinationPoint.y, 'horizontal waves are not supported' );
-
-  const color = wave.parameterModel.color;
-  const amplitude = wave.parameterModel.amplitudeProperty.value;
-  const k = wave.parameterModel.kProperty.value;
-  const w = wave.parameterModel.wProperty.value;
-  const phi = wave.phi;
-
-  const deltaVector = destinationPoint.minus( sourcePoint );
-  if ( deltaVector.getMagnitude() === 0 ) {
-    return;
-  }
-
-  // debug the start and end points
-  if ( phet.chipper.queryParameters.dev ) {
-    context.fillStyle = 'blue';
-    context.fillRect( sourcePoint.x, sourcePoint.y, 20, 20 );
-    context.fillRect( destinationPoint.x, destinationPoint.y, 20, 20 );
-  }
+  // Get the rendering parameters for waves of this wavelength.
+  const drawingParameters = WAVE_DRAWING_PARAMETERS.get( wave.wavelength );
+  const color = drawingParameters.color;
+  const amplitude = drawingParameters.amplitude;
+  const wavelength = drawingParameters.wavelength;
 
   context.lineCap = 'round';
   const c = new Color( color );
@@ -73,24 +84,27 @@ const drawSineCurve = ( context, wave ) => {
   context.lineWidth = wave.parameterModel.map[ wave.type ].strokeProperty.value;
   context.beginPath();
 
-  const unitVector = deltaVector.normalized();
+  const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );
   const unitNormal = unitVector.perpendicular;
 
-  const dx = 2;
   let moved = false;
 
-  const waveStartX = Math.max( 0, wave.time * wave.speed - wave.totalDistance );
-  const waveEndX = Math.min( wave.time * wave.speed, deltaVector.getMagnitude() );
+  const lengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
+  const phaseOffset = wave.phaseOffsetAtOrigin +
+                      ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) / wavelength * TWO_PI;
 
-  for ( let x = waveStartX; x < waveEndX; x += dx ) {
-    const y = amplitude * Math.cos( k * x - w * t + phi );
+  // loop to draw the wave one little segment at a time
+  for ( let x = 0; x <= lengthInView; x += WAVE_SEGMENT_INCREMENT ) {
+    const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffset );
 
-    // Vector math seems too slow here, shows up in profiler at 15% or so.
-    const traversePointX = sourcePoint.x + x * unitVector.x;
-    const traversePointY = sourcePoint.y + x * unitVector.y;
-
+    // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
+    // in profiler at 15% or so.
+    const traversePointX = startPoint.x + x * unitVector.x;
+    const traversePointY = startPoint.y + x * unitVector.y;
     const ptX = traversePointX + y * unitNormal.x;
     const ptY = traversePointY + y * unitNormal.y;
+
+    // Draw the next segment of the waveform.
     if ( !moved ) {
       context.moveTo( ptX, ptY );
       moved = true;

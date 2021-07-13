@@ -1,9 +1,12 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * TODO: Prototype, enter at own risk.
+ * WavesModel uses a layer model for simulating temperature changes due to changes in the concentration of greenhouse
+ * gasses, and also creates and moves light waves that interact with the ground and atmosphere in a way that simulates
+ * that behavior in Earth's atmosphere.
  *
  * @author Sam Reid (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -13,6 +16,7 @@ import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import SunWaveSource from './SunWaveSource.js';
 import Wave from './Wave.js';
 import WaveParameterModel from './WaveParameterModel.js';
 
@@ -31,6 +35,9 @@ class WavesModel extends ConcentrationModel {
       tandem: tandem.createTandem( 'timeProperty' )
     } );
 
+    // @public (read-only) {Wave[]} - the waves that are currently active in the model
+    this.waves = [];
+
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
@@ -38,28 +45,11 @@ class WavesModel extends ConcentrationModel {
 
     this.yellowWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.SUNLIGHT_COLOR );
     this.redWaveParameterModel = new WaveParameterModel( GreenhouseEffectConstants.INFRARED_COLOR );
-    this.showGapProperty = new BooleanProperty( true );
 
-    this.waves = [];
     this.irWavesBegan = true;
 
-    this.reset();
-
-    this.showGapProperty.link( () => this.reset() );
-  }
-
-  /**
-   * @param d
-   * @returns {number|*}
-   * @private
-   */
-  toWaveDistance( d ) {
-    if ( this.showGapProperty.value ) {
-      return d;
-    }
-    else {
-      return 100000;
-    }
+    // @private - the source of the waves that appear to come from the sun
+    this.sunWaveSource = new SunWaveSource( this.waves, this.sunEnergySource );
   }
 
   /**
@@ -72,6 +62,7 @@ class WavesModel extends ConcentrationModel {
   stepModel( dt ) {
     super.stepModel( dt );
     this.timeProperty.value += dt;
+    this.sunWaveSource.step();
     this.waves.forEach( wave => wave.step( dt ) );
 
     const toRemove = this.waves.filter( wave => wave.trailingEdgeReachedDestination );
@@ -88,18 +79,18 @@ class WavesModel extends ConcentrationModel {
    * @private
    */
   createIRWave1( x, a, b, distance, angle = 30, straightDown = false ) {
-    const sourcePoint = new Vector2( x, GROUND_Y );
+    const startPoint = new Vector2( x, GROUND_Y );
 
     const degreesToRadians = Math.PI * 2 / 360;
-    const destinationPoint = sourcePoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + angle * degreesToRadians ) );
-    const redWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.redWaveParameterModel, this.toWaveDistance( distance ), {
+    const destinationPoint = startPoint.plus( Vector2.createPolar( 300, -Math.PI / 2 + angle * degreesToRadians ) );
+    const redWave1Incoming = new Wave( 'incoming', startPoint, destinationPoint, this.redWaveParameterModel, distance, {
       onLeadingEdgeReachesTarget: parentWave => {
 
         const reflectedDestination = straightDown ? new Vector2( parentWave.destinationPoint.x, GROUND_Y ) : new Vector2( parentWave.destinationPoint.x + 100, GROUND_Y );
-        const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, reflectedDestination, this.redWaveParameterModel, this.toWaveDistance( parentWave.totalDistance ) );
+        const redWave1Reflected = new Wave( 'reflected', parentWave.destinationPoint, reflectedDestination, this.redWaveParameterModel, parentWave.totalDistance );
         this.waves.push( redWave1Reflected );
 
-        const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, this.toWaveDistance( parentWave.totalDistance ) );
+        const redWave1Transmitted = new Wave( 'transmitted', parentWave.destinationPoint, parentWave.destinationPoint.plus( Vector2.createPolar( 1000, parentWave.angle ) ), this.redWaveParameterModel, parentWave.totalDistance );
         this.waves.push( redWave1Transmitted );
       },
       onTrailingEdgeAppears: parentWave => {
@@ -131,16 +122,25 @@ class WavesModel extends ConcentrationModel {
    * @private
    */
   createIncomingYellowWave( x, a, b, distance ) {
-    const sourcePoint = new Vector2( x, 0 );
+    const startPoint = new Vector2( x, 0 );
     const destinationPoint = new Vector2( x, GROUND_Y );
-    const yellowWave1Incoming = new Wave( 'incoming', sourcePoint, destinationPoint, this.yellowWaveParameterModel, this.toWaveDistance( distance ), {
-      onTrailingEdgeAppears: wave => {
-        this.createIncomingYellowWave( x === a ? b : a, a, b, 1200 );
-      },
-      onLeadingEdgeReachesTarget: parentWave => {
-        this.triggerIRWavesToBegin();
+    const yellowWave1Incoming = new Wave(
+      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
+      'incoming',
+      startPoint,
+      destinationPoint,
+      this.yellowWaveParameterModel,
+      distance,
+      {
+        onTrailingEdgeAppears: wave => {
+          this.createIncomingYellowWave( x === a ? b : a, a, b, 1200 );
+        },
+        onLeadingEdgeReachesTarget: parentWave => {
+          this.triggerIRWavesToBegin();
+        },
+        debugTag: 'oldStyle'
       }
-    } );
+    );
     this.waves.push( yellowWave1Incoming );
   }
 
@@ -156,12 +156,6 @@ class WavesModel extends ConcentrationModel {
 
     this.waves.length = 0;
     this.irWavesBegan = false;
-
-    this.createIncomingYellowWave( 250, 300, 250, 1200 );
-    this.createIncomingYellowWave( 650, 700, 650, 600 );
-
-    // auto-start ir waves
-    // this.triggerIRWavesToBegin();
   }
 }
 
