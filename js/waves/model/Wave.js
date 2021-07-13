@@ -109,9 +109,15 @@ class Wave {
       this.length += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }
     else {
+
+      // Move the wave forward, being careful not to move the start point beyond the propagation limit.
+      let dy = this.directionOfTravel.y * GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
+      if ( Math.abs( dy ) > Math.abs( this.propagationLimit - this.startPoint.y ) ) {
+        dy = this.propagationLimit - this.startPoint.y;
+      }
       this.startPoint.addXY(
         this.directionOfTravel.x * GreenhouseEffectConstants.SPEED_OF_LIGHT * dt,
-        this.directionOfTravel.y * GreenhouseEffectConstants.SPEED_OF_LIGHT * dt
+        dy
       );
     }
 

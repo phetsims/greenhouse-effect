@@ -75,6 +75,11 @@ class SunWaveSource {
    */
   step() {
 
+    // Remove any waves that were created by the sun but have fully propagated to their end point.
+    _.remove( this.waves, wave =>
+      wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH && !wave.sourced && wave.length === 0
+    );
+
     // Get the waves that currently exist and are being produced by the sun.
     const wavesCurrentlyEmanatingFromSun = this.waves.filter( wave =>
       wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
