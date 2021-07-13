@@ -10,9 +10,17 @@
 import Property from '../../../../axon/js/Property.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import temperatureHighV2Sound from '../../../sounds/greenhouse-temperature-high-v2_mp3.js';
+import temperatureHighV3Sound from '../../../sounds/greenhouse-temperature-high-v3_mp3.js';
 import temperatureHighSound from '../../../sounds/greenhouse-temperature-high_mp3.js';
+import temperatureLowV2Sound from '../../../sounds/greenhouse-temperature-low-v2_mp3.js';
+import temperatureLowV3Sound from '../../../sounds/greenhouse-temperature-low-v3_mp3.js';
 import temperatureLowSound from '../../../sounds/greenhouse-temperature-low_mp3.js';
+import temperatureMediumHumanIdealV2Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v2_mp3.js';
+import temperatureMediumHumanIdealV3Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v3_mp3.js';
 import temperatureMediumHumanIdealSound from '../../../sounds/greenhouse-temperature-medium-human-ideal_mp3.js';
+import temperatureMediumV2Sound from '../../../sounds/greenhouse-temperature-medium-v2_mp3.js';
+import temperatureMediumV3Sound from '../../../sounds/greenhouse-temperature-medium-v3_mp3.js';
 import temperatureMediumSound from '../../../sounds/greenhouse-temperature-medium_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
@@ -21,12 +29,27 @@ import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 const LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE = 266; // in Kelvin
 const MEDIUM_TO_HUMAN_IDEAL_CROSSOVER_TEMPERATURE = 280; // in Kelvin
 const HUMAN_IDEAL_TO_HIGH_CROSSOVER_TEMPERATURE = 289; // in Kelvin
-const ORDERED_TEMPERATURE_SOUNDS = [
-  temperatureLowSound,
-  temperatureMediumSound,
-  temperatureMediumHumanIdealSound,
-  temperatureHighSound
+const ORDERED_TEMPERATURE_SOUND_SETS = [
+  [
+    temperatureLowSound,
+    temperatureMediumSound,
+    temperatureMediumHumanIdealSound,
+    temperatureHighSound
+  ],
+  [
+    temperatureLowV2Sound,
+    temperatureMediumV2Sound,
+    temperatureMediumHumanIdealV2Sound,
+    temperatureHighV2Sound
+  ],
+  [
+    temperatureLowV3Sound,
+    temperatureMediumV3Sound,
+    temperatureMediumHumanIdealV3Sound,
+    temperatureHighV3Sound
+  ]
 ];
+const TEMPERATURE_SOUND_SET_INDEX = 2;
 const CROSS_FADE_SPAN = 6; // in degrees Kelvin
 const HALF_CROSS_FADE_SPAN = CROSS_FADE_SPAN / 2;
 
@@ -42,8 +65,10 @@ class TemperatureSoundGenerator extends SoundGenerator {
 
     super( options );
 
+    const orderedTemperatureSoundSets = ORDERED_TEMPERATURE_SOUND_SETS[ TEMPERATURE_SOUND_SET_INDEX ];
+
     // Create the temperature loops in order from lowest temperature to highest.
-    const temperatureSoundClips = ORDERED_TEMPERATURE_SOUNDS.map( sound => {
+    const temperatureSoundClips = orderedTemperatureSoundSets.map( sound => {
       const soundClip = new SoundClip( sound, { loop: true } );
       soundClip.connect( this.masterGainNode );
       return soundClip;
