@@ -47,9 +47,16 @@ const ORDERED_TEMPERATURE_SOUND_SETS = [
     temperatureMediumV3Sound,
     temperatureMediumHumanIdealV3Sound,
     temperatureHighV3Sound
+  ],
+  [
+    // favorite set from the 7/13/2021 sound design meeting (was a mix-and-match sort of thing)
+    temperatureLowV3Sound,
+    temperatureMediumV2Sound,
+    temperatureMediumHumanIdealV3Sound,
+    temperatureHighV2Sound
   ]
 ];
-const TEMPERATURE_SOUND_SET_INDEX = 2;
+const TEMPERATURE_SOUND_SET_INDEX = 3;
 const CROSS_FADE_SPAN = 6; // in degrees Kelvin
 const HALF_CROSS_FADE_SPAN = CROSS_FADE_SPAN / 2;
 
