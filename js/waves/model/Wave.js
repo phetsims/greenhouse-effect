@@ -18,21 +18,15 @@ const PHASE_RATE = -Math.PI; // in radians per second
 class Wave {
 
   /**
-   * @param {number} wavelength
-   * @param type
+   * @param {number} wavelength - wavelength of this light wave, in meters
    * @param {Vector2} origin - the point from which the wave will originate
-   * @param destinationPoint
-   * @param parameterModel
-   * @param totalDistance
    * @param {Vector2} directionOfTravel - a normalized vector (i.e. length = 1) that indicates direction of travel
-   * @param options
+   * @param {number} propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
+   *                                    direction, in meters
+   * @param {Object} [options]
    */
-  constructor( wavelength, type, origin, destinationPoint, parameterModel, totalDistance, directionOfTravel, options ) {
+  constructor( wavelength, origin, directionOfTravel, propagationLimit, options ) {
     options = merge( {
-      onLeadingEdgeReachesTarget: _.noop,
-      onAlmostDone: _.noop,
-      onTrailingEdgeReachesTarget: _.noop,
-      onTrailingEdgeAppears: _.noop,
       debugTag: null
     }, options );
 
@@ -53,7 +47,7 @@ class Wave {
     this.directionOfTravel = directionOfTravel;
 
     // @private {number} - the altitude past which this wave should not propagate
-    this.propagationLimit = destinationPoint.y;
+    this.propagationLimit = propagationLimit;
 
     // @public (read-only) {number} - the length of this wave from the start point to where it ends
     this.length = 0;
@@ -70,31 +64,6 @@ class Wave {
     // the same as the origin if the wave is being sourced, or will move if the wave is propagating without being
     // sourced.
     this.startPoint = origin.copy();
-
-    this.angle = destinationPoint.minus( origin ).getAngle();
-    this.type = type;
-    this.destinationPoint = destinationPoint;
-    this.parameterModel = parameterModel;
-    this.endPoint = this.startPoint;
-    this.time = 0;
-
-    this.speed = 80;
-    this.totalDistance = totalDistance;
-
-    const totalTime = this.totalDistance / this.speed;
-
-    const travelDistance = this.destinationPoint.minus( this.startPoint ).getMagnitude();
-
-    // Time for the trailing edge to reach the destination
-    this.timeForTrailingEdgeToReachDestination = travelDistance / this.speed + totalTime;
-
-    // Time for the leading edge to reach the destination
-    this.timeForLeadingEdgeToReachDestination = travelDistance / this.speed;
-
-    this.onLeadingEdgeReachesTarget = options.onLeadingEdgeReachesTarget;
-    this.onAlmostDone = options.onAlmostDone;
-    this.onTrailingEdgeReachesTarget = options.onTrailingEdgeReachesTarget;
-    this.onTrailingEdgeAppears = options.onTrailingEdgeAppears;
   }
 
   /**
@@ -126,38 +95,6 @@ class Wave {
 
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
     this.existanceTime += dt;
-    this.time += dt;
-
-    if ( this.onLeadingEdgeReachesTarget && this.leadingEdgeReachedDestination ) {
-      this.onLeadingEdgeReachesTarget( this );
-      delete this.onLeadingEdgeReachesTarget;
-    }
-    if ( this.onAlmostDone && this.almostDone ) {
-      this.onAlmostDone( this );
-      delete this.onAlmostDone;
-    }
-    if ( this.onTrailingEdgeReachesTarget && this.trailingEdgeReachedDestination ) {
-      this.onTrailingEdgeReachesTarget( this );
-      delete this.onTrailingEdgeReachesTarget;
-    }
-
-    // About a 1" gap between tail of parent and head of next wave
-    if ( this.onTrailingEdgeAppears && this.time >= this.totalDistance / this.speed + 1.3 ) {
-      this.onTrailingEdgeAppears( this );
-      delete this.onTrailingEdgeAppears;
-    }
-  }
-
-  get leadingEdgeReachedDestination() {
-    return this.time >= this.timeForLeadingEdgeToReachDestination;
-  }
-
-  get almostDone() {
-    return this.time >= this.timeForLeadingEdgeToReachDestination * 0.6 + this.timeForTrailingEdgeToReachDestination * 0.4;
-  }
-
-  get trailingEdgeReachedDestination() {
-    return this.time >= this.timeForTrailingEdgeToReachDestination;
   }
 }
 

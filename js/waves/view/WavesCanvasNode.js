@@ -17,6 +17,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 // constants
 const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
+const WAVE_LINE_WIDTH = 4;
 const WAVE_DRAWING_PARAMETERS = new Map(
   [
     [
@@ -77,11 +78,9 @@ const drawWave = ( context, wave, modelViewTransform ) => {
   const wavelength = drawingParameters.wavelength;
 
   context.lineCap = 'round';
-  const c = new Color( color );
-  c.alpha = wave.parameterModel.map[ wave.type ].opacityProperty.value;
-  context.strokeStyle = c.toCSS();
+  context.strokeStyle = color.toCSS();
 
-  context.lineWidth = wave.parameterModel.map[ wave.type ].strokeProperty.value;
+  context.lineWidth = WAVE_LINE_WIDTH;
   context.beginPath();
 
   const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );

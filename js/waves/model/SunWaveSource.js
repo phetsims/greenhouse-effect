@@ -9,7 +9,6 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
-import WaveParameterModel from './WaveParameterModel.js';
 
 // constants
 const STRAIGHT_DOWN_NORMALIZED_VECTOR = new Vector2( 0, -1 );
@@ -23,7 +22,6 @@ const RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X = [
   0.3 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
   0.4 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
-const VISIBLE_LIGHT_PARAMETER_MODEL = new WaveParameterModel( GreenhouseEffectConstants.SUNLIGHT_COLOR );
 
 const LIGHT_WAVE_ORIGIN_Y = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE;
 const LIGHT_WAVE_PRODUCTION_TIME = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE * 0.75 /
@@ -45,21 +43,15 @@ class SunWaveSource {
       if ( isShining ) {
         this.waves.push( new Wave(
           GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
-          'incoming',
           new Vector2( LEFT_SIDE_LIGHT_WAVE_ORIGINS_X[ 0 ], LIGHT_WAVE_ORIGIN_Y ),
-          new Vector2( LEFT_SIDE_LIGHT_WAVE_ORIGINS_X[ 0 ], 0 ),
-          VISIBLE_LIGHT_PARAMETER_MODEL,
-          1200,
-          STRAIGHT_DOWN_NORMALIZED_VECTOR
+          STRAIGHT_DOWN_NORMALIZED_VECTOR,
+          0
         ) );
         this.waves.push( new Wave(
           GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
-          'incoming',
           new Vector2( RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X[ 0 ], LIGHT_WAVE_ORIGIN_Y ),
-          new Vector2( RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X[ 0 ], 0 ),
-          VISIBLE_LIGHT_PARAMETER_MODEL,
-          1200,
-          STRAIGHT_DOWN_NORMALIZED_VECTOR
+          STRAIGHT_DOWN_NORMALIZED_VECTOR,
+          0
         ) );
       }
       else {
@@ -87,7 +79,7 @@ class SunWaveSource {
       wave.startPoint.y === LIGHT_WAVE_ORIGIN_Y
     );
 
-    // Find all waves that should no longer be produced by the sun.
+    // Find all waves that should no longer be produced by the sun and should just propagate on their own.
     const fullyGeneratedWaves = wavesCurrentlyEmanatingFromSun.filter( wave =>
       wave.existanceTime >= LIGHT_WAVE_PRODUCTION_TIME
     );
@@ -104,12 +96,9 @@ class SunWaveSource {
       const xPos = xPositions[ xPosIndex ];
       this.waves.push( new Wave(
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
-        'incoming',
         new Vector2( xPos, LIGHT_WAVE_ORIGIN_Y ),
-        new Vector2( xPos, 0 ),
-        VISIBLE_LIGHT_PARAMETER_MODEL,
-        0,
-        STRAIGHT_DOWN_NORMALIZED_VECTOR
+        STRAIGHT_DOWN_NORMALIZED_VECTOR,
+        0
       ) );
     } );
   }
