@@ -6,6 +6,7 @@
  * @author John Blanco
  */
 
+import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Color from '../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../greenhouseEffect.js';
@@ -41,6 +42,10 @@ const GreenhouseEffectConstants = {
   INFRARED_WAVELENGTH: 850E-9,
 
   SPEED_OF_LIGHT: 8000, // in meters/s, obviously far slower than real light, chosen to look good
+
+  // useful normalized vectors
+  STRAIGHT_DOWN_NORMALIZED_VECTOR: new Vector2( 0, -1 ),
+  STRAIGHT_UP_NORMALIZED_VECTOR: new Vector2( 0, 1 ),
 
   // miscellaneous shared constants
   MAX_DT: 0.1 // in seconds

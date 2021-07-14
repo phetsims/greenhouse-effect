@@ -35,18 +35,19 @@ class Wave {
     }
 
     // parameter checking
-    assert && assert( directionOfTravel.magnitude === 1, 'direction vector must be normalized' );
+    assert && assert( Math.abs( directionOfTravel.magnitude - 1 ) < 1E-6, 'direction vector must be normalized' );
     assert && assert( directionOfTravel.y !== 0, 'fully horizontal waves are not supported' );
     assert && assert(
       Math.sign( directionOfTravel.y ) === Math.sign( propagationLimit - origin.y ),
       'propagation limit does not make sense for provided directionOfTravel'
     );
+    assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
 
     // @public (read-only) {number}
     this.wavelength = wavelength;
 
     // {boolean} - indicates whether this wave is coming from a sourced point or just moving through space
-    this.sourced = true;
+    this.isSourced = true;
 
     // (read-only) {number} - the length of time that this wave has existed
     this.existanceTime = 0;
@@ -82,7 +83,7 @@ class Wave {
 
     // If there is a source producing this wave, then it gets longer, otherwise it stays at the same length and
     // propagates through space.
-    if ( this.sourced ) {
+    if ( this.isSourced ) {
       this.length += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }
     else {
@@ -103,6 +104,15 @@ class Wave {
 
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
     this.existanceTime += dt;
+  }
+
+  /**
+   * true if the wave has completely propagated and has nothing else to do
+   * @returns {boolean}
+   * @public
+   */
+  get isCompletelyPropagated() {
+    return this.startPoint.y === this.propagationLimit;
   }
 }
 

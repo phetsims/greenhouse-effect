@@ -13,23 +13,24 @@ import Wave from './Wave.js';
 
 // constants
 const TEMPERATURE_HYSTERESIS = 1; // in degrees Kelvin
+const STRAIGHT_UP_VECTOR = GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR;
 
 // parameters of the waves that emanate from the ground
 const ORDERED_WAVE_PARAMETERS = [
   {
     temperature: 254,
     origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.1, 0 ),
-    directionOfTravel: new Vector2( 0, 1 ).rotated( -Math.PI * 0.15 )
+    directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   },
   {
     temperature: 267,
     origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.33, 0 ),
-    directionOfTravel: new Vector2( 0, 1 ).rotated( Math.PI * 0.15 )
+    directionOfTravel: STRAIGHT_UP_VECTOR.rotated( Math.PI * 0.15 )
   },
   {
     temperature: 280,
     origin: new Vector2( GreenhouseEffectModel.SUNLIGHT_SPAN * 0.4, 0 ),
-    directionOfTravel: new Vector2( 0, 1 ).rotated( -Math.PI * 0.15 )
+    directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   }
 ];
 
@@ -57,7 +58,7 @@ class GroundEMWaveSource {
       const wave = this.waves.find( wave =>
         wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
         wave.origin.equals( waveParameterSet.origin ) &&
-        wave.sourced
+        wave.isSourced
       );
 
       if ( this.groundTemperatureProperty.value > waveParameterSet.temperature + TEMPERATURE_HYSTERESIS && !wave ) {
@@ -73,8 +74,8 @@ class GroundEMWaveSource {
       else if ( this.groundTemperatureProperty.value < waveParameterSet.temperature - TEMPERATURE_HYSTERESIS
                 && wave ) {
 
-        if ( wave.sourced ) {
-          wave.sourced = false;
+        if ( wave.isSourced ) {
+          wave.isSourced = false;
         }
         else if ( wave.startPoint.y === wave.propagationLimit ) {
 
