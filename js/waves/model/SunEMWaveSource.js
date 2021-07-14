@@ -20,8 +20,8 @@ const LEFT_SIDE_LIGHT_WAVE_ORIGINS_X = [
   -0.25 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
 const RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X = [
-  0.2 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
-  0.3 * GreenhouseEffectConstants.SUNLIGHT_SPAN
+  0.25 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
+  0.35 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
 
 const LIGHT_WAVE_ORIGIN_Y = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE;
