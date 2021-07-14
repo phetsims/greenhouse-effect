@@ -1,7 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * SunWaveSource produces waves of visible light that move in a downward direction.
+ * SunEMWaveSource produces simulated waves of electromagnetic energy (specifically visible light) that move in a
+ * downward direction.
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -15,19 +16,19 @@ const STRAIGHT_DOWN_NORMALIZED_VECTOR = new Vector2( 0, -1 );
 
 // x (horizontal) positions at which light waves can originate, y is assumed to be the top of the atmosphere
 const LEFT_SIDE_LIGHT_WAVE_ORIGINS_X = [
-  -0.3 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
-  -0.4 * GreenhouseEffectConstants.SUNLIGHT_SPAN
+  -0.15 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
+  -0.25 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
 const RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X = [
-  0.3 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
-  0.4 * GreenhouseEffectConstants.SUNLIGHT_SPAN
+  0.2 * GreenhouseEffectConstants.SUNLIGHT_SPAN,
+  0.3 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
 
 const LIGHT_WAVE_ORIGIN_Y = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE;
 const LIGHT_WAVE_PRODUCTION_TIME = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE * 0.75 /
                                    GreenhouseEffectConstants.SPEED_OF_LIGHT;
 
-class SunWaveSource {
+class SunEMWaveSource {
 
   /**
    * @param {Wave[]} waves
@@ -79,6 +80,8 @@ class SunWaveSource {
       wave.startPoint.y === LIGHT_WAVE_ORIGIN_Y
     );
 
+    // TODO: The following should be one loop instead of two.
+
     // Find all waves that should no longer be produced by the sun and should just propagate on their own.
     const fullyGeneratedWaves = wavesCurrentlyEmanatingFromSun.filter( wave =>
       wave.existanceTime >= LIGHT_WAVE_PRODUCTION_TIME
@@ -104,5 +107,5 @@ class SunWaveSource {
   }
 }
 
-greenhouseEffect.register( 'SunWaveSource', SunWaveSource );
-export default SunWaveSource;
+greenhouseEffect.register( 'SunEMWaveSource', SunEMWaveSource );
+export default SunEMWaveSource;

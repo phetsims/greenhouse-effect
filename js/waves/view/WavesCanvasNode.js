@@ -33,7 +33,7 @@ const WAVE_DRAWING_PARAMETERS = new Map(
       {
         color: Color.RED,
         amplitude: 20, // in screen coordinates
-        wavelength: 70 // in screen coordinates, view only, independent of the value in the wave model
+        wavelength: 120 // in screen coordinates, view only, independent of the value in the wave model
       }
     ]
   ]

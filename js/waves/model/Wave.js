@@ -34,6 +34,14 @@ class Wave {
       this.debugTag = options.debugTag;
     }
 
+    // parameter checking
+    assert && assert( directionOfTravel.magnitude === 1, 'direction vector must be normalized' );
+    assert && assert( directionOfTravel.y !== 0, 'fully horizontal waves are not supported' );
+    assert && assert(
+      Math.sign( directionOfTravel.y ) === Math.sign( propagationLimit - origin.y ),
+      'propagation limit does not make sense for provided directionOfTravel'
+    );
+
     // @public (read-only) {number}
     this.wavelength = wavelength;
 
@@ -90,8 +98,8 @@ class Wave {
       );
     }
 
-    // Check if the current change makes this wave longer than it should and, if so, limit the length.
-    this.length = Math.min( this.length, Math.abs( this.startPoint.y - this.propagationLimit ) );
+    // Check if the current change makes this wave longer than it should be and, if so, limit the length.
+    this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.directionOfTravel.y );
 
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
     this.existanceTime += dt;
