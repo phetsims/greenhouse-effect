@@ -17,13 +17,13 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 // constants
 const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
-const WAVE_LINE_WIDTH = 4;
+const WAVE_MAX_LINE_WIDTH = 4;
 const WAVE_DRAWING_PARAMETERS = new Map(
   [
     [
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
       {
-        color: Color.YELLOW,
+        strokeStyle: Color.YELLOW.toCSS(),
         amplitude: 20, // in screen coordinates
         wavelength: 70 // in screen coordinates, view only, independent of the value in the wave model
       }
@@ -31,7 +31,7 @@ const WAVE_DRAWING_PARAMETERS = new Map(
     [
       GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       {
-        color: Color.RED,
+        strokeStyle: Color.RED.toCSS(),
         amplitude: 20, // in screen coordinates
         wavelength: 120 // in screen coordinates, view only, independent of the value in the wave model
       }
@@ -67,20 +67,26 @@ class WavesCanvasNode extends CanvasNode {
 
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
+/**
+ * function to draw a sinusoidal wave on a canvas
+ * @param {CanvasRenderingContext2D} context
+ * @param {Wave} wave
+ * @param {ModelViewTransform2} modelViewTransform
+ */
 const drawWave = ( context, wave, modelViewTransform ) => {
 
   const startPoint = modelViewTransform.modelToViewPosition( wave.startPoint );
 
   // Get the rendering parameters for waves of this wavelength.
   const drawingParameters = WAVE_DRAWING_PARAMETERS.get( wave.wavelength );
-  const color = drawingParameters.color;
+  const strokeStyle = drawingParameters.strokeStyle;
   const amplitude = drawingParameters.amplitude;
   const wavelength = drawingParameters.wavelength;
 
   context.lineCap = 'round';
-  context.strokeStyle = color.toCSS();
+  context.strokeStyle = strokeStyle;
 
-  context.lineWidth = WAVE_LINE_WIDTH;
+  context.lineWidth = waveIntensityToLineWidth( wave.intensityAtStart );
   context.beginPath();
 
   const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );
@@ -92,7 +98,7 @@ const drawWave = ( context, wave, modelViewTransform ) => {
   const phaseOffset = wave.phaseOffsetAtOrigin +
                       ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) / wavelength * TWO_PI;
 
-  // loop to draw the wave one little segment at a time
+  // loop to draw the wave one little piece at a time
   for ( let x = 0; x <= lengthInView; x += WAVE_SEGMENT_INCREMENT ) {
     const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffset );
 
@@ -113,6 +119,10 @@ const drawWave = ( context, wave, modelViewTransform ) => {
     }
   }
   context.stroke();
+};
+
+const waveIntensityToLineWidth = waveIntensity => {
+  return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
 };
 
 export default WavesCanvasNode;

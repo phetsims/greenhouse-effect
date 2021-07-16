@@ -133,7 +133,8 @@ class WavesModel extends ConcentrationModel {
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
-            GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
+            GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE,
+            { intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ) }
           );
           this.waves.push( reflectedWave );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );

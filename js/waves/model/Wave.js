@@ -28,7 +28,13 @@ class Wave {
    */
   constructor( wavelength, origin, directionOfTravel, propagationLimit, options ) {
     options = merge( {
+
+      // {number} - the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
+      intensityAtStart: 1,
+
+      // {string} - a string that can be stuck on the object, useful for debugging
       debugTag: null
+
     }, options );
 
     if ( options.debugTag ) {
@@ -74,6 +80,11 @@ class Wave {
     // the same as the origin if the wave is being sourced, or will move if the wave is propagating without being
     // sourced.
     this.startPoint = origin.copy();
+
+    // @public (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
+    // value which goes from anything just above 0 (and intensity of 0 is meaningless, so is not allowed by the code)
+    // to a max value of 1.
+    this.intensityAtStart = options.intensityAtStart;
   }
 
   /**

@@ -100,6 +100,17 @@ class Cloud {
       }
     } );
   }
+
+  /**
+   * Get the reflectivity of the cloud for the provided wavelength.
+   * @param {number} wavelength
+   * @returns {number} - a normalized value between 0 and 1, which 1 is max reflectivity
+   * @public
+   */
+  getReflectivity( wavelength ) {
+    assert && assert( this.reflectivityTable.has( wavelength ) );
+    return this.reflectivityTable.get( wavelength );
+  }
 }
 
 greenhouseEffect.register( 'Cloud', Cloud );
