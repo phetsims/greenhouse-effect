@@ -7,6 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -104,6 +105,32 @@ class Wave {
 
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
     this.existanceTime += dt;
+  }
+
+  /**
+   * Get the altitude at which this wave ends.  This can be used instead of getEndPoint when only the end altitude is
+   * needed, since it doesn't allocate a vector and may thus have better performance.  This treats the wave as a line
+   * and does not account for any amplitude.
+   * @returns {number}
+   * @public
+   */
+  getEndAltitude() {
+    return this.startPoint + this.length * this.directionOfTravel.y;
+  }
+
+  /**
+   * Get a vector that represents the end point of this wave.  This does not account for any amplitude of the wave, and
+   * just treats it as a line between two points.  If a vector is provided, none is allocated.
+   * @param [vectorToUse]
+   * @public
+   */
+  getEndPoint( vectorToUse ) {
+    const endPointVector = vectorToUse || new Vector2( 0, 0 );
+    endPointVector.setXY(
+      this.startPoint.x + this.directionOfTravel.x * this.length,
+      this.startPoint.y + this.directionOfTravel.y * this.length
+    );
+    return endPointVector;
   }
 
   /**

@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Line from '../../../../kite/js/segments/Line.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
@@ -44,42 +45,30 @@ class WavesModel extends ConcentrationModel {
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map();
 
-    // TODO: Fast prototype of adding reflections from clouds, needs lots of refinement.
-    // const wavesReflectedFromClouds = [];
-    // this.numberOfActiveCloudsProperty.link( numberOfActiveClouds => {
-    //   if ( numberOfActiveClouds === 1 ) {
-    //     const cloud = this.clouds[ 0 ];
-    //
-    //     // If there is a wave from the sun going through this cloud, add a reflection.
-    //     let firstIntersectingWave = null;
-    //     this.waves.forEach( wave => {
-    //       if ( !firstIntersectingWave && wave.startPoint.y > cloud.position.y ) {
-    //
-    //         if ( wave.startPoint.x > cloud.position.x - cloud.width / 2 &&
-    //              wave.startPoint.x < cloud.position.x + cloud.width / 2 &&
-    //              wave.startPoint.y - wave.length < cloud.position.y ) {
-    //
-    //           // Add a wave.
-    //           const reflectedWave = new Wave(
-    //             GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
-    //             cloud.position,
-    //             new Vector2( 0, 1 ).rotated( -Math.PI * 0.1 ),
-    //             GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
-    //           );
-    //           this.waves.push( reflectedWave );
-    //           wavesReflectedFromClouds.push( reflectedWave );
-    //         }
-    //       }
-    //     } );
-    //   }
-    //   else {
-    //
-    //     // Stop producing any currently reflected waves.  They will just fly away after this.
-    //     wavesReflectedFromClouds.forEach( wave => {
-    //       wave.isSourced = false;
-    //     } );
-    //   }
-    // } );
+    // @private {Map.<Wave,Wave>} - map of waves from the ground to waves being produced by the atmosphere in response
+    this.atmosphereWaveInteractionsMap = new Map();
+
+    const heightOfCentralAtmosphericInteraction = this.atmosphereLayers[ this.atmosphereLayers.length / 2 ].altitude;
+
+    // @private - line where IR waves that cross through the center of the model may interact with the atmosphere
+    this.centerAtmosphericInteractionLine = new Line(
+      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction ),
+      new Vector2( GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction )
+    );
+
+    const heightOfLeftSideAtmosphericInteraction =
+      this.atmosphereLayers[ Math.floor( this.atmosphereLayers.length / 3 ) ].altitude;
+
+    // @private - line where IR waves on the left side of the model may interact with the atmosphere
+    this.leftAtmosphericInteractionLine = new Line(
+      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 2, heightOfLeftSideAtmosphericInteraction ),
+      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfLeftSideAtmosphericInteraction )
+    );
+
+    // @private - pre-allocated vectors and lines, reused in order to reduce memory allocations
+    this.lineStart = new Vector2( 0, 0 );
+    this.lineEnd = new Vector2( 0, 1 );
+    this.waveLine = new Line( this.lineStart, this.lineEnd );
   }
 
   /**
@@ -95,12 +84,14 @@ class WavesModel extends ConcentrationModel {
     this.groundWaveSource.step();
     this.waves.forEach( wave => wave.step( dt ) );
     this.updateCloudReflectedWaves();
+    this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
     _.remove( this.waves, wave => wave.isCompletelyPropagated );
   }
 
   /**
+   * update the interactions between light waves and the cloud
    * @private
    */
   updateCloudReflectedWaves() {
@@ -120,7 +111,7 @@ class WavesModel extends ConcentrationModel {
 
     if ( cloud.enabledProperty.value ) {
 
-      // Make a list of waves that are coming from the sun and pass through the cloud.
+      // Make a list of waves that originated from the sun and pass through the cloud.
       const wavesCrossingTheCloud = this.waves.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.y === SunEMWaveSource.LIGHT_WAVE_ORIGIN_Y &&
@@ -146,6 +137,79 @@ class WavesModel extends ConcentrationModel {
           );
           this.waves.push( reflectedWave );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
+        }
+      } );
+    }
+  }
+
+  /**
+   * update the interactions between IR waves and the atmosphere
+   * @private
+   */
+  updateWaveAtmosphereInteractions() {
+
+    // See if any of the waves that are being produced due to interactions with the atmosphere should be removed.
+    this.atmosphereWaveInteractionsMap.forEach( ( producedWave, sourceWave ) => {
+      if ( this.concentrationProperty.value === 0 || sourceWave.startPoint.y > producedWave.origin.y ) {
+
+        // Either the greenhouse gas concentration has gone to zero or the source wave has fully based through the
+        // interaction point.  In either case, it's time to stop producing the wave.
+        producedWave.isSourced = false;
+        this.atmosphereWaveInteractionsMap.delete( sourceWave );
+      }
+    } );
+
+    if ( this.concentrationProperty.value > 0 ) {
+
+      // Make a list of waves that originated from the ground.
+      const wavesFromTheGround = this.waves.filter( wave =>
+        wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+        wave.origin.y === 0
+      );
+
+      // See if any of the waves from the ground should cause a new atmospheric interaction and, if so, start it.
+      wavesFromTheGround.forEach( waveFromGround => {
+
+        if ( !this.atmosphereWaveInteractionsMap.has( waveFromGround ) ) {
+
+          // Get a line that represents where the wave starts and ends.
+          this.waveLine.setStart( waveFromGround.startPoint );
+          this.lineEnd = waveFromGround.getEndPoint( this.lineEnd );
+          this.waveLine.setEnd( this.lineEnd );
+
+          // If the wave crosses the central atmosphere interaction area, create a resulting wave the heads back down
+          // to the ground.
+          let intersection = Line.intersect( this.waveLine, this.centerAtmosphericInteractionLine );
+          if ( intersection.length > 0 ) {
+
+            assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
+
+            const waveFromAtmosphericInteraction = new Wave(
+              waveFromGround.wavelength,
+              intersection[ 0 ].point,
+              GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR.rotated( Math.PI * 0.05 ),
+              0
+            );
+            this.waves.push( waveFromAtmosphericInteraction );
+            this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
+          }
+
+          // If the wave crosses the left atmosphere interaction area, create a resulting wave the heads back down to
+          // the ground.
+          intersection = Line.intersect( this.waveLine, this.leftAtmosphericInteractionLine );
+          if ( intersection.length > 0 ) {
+
+            assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
+
+            const waveFromAtmosphericInteraction = new Wave(
+              waveFromGround.wavelength,
+              intersection[ 0 ].point,
+              GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
+              0
+            );
+            this.waves.push( waveFromAtmosphericInteraction );
+            this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
+          }
         }
       } );
     }

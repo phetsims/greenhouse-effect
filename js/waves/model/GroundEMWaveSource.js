@@ -23,12 +23,12 @@ const ORDERED_WAVE_PARAMETERS = [
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   },
   {
-    temperature: 267,
-    origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.33, 0 ),
+    temperature: 254,
+    origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.25, 0 ),
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( Math.PI * 0.15 )
   },
   {
-    temperature: 280,
+    temperature: 254,
     origin: new Vector2( GreenhouseEffectModel.SUNLIGHT_SPAN * 0.4, 0 ),
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   }
