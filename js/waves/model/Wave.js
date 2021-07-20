@@ -53,11 +53,9 @@ class Wave {
     // @public (read-only) {number}
     this.wavelength = wavelength;
 
-    // {boolean} - indicates whether this wave is coming from a sourced point or just moving through space
-    this.isSourced = true;
-
-    // (read-only) {number} - the length of time that this wave has existed
-    this.existanceTime = 0;
+    // @public (read-only) {Vector2} - The point from which this wave originates.  This is immutable over the lifetime
+    // of a wave, and it distinct from the start point, since the start point can move as the wave propagates.
+    this.origin = origin;
 
     // @public (read-only) {Vector2}
     this.directionOfTravel = directionOfTravel;
@@ -65,26 +63,37 @@ class Wave {
     // @private {number} - the altitude past which this wave should not propagate
     this.propagationLimit = propagationLimit;
 
-    // @public (read-only) {number} - the length of this wave from the start point to where it ends
-    this.length = 0;
-
-    // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
-    // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
-    this.phaseOffsetAtOrigin = 0;
-
-    // @public (read-only) {Vector2} - The point from which this wave originates.  This is immutable over the lifetime
-    // of a wave, and it distinct from the start point, since the start point can move as the wave propagates.
-    this.origin = origin;
-
     // @public (read-only) {Vector2} - The starting point where the wave currently exists in model space.  This will be
     // the same as the origin if the wave is being sourced, or will move if the wave is propagating without being
     // sourced.
     this.startPoint = origin.copy();
 
+    // @public (read-only) {number} - the length of this wave from the start point to where it ends
+    this.length = 0;
+
+    // {boolean} - indicates whether this wave is coming from a sourced point or just moving through space
+    this.isSourced = true;
+
+    // (read-only) {number} - the length of time that this wave has existed
+    this.existanceTime = 0;
+
+    // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
+    // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
+    this.phaseOffsetAtOrigin = 0;
+
     // @public (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
     // value which goes from anything just above 0 (and intensity of 0 is meaningless, so is not allowed by the code)
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
+
+    // @private {IntensityChange[]} - An array of places along this wave where its intensity changes.  These are kept
+    // in order from the start to the end of the wave.
+    this.intensityChanges = [];
+
+    // @private {Map.<{Object,Attenuator>} - A Map that maps model objects to the attenuation that they are currently
+    // causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type spec.
+    // Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
+    this.modelObjectToAttenuatorMap = new Map();
   }
 
   /**
@@ -96,24 +105,79 @@ class Wave {
     // If there is a source producing this wave, then it gets longer, otherwise it stays at the same length and
     // propagates through space.
     if ( this.isSourced ) {
-      this.length += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
+      const propagationDistance = dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
+      this.length += propagationDistance;
+      this.intensityChanges.forEach( intensityChange => {
+        if ( intensityChange.propagatesWithWave ) {
+          intensityChange.distanceFromStart += propagationDistance;
+        }
+      } );
     }
     else {
 
       // Move the wave forward, being careful not to move the start point beyond the propagation limit.
-      let dy = this.directionOfTravel.y * GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
+      const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
+      let dy = this.directionOfTravel.y * propagationDistance;
       if ( Math.abs( dy ) > Math.abs( this.propagationLimit - this.startPoint.y ) ) {
         dy = this.propagationLimit - this.startPoint.y;
       }
       this.startPoint.addXY(
-        this.directionOfTravel.x * GreenhouseEffectConstants.SPEED_OF_LIGHT * dt,
+        this.directionOfTravel.x * propagationDistance,
         dy
       );
+
+      // If there are any non-propagating intensity changes, decrease their distance from the start, since the wave's
+      // starting point has moved forward and these should not move with it.
+      this.intensityChanges.forEach( intensityChange => {
+        if ( !intensityChange.propagatesWithWave ) {
+          intensityChange.distanceFromStart -= propagationDistance;
+        }
+      } );
+
+      // If there are attenuators on this wave, decrease their distance from the start point, since the wave's start
+      // point has moved forward and the attenuators don't move with it.
+      this.modelObjectToAttenuatorMap.forEach( attenuator => {
+        attenuator.distanceFromStart -= propagationDistance;
+      } );
     }
 
-    // Check if the current change makes this wave longer than it should be and, if so, limit the length.
+    // Check if the current change causes this wave to extend beyond it's propagation limit and, if so, limit the length.
     this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.directionOfTravel.y );
 
+    // Remove any intensity changes that are no longer on the wave.
+    this.intensityChanges = this.intensityChanges.filter( intensityChange =>
+      intensityChange.distanceFromStart >= 0 && intensityChange.distanceFromStart < this.length
+    );
+
+    // Sort the intensity changes so that they are in order from the start to the end.
+    this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+
+    // Update the attenuators.
+    this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
+
+        if ( attenuator.distanceFromStart <= 0 ) {
+          this.removeAttenuator( modelElement );
+        }
+        else {
+          const incomingValue = this.getIntensityBefore( attenuator.correspondingIntensityChange );
+          const expectedOutput = incomingValue * attenuator.attenuation;
+          if ( attenuator.correspondingIntensityChange.intensity !== expectedOutput ) {
+
+            // Something has changed that has made the intensity change associated with this attenuator incorrect.  This
+            // can happen when the value coming in to the attenuator has changed, or if the attenuation value itself has
+            // changed.  Free the intensity change currently owned by the attenuator to propagate, and then create a new one.
+            attenuator.correspondingIntensityChange.propagatesWithWave = true;
+            attenuator.correspondingIntensityChange = this.setIntensityAt(
+              attenuator.correspondingIntensityChange.distanceFromStart,
+              expectedOutput,
+              false
+            );
+          }
+        }
+      }
+    );
+
+    // Update aspects of the wave that evolve over time.
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
     this.existanceTime += dt;
   }
@@ -145,12 +209,197 @@ class Wave {
   }
 
   /**
+   * Get the intensity of the wave at the specified distance from the starting point.
+   * @param {number} distanceFromStart (in meters)
+   * @returns {number}
+   * @private
+   */
+  getIntensityAt( distanceFromStart ) {
+    let intensity = this.intensityAtStart;
+    this.intensityChanges.forEach( intensityChange => {
+      if ( intensityChange.distanceFromStart >= distanceFromStart ) {
+        intensity = intensityChange.intensity;
+      }
+    } );
+    return intensity;
+  }
+
+  /**
+   * Get the intensity of the wave at its end point.
+   * @returns {number}
+   * @private
+   */
+  getIntensityAtEnd() {
+    return this.getIntensityAt( this.length );
+  }
+
+  /**
+   * Set the intensity of the wave at the given distance from the start point.  If the intensity at that point is
+   * already at the specified value, the request is quietly ignored.
+   * @param {number} distanceFromStart
+   * @param {number} intensity
+   * @param {boolean} propagateWithWave
+   * @returns {IntensityChange|null}
+   * @private
+   */
+  setIntensityAt( distanceFromStart, intensity, propagateWithWave ) {
+
+    let addedIntensityChange = null;
+    if ( distanceFromStart === 0 ) {
+      this.intensityAtStart = intensity;
+    }
+    else {
+      let insertionIndex = 0;
+      for ( let i = 0; i < this.intensityChanges.length; i++ ) {
+        const intensityChange = this.intensityChanges[ i ];
+        if ( intensityChange.distanceFromStart > distanceFromStart ) {
+
+          // This intensity change is past the provided distance, so we're done.
+          break;
+        }
+        else {
+          insertionIndex = i + 1;
+        }
+      }
+
+      // Create a new intensity change and insert it into the array in the appropriate place.
+      addedIntensityChange = new IntensityChange( intensity, distanceFromStart, propagateWithWave );
+      this.intensityChanges.splice( insertionIndex, 0, addedIntensityChange );
+    }
+
+    return addedIntensityChange;
+  }
+
+  /**
+   * @param {number} distanceFromStart
+   * @param {number} attenuationAmount
+   * @param {Object} causalModelElement - the model element that is causing this attenuation to exist
+   * @public
+   */
+  addAttenuator( distanceFromStart, attenuationAmount, causalModelElement ) {
+
+    // parameter checking
+    assert && assert(
+    attenuationAmount > 0 && attenuationAmount <= 1,
+      'the attenuation amount must be greater than zero, less than or equal to one'
+    );
+
+    // state checking
+    assert && assert(
+      !this.modelObjectToAttenuatorMap.has( causalModelElement ),
+      'this model object already had an attenuator'
+    );
+
+    // Create an intensity change that will propagate with the wave and will maintain the existing intensity after the
+    // point where this attenuator is being inserted.
+    const currentIntensityAtDistance = this.getIntensityAt( distanceFromStart );
+    this.intensityChanges.push( new IntensityChange( currentIntensityAtDistance, distanceFromStart, true ) );
+
+    // Create and add the new attenuator and the intensity change that goes with it.
+    const attenuatedOutputLevel = currentIntensityAtDistance * attenuationAmount;
+    const intensityChange = new IntensityChange( attenuatedOutputLevel, distanceFromStart, false );
+    this.intensityChanges.push( intensityChange );
+    this.modelObjectToAttenuatorMap.set(
+      causalModelElement,
+      new WaveAttenuator( attenuationAmount, distanceFromStart, intensityChange )
+    );
+
+    // TODO: Consider adding code to keep these sorted all the time, and then just check with an assert during step.
+    // Sort the intensity changes so that they are in order from the start to the end.
+    this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+  }
+
+  /**
+   * Remove the attenuator associated with the provided model element.
+   * @param {Object} causalModelElement
+   * @public
+   */
+  removeAttenuator( causalModelElement ) {
+
+    assert && assert(
+      this.modelObjectToAttenuatorMap.has( causalModelElement ),
+      'no attenuator exists for the provided model element'
+    );
+
+    const attenuator = this.modelObjectToAttenuatorMap.get( causalModelElement );
+    if ( attenuator.distanceFromStart <= 0 ) {
+
+      // This attenuator is being removed from the start portion of the wave, so the initial intensity must be set to
+      // the value on the far side of this attenuator.
+      this.intensityAtStart = attenuator.correspondingIntensityChange.intensity;
+    }
+    else {
+
+      // Free the intensity change that is associated with this attenuator to propagate with the wave.
+      attenuator.correspondingIntensityChange.propagatesWithWave = true;
+    }
+
+    // Remove the attenuator from the map.
+    this.modelObjectToAttenuatorMap.delete( causalModelElement );
+  }
+
+  /**
+   * Does the provided model element have an associated attenuator on this wave?
+   * @param {Object} modelElement
+   * @public
+   */
+  hasAttenuator( modelElement ) {
+    return this.modelObjectToAttenuatorMap.has( modelElement );
+  }
+
+  /**
+   * Get the intensity prior to the provided intensity change.
+   * @param {IntensityChange} intensityChange
+   * @returns {number}
+   * @private
+   */
+  getIntensityBefore( intensityChange ) {
+    const intensityChangeIndex = this.intensityChanges.indexOf( intensityChange );
+    assert && assert( intensityChangeIndex >= 0 );
+    let intensityValue = this.intensityAtStart;
+    for ( let i = 0; i < intensityChangeIndex; i++ ) {
+      intensityValue = this.intensityChanges[ i ].intensity;
+    }
+    return intensityValue;
+  }
+
+  /**
    * true if the wave has completely propagated and has nothing else to do
    * @returns {boolean}
    * @public
    */
   get isCompletelyPropagated() {
     return this.startPoint.y === this.propagationLimit;
+  }
+}
+
+/**
+ * A simple inner class that is used to keep track of points along the wave where the intensity changes.
+ */
+class IntensityChange {
+
+  /**
+   * @param {number} intensity - a normalized value from 0 to 1
+   * @param {number} distanceFromStart - in meters
+   * @param {boolean} propagatesWithWave - true if this should move with the wave, false if not
+   */
+  constructor( intensity, distanceFromStart, propagatesWithWave ) {
+    this.intensity = intensity;
+    this.distanceFromStart = distanceFromStart;
+    this.propagatesWithWave = propagatesWithWave;
+  }
+}
+
+/**
+ * A simple class that is used to keep track of points along the wave where attenuation (reduction in intensity) should
+ * occur.
+ */
+class WaveAttenuator {
+
+  constructor( initialAttenuation, distanceFromStart, correspondingIntensityChange ) {
+    this.attenuation = initialAttenuation;
+    this.distanceFromStart = distanceFromStart;
+    this.correspondingIntensityChange = correspondingIntensityChange;
   }
 }
 

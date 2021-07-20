@@ -83,7 +83,7 @@ class WavesModel extends ConcentrationModel {
     this.sunWaveSource.step();
     this.groundWaveSource.step();
     this.waves.forEach( wave => wave.step( dt ) );
-    this.updateCloudReflectedWaves();
+    this.updateCloudWaveInteractions();
     this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
@@ -94,7 +94,7 @@ class WavesModel extends ConcentrationModel {
    * update the interactions between light waves and the cloud
    * @private
    */
-  updateCloudReflectedWaves() {
+  updateCloudWaveInteractions() {
 
     const cloud = this.clouds[ 0 ];
 
@@ -122,6 +122,7 @@ class WavesModel extends ConcentrationModel {
         wave.startPoint.x < cloud.position.x + cloud.width / 2
       );
 
+      // Check if reflected waves and attenuators are in place for this cloud and, if not, add them.
       wavesCrossingTheCloud.forEach( incidentWave => {
 
         // If there is no reflected wave for this incident wave, create one.
@@ -138,6 +139,25 @@ class WavesModel extends ConcentrationModel {
           );
           this.waves.push( reflectedWave );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
+        }
+
+        // If there is no attenuation of this wave as it passes through the cloud, create it.
+        if ( !incidentWave.hasAttenuator( cloud ) ) {
+          incidentWave.addAttenuator(
+            incidentWave.startPoint.y - cloud.position.y,
+            cloud.getReflectivity( incidentWave.wavelength ),
+            cloud
+          );
+        }
+      } );
+    }
+    else {
+
+      // The cloud is not enabled, so if there are any waves that were being attenuated because of the cloud, stop that
+      // from happening.
+      this.waves.forEach( wave => {
+        if ( wave.hasAttenuator( cloud ) ) {
+          wave.removeAttenuator( cloud );
         }
       } );
     }

@@ -98,27 +98,49 @@ const drawWave = ( context, wave, modelViewTransform ) => {
   const phaseOffset = wave.phaseOffsetAtOrigin +
                       ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) / wavelength * TWO_PI;
 
-  // loop to draw the wave one little piece at a time
-  for ( let x = 0; x <= lengthInView; x += WAVE_SEGMENT_INCREMENT ) {
-    const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffset );
-
-    // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
-    // in profiler at 15% or so.
-    const traversePointX = startPoint.x + x * unitVector.x;
-    const traversePointY = startPoint.y + x * unitVector.y;
-    const ptX = traversePointX + y * unitNormal.x;
-    const ptY = traversePointY + y * unitNormal.y;
-
-    // Draw the next segment of the waveform.
-    if ( !moved ) {
-      context.moveTo( ptX, ptY );
-      moved = true;
+  // Draw the wave, and do it in sections that correspond to the intensity.  The intensity is represented by the line
+  // thickness that is used to draw the wave.
+  let currentXValue = 0;
+  for ( let i = 0; i <= wave.intensityChanges.length; i++ ) {
+    const nextIntensityChange = wave.intensityChanges[ i ];
+    let endValue;
+    if ( nextIntensityChange ) {
+      endValue = modelViewTransform.modelToViewDeltaX( wave.intensityChanges[ i ].distanceFromStart );
     }
     else {
-      context.lineTo( ptX, ptY );
+      endValue = lengthInView;
+    }
+
+    // Loop, drawing short segments that will comprise the wave.
+    for ( currentXValue; currentXValue <= endValue; currentXValue += WAVE_SEGMENT_INCREMENT ) {
+      const y = amplitude * Math.cos( currentXValue / wavelength * TWO_PI + phaseOffset );
+
+      // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
+      // in profiler at 15% or so.
+      const traversePointX = startPoint.x + currentXValue * unitVector.x;
+      const traversePointY = startPoint.y + currentXValue * unitVector.y;
+      const ptX = traversePointX + y * unitNormal.x;
+      const ptY = traversePointY + y * unitNormal.y;
+
+      // Draw the next segment of the waveform.
+      if ( !moved ) {
+        context.moveTo( ptX, ptY );
+        moved = true;
+      }
+      else {
+        context.lineTo( ptX, ptY );
+      }
+    }
+
+    // Render this portion.
+    context.stroke();
+    if ( nextIntensityChange ) {
+      context.beginPath();
+      moved = false;
+      context.lineWidth = waveIntensityToLineWidth( nextIntensityChange.intensity );
     }
   }
-  context.stroke();
+
 };
 
 const waveIntensityToLineWidth = waveIntensity => {
