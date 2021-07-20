@@ -1,7 +1,7 @@
 {
   "absorb-photon.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -17,7 +17,7 @@
   },
   "break-apart.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -25,7 +25,7 @@
   },
   "greenhouse-temperature-high.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -33,7 +33,7 @@
   },
   "greenhouse-temperature-high-v2.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -41,7 +41,7 @@
   },
   "greenhouse-temperature-high-v3.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -49,7 +49,7 @@
   },
   "greenhouse-temperature-low.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -57,7 +57,7 @@
   },
   "greenhouse-temperature-low-v2.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -65,7 +65,7 @@
   },
   "greenhouse-temperature-low-v3.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -73,7 +73,7 @@
   },
   "greenhouse-temperature-medium.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -81,7 +81,7 @@
   },
   "greenhouse-temperature-medium-v2.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -89,7 +89,7 @@
   },
   "greenhouse-temperature-medium-v3.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -97,7 +97,7 @@
   },
   "greenhouse-temperature-medium-human-ideal.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -105,7 +105,7 @@
   },
   "greenhouse-temperature-medium-human-ideal-v2.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -113,7 +113,7 @@
   },
   "greenhouse-temperature-medium-human-ideal-v3.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -121,7 +121,7 @@
   },
   "greenhouse-temperature-rising-with-base-note-high.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -129,7 +129,7 @@
   },
   "greenhouse-temperature-rising-with-base-note-human-ideal.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -137,7 +137,7 @@
   },
   "greenhouse-temperature-rising-with-base-note-low.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -145,7 +145,15 @@
   },
   "greenhouse-temperature-rising-with-base-note-medium.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "greenhouse-wave-reflection-vibrato.mp3": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -153,7 +161,7 @@
   },
   "photon-emit-microwave.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -161,7 +169,7 @@
   },
   "photon-emit-ir.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -169,7 +177,7 @@
   },
   "photon-emit-visible.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -177,7 +185,7 @@
   },
   "photon-emit-uv.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -185,7 +193,7 @@
   },
   "photon-release-microwave.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -193,7 +201,7 @@
   },
   "photon-release-ir.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -201,7 +209,7 @@
   },
   "photon-release-visible.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
@@ -209,7 +217,7 @@
   },
   "photon-release-uv.mp3": {
     "text": [
-      "Copyright 2018 University of Colorado Boulder"
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",

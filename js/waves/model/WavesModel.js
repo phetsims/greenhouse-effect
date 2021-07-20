@@ -12,6 +12,9 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
@@ -69,6 +72,12 @@ class WavesModel extends ConcentrationModel {
     this.lineStart = new Vector2( 0, 0 );
     this.lineEnd = new Vector2( 0, 1 );
     this.waveLine = new Line( this.lineStart, this.lineEnd );
+
+    // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
+    //       see https://github.com/phetsims/greenhouse-effect/issues/36.
+    // sound generation
+    this.waveReflectedSoundGenerator = new SoundClip( waveReflectionSound, { initialOutputLevel: 0.2 } );
+    soundManager.addSoundGenerator( this.waveReflectedSoundGenerator );
   }
 
   /**
@@ -139,6 +148,10 @@ class WavesModel extends ConcentrationModel {
           );
           this.waves.push( reflectedWave );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
+
+          // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
+          //       see https://github.com/phetsims/greenhouse-effect/issues/36.
+          this.waveReflectedSoundGenerator.play();
         }
 
         // If there is no attenuation of this wave as it passes through the cloud, create it.
