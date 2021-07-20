@@ -13,15 +13,19 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import temperatureHighV2Sound from '../../../sounds/greenhouse-temperature-high-v2_mp3.js';
 import temperatureHighV3Sound from '../../../sounds/greenhouse-temperature-high-v3_mp3.js';
 import temperatureHighSound from '../../../sounds/greenhouse-temperature-high_mp3.js';
+import temperatureRisingHighSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-high_mp3.js';
 import temperatureLowV2Sound from '../../../sounds/greenhouse-temperature-low-v2_mp3.js';
 import temperatureLowV3Sound from '../../../sounds/greenhouse-temperature-low-v3_mp3.js';
 import temperatureLowSound from '../../../sounds/greenhouse-temperature-low_mp3.js';
+import temperatureRisingLowSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import temperatureMediumHumanIdealV2Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v2_mp3.js';
 import temperatureMediumHumanIdealV3Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v3_mp3.js';
 import temperatureMediumHumanIdealSound from '../../../sounds/greenhouse-temperature-medium-human-ideal_mp3.js';
+import temperatureRisingHumanIdealSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-human-ideal_mp3.js';
 import temperatureMediumV2Sound from '../../../sounds/greenhouse-temperature-medium-v2_mp3.js';
 import temperatureMediumV3Sound from '../../../sounds/greenhouse-temperature-medium-v3_mp3.js';
 import temperatureMediumSound from '../../../sounds/greenhouse-temperature-medium_mp3.js';
+import temperatureRisingMediumSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-medium_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
@@ -54,9 +58,16 @@ const ORDERED_TEMPERATURE_SOUND_SETS = [
     temperatureMediumV2Sound,
     temperatureMediumHumanIdealV3Sound,
     temperatureHighV2Sound
+  ],
+  [
+    // ambient-ish sounds
+    temperatureRisingLowSound,
+    temperatureRisingMediumSound,
+    temperatureRisingHumanIdealSound,
+    temperatureRisingHighSound
   ]
 ];
-const TEMPERATURE_SOUND_SET_INDEX = 3;
+const TEMPERATURE_SOUND_SET_INDEX = 4;
 const CROSS_FADE_SPAN = 6; // in degrees Kelvin
 const HALF_CROSS_FADE_SPAN = CROSS_FADE_SPAN / 2;
 
