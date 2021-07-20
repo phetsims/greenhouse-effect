@@ -13,18 +13,18 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import temperatureHighV2Sound from '../../../sounds/greenhouse-temperature-high-v2_mp3.js';
 import temperatureHighV3Sound from '../../../sounds/greenhouse-temperature-high-v3_mp3.js';
 import temperatureHighSound from '../../../sounds/greenhouse-temperature-high_mp3.js';
-import temperatureRisingHighSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-high_mp3.js';
 import temperatureLowV2Sound from '../../../sounds/greenhouse-temperature-low-v2_mp3.js';
 import temperatureLowV3Sound from '../../../sounds/greenhouse-temperature-low-v3_mp3.js';
 import temperatureLowSound from '../../../sounds/greenhouse-temperature-low_mp3.js';
-import temperatureRisingLowSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import temperatureMediumHumanIdealV2Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v2_mp3.js';
 import temperatureMediumHumanIdealV3Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v3_mp3.js';
 import temperatureMediumHumanIdealSound from '../../../sounds/greenhouse-temperature-medium-human-ideal_mp3.js';
-import temperatureRisingHumanIdealSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-human-ideal_mp3.js';
 import temperatureMediumV2Sound from '../../../sounds/greenhouse-temperature-medium-v2_mp3.js';
 import temperatureMediumV3Sound from '../../../sounds/greenhouse-temperature-medium-v3_mp3.js';
 import temperatureMediumSound from '../../../sounds/greenhouse-temperature-medium_mp3.js';
+import temperatureRisingHighSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-high_mp3.js';
+import temperatureRisingHumanIdealSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-human-ideal_mp3.js';
+import temperatureRisingLowSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import temperatureRisingMediumSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-medium_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
@@ -74,41 +74,48 @@ const HALF_CROSS_FADE_SPAN = CROSS_FADE_SPAN / 2;
 class TemperatureSoundGenerator extends SoundGenerator {
 
   /**
-   * @param {Property.<boolean>} isSimPlayingProperty - whether sim is playing (i.e. not paused)
-   * @param {Property.<boolean>} isSunShiningProperty - whether or not the sun is shining
    * @param {Property.<number>} temperatureProperty - temperature of the model, in Kelvin
    * @param {Object} [options]
    */
-  constructor( isSimPlayingProperty, isSunShiningProperty, temperatureProperty, options ) {
+  constructor( temperatureProperty, options ) {
 
     super( options );
 
     const orderedTemperatureSoundSets = ORDERED_TEMPERATURE_SOUND_SETS[ TEMPERATURE_SOUND_SET_INDEX ];
 
-    // Create the temperature loops in order from lowest temperature to highest.
-    const temperatureSoundClips = orderedTemperatureSoundSets.map( sound => {
+    // @private {SoundClip[]} - the temperature sound loops in order from lowest temperature to highest
+    this.temperatureSoundClipLoops = orderedTemperatureSoundSets.map( sound => {
       const soundClip = new SoundClip( sound, { loop: true } );
       soundClip.connect( this.masterGainNode );
       return soundClip;
     } );
 
+    // @private - make the temperature Property available to the update method
+    this.temperatureProperty = temperatureProperty;
+
+    // @private - make the enable control properties available to the update method
+    this.localEnableControlProperties = options.enableControlProperties || [];
+
+    // Trigger updates when things change.  This class watches the enableControlProperties explicitly instead of only
+    // relying on the base class to monitor them so that the loops can be turned off if they don't need to be playing.
+    // This saves processor bandwidth on the audio rendering thread, since the parent class turns down the volume but
+    // doesn't stop the loops.
     Property.multilink(
-      [ isSimPlayingProperty, isSunShiningProperty, temperatureProperty ],
-      ( isSimPlaying, isSunShining, temperature ) => {
-        this.updateLoopStates( isSimPlaying, isSunShining, temperature, temperatureSoundClips );
-      }
+      [ temperatureProperty, ...options.enableControlProperties ],
+      () => { this.updateLoopStates(); }
     );
   }
 
   /**
-   * Update the play state (i.e. playing or not playing) and the output level of the loops based on the temperature.
-   * @param {boolean} isSimPlaying
-   * @param {boolean} isSunShining
-   * @param {number} temperature
-   * @param {SoundClip[]} loops
+   * Update the play state (i.e. playing or not playing) and the output level of the loops based on the temperature and
+   * the enable control properties.
    * @private
    */
-  updateLoopStates( isSimPlaying, isSunShining, temperature, loops ) {
+  updateLoopStates() {
+
+    // convenience variables
+    const temperature = this.temperatureProperty.value;
+    const loops = this.temperatureSoundClipLoops;
 
     // The code below assumes that the minimum temperature really is a minimum, and the temperature never goes below
     // that values.
@@ -118,10 +125,13 @@ class TemperatureSoundGenerator extends SoundGenerator {
     const loopsToOutputLevelsMap = new Map();
 
     // Start with zeros for all output levels, the will be updated below if the loop should be playing.
-    loops.forEach( loop => { loopsToOutputLevelsMap.set( loop, 0 ); } );
+    this.temperatureSoundClipLoops.forEach( loop => { loopsToOutputLevelsMap.set( loop, 0 ); } );
+
+    // Get a value that summarizes the state of all the enable-control properties.
+    const okayToPlay = this.enableControlProperties.reduce( ( valueSoFar, enabled ) => valueSoFar || enabled );
 
     // Set the volume levels for any loops that are non-zero.
-    if ( isSimPlaying && isSunShining ) {
+    if ( okayToPlay ) {
 
       if ( temperature < LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE + HALF_CROSS_FADE_SPAN ) {
 
@@ -212,8 +222,6 @@ class TemperatureSoundGenerator extends SoundGenerator {
         }
         loopsToOutputLevelsMap.set( loops[ 3 ], level );
       }
-
-
     }
 
     loopsToOutputLevelsMap.forEach( ( level, loop ) => {
@@ -228,8 +236,6 @@ class TemperatureSoundGenerator extends SoundGenerator {
       }
     } );
   }
-
-
 }
 
 greenhouseEffect.register( 'TemperatureSoundGenerator', TemperatureSoundGenerator );

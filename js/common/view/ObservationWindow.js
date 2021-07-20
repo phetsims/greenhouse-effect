@@ -334,10 +334,15 @@ class ObservationWindow extends Node {
     // sound generation
     soundManager.addSoundGenerator(
       new TemperatureSoundGenerator(
-        model.sunEnergySource.isShiningProperty,
-        model.isPlayingProperty,
         model.surfaceTemperatureKelvinProperty,
-        { initialOutputLevel: 0.1 }
+        {
+          initialOutputLevel: 0.1,
+          enableControlProperties: [
+            model.sunEnergySource.isShiningProperty,
+            model.surfaceThermometerVisibleProperty,
+            model.isPlayingProperty
+          ]
+        }
       )
     );
   }
