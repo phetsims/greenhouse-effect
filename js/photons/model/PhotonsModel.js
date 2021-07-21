@@ -5,7 +5,6 @@
  * @author Jesse Greenberg
  */
 
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -24,8 +23,9 @@ class PhotonsModel extends ConcentrationModel {
 
     this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty, {
 
-      // TODO: Instrumentation required
-      tandem: Tandem.OPT_OUT
+      // PhotonsModelComponents should appear as if they are directly components of the
+      // ConcentrationModel, so just pass the tandem through
+      tandem: tandem
     } );
 
     // @private
