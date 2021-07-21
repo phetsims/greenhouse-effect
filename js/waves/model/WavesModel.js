@@ -195,15 +195,15 @@ class WavesModel extends ConcentrationModel {
 
     if ( this.concentrationProperty.value > 0 ) {
 
-      // Make a list of waves that originated from the ground.
+      // Make a list of waves that already exist and originate from the ground.
       const wavesFromTheGround = this.waves.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
         wave.origin.y === 0
       );
 
-      // See if any of the waves from the ground should cause a new atmospheric interaction and, if so, start it.
       wavesFromTheGround.forEach( waveFromGround => {
 
+        // Check if this wave should be causing another wave to be produced in the atmosphere.
         if ( !this.atmosphereWaveInteractionsMap.has( waveFromGround ) ) {
 
           // Get a line that represents where the wave starts and ends.
@@ -222,7 +222,8 @@ class WavesModel extends ConcentrationModel {
               waveFromGround.wavelength,
               intersection[ 0 ].point,
               GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR.rotated( Math.PI * 0.05 ),
-              0
+              0,
+              { intensityAtStart: 0.25 }
             );
             this.waves.push( waveFromAtmosphericInteraction );
             this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
@@ -239,12 +240,14 @@ class WavesModel extends ConcentrationModel {
               waveFromGround.wavelength,
               intersection[ 0 ].point,
               GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
-              0
+              0,
+              { intensityAtStart: 0.25 }
             );
             this.waves.push( waveFromAtmosphericInteraction );
             this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
           }
         }
+
       } );
     }
   }

@@ -1,7 +1,11 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * Wave represents a wave of light in the model.
+ * The Wave class represents a wave of light in the model.
+ *
+ * TODO: The code is written to support multiple points along the wave where its intensity can be attenuated.  However,
+ *       this code is basically untested, since it hasn't been needed yet.  It will need to be tested and debugged if
+ *       and when it is ever needed. See https://github.com/phetsims/greenhouse-effect/issues/52 for more information.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -323,16 +327,35 @@ class Wave {
 
     const currentIntensityAtDistance = this.getIntensityAt( distanceFromStart );
 
-    // If needed, create an intensity change that will propagate with the wave and will maintain the existing intensity
-    // after the point where this attenuator is being inserted.
-    if ( distanceFromStart < this.length ) {
-      this.intensityChanges.push(
-        new IntensityChange( currentIntensityAtDistance,
-          distanceFromStart + SMALL_INTER_CHANGE_DISTANCE,
-          true
-        )
-      );
+    // By design, this will get rid of any intensity changes that occur until the end of the wave or until the next
+    // attenuator.  This is perhaps not entirely realistic, but the designers decided that it looks better.  If there
+    // are intensity changes that are downstream of an attenuator, adjust them to reflect this new attenuation.
+    const intensityChangesToRemove = [];
+    let nonPropagatingIntensityChangeFound = false;
+    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
+      const intensityChange = this.intensityChanges[ i ];
+      if ( intensityChange.distanceFromStart > distanceFromStart ) {
+
+        if ( !intensityChange.propagatesWithWave ) {
+          nonPropagatingIntensityChangeFound = true;
+        }
+
+        if ( nonPropagatingIntensityChangeFound ) {
+
+          // attenuate this intensity change
+          intensityChange.intensity = intensityChange * attenuationAmount;
+        }
+        else {
+
+          // This one should be removed.
+          intensityChangesToRemove.push( intensityChange );
+        }
+      }
     }
+
+    this.intensityChanges = this.intensityChanges.filter(
+      intensityChange => !intensityChangesToRemove.includes( intensityChange )
+    );
 
     // Create and add the new attenuator and the intensity change that goes with it.
     const attenuatedOutputLevel = currentIntensityAtDistance * attenuationAmount;
@@ -361,17 +384,27 @@ class Wave {
     );
 
     const attenuator = this.modelObjectToAttenuatorMap.get( causalModelElement );
-    if ( attenuator.distanceFromStart <= 0 ) {
 
-      // This attenuator is being removed from the start portion of the wave, so the initial intensity must be set to
-      // the value on the far side of this attenuator.
-      this.intensityAtStart = attenuator.correspondingIntensityChange.intensity;
-    }
-    else {
+    // By design, when an attenuator is removed, all intensity changes are removed to the end of the wave or to the next
+    // attenuator.  This is perhaps not perfectly realistic, but the design team decided that it looked better on July
+    // 21, 2021.
+    const intensityChangesToRemove = [ attenuator.correspondingIntensityChange ];
+    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
+      const intensityChange = this.intensityChanges[ i ];
+      if ( !intensityChange.propagatesWithWave ) {
 
-      // Free the intensity change that is associated with this attenuator to propagate with the wave.
-      attenuator.correspondingIntensityChange.propagatesWithWave = true;
+        // This is a non-propagating intensity change, which means it goes with an attenuator, so stop the removal of
+        // intensity changes.
+        break;
+      }
+      if ( intensityChange.distanceFromStart > attenuator.distanceFromStart ) {
+        intensityChangesToRemove.push( intensityChange );
+      }
     }
+
+    this.intensityChanges = this.intensityChanges.filter(
+      intensityChange => !intensityChangesToRemove.includes( intensityChange )
+    );
 
     // Remove the attenuator from the map.
     this.modelObjectToAttenuatorMap.delete( causalModelElement );
