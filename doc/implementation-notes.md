@@ -1,5 +1,12 @@
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
-See https://github.com/phetsims/greenhouse-effect/issues/19 
+See https://github.com/phetsims/greenhouse-effect/issues/19
+
+# Waves Screen
+
+TODO: Add verbiage about the following:
+- [ ] Waves in the model are just basically lines
+- [ ] The waves have intensity changes that move along them, some propagate and some don't, like boats on a river where
+some are anchored, and some aren't.
 
 # Implementation notes for 'Molecules and Light'
 

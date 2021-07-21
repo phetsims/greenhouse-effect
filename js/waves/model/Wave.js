@@ -17,6 +17,9 @@ const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 const SMALL_INTER_CHANGE_DISTANCE = 0.001; // in meters, used to adjust intensity change positions to keep them ordered
 
+// TODO: It would probably be an improvement to the design if the addition and removal of intensity changes only happened
+//       in methods.
+
 class Wave {
 
   /**
@@ -224,7 +227,7 @@ class Wave {
    * Get the intensity of the wave at the specified distance from the starting point.
    * @param {number} distanceFromStart (in meters)
    * @returns {number}
-   * @private
+   * @public
    */
   getIntensityAt( distanceFromStart ) {
     let intensity = this.intensityAtStart;
@@ -280,6 +283,22 @@ class Wave {
     }
 
     return addedIntensityChange;
+  }
+
+  /**
+   * Set the intensity at the start of the wave.
+   * @param {number} intensity - a normalized intensity value
+   * @public
+   */
+  setIntensityAtStart( intensity ) {
+
+    assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
+
+    if ( this.intensityAtStart !== intensity ) {
+      this.intensityChanges.push( new IntensityChange( this.intensityAtStart, SMALL_INTER_CHANGE_DISTANCE, true ) );
+      this.sortIntensityChanges();
+      this.intensityAtStart = intensity;
+    }
   }
 
   /**
