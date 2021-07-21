@@ -90,7 +90,7 @@ class WavesModel extends ConcentrationModel {
   stepModel( dt ) {
     super.stepModel( dt );
     this.sunWaveSource.step();
-    this.groundWaveSource.step();
+    this.groundWaveSource.step( dt );
     this.waves.forEach( wave => wave.step( dt ) );
     this.updateCloudWaveInteractions();
     this.updateWaveAtmosphereInteractions();

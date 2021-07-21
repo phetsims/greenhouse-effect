@@ -46,7 +46,6 @@ class SunEMWaveSource {
     // @private {Map.<Wave,number>}
     this.waveToLifetimeMap = new Map();
 
-
     // Add the initial waves when the sun starts shining.
     sunEnergySource.isShiningProperty.link( isShining => {
 
