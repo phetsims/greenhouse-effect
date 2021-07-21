@@ -74,9 +74,11 @@ class LayersModel extends GreenhouseEffectModel {
 
     // Create the energy absorbing and emitting layers that model the atmosphere.
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
+    const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
     _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
       const atmosphereLayer = new EnergyAbsorbingEmittingLayer( distanceBetweenLayers * ( index + 1 ), {
-        minimumTemperature: 0
+        minimumTemperature: 0,
+        tandem: atmosphereLayersTandem.createTandem( `layer${index}` )
       } );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
