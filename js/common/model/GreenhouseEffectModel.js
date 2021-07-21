@@ -11,7 +11,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import FluxMeter from './FluxMeter.js';
 
 class GreenhouseEffectModel {
 
@@ -30,19 +29,6 @@ class GreenhouseEffectModel {
     this.isPlayingProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'isPlayingProperty' )
     } );
-
-    // @public {BooleanProperty} - whether or not the flux meter is visible
-    this.fluxMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
-    } );
-
-    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
-    this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
-    } );
-
-    // @private - model component for the FluxMeter
-    this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
   }
 
   /**
@@ -76,9 +62,6 @@ class GreenhouseEffectModel {
   reset() {
     this.timeSpeedProperty.reset();
     this.isPlayingProperty.reset();
-    this.allPhotonsVisibleProperty.reset();
-    this.fluxMeterVisibleProperty.reset();
-    this.energyBalanceVisibleProperty.reset();
   }
 }
 

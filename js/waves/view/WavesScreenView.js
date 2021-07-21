@@ -35,7 +35,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       },
 
       observationWindowOptions: {
+
+        // {boolean} - do not include a flux meter in the observation window
+        includeFluxMeter: false,
+
         visibilityControlsOptions: {
+
+          // do not include a checkbox to control visibility of the flux meter in visibility controls
           includeFluxMeter: false
         }
       },

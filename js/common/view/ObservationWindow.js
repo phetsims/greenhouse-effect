@@ -61,6 +61,9 @@ class ObservationWindow extends Node {
       left: 5,
       top: 10,
 
+      // {boolean} - Whether or not to include a flux meter in the window.
+      includeFluxMeter: true,
+
       // options passed to the ObservationWindowVisibilityControls
       visibilityControlsOptions: {
 
@@ -69,6 +72,9 @@ class ObservationWindow extends Node {
       }
 
     }, options );
+
+    // Nodes layered in the foreground (like UI controls) should be added as children to this Node
+    const foregroundNode = new Node();
 
     // In the model, the ground is a horizontal line at y = 0, but in the view we add some perspective, so the ground
     // spans some horizontal distance.  This number is the y distance in screen coordinates from the bottom of the
@@ -224,13 +230,21 @@ class ObservationWindow extends Node {
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty
     );
     energyBalancePanel.leftTop = windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    foregroundNode.addChild( energyBalancePanel );
 
     // flux meter
-    const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, modelViewTransform, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
-    fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+    if ( options.includeFluxMeter ) {
+      assert && assert( model.fluxMeter, 'Model should include a FluxMeter if requested for the view' );
+      assert && assert( model.fluxMeterVisibleProperty, 'Model should include Property for flux meter visibility' );
 
-    // set the position of the wire to attach to the flux panel
-    model.fluxMeter.wireMeterAttachmentPositionProperty.set( modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) ) );
+      const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, modelViewTransform, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
+      fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+
+      // set the position of the wire to attach to the flux panel
+      model.fluxMeter.wireMeterAttachmentPositionProperty.set( modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) ) );
+
+      foregroundNode.addChild( fluxMeterNode );
+    }
 
     // thermometer
     const listParentNode = new Node();
@@ -241,6 +255,7 @@ class ObservationWindow extends Node {
     } );
     surfaceThermometer.leftBottom = windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
     listParentNode.leftBottom = surfaceThermometer.leftBottom;
+    foregroundNode.addChild( surfaceThermometer );
 
     // controls
     const visibilityControls = new ObservationWindowVisibilityControls(
@@ -249,24 +264,30 @@ class ObservationWindow extends Node {
       options.visibilityControlsOptions
     );
     visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    foregroundNode.addChild( visibilityControls );
 
-    // most contents are contained in this node with the exception of a few that need to be added separately
-    // for controlling z-order or enabled state of input
-    const contentNode = new Node( {
+    // Nodes that should be in the background (in the desired z-order) and below foreground
+    // Nodes like UI components.
+    const backgroundNode = new Node( {
       children: [
         skyNode,
         groundNode,
         groundLayerNode,
         ...atmosphereLayerNodes,
-        visibilityControls,
-        presentationNode,
-        fluxMeterNode,
-        surfaceThermometer,
+        presentationNode
+      ]
+    } );
+
+
+    // most contents are contained in this node with the exception of a few that need to be added separately
+    // for controlling z-order or enabled state of input
+    const contentNode = new Node( {
+      children: [
+        backgroundNode,
+        foregroundNode,
 
         // for the temperature ComboBox, above the thermometer so it opens on top of it
-        listParentNode,
-
-        energyBalancePanel
+        listParentNode
       ]
     } );
 

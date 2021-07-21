@@ -72,6 +72,11 @@ class LayersModel extends GreenhouseEffectModel {
       tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
     } );
 
+    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
+    this.energyBalanceVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
+    } );
+
     // Create the energy absorbing and emitting layers that model the atmosphere.
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
@@ -197,6 +202,7 @@ class LayersModel extends GreenhouseEffectModel {
   reset() {
     super.reset();
 
+    this.energyBalanceVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
     this.sunEnergySource.reset();
