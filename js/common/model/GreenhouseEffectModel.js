@@ -31,11 +31,6 @@ class GreenhouseEffectModel {
       tandem: tandem.createTandem( 'isPlayingProperty' )
     } );
 
-    // @public {BooleanProperty} - if true, a larger number of photons are shown
-    this.allPhotonsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
-    } );
-
     // @public {BooleanProperty} - whether or not the flux meter is visible
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )

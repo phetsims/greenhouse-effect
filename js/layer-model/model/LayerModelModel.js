@@ -5,6 +5,7 @@
  */
 
 import LayersModel from '../../common/model/LayersModel.js';
+import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
@@ -13,10 +14,14 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 class LayerModelModel extends LayersModel {
 
   /**
+   * @mixes {PhotonsModelComponents}
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
     super( tandem );
+
+    // initialize the photon model components for the LayerModelModel
+    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty );
 
     //TODO
   }
@@ -38,6 +43,8 @@ class LayerModelModel extends LayersModel {
     //TODO
   }
 }
+
+PhotonsModelComponents.compose( LayerModelModel );
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
 export default LayerModelModel;
