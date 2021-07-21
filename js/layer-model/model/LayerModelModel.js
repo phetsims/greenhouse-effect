@@ -21,7 +21,12 @@ class LayerModelModel extends LayersModel {
     super( tandem );
 
     // initialize the photon model components for the LayerModelModel
-    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty );
+    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty, {
+
+      // the PhotonModelComponents trait should appear as part of the LayerModelModel so
+      // pass the tandem directly through
+      tandem: tandem
+    } );
 
     //TODO
   }
