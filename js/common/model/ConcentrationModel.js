@@ -14,7 +14,6 @@ import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import LayersModel from './LayersModel.js';
 
 // constants
