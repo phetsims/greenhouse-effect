@@ -29,8 +29,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
+import LayersModel from '../model/LayersModel.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
@@ -80,7 +80,7 @@ class ObservationWindow extends Node {
 
     // Check that the aspect ratio of the model will work when mapped into this window.
     assert && assert(
-      Math.abs( aboveGroundAspectRatio - ( GreenhouseEffectModel.SUNLIGHT_SPAN / GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) ) < 0.1,
+      Math.abs( aboveGroundAspectRatio - ( LayersModel.SUNLIGHT_SPAN / LayersModel.HEIGHT_OF_ATMOSPHERE ) ) < 0.1,
       'the aspect ratio of the observation window doesn\'t match that of the model'
     );
 
@@ -89,7 +89,7 @@ class ObservationWindow extends Node {
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
       new Vector2( SIZE.width / 2, SIZE.height - groundOffsetFromBottom ),
-      ( SIZE.height - groundOffsetFromBottom ) / GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
+      ( SIZE.height - groundOffsetFromBottom ) / LayersModel.HEIGHT_OF_ATMOSPHERE
     );
 
     // @public {Rectangle} - main window frame into which other items will need to fit
@@ -99,7 +99,7 @@ class ObservationWindow extends Node {
     } );
 
     // sky
-    const skyRectHeight = -modelViewTransform.modelToViewDeltaY( GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
+    const skyRectHeight = -modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
     const skyNode = new Rectangle( 0, 0, SIZE.width, skyRectHeight, {
       fill: new LinearGradient( 0, 0, 0, skyRectHeight )
         .addColorStop( 0, '#000010' )

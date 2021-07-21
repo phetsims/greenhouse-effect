@@ -15,9 +15,9 @@ import Line from '../../../../kite/js/segments/Line.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
+import LayersModel from '../../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundEMWaveSource from './GroundEMWaveSource.js';
 import SunEMWaveSource from './SunEMWaveSource.js';
@@ -55,8 +55,8 @@ class WavesModel extends ConcentrationModel {
 
     // @private - line where IR waves that cross through the center of the model may interact with the atmosphere
     this.centerAtmosphericInteractionLine = new Line(
-      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction ),
-      new Vector2( GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction )
+      new Vector2( -LayersModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction ),
+      new Vector2( LayersModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction )
     );
 
     const heightOfLeftSideAtmosphericInteraction =
@@ -64,8 +64,8 @@ class WavesModel extends ConcentrationModel {
 
     // @private - line where IR waves on the left side of the model may interact with the atmosphere
     this.leftAtmosphericInteractionLine = new Line(
-      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 2, heightOfLeftSideAtmosphericInteraction ),
-      new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN / 4, heightOfLeftSideAtmosphericInteraction )
+      new Vector2( -LayersModel.SUNLIGHT_SPAN / 2, heightOfLeftSideAtmosphericInteraction ),
+      new Vector2( -LayersModel.SUNLIGHT_SPAN / 4, heightOfLeftSideAtmosphericInteraction )
     );
 
     // @private - pre-allocated vectors and lines, reused in order to reduce memory allocations
@@ -143,7 +143,7 @@ class WavesModel extends ConcentrationModel {
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
-            GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE,
+            LayersModel.HEIGHT_OF_ATMOSPHERE,
             { intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ) }
           );
           this.waves.push( reflectedWave );

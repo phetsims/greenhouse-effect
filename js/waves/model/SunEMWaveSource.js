@@ -9,7 +9,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
+import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
 
@@ -26,10 +26,10 @@ const RIGHT_SIDE_LIGHT_WAVE_ORIGINS_X = [
   0.35 * GreenhouseEffectConstants.SUNLIGHT_SPAN
 ];
 
-const LIGHT_WAVE_ORIGIN_Y = GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE;
+const LIGHT_WAVE_ORIGIN_Y = LayersModel.HEIGHT_OF_ATMOSPHERE;
 const LIGHT_WAVE_PRODUCTION_TIME_RANGE = new Range(
-  GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE * 1.25 / GreenhouseEffectConstants.SPEED_OF_LIGHT,
-  GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE * 2 / GreenhouseEffectConstants.SPEED_OF_LIGHT
+  LayersModel.HEIGHT_OF_ATMOSPHERE * 1.25 / GreenhouseEffectConstants.SPEED_OF_LIGHT,
+  LayersModel.HEIGHT_OF_ATMOSPHERE * 2 / GreenhouseEffectConstants.SPEED_OF_LIGHT
 );
 
 class SunEMWaveSource {

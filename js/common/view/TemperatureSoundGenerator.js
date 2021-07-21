@@ -27,7 +27,7 @@ import temperatureRisingHumanIdealSound from '../../../sounds/greenhouse-tempera
 import temperatureRisingLowSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import temperatureRisingMediumSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-medium_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import LayersModel from '../model/LayersModel.js';
 
 // constants
 const LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE = 266; // in Kelvin
@@ -119,7 +119,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
 
     // The code below assumes that the minimum temperature really is a minimum, and the temperature never goes below
     // that values.
-    assert && assert( temperature >= GreenhouseEffectModel.MINIMUM_GROUND_TEMPERATURE, 'temperature below minimum' );
+    assert && assert( temperature >= LayersModel.MINIMUM_GROUND_TEMPERATURE, 'temperature below minimum' );
 
     // Map of loops to output levels.
     const loopsToOutputLevelsMap = new Map();
@@ -140,7 +140,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
         // By design, there is a little bit sound sound generation at the minimum temperature, but not much, and it
         // fades in as the temperature starts to increase.  This is achieved by using the same algorithm for the cross
         // add and the fade in, and setting up the fade in region to be in a place that sounds the way we want it to.
-        const fadeInKnee = GreenhouseEffectModel.MINIMUM_GROUND_TEMPERATURE + CROSS_FADE_SPAN * 0.8;
+        const fadeInKnee = LayersModel.MINIMUM_GROUND_TEMPERATURE + CROSS_FADE_SPAN * 0.8;
         if ( temperature < fadeInKnee ) {
 
           // Fade this in based on how close the current temperature is to the minimum.

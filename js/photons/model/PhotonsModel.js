@@ -9,7 +9,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
+import LayersModel from '../../common/model/LayersModel.js';
 import Photon from '../../common/model/Photon.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -48,8 +48,8 @@ class PhotonsModel extends ConcentrationModel {
       while ( this.photonCreationCountdown <= 0 ) {
         this.photons.push( new Photon(
           new Vector2(
-            -GreenhouseEffectModel.SUNLIGHT_SPAN / 2 + dotRandom.nextDouble() * GreenhouseEffectModel.SUNLIGHT_SPAN,
-            GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
+            -LayersModel.SUNLIGHT_SPAN / 2 + dotRandom.nextDouble() * LayersModel.SUNLIGHT_SPAN,
+            LayersModel.HEIGHT_OF_ATMOSPHERE
           ),
           Photon.VISIBLE_WAVELENGTH,
           Tandem.OPT_OUT,
@@ -63,7 +63,7 @@ class PhotonsModel extends ConcentrationModel {
     const photonsToRemove = [];
     const photonsToAdd = [];
     this.photons.forEach( photon => {
-      if ( photon.positionProperty.value.y >= GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE && photon.velocity.y > 0 ) {
+      if ( photon.positionProperty.value.y >= LayersModel.HEIGHT_OF_ATMOSPHERE && photon.velocity.y > 0 ) {
 
         // This photon is moving upwards and is out of the simulation area, so remove it.
         photonsToRemove.push( photon );

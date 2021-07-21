@@ -7,7 +7,7 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
+import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
 
@@ -19,17 +19,17 @@ const STRAIGHT_UP_VECTOR = GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECT
 const ORDERED_WAVE_PARAMETERS = [
   {
     temperature: 254,
-    origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.1, 0 ),
+    origin: new Vector2( -LayersModel.SUNLIGHT_SPAN * 0.1, 0 ),
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   },
   {
     temperature: 254,
-    origin: new Vector2( -GreenhouseEffectModel.SUNLIGHT_SPAN * 0.25, 0 ),
+    origin: new Vector2( -LayersModel.SUNLIGHT_SPAN * 0.25, 0 ),
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( Math.PI * 0.15 )
   },
   {
     temperature: 254,
-    origin: new Vector2( GreenhouseEffectModel.SUNLIGHT_SPAN * 0.4, 0 ),
+    origin: new Vector2( LayersModel.SUNLIGHT_SPAN * 0.4, 0 ),
     directionOfTravel: STRAIGHT_UP_VECTOR.rotated( -Math.PI * 0.15 )
   }
 ];
@@ -68,7 +68,7 @@ class GroundEMWaveSource {
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           waveParameterSet.origin,
           waveParameterSet.directionOfTravel,
-          GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE
+          LayersModel.HEIGHT_OF_ATMOSPHERE
         ) );
       }
       else if ( this.groundTemperatureProperty.value < waveParameterSet.temperature - TEMPERATURE_HYSTERESIS

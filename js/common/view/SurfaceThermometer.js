@@ -21,7 +21,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import LayersModel from '../model/LayersModel.js';
 
 // constants
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
@@ -71,7 +71,7 @@ class SurfaceThermometer extends Node {
         kelvinUnitsString,
         model.surfaceTemperatureKelvinProperty,
         model.surfaceTemperatureKelvinProperty.range,
-        GreenhouseEffectModel.TemperatureUnits.KELVIN, {
+        LayersModel.TemperatureUnits.KELVIN, {
           tandemName: 'kelvinItem'
         }
       ),
@@ -79,7 +79,7 @@ class SurfaceThermometer extends Node {
         celsiusUnitsString,
         model.surfaceTemperatureCelsiusProperty,
         celsiusRange,
-        GreenhouseEffectModel.TemperatureUnits.CELSIUS, {
+        LayersModel.TemperatureUnits.CELSIUS, {
           tandemName: 'celsiusItem'
         }
       ),
@@ -87,7 +87,7 @@ class SurfaceThermometer extends Node {
         fahrenheitUnitsString,
         model.surfaceTemperatureFahrenheitProperty,
         fahrenheitRange,
-        GreenhouseEffectModel.TemperatureUnits.FAHRENHEIT, {
+        LayersModel.TemperatureUnits.FAHRENHEIT, {
           tandemName: 'fahrenheitItem'
         }
       )

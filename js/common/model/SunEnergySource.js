@@ -14,7 +14,7 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
-import GreenhouseEffectModel from './GreenhouseEffectModel.js';
+import LayersModel from './LayersModel.js';
 
 // constants
 
@@ -58,7 +58,7 @@ class SunEnergySource {
       energyPacket = new EMEnergyPacket(
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
         energyToProduce,
-        GreenhouseEffectModel.HEIGHT_OF_ATMOSPHERE,
+        LayersModel.HEIGHT_OF_ATMOSPHERE,
         EnergyDirection.DOWN
       );
     }
