@@ -15,6 +15,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
+import LayersModel from './LayersModel.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
@@ -36,7 +37,7 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
   [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, 0.83 ]
 ] );
 
-class ConcentrationModel extends GreenhouseEffectModel {
+class ConcentrationModel extends LayersModel {
 
   /**
    * @param {Tandem} tandem

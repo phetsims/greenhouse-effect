@@ -4,13 +4,13 @@
  * @author John Blanco
  */
 
-import GreenhouseEffectModel from '../../common/model/GreenhouseEffectModel.js';
+import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
  * @constructor
  */
-class LayerModelModel extends GreenhouseEffectModel {
+class LayerModelModel extends LayersModel {
 
   /**
    * @param {Tandem} tandem
