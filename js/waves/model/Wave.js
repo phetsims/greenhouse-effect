@@ -15,6 +15,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 // constants
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
+const SMALL_INTER_CHANGE_DISTANCE = 0.001; // in meters, used to adjust intensity change positions to keep them ordered
 
 class Wave {
 
@@ -109,7 +110,18 @@ class Wave {
       this.length += propagationDistance;
       this.intensityChanges.forEach( intensityChange => {
         if ( intensityChange.propagatesWithWave ) {
+          const preMoveDistance = intensityChange.distanceFromStart;
           intensityChange.distanceFromStart += propagationDistance;
+
+          // If this intensity change moved through an attenuator, attenuate it.
+          for ( const attenuator of this.modelObjectToAttenuatorMap.values() ) {
+            if ( preMoveDistance <= attenuator.distanceFromStart &&
+                 intensityChange.distanceFromStart > attenuator.distanceFromStart ) {
+
+              // Attenuate the intensity.
+              intensityChange.intensity = intensityChange.intensity * attenuator.attenuation;
+            }
+          }
         }
       } );
     }
@@ -150,7 +162,7 @@ class Wave {
     );
 
     // Sort the intensity changes so that they are in order from the start to the end.
-    this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+    this.sortIntensityChanges();
 
     // Update the attenuators.
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
@@ -217,7 +229,7 @@ class Wave {
   getIntensityAt( distanceFromStart ) {
     let intensity = this.intensityAtStart;
     this.intensityChanges.forEach( intensityChange => {
-      if ( intensityChange.distanceFromStart >= distanceFromStart ) {
+      if ( intensityChange.distanceFromStart < distanceFromStart ) {
         intensity = intensityChange.intensity;
       }
     } );
@@ -290,10 +302,18 @@ class Wave {
       'this model object already had an attenuator'
     );
 
-    // Create an intensity change that will propagate with the wave and will maintain the existing intensity after the
-    // point where this attenuator is being inserted.
     const currentIntensityAtDistance = this.getIntensityAt( distanceFromStart );
-    this.intensityChanges.push( new IntensityChange( currentIntensityAtDistance, distanceFromStart, true ) );
+
+    // If needed, create an intensity change that will propagate with the wave and will maintain the existing intensity
+    // after the point where this attenuator is being inserted.
+    if ( distanceFromStart < this.length ) {
+      this.intensityChanges.push(
+        new IntensityChange( currentIntensityAtDistance,
+          distanceFromStart + SMALL_INTER_CHANGE_DISTANCE,
+          true
+        )
+      );
+    }
 
     // Create and add the new attenuator and the intensity change that goes with it.
     const attenuatedOutputLevel = currentIntensityAtDistance * attenuationAmount;
@@ -304,9 +324,9 @@ class Wave {
       new WaveAttenuator( attenuationAmount, distanceFromStart, intensityChange )
     );
 
-    // TODO: Consider adding code to keep these sorted all the time, and then just check with an assert during step.
-    // Sort the intensity changes so that they are in order from the start to the end.
-    this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+    // Make sure the intensity changes are in the correct order.
+    // TODO: Consider making the code always keep the order correct and just verify the order with asserts and such.
+    this.sortIntensityChanges();
   }
 
   /**
@@ -370,6 +390,30 @@ class Wave {
    */
   get isCompletelyPropagated() {
     return this.startPoint.y === this.propagationLimit;
+  }
+
+  /**
+   * Sort the intensity changes from closest to the start point to furthest.
+   * @private
+   */
+  sortIntensityChanges() {
+
+    this.intensityChanges.sort( ( a, b ) => {
+      let result = a.distanceFromStart - b.distanceFromStart;
+
+      // If two intensities land on top of one another, the propagating one should come first in the order.  Other parts
+      // of the code depend on this being true.
+      if ( result === 0 ) {
+
+        // We should never have a case where two propagating intensities are on top of one another.  If we do, other
+        // portions of the code should be fixed so that this doesn't occur.
+        assert && assert( a.propagatesWithWave !== b.propagatesWithWave );
+
+        result = b.propagatesWithWave ? 1 : -1;
+      }
+
+      return result;
+    } );
   }
 }
 
