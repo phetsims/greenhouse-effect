@@ -3,6 +3,13 @@
 /**
  * The Wave class represents a wave of light in the model.
  *
+ * TODO: The code below was originally written such that changes to the light wave's intensity would be remembered and
+ *       would propagate with the wave.  In the 7/21/2021 design meeting, we decided to try not doing this, and have
+ *       waves without anything actively attenuating it, such as a cloud, would be constant intensity from start to
+ *       finish.  This has been done, but the code to propagate intensity changes was kept in case we changed our minds.
+ *       At some point, it will either need to be fully removed or revived.  See
+ *       https://github.com/phetsims/greenhouse-effect/issues/53.
+ *
  * TODO: The code is written to support multiple points along the wave where its intensity can be attenuated.  However,
  *       this code is basically untested, since it hasn't been needed yet.  It will need to be tested and debugged if
  *       and when it is ever needed. See https://github.com/phetsims/greenhouse-effect/issues/52 for more information.
@@ -10,7 +17,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
@@ -19,7 +25,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 // constants
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
-const SMALL_INTER_CHANGE_DISTANCE = 0.001; // in meters, used to adjust intensity change positions to keep them ordered
 
 // TODO: It would probably be an improvement to the design if the addition and removal of intensity changes only happened
 //       in methods.
@@ -110,8 +115,8 @@ class Wave {
    */
   step( dt ) {
 
-    // If there is a source producing this wave, then it gets longer, otherwise it stays at the same length and
-    // propagates through space.
+    // If there is a source producing this wave it should get longer and will continue to emanate from the same point.
+    // If not, it stays at the same length and propagates through space.
     if ( this.isSourced ) {
       const propagationDistance = dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
       this.length += propagationDistance;
@@ -298,11 +303,14 @@ class Wave {
 
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
 
-    if ( this.intensityAtStart !== intensity ) {
-      this.intensityChanges.push( new IntensityChange( this.intensityAtStart, SMALL_INTER_CHANGE_DISTANCE, true ) );
-      this.sortIntensityChanges();
-      this.intensityAtStart = intensity;
-    }
+    // Auto-creation of propagating intensity changes is no longer done, see https://github.com/phetsims/greenhouse-effect/issues/53.
+    // if ( this.intensityAtStart !== intensity ) {
+    //   this.intensityChanges.push( new IntensityChange( this.intensityAtStart, SMALL_INTER_CHANGE_DISTANCE, true ) );
+    //   this.sortIntensityChanges();
+    //   this.intensityAtStart = intensity;
+    // }
+
+    this.intensityAtStart = intensity;
   }
 
   /**
