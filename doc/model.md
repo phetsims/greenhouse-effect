@@ -1,5 +1,21 @@
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
-See https://github.com/phetsims/greenhouse-effect/issues/19 
+
+## Layers Model (Used as the Basis for the First Three Screens)
+
+The core layers model, which is used in the "Waves", "Photons", and "Layer Model" screen, simulates the capture of solar
+energy by the atmosphere by modeling one ground layer that absorbs visible  light and re-radiates infrared, and several
+layers of glass that represent the atmosphere and absorb the infrared radiation, heat up, and re-radiate it (see
+references below).  This is all built using the equations for blackbody radiation.  
+
+For references on the layers model, including some helpful illustrations, please see "The Layer Model Approximation to
+the Greenhouse Effect" at http://cybele.bu.edu/courses/gg612fall99/gg612lab/lab1.html and/or "A Note on Fourier and the
+Greenhouse Effect" at https://arxiv.org/ftp/arxiv/papers/1510/1510.02503.pdf.
+
+## Waves Screen
+
+In the "Waves" screen, there is another model built atop the layers model that uses the information from the layers
+model, such as the temperature of the ground and the rate of absorption of the atmosphere layers, to create
+representations of visible and infrared light waves that move around and interact with the ground and the atmosphere.
 
 ## MicroPhoton Absorption
 
