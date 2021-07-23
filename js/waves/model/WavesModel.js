@@ -10,6 +10,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -19,9 +21,51 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GroundEMWaveSource from './GroundEMWaveSource.js';
-import SunEMWaveSource from './SunEMWaveSource.js';
+import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
+
+// constants
+const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
+const MINIMUM_WAVE_INTENSITY = 0.25;
+const IR_WAVE_GENERATION_SPECS = [
+
+  // leftmost waves
+  new EMWaveSource.WaveSourceSpec(
+    -LayersModel.SUNLIGHT_SPAN * 0.35,
+    -LayersModel.SUNLIGHT_SPAN * 0.30,
+    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
+  ),
+
+  // center-ish waves
+  new EMWaveSource.WaveSourceSpec(
+    -LayersModel.SUNLIGHT_SPAN * 0.1,
+    -LayersModel.SUNLIGHT_SPAN * 0.05,
+    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
+  ),
+
+  // rightmost waves
+  new EMWaveSource.WaveSourceSpec(
+    LayersModel.SUNLIGHT_SPAN * 0.42,
+    LayersModel.SUNLIGHT_SPAN * 0.47,
+    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
+  )
+];
+const VISIBLE_WAVE_GENERATION_SPECS = [
+
+  // leftmost waves
+  new EMWaveSource.WaveSourceSpec(
+    -LayersModel.SUNLIGHT_SPAN * 0.25,
+    -LayersModel.SUNLIGHT_SPAN * 0.15,
+    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
+  ),
+
+  // rightmost waves
+  new EMWaveSource.WaveSourceSpec(
+    LayersModel.SUNLIGHT_SPAN * 0.25,
+    LayersModel.SUNLIGHT_SPAN * 0.35,
+    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
+  )
+];
 
 class WavesModel extends ConcentrationModel {
 
@@ -40,10 +84,38 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @private - the source of the waves of visible light that come from the sun
-    this.sunWaveSource = new SunEMWaveSource( this.waves, this.sunEnergySource );
+    this.sunWaveSource = new EMWaveSource(
+      this.waves,
+      this.sunEnergySource.isShiningProperty,
+      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
+      LayersModel.HEIGHT_OF_ATMOSPHERE,
+      0,
+      VISIBLE_WAVE_GENERATION_SPECS
+    );
 
-    // @private - the source of the waves of infrared light that come from the ground
-    this.groundWaveSource = new GroundEMWaveSource( this.waves, this.surfaceTemperatureKelvinProperty );
+    // properties needed to control the production of IR waves
+    const produceIRWavesProperty = new DerivedProperty(
+      [ this.surfaceTemperatureKelvinProperty ],
+      temperature => temperature > 249
+    );
+    const infraredWaveIntensityProperty = new DerivedProperty(
+      [ this.surfaceTemperatureKelvinProperty ],
+      temperature => Math.max(
+        Utils.roundToInterval( ( temperature - MIN_TEMPERATURE ) / ( 290 - MIN_TEMPERATURE ), 0.25 ),
+        MINIMUM_WAVE_INTENSITY
+      )
+    );
+
+    // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
+    this.groundWaveSource = new EMWaveSource(
+      this.waves,
+      produceIRWavesProperty,
+      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+      0,
+      LayersModel.HEIGHT_OF_ATMOSPHERE,
+      IR_WAVE_GENERATION_SPECS,
+      { waveIntensityProperty: infraredWaveIntensityProperty }
+    );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map();
@@ -89,7 +161,7 @@ class WavesModel extends ConcentrationModel {
    */
   stepModel( dt ) {
     super.stepModel( dt );
-    this.sunWaveSource.step();
+    this.sunWaveSource.step( dt );
     this.groundWaveSource.step( dt );
     this.waves.forEach( wave => wave.step( dt ) );
     this.updateCloudWaveInteractions();
@@ -123,7 +195,7 @@ class WavesModel extends ConcentrationModel {
       // Make a list of waves that originated from the sun and pass through the cloud.
       const wavesCrossingTheCloud = this.waves.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
-        wave.origin.y === SunEMWaveSource.LIGHT_WAVE_ORIGIN_Y &&
+        wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
         wave.startPoint.y > cloud.position.y &&
         wave.startPoint.y - wave.length < cloud.position.y &&
@@ -260,6 +332,8 @@ class WavesModel extends ConcentrationModel {
     this.waves.length = 0;
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
+    this.sunWaveSource.reset();
+    this.groundWaveSource.reset();
   }
 }
 

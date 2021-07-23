@@ -26,9 +26,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
-// TODO: It would probably be an improvement to the design if the addition and removal of intensity changes only happened
-//       in methods.
-
 class Wave {
 
   /**
