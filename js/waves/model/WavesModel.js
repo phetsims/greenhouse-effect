@@ -26,7 +26,7 @@ import Wave from './Wave.js';
 
 // constants
 const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
-const MINIMUM_WAVE_INTENSITY = 0.25;
+const MINIMUM_WAVE_INTENSITY = 0.01;
 const IR_WAVE_GENERATION_SPECS = [
 
   // leftmost waves
@@ -93,16 +93,19 @@ class WavesModel extends ConcentrationModel {
       VISIBLE_WAVE_GENERATION_SPECS
     );
 
-    // properties needed to control the production of IR waves
+    // derived Property that controls when IR waves can be produced
     const produceIRWavesProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
-      temperature => temperature > 249
+      temperature => temperature > MIN_TEMPERATURE + 8 // a few degrees higher than the minimum
     );
+
+    // derived Property that maps temperature to the intensity of the IR waves
     const infraredWaveIntensityProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
-      temperature => Math.max(
-        Utils.roundToInterval( ( temperature - MIN_TEMPERATURE ) / ( 290 - MIN_TEMPERATURE ), 0.25 ),
-        MINIMUM_WAVE_INTENSITY
+      temperature => Utils.clamp(
+        ( temperature - 255 ) / ( 280 - 255 ), // min density at the lowest temperature, max at highest
+        MINIMUM_WAVE_INTENSITY,
+        1
       )
     );
 
