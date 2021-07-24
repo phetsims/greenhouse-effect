@@ -217,6 +217,7 @@ class LayersModel extends GreenhouseEffectModel {
 LayersModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
 LayersModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
 LayersModel.MINIMUM_GROUND_TEMPERATURE = MINIMUM_GROUND_TEMPERATURE;
+LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS = NUMBER_OF_ATMOSPHERE_LAYERS;
 LayersModel.TemperatureUnits = TemperatureUnits;
 
 greenhouseEffect.register( 'LayersModel', LayersModel );

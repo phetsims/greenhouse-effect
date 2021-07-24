@@ -8,6 +8,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -144,7 +145,11 @@ const drawWave = ( context, wave, modelViewTransform ) => {
 };
 
 const waveIntensityToLineWidth = waveIntensity => {
-  return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
+
+  // TODO: Are there performance costs for using non-integer line widths?  We need to make this determination and decide
+  //       whether to use integer or floating point values.
+  // return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
+  return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.1, WAVE_MAX_LINE_WIDTH );
 };
 
 export default WavesCanvasNode;

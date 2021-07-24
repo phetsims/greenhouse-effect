@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
@@ -123,30 +124,33 @@ class WavesModel extends ConcentrationModel {
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map();
 
-    // @private {Map.<Wave,Wave>} - map of waves from the ground to waves being produced by the atmosphere in response
-    this.atmosphereWaveInteractionsMap = new Map();
-
-    const heightOfCentralAtmosphericInteraction = this.atmosphereLayers[ this.atmosphereLayers.length / 2 ].altitude;
-
-    // @private - line where IR waves that cross through the center of the model may interact with the atmosphere
-    this.centerAtmosphericInteractionLine = new Line(
-      new Vector2( -LayersModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction ),
-      new Vector2( LayersModel.SUNLIGHT_SPAN / 4, heightOfCentralAtmosphericInteraction )
+    // @private {Map.<EnergyAbsorbingEmittingLayer,Range} - A Map containing atmospheric layers and ranges that define
+    // the x coordinate within which IR waves should interact with that layer.
+    this.atmosphereLayerToXRangeMap = new Map(
+      [
+        [
+          this.atmosphereLayers[ Utils.roundSymmetric( LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS / 2 ) ],
+          new Range( -LayersModel.SUNLIGHT_SPAN / 4, LayersModel.SUNLIGHT_SPAN / 4 )
+        ],
+        [
+          this.atmosphereLayers[ Utils.roundSymmetric( LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS / 3 ) ],
+          new Range( -LayersModel.SUNLIGHT_SPAN / 2, -LayersModel.SUNLIGHT_SPAN / 4 )
+        ]
+      ]
     );
 
-    const heightOfLeftSideAtmosphericInteraction =
-      this.atmosphereLayers[ Math.floor( this.atmosphereLayers.length / 3 ) ].altitude;
+    // @private {WaveAtmosphereInteraction[]} - An array of the interactions that are currently occurring between IR
+    // waves and the atmosphere.
+    this.waveAtmosphereInteractions = [];
 
-    // @private - line where IR waves on the left side of the model may interact with the atmosphere
-    this.leftAtmosphericInteractionLine = new Line(
-      new Vector2( -LayersModel.SUNLIGHT_SPAN / 2, heightOfLeftSideAtmosphericInteraction ),
-      new Vector2( -LayersModel.SUNLIGHT_SPAN / 4, heightOfLeftSideAtmosphericInteraction )
-    );
-
-    // @private - pre-allocated vectors and lines, reused in order to reduce memory allocations
-    this.lineStart = new Vector2( 0, 0 );
-    this.lineEnd = new Vector2( 0, 1 );
-    this.waveLine = new Line( this.lineStart, this.lineEnd );
+    // @private - Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas
+    // of the atmosphere, reused by methods in order to reduce memory allocations.
+    this.waveLineStart = new Vector2( 0, 0 );
+    this.waveLineEnd = new Vector2( 0, 1 );
+    this.waveLine = new Line( this.waveLineStart, this.waveLineEnd );
+    this.atmosphereLineStart = new Vector2( 0, 0 );
+    this.atmosphereLineEnd = new Vector2( 0, 1 );
+    this.atmosphereLine = new Line( this.atmosphereLineStart, this.atmosphereLineEnd );
 
     // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
     //       see https://github.com/phetsims/greenhouse-effect/issues/36.
@@ -167,7 +171,7 @@ class WavesModel extends ConcentrationModel {
     this.sunWaveSource.step( dt );
     this.groundWaveSource.step( dt );
     this.waves.forEach( wave => wave.step( dt ) );
-    this.updateCloudWaveInteractions();
+    this.updateWaveCloudInteractions();
     this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
@@ -178,7 +182,9 @@ class WavesModel extends ConcentrationModel {
    * update the interactions between light waves and the cloud
    * @private
    */
-  updateCloudWaveInteractions() {
+  updateWaveCloudInteractions() {
+
+    assert && assert( this.clouds.length === 1, 'this subclass assumes only one cloud in the model' );
 
     const cloud = this.clouds[ 0 ];
 
@@ -257,74 +263,107 @@ class WavesModel extends ConcentrationModel {
    */
   updateWaveAtmosphereInteractions() {
 
-    // See if any of the waves that are being produced due to interactions with the atmosphere should be removed.
-    this.atmosphereWaveInteractionsMap.forEach( ( producedWave, sourceWave ) => {
-      if ( this.concentrationProperty.value === 0 || sourceWave.startPoint.y > producedWave.origin.y ) {
+    // Update the existing interactions between the light waves and the atmosphere.
+    this.waveAtmosphereInteractions.forEach( interaction => {
 
-        // Either the greenhouse gas concentration has gone to zero or the source wave has fully based through the
-        // interaction point.  In either case, it's time to stop producing the wave.
-        producedWave.isSourced = false;
-        this.atmosphereWaveInteractionsMap.delete( sourceWave );
+      if ( interaction.atmosphereLayer.energyAbsorptionProportionProperty.value === 0 ||
+           interaction.sourceWave.startPoint.y > interaction.atmosphereLayer.altitude ) {
+
+        // The emitted wave should be freed to propagate to the ground and this interaction should be removed.
+        interaction.emittedWave.isSourced = false;
+        this.waveAtmosphereInteractions = this.waveAtmosphereInteractions.filter(
+          testInteraction => testInteraction !== interaction
+        );
+      }
+      else {
+
+        // Make sure the attenuation on the source wave is correct.
+        interaction.sourceWave.setAttenuation(
+          interaction.atmosphereLayer,
+          1 - interaction.atmosphereLayer.energyAbsorptionProportionProperty.value
+        );
+
+        // Make sure the intensity of the emitted wave is correct.  The most accurate modeling thing to do would be to
+        // make the intensity of the wave be based on the temperature of the layer, but for visual reasons, we actually
+        // split the incoming wave based on the proportion of energy that the layer absorbs.
+        const emittedWaveIntensity = interaction.atmosphereLayer.energyAbsorptionProportionProperty.value;
+        if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
+          interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
+        }
       }
     } );
 
-    if ( this.concentrationProperty.value > 0 ) {
+    // Make a list of IR waves that are currently emanating from the ground.
+    const wavesFromTheGround = this.waves.filter( wave =>
+      wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+      wave.origin.y === 0
+    );
 
-      // Make a list of waves that already exist and originate from the ground.
-      const wavesFromTheGround = this.waves.filter( wave =>
-        wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
-        wave.origin.y === 0
+    // For each IR wave from the ground, check to see if there are any interactions with the atmosphere that should
+    // exist but don't yet and, if so, create them.
+    wavesFromTheGround.forEach( waveFromTheGround => {
+
+      const hasActiveInteraction = Array.from( this.waveAtmosphereInteractions.values() ).reduce(
+        ( found, interaction ) => found || interaction.sourceWave === waveFromTheGround,
+        false
       );
 
-      wavesFromTheGround.forEach( waveFromGround => {
+      // If there is already an atmospheric interaction that is driven by this wave, stop here and don't create a new
+      // one.  This is a design choice, not a physical one.  If there is ever a need to have multiple interactions
+      // driven by the same wave, this will need to change.
+      if ( !hasActiveInteraction ) {
 
-        // Check if this wave should be causing another wave to be produced in the atmosphere.
-        if ( !this.atmosphereWaveInteractionsMap.has( waveFromGround ) ) {
+        // Get a line that represents where the wave starts and ends.  Use pre-allocated components to reduce
+        // allocations.
+        this.waveLine.setStart( waveFromTheGround.startPoint );
+        this.waveLineEnd = waveFromTheGround.getEndPoint( this.waveLineEnd );
+        this.waveLine.setEnd( this.waveLineEnd );
 
-          // Get a line that represents where the wave starts and ends.
-          this.waveLine.setStart( waveFromGround.startPoint );
-          this.lineEnd = waveFromGround.getEndPoint( this.lineEnd );
-          this.waveLine.setEnd( this.lineEnd );
+        // Check if this wave is crossing any of the atmosphere interaction areas.
+        this.atmosphereLayerToXRangeMap.forEach( ( xRange, layer ) => {
 
-          // If the wave crosses the central atmosphere interaction area, create a resulting wave the heads back down
-          // to the ground.
-          let intersection = Line.intersect( this.waveLine, this.centerAtmosphericInteractionLine );
-          if ( intersection.length > 0 ) {
+          if ( layer.energyAbsorptionProportionProperty.value > 0 ) {
 
-            assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
+            // Establish the line in the atmosphere against which the wave is to be tested.
+            this.atmosphereLineStart.setXY( xRange.min, layer.altitude );
+            this.atmosphereLineEnd.setXY( xRange.max, layer.altitude );
+            this.atmosphereLine.setStart( this.atmosphereLineStart );
+            this.atmosphereLine.setEnd( this.atmosphereLineEnd );
 
-            const waveFromAtmosphericInteraction = new Wave(
-              waveFromGround.wavelength,
-              intersection[ 0 ].point,
-              GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR.rotated( Math.PI * 0.05 ),
-              0,
-              { intensityAtStart: 0.25 }
-            );
-            this.waves.push( waveFromAtmosphericInteraction );
-            this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
+            // See if there is an intersection.
+            const intersection = Line.intersect( this.waveLine, this.atmosphereLine );
+            if ( intersection.length > 0 ) {
+
+              assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
+
+              // Create the new emitted wave.
+              const waveFromAtmosphericInteraction = new Wave(
+                waveFromTheGround.wavelength,
+                intersection[ 0 ].point,
+                GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
+                0,
+                { intensityAtStart: waveFromTheGround.intensityAtStart * layer.energyAbsorptionProportionProperty.value }
+              );
+              this.waves.push( waveFromAtmosphericInteraction );
+
+              // Add an attenuator on the source wave.
+              waveFromTheGround.addAttenuator(
+                layer.altitude / waveFromTheGround.directionOfTravel.y,
+                1 - layer.energyAbsorptionProportionProperty.value,
+                layer
+              );
+
+              // Add the wave-atmosphere interaction to our list.
+              this.waveAtmosphereInteractions.push( new WaveAtmosphereInteraction(
+                layer,
+                waveFromTheGround,
+                waveFromAtmosphericInteraction
+              ) );
+            }
           }
-
-          // If the wave crosses the left atmosphere interaction area, create a resulting wave the heads back down to
-          // the ground.
-          intersection = Line.intersect( this.waveLine, this.leftAtmosphericInteractionLine );
-          if ( intersection.length > 0 ) {
-
-            assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
-
-            const waveFromAtmosphericInteraction = new Wave(
-              waveFromGround.wavelength,
-              intersection[ 0 ].point,
-              GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
-              0,
-              { intensityAtStart: 0.25 }
-            );
-            this.waves.push( waveFromAtmosphericInteraction );
-            this.atmosphereWaveInteractionsMap.set( waveFromGround, waveFromAtmosphericInteraction );
-          }
-        }
-
-      } );
-    }
+        } );
+      }
+    } );
   }
 
   /**
@@ -337,6 +376,17 @@ class WavesModel extends ConcentrationModel {
     this.cloudReflectedWavesMap.clear();
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
+  }
+}
+
+/**
+ * A simple inner class for tracking interactions between the IR waves and the atmosphere.
+ */
+class WaveAtmosphereInteraction {
+  constructor( atmosphereLayer, sourceWave, emittedWave ) {
+    this.atmosphereLayer = atmosphereLayer;
+    this.sourceWave = sourceWave;
+    this.emittedWave = emittedWave;
   }
 }
 

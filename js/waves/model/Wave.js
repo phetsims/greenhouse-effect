@@ -173,27 +173,11 @@ class Wave {
     // Sort the intensity changes so that they are in order from the start to the end.
     this.sortIntensityChanges();
 
-    // Update the attenuators.
+    // Remove attenuators that are no longer on the wave.
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
 
         if ( attenuator.distanceFromStart <= 0 ) {
           this.removeAttenuator( modelElement );
-        }
-        else {
-          const incomingValue = this.getIntensityBefore( attenuator.correspondingIntensityChange );
-          const expectedOutput = incomingValue * attenuator.attenuation;
-          if ( attenuator.correspondingIntensityChange.intensity !== expectedOutput ) {
-
-            // Something has changed that has made the intensity change associated with this attenuator incorrect.  This
-            // can happen when the value coming in to the attenuator has changed, or if the attenuation value itself has
-            // changed.  Free the intensity change currently owned by the attenuator to propagate, and then create a new one.
-            attenuator.correspondingIntensityChange.propagatesWithWave = true;
-            attenuator.correspondingIntensityChange = this.setIntensityAt(
-              attenuator.correspondingIntensityChange.distanceFromStart,
-              expectedOutput,
-              false
-            );
-          }
         }
       }
     );
@@ -327,7 +311,7 @@ class Wave {
     // state checking
     assert && assert(
       !this.modelObjectToAttenuatorMap.has( causalModelElement ),
-      'this model object already had an attenuator'
+      'this model object already has an attenuator'
     );
 
     const currentIntensityAtDistance = this.getIntensityAt( distanceFromStart );
@@ -425,6 +409,27 @@ class Wave {
   }
 
   /**
+   * Set the attenuation value in the attenuator associated with the provided model element.
+   * @param {Object} modelElement
+   * @param {number} attenuation
+   * @public
+   */
+  setAttenuation( modelElement, attenuation ) {
+
+    // state and parameter checking
+    assert && assert( this.hasAttenuator( modelElement ), 'no attenuator is on this wave for this model element' );
+    assert && assert( attenuation >= 0 && attenuation <= 1, 'invalid attenuation value' );
+
+    // Update the attenuation value and the corresponding intensity change.
+    const attenuator = this.modelObjectToAttenuatorMap.get( modelElement );
+    if ( attenuator.attenuation !== attenuation ) {
+      attenuator.attenuation = attenuation;
+      attenuator.correspondingIntensityChange.intensity =
+        this.getIntensityBefore( attenuator.correspondingIntensityChange ) * attenuation;
+    }
+  }
+
+  /**
    * Get the intensity prior to the provided intensity change.
    * @param {IntensityChange} intensityChange
    * @returns {number}
@@ -498,8 +503,14 @@ class IntensityChange {
 class WaveAttenuator {
 
   constructor( initialAttenuation, distanceFromStart, correspondingIntensityChange ) {
+
+    // @public {number} - amount of attenuation
     this.attenuation = initialAttenuation;
+
+    // @public {number}
     this.distanceFromStart = distanceFromStart;
+
+    // @public (read-only) {IntensityChange} - the intensity change that occurs on the wave due to this attenuator
     this.correspondingIntensityChange = correspondingIntensityChange;
   }
 }
