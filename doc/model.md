@@ -1,5 +1,8 @@
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
 
+TODO: Item to add - the waves in the atmosphere are based on overall gas concentration, not the absorbance of the layer
+with which they are interacting.
+
 ## Layers Model (Used as the Basis for the First Three Screens)
 
 The core layers model, which is used in the "Waves", "Photons", and "Layer Model" screen, simulates the capture of solar

@@ -28,6 +28,8 @@ import Wave from './Wave.js';
 // constants
 const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
 const MINIMUM_WAVE_INTENSITY = 0.01;
+const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
+
 const IR_WAVE_GENERATION_SPECS = [
 
   // leftmost waves
@@ -258,19 +260,33 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * update the interactions between IR waves and the atmosphere
+   * Update the interactions between IR waves and the atmosphere.
    * @private
    */
   updateWaveAtmosphereInteractions() {
 
+    // Calculate how much of each wave should go back towards the Earth and how much should continue on its way given
+    // the current concentration of greenhouse gasses.
+    const returnToEarthProportion = this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION;
+
     // Update the existing interactions between the light waves and the atmosphere.
     this.waveAtmosphereInteractions.forEach( interaction => {
 
-      if ( interaction.atmosphereLayer.energyAbsorptionProportionProperty.value === 0 ||
+      // If the gas concentration has gone to zero or the source wave have moved all the way through this interaction
+      // location, the interaction should end.
+      if ( this.concentrationProperty.value === 0 ||
            interaction.sourceWave.startPoint.y > interaction.atmosphereLayer.altitude ) {
 
-        // The emitted wave should be freed to propagate to the ground and this interaction should be removed.
+        // Free the wave that was being emitted to propagate on its own.
         interaction.emittedWave.isSourced = false;
+
+        // Remove the attenuator that was associated with this interaction from the wave (if it hasn't happened
+        // automatically yet).
+        if ( interaction.sourceWave.hasAttenuator( interaction.atmosphereLayer ) ) {
+          interaction.sourceWave.removeAttenuator( interaction.atmosphereLayer );
+        }
+
+        // Remove this interaction from our list.
         this.waveAtmosphereInteractions = this.waveAtmosphereInteractions.filter(
           testInteraction => testInteraction !== interaction
         );
@@ -278,29 +294,23 @@ class WavesModel extends ConcentrationModel {
       else {
 
         // Make sure the attenuation on the source wave is correct.
-        interaction.sourceWave.setAttenuation(
-          interaction.atmosphereLayer,
-          interaction.atmosphereLayer.energyAbsorptionProportionProperty.value
-        );
+        interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
 
-        // Make sure the intensity of the emitted wave is correct.  The most accurate modeling thing to do would be to
-        // make the intensity of the wave be based on the temperature of the layer, but for visual reasons, we actually
-        // split the incoming wave based on the proportion of energy that the layer absorbs.
-        const emittedWaveIntensity = interaction.atmosphereLayer.energyAbsorptionProportionProperty.value;
-        if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
-          interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
+        // Make sure the intensity of the emitted wave is correct.
+        if ( interaction.emittedWave.intensityAtStart !== returnToEarthProportion ) {
+          interaction.emittedWave.setIntensityAtStart( returnToEarthProportion );
         }
       }
     } );
 
-    // Make a list of IR waves that are currently emanating from the ground.
+    // Make a list of all IR waves that are currently emanating from the ground.
     const wavesFromTheGround = this.waves.filter( wave =>
       wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
       wave.origin.y === 0
     );
 
     // For each IR wave from the ground, check to see if there are any interactions with the atmosphere that should
-    // exist but don't yet and, if so, create them.
+    // exist but don't yet.
     wavesFromTheGround.forEach( waveFromTheGround => {
 
       const hasActiveInteraction = Array.from( this.waveAtmosphereInteractions.values() ).reduce(
@@ -342,14 +352,18 @@ class WavesModel extends ConcentrationModel {
                 intersection[ 0 ].point,
                 GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
                 0,
-                { intensityAtStart: waveFromTheGround.intensityAtStart * layer.energyAbsorptionProportionProperty.value }
+                {
+                  intensityAtStart: waveFromTheGround.intensityAtStart *
+                                    this.concentrationProperty.value *
+                                    MAX_ATMOSPHERIC_INTERACTION_PROPORTION
+                }
               );
               this.waves.push( waveFromAtmosphericInteraction );
 
               // Add an attenuator on the source wave.
               waveFromTheGround.addAttenuator(
                 layer.altitude / waveFromTheGround.directionOfTravel.y,
-                1 - layer.energyAbsorptionProportionProperty.value,
+                this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
                 layer
               );
 

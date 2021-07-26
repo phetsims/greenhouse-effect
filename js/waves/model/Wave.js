@@ -115,6 +115,16 @@ class Wave {
     // If there is a source producing this wave it should get longer and will continue to emanate from the same point.
     // If not, it stays at the same length and propagates through space.
     if ( this.isSourced ) {
+
+      // Update the intensity changes associated with the attenuators.
+      for ( const attenuator of this.modelObjectToAttenuatorMap.values() ) {
+        const intensityChangeForAttenuator = attenuator.correspondingIntensityChange;
+        const incomingIntensity = this.getIntensityBefore( intensityChangeForAttenuator );
+        const outgoingIntensity = incomingIntensity * ( 1 - attenuator.attenuation );
+        if ( intensityChangeForAttenuator.intensity !== outgoingIntensity ) {
+          intensityChangeForAttenuator.intensity = outgoingIntensity;
+        }
+      }
       const propagationDistance = dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
       this.length += propagationDistance;
       this.intensityChanges.forEach( intensityChange => {
