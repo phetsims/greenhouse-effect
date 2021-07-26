@@ -125,6 +125,8 @@ class Wave {
           intensityChangeForAttenuator.intensity = outgoingIntensity;
         }
       }
+
+      // Propagate intensity changes.
       const propagationDistance = dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
       this.length += propagationDistance;
       this.intensityChanges.forEach( intensityChange => {
@@ -187,6 +189,12 @@ class Wave {
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
 
         if ( attenuator.distanceFromStart <= 0 ) {
+
+          // Set the start intensity to match the attenuation.  Otherwise, waves will suddenly change intensity after
+          // moving past the attenuator.
+          this.intensityAtStart = attenuator.correspondingIntensityChange.intensity;
+
+          // Remove the attenuator.
           this.removeAttenuator( modelElement );
         }
       }
