@@ -17,8 +17,10 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
-const VISIBLE_LIGHT_REFLECTIVITY = 0.3; // proportion from 0 to 1 that controls how much visible light is reflected
-const INFRARED_REFLECTIVITY = 0; // proportion from 0 to 1 that controls how much infrared radiation is reflected
+const CLOUD_SUBSTANCE_REFLECTIVITY = new Map( [
+  [ GreenhouseEffectConstants.VISIBLE_WAVELENGTH, 0.3 ],
+  [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 0 ]
+] );
 
 class Cloud {
 
@@ -46,16 +48,18 @@ class Cloud {
     this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2 );
 
     // @private - Map of EM wavelengths to total reflectivity proportion for this cloud.  The reflectivity for a given
-    // wavelength is the proportion of light that this cloud will reflect, and is based on the reflectivity
-    // characteristics of the cloud and its width relative to the span of the incoming sunlight.
-    this.reflectivityTable = new Map( [
+    // wavelength is the proportion of light that this cloud will reflect within the simulated space, and is based on
+    // the reflectivity characteristics of the cloud and its width relative to the span of the incoming sunlight.
+    this.totalReflectivityTable = new Map( [
       [
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
-        width / GreenhouseEffectConstants.SUNLIGHT_SPAN * VISIBLE_LIGHT_REFLECTIVITY
+        width / GreenhouseEffectConstants.SUNLIGHT_SPAN *
+        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH )
       ],
       [
         GreenhouseEffectConstants.INFRARED_WAVELENGTH,
-        width / GreenhouseEffectConstants.SUNLIGHT_SPAN * INFRARED_REFLECTIVITY
+        width / GreenhouseEffectConstants.SUNLIGHT_SPAN *
+        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH )
       ]
     ] );
   }
@@ -78,10 +82,10 @@ class Cloud {
            ( ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
              ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ) ) {
 
-        assert && assert( this.reflectivityTable.has( energyPacket.wavelength ) );
+        assert && assert( this.totalReflectivityTable.has( energyPacket.wavelength ) );
 
         // Calculate the amount of energy reflected by the cloud.
-        const reflectedEnergy = energyPacket.energy * this.reflectivityTable.get( energyPacket.wavelength );
+        const reflectedEnergy = energyPacket.energy * this.totalReflectivityTable.get( energyPacket.wavelength );
 
         if ( reflectedEnergy > 0 ) {
 
@@ -102,14 +106,18 @@ class Cloud {
   }
 
   /**
-   * Get the reflectivity of the cloud for the provided wavelength.
+   * Get the reflectivity of the cloud for the provided wavelength.  Note that this is different from the total
+   * reflectivity, since the total takes into account how much space the cloud occupies and this does not.
    * @param {number} wavelength
-   * @returns {number} - a normalized value between 0 and 1, which 1 is max reflectivity
+   * @returns {number|null} - a normalized value between 0 and 1, which 1 is max reflectivity
    * @public
    */
   getReflectivity( wavelength ) {
-    assert && assert( this.reflectivityTable.has( wavelength ) );
-    return this.reflectivityTable.get( wavelength );
+    assert && assert(
+      CLOUD_SUBSTANCE_REFLECTIVITY.has( wavelength ),
+      'no reflectivity available for provided wavelength'
+    );
+    return CLOUD_SUBSTANCE_REFLECTIVITY.get( wavelength );
   }
 }
 

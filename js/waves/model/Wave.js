@@ -128,7 +128,7 @@ class Wave {
                  intensityChange.distanceFromStart > attenuator.distanceFromStart ) {
 
               // Attenuate the intensity.
-              intensityChange.intensity = intensityChange.intensity * attenuator.attenuation;
+              intensityChange.intensity = intensityChange.intensity * ( 1 - attenuator.attenuation );
             }
           }
         }
@@ -304,8 +304,8 @@ class Wave {
 
     // parameter checking
     assert && assert(
-    attenuationAmount > 0 && attenuationAmount <= 1,
-      'the attenuation amount must be greater than zero, less than or equal to one'
+    attenuationAmount >= 0 && attenuationAmount <= 1,
+      'the attenuation amount must be between zero and one'
     );
 
     // state checking
@@ -347,7 +347,7 @@ class Wave {
     );
 
     // Create and add the new attenuator and the intensity change that goes with it.
-    const attenuatedOutputLevel = currentIntensityAtDistance * attenuationAmount;
+    const attenuatedOutputLevel = currentIntensityAtDistance * ( 1 - attenuationAmount );
     const intensityChange = new IntensityChange( attenuatedOutputLevel, distanceFromStart, false );
     this.intensityChanges.push( intensityChange );
     this.modelObjectToAttenuatorMap.set(
@@ -425,7 +425,7 @@ class Wave {
     if ( attenuator.attenuation !== attenuation ) {
       attenuator.attenuation = attenuation;
       attenuator.correspondingIntensityChange.intensity =
-        this.getIntensityBefore( attenuator.correspondingIntensityChange ) * attenuation;
+        this.getIntensityBefore( attenuator.correspondingIntensityChange ) * ( 1 - attenuation );
     }
   }
 
@@ -504,7 +504,9 @@ class WaveAttenuator {
 
   constructor( initialAttenuation, distanceFromStart, correspondingIntensityChange ) {
 
-    // @public {number} - amount of attenuation
+    // @public {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
+    // (i.e. the wave's intensity will remain unchanged) and 1 means 100% attenuation (a wave passing through will
+    // have its intensity reduced to zero).
     this.attenuation = initialAttenuation;
 
     // @public {number}

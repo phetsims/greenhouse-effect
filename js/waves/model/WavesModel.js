@@ -280,7 +280,7 @@ class WavesModel extends ConcentrationModel {
         // Make sure the attenuation on the source wave is correct.
         interaction.sourceWave.setAttenuation(
           interaction.atmosphereLayer,
-          1 - interaction.atmosphereLayer.energyAbsorptionProportionProperty.value
+          interaction.atmosphereLayer.energyAbsorptionProportionProperty.value
         );
 
         // Make sure the intensity of the emitted wave is correct.  The most accurate modeling thing to do would be to
