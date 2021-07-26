@@ -34,8 +34,8 @@ const IR_WAVE_GENERATION_SPECS = [
 
   // leftmost waves
   new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.35,
-    -LayersModel.SUNLIGHT_SPAN * 0.30,
+    -LayersModel.SUNLIGHT_SPAN * 0.32,
+    -LayersModel.SUNLIGHT_SPAN * 0.27,
     GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
   ),
 
@@ -48,8 +48,8 @@ const IR_WAVE_GENERATION_SPECS = [
 
   // rightmost waves
   new EMWaveSource.WaveSourceSpec(
-    LayersModel.SUNLIGHT_SPAN * 0.42,
-    LayersModel.SUNLIGHT_SPAN * 0.47,
+    LayersModel.SUNLIGHT_SPAN * 0.38,
+    LayersModel.SUNLIGHT_SPAN * 0.43,
     GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
   )
 ];
@@ -57,8 +57,8 @@ const VISIBLE_WAVE_GENERATION_SPECS = [
 
   // leftmost waves
   new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.25,
-    -LayersModel.SUNLIGHT_SPAN * 0.15,
+    -LayersModel.SUNLIGHT_SPAN * 0.23,
+    -LayersModel.SUNLIGHT_SPAN * 0.13,
     GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
   ),
 

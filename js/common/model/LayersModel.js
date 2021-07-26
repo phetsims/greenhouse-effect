@@ -130,7 +130,7 @@ class LayersModel extends GreenhouseEffectModel {
       if ( options.numberOfClouds === 1 ) {
 
         // The position and size of the cloud were chosen to look good in the view and can be adjusted as needed.
-        this.clouds.push( new Cloud( new Vector2( -18000, 20000 ), 20000, 4000 ) );
+        this.clouds.push( new Cloud( new Vector2( -16000, 20000 ), 20000, 4000 ) );
       }
       else if ( options.numberOfClouds === 3 ) {
 
