@@ -297,8 +297,9 @@ class WavesModel extends ConcentrationModel {
         interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
 
         // Make sure the intensity of the emitted wave is correct.
-        if ( interaction.emittedWave.intensityAtStart !== returnToEarthProportion ) {
-          interaction.emittedWave.setIntensityAtStart( returnToEarthProportion );
+        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * returnToEarthProportion;
+        if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
+          interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
         }
       }
     } );
