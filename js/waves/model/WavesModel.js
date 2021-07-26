@@ -106,7 +106,7 @@ class WavesModel extends ConcentrationModel {
     const infraredWaveIntensityProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
       temperature => Utils.clamp(
-        ( temperature - 255 ) / ( 280 - 255 ), // min density at the lowest temperature, max at highest
+        ( temperature - 245 ) / ( 280 - 245 ), // min density at the lowest temperature, max at highest
         MINIMUM_WAVE_INTENSITY,
         1
       )
