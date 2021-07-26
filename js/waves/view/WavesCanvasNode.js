@@ -24,7 +24,7 @@ const WAVE_DRAWING_PARAMETERS = new Map(
     [
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
       {
-        strokeStyle: Color.YELLOW.toCSS(),
+        baseColor: Color.YELLOW,
         amplitude: 20, // in screen coordinates
         wavelength: 70 // in screen coordinates, view only, independent of the value in the wave model
       }
@@ -32,7 +32,7 @@ const WAVE_DRAWING_PARAMETERS = new Map(
     [
       GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       {
-        strokeStyle: Color.RED.toCSS(),
+        baseColor: Color.RED,
         amplitude: 20, // in screen coordinates
         wavelength: 120 // in screen coordinates, view only, independent of the value in the wave model
       }
@@ -80,14 +80,13 @@ const drawWave = ( context, wave, modelViewTransform ) => {
 
   // Get the rendering parameters for waves of this wavelength.
   const drawingParameters = WAVE_DRAWING_PARAMETERS.get( wave.wavelength );
-  const strokeStyle = drawingParameters.strokeStyle;
   const amplitude = drawingParameters.amplitude;
   const wavelength = drawingParameters.wavelength;
+  const baseColor = drawingParameters.baseColor;
 
   context.lineCap = 'round';
-  context.strokeStyle = strokeStyle;
-
   context.lineWidth = waveIntensityToLineWidth( wave.intensityAtStart );
+  context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
   context.beginPath();
 
   const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );
@@ -139,9 +138,9 @@ const drawWave = ( context, wave, modelViewTransform ) => {
       context.beginPath();
       moved = false;
       context.lineWidth = waveIntensityToLineWidth( nextIntensityChange.intensity );
+      context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( nextIntensityChange.intensity ) ).toCSS();
     }
   }
-
 };
 
 const waveIntensityToLineWidth = waveIntensity => {
@@ -149,7 +148,11 @@ const waveIntensityToLineWidth = waveIntensity => {
   // TODO: Are there performance costs for using non-integer line widths?  We need to make this determination and decide
   //       whether to use integer or floating point values.
   // return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
-  return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.1, WAVE_MAX_LINE_WIDTH );
+  return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.5, WAVE_MAX_LINE_WIDTH );
 };
+
+const waveIntensityToAlpha = waveIntensity => {
+  return Math.min( waveIntensity + 0.25, 1 );
+}
 
 export default WavesCanvasNode;
