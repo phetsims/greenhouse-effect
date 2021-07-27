@@ -155,9 +155,10 @@ class WavesModel extends ConcentrationModel {
     this.atmosphereLine = new Line( this.atmosphereLineStart, this.atmosphereLineEnd );
 
     // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
-    //       see https://github.com/phetsims/greenhouse-effect/issues/36.
+    //       see https://github.com/phetsims/greenhouse-effect/issues/36.  UPDATE 7/27/2021 - This has been turned down
+    //       to 0 in preparation for creating a dev version with a consistent but minimal initial sound design.
     // sound generation
-    this.waveReflectedSoundGenerator = new SoundClip( waveReflectionSound, { initialOutputLevel: 0.2 } );
+    this.waveReflectedSoundGenerator = new SoundClip( waveReflectionSound, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( this.waveReflectedSoundGenerator );
   }
 
