@@ -25,7 +25,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
-import Playable from '../../../../tambo/js/Playable.js';
+import SoundPlayer from '../../../../tambo/js/SoundPlayer.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
@@ -198,7 +198,7 @@ class MicroScreenView extends ScreenView {
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
       // turn off default sound generation since dialog makes a sound when it opens
-      soundPlayer: Playable.NO_SOUND,
+      soundPlayer: SoundPlayer.NO_SOUND,
 
       // pdom
       innerContent: spectrumButtonLabelString,
