@@ -153,6 +153,6 @@ const waveIntensityToLineWidth = waveIntensity => {
 
 const waveIntensityToAlpha = waveIntensity => {
   return Math.min( waveIntensity + 0.25, 1 );
-}
+};
 
 export default WavesCanvasNode;
