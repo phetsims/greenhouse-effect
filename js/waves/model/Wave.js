@@ -21,6 +21,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WavesModel from './WavesModel.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -41,6 +42,9 @@ class Wave {
 
       // {number} - the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
       intensityAtStart: 1,
+
+      // {number} - initial phase offset, in radians
+      initialPhaseOffset: 0,
 
       // {string} - a string that can be stuck on the object, useful for debugging
       debugTag: null
@@ -89,7 +93,7 @@ class Wave {
 
     // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
     // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
-    this.phaseOffsetAtOrigin = 0;
+    this.phaseOffsetAtOrigin = options.initialPhaseOffset;
 
     // @public (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
     // value which goes from anything just above 0 (and intensity of 0 is meaningless, so is not allowed by the code)
@@ -104,6 +108,9 @@ class Wave {
     // causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type spec.
     // Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map();
+
+    // @public (read-only) {number} - the wavelength used when rendering the view for this wave
+    this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength );
   }
 
   /**
@@ -470,6 +477,16 @@ class Wave {
    */
   get isCompletelyPropagated() {
     return this.startPoint.y === this.propagationLimit;
+  }
+
+  /**
+   * Get the phase at the endpoint.  This can be useful for setting the initial phase of waves that are incited by this
+   * one.
+   * @returns {number} - phase of the end point in radians
+   * @public
+   */
+  getPhaseAtEnd() {
+    return ( this.phaseOffsetAtOrigin + ( this.length / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
   /**

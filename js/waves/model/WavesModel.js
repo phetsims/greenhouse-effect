@@ -30,6 +30,14 @@ const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
 const MINIMUM_WAVE_INTENSITY = 0.01;
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
 
+// Wavelength values used when depicting the waves, in meters.  Far from real life.  Can be adjusted for desired look.
+const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
+  [ GreenhouseEffectConstants.VISIBLE_WAVELENGTH, 8000 ],
+  [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 12000 ]
+] );
+
+const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
+
 const IR_WAVE_GENERATION_SPECS = [
 
   // leftmost waves
@@ -357,7 +365,8 @@ class WavesModel extends ConcentrationModel {
                 {
                   intensityAtStart: waveFromTheGround.intensityAtStart *
                                     this.concentrationProperty.value *
-                                    MAX_ATMOSPHERIC_INTERACTION_PROPORTION
+                                    MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
+                  initialPhaseOffset: ( waveFromTheGround.getPhaseAtEnd() + Math.PI ) % ( 2 * Math.PI )
                 }
               );
               this.waves.push( waveFromAtmosphericInteraction );
@@ -405,6 +414,10 @@ class WaveAtmosphereInteraction {
     this.emittedWave = emittedWave;
   }
 }
+
+// statics
+WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
+WavesModel.WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
 
