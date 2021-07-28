@@ -19,7 +19,7 @@ import WavesModel from '../model/WavesModel.js';
 // constants
 const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
-const WAVE_MAX_LINE_WIDTH = 4;
+const WAVE_MAX_LINE_WIDTH = 8;
 
 class WavesCanvasNode extends CanvasNode {
 
