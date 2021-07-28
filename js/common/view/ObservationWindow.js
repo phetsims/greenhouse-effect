@@ -130,10 +130,8 @@ class ObservationWindow extends Node {
     // surface temperature node
     const surfaceTemperatureNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
       fill: new LinearGradient( 0, 0, 0, groundRectHeight )
-        .addColorStop( 0, '#D66B00' )
-        .addColorStop( 0.33, 'rgba( 214, 107, 0, 0 )' )
-        .addColorStop( 0.67, 'rgba( 214, 107, 0, 0 )' )
-        .addColorStop( 1, '#D66B00' ),
+        .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
+        .addColorStop( 0.25, 'rgba( 255, 0, 0, 0 )' ),
       bottom: SIZE.height
     } );
 
