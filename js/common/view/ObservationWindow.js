@@ -8,6 +8,8 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -29,8 +31,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
-import LayersModel from '../model/LayersModel.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
+import LayersModel from '../model/LayersModel.js';
 import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
@@ -45,6 +47,10 @@ const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
 const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 const DARKNESS_OPACITY = 0.85;
 const WINDOW_FRAME_SPACING = 10;
+
+// The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
+// determined and can be adjusted as needed to achieve the desired visual effect.
+const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 265, 291 );
 
 class ObservationWindow extends Node {
 
@@ -125,15 +131,24 @@ class ObservationWindow extends Node {
     const surfaceTemperatureNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
       fill: new LinearGradient( 0, 0, 0, groundRectHeight )
         .addColorStop( 0, '#D66B00' )
-        .addColorStop( 0.25, 'rgba( 214, 107, 0, 0 )' )
-        .addColorStop( 0.25, 'rgba( 214, 107, 0, 0 )' )
+        .addColorStop( 0.33, 'rgba( 214, 107, 0, 0 )' )
+        .addColorStop( 0.67, 'rgba( 214, 107, 0, 0 )' )
         .addColorStop( 1, '#D66B00' ),
       bottom: SIZE.height
     } );
 
-    // TODO: We need to get the surface temperature visibility sorted out.
+    // TODO: We need to get the surface temperature visibility property sorted out.  As of this writing, it's only in
+    //       the Waves model, but should probably be in the Photons model too.
     if ( model.surfaceTemperatureVisibleProperty ) {
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
+
+      model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+        surfaceTemperatureNode.opacity = Utils.clamp(
+          ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
+          0,
+          1
+        );
+      } );
     }
     else {
       surfaceTemperatureNode.visble = false;
