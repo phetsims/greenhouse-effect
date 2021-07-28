@@ -121,6 +121,24 @@ class ObservationWindow extends Node {
       bottom: SIZE.height
     } );
 
+    // surface temperature node
+    const surfaceTemperatureNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
+      fill: new LinearGradient( 0, 0, 0, groundRectHeight )
+        .addColorStop( 0, '#D66B00' )
+        .addColorStop( 0.25, 'rgba( 214, 107, 0, 0 )' )
+        .addColorStop( 0.25, 'rgba( 214, 107, 0, 0 )' )
+        .addColorStop( 1, '#D66B00' ),
+      bottom: SIZE.height
+    } );
+
+    // TODO: We need to get the surface temperature visibility sorted out.
+    if ( model.surfaceTemperatureVisibleProperty ) {
+      model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
+    }
+    else {
+      surfaceTemperatureNode.visble = false;
+    }
+
     // Temporary code for representing layers.
     const groundLayerNode = new EnergyAbsorbingEmittingLayerNode( model.groundLayer, modelViewTransform, {
       lineOptions: { stroke: Color.GREEN },
@@ -272,6 +290,7 @@ class ObservationWindow extends Node {
       children: [
         skyNode,
         groundNode,
+        surfaceTemperatureNode,
         groundLayerNode,
         ...atmosphereLayerNodes,
         presentationNode
