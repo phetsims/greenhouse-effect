@@ -236,7 +236,12 @@ class WavesModel extends ConcentrationModel {
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
             LayersModel.HEIGHT_OF_ATMOSPHERE,
-            { intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ) }
+            {
+              intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ),
+              initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
+                                  ( 2 * Math.PI )
+
+            }
           );
           this.waves.push( reflectedWave );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
@@ -356,6 +361,8 @@ class WavesModel extends ConcentrationModel {
 
               assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
 
+              const waveStartToIntersectionLength = this.atmosphereLine.start.y / waveFromTheGround.directionOfTravel.y;
+
               // Create the new emitted wave.
               const waveFromAtmosphericInteraction = new Wave(
                 waveFromTheGround.wavelength,
@@ -363,10 +370,14 @@ class WavesModel extends ConcentrationModel {
                 GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
                 0,
                 {
+                  // The emitted wave's intensity is a proportion of the wave that causes the interaction.
                   intensityAtStart: waveFromTheGround.intensityAtStart *
                                     this.concentrationProperty.value *
                                     MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
-                  initialPhaseOffset: ( waveFromTheGround.getPhaseAtEnd() + Math.PI ) % ( 2 * Math.PI )
+
+                  // Align the phase offsets because it looks better in the view.
+                  initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveStartToIntersectionLength ) + Math.PI ) %
+                                      ( 2 * Math.PI )
                 }
               );
               this.waves.push( waveFromAtmosphericInteraction );
