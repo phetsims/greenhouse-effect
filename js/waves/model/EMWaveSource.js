@@ -10,12 +10,11 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Wave from './Wave.js';
 
 class EMWaveSource {
 
   /**
-   * @param {Wave[]} wavesInModel
+   * @param {PhetioGroup.<Wave>} waveGroup
    * @param {Property.<boolean>} waveProductionEnabledProperty
    * @param {number} wavelength - wavelength of waves to produce, in meters
    * @param {number} waveStartAltitude - altitude from which waves will originate, it meters
@@ -24,7 +23,7 @@ class EMWaveSource {
    * @param {Object} [options]
    */
   constructor(
-    wavesInModel,
+    waveGroup,
     waveProductionEnabledProperty,
     wavelength,
     waveStartAltitude,
@@ -54,7 +53,7 @@ class EMWaveSource {
 
     // @private - information necessary for the methods to do their thing
     this.waveProductionEnabledProperty = waveProductionEnabledProperty;
-    this.wavesInModel = wavesInModel;
+    this.waveGroup = waveGroup;
     this.wavelength = wavelength;
     this.waveEndAltitude = waveEndAltitude;
     this.waveSourceSpecs = waveSourceSpecs;
@@ -78,7 +77,7 @@ class EMWaveSource {
     this.waveSourceSpecs.forEach( waveSourceSpec => {
 
       // Look for a wave that matches these parameters in the set of all waves in the model.
-      const matchingWave = this.wavesInModel.find( wave =>
+      const matchingWave = this.waveGroup.find( wave =>
         wave.wavelength === this.wavelength &&
         wave.isSourced &&
         ( waveSourceSpec.minXPosition === wave.origin.x || waveSourceSpec.maxXPosition === wave.origin.x ) &&
@@ -158,14 +157,14 @@ class EMWaveSource {
    * @private
    */
   addWaveToModel( originX, directionOfTravel, intensity ) {
-    const newIRWave = new Wave(
+    const newIRWave = this.waveGroup.createNextElement(
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
       directionOfTravel,
       this.waveEndAltitude,
       { intensityAtStart: this.waveIntensityProperty.value }
     );
-    this.wavesInModel.push( newIRWave );
+
     this.wavesToLifetimesMap.set( newIRWave, dotRandom.nextDoubleBetween(
       this.waveLifetimeRange.min,
       this.waveLifetimeRange.max

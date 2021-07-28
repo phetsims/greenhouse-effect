@@ -19,6 +19,14 @@
  */
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+// import MapIO from '../../../../tandem/js/types/MapIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+// import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from './WavesModel.js';
@@ -27,7 +35,7 @@ import WavesModel from './WavesModel.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
-class Wave {
+class Wave extends PhetioObject {
 
   /**
    * @param {number} wavelength - wavelength of this light wave, in meters
@@ -47,9 +55,16 @@ class Wave {
       initialPhaseOffset: 0,
 
       // {string} - a string that can be stuck on the object, useful for debugging
-      debugTag: null
+      debugTag: null,
+
+      // phet-io
+      tandem: Tandem.REQUIRED,
+      phetioType: Wave.WaveIO,
+      phetioDynamicElement: true
 
     }, options );
+
+    super( options );
 
     if ( options.debugTag ) {
       this.debugTag = options.debugTag;
@@ -487,7 +502,7 @@ class Wave {
    * @public
    */
   getPhaseAt( length ) {
-    assert && assert( length >= 0 && length <= this.length, 'invalid length' );
+    // assert && assert( length >= 0 && length <= this.length, 'invalid length' );
     return ( this.phaseOffsetAtOrigin + ( length / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
@@ -523,6 +538,65 @@ class Wave {
       return result;
     } );
   }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  // Below here are methods used by WaveIO to serialize PhET-iO state.
+  //--------------------------------------------------------------------------------------------------------------------
+
+  /**
+   * Serializes this Wave instance.
+   * @returns {Object}
+   * @public
+   */
+  toStateObject() {
+    return {
+      wavelength: NumberIO.toStateObject( this.wavelength ),
+      origin: Vector2.Vector2IO.toStateObject( this.origin ),
+      directionOfTravel: Vector2.Vector2IO.toStateObject( this.directionOfTravel ),
+      propagationLimit: NumberIO.toStateObject( this.propagationLimit ),
+      startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
+      length: NumberIO.toStateObject( this.length ),
+      isSourced: BooleanIO.toStateObject( this.isSourced ),
+      existanceTime: NumberIO.toStateObject( this.existanceTime ),
+      phaseOffsetAtOrigin: NumberIO.toStateObject( this.phaseOffsetAtOrigin ),
+      intensityAtStart: NumberIO.toStateObject( this.intensityAtStart ),
+      renderingWavelength: NumberIO.toStateObject( this.renderingWavelength ),
+      intensityChanges: ArrayIO( IntensityChange.IntensityChangeIO ).toStateObject( this.intensityChanges )
+      // modelObjectToAttenuatorMap: MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap )
+    };
+  }
+
+  /**
+   * Creates the args that WaveGroup uses to instantiate a Wave.
+   * @param {Object} state
+   * @returns {Object[]}
+   * @public
+   */
+  static stateToArgsForConstructor( state ) {
+    return [
+      NumberIO.fromStateObject( state.wavelength ),
+      Vector2.Vector2IO.fromStateObject( state.origin ),
+      Vector2.Vector2IO.fromStateObject( state.directionOfTravel ),
+      NumberIO.fromStateObject( state.propagationLimit ),
+      {
+        intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
+        initialPhaseOffset: NumberIO.fromStateObject( state.phaseOffsetAtOrigin )
+      } ];
+  }
+
+  /**
+   * Restores Wave state after instantiation.
+   * @param {Object} stateObject - return value of fromStateObject
+   * @public
+   */
+  applyState( stateObject ) {
+    this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
+    this.existanceTime = NumberIO.fromStateObject( stateObject.existanceTime );
+    this.length = NumberIO.fromStateObject( stateObject.length );
+    this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
+    this.intensityChanges = ArrayIO( IntensityChange.IntensityChangeIO ).fromStateObject( stateObject.intensityChanges );
+    // this.modelObjectToAttenuatorMap = MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
+  }
 }
 
 /**
@@ -540,7 +614,45 @@ class IntensityChange {
     this.distanceFromStart = distanceFromStart;
     this.propagatesWithWave = propagatesWithWave;
   }
+
+  /**
+   * Serializes this Wave instance.
+   * @returns {Object}
+   * @public
+   */
+  toStateObject() {
+    return {
+      intensity: NumberIO.toStateObject( this.intensity ),
+      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart ),
+      propagatesWithWave: BooleanIO.toStateObject( this.propagatesWithWave )
+    };
+  }
+
+  /**
+   * @param stateObject
+   * @returns {Object}
+   * @public
+   */
+  static fromStateObject( stateObject ) {
+    return new IntensityChange(
+      NumberIO.fromStateObject( stateObject.intensity ),
+      NumberIO.fromStateObject( stateObject.distanceFromStart ),
+      BooleanIO.fromStateObject( stateObject.propagatesWithWave )
+    );
+  }
 }
+
+/**
+ * Defines the fields for serialization of the IntensityChange.
+ * @type {IOType}
+ */
+IntensityChange.IntensityChangeIO = IOType.fromCoreType( 'IntensityChangeIO', IntensityChange, {
+  stateSchema: {
+    intensity: NumberIO,
+    distanceFromStart: NumberIO,
+    propagatesWithWave: BooleanIO
+  }
+} );
 
 /**
  * A simple class that is used to keep track of points along the wave where attenuation (reduction in intensity) should
@@ -556,12 +668,72 @@ class WaveAttenuator {
     this.attenuation = initialAttenuation;
 
     // @public {number}
+    // TODO: This is the same distanceFromStart as the IntensityChange, this could be removed.
     this.distanceFromStart = distanceFromStart;
 
     // @public (read-only) {IntensityChange} - the intensity change that occurs on the wave due to this attenuator
     this.correspondingIntensityChange = correspondingIntensityChange;
   }
+
+  /**
+   * Serializes this WaveAttenuator instance.
+   * @returns {Object}
+   * @public
+   */
+  toStateObject() {
+    return {
+      attenuation: NumberIO.toStateObject( this.attenuation ),
+      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart ),
+      correspondingIntensityChange: IntensityChange.IntensityChangeIO.toStateObject( this.correspondingIntensityChange )
+    };
+  }
+
+  /**
+   * @param stateObject
+   * @returns {Object}
+   * @public
+   */
+  static fromStateObject( stateObject ) {
+    return new WaveAttenuator(
+      NumberIO.fromStateObject( stateObject.attenuation ),
+      NumberIO.fromStateObject( stateObject.distanceFromStart ),
+      IntensityChange.IntensityChangeIO.fromStateObject( stateObject.correspondingIntensityChange )
+    );
+  }
 }
+
+WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator, {
+  stateSchema: {
+    attenuation: NumberIO,
+    distanceFromStart: NumberIO,
+    correspondingIntensityChange: IntensityChange.IntensityChangeIO
+  }
+} );
+
+/**
+ * @public
+ * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
+ * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
+ * as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+Wave.WaveIO = IOType.fromCoreType( 'WaveIO', Wave, {
+  stateSchema: {
+    wavelength: NumberIO,
+    origin: Vector2.Vector2IO,
+    directionOfTravel: Vector2.Vector2IO,
+    propagationLimit: NumberIO,
+    startPoint: Vector2.Vector2IO,
+    length: NumberIO,
+    isSourced: BooleanIO,
+    existanceTime: NumberIO,
+    phaseOffsetAtOrigin: NumberIO,
+    intensityAtStart: NumberIO,
+    renderingWavelength: NumberIO,
+    intensityChanges: ArrayIO( IntensityChange.IntensityChangeIO )
+    //modelObjectToAttenuatorMap: MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO )
+  }
+} );
 
 // statics
 Wave.PHASE_RATE = PHASE_RATE;

@@ -16,8 +16,10 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
+import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
@@ -88,7 +90,22 @@ class WavesModel extends ConcentrationModel {
     super( tandem, { numberOfClouds: 1 } );
 
     // @public (read-only) {Wave[]} - the waves that are currently active in the model
-    this.waves = [];
+    // TODO: Rename this.waves to this.waveGroup
+    this.waves = new PhetioGroup( ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
+      options = merge( {
+        tandem: tandem
+      }, options );
+      return new Wave( wavelength, origin, directionOfTravel, propagationLimit, options );
+    }, [
+      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+      Vector2.ZERO,
+      GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR,
+      LayersModel.HEIGHT_OF_ATMOSPHERE,
+      {}
+    ], {
+      tandem: tandem.createTandem( 'waveGroup' ),
+      phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
+    } );
 
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
@@ -188,7 +205,9 @@ class WavesModel extends ConcentrationModel {
     this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
-    _.remove( this.waves, wave => wave.isCompletelyPropagated );
+    this.waves.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
+      this.waves.disposeElement( wave );
+    } );
   }
 
   /**
@@ -233,7 +252,7 @@ class WavesModel extends ConcentrationModel {
           const direction = incidentWave.origin.x > cloud.position.x ?
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.2 ) :
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.2 );
-          const reflectedWave = new Wave(
+          const reflectedWave = this.waves.createNextElement(
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
@@ -242,10 +261,7 @@ class WavesModel extends ConcentrationModel {
               intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ),
               initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
                                   ( 2 * Math.PI )
-
-            }
-          );
-          this.waves.push( reflectedWave );
+            } );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
 
           // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
@@ -255,11 +271,11 @@ class WavesModel extends ConcentrationModel {
 
         // If there is no attenuation of this wave as it passes through the cloud, create it.
         if ( !incidentWave.hasAttenuator( cloud ) ) {
-          incidentWave.addAttenuator(
-            incidentWave.startPoint.y - cloud.position.y,
-            cloud.getReflectivity( incidentWave.wavelength ),
-            cloud
-          );
+          // incidentWave.addAttenuator(
+          //   incidentWave.startPoint.y - cloud.position.y,
+          //   cloud.getReflectivity( incidentWave.wavelength ),
+          //   cloud
+          // );
         }
       } );
     }
@@ -310,7 +326,7 @@ class WavesModel extends ConcentrationModel {
       else {
 
         // Make sure the attenuation on the source wave is correct.
-        interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
+        // interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
 
         // Make sure the intensity of the emitted wave is correct.
         const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * returnToEarthProportion;
@@ -366,7 +382,7 @@ class WavesModel extends ConcentrationModel {
               const waveStartToIntersectionLength = this.atmosphereLine.start.y / waveFromTheGround.directionOfTravel.y;
 
               // Create the new emitted wave.
-              const waveFromAtmosphericInteraction = new Wave(
+              const waveFromAtmosphericInteraction = this.waves.createNextElement(
                 waveFromTheGround.wavelength,
                 intersection[ 0 ].point,
                 GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
@@ -382,14 +398,13 @@ class WavesModel extends ConcentrationModel {
                                       ( 2 * Math.PI )
                 }
               );
-              this.waves.push( waveFromAtmosphericInteraction );
 
               // Add an attenuator on the source wave.
-              waveFromTheGround.addAttenuator(
-                layer.altitude / waveFromTheGround.directionOfTravel.y,
-                this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
-                layer
-              );
+              // waveFromTheGround.addAttenuator(
+              //   layer.altitude / waveFromTheGround.directionOfTravel.y,
+              //   this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
+              //   layer
+              // );
 
               // Add the wave-atmosphere interaction to our list.
               this.waveAtmosphereInteractions.push( new WaveAtmosphereInteraction(
@@ -409,7 +424,7 @@ class WavesModel extends ConcentrationModel {
    */
   reset() {
     super.reset();
-    this.waves.length = 0;
+    this.waves.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
     this.sunWaveSource.reset();
