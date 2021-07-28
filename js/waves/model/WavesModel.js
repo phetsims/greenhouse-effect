@@ -11,6 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -101,7 +102,8 @@ class WavesModel extends ConcentrationModel {
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
       0,
-      VISIBLE_WAVE_GENERATION_SPECS
+      VISIBLE_WAVE_GENERATION_SPECS,
+      { waveIntensityProperty: new NumberProperty( 0.5 ) }
     );
 
     // derived Property that controls when IR waves can be produced
@@ -114,7 +116,7 @@ class WavesModel extends ConcentrationModel {
     const infraredWaveIntensityProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
       temperature => Utils.clamp(
-        ( temperature - 245 ) / ( 280 - 245 ), // min density at the lowest temperature, max at highest
+        ( temperature - 245 ) / ( 295 - 245 ), // min density at the lowest temperature, max at highest
         MINIMUM_WAVE_INTENSITY,
         1
       )
