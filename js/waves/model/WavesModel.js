@@ -30,6 +30,8 @@ import Wave from './Wave.js';
 const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
 const MINIMUM_WAVE_INTENSITY = 0.01;
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
+const MIN_WAVE_PRODUCTION_TEMPERATURE = 245; // min temperature at which the ground will produce IR waves, in Kelvin
+const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
 // Wavelength values used when depicting the waves, in meters.  Far from real life.  Can be adjusted for desired look.
 const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
@@ -116,7 +118,9 @@ class WavesModel extends ConcentrationModel {
     const infraredWaveIntensityProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
       temperature => Utils.clamp(
-        ( temperature - 245 ) / ( 295 - 245 ), // min density at the lowest temperature, max at highest
+
+        // min intensity at the lowest temperature, max at highest
+        ( temperature - MIN_WAVE_PRODUCTION_TEMPERATURE ) / ( MAX_EXPECTED_TEMPERATURE - MIN_WAVE_PRODUCTION_TEMPERATURE ),
         MINIMUM_WAVE_INTENSITY,
         1
       )
@@ -283,7 +287,7 @@ class WavesModel extends ConcentrationModel {
 
     // Calculate how much of each wave should go back towards the Earth and how much should continue on its way given
     // the current concentration of greenhouse gasses.
-    const returnToEarthProportion = this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION;
+    const irWaveAttenuation = mapGasConcentrationToAttenuation( this.concentrationProperty.value );
 
     // Update the existing interactions between the light waves and the atmosphere.
     this.waveAtmosphereInteractions.forEach( interaction => {
@@ -310,10 +314,10 @@ class WavesModel extends ConcentrationModel {
       else {
 
         // Make sure the attenuation on the source wave is correct.
-        interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
+        interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, irWaveAttenuation );
 
         // Make sure the intensity of the emitted wave is correct.
-        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * returnToEarthProportion;
+        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * irWaveAttenuation;
         if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
           interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
         }
@@ -373,9 +377,7 @@ class WavesModel extends ConcentrationModel {
                 0,
                 {
                   // The emitted wave's intensity is a proportion of the wave that causes the interaction.
-                  intensityAtStart: waveFromTheGround.intensityAtStart *
-                                    this.concentrationProperty.value *
-                                    MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
+                  intensityAtStart: waveFromTheGround.intensityAtStart * irWaveAttenuation,
 
                   // Align the phase offsets because it looks better in the view.
                   initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveStartToIntersectionLength ) + Math.PI ) %
@@ -416,6 +418,19 @@ class WavesModel extends ConcentrationModel {
     this.groundWaveSource.reset();
   }
 }
+
+/**
+ * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
+ * concentration of greenhouse gasses.
+ *
+ * @param greenhouseGasConcentration
+ */
+const mapGasConcentrationToAttenuation = concentration => {
+
+  // This equation was empirically determined, and will only work if the wave intensity coming from the ground doesn't
+  // change.  In other words, this is a touchy part of the whole system, so update as needed but be careful about it.
+  return -0.84 * Math.pow( concentration, 2 ) + 1.66 * concentration;
+};
 
 /**
  * A simple inner class for tracking interactions between the IR waves and the atmosphere.
