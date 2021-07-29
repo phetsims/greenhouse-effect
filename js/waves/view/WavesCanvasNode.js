@@ -87,8 +87,9 @@ class WavesCanvasNode extends CanvasNode {
     const wavelength = renderingParameters.wavelength;
     const baseColor = renderingParameters.baseColor;
 
+    let waveIntensity = wave.intensityAtStart;
     context.lineCap = 'round';
-    context.lineWidth = waveIntensityToLineWidth( wave.intensityAtStart );
+    context.lineWidth = waveIntensityToLineWidth( waveIntensity );
     context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
     context.beginPath();
 
@@ -102,13 +103,14 @@ class WavesCanvasNode extends CanvasNode {
                         ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) / wavelength * TWO_PI;
 
     // Draw the wave, and do it in sections that correspond to the intensity.  The intensity is represented by the line
-    // thickness that is used to draw the wave.
+    // thickness that is used to render the wave.
     let currentXValue = 0;
-    for ( let i = 0; i <= wave.intensityChanges.length; i++ ) {
-      const nextIntensityChange = wave.intensityChanges[ i ];
+    const waveAttenuators = wave.getSortedAttenuators();
+    for ( let i = 0; i <= waveAttenuators.length; i++ ) {
+      const nextAttenuator = waveAttenuators[ i ];
       let endValue;
-      if ( nextIntensityChange ) {
-        endValue = modelViewTransform.modelToViewDeltaX( wave.intensityChanges[ i ].distanceFromStart );
+      if ( nextAttenuator ) {
+        endValue = modelViewTransform.modelToViewDeltaX( nextAttenuator.distanceFromStart );
       }
       else {
         endValue = lengthInView;
@@ -137,11 +139,12 @@ class WavesCanvasNode extends CanvasNode {
 
       // Render this portion.
       context.stroke();
-      if ( nextIntensityChange ) {
+      if ( nextAttenuator ) {
         context.beginPath();
         moved = false;
-        context.lineWidth = waveIntensityToLineWidth( nextIntensityChange.intensity );
-        context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( nextIntensityChange.intensity ) ).toCSS();
+        waveIntensity = waveIntensity * ( 1 - nextAttenuator.attenuation );
+        context.lineWidth = waveIntensityToLineWidth( waveIntensity );
+        context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
       }
     }
   }
