@@ -39,7 +39,7 @@ class EMWaveSource {
       waveIntensityProperty: null,
 
       // {number} - time between waves, in seconds
-      interWaveTime: 0.5,
+      interWaveTime: 0.75,
 
       // {Range.<number>} - range of lifetimes for this wave, in seconds
       waveLifetimeRange: new Range( 10, 15 )

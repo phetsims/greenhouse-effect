@@ -10,8 +10,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -21,17 +19,14 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import GroundWaveSource from '../../common/model/GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
+import SunWaveSource from '../../common/model/SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
 
 // constants
-const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
-const MINIMUM_WAVE_INTENSITY = 0.01;
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
-const MIN_WAVE_PRODUCTION_TEMPERATURE = 245; // min temperature at which the ground will produce IR waves, in Kelvin
-const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
 // Wavelength values used when depicting the waves, in meters.  Far from real life.  Can be adjusted for desired look.
 const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
@@ -40,46 +35,6 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 ] );
 
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
-
-const IR_WAVE_GENERATION_SPECS = [
-
-  // leftmost waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.32,
-    -LayersModel.SUNLIGHT_SPAN * 0.27,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
-  ),
-
-  // center-ish waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.1,
-    -LayersModel.SUNLIGHT_SPAN * 0.05,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
-  ),
-
-  // rightmost waves
-  new EMWaveSource.WaveSourceSpec(
-    LayersModel.SUNLIGHT_SPAN * 0.38,
-    LayersModel.SUNLIGHT_SPAN * 0.43,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
-  )
-];
-const VISIBLE_WAVE_GENERATION_SPECS = [
-
-  // leftmost waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.23,
-    -LayersModel.SUNLIGHT_SPAN * 0.13,
-    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
-  ),
-
-  // rightmost waves
-  new EMWaveSource.WaveSourceSpec(
-    LayersModel.SUNLIGHT_SPAN * 0.25,
-    LayersModel.SUNLIGHT_SPAN * 0.35,
-    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
-  )
-];
 
 class WavesModel extends ConcentrationModel {
 
@@ -98,43 +53,19 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @private - the source of the waves of visible light that come from the sun
-    this.sunWaveSource = new EMWaveSource(
+    this.sunWaveSource = new SunWaveSource(
       this.waves,
       this.sunEnergySource.isShiningProperty,
-      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      0,
-      VISIBLE_WAVE_GENERATION_SPECS,
-      { waveIntensityProperty: new NumberProperty( 0.5 ) }
-    );
-
-    // derived Property that controls when IR waves can be produced
-    const produceIRWavesProperty = new DerivedProperty(
-      [ this.surfaceTemperatureKelvinProperty ],
-      temperature => temperature > MIN_TEMPERATURE + 8 // a few degrees higher than the minimum
-    );
-
-    // derived Property that maps temperature to the intensity of the IR waves
-    const infraredWaveIntensityProperty = new DerivedProperty(
-      [ this.surfaceTemperatureKelvinProperty ],
-      temperature => Utils.clamp(
-
-        // min intensity at the lowest temperature, max at highest
-        ( temperature - MIN_WAVE_PRODUCTION_TEMPERATURE ) / ( MAX_EXPECTED_TEMPERATURE - MIN_WAVE_PRODUCTION_TEMPERATURE ),
-        MINIMUM_WAVE_INTENSITY,
-        1
-      )
+      0
     );
 
     // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
-    this.groundWaveSource = new EMWaveSource(
+    this.groundWaveSource = new GroundWaveSource(
       this.waves,
-      produceIRWavesProperty,
-      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      IR_WAVE_GENERATION_SPECS,
-      { waveIntensityProperty: infraredWaveIntensityProperty }
+      this.surfaceTemperatureKelvinProperty
     );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
@@ -451,5 +382,4 @@ WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
 WavesModel.WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
-
 export default WavesModel;
