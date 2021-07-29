@@ -297,22 +297,12 @@ class Wave {
   /**
    * Get the wave's phase at the specified length.  This can be useful for setting the initial phase of waves that are
    * incited by this one.
-   * @param {number} distanceFromStartPoint
+   * @param {number} distanceFromOrigin
    * @returns {number} - phase of the end point in radians
    * @public
    */
-  getPhaseAt( distanceFromStartPoint ) {
-    assert && assert( distanceFromStartPoint >= 0 && distanceFromStartPoint <= this.length, 'invalid length' );
-    return ( this.phaseOffsetAtOrigin + ( distanceFromStartPoint / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
-  }
-
-  /**
-   * Get the wave's phase at its endpoint.
-   * @returns {number} - phase of the end point in radians
-   * @public
-   */
-  getPhaseAtEnd() {
-    return this.getPhaseAt( this.length );
+  getPhaseAt( distanceFromOrigin ) {
+    return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
   /**

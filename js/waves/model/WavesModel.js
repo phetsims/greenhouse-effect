@@ -367,7 +367,10 @@ class WavesModel extends ConcentrationModel {
 
               assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
 
-              const waveStartToIntersectionLength = this.atmosphereLine.start.y / waveFromTheGround.directionOfTravel.y;
+              const waveStartToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.startPoint.y ) /
+                                                    waveFromTheGround.directionOfTravel.y;
+              const waveOriginToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.origin.y ) /
+                                                     waveFromTheGround.directionOfTravel.y;
 
               // Create the new emitted wave.
               const waveFromAtmosphericInteraction = new Wave(
@@ -380,7 +383,7 @@ class WavesModel extends ConcentrationModel {
                   intensityAtStart: waveFromTheGround.intensityAtStart * irWaveAttenuation,
 
                   // Align the phase offsets because it looks better in the view.
-                  initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveStartToIntersectionLength ) + Math.PI ) %
+                  initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveOriginToIntersectionLength ) + Math.PI ) %
                                       ( 2 * Math.PI )
                 }
               );
@@ -388,7 +391,7 @@ class WavesModel extends ConcentrationModel {
 
               // Add an attenuator on the source wave.
               waveFromTheGround.addAttenuator(
-                layer.altitude / waveFromTheGround.directionOfTravel.y,
+                waveStartToIntersectionLength,
                 this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
                 layer
               );
