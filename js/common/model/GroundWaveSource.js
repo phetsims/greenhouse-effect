@@ -57,14 +57,14 @@ class GroundWaveSource extends EMWaveSource {
         new EMWaveSource.WaveSourceSpec(
           -LayersModel.SUNLIGHT_SPAN * 0.1,
           -LayersModel.SUNLIGHT_SPAN * 0.05,
-          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
+          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 )
         ),
 
         // rightmost waves
         new EMWaveSource.WaveSourceSpec(
-          LayersModel.SUNLIGHT_SPAN * 0.38,
-          LayersModel.SUNLIGHT_SPAN * 0.43,
-          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
+          LayersModel.SUNLIGHT_SPAN * 0.46,
+          LayersModel.SUNLIGHT_SPAN * 0.49,
+          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.075 )
         )
       ],
       { waveIntensityProperty: waveIntensityProperty }
