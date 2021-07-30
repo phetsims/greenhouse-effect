@@ -392,7 +392,7 @@ class WavesModel extends ConcentrationModel {
    * @public
    */
   applyState( stateObject ) {
-    this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject );
+    this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
   }
 }
 
