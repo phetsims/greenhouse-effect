@@ -11,6 +11,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -40,7 +41,7 @@ const LAYER_THICKNESS = 0.0000003;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
-class EnergyAbsorbingEmittingLayer {
+class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * @param {number} altitude
@@ -62,9 +63,12 @@ class EnergyAbsorbingEmittingLayer {
       minimumTemperature: 0,
 
       // phet-io
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.REQUIRED,
+      phetioState: false
 
     }, options );
+
+    super( options );
 
     // @public (read-only) - altitude in meters where this layer resides
     this.altitude = altitude;

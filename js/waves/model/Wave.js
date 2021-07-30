@@ -3,13 +3,6 @@
 /**
  * The Wave class represents a wave of light in the model.
  *
- * TODO: The code below was originally written such that changes to the light wave's intensity would be remembered and
- *       would propagate with the wave.  In the 7/21/2021 design meeting, we decided to try not doing this, and have
- *       waves without anything actively attenuating it, such as a cloud, would be constant intensity from start to
- *       finish.  This has been done, but the code to propagate intensity changes was kept in case we changed our minds.
- *       At some point, it will either need to be fully removed or revived.  See
- *       https://github.com/phetsims/greenhouse-effect/issues/53.
- *
  * TODO: The code is written to support multiple points along the wave where its intensity can be attenuated.  However,
  *       this code is basically untested, since it hasn't been needed yet.  It will need to be tested and debugged if
  *       and when it is ever needed. See https://github.com/phetsims/greenhouse-effect/issues/52 for more information.
@@ -21,11 +14,12 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import MapIO from '../../../../tandem/js/types/MapIO.js';
 // import MapIO from '../../../../tandem/js/types/MapIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 // import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -104,7 +98,7 @@ class Wave extends PhetioObject {
     this.isSourced = true;
 
     // (read-only) {number} - the length of time that this wave has existed
-    this.existanceTime = 0;
+    this.existenceTime = 0;
 
     // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
     // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
@@ -115,11 +109,7 @@ class Wave extends PhetioObject {
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
 
-    // @private {IntensityChange[]} - An array of places along this wave where its intensity changes.  These are kept
-    // in order from the start to the end of the wave.
-    this.intensityChanges = [];
-
-    // @private {Map.<{Object,Attenuator>} - A Map that maps model objects to the attenuation that they are currently
+    // @private {Map.<PhetioObject,Attenuator>} - A Map that maps model objects to the attenuation that they are currently
     // causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type spec.
     // Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map();
@@ -134,44 +124,16 @@ class Wave extends PhetioObject {
    */
   step( dt ) {
 
+    const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
+
     // If there is a source producing this wave it should get longer and will continue to emanate from the same point.
     // If not, it stays at the same length and propagates through space.
     if ( this.isSourced ) {
-
-      // Update the intensity changes associated with the attenuators.
-      for ( const attenuator of this.modelObjectToAttenuatorMap.values() ) {
-        const intensityChangeForAttenuator = attenuator.correspondingIntensityChange;
-        const incomingIntensity = this.getIntensityBefore( intensityChangeForAttenuator );
-        const outgoingIntensity = incomingIntensity * ( 1 - attenuator.attenuation );
-        if ( intensityChangeForAttenuator.intensity !== outgoingIntensity ) {
-          intensityChangeForAttenuator.intensity = outgoingIntensity;
-        }
-      }
-
-      // Propagate intensity changes.
-      const propagationDistance = dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
       this.length += propagationDistance;
-      this.intensityChanges.forEach( intensityChange => {
-        if ( intensityChange.propagatesWithWave ) {
-          const preMoveDistance = intensityChange.distanceFromStart;
-          intensityChange.distanceFromStart += propagationDistance;
-
-          // If this intensity change moved through an attenuator, attenuate it.
-          for ( const attenuator of this.modelObjectToAttenuatorMap.values() ) {
-            if ( preMoveDistance <= attenuator.distanceFromStart &&
-                 intensityChange.distanceFromStart > attenuator.distanceFromStart ) {
-
-              // Attenuate the intensity.
-              intensityChange.intensity = intensityChange.intensity * ( 1 - attenuator.attenuation );
-            }
-          }
-        }
-      } );
     }
     else {
 
       // Move the wave forward, being careful not to move the start point beyond the propagation limit.
-      const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
       let dy = this.directionOfTravel.y * propagationDistance;
       if ( Math.abs( dy ) > Math.abs( this.propagationLimit - this.startPoint.y ) ) {
         dy = this.propagationLimit - this.startPoint.y;
@@ -180,14 +142,6 @@ class Wave extends PhetioObject {
         this.directionOfTravel.x * propagationDistance,
         dy
       );
-
-      // If there are any non-propagating intensity changes, decrease their distance from the start, since the wave's
-      // starting point has moved forward and these should not move with it.
-      this.intensityChanges.forEach( intensityChange => {
-        if ( !intensityChange.propagatesWithWave ) {
-          intensityChange.distanceFromStart -= propagationDistance;
-        }
-      } );
 
       // If there are attenuators on this wave, decrease their distance from the start point, since the wave's start
       // point has moved forward and the attenuators don't move with it.
@@ -199,32 +153,23 @@ class Wave extends PhetioObject {
     // Check if the current change causes this wave to extend beyond it's propagation limit and, if so, limit the length.
     this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.directionOfTravel.y );
 
-    // Remove any intensity changes that are no longer on the wave.
-    this.intensityChanges = this.intensityChanges.filter( intensityChange =>
-      intensityChange.distanceFromStart >= 0 && intensityChange.distanceFromStart < this.length
-    );
-
-    // Sort the intensity changes so that they are in order from the start to the end.
-    this.sortIntensityChanges();
-
     // Remove attenuators that are no longer on the wave.
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
 
         if ( attenuator.distanceFromStart <= 0 ) {
 
-          // Set the start intensity to match the attenuation.  Otherwise, waves will suddenly change intensity after
-          // moving past the attenuator.
-          this.intensityAtStart = attenuator.correspondingIntensityChange.intensity;
-
           // Remove the attenuator.
           this.removeAttenuator( modelElement );
+
+          // Set the intensity at the start to be the attenuated value.
+          this.intensityAtStart = this.intensityAtStart * ( 1 - attenuator.attenuation );
         }
       }
     );
 
-    // Update aspects of the wave that evolve over time.
+    // Update other aspects of the wave that evolve over time.
     this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
-    this.existanceTime += dt;
+    this.existenceTime += dt;
   }
 
   /**
@@ -261,9 +206,9 @@ class Wave extends PhetioObject {
    */
   getIntensityAt( distanceFromStart ) {
     let intensity = this.intensityAtStart;
-    this.intensityChanges.forEach( intensityChange => {
-      if ( intensityChange.distanceFromStart < distanceFromStart ) {
-        intensity = intensityChange.intensity;
+    this.getSortedAttenuators().forEach( attenuator => {
+      if ( attenuator.distanceFromStart < distanceFromStart ) {
+        intensity = intensity * ( 1 - attenuator.attenuation );
       }
     } );
     return intensity;
@@ -279,58 +224,12 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * Set the intensity of the wave at the given distance from the start point.  If the intensity at that point is
-   * already at the specified value, the request is quietly ignored.
-   * @param {number} distanceFromStart
-   * @param {number} intensity
-   * @param {boolean} propagateWithWave
-   * @returns {IntensityChange|null}
-   * @private
-   */
-  setIntensityAt( distanceFromStart, intensity, propagateWithWave ) {
-
-    let addedIntensityChange = null;
-    if ( distanceFromStart === 0 ) {
-      this.intensityAtStart = intensity;
-    }
-    else {
-      let insertionIndex = 0;
-      for ( let i = 0; i < this.intensityChanges.length; i++ ) {
-        const intensityChange = this.intensityChanges[ i ];
-        if ( intensityChange.distanceFromStart > distanceFromStart ) {
-
-          // This intensity change is past the provided distance, so we're done.
-          break;
-        }
-        else {
-          insertionIndex = i + 1;
-        }
-      }
-
-      // Create a new intensity change and insert it into the array in the appropriate place.
-      addedIntensityChange = new IntensityChange( intensity, distanceFromStart, propagateWithWave );
-      this.intensityChanges.splice( insertionIndex, 0, addedIntensityChange );
-    }
-
-    return addedIntensityChange;
-  }
-
-  /**
    * Set the intensity at the start of the wave.
    * @param {number} intensity - a normalized intensity value
    * @public
    */
   setIntensityAtStart( intensity ) {
-
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
-
-    // Auto-creation of propagating intensity changes is no longer done, see https://github.com/phetsims/greenhouse-effect/issues/53.
-    // if ( this.intensityAtStart !== intensity ) {
-    //   this.intensityChanges.push( new IntensityChange( this.intensityAtStart, SMALL_INTER_CHANGE_DISTANCE, true ) );
-    //   this.sortIntensityChanges();
-    //   this.intensityAtStart = intensity;
-    // }
-
     this.intensityAtStart = intensity;
   }
 
@@ -354,50 +253,11 @@ class Wave extends PhetioObject {
       'this model object already has an attenuator'
     );
 
-    const currentIntensityAtDistance = this.getIntensityAt( distanceFromStart );
-
-    // By design, this will get rid of any intensity changes that occur until the end of the wave or until the next
-    // attenuator.  This is perhaps not entirely realistic, but the designers decided that it looks better.  If there
-    // are intensity changes that are downstream of an attenuator, adjust them to reflect this new attenuation.
-    const intensityChangesToRemove = [];
-    let nonPropagatingIntensityChangeFound = false;
-    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
-      const intensityChange = this.intensityChanges[ i ];
-      if ( intensityChange.distanceFromStart > distanceFromStart ) {
-
-        if ( !intensityChange.propagatesWithWave ) {
-          nonPropagatingIntensityChangeFound = true;
-        }
-
-        if ( nonPropagatingIntensityChangeFound ) {
-
-          // attenuate this intensity change
-          intensityChange.intensity = intensityChange * attenuationAmount;
-        }
-        else {
-
-          // This one should be removed.
-          intensityChangesToRemove.push( intensityChange );
-        }
-      }
-    }
-
-    this.intensityChanges = this.intensityChanges.filter(
-      intensityChange => !intensityChangesToRemove.includes( intensityChange )
-    );
-
-    // Create and add the new attenuator and the intensity change that goes with it.
-    const attenuatedOutputLevel = currentIntensityAtDistance * ( 1 - attenuationAmount );
-    const intensityChange = new IntensityChange( attenuatedOutputLevel, distanceFromStart, false );
-    this.intensityChanges.push( intensityChange );
+    // Create and add the new attenuator.
     this.modelObjectToAttenuatorMap.set(
       causalModelElement,
-      new WaveAttenuator( attenuationAmount, distanceFromStart, intensityChange )
+      new WaveAttenuator( attenuationAmount, distanceFromStart )
     );
-
-    // Make sure the intensity changes are in the correct order.
-    // TODO: Consider making the code always keep the order correct and just verify the order with asserts and such.
-    this.sortIntensityChanges();
   }
 
   /**
@@ -410,29 +270,6 @@ class Wave extends PhetioObject {
     assert && assert(
       this.modelObjectToAttenuatorMap.has( causalModelElement ),
       'no attenuator exists for the provided model element'
-    );
-
-    const attenuator = this.modelObjectToAttenuatorMap.get( causalModelElement );
-
-    // By design, when an attenuator is removed, all intensity changes are removed to the end of the wave or to the next
-    // attenuator.  This is perhaps not perfectly realistic, but the design team decided that it looked better on July
-    // 21, 2021.
-    const intensityChangesToRemove = [ attenuator.correspondingIntensityChange ];
-    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
-      const intensityChange = this.intensityChanges[ i ];
-      if ( !intensityChange.propagatesWithWave ) {
-
-        // This is a non-propagating intensity change, which means it goes with an attenuator, so stop the removal of
-        // intensity changes.
-        break;
-      }
-      if ( intensityChange.distanceFromStart > attenuator.distanceFromStart ) {
-        intensityChangesToRemove.push( intensityChange );
-      }
-    }
-
-    this.intensityChanges = this.intensityChanges.filter(
-      intensityChange => !intensityChangesToRemove.includes( intensityChange )
     );
 
     // Remove the attenuator from the map.
@@ -461,28 +298,7 @@ class Wave extends PhetioObject {
     assert && assert( attenuation >= 0 && attenuation <= 1, 'invalid attenuation value' );
 
     // Update the attenuation value and the corresponding intensity change.
-    const attenuator = this.modelObjectToAttenuatorMap.get( modelElement );
-    if ( attenuator.attenuation !== attenuation ) {
-      attenuator.attenuation = attenuation;
-      attenuator.correspondingIntensityChange.intensity =
-        this.getIntensityBefore( attenuator.correspondingIntensityChange ) * ( 1 - attenuation );
-    }
-  }
-
-  /**
-   * Get the intensity prior to the provided intensity change.
-   * @param {IntensityChange} intensityChange
-   * @returns {number}
-   * @private
-   */
-  getIntensityBefore( intensityChange ) {
-    const intensityChangeIndex = this.intensityChanges.indexOf( intensityChange );
-    assert && assert( intensityChangeIndex >= 0 );
-    let intensityValue = this.intensityAtStart;
-    for ( let i = 0; i < intensityChangeIndex; i++ ) {
-      intensityValue = this.intensityChanges[ i ].intensity;
-    }
-    return intensityValue;
+    this.modelObjectToAttenuatorMap.get( modelElement ).attenuation = attenuation;
   }
 
   /**
@@ -497,51 +313,24 @@ class Wave extends PhetioObject {
   /**
    * Get the wave's phase at the specified length.  This can be useful for setting the initial phase of waves that are
    * incited by this one.
-   * @param {number} - length from the start point
+   * @param {number} distanceFromOrigin
    * @returns {number} - phase of the end point in radians
    * @public
    */
-  getPhaseAt( length ) {
-    // assert && assert( length >= 0 && length <= this.length, 'invalid length' );
-    return ( this.phaseOffsetAtOrigin + ( length / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
+  getPhaseAt( distanceFromOrigin ) {
+    return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
   /**
-   * Get the wave's phase at its endpoint.
-   * @returns {number} - phase of the end point in radians
+   * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
+   * @returns {WaveAttenuator[]}
    * @public
    */
-  getPhaseAtEnd() {
-    return this.getPhaseAt( this.length );
+  getSortedAttenuators() {
+    return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
+      attenuator1.distanceFromStart - attenuator2.distanceFromStart
+    );
   }
-
-  /**
-   * Sort the intensity changes from closest to the start point to furthest.
-   * @private
-   */
-  sortIntensityChanges() {
-
-    this.intensityChanges.sort( ( a, b ) => {
-      let result = a.distanceFromStart - b.distanceFromStart;
-
-      // If two intensities land on top of one another, the propagating one should come first in the order.  Other parts
-      // of the code depend on this being true.
-      if ( result === 0 ) {
-
-        // We should never have a case where two propagating intensities are on top of one another.  If we do, other
-        // portions of the code should be fixed so that this doesn't occur.
-        assert && assert( a.propagatesWithWave !== b.propagatesWithWave );
-
-        result = b.propagatesWithWave ? 1 : -1;
-      }
-
-      return result;
-    } );
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  // Below here are methods used by WaveIO to serialize PhET-iO state.
-  //--------------------------------------------------------------------------------------------------------------------
 
   /**
    * Serializes this Wave instance.
@@ -557,13 +346,38 @@ class Wave extends PhetioObject {
       startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
       length: NumberIO.toStateObject( this.length ),
       isSourced: BooleanIO.toStateObject( this.isSourced ),
-      existanceTime: NumberIO.toStateObject( this.existanceTime ),
+      existenceTime: NumberIO.toStateObject( this.existenceTime ),
       phaseOffsetAtOrigin: NumberIO.toStateObject( this.phaseOffsetAtOrigin ),
       intensityAtStart: NumberIO.toStateObject( this.intensityAtStart ),
-      renderingWavelength: NumberIO.toStateObject( this.renderingWavelength ),
-      intensityChanges: ArrayIO( IntensityChange.IntensityChangeIO ).toStateObject( this.intensityChanges )
-      // modelObjectToAttenuatorMap: MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap )
+      modelObjectToAttenuatorMap: MapIO(
+        ReferenceIO( IOType.ObjectIO ),
+        WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap
+      ),
+      renderingWavelength: NumberIO.toStateObject( this.renderingWavelength )
     };
+  }
+
+  /**
+   * @param stateObject
+   * @returns {Object}
+   * @public
+   */
+  applyState( stateObject ) {
+    this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
+    this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
+    this.directionOfTravel = Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel );
+    this.propagationLimit = NumberIO.fromStateObject( stateObject.propagationLimit );
+    this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
+    this.length = NumberIO.fromStateObject( stateObject.length );
+    this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
+    this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
+    this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
+    this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
+    this.modelObjectToAttenuatorMap = MapIO(
+      ReferenceIO( IOType.ObjectIO ),
+      WaveAttenuator.WaveAttenuatorIO
+    ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
+    this.renderingWavelength = NumberIO.fromStateObject( stateObject.renderingWavelength );
   }
 
   /**
@@ -581,78 +395,10 @@ class Wave extends PhetioObject {
       {
         intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
         initialPhaseOffset: NumberIO.fromStateObject( state.phaseOffsetAtOrigin )
-      } ];
-  }
-
-  /**
-   * Restores Wave state after instantiation.
-   * @param {Object} stateObject - return value of fromStateObject
-   * @public
-   */
-  applyState( stateObject ) {
-    this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
-    this.existanceTime = NumberIO.fromStateObject( stateObject.existanceTime );
-    this.length = NumberIO.fromStateObject( stateObject.length );
-    this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
-    this.intensityChanges = ArrayIO( IntensityChange.IntensityChangeIO ).fromStateObject( stateObject.intensityChanges );
-    // this.modelObjectToAttenuatorMap = MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
+      }
+    ];
   }
 }
-
-/**
- * A simple inner class that is used to keep track of points along the wave where the intensity changes.
- */
-class IntensityChange {
-
-  /**
-   * @param {number} intensity - a normalized value from 0 to 1
-   * @param {number} distanceFromStart - in meters
-   * @param {boolean} propagatesWithWave - true if this should move with the wave, false if not
-   */
-  constructor( intensity, distanceFromStart, propagatesWithWave ) {
-    this.intensity = intensity;
-    this.distanceFromStart = distanceFromStart;
-    this.propagatesWithWave = propagatesWithWave;
-  }
-
-  /**
-   * Serializes this Wave instance.
-   * @returns {Object}
-   * @public
-   */
-  toStateObject() {
-    return {
-      intensity: NumberIO.toStateObject( this.intensity ),
-      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart ),
-      propagatesWithWave: BooleanIO.toStateObject( this.propagatesWithWave )
-    };
-  }
-
-  /**
-   * @param stateObject
-   * @returns {Object}
-   * @public
-   */
-  static fromStateObject( stateObject ) {
-    return new IntensityChange(
-      NumberIO.fromStateObject( stateObject.intensity ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart ),
-      BooleanIO.fromStateObject( stateObject.propagatesWithWave )
-    );
-  }
-}
-
-/**
- * Defines the fields for serialization of the IntensityChange.
- * @type {IOType}
- */
-IntensityChange.IntensityChangeIO = IOType.fromCoreType( 'IntensityChangeIO', IntensityChange, {
-  stateSchema: {
-    intensity: NumberIO,
-    distanceFromStart: NumberIO,
-    propagatesWithWave: BooleanIO
-  }
-} );
 
 /**
  * A simple class that is used to keep track of points along the wave where attenuation (reduction in intensity) should
@@ -660,19 +406,15 @@ IntensityChange.IntensityChangeIO = IOType.fromCoreType( 'IntensityChangeIO', In
  */
 class WaveAttenuator {
 
-  constructor( initialAttenuation, distanceFromStart, correspondingIntensityChange ) {
+  constructor( initialAttenuation, distanceFromStart ) {
 
     // @public {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
-    // (i.e. the wave's intensity will remain unchanged) and 1 means 100% attenuation (a wave passing through will
-    // have its intensity reduced to zero).
+    // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave
+    // passing through will have its intensity reduced to zero).
     this.attenuation = initialAttenuation;
 
     // @public {number}
-    // TODO: This is the same distanceFromStart as the IntensityChange, this could be removed.
     this.distanceFromStart = distanceFromStart;
-
-    // @public (read-only) {IntensityChange} - the intensity change that occurs on the wave due to this attenuator
-    this.correspondingIntensityChange = correspondingIntensityChange;
   }
 
   /**
@@ -683,8 +425,7 @@ class WaveAttenuator {
   toStateObject() {
     return {
       attenuation: NumberIO.toStateObject( this.attenuation ),
-      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart ),
-      correspondingIntensityChange: IntensityChange.IntensityChangeIO.toStateObject( this.correspondingIntensityChange )
+      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
     };
   }
 
@@ -696,8 +437,7 @@ class WaveAttenuator {
   static fromStateObject( stateObject ) {
     return new WaveAttenuator(
       NumberIO.fromStateObject( stateObject.attenuation ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart ),
-      IntensityChange.IntensityChangeIO.fromStateObject( stateObject.correspondingIntensityChange )
+      NumberIO.fromStateObject( stateObject.distanceFromStart )
     );
   }
 }
@@ -705,8 +445,7 @@ class WaveAttenuator {
 WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator, {
   stateSchema: {
     attenuation: NumberIO,
-    distanceFromStart: NumberIO,
-    correspondingIntensityChange: IntensityChange.IntensityChangeIO
+    distanceFromStart: NumberIO
   }
 } );
 
@@ -726,12 +465,11 @@ Wave.WaveIO = IOType.fromCoreType( 'WaveIO', Wave, {
     startPoint: Vector2.Vector2IO,
     length: NumberIO,
     isSourced: BooleanIO,
-    existanceTime: NumberIO,
+    existenceTime: NumberIO,
     phaseOffsetAtOrigin: NumberIO,
     intensityAtStart: NumberIO,
     renderingWavelength: NumberIO,
-    intensityChanges: ArrayIO( IntensityChange.IntensityChangeIO )
-    //modelObjectToAttenuatorMap: MapIO( ReferenceIO, WaveAttenuator.WaveAttenuatorIO )
+    modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
   }
 } );
 

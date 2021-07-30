@@ -10,8 +10,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -20,17 +18,19 @@ import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import GroundWaveSource from '../../common/model/GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
+import SunWaveSource from '../../common/model/SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
 
 // constants
-const MIN_TEMPERATURE = LayersModel.MINIMUM_GROUND_TEMPERATURE;
-const MINIMUM_WAVE_INTENSITY = 0.01;
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
 
 // Wavelength values used when depicting the waves, in meters.  Far from real life.  Can be adjusted for desired look.
@@ -41,53 +41,18 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
-const IR_WAVE_GENERATION_SPECS = [
-
-  // leftmost waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.32,
-    -LayersModel.SUNLIGHT_SPAN * 0.27,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
-  ),
-
-  // center-ish waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.1,
-    -LayersModel.SUNLIGHT_SPAN * 0.05,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
-  ),
-
-  // rightmost waves
-  new EMWaveSource.WaveSourceSpec(
-    LayersModel.SUNLIGHT_SPAN * 0.38,
-    LayersModel.SUNLIGHT_SPAN * 0.43,
-    GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.15 )
-  )
-];
-const VISIBLE_WAVE_GENERATION_SPECS = [
-
-  // leftmost waves
-  new EMWaveSource.WaveSourceSpec(
-    -LayersModel.SUNLIGHT_SPAN * 0.23,
-    -LayersModel.SUNLIGHT_SPAN * 0.13,
-    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
-  ),
-
-  // rightmost waves
-  new EMWaveSource.WaveSourceSpec(
-    LayersModel.SUNLIGHT_SPAN * 0.25,
-    LayersModel.SUNLIGHT_SPAN * 0.35,
-    GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
-  )
-];
-
 class WavesModel extends ConcentrationModel {
 
   /**
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    super( tandem, { numberOfClouds: 1 } );
+    super( tandem, {
+      numberOfClouds: 1,
+
+      // phet-io
+      phetioType: WavesModel.WavesModelIO
+    } );
 
     // @public (read-only) {Wave[]} - the waves that are currently active in the model
     // TODO: Rename this.waves to this.waveGroup
@@ -113,41 +78,19 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @private - the source of the waves of visible light that come from the sun
-    this.sunWaveSource = new EMWaveSource(
+    this.sunWaveSource = new SunWaveSource(
       this.waves,
       this.sunEnergySource.isShiningProperty,
-      GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      0,
-      VISIBLE_WAVE_GENERATION_SPECS,
-      { waveIntensityProperty: new NumberProperty( 0.5 ) }
-    );
-
-    // derived Property that controls when IR waves can be produced
-    const produceIRWavesProperty = new DerivedProperty(
-      [ this.surfaceTemperatureKelvinProperty ],
-      temperature => temperature > MIN_TEMPERATURE + 8 // a few degrees higher than the minimum
-    );
-
-    // derived Property that maps temperature to the intensity of the IR waves
-    const infraredWaveIntensityProperty = new DerivedProperty(
-      [ this.surfaceTemperatureKelvinProperty ],
-      temperature => Utils.clamp(
-        ( temperature - 245 ) / ( 295 - 245 ), // min density at the lowest temperature, max at highest
-        MINIMUM_WAVE_INTENSITY,
-        1
-      )
+      0
     );
 
     // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
-    this.groundWaveSource = new EMWaveSource(
+    this.groundWaveSource = new GroundWaveSource(
       this.waves,
-      produceIRWavesProperty,
-      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      IR_WAVE_GENERATION_SPECS,
-      { waveIntensityProperty: infraredWaveIntensityProperty }
+      this.surfaceTemperatureKelvinProperty
     );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
@@ -271,11 +214,11 @@ class WavesModel extends ConcentrationModel {
 
         // If there is no attenuation of this wave as it passes through the cloud, create it.
         if ( !incidentWave.hasAttenuator( cloud ) ) {
-          // incidentWave.addAttenuator(
-          //   incidentWave.startPoint.y - cloud.position.y,
-          //   cloud.getReflectivity( incidentWave.wavelength ),
-          //   cloud
-          // );
+          incidentWave.addAttenuator(
+            incidentWave.startPoint.y - cloud.position.y,
+            cloud.getReflectivity( incidentWave.wavelength ),
+            cloud
+          );
         }
       } );
     }
@@ -299,7 +242,7 @@ class WavesModel extends ConcentrationModel {
 
     // Calculate how much of each wave should go back towards the Earth and how much should continue on its way given
     // the current concentration of greenhouse gasses.
-    const returnToEarthProportion = this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION;
+    const irWaveAttenuation = mapGasConcentrationToAttenuation( this.concentrationProperty.value );
 
     // Update the existing interactions between the light waves and the atmosphere.
     this.waveAtmosphereInteractions.forEach( interaction => {
@@ -326,10 +269,10 @@ class WavesModel extends ConcentrationModel {
       else {
 
         // Make sure the attenuation on the source wave is correct.
-        // interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, returnToEarthProportion );
+        interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, irWaveAttenuation );
 
         // Make sure the intensity of the emitted wave is correct.
-        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * returnToEarthProportion;
+        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * irWaveAttenuation;
         if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
           interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
         }
@@ -379,7 +322,10 @@ class WavesModel extends ConcentrationModel {
 
               assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
 
-              const waveStartToIntersectionLength = this.atmosphereLine.start.y / waveFromTheGround.directionOfTravel.y;
+              const waveStartToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.startPoint.y ) /
+                                                    waveFromTheGround.directionOfTravel.y;
+              const waveOriginToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.origin.y ) /
+                                                     waveFromTheGround.directionOfTravel.y;
 
               // Create the new emitted wave.
               const waveFromAtmosphericInteraction = this.waves.createNextElement(
@@ -389,22 +335,20 @@ class WavesModel extends ConcentrationModel {
                 0,
                 {
                   // The emitted wave's intensity is a proportion of the wave that causes the interaction.
-                  intensityAtStart: waveFromTheGround.intensityAtStart *
-                                    this.concentrationProperty.value *
-                                    MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
+                  intensityAtStart: waveFromTheGround.intensityAtStart * irWaveAttenuation,
 
                   // Align the phase offsets because it looks better in the view.
-                  initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveStartToIntersectionLength ) + Math.PI ) %
+                  initialPhaseOffset: ( waveFromTheGround.getPhaseAt( waveOriginToIntersectionLength ) + Math.PI ) %
                                       ( 2 * Math.PI )
                 }
               );
 
               // Add an attenuator on the source wave.
-              // waveFromTheGround.addAttenuator(
-              //   layer.altitude / waveFromTheGround.directionOfTravel.y,
-              //   this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
-              //   layer
-              // );
+              waveFromTheGround.addAttenuator(
+                waveStartToIntersectionLength,
+                this.concentrationProperty.value * MAX_ATMOSPHERIC_INTERACTION_PROPORTION,
+                layer
+              );
 
               // Add the wave-atmosphere interaction to our list.
               this.waveAtmosphereInteractions.push( new WaveAtmosphereInteraction(
@@ -430,7 +374,40 @@ class WavesModel extends ConcentrationModel {
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
   }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  toStateObject() {
+    return {
+      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).toStateObject(
+        this.waveAtmosphereInteractions
+      )
+    };
+  }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  applyState( stateObject ) {
+    this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject );
+  }
 }
+
+/**
+ * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
+ * concentration of greenhouse gasses.
+ *
+ * @param greenhouseGasConcentration
+ */
+const mapGasConcentrationToAttenuation = concentration => {
+
+  // This equation was empirically determined, and will only work if the wave intensity coming from the ground doesn't
+  // change.  In other words, this is a touchy part of the whole system, so update as needed but be careful about it.
+  return -0.84 * Math.pow( concentration, 2 ) + 1.66 * concentration;
+};
 
 /**
  * A simple inner class for tracking interactions between the IR waves and the atmosphere.
@@ -441,12 +418,52 @@ class WaveAtmosphereInteraction {
     this.sourceWave = sourceWave;
     this.emittedWave = emittedWave;
   }
+
+  // @public
+  toStateObject() {
+    return {
+      atmosphereLayer: this.atmosphereLayer,
+      sourceWave: this.sourceWave,
+      emittedWave: this.emittedWave
+    };
+  }
+
+  // @public
+  static fromStateObject( stateObject ) {
+    return new WaveAtmosphereInteraction( stateObject.atmosphereLayer, stateObject.sourceWave, stateObject.emittedWave );
+  }
+
+  // @public
+  static get STATE_SCHEMA() {
+    return {
+      atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
+      sourceWave: ReferenceIO( Wave.WaveIO ),
+      emittedWave: ReferenceIO( Wave.WaveIO )
+    };
+  }
 }
+
+WaveAtmosphereInteraction.WaveAtmosphereInteractionIO = IOType.fromCoreType(
+  'WaveAtmosphereInteractionIO',
+  WaveAtmosphereInteraction
+);
+
+/**
+ * @public
+ * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
+ * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
+ * serialization', as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+WavesModel.WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel, {
+  stateSchema: {
+    waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO )
+  }
+} );
 
 // statics
 WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
 WavesModel.WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
-
 export default WavesModel;

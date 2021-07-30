@@ -130,14 +130,22 @@ class LayersModel extends GreenhouseEffectModel {
       if ( options.numberOfClouds === 1 ) {
 
         // The position and size of the cloud were chosen to look good in the view and can be adjusted as needed.
-        this.clouds.push( new Cloud( new Vector2( -16000, 20000 ), 20000, 4000 ) );
+        this.clouds.push(
+          new Cloud( new Vector2( -16000, 20000 ), 20000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
+        );
       }
       else if ( options.numberOfClouds === 3 ) {
 
         // The positions and sizes of the clouds were chosen to look good in the view and can be adjusted as needed.
-        this.clouds.push( new Cloud( new Vector2( -20000, 20000 ), 15000, 3500 ) );
-        this.clouds.push( new Cloud( new Vector2( 5000, 32000 ), 12000, 2500 ) );
-        this.clouds.push( new Cloud( new Vector2( 24000, 25000 ), 18000, 3000 ) );
+        this.clouds.push( new Cloud( new Vector2( -20000, 20000 ), 15000, 3500, {
+          tandem: tandem.createTandem( 'cloud1' )
+        } ) );
+        this.clouds.push( new Cloud( new Vector2( 5000, 32000 ), 12000, 2500, {
+          tandem: tandem.createTandem( 'cloud2' )
+        } ) );
+        this.clouds.push( new Cloud( new Vector2( 24000, 25000 ), 18000, 3000, {
+          tandem: tandem.createTandem( 'cloud3' )
+        } ) );
       }
     }
 

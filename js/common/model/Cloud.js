@@ -11,6 +11,9 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Shape from '../../../../kite/js/Shape.js';
+import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
@@ -22,14 +25,22 @@ const CLOUD_SUBSTANCE_REFLECTIVITY = new Map( [
   [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 0 ]
 ] );
 
-class Cloud {
+class Cloud extends PhetioObject {
 
   /**
    * @param {Vector2} position
    * @param {number} width - in meters
    * @param {number} height - in meters
+   * @param {Object} [options]
    */
-  constructor( position, width, height ) {
+  constructor( position, width, height, options ) {
+
+    options = merge( {
+      phetioState: false,
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // parameter checking
     assert && assert( width <= GreenhouseEffectConstants.SUNLIGHT_SPAN, 'cloud can\'t exceed the sunlight span' );

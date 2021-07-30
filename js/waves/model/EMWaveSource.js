@@ -38,7 +38,7 @@ class EMWaveSource {
       waveIntensityProperty: null,
 
       // {number} - time between waves, in seconds
-      interWaveTime: 0.5,
+      interWaveTime: 0.75,
 
       // {Range.<number>} - range of lifetimes for this wave, in seconds
       waveLifetimeRange: new Range( 10, 15 )
@@ -102,7 +102,7 @@ class EMWaveSource {
       // If the wave already exists, update it.
       else if ( matchingWave ) {
 
-        if ( matchingWave.existanceTime > this.wavesToLifetimesMap.get( matchingWave ) ) {
+        if ( matchingWave.existenceTime > this.wavesToLifetimesMap.get( matchingWave ) ) {
 
           // This wave is done.  Set it to propagate on its own and queue up a new one nearby.
           matchingWave.isSourced = false;
