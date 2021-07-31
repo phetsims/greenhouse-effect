@@ -373,6 +373,7 @@ class WavesModel extends ConcentrationModel {
     this.cloudReflectedWavesMap.clear();
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
+    this.waveAtmosphereInteractions.length = 0;
   }
 
   /**
@@ -386,6 +387,9 @@ class WavesModel extends ConcentrationModel {
       )
     };
   }
+
+  // @public
+  static fromStateObject() {}
 
   /**
    * for phet-io
