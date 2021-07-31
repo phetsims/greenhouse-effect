@@ -51,7 +51,8 @@ class WavesModel extends ConcentrationModel {
       numberOfClouds: 1,
 
       // phet-io
-      phetioType: WavesModel.WavesModelIO
+      phetioType: WavesModel.WavesModelIO,
+      phetioState: true
     } );
 
     // @public (read-only) {Wave[]} - the waves that are currently active in the model
