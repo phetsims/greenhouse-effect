@@ -422,15 +422,18 @@ class WaveAtmosphereInteraction {
   // @public
   toStateObject() {
     return {
-      atmosphereLayer: this.atmosphereLayer,
-      sourceWave: this.sourceWave,
-      emittedWave: this.emittedWave
+      atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
+      sourceWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.sourceWave ),
+      emittedWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.emittedWave )
     };
   }
 
   // @public
   static fromStateObject( stateObject ) {
-    return new WaveAtmosphereInteraction( stateObject.atmosphereLayer, stateObject.sourceWave, stateObject.emittedWave );
+    return new WaveAtmosphereInteraction(
+      ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) );
   }
 
   // @public
