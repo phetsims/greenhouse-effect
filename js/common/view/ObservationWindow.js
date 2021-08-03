@@ -135,17 +135,34 @@ class ObservationWindow extends Node {
       bottom: SIZE.height
     } );
 
+    // glow in the sky that happens when the temperature gets high
+    const glowInTheSkyNode = new Rectangle(
+      0,
+      0,
+      SIZE.width,
+      -modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) * 0.1,
+      {
+        fill: new LinearGradient( 0, 0, 0, groundRectHeight )
+          .addColorStop( 0, 'rgba( 255, 0, 0, 0 )' )
+          .addColorStop( 1, Color.RED ),
+        bottom: surfaceTemperatureNode.top
+      }
+    );
+
     // TODO: We need to get the surface temperature visibility property sorted out.  As of this writing, it's only in
     //       the Waves model, but should probably be in the Photons model too.
     if ( model.surfaceTemperatureVisibleProperty ) {
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
+      model.surfaceTemperatureVisibleProperty.linkAttribute( glowInTheSkyNode, 'visible' );
 
       model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
-        surfaceTemperatureNode.opacity = Utils.clamp(
+        const opacityOfTemperatureIndicationNodes = Utils.clamp(
           ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
           0,
           1
         );
+        surfaceTemperatureNode.opacity = opacityOfTemperatureIndicationNodes;
+        glowInTheSkyNode.opacity = opacityOfTemperatureIndicationNodes;
       } );
     }
     else {
@@ -302,6 +319,7 @@ class ObservationWindow extends Node {
     const backgroundNode = new Node( {
       children: [
         skyNode,
+        glowInTheSkyNode,
         groundNode,
         surfaceTemperatureNode,
         groundLayerNode,
