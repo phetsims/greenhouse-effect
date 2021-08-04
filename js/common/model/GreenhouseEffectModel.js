@@ -22,6 +22,7 @@ class GreenhouseEffectModel {
 
     // @public {NumberProperty} - playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+      validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
       tandem: tandem.createTandem( 'timeSpeedProperty' )
     } );
 
