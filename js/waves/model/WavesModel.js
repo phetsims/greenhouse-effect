@@ -28,6 +28,7 @@ import GroundWaveSource from '../../common/model/GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import SunWaveSource from '../../common/model/SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
 
 // constants
@@ -83,7 +84,8 @@ class WavesModel extends ConcentrationModel {
       this.waves,
       this.sunEnergySource.isShiningProperty,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      0
+      0,
+      { tandem: tandem.createTandem( 'sunWaveSource' ) }
     );
 
     // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
@@ -91,7 +93,8 @@ class WavesModel extends ConcentrationModel {
       this.waves,
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      this.surfaceTemperatureKelvinProperty
+      this.surfaceTemperatureKelvinProperty,
+      { tandem: tandem.createTandem( 'groundWaveSource' ) }
     );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
@@ -385,12 +388,11 @@ class WavesModel extends ConcentrationModel {
     return {
       waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).toStateObject(
         this.waveAtmosphereInteractions
-      )
+      ),
+      sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
+      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource )
     };
   }
-
-  // @public
-  static fromStateObject() {}
 
   /**
    * for phet-io
@@ -398,6 +400,8 @@ class WavesModel extends ConcentrationModel {
    */
   applyState( stateObject ) {
     this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
+    this.sunWaveSource.applyState( stateObject.sunWaveSource );
+    this.groundWaveSource.applyState( stateObject.groundWaveSource );
   }
 }
 

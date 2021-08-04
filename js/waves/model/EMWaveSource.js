@@ -9,9 +9,17 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import MapIO from '../../../../tandem/js/types/MapIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Wave from './Wave.js';
 
-class EMWaveSource {
+class EMWaveSource extends PhetioObject {
 
   /**
    * @param {PhetioGroup.<Wave>} waveGroup
@@ -41,8 +49,14 @@ class EMWaveSource {
       interWaveTime: 0.75,
 
       // {Range.<number>} - range of lifetimes for this wave, in seconds
-      waveLifetimeRange: new Range( 10, 15 )
+      waveLifetimeRange: new Range( 10, 15 ),
+
+      tandem: Tandem.REQUIRED,
+      phetioType: EMWaveSource.EMWaveSourceIO
+
     }, options );
+
+    super( options );
 
     // @public (read-only) {number} - altitude from which waves originate
     this.waveStartAltitude = waveStartAltitude;
@@ -178,6 +192,28 @@ class EMWaveSource {
     this.wavesToLifetimesMap.clear();
     this.waveCreationQueue.length = 0;
   }
+
+  // @public
+  toStateObject() {
+    return {
+      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).toStateObject( this.wavesToLifetimesMap ),
+      waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).toStateObject( this.waveCreationQueue )
+    };
+  }
+
+  // @public
+  applyState( stateObject ) {
+    this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject( stateObject.wavesToLifetimesMap );
+    this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject( stateObject.waveCreationQueue );
+  }
+
+  // public
+  static get STATE_SCHEMA() {
+    return {
+      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
+      waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
+    };
+  }
 }
 
 /**
@@ -190,7 +226,35 @@ class WaveCreationSpec {
     this.directionOfTravel = directionOfTravel;
     this.originX = originX;
   }
+
+  // @public
+  toStateObject() {
+    return {
+      countdown: NumberIO.toStateObject( this.countdown ),
+      directionOfTravel: Vector2.Vector2IO.toStateObject( this.directionOfTravel ),
+      originX: NumberIO.toStateObject( this.originX )
+    };
+  }
+
+  // @public
+  static fromStateObject( stateObject ) {
+    return new WaveCreationSpec(
+      NumberIO.fromStateObject( stateObject.countdown ),
+      Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel ),
+      NumberIO.fromStateObject( stateObject.originX ) );
+  }
+
+  // @public
+  static get STATE_SCHEMA() {
+    return {
+      countdown: NumberIO,
+      directionOfTravel: Vector2.Vector2IO,
+      originX: NumberIO
+    };
+  }
 }
+
+WaveCreationSpec.WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
 
 /**
  * A simple class that specifies a minimum and maximum X value for where waves will be produced and a direction of
@@ -205,6 +269,20 @@ class WaveSourceSpec {
     this.directionOfTravel = directionOfTravel;
   }
 }
+
+/**
+ * @public
+ * EMWaveSourceIO handles PhET-iO serialization of the EMWaveSource. Because serialization involves accessing private
+ * members, it delegates to EMWaveSource. The methods that EMWaveSourceIO overrides are typical of 'Dynamic element
+ * serialization', as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+EMWaveSource.EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource, {
+  stateSchema: {
+    wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
+    waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
+  }
+} );
 
 // statics
 EMWaveSource.WaveSourceSpec = WaveSourceSpec;
