@@ -98,6 +98,7 @@ class LayersModel extends GreenhouseEffectModel {
     // @public {NumberProperty} - number of clouds that are active and thus reflecting light
     this.numberOfActiveCloudsProperty = new NumberProperty( 0, {
       range: new Range( 0, options.numberOfClouds ),
+      numberType: 'Integer',
       tandem: tandem.createTandem( 'numberOfActiveCloudsProperty' )
     } );
 
