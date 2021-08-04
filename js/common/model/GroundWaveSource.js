@@ -63,7 +63,7 @@ class GroundWaveSource extends EMWaveSource {
         new EMWaveSource.WaveSourceSpec(
           -LayersModel.SUNLIGHT_SPAN * 0.32,
           -LayersModel.SUNLIGHT_SPAN * 0.27,
-          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
+          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.08 )
         ),
 
         // center-ish waves
