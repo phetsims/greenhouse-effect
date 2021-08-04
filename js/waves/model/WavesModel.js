@@ -11,7 +11,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -104,13 +103,22 @@ class WavesModel extends ConcentrationModel {
     // the x coordinate within which IR waves should interact with that layer.
     this.atmosphereLayerToXRangeMap = new Map(
       [
+        // leftmost interaction area
         [
-          this.atmosphereLayers[ Utils.roundSymmetric( LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS / 2 ) ],
+          this.atmosphereLayers[ 4 ],
+          new Range( -LayersModel.SUNLIGHT_SPAN / 2, -LayersModel.SUNLIGHT_SPAN / 4 )
+        ],
+
+        // central interaction area
+        [
+          this.atmosphereLayers[ 6 ],
           new Range( -LayersModel.SUNLIGHT_SPAN / 4, LayersModel.SUNLIGHT_SPAN / 4 )
         ],
+
+        // rightmost interaction area
         [
-          this.atmosphereLayers[ Utils.roundSymmetric( LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS / 3 ) ],
-          new Range( -LayersModel.SUNLIGHT_SPAN / 2, -LayersModel.SUNLIGHT_SPAN / 4 )
+          this.atmosphereLayers[ 3 ],
+          new Range( LayersModel.SUNLIGHT_SPAN * 0.25, LayersModel.SUNLIGHT_SPAN )
         ]
       ]
     );
@@ -335,7 +343,7 @@ class WavesModel extends ConcentrationModel {
               const waveFromAtmosphericInteraction = this.waves.createNextElement(
                 waveFromTheGround.wavelength,
                 intersection[ 0 ].point,
-                GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR,
+                new Vector2( waveFromTheGround.directionOfTravel.x, -waveFromTheGround.directionOfTravel.y ),
                 0,
                 {
                   // The emitted wave's intensity is a proportion of the wave that causes the interaction.
