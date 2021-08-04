@@ -23,8 +23,7 @@
       "adapted-from-phet"
     ],
     "simFeatures": {
-      "supportsSound": true,
-      "supportsInteractiveDescription": true
+      "supportsSound": true
     }
   },
   "eslintConfig": {
