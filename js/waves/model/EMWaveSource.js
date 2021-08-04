@@ -239,9 +239,10 @@ class WaveCreationSpec {
   // @public
   static fromStateObject( stateObject ) {
     return new WaveCreationSpec(
-      NumberIO.fromStateObject( stateObject.countdown ),
+      NumberIO.fromStateObject( stateObject.originX ),
       Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel ),
-      NumberIO.fromStateObject( stateObject.originX ) );
+      NumberIO.fromStateObject( stateObject.countdown )
+    );
   }
 
   // @public
