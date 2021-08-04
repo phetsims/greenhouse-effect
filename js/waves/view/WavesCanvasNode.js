@@ -63,7 +63,7 @@ class WavesCanvasNode extends CanvasNode {
 
   // @public
   paintCanvas( context ) {
-    this.model.waves.forEach( wave => this.drawWave( context, wave ) );
+    this.model.waveGroup.forEach( wave => this.drawWave( context, wave ) );
   }
 
   // @public

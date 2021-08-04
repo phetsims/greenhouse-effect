@@ -20,19 +20,19 @@ class EMEnergyPacket {
    */
   constructor( wavelength, energy, initialAltitude, initialTravelDirection ) {
 
-    // @public (read-only)
+    // @public (read-only) {number}
     this.wavelength = wavelength;
 
-    // @public
+    // @public {number}
     this.energy = energy;
 
-    // @public (read-only) - altitude in model space
+    // @public (read-only) {number} - altitude in meters
     this.altitude = initialAltitude;
 
-    // @public (read-only) - the altitude at the previous step
+    // @public (read-only) {number} - the altitude at the previous step, in meters
     this.previousAltitude = initialAltitude;
 
-    // @public - the direction in which this energy packet is moving
+    // @public (read-only) {EnergyDirection} - the direction in which this energy packet is moving
     this.directionOfTravel = initialTravelDirection;
   }
 

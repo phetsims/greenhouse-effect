@@ -56,8 +56,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @public (read-only) {Wave[]} - the waves that are currently active in the model
-    // TODO: Rename this.waves to this.waveGroup
-    this.waves = new PhetioGroup( ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
+    this.waveGroup = new PhetioGroup( ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
       options = merge( {
         tandem: tandem
       }, options );
@@ -80,7 +79,7 @@ class WavesModel extends ConcentrationModel {
 
     // @private - the source of the waves of visible light that come from the sun
     this.sunWaveSource = new SunWaveSource(
-      this.waves,
+      this.waveGroup,
       this.sunEnergySource.isShiningProperty,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
       0,
@@ -89,7 +88,7 @@ class WavesModel extends ConcentrationModel {
 
     // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
     this.groundWaveSource = new GroundWaveSource(
-      this.waves,
+      this.waveGroup,
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
       this.surfaceTemperatureKelvinProperty,
@@ -155,13 +154,13 @@ class WavesModel extends ConcentrationModel {
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
     this.groundWaveSource.step( dt );
-    this.waves.forEach( wave => wave.step( dt ) );
+    this.waveGroup.forEach( wave => wave.step( dt ) );
     this.updateWaveCloudInteractions();
     this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
-    this.waves.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
-      this.waves.disposeElement( wave );
+    this.waveGroup.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
+      this.waveGroup.disposeElement( wave );
     } );
   }
 
@@ -189,7 +188,7 @@ class WavesModel extends ConcentrationModel {
     if ( cloud.enabledProperty.value ) {
 
       // Make a list of waves that originated from the sun and pass through the cloud.
-      const wavesCrossingTheCloud = this.waves.filter( wave =>
+      const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
@@ -207,7 +206,7 @@ class WavesModel extends ConcentrationModel {
           const direction = incidentWave.origin.x > cloud.position.x ?
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.2 ) :
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.2 );
-          const reflectedWave = this.waves.createNextElement(
+          const reflectedWave = this.waveGroup.createNextElement(
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
@@ -238,7 +237,7 @@ class WavesModel extends ConcentrationModel {
 
       // The cloud is not enabled, so if there are any waves that were being attenuated because of the cloud, stop that
       // from happening.
-      this.waves.forEach( wave => {
+      this.waveGroup.forEach( wave => {
         if ( wave.hasAttenuator( cloud ) ) {
           wave.removeAttenuator( cloud );
         }
@@ -292,7 +291,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Make a list of all IR waves that are currently emanating from the ground.
-    const wavesFromTheGround = this.waves.filter( wave =>
+    const wavesFromTheGround = this.waveGroup.filter( wave =>
       wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
       wave.origin.y === 0
     );
@@ -340,7 +339,7 @@ class WavesModel extends ConcentrationModel {
                                                      waveFromTheGround.directionOfTravel.y;
 
               // Create the new emitted wave.
-              const waveFromAtmosphericInteraction = this.waves.createNextElement(
+              const waveFromAtmosphericInteraction = this.waveGroup.createNextElement(
                 waveFromTheGround.wavelength,
                 intersection[ 0 ].point,
                 new Vector2( waveFromTheGround.directionOfTravel.x, -waveFromTheGround.directionOfTravel.y ),
@@ -380,7 +379,7 @@ class WavesModel extends ConcentrationModel {
    */
   reset() {
     super.reset();
-    this.waves.clear();
+    this.waveGroup.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
     this.sunWaveSource.reset();
