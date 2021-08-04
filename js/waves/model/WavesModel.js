@@ -56,21 +56,23 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @public (read-only) {Wave[]} - the waves that are currently active in the model
-    this.waveGroup = new PhetioGroup( ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
-      options = merge( {
-        tandem: tandem
-      }, options );
-      return new Wave( wavelength, origin, directionOfTravel, propagationLimit, options );
-    }, [
-      GreenhouseEffectConstants.INFRARED_WAVELENGTH,
-      Vector2.ZERO,
-      GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR,
-      LayersModel.HEIGHT_OF_ATMOSPHERE,
-      {}
-    ], {
-      tandem: tandem.createTandem( 'waveGroup' ),
-      phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
-    } );
+    this.waveGroup = new PhetioGroup(
+      ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
+        options = merge( { tandem: tandem }, options );
+        return new Wave( wavelength, origin, directionOfTravel, propagationLimit, options );
+      },
+      [
+        GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+        Vector2.ZERO,
+        GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR,
+        LayersModel.HEIGHT_OF_ATMOSPHERE,
+        {}
+      ],
+      {
+        tandem: tandem.createTandem( 'waveGroup' ),
+        phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
+      }
+    );
 
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
