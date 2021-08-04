@@ -40,6 +40,10 @@ class GreenhouseEffectScreenView extends ScreenView {
       tandem: Tandem.REQUIRED
     }, options );
 
+    if ( options.energyLegendOptions ) {
+      assert && assert( !options.energyLegendOptions.tandem, 'EnergyLegend Tandem is set by GreenhouseEffectScreenView' );
+    }
+
     super( options );
 
     // @private {GreenhouseEffectModel}
@@ -58,7 +62,9 @@ class GreenhouseEffectScreenView extends ScreenView {
                        this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
 
     // @protected {EnergyLegend} - for layout in subtypes
-    this.energyLegend = new EnergyLegend( rightWidth, options.energyLegendOptions );
+    this.energyLegend = new EnergyLegend( rightWidth, merge( {
+      tandem: options.tandem.createTandem( 'energyLegend' )
+    }, options.energyLegendOptions ) );
 
     // add these nodes to the play area
     this.addChild( this.energyLegend );

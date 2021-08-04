@@ -16,6 +16,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import photon660Image from '../../../images/photon-660_png.js';
 import thin2Image from '../../../images/thin2_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -59,7 +60,21 @@ class EnergyLegend extends Panel {
     options = merge( {
 
       // {EnergyRepresentation} the energy icons will either display a photon or wave, depending on this option
-      energyRepresentation: EnergyRepresentation.PHOTON
+      energyRepresentation: EnergyRepresentation.PHOTON,
+
+      // Panel options
+      fill: 'black',
+      xMargin: PANEL_X_MARGIN,
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: greenhouseEffectStrings.a11y.energyLegend.title,
+      descriptionTagName: 'p',
+      descriptionContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, options );
 
     // title
@@ -135,17 +150,7 @@ class EnergyLegend extends Panel {
       tagName: 'ul'
     } );
 
-    super( content, {
-      fill: 'black',
-      xMargin: PANEL_X_MARGIN,
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.energyLegend.title,
-      descriptionTagName: 'p',
-      descriptionContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow
-    } );
+    super( content, options );
   }
 }
 
