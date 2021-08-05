@@ -39,13 +39,18 @@ class SpaceEnergySink {
   interactWithEnergy( emEnergyPacketGroup, dt ) {
 
     let energyEmittedIntoSpace = 0;
+    const packetsToDispose = [];
 
     emEnergyPacketGroup.forEach( energyPacket => {
 
       if ( energyPacket.altitude >= this.altitude && energyPacket.directionOfTravel === EnergyDirection.UP ) {
         energyEmittedIntoSpace += energyPacket.energy;
-        emEnergyPacketGroup.disposeElement( energyPacket );
+        packetsToDispose.push( energyPacket );
       }
+    } );
+
+    packetsToDispose.forEach( energyPacket => {
+      emEnergyPacketGroup.disposeElement( energyPacket );
     } );
 
     // Track the incoming energy rate.

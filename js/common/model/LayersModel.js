@@ -53,6 +53,33 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( tandem, options );
 
+    // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
+    this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
+      range: new Range( 0, 500 ),
+      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' )
+    } );
+
+    // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
+    this.surfaceTemperatureCelsiusProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToCelsius );
+
+    // @public {DerivedProperty.<number> - the temperature, but in
+    this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
+
+    // @public {EnumerationProperty} - displayed units of temperature
+    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
+      tandem: tandem.createTandem( 'temperatureUnitsProperty' )
+    } );
+
+    // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
+    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
+    } );
+
+    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
+    this.energyBalanceVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
+    } );
+
     // @public (read-only) {PhetioGroup.<EMEnergyPacket>} - packets of electromagnetic energy that are moving around in
     // the model
     this.emEnergyPacketGroup = new PhetioGroup(
@@ -86,21 +113,6 @@ class LayersModel extends GreenhouseEffectModel {
     // @public {Cloud[]} - array of clouds that can be individually turned on or off
     this.clouds = [];
 
-    // @public {EnumerationProperty} - displayed units of temperature
-    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
-      tandem: tandem.createTandem( 'temperatureUnitsProperty' )
-    } );
-
-    // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
-    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
-    } );
-
-    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
-    this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
-    } );
-
     // Create the energy absorbing and emitting layers that model the atmosphere.
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
@@ -128,18 +140,6 @@ class LayersModel extends GreenhouseEffectModel {
       numberType: 'Integer',
       tandem: tandem.createTandem( 'numberOfActiveCloudsProperty' )
     } );
-
-    // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
-    this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
-      range: new Range( 0, 500 ),
-      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' )
-    } );
-
-    // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
-    this.surfaceTemperatureCelsiusProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToCelsius );
-
-    // @public {DerivedProperty.<number> - the temperature, but in
-    this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
 
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers, tandem.createTandem( 'outerSpace' ) );

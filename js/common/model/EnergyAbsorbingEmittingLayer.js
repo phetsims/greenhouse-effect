@@ -101,6 +101,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   interactWithEnergy( emEnergyPacketGroup, dt ) {
 
     let absorbedEnergy = 0;
+    const fullyAbsorbedEnergyPackets = [];
 
     emEnergyPacketGroup.forEach( energyPacket => {
       if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
@@ -113,7 +114,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
           // The ground fully absorbs all energy that comes into it.
           absorbedEnergy += energyPacket.energy;
-          emEnergyPacketGroup.disposeElement( energyPacket );
+          fullyAbsorbedEnergyPackets.push( energyPacket );
         }
         else {
 
@@ -125,6 +126,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
           }
         }
       }
+    } );
+
+    // Dispose all the fully absorbed energy packets.
+    fullyAbsorbedEnergyPackets.forEach( emEnergyPacket => {
+      emEnergyPacketGroup.disposeElement( emEnergyPacket );
     } );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
