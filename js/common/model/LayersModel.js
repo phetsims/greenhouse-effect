@@ -16,11 +16,14 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import Cloud from './Cloud.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import EnergyDirection from './EnergyDirection.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
@@ -50,17 +53,38 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( tandem, options );
 
+    // @public (read-only) {PhetioGroup.<EMEnergyPacket>} - packets of electromagnetic energy that are moving around in
+    // the model
+    this.emEnergyPacketGroup = new PhetioGroup(
+      ( tandem, wavelength, energy, initialAltitude, directionOfTravel, options ) => {
+        options = merge( { tandem: tandem }, options );
+        return new EMEnergyPacket( wavelength, energy, initialAltitude, directionOfTravel, options );
+      },
+      [
+        GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+        0,
+        LayersModel.HEIGHT_OF_ATMOSPHERE,
+        EnergyDirection.DOWN,
+        {}
+      ],
+      {
+        tandem: tandem.createTandem( 'emEnergyPacketGroup' ),
+        phetioType: PhetioGroup.PhetioGroupIO( EMEnergyPacket.EMEnergyPacketIO )
+      }
+    );
+
     // @private - main energy source coming into the system
-    this.sunEnergySource = new SunEnergySource( EnergyAbsorbingEmittingLayer.SURFACE_AREA, tandem.createTandem( 'sun' ) );
+    this.sunEnergySource = new SunEnergySource(
+      EnergyAbsorbingEmittingLayer.SURFACE_AREA,
+      this.emEnergyPacketGroup,
+      tandem.createTandem( 'sun' )
+    );
 
     // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy-absorbing-and-emitting layers for the atmosphere
     this.atmosphereLayers = [];
 
     // @public {Cloud[]} - array of clouds that can be individually turned on or off
     this.clouds = [];
-
-    // @private {EMEnergyPacket[]} - electromagnetic energy that is moving within the model
-    this.emEnergyPackets = [];
 
     // @public {EnumerationProperty} - displayed units of temperature
     this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
@@ -81,10 +105,13 @@ class LayersModel extends GreenhouseEffectModel {
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
     _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
-      const atmosphereLayer = new EnergyAbsorbingEmittingLayer( distanceBetweenLayers * ( index + 1 ), {
-        minimumTemperature: 0,
-        tandem: atmosphereLayersTandem.createTandem( `layer${index}` )
-      } );
+      const atmosphereLayer = new EnergyAbsorbingEmittingLayer(
+        distanceBetweenLayers * ( index + 1 ),
+        {
+          minimumTemperature: 0,
+          tandem: atmosphereLayersTandem.createTandem( `layer${index}` )
+        }
+      );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
@@ -178,23 +205,20 @@ class LayersModel extends GreenhouseEffectModel {
       while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
         // Add the energy produced by the sun to the system.
-        const energyFromSun = this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
-        if ( energyFromSun ) {
-          this.emEnergyPackets.push( energyFromSun );
-        }
+        this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
 
         // Step the energy packets, which causes them to move.
-        this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
+        this.emEnergyPacketGroup.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
 
         // Check for interaction between the energy packets and ground, the atmosphere, clouds, and space.
-        this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+        this.groundLayer.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
         this.atmosphereLayers.forEach( atmosphereLayer => {
-          atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+          atmosphereLayer.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
         } );
         this.clouds.forEach( cloud => {
-          cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+          cloud.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
         } );
-        this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+        this.outerSpace.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
 
         // Adjust remaining time for stepping the model.
         this.modelSteppingTime -= MODEL_TIME_STEP;
@@ -217,7 +241,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.groundLayer.reset();
     this.numberOfActiveCloudsProperty.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
-    this.emEnergyPackets = [];
+    this.emEnergyPacketGroup.clear();
   }
 }
 

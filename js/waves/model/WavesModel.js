@@ -55,7 +55,7 @@ class WavesModel extends ConcentrationModel {
       phetioState: true
     } );
 
-    // @public (read-only) {Wave[]} - the waves that are currently active in the model
+    // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
         options = merge( { tandem: tandem }, options );

@@ -15,7 +15,6 @@ import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
@@ -95,17 +94,18 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
-   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPacketGroup, dt ) {
 
     let absorbedEnergy = 0;
 
-    emEnergyPackets.forEach( energyPacket => {
+    emEnergyPacketGroup.forEach( energyPacket => {
       if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
            ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude ) ) {
+
 
         // Should this energy packet be fully or partially absorbed?
         // TODO: The ground is handled quirkily here, it should probably be separate out at some point.
@@ -113,7 +113,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
           // The ground fully absorbs all energy that comes into it.
           absorbedEnergy += energyPacket.energy;
-          energyPacket.energy = 0;
+          emEnergyPacketGroup.disposeElement( energyPacket );
         }
         else {
 
@@ -126,9 +126,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         }
       }
     } );
-
-    // Remove any energy packets that were fully absorbed.
-    _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
@@ -172,20 +169,20 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
       if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
-        emEnergyPackets.push( new EMEnergyPacket(
+        emEnergyPacketGroup.createNextElement(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
           EnergyDirection.DOWN
-        ) );
+        );
       }
       if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
-        emEnergyPackets.push( new EMEnergyPacket(
+        emEnergyPacketGroup.createNextElement(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
           EnergyDirection.UP
-        ) );
+        );
       }
     }
   }
