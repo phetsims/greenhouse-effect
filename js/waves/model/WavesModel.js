@@ -13,8 +13,13 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
+import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
@@ -22,6 +27,7 @@ import GroundWaveSource from '../../common/model/GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import SunWaveSource from '../../common/model/SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
 
 // constants
@@ -41,10 +47,32 @@ class WavesModel extends ConcentrationModel {
    * @param {Tandem} tandem
    */
   constructor( tandem ) {
-    super( tandem, { numberOfClouds: 1 } );
+    super( tandem, {
+      numberOfClouds: 1,
 
-    // @public (read-only) {Wave[]} - the waves that are currently active in the model
-    this.waves = [];
+      // phet-io
+      phetioType: WavesModel.WavesModelIO,
+      phetioState: true
+    } );
+
+    // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
+    this.waveGroup = new PhetioGroup(
+      ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
+        options = merge( { tandem: tandem }, options );
+        return new Wave( wavelength, origin, directionOfTravel, propagationLimit, options );
+      },
+      [
+        GreenhouseEffectConstants.INFRARED_WAVELENGTH,
+        Vector2.ZERO,
+        GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR,
+        LayersModel.HEIGHT_OF_ATMOSPHERE,
+        {}
+      ],
+      {
+        tandem: tandem.createTandem( 'waveGroup' ),
+        phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
+      }
+    );
 
     // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
@@ -53,18 +81,20 @@ class WavesModel extends ConcentrationModel {
 
     // @private - the source of the waves of visible light that come from the sun
     this.sunWaveSource = new SunWaveSource(
-      this.waves,
+      this.waveGroup,
       this.sunEnergySource.isShiningProperty,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      0
+      0,
+      { tandem: tandem.createTandem( 'sunWaveSource' ) }
     );
 
     // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
     this.groundWaveSource = new GroundWaveSource(
-      this.waves,
+      this.waveGroup,
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
-      this.surfaceTemperatureKelvinProperty
+      this.surfaceTemperatureKelvinProperty,
+      { tandem: tandem.createTandem( 'groundWaveSource' ) }
     );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
@@ -126,12 +156,14 @@ class WavesModel extends ConcentrationModel {
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
     this.groundWaveSource.step( dt );
-    this.waves.forEach( wave => wave.step( dt ) );
+    this.waveGroup.forEach( wave => wave.step( dt ) );
     this.updateWaveCloudInteractions();
     this.updateWaveAtmosphereInteractions();
 
     // Remove any waves that have finished propagating.
-    _.remove( this.waves, wave => wave.isCompletelyPropagated );
+    this.waveGroup.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
+      this.waveGroup.disposeElement( wave );
+    } );
   }
 
   /**
@@ -158,7 +190,7 @@ class WavesModel extends ConcentrationModel {
     if ( cloud.enabledProperty.value ) {
 
       // Make a list of waves that originated from the sun and pass through the cloud.
-      const wavesCrossingTheCloud = this.waves.filter( wave =>
+      const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
@@ -176,7 +208,7 @@ class WavesModel extends ConcentrationModel {
           const direction = incidentWave.origin.x > cloud.position.x ?
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.2 ) :
                             GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.2 );
-          const reflectedWave = new Wave(
+          const reflectedWave = this.waveGroup.createNextElement(
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
             direction,
@@ -185,10 +217,7 @@ class WavesModel extends ConcentrationModel {
               intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ),
               initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
                                   ( 2 * Math.PI )
-
-            }
-          );
-          this.waves.push( reflectedWave );
+            } );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
 
           // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
@@ -210,7 +239,7 @@ class WavesModel extends ConcentrationModel {
 
       // The cloud is not enabled, so if there are any waves that were being attenuated because of the cloud, stop that
       // from happening.
-      this.waves.forEach( wave => {
+      this.waveGroup.forEach( wave => {
         if ( wave.hasAttenuator( cloud ) ) {
           wave.removeAttenuator( cloud );
         }
@@ -264,7 +293,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Make a list of all IR waves that are currently emanating from the ground.
-    const wavesFromTheGround = this.waves.filter( wave =>
+    const wavesFromTheGround = this.waveGroup.filter( wave =>
       wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
       wave.origin.y === 0
     );
@@ -312,7 +341,7 @@ class WavesModel extends ConcentrationModel {
                                                      waveFromTheGround.directionOfTravel.y;
 
               // Create the new emitted wave.
-              const waveFromAtmosphericInteraction = new Wave(
+              const waveFromAtmosphericInteraction = this.waveGroup.createNextElement(
                 waveFromTheGround.wavelength,
                 intersection[ 0 ].point,
                 new Vector2( waveFromTheGround.directionOfTravel.x, -waveFromTheGround.directionOfTravel.y ),
@@ -326,7 +355,6 @@ class WavesModel extends ConcentrationModel {
                                       ( 2 * Math.PI )
                 }
               );
-              this.waves.push( waveFromAtmosphericInteraction );
 
               // Add an attenuator on the source wave.
               waveFromTheGround.addAttenuator(
@@ -353,11 +381,36 @@ class WavesModel extends ConcentrationModel {
    */
   reset() {
     super.reset();
-    this.waves.length = 0;
+    this.waveGroup.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
+    this.waveAtmosphereInteractions.length = 0;
+  }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  toStateObject() {
+    return {
+      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).toStateObject(
+        this.waveAtmosphereInteractions
+      ),
+      sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
+      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource )
+    };
+  }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  applyState( stateObject ) {
+    this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
+    this.sunWaveSource.applyState( stateObject.sunWaveSource );
+    this.groundWaveSource.applyState( stateObject.groundWaveSource );
   }
 }
 
@@ -383,7 +436,51 @@ class WaveAtmosphereInteraction {
     this.sourceWave = sourceWave;
     this.emittedWave = emittedWave;
   }
+
+  // @public
+  toStateObject() {
+    return {
+      atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
+      sourceWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.sourceWave ),
+      emittedWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.emittedWave )
+    };
+  }
+
+  // @public
+  static fromStateObject( stateObject ) {
+    return new WaveAtmosphereInteraction(
+      ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) );
+  }
+
+  // @public
+  static get STATE_SCHEMA() {
+    return {
+      atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
+      sourceWave: ReferenceIO( Wave.WaveIO ),
+      emittedWave: ReferenceIO( Wave.WaveIO )
+    };
+  }
 }
+
+WaveAtmosphereInteraction.WaveAtmosphereInteractionIO = IOType.fromCoreType(
+  'WaveAtmosphereInteractionIO',
+  WaveAtmosphereInteraction
+);
+
+/**
+ * @public
+ * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
+ * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
+ * serialization', as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+WavesModel.WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel, {
+  stateSchema: {
+    waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO )
+  }
+} );
 
 // statics
 WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;

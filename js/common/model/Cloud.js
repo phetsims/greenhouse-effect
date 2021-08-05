@@ -11,9 +11,11 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Shape from '../../../../kite/js/Shape.js';
+import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
@@ -22,14 +24,22 @@ const CLOUD_SUBSTANCE_REFLECTIVITY = new Map( [
   [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 0 ]
 ] );
 
-class Cloud {
+class Cloud extends PhetioObject {
 
   /**
    * @param {Vector2} position
    * @param {number} width - in meters
    * @param {number} height - in meters
+   * @param {Object} [options]
    */
-  constructor( position, width, height ) {
+  constructor( position, width, height, options ) {
+
+    options = merge( {
+      phetioState: false,
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    super( options );
 
     // parameter checking
     assert && assert( width <= GreenhouseEffectConstants.SUNLIGHT_SPAN, 'cloud can\'t exceed the sunlight span' );
@@ -66,13 +76,13 @@ class Cloud {
 
   /**
    * Interact with the provided energy.  Energy may be partially reflected.
-   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPacketGroup, dt ) {
 
-    emEnergyPackets.forEach( energyPacket => {
+    emEnergyPacketGroup.forEach( energyPacket => {
 
       // convenience variable
       const altitude = this.position.y;
@@ -93,13 +103,12 @@ class Cloud {
           energyPacket.energy = energyPacket.energy - reflectedEnergy;
 
           // Create a new packet of the same type with the reflected energy, heading in the opposite direction.
-          const reflectedEnergyPacket = new EMEnergyPacket(
+          emEnergyPacketGroup.createNextElement(
             energyPacket.wavelength,
             reflectedEnergy,
             altitude + ( altitude - energyPacket.altitude ),
             energyPacket.directionOfTravel === EnergyDirection.UP ? EnergyDirection.DOWN : EnergyDirection.UP
           );
-          emEnergyPackets.push( reflectedEnergyPacket );
         }
       }
     } );

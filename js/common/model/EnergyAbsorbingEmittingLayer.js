@@ -11,10 +11,10 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
@@ -40,7 +40,7 @@ const LAYER_THICKNESS = 0.0000003;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
-class EnergyAbsorbingEmittingLayer {
+class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * @param {number} altitude
@@ -62,9 +62,12 @@ class EnergyAbsorbingEmittingLayer {
       minimumTemperature: 0,
 
       // phet-io
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.REQUIRED,
+      phetioState: false
 
     }, options );
+
+    super( options );
 
     // @public (read-only) - altitude in meters where this layer resides
     this.altitude = altitude;
@@ -91,17 +94,18 @@ class EnergyAbsorbingEmittingLayer {
 
   /**
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
-   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPacketGroup, dt ) {
 
     let absorbedEnergy = 0;
 
-    emEnergyPackets.forEach( energyPacket => {
+    emEnergyPacketGroup.forEach( energyPacket => {
       if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
            ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude ) ) {
+
 
         // Should this energy packet be fully or partially absorbed?
         // TODO: The ground is handled quirkily here, it should probably be separate out at some point.
@@ -109,7 +113,7 @@ class EnergyAbsorbingEmittingLayer {
 
           // The ground fully absorbs all energy that comes into it.
           absorbedEnergy += energyPacket.energy;
-          energyPacket.energy = 0;
+          emEnergyPacketGroup.disposeElement( energyPacket );
         }
         else {
 
@@ -122,9 +126,6 @@ class EnergyAbsorbingEmittingLayer {
         }
       }
     } );
-
-    // Remove any energy packets that were fully absorbed.
-    _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.
     const temperatureChangeDueToIncomingEnergy = absorbedEnergy / ( this.mass * this.specificHeatCapacity );
@@ -168,20 +169,20 @@ class EnergyAbsorbingEmittingLayer {
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
       if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
-        emEnergyPackets.push( new EMEnergyPacket(
+        emEnergyPacketGroup.createNextElement(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
           EnergyDirection.DOWN
-        ) );
+        );
       }
       if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
-        emEnergyPackets.push( new EMEnergyPacket(
+        emEnergyPacketGroup.createNextElement(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
           EnergyDirection.UP
-        ) );
+        );
       }
     }
   }

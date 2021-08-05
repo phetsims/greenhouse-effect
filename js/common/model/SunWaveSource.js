@@ -5,6 +5,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource from '../../waves/model/EMWaveSource.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -12,7 +13,22 @@ import LayersModel from './LayersModel.js';
 
 class SunWaveSource extends EMWaveSource {
 
-  constructor( wavesInModel, waveProductionEnabledProperty, waveStartAltitude, waveEndAltitude ) {
+  /**
+   * TODO: docs
+   * @param wavesInModel
+   * @param waveProductionEnabledProperty
+   * @param waveStartAltitude
+   * @param waveEndAltitude
+   * @param options
+   */
+  constructor( wavesInModel, waveProductionEnabledProperty, waveStartAltitude, waveEndAltitude, options ) {
+
+    options = merge( {
+
+      // The sun generally just shines with a fixed intensity.
+      waveIntensityProperty: new NumberProperty( 0.5 )
+    }, options );
+
     super(
       wavesInModel,
       waveProductionEnabledProperty,
@@ -35,7 +51,7 @@ class SunWaveSource extends EMWaveSource {
           GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
         )
       ],
-      { waveIntensityProperty: new NumberProperty( 0.5 ) }
+      options
     );
   }
 }

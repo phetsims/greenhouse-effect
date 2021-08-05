@@ -6,6 +6,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource from '../../waves/model/EMWaveSource.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -18,7 +19,15 @@ const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is e
 
 class GroundWaveSource extends EMWaveSource {
 
-  constructor( wavesInModel, waveStartAltitude, waveEndAltitude, groundTemperatureProperty ) {
+  /**
+   * TODO docs
+   * @param wavesInModel
+   * @param waveStartAltitude
+   * @param waveEndAltitude
+   * @param groundTemperatureProperty
+   * @param options
+   */
+  constructor( wavesInModel, waveStartAltitude, waveEndAltitude, groundTemperatureProperty, options ) {
 
     // derived Property that controls when IR waves can be produced
     const produceIRWavesProperty = new DerivedProperty(
@@ -38,6 +47,10 @@ class GroundWaveSource extends EMWaveSource {
       )
     );
 
+    options = merge( {
+      waveIntensityProperty: waveIntensityProperty
+    }, options );
+
     super(
       wavesInModel,
       produceIRWavesProperty,
@@ -50,7 +63,7 @@ class GroundWaveSource extends EMWaveSource {
         new EMWaveSource.WaveSourceSpec(
           -LayersModel.SUNLIGHT_SPAN * 0.32,
           -LayersModel.SUNLIGHT_SPAN * 0.27,
-          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.12 )
+          GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.08 )
         ),
 
         // center-ish waves
@@ -67,7 +80,7 @@ class GroundWaveSource extends EMWaveSource {
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.075 )
         )
       ],
-      { waveIntensityProperty: waveIntensityProperty }
+      options
     );
   }
 }

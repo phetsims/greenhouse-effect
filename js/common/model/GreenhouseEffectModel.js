@@ -9,16 +9,30 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-class GreenhouseEffectModel {
+class GreenhouseEffectModel extends PhetioObject {
 
   /**
    * @param {Tandem} tandem
    * @param options
    */
   constructor( tandem, options ) {
+
+    options = merge( {
+
+      // By default, this is not stateful.  But note that some subtypes such as WavesModel override this
+      // and specify a phetioType
+      phetioState: false
+    }, options );
+
+    assert && assert( !options.tandem, 'tandem should not be supplied via options' );
+    options.tandem = tandem;
+
+    super( options );
 
     // @public {NumberProperty} - playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {

@@ -50,7 +50,7 @@ const WINDOW_FRAME_SPACING = 10;
 
 // The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
 // determined and can be adjusted as needed to achieve the desired visual effect.
-const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 265, 291 );
+const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 
 class ObservationWindow extends Node {
 

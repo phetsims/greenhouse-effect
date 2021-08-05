@@ -11,7 +11,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
@@ -26,9 +25,10 @@ class SunEnergySource {
 
   /**
    * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
+   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
    * @param {Tandem} tandem
    */
-  constructor( surfaceAreaOfIncidentLight, tandem ) {
+  constructor( surfaceAreaOfIncidentLight, emEnergyPacketGroup, tandem ) {
 
     // @public - controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
@@ -42,27 +42,28 @@ class SunEnergySource {
 
     // @private {number}
     this.surfaceAreaOfIncidentLight = surfaceAreaOfIncidentLight;
+
+    // @private {PhetioGroup.<EMEnergyPacket>} - EM energy packet group where produced energy will be put.
+    this.emEnergyPacketGroup = emEnergyPacketGroup;
   }
 
   /**
-   * Produce an energy packet that represents the sun shining towards the earth for the specified amount of time.
+   * Produce an energy packet that represents the sun shining towards the earth for the specified amount of time and
+   * ass it to the group of energy packets.
    * @param {number} dt
-   * @returns {EMEnergyPacket|null}
    * @public
    */
   produceEnergy( dt ) {
-    let energyPacket = null;
     if ( this.isShiningProperty.value ) {
       const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
       this.outputEnergyRateTracker.addEnergyInfo( energyToProduce, dt );
-      energyPacket = new EMEnergyPacket(
+      this.emEnergyPacketGroup.createNextElement(
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
         energyToProduce,
         LayersModel.HEIGHT_OF_ATMOSPHERE,
         EnergyDirection.DOWN
       );
     }
-    return energyPacket;
   }
 
   /**
