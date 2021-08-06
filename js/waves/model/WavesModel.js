@@ -22,6 +22,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import GroundWaveSource from '../../common/model/GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
@@ -48,11 +49,21 @@ class WavesModel extends ConcentrationModel {
    */
   constructor( tandem ) {
     super( tandem, {
-      numberOfClouds: 1,
 
       // phet-io
       phetioType: WavesModel.WavesModelIO,
       phetioState: true
+    } );
+
+    // @public {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
+    this.cloudEnabledProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'cloudEnabledProperty' )
+    } );
+
+    // Update the enabled state of the cloud.
+    this.cloudEnabledProperty.lazyLink( cloudEnabled => {
+      assert && assert( this.clouds.length === 1 );
+      this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
     } );
 
     // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
@@ -99,6 +110,12 @@ class WavesModel extends ConcentrationModel {
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map();
+
+    // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
+    // and can be adjusted as needed.
+    this.clouds.push(
+      new Cloud( new Vector2( -16000, 20000 ), 18000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
+    );
 
     // @private {Map.<EnergyAbsorbingEmittingLayer,Range} - A Map containing atmospheric layers and ranges that define
     // the x coordinate within which IR waves should interact with that layer.
@@ -381,6 +398,7 @@ class WavesModel extends ConcentrationModel {
    */
   reset() {
     super.reset();
+    this.cloudEnabledProperty.reset();
     this.waveGroup.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();

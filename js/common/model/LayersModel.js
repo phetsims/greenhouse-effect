@@ -13,15 +13,12 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import merge from '../../../../phet-core/js/merge.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
@@ -45,11 +42,6 @@ class LayersModel extends GreenhouseEffectModel {
    * @param {Object} [options]
    */
   constructor( tandem, options ) {
-    options = merge( {
-
-      // {number} - the number of clouds that will be created during construction and can later be enabled
-      numberOfClouds: 0
-    }, options );
 
     super( tandem, options );
 
@@ -118,13 +110,6 @@ class LayersModel extends GreenhouseEffectModel {
       tandem: tandem.createTandem( 'groundLayer' )
     } );
 
-    // @public {NumberProperty} - number of clouds that are active and thus reflecting light
-    this.numberOfActiveCloudsProperty = new NumberProperty( 0, {
-      range: new Range( 0, options.numberOfClouds ),
-      numberType: 'Integer',
-      tandem: tandem.createTandem( 'numberOfActiveCloudsProperty' )
-    } );
-
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink(
       HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers,
@@ -134,46 +119,9 @@ class LayersModel extends GreenhouseEffectModel {
     // @private - used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
 
-    // Populate the array of clouds based on how many are specified.
-    if ( options.numberOfClouds > 0 ) {
-
-      assert && assert(
-        options.numberOfClouds === 1 || options.numberOfClouds === 3,
-        `no configuration exists for this number of clouds: ${options.numberOfClouds}`
-      );
-
-      if ( options.numberOfClouds === 1 ) {
-
-        // The position and size of the cloud were chosen to look good in the view and can be adjusted as needed.
-        this.clouds.push(
-          new Cloud( new Vector2( -16000, 20000 ), 18000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
-        );
-      }
-      else if ( options.numberOfClouds === 3 ) {
-
-        // The positions and sizes of the clouds were chosen to look good in the view and can be adjusted as needed.
-        this.clouds.push( new Cloud( new Vector2( -20000, 20000 ), 15000, 3500, {
-          tandem: tandem.createTandem( 'cloud1' )
-        } ) );
-        this.clouds.push( new Cloud( new Vector2( 5000, 32000 ), 12000, 2500, {
-          tandem: tandem.createTandem( 'cloud2' )
-        } ) );
-        this.clouds.push( new Cloud( new Vector2( 24000, 25000 ), 18000, 3000, {
-          tandem: tandem.createTandem( 'cloud3' )
-        } ) );
-      }
-    }
-
     // Connect up the surface temperature property to that of the ground layer model element.
     this.groundLayer.temperatureProperty.link( groundTemperature => {
       this.surfaceTemperatureKelvinProperty.set( groundTemperature );
-    } );
-
-    // Enable and disable clouds based on how many are currently active.
-    this.numberOfActiveCloudsProperty.link( numberOfActiveCloudsProperty => {
-      this.clouds.forEach( ( cloud, index ) => {
-        cloud.enabledProperty.set( numberOfActiveCloudsProperty > index );
-      } );
     } );
   }
 
@@ -227,7 +175,6 @@ class LayersModel extends GreenhouseEffectModel {
     this.temperatureUnitsProperty.reset();
     this.sunEnergySource.reset();
     this.groundLayer.reset();
-    this.numberOfActiveCloudsProperty.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
     this.emEnergyPackets.length = 0;
   }

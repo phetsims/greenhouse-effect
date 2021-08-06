@@ -37,7 +37,7 @@ class CloudNode extends Node {
 
     super( options );
 
-    const cloudPath = new Path( this.createBlobShape(
+    const cloudPath = new Path( this.createCloudShape(
       modelViewTransform.modelToViewPosition( cloud.position ),
       Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
       Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
@@ -77,7 +77,7 @@ class CloudNode extends Node {
    * @param {number} height
    * @returns {Shape}
    */
-  createBlobShape( position, width, height ) {
+  createCloudShape( position, width, height ) {
 
     const circleShapes = [];
     let drawnWidth = 0;

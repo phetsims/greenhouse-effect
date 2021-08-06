@@ -61,7 +61,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty, tandem.createTandem( 'surfaceThermometerCheckbox' ) );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
-    const cloudCheckbox = new CloudCheckbox( model.numberOfActiveCloudsProperty, tandem.createTandem( 'cloudCheckbox' ) );
+    const cloudCheckbox = new CloudCheckbox( model.cloudEnabledProperty, tandem.createTandem( 'cloudCheckbox' ) );
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
