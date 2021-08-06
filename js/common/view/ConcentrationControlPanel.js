@@ -184,7 +184,7 @@ class DateControl extends Node {
     super();
 
     // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
-    const twentyNineteenLabel = '2019';
+    const twentyTwentyLabel = '2020';
     const nineteenFiftyLabel = '1950';
     const seventeenFiftyLabel = '1750';
     const iceAgeLabel = greenhouseEffectStrings.concentrationPanel.iceAge;
@@ -192,9 +192,9 @@ class DateControl extends Node {
     // the radio buttons for the date control
     const items = [
       {
-        node: new Text( twentyNineteenLabel, LABEL_OPTIONS ),
-        value: ConcentrationModel.CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyNineteen,
+        node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
+        value: ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY,
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyNineteenRadioButton'
       },
       {

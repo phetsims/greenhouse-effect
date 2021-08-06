@@ -24,7 +24,7 @@ const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia ar
 const CONCENTRATION_CONTROL_MODE = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
 
 // dates with recorded values of greenhouse concentration
-const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWO_THOUSAND_NINETEEN' ] );
+const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
 
 // maps the date to the modelled concentration, map values are not based on realistic values and are only temporary
 // to get the UI components working
@@ -33,7 +33,7 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
   [ CONCENTRATION_DATE.ICE_AGE, 0.5 ],
   [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.7 ],
   [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.8 ],
-  [ CONCENTRATION_DATE.TWO_THOUSAND_NINETEEN, 0.83 ]
+  [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.83 ]
 ] );
 
 class ConcentrationModel extends LayersModel {
