@@ -407,7 +407,7 @@ class ObservationWindow extends Node {
       new TemperatureSoundGenerator(
         model.surfaceTemperatureKelvinProperty,
         {
-          initialOutputLevel: 0.1,
+          initialOutputLevel: 0.0,
           enableControlProperties: [
             model.sunEnergySource.isShiningProperty,
             model.surfaceThermometerVisibleProperty,

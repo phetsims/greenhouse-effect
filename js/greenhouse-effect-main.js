@@ -30,6 +30,7 @@ const simOptions = {
   },
 
   // TODO: This should be removed once we no longer need mockups for comparisons.  See
+  //       https://github.com/phetsims/greenhouse-effect/issues/16
   createOptionsDialogContent: () => mockupOpacityControl
 };
 
