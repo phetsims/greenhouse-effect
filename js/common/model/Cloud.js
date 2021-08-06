@@ -16,6 +16,7 @@ import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
@@ -76,13 +77,13 @@ class Cloud extends PhetioObject {
 
   /**
    * Interact with the provided energy.  Energy may be partially reflected.
-   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
+   * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPacketGroup, dt ) {
+  interactWithEnergy( emEnergyPackets, dt ) {
 
-    emEnergyPacketGroup.forEach( energyPacket => {
+    emEnergyPackets.forEach( energyPacket => {
 
       // convenience variable
       const altitude = this.position.y;
@@ -103,12 +104,13 @@ class Cloud extends PhetioObject {
           energyPacket.energy = energyPacket.energy - reflectedEnergy;
 
           // Create a new packet of the same type with the reflected energy, heading in the opposite direction.
-          emEnergyPacketGroup.createNextElement(
+          emEnergyPackets.push( new EMEnergyPacket(
             energyPacket.wavelength,
             reflectedEnergy,
-            altitude + ( altitude - energyPacket.altitude ),
+            // altitude + ( altitude - energyPacket.altitude ),
+            altitude,
             energyPacket.directionOfTravel === EnergyDirection.UP ? EnergyDirection.DOWN : EnergyDirection.UP
-          );
+          ) );
         }
       }
     } );

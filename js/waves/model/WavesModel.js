@@ -394,13 +394,13 @@ class WavesModel extends ConcentrationModel {
    * @public
    */
   toStateObject() {
-    return {
+    return merge( super.toStateObject(), {
       waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).toStateObject(
         this.waveAtmosphereInteractions
       ),
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource )
-    };
+    } );
   }
 
   /**
@@ -411,6 +411,7 @@ class WavesModel extends ConcentrationModel {
     this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
+    super.applyState( stateObject );
   }
 }
 

@@ -7,34 +7,20 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
-class EMEnergyPacket extends PhetioObject {
+class EMEnergyPacket {
 
   /**
    * @param {number} wavelength - in meters
    * @param {number} energy - in joules
    * @param {number} initialAltitude - in meters
    * @param {Vector2} directionOfTravel
-   * @param {Object} [options]
    */
-  constructor( wavelength, energy, initialAltitude, directionOfTravel, options ) {
-
-    options = merge( {
-
-      // phet-io
-      tandem: Tandem.REQUIRED,
-      phetioType: EMEnergyPacket.EMEnergyPacketIO,
-      phetioDynamicElement: true
-    }, options );
-
-    super( options );
+  constructor( wavelength, energy, initialAltitude, directionOfTravel ) {
 
     // @public (read-only) {number}
     this.wavelength = wavelength;
@@ -84,31 +70,16 @@ class EMEnergyPacket extends PhetioObject {
   }
 
   /**
-   * @param stateObject
-   * @returns {Object}
+   * for phet-io
    * @public
    */
-  applyState( stateObject ) {
-    this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
-    this.energy = NumberIO.fromStateObject( stateObject.energy );
-    this.altitude = NumberIO.fromStateObject( stateObject.altitude );
-    this.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
-    this.directionOfTravel = Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel );
-  }
-
-  /**
-   * Creates the args that a phet-io group of EMEnergyPackets uses to instantiate a new instance.
-   * @param {Object} state
-   * @returns {Object[]}
-   * @public
-   */
-  static stateToArgsForConstructor( state ) {
-    return [
-      NumberIO.fromStateObject( state.wavelength ),
-      NumberIO.fromStateObject( state.energy ),
-      NumberIO.fromStateObject( state.altitude ),
-      Vector2.Vector2IO.fromStateObject( state.directionOfTravel )
-    ];
+  static fromStateObject( stateObject ) {
+    return new EMEnergyPacket(
+      stateObject.wavelength,
+      stateObject.energy,
+      stateObject.altitude,
+      stateObject.directionOfTravel
+    );
   }
 }
 

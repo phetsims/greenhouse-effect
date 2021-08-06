@@ -32,26 +32,24 @@ class SpaceEnergySink {
 
   /**
    * Check for interaction with the provided energy.  In this case, energy that is emitted into space is removed.
-   * @param {PhetioGroup.<EMEnergyPacket>} emEnergyPacketGroup
+   * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt
    * @public
    */
-  interactWithEnergy( emEnergyPacketGroup, dt ) {
+  interactWithEnergy( emEnergyPackets, dt ) {
 
     let energyEmittedIntoSpace = 0;
-    const packetsToDispose = [];
 
-    emEnergyPacketGroup.forEach( energyPacket => {
+    emEnergyPackets.forEach( energyPacket => {
 
       if ( energyPacket.altitude >= this.altitude && energyPacket.directionOfTravel === EnergyDirection.UP ) {
         energyEmittedIntoSpace += energyPacket.energy;
-        packetsToDispose.push( energyPacket );
+        energyPacket.energy = 0; // reduce energy to zero, which will cause this one to be removed from the list
       }
     } );
 
-    packetsToDispose.forEach( energyPacket => {
-      emEnergyPacketGroup.disposeElement( energyPacket );
-    } );
+    // Remove all the fully absorbed energy packets.
+    _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
 
     // Track the incoming energy rate.
     this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( energyEmittedIntoSpace, dt );

@@ -16,14 +16,14 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
-import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
-import EnergyDirection from './EnergyDirection.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
@@ -80,30 +80,14 @@ class LayersModel extends GreenhouseEffectModel {
       tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
     } );
 
-    // @public (read-only) {PhetioGroup.<EMEnergyPacket>} - packets of electromagnetic energy that are moving around in
+    // @public (read-only) {EMEnergyPacket[]} - packets of electromagnetic energy that are moving around in
     // the model
-    this.emEnergyPacketGroup = new PhetioGroup(
-      ( tandem, wavelength, energy, initialAltitude, directionOfTravel, options ) => {
-        options = merge( { tandem: tandem }, options );
-        return new EMEnergyPacket( wavelength, energy, initialAltitude, directionOfTravel, options );
-      },
-      [
-        GreenhouseEffectConstants.INFRARED_WAVELENGTH,
-        0,
-        LayersModel.HEIGHT_OF_ATMOSPHERE,
-        EnergyDirection.DOWN,
-        {}
-      ],
-      {
-        tandem: tandem.createTandem( 'emEnergyPacketGroup' ),
-        phetioType: PhetioGroup.PhetioGroupIO( EMEnergyPacket.EMEnergyPacketIO )
-      }
-    );
+    this.emEnergyPackets = [];
 
     // @private - main energy source coming into the system
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
-      this.emEnergyPacketGroup,
+      this.emEnergyPackets,
       tandem.createTandem( 'sun' )
     );
 
@@ -142,7 +126,10 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
-    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers, tandem.createTandem( 'outerSpace' ) );
+    this.outerSpace = new SpaceEnergySink(
+      HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers,
+      tandem.createTandem( 'outerSpace' )
+    );
 
     // @private - used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
@@ -209,17 +196,17 @@ class LayersModel extends GreenhouseEffectModel {
         this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
 
         // Step the energy packets, which causes them to move.
-        this.emEnergyPacketGroup.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
+        this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
 
         // Check for interaction between the energy packets and ground, the atmosphere, clouds, and space.
-        this.groundLayer.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
+        this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
         this.atmosphereLayers.forEach( atmosphereLayer => {
-          atmosphereLayer.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
+          atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
         } );
         this.clouds.forEach( cloud => {
-          cloud.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
+          cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
         } );
-        this.outerSpace.interactWithEnergy( this.emEnergyPacketGroup, MODEL_TIME_STEP );
+        this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
         // Adjust remaining time for stepping the model.
         this.modelSteppingTime -= MODEL_TIME_STEP;
@@ -242,9 +229,42 @@ class LayersModel extends GreenhouseEffectModel {
     this.groundLayer.reset();
     this.numberOfActiveCloudsProperty.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
-    this.emEnergyPacketGroup.clear();
+    this.emEnergyPackets.length = 0;
   }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  toStateObject() {
+    return {
+      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets )
+    };
+  }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  applyState( stateObject ) {
+    this.emEnergyPackets = ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets );
+  }
+
 }
+
+/**
+ * @public
+ * LayersModelIO handles PhET-iO serialization of the LayersModel. Because serialization involves accessing private
+ * members, it delegates to LayersModel. The methods that LayersModelIO overrides are typical of 'Dynamic element
+ * serialization', as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+LayersModel.LayersModelIO = IOType.fromCoreType( 'LayersModelIO', LayersModel, {
+  stateSchema: {
+    emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
+  }
+} );
+
 
 // statics
 LayersModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
