@@ -8,8 +8,8 @@
 
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import mockupOpacityControl from './common/view/mockupOpacityControl.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import MockupOpacityControl from './common/view/MockupOpacityControl.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import MicroScreen from './micro/MicroScreen.js';
@@ -31,7 +31,7 @@ const simOptions = {
 
   // TODO: This should be removed once we no longer need mockups for comparisons.  See
   //       https://github.com/phetsims/greenhouse-effect/issues/16
-  createOptionsDialogContent: () => mockupOpacityControl
+  createOptionsDialogContent: tandem => new MockupOpacityControl( tandem )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds

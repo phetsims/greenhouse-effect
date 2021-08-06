@@ -27,12 +27,18 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const LABEL_FONT = new PhetFont( 20 );
 const QUERY_PARAMETER = 'mockupOpacity';
+
+// create the global value used to control opacity
+let initialOpacity = 0;
+if ( QueryStringMachine.containsKey( QUERY_PARAMETER ) ) {
+  initialOpacity = QueryStringMachine.get( QUERY_PARAMETER, { type: 'number' } );
+}
+window.phet.mockupOpacityProperty = new NumberProperty( initialOpacity );
 
 class MockupOpacityControl extends VBox {
 
@@ -41,15 +47,9 @@ class MockupOpacityControl extends VBox {
    */
   constructor( tandem ) {
 
-    let initialOpacity = 0;
-    if ( QueryStringMachine.containsKey( QUERY_PARAMETER ) ) {
-      initialOpacity = QueryStringMachine.get( QUERY_PARAMETER, { type: 'number' } );
-    }
-    const mockupOpacityProperty = new NumberProperty( initialOpacity );
-
     // slider
     const slider = new HSlider(
-      mockupOpacityProperty,
+      window.phet.mockupOpacityProperty,
       new Range( 0, 1 ), {
         trackSize: new Dimension2( 200, 5 ),
         thumbSize: new Dimension2( 20, 40 ),
@@ -69,7 +69,6 @@ class MockupOpacityControl extends VBox {
       spacing: 10
     } );
 
-
     super( {
       children: [
         new Text( 'Mockup Opacities (All Screens)', { font: new PhetFont( 22 ) } ),
@@ -78,12 +77,20 @@ class MockupOpacityControl extends VBox {
       spacing: 10
     } );
 
-    // Make the Property globally available.
-    window.phet.mockupOpacityProperty = mockupOpacityProperty;
+    // @private - dispose function
+    this.disposeMockupOpacityControl = () => {
+      slider.dispose();
+    };
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeMockupOpacityControl();
+    super.dispose();
   }
 }
 
-const mockupOpacityControl = new MockupOpacityControl( Tandem.GENERAL_VIEW );
-
-greenhouseEffect.register( 'mockupOpacityControl', mockupOpacityControl );
-export default mockupOpacityControl;
+greenhouseEffect.register( 'MockupOpacityControl', MockupOpacityControl );
+export default MockupOpacityControl;
