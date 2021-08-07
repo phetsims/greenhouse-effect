@@ -64,6 +64,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
       // phet-io
       tandem: Tandem.REQUIRED,
+      phetioReadOnly: true,
       phetioState: false
 
     }, options );
@@ -77,13 +78,15 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
-      tandem: options.tandem.createTandem( 'temperatureProperty' )
+      tandem: options.tandem.createTandem( 'temperatureProperty' ),
+      phetioReadOnly: true
     } );
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
-      tandem: options.tandem.createTandem( 'energyAbsorptionProperty' )
+      tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
+      phetioReadOnly: true
     } );
 
     // @private
