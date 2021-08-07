@@ -37,7 +37,7 @@ class Cloud extends PhetioObject {
 
     options = merge( {
       phetioState: false,
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.OPTIONAL
     }, options );
 
     super( options );

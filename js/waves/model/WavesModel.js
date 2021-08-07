@@ -114,7 +114,7 @@ class WavesModel extends ConcentrationModel {
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
     this.clouds.push(
-      new Cloud( new Vector2( -16000, 20000 ), 18000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
+      new Cloud( new Vector2( -16000, 20000 ), 18000, 4000 )
     );
 
     // @private {Map.<EnergyAbsorbingEmittingLayer,Range} - A Map containing atmospheric layers and ranges that define
