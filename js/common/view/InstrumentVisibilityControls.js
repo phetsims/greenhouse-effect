@@ -14,26 +14,19 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
-class ObservationWindowVisibilityControls extends Rectangle {
+class InstrumentVisibilityControls extends Rectangle {
 
   /**
-   * @param {BooleanProperty} energyBalanceVisibleProperty
-   * @param {BooleanProperty} fluxMeterVisibleProperty
+   * @param {LayersModel} model
    * @param {Object} [options]
    */
-  constructor( energyBalanceVisibleProperty, fluxMeterVisibleProperty, options ) {
+  constructor( model, options ) {
 
     options = merge( {
 
       // fill for the rectangle surrounding controls, so controls are easier to see against
       // background artwork of the ObservationWindow
       fill: 'rgba(255,255,255,0.5)',
-
-      // {boolean} - Should the controls include the "Energy Balance" checkbox?
-      includeEnergyBalance: true,
-
-      // {boolean} - Should the controls include the "Flux Meter" checkbox?
-      includeFluxMeter: true,
 
       // {Object} - Options passed along to the VBox containing the controls
       vBoxOptions: {
@@ -44,26 +37,32 @@ class ObservationWindowVisibilityControls extends Rectangle {
       // phet-io
       tandem: Tandem.REQUIRED
     }, options );
-    assert && assert( options.vBoxOptions.children === undefined, 'ObservationWindowVisibilityControls sets children through options' );
+    assert && assert( options.vBoxOptions.children === undefined, 'InstrumentVisibilityControls sets children through options' );
 
     // add controls to children
     const children = [];
-    if ( options.includeEnergyBalance ) {
-      children.push( new GreenhouseEffectCheckbox( greenhouseEffectStrings.energyBalance, energyBalanceVisibleProperty, {
+    if ( model.energyBalanceVisibleProperty ) {
+      children.push( new GreenhouseEffectCheckbox(
+        greenhouseEffectStrings.energyBalance,
+        model.energyBalanceVisibleProperty,
+        {
+          // phet-io
+          tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
-        // phet-io
-        tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
-
-        // pdom
-        helpText: greenhouseEffectStrings.a11y.energyBalance.helpText
-      } ) );
+          // pdom
+          helpText: greenhouseEffectStrings.a11y.energyBalance.helpText
+        }
+      ) );
     }
-    if ( options.includeFluxMeter ) {
-      children.push( new GreenhouseEffectCheckbox( greenhouseEffectStrings.fluxMeter.title, fluxMeterVisibleProperty, {
-
-        // phet-io
-        tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
-      } ) );
+    if ( model.fluxMeterVisibleProperty ) {
+      children.push( new GreenhouseEffectCheckbox(
+        greenhouseEffectStrings.fluxMeter.title,
+        model.fluxMeterVisibleProperty,
+        {
+          // phet-io
+          tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
+        }
+      ) );
     }
 
     // layout
@@ -77,5 +76,5 @@ class ObservationWindowVisibilityControls extends Rectangle {
   }
 }
 
-greenhouseEffect.register( 'ObservationWindowVisibilityControls', ObservationWindowVisibilityControls );
-export default ObservationWindowVisibilityControls;
+greenhouseEffect.register( 'InstrumentVisibilityControls', InstrumentVisibilityControls );
+export default InstrumentVisibilityControls;

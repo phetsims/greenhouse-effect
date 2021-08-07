@@ -37,7 +37,7 @@ import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode from './FluxMeterNode.js';
-import ObservationWindowVisibilityControls from './ObservationWindowVisibilityControls.js';
+import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
@@ -55,7 +55,7 @@ const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 class ObservationWindow extends Node {
 
   /**
-   * @param {GreenhouseEffectModel} model
+   * @param {LayersModel} model
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
@@ -65,17 +65,7 @@ class ObservationWindow extends Node {
 
       // default position in the GreenhouseEffect sim
       left: 5,
-      top: 10,
-
-      // {boolean} - Whether or not to include a flux meter in the window.
-      includeFluxMeter: true,
-
-      // options passed to the ObservationWindowVisibilityControls
-      visibilityControlsOptions: {
-
-        // phet-io
-        tandem: tandem.createTandem( 'visibilityControls' )
-      }
+      top: 10
 
     }, options );
 
@@ -282,9 +272,7 @@ class ObservationWindow extends Node {
     foregroundNode.addChild( energyBalancePanel );
 
     // flux meter
-    if ( options.includeFluxMeter ) {
-      assert && assert( model.fluxMeter, 'Model should include a FluxMeter if requested for the view' );
-      assert && assert( model.fluxMeterVisibleProperty, 'Model should include Property for flux meter visibility' );
+    if ( model.fluxMeterVisibleProperty ) {
 
       const fluxMeterNode = new FluxMeterNode( model.fluxMeter, model.fluxMeterVisibleProperty, modelViewTransform, windowFrame.bounds, tandem.createTandem( 'fluxMeterNode' ) );
       fluxMeterNode.fluxPanel.rightTop = windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
@@ -306,17 +294,14 @@ class ObservationWindow extends Node {
     listParentNode.leftBottom = surfaceThermometer.leftBottom;
     foregroundNode.addChild( surfaceThermometer );
 
-    // controls
-    const visibilityControls = new ObservationWindowVisibilityControls(
-      model.energyBalanceVisibleProperty,
-      model.fluxMeterVisibleProperty,
-      options.visibilityControlsOptions
-    );
-    visibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
-    foregroundNode.addChild( visibilityControls );
+    // controls for the energy balance indicator and the flux meter, if used in this model
+    const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
+      tandem: tandem.createTandem( 'instrumentVisibilityControls' )
+    } );
+    instrumentVisibilityControls.rightBottom = windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    foregroundNode.addChild( instrumentVisibilityControls );
 
-    // Nodes that should be in the background (in the desired z-order) and below foreground
-    // Nodes like UI components.
+    // Nodes that should be in the background (in the desired z-order) and below foreground Nodes like UI components.
     const backgroundNode = new Node( {
       children: [
         skyNode,
@@ -329,9 +314,8 @@ class ObservationWindow extends Node {
       ]
     } );
 
-
-    // most contents are contained in this node with the exception of a few that need to be added separately
-    // for controlling z-order or enabled state of input
+    // Most contents are contained in this node with the exception of a few that need to be added separately for
+    // controlling z-order or enabled state of input.
     const contentNode = new Node( {
       children: [
         backgroundNode,
