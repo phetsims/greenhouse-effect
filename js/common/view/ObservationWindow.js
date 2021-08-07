@@ -187,8 +187,9 @@ class ObservationWindow extends Node {
     //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
     let presentationNode;
     if ( model instanceof WavesModel ) {
-      presentationNode = new WavesCanvasNode( model, modelViewTransform, tandem, {
-        canvasBounds: SIZE.toBounds()
+      presentationNode = new WavesCanvasNode( model, modelViewTransform, {
+        canvasBounds: SIZE.toBounds(),
+        tandem: tandem.createTandem( 'wavesCanvasNode' )
       } );
     }
     else if ( model.photons ) {

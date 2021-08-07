@@ -26,10 +26,9 @@ class WavesCanvasNode extends CanvasNode {
   /**
    * @param {WavesModel} model
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, modelViewTransform, tandem, options ) {
+  constructor( model, modelViewTransform, options ) {
     super( options );
     this.model = model;
     this.modelViewTransform = modelViewTransform;
