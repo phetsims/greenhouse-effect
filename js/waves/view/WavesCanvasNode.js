@@ -79,6 +79,7 @@ class WavesCanvasNode extends CanvasNode {
    */
   drawWave( context, wave ) {
 
+    // convenience variables
     const modelViewTransform = this.modelViewTransform;
     const startPoint = modelViewTransform.modelToViewPosition( wave.startPoint );
     const renderingParameters = this.waveRenderingParameters.get( wave.wavelength );
@@ -86,68 +87,71 @@ class WavesCanvasNode extends CanvasNode {
     const wavelength = renderingParameters.wavelength;
     const baseColor = renderingParameters.baseColor;
 
+    // Set the context up with its initial values.  The stroke style may change as the wave intensity varies.
     let waveIntensity = wave.intensityAtStart;
     context.lineCap = 'round';
     context.lineWidth = waveIntensityToLineWidth( waveIntensity );
     context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
     context.beginPath();
 
+    // vectors used in the calculation process
     const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );
     const unitNormal = unitVector.perpendicular;
 
     let moved = false;
-
-    const lengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
-    const phaseOffset = wave.phaseOffsetAtOrigin +
-                        ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) / wavelength * TWO_PI;
-
-    // Draw the wave, and do it in sections that correspond to the intensity.  The intensity is represented by the line
-    // thickness that is used to render the wave.
-    let currentXValue = 0;
+    const totalLengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
+    const phaseOffsetAtStart = wave.phaseOffsetAtOrigin +
+                               ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) /
+                               wavelength * TWO_PI;
     const waveAttenuators = wave.getSortedAttenuators();
-    for ( let i = 0; i <= waveAttenuators.length; i++ ) {
-      const nextAttenuator = waveAttenuators[ i ];
-      let endValue;
-      if ( nextAttenuator ) {
-        endValue = modelViewTransform.modelToViewDeltaX( nextAttenuator.distanceFromStart );
+    let nextAttenuatorIndex = 0;
+    let nextAttenuatorPosition = modelViewTransform.modelToViewDeltaX( waveAttenuators[ 0 ] ?
+                                                                       waveAttenuators[ 0 ].distanceFromStart :
+                                                                       Number.POSITIVE_INFINITY );
+
+    // Render the wave, changing the thickness if and when the intensity needs to change.
+    for ( let x = 0; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
+
+      const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffsetAtStart );
+
+      // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
+      // in profiler at 15% or so.
+      const traversePointX = startPoint.x + x * unitVector.x;
+      const traversePointY = startPoint.y + x * unitVector.y;
+      const ptX = traversePointX + y * unitNormal.x;
+      const ptY = traversePointY + y * unitNormal.y;
+
+      // Draw the next segment of the waveform.
+      if ( !moved ) {
+        context.moveTo( ptX, ptY );
+        moved = true;
       }
       else {
-        endValue = lengthInView;
+        context.lineTo( ptX, ptY );
       }
 
-      // Loop, drawing short segments that will comprise the wave.
-      for ( currentXValue; currentXValue <= endValue; currentXValue += WAVE_SEGMENT_INCREMENT ) {
-        const y = amplitude * Math.cos( currentXValue / wavelength * TWO_PI + phaseOffset );
+      if ( x >= nextAttenuatorPosition ) {
 
-        // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
-        // in profiler at 15% or so.
-        const traversePointX = startPoint.x + currentXValue * unitVector.x;
-        const traversePointY = startPoint.y + currentXValue * unitVector.y;
-        const ptX = traversePointX + y * unitNormal.x;
-        const ptY = traversePointY + y * unitNormal.y;
-
-        // Draw the next segment of the waveform.
-        if ( !moved ) {
-          context.moveTo( ptX, ptY );
-          moved = true;
-        }
-        else {
-          context.lineTo( ptX, ptY );
-        }
-      }
-
-      // Render this portion.
-      context.stroke();
-      if ( nextAttenuator ) {
+        // The rendering has reached the point of the next attenuator.  Adjust the wave's thickness and set up the
+        // attenuator that comes after this one, if it exists.
+        context.stroke();
         context.beginPath();
         moved = false;
-        waveIntensity = waveIntensity * ( 1 - nextAttenuator.attenuation );
+        waveIntensity = waveIntensity * ( 1 - waveAttenuators[ nextAttenuatorIndex ].attenuation );
         context.lineWidth = waveIntensityToLineWidth( waveIntensity );
         context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
+        nextAttenuatorIndex++;
+        if ( waveAttenuators[ nextAttenuatorIndex ] ) {
+          nextAttenuatorPosition = modelViewTransform.modelToViewDeltaX( waveAttenuators[ 0 ].distanceFromStart );
+        }
+        else {
+          nextAttenuatorPosition = Number.POSITIVE_INFINITY;
+        }
       }
     }
-  }
 
+    context.stroke();
+  }
 }
 
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );

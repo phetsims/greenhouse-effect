@@ -107,9 +107,9 @@ class Wave extends PhetioObject {
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
 
-    // @private {Map.<PhetioObject,Attenuator>} - A Map that maps model objects to the attenuation that they are currently
-    // causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type spec.
-    // Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
+    // @private {Map.<PhetioObject,Attenuator>} - A Map that maps model objects to the attenuation that they are
+    // currently causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type
+    // spec. Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map();
 
     // @public (read-only) {number} - the wavelength used when rendering the view for this wave
