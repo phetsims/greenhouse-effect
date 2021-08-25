@@ -159,18 +159,24 @@ class ObservationWindow extends Node {
       surfaceTemperatureNode.visble = false;
     }
 
-    // Temporary code for representing layers.
-    const groundLayerNode = new EnergyAbsorbingEmittingLayerNode( model.groundLayer, modelViewTransform, {
-      lineOptions: { stroke: Color.GREEN },
-      visible: GreenhouseEffectQueryParameters.showAllLayers
-    } );
-    const atmosphereLayerNodes = [];
-    model.atmosphereLayers.forEach( atmosphereLayer => {
-      atmosphereLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, modelViewTransform, {
-        lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+    // Temporary code for representing layers, only added if the appropriate query parameter is set.
+    const energyAbsorbingEmittingLayerNodes = [];
+    if ( GreenhouseEffectQueryParameters.showAllLayers ) {
+
+      // Add the ground layer node.
+      energyAbsorbingEmittingLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( model.groundLayer, modelViewTransform, {
+        lineOptions: { stroke: Color.GREEN },
         visible: GreenhouseEffectQueryParameters.showAllLayers
       } ) );
-    } );
+
+      // Add the atmosphere layer nodes.
+      model.atmosphereLayers.forEach( atmosphereLayer => {
+        energyAbsorbingEmittingLayerNodes.push( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, modelViewTransform, {
+          lineOptions: { stroke: new Color( 50, 50, 200, 0.5 ) },
+          visible: GreenhouseEffectQueryParameters.showAllLayers
+        } ) );
+      } );
+    }
 
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
     // TODO: This will probably be handled differently (e.g. in subclasses) once we're further along in how the models
@@ -308,8 +314,7 @@ class ObservationWindow extends Node {
         glowInTheSkyNode,
         groundNode,
         surfaceTemperatureNode,
-        groundLayerNode,
-        ...atmosphereLayerNodes,
+        ...energyAbsorbingEmittingLayerNodes,
         presentationNode
       ]
     } );

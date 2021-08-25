@@ -13,8 +13,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // whether or not to run with customizations for Open Sci Ed
   openSciEd: { type: 'flag' },
 
-  // a flag that starts the launches the sim with the sunlight initially started,
-  // for ease of development
+  // a flag that starts the launches the sim with the sunlight initially started, for ease of development
   initiallyStarted: { type: 'boolean', defaultValue: false },
 
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
