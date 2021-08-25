@@ -33,7 +33,10 @@ class SunEnergySource {
 
     // @public - controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
-      tandem: tandem.createTandem( 'isShiningProperty' )
+
+      // phet-io
+      tandem: tandem.createTandem( 'isShiningProperty' ),
+      phetioReadOnly: true
     } );
 
     // @public - tracks the average energy output
