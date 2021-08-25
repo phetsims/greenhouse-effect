@@ -132,33 +132,30 @@ class LayersModel extends GreenhouseEffectModel {
    */
   stepModel( dt ) {
 
-    if ( this.sunEnergySource.isShiningProperty.value ) {
+    // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
+    // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
+    this.modelSteppingTime += dt;
 
-      // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
-      // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
-      this.modelSteppingTime += dt;
+    while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
 
-      while ( this.modelSteppingTime >= MODEL_TIME_STEP ) {
+      // Add the energy produced by the sun to the system.
+      this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
 
-        // Add the energy produced by the sun to the system.
-        this.sunEnergySource.produceEnergy( MODEL_TIME_STEP );
+      // Step the energy packets, which causes them to move.
+      this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
 
-        // Step the energy packets, which causes them to move.
-        this.emEnergyPackets.forEach( emEnergyPacket => { emEnergyPacket.step( MODEL_TIME_STEP ); } );
+      // Check for interaction between the energy packets and ground, the atmosphere, clouds, and space.
+      this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      this.atmosphereLayers.forEach( atmosphereLayer => {
+        atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      } );
+      this.clouds.forEach( cloud => {
+        cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      } );
+      this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
-        // Check for interaction between the energy packets and ground, the atmosphere, clouds, and space.
-        this.groundLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
-        this.atmosphereLayers.forEach( atmosphereLayer => {
-          atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
-        } );
-        this.clouds.forEach( cloud => {
-          cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
-        } );
-        this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
-
-        // Adjust remaining time for stepping the model.
-        this.modelSteppingTime -= MODEL_TIME_STEP;
-      }
+      // Adjust remaining time for stepping the model.
+      this.modelSteppingTime -= MODEL_TIME_STEP;
     }
   }
 
