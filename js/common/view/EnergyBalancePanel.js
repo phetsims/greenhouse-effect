@@ -11,7 +11,7 @@ import Property from '../../../../axon/js/Property.js';
 import AxisLine from '../../../../bamboo/js/AxisLine.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
-import LabelSet from '../../../../bamboo/js/LabelSet.js';
+import TickLabelSet from '../../../../bamboo/js/TickLabelSet.js';
 import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -130,7 +130,7 @@ class EnergyBalancePlot extends Node {
 
     // labels
     const labelOptions = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 30 };
-    const gridLabels = new LabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
+    const gridLabels = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
 
       // the 'extent' is extra spacing between tick marks and labels, negative value because this is vertically
       // above the plot
