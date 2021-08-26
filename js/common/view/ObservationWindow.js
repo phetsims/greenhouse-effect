@@ -363,19 +363,26 @@ class ObservationWindow extends Node {
         // state checking
         assert && assert( fadeToDayAnimation === null, 'there shouldn\'t be an in-progress animation when starting' );
 
-        // Fade out the darkness and let the sun shine!
-        fadeToDayAnimation = new Animation( {
-          from: darknessNode.opacity,
-          to: 0,
-          setValue: opacity => { darknessNode.opacity = opacity; },
-          duration: 2, // empirically determined
-          easing: Easing.CUBIC_IN_OUT
-        } );
-        fadeToDayAnimation.endedEmitter.addListener( () => {
-          fadeToDayAnimation = null;
+        // If phet-io is setting state, skip the fade in.
+        if ( phet.joist.sim.isSettingPhetioStateProperty.value ) {
           darknessNode.visible = false;
-        } );
-        fadeToDayAnimation.start();
+        }
+        else {
+
+          // Fade out the darkness and let the sun shine!
+          fadeToDayAnimation = new Animation( {
+            from: darknessNode.opacity,
+            to: 0,
+            setValue: opacity => { darknessNode.opacity = opacity; },
+            duration: 2, // empirically determined
+            easing: Easing.CUBIC_IN_OUT
+          } );
+          fadeToDayAnimation.endedEmitter.addListener( () => {
+            fadeToDayAnimation = null;
+            darknessNode.visible = false;
+          } );
+          fadeToDayAnimation.start();
+        }
       }
       else {
         if ( fadeToDayAnimation ) {
