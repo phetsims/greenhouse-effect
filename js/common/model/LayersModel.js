@@ -80,7 +80,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
       this.emEnergyPackets,
-      tandem.createTandem( 'sun' )
+      tandem.createTandem( 'sunEnergySource' )
     );
 
     // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy-absorbing-and-emitting layers for the atmosphere
@@ -191,9 +191,14 @@ class LayersModel extends GreenhouseEffectModel {
    * @public
    */
   applyState( stateObject ) {
-    this.emEnergyPackets = ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets );
-  }
 
+    // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
+    // copy in the contents of the state object.
+    this.emEnergyPackets.length = 0;
+    this.emEnergyPackets.push(
+      ...ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets )
+    );
+  }
 }
 
 /**
@@ -208,7 +213,6 @@ LayersModel.LayersModelIO = IOType.fromCoreType( 'LayersModelIO', LayersModel, {
     emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
   }
 } );
-
 
 // statics
 LayersModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
