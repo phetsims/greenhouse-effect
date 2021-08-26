@@ -78,7 +78,7 @@ class EMEnergyPacket {
       stateObject.wavelength,
       stateObject.energy,
       stateObject.altitude,
-      stateObject.directionOfTravel
+      Vector2.fromStateObject( stateObject.directionOfTravel )
     );
   }
 }
