@@ -110,7 +110,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
            ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude ) ) {
 
-
         // Should this energy packet be fully or partially absorbed?
         // TODO: The ground is handled quirkily here, it should probably be separate out at some point.
         if ( this.altitude === 0 ) {
