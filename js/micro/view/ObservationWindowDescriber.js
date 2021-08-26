@@ -18,7 +18,7 @@
  */
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
+import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
@@ -258,7 +258,7 @@ class ObservationWindowDescriber {
     const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
 
     const emissionAngle = Math.atan2( photon.vy, photon.vx );
-    const directionString = MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
+    const directionString = MovementAlerter.getDirectionDescriptionFromAngle( emissionAngle, {
       modelViewTransform: this.modelViewTransform
     } );
 

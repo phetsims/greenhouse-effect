@@ -10,7 +10,7 @@
 
 import MoleculeUtils from './MoleculeUtils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import MovementDescriber from '../../../../scenery-phet/js/accessibility/describers/MovementDescriber.js';
+import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -612,7 +612,7 @@ class ActiveMoleculeAlertManager {
    */
   getPhotonDirectionDescription( photon ) {
     const emissionAngle = Math.atan2( photon.vy, photon.vx );
-    return MovementDescriber.getDirectionDescriptionFromAngle( emissionAngle, {
+    return MovementAlerter.getDirectionDescriptionFromAngle( emissionAngle, {
       modelViewTransform: this.modelViewTransform
     } );
   }
