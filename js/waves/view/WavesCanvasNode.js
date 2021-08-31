@@ -110,7 +110,7 @@ class WavesCanvasNode extends CanvasNode {
                                                                        Number.POSITIVE_INFINITY );
 
     // Render the wave, changing the thickness if and when the intensity needs to change.
-    for ( let x = 0; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
+    for ( let x = -wavelength / 2; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
 
       const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffsetAtStart );
 
@@ -120,6 +120,12 @@ class WavesCanvasNode extends CanvasNode {
       const traversePointY = startPoint.y + x * unitVector.y;
       const ptX = traversePointX + y * unitNormal.x;
       const ptY = traversePointY + y * unitNormal.y;
+
+      if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.directionOfTravel.x > 0 ) {
+        if ( ptY > startPoint.y ) {
+          continue;
+        }
+      }
 
       // Draw the next segment of the waveform.
       if ( !moved ) {

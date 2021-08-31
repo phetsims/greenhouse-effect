@@ -56,6 +56,12 @@ class Wave extends PhetioObject {
 
     }, options );
 
+    // options checking
+    assert && assert(
+    options.initialPhaseOffset >= 0 && options.initialPhaseOffset <= TWO_PI,
+      'unexpected initial phase offset'
+    );
+
     super( options );
 
     if ( options.debugTag ) {
@@ -166,7 +172,13 @@ class Wave extends PhetioObject {
     );
 
     // Update other aspects of the wave that evolve over time.
-    this.phaseOffsetAtOrigin = ( this.phaseOffsetAtOrigin + PHASE_RATE * dt ) % TWO_PI;
+    this.phaseOffsetAtOrigin = this.phaseOffsetAtOrigin + PHASE_RATE * dt;
+    if ( this.phaseOffsetAtOrigin > TWO_PI ) {
+      this.phaseOffsetAtOrigin -= TWO_PI;
+    }
+    else if ( this.phaseOffsetAtOrigin < 0 ) {
+      this.phaseOffsetAtOrigin += TWO_PI;
+    }
     this.existenceTime += dt;
   }
 
