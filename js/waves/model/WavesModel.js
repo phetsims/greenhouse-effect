@@ -346,7 +346,7 @@ class WavesModel extends ConcentrationModel {
             this.atmosphereLine.setStart( this.atmosphereLineStart );
             this.atmosphereLine.setEnd( this.atmosphereLineEnd );
 
-            // See if there is an intersection.
+            // See if there is an intersection and create a new wave if so.
             const intersection = Line.intersect( this.waveLine, this.atmosphereLine );
             if ( intersection.length > 0 ) {
 
@@ -372,6 +372,8 @@ class WavesModel extends ConcentrationModel {
                                       ( 2 * Math.PI )
                 }
               );
+
+              // xxx
 
               // Add an attenuator on the source wave.
               waveFromTheGround.addAttenuator(

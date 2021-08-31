@@ -10,8 +10,11 @@
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
@@ -20,6 +23,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
+import irReemissionSound from '../../../sounds/greenhouse-effect-ir-reemission_mp3.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
@@ -91,6 +95,24 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     this.addChild( visibilityBox );
     this.addChild( mockup );
+
+    // sound generation
+    const irReemissionSoundGenerator = new SoundClip( irReemissionSound, {
+      initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0
+    } );
+    soundManager.addSoundGenerator( irReemissionSoundGenerator );
+    model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
+      if ( numberOfWaves > previousNumberOfWaves ) {
+        const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
+
+        // If the newly added wave is downward-moving and infrared, produce the sound.
+        if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+             mostRecentlyAddedWave.directionOfTravel.y < 0 ) {
+
+          irReemissionSoundGenerator.play();
+        }
+      }
+    } );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
