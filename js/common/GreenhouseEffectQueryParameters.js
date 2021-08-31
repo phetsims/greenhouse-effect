@@ -17,7 +17,10 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   initiallyStarted: { type: 'boolean', defaultValue: false },
 
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
-  showAllLayers: { type: 'flag' }
+  showAllLayers: { type: 'flag' },
+
+  // a flag that enabled the observation window soundscape, which was turned off for an initial delivery
+  soundscape: { type: 'boolean', defaultValue: false }
 } );
 
 greenhouseEffect.register( 'GreenhouseEffectQueryParameters', GreenhouseEffectQueryParameters );
