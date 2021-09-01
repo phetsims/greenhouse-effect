@@ -100,22 +100,29 @@ class WavesCanvasNode extends CanvasNode {
 
     let moved = false;
     const totalLengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
-    const phaseOffsetAtStart = wave.phaseOffsetAtOrigin +
-                               ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) /
-                               wavelength * TWO_PI;
+    const phaseOffsetAtStart = ( wave.phaseOffsetAtOrigin +
+                                 ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) /
+                                 wavelength * TWO_PI ) % TWO_PI;
     const waveAttenuators = wave.getSortedAttenuators();
     let nextAttenuatorIndex = 0;
-    let nextAttenuatorPosition = modelViewTransform.modelToViewDeltaX( waveAttenuators[ 0 ] ?
-                                                                       waveAttenuators[ 0 ].distanceFromStart :
-                                                                       Number.POSITIVE_INFINITY );
+    let nextAttenuatorPosition = this.getAttenuatorXPosition( nextAttenuatorIndex, wave, amplitude, wavelength );
 
-    // Render the wave, changing the thickness if and when the intensity needs to change.
-    for ( let x = 0; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
+    // Get the amount of compensation needed in the x direction so that the wave will appear to originate from a
+    // horizontal region.
+    const compensatedXValue = WavesCanvasNode.getXCompensationForTilt(
+      amplitude,
+      wavelength,
+      phaseOffsetAtStart,
+      wave.directionOfTravel.getAngle()
+    );
 
-      const y = amplitude * Math.cos( x / wavelength * TWO_PI + phaseOffsetAtStart );
+    // Render the wave, changing the thickness if and when the intensity of the wave changes.
+    for ( let x = compensatedXValue; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
 
-      // Rotate the periodic wave to match the orientation of the wave model.  Vector math seems too slow here, shows up
-      // in profiler at 15% or so.
+      const y = amplitude * Math.sin( x / wavelength * TWO_PI + phaseOffsetAtStart );
+
+      // Translate and rotate the periodic wave to match the position and orientation of the wave model.  Vector math
+      // seems too slow here, shows up in profiler at 15% or so, so some optimization has been done.
       const traversePointX = startPoint.x + x * unitVector.x;
       const traversePointY = startPoint.y + x * unitVector.y;
       const ptX = traversePointX + y * unitNormal.x;
@@ -141,16 +148,69 @@ class WavesCanvasNode extends CanvasNode {
         context.lineWidth = waveIntensityToLineWidth( waveIntensity );
         context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
         nextAttenuatorIndex++;
-        if ( waveAttenuators[ nextAttenuatorIndex ] ) {
-          nextAttenuatorPosition = modelViewTransform.modelToViewDeltaX( waveAttenuators[ 0 ].distanceFromStart );
-        }
-        else {
-          nextAttenuatorPosition = Number.POSITIVE_INFINITY;
-        }
+        nextAttenuatorPosition = this.getAttenuatorXPosition( nextAttenuatorIndex, wave, amplitude, wavelength );
       }
     }
 
     context.stroke();
+  }
+
+  /**
+   * Get the X value in scaled view coordinates at which this attenuator should be rendered when drawing the provided
+   * wave.  This value is compensated so as to look like it is occurring along a horizontal line, see
+   * https://github.com/phetsims/greenhouse-effect/issues/66.
+   * @param {number} index - index of the attenuator of interest
+   * @param {Wave} wave - wave on which the attenuator exists
+   * @param {number} amplitudeInView
+   * @param {number} wavelengthInView
+   * @returns {number}
+   * @private
+   */
+  getAttenuatorXPosition( index, wave, amplitudeInView, wavelengthInView ) {
+    const sortedAttenuators = wave.getSortedAttenuators();
+    const attenuatorDistanceFromStart = sortedAttenuators[ index ] ?
+                                        sortedAttenuators[ index ].distanceFromStart :
+                                        Number.POSITIVE_INFINITY;
+    let xPosition = this.modelViewTransform.modelToViewDeltaX( attenuatorDistanceFromStart );
+    if ( xPosition !== Number.POSITIVE_INFINITY ) {
+      const phaseAtNominalXPosition = wave.getPhaseAt(
+        attenuatorDistanceFromStart + wave.origin.distance( wave.startPoint )
+      );
+      xPosition += WavesCanvasNode.getXCompensationForTilt(
+        amplitudeInView,
+        wavelengthInView,
+        phaseAtNominalXPosition,
+        wave.directionOfTravel.getAngle()
+      );
+    }
+    return xPosition;
+  }
+
+  /**
+   * Get a value that represents the amount that the x value that is being provided to a sine function should be
+   * adjusted so that the sine wave will look like it is originating from a horizontal line.  Think of this as a sort of
+   * computational clipping.  For more information on why this is necessary and what it does, please see
+   * https://github.com/phetsims/greenhouse-effect/issues/66.
+   *
+   * Note that this algorithm assumes the waves are generated by a sine function, not a cosine.
+   *
+   * @param {number} amplitudeInView
+   * @param {number} wavelengthInView
+   * @param {number} phase - in radians
+   * @param {number} propagationAngle - in radians, 0 is straight to the right
+   * @returns {number} - amount of compensation in view coordinate frame
+   * @private
+   */
+  static getXCompensationForTilt( amplitudeInView, wavelengthInView, phase, propagationAngle ) {
+
+    // TODO: Test performance and remove this assertion if it's too costly once things are working correctly.
+    assert && assert( phase >= 0 && phase <= TWO_PI, 'unexpected phase' );
+
+    const yAtCurrentPhase = amplitudeInView * Math.sin( phase );
+    const unrotatedXYVector = new Vector2( 0, yAtCurrentPhase );
+    const rotatedXYVector = unrotatedXYVector.rotated( propagationAngle );
+
+    return propagationAngle > 0 ? -rotatedXYVector.y : rotatedXYVector.y;
   }
 }
 

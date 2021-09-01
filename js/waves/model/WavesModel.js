@@ -206,7 +206,7 @@ class WavesModel extends ConcentrationModel {
 
     if ( cloud.enabledProperty.value ) {
 
-      // Make a list of waves that originated from the sun and pass through the cloud.
+      // Make a list of waves that originated from the sun and are currently passing through the cloud.
       const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
@@ -223,8 +223,8 @@ class WavesModel extends ConcentrationModel {
         // If there is no reflected wave for this incident wave, create one.
         if ( !this.cloudReflectedWavesMap.has( incidentWave ) ) {
           const direction = incidentWave.origin.x > cloud.position.x ?
-                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.2 ) :
-                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.2 );
+                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 ) :
+                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.1 );
           const reflectedWave = this.waveGroup.createNextElement(
             incidentWave.wavelength,
             new Vector2( incidentWave.origin.x, cloud.position.y ),
@@ -234,7 +234,8 @@ class WavesModel extends ConcentrationModel {
               intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ),
               initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
                                   ( 2 * Math.PI )
-            } );
+            }
+          );
           this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
 
           // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,

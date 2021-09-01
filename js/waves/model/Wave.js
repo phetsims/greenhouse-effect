@@ -21,6 +21,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WaveAttenuator from './WaveAttenuator.js';
 import WavesModel from './WavesModel.js';
 
 // constants
@@ -113,7 +114,7 @@ class Wave extends PhetioObject {
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
 
-    // @private {Map.<PhetioObject,Attenuator>} - A Map that maps model objects to the attenuation that they are
+    // @private {Map.<PhetioObject,WaveAttenuator>} - A Map that maps model objects to the attenuation that they are
     // currently causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type
     // spec. Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map();
@@ -321,8 +322,7 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * Get the wave's phase at the specified length.  This can be useful for setting the initial phase of waves that are
-   * incited by this one.
+   * Get the wave's phase at the specified distance from the origin.
    * @param {number} distanceFromOrigin
    * @returns {number} - phase of the end point in radians
    * @public
@@ -409,55 +409,6 @@ class Wave extends PhetioObject {
     ];
   }
 }
-
-/**
- * A simple class that is used to keep track of points along the wave where attenuation (reduction in intensity) should
- * occur.
- */
-class WaveAttenuator {
-
-  constructor( initialAttenuation, distanceFromStart ) {
-
-    // @public {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
-    // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave
-    // passing through will have its intensity reduced to zero).
-    this.attenuation = initialAttenuation;
-
-    // @public {number}
-    this.distanceFromStart = distanceFromStart;
-  }
-
-  /**
-   * Serializes this WaveAttenuator instance.
-   * @returns {Object}
-   * @public
-   */
-  toStateObject() {
-    return {
-      attenuation: NumberIO.toStateObject( this.attenuation ),
-      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
-    };
-  }
-
-  /**
-   * @param stateObject
-   * @returns {Object}
-   * @public
-   */
-  static fromStateObject( stateObject ) {
-    return new WaveAttenuator(
-      NumberIO.fromStateObject( stateObject.attenuation ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart )
-    );
-  }
-}
-
-WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator, {
-  stateSchema: {
-    attenuation: NumberIO,
-    distanceFromStart: NumberIO
-  }
-} );
 
 /**
  * @public
