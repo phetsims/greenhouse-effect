@@ -282,12 +282,7 @@ class WaveSourceSpec {
  * serialization', as described in the Serialization section of
  * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
  */
-EMWaveSource.EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource, {
-  stateSchema: {
-    wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
-    waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
-  }
-} );
+EMWaveSource.EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource );
 
 // statics
 EMWaveSource.WaveSourceSpec = WaveSourceSpec;

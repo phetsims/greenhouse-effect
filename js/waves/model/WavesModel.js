@@ -434,13 +434,24 @@ class WavesModel extends ConcentrationModel {
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     super.applyState( stateObject );
   }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO )
+    };
+  }
 }
 
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
  * concentration of greenhouse gasses.
  *
- * @param greenhouseGasConcentration
+ * @param concentration
  */
 const mapGasConcentrationToAttenuation = concentration => {
 
@@ -476,7 +487,11 @@ class WaveAtmosphereInteraction {
       ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) );
   }
 
-  // @public
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
   static get STATE_SCHEMA() {
     return {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
@@ -498,11 +513,7 @@ WaveAtmosphereInteraction.WaveAtmosphereInteractionIO = IOType.fromCoreType(
  * serialization', as described in the Serialization section of
  * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
  */
-WavesModel.WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel, {
-  stateSchema: {
-    waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO )
-  }
-} );
+WavesModel.WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
 
 // statics
 WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;

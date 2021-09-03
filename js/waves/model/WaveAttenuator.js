@@ -47,14 +47,21 @@ class WaveAttenuator {
       NumberIO.fromStateObject( stateObject.distanceFromStart )
     );
   }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      attenuation: NumberIO,
+      distanceFromStart: NumberIO
+    };
+  }
 }
 
-WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator, {
-  stateSchema: {
-    attenuation: NumberIO,
-    distanceFromStart: NumberIO
-  }
-} );
+WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );
 export default WaveAttenuator;

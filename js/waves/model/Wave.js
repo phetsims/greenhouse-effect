@@ -408,6 +408,28 @@ class Wave extends PhetioObject {
       }
     ];
   }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      wavelength: NumberIO,
+      origin: Vector2.Vector2IO,
+      directionOfTravel: Vector2.Vector2IO,
+      propagationLimit: NumberIO,
+      startPoint: Vector2.Vector2IO,
+      length: NumberIO,
+      isSourced: BooleanIO,
+      existenceTime: NumberIO,
+      phaseOffsetAtOrigin: NumberIO,
+      intensityAtStart: NumberIO,
+      renderingWavelength: NumberIO,
+      modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
+    };
+  }
 }
 
 /**
@@ -417,22 +439,7 @@ class Wave extends PhetioObject {
  * as described in the Serialization section of
  * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
  */
-Wave.WaveIO = IOType.fromCoreType( 'WaveIO', Wave, {
-  stateSchema: {
-    wavelength: NumberIO,
-    origin: Vector2.Vector2IO,
-    directionOfTravel: Vector2.Vector2IO,
-    propagationLimit: NumberIO,
-    startPoint: Vector2.Vector2IO,
-    length: NumberIO,
-    isSourced: BooleanIO,
-    existenceTime: NumberIO,
-    phaseOffsetAtOrigin: NumberIO,
-    intensityAtStart: NumberIO,
-    renderingWavelength: NumberIO,
-    modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
-  }
-} );
+Wave.WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
 
 // statics
 Wave.PHASE_RATE = PHASE_RATE;

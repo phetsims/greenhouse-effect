@@ -81,6 +81,21 @@ class EMEnergyPacket {
       Vector2.fromStateObject( stateObject.directionOfTravel )
     );
   }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      wavelength: NumberIO,
+      energy: NumberIO,
+      altitude: NumberIO,
+      previousAltitude: NumberIO,
+      directionOfTravel: Vector2.Vector2IO
+    };
+  }
 }
 
 /**
@@ -90,15 +105,7 @@ class EMEnergyPacket {
  * serialization', as described in the Serialization section of
  * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
  */
-EMEnergyPacket.EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket, {
-  stateSchema: {
-    wavelength: NumberIO,
-    energy: NumberIO,
-    altitude: NumberIO,
-    previousAltitude: NumberIO,
-    directionOfTravel: Vector2.Vector2IO
-  }
-} );
+EMEnergyPacket.EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
 
 greenhouseEffect.register( 'EMEnergyPacket', EMEnergyPacket );
 export default EMEnergyPacket;
