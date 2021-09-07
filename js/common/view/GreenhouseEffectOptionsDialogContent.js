@@ -174,6 +174,7 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
 class MockupOpacityControl extends VBox {
 
   /**
+   * @param {Property.<number>} opacityProperty
    * @param {Tandem} tandem
    */
   constructor( opacityProperty, tandem ) {
