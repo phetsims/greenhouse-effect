@@ -232,6 +232,7 @@
   const noPostMessage = simulationQueryString.indexOf( 'postMessageOnLoad&postMessageOnError' ) === -1;
   const noAccessibility = simulationQueryString.indexOf( 'supportsInteractiveDescription' ) === -1;
 
+  debugger;
   noPostMessage && ( simulationQueryString += 'postMessageOnLoad&postMessageOnError&' );
   noAccessibility && ( simulationQueryString += 'supportsInteractiveDescription=true' );
 
