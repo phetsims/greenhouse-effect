@@ -78,9 +78,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       center: this.layoutBounds.center,
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
-      opacity: window.phet.mockupOpacityProperty.value
+      opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
-    window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+    phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     // layout code
     const visibilityBox = new VBox( {

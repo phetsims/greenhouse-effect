@@ -9,7 +9,7 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import MockupOpacityControl from './common/view/MockupOpacityControl.js';
+import GreenhouseEffectOptionsDialogContent from './common/view/GreenhouseEffectOptionsDialogContent.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import MicroScreen from './micro/MicroScreen.js';
@@ -29,9 +29,10 @@ const simOptions = {
     soundDesign: 'Ashton Morris'
   },
 
-  // TODO: This should be removed once we no longer need mockups for comparisons.  See
-  //       https://github.com/phetsims/greenhouse-effect/issues/16
-  createOptionsDialogContent: tandem => new MockupOpacityControl( tandem )
+  // TODO: This should be removed before publication, see
+  //       https://github.com/phetsims/greenhouse-effect/issues/16 and
+  //       https://github.com/phetsims/greenhouse-effect/issues/36
+  createOptionsDialogContent: tandem => new GreenhouseEffectOptionsDialogContent( tandem )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds

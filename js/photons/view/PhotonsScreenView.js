@@ -38,10 +38,10 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       center: this.layoutBounds.center,
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
-      opacity: window.phet.mockupOpacityProperty.value
+      opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
     this.addChild( mockup );
-    window.phet.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+    phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
   }
