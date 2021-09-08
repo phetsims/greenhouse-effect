@@ -97,7 +97,8 @@ class LayersModel extends GreenhouseEffectModel {
         distanceBetweenLayers * ( index + 1 ),
         {
           minimumTemperature: 0,
-          tandem: atmosphereLayersTandem.createTandem( `layer${index}` )
+          tandem: atmosphereLayersTandem.createTandem( `layer${index}` ),
+          phetioDocumentation: 'Layer in the atmosphere that absorbs and emits energy. Layers are numbered low-to-high according to altitude.'
         }
       );
       this.atmosphereLayers.push( atmosphereLayer );
