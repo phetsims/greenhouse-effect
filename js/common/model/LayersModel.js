@@ -48,7 +48,9 @@ class LayersModel extends GreenhouseEffectModel {
     // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 500 ),
-      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' )
+      units: 'K',
+      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
+      phetioReadOnly: true
     } );
 
     // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
