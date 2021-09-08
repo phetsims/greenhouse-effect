@@ -9,6 +9,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
@@ -85,8 +86,10 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
+      range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioDocumentation: 'Proportion, from 0 to 1, of light energy absorbed for interacting wavelengths.'
     } );
 
     // @private
