@@ -16,8 +16,12 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO from '../../../../tandem/js/types/MapIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
+import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
+
+// constants
+const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
 
 class EMWaveSource extends PhetioObject {
 
@@ -183,10 +187,17 @@ class EMWaveSource extends PhetioObject {
       { intensityAtStart: this.waveIntensityProperty.value }
     );
 
-    this.wavesToLifetimesMap.set( newIRWave, dotRandom.nextDoubleBetween(
-      this.waveLifetimeRange.min,
-      this.waveLifetimeRange.max
-    ) );
+    // If wave gaps are enabled, the newly created wave should have a limited lifetime, after which a new wave with the
+    // same parameters will be created nearby.  If gaps aren't enabled, the lifetime is set to infinity, and the wave
+    // will only go away when the source stops producing it.
+    let waveLifetime;
+    if ( WAVE_GAPS_ENABLED ) {
+      waveLifetime = dotRandom.nextDoubleBetween( this.waveLifetimeRange.min, this.waveLifetimeRange.max );
+    }
+    else {
+      waveLifetime = Number.POSITIVE_INFINITY;
+    }
+    this.wavesToLifetimesMap.set( newIRWave, waveLifetime );
   }
 
   /**
