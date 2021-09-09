@@ -19,16 +19,17 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
+import AtmosphereLayer from './AtmosphereLayer.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
+import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
-const MINIMUM_GROUND_TEMPERATURE = 245;
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 
@@ -95,23 +96,15 @@ class LayersModel extends GreenhouseEffectModel {
     const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
     _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
-      const atmosphereLayer = new EnergyAbsorbingEmittingLayer(
+      const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenLayers * ( index + 1 ),
-        {
-          minimumTemperature: 0,
-          tandem: atmosphereLayersTandem.createTandem( `layer${index}` ),
-          phetioDocumentation: 'Layer in the atmosphere that absorbs and emits energy. Layers are numbered low-to-high according to altitude.'
-        }
+        atmosphereLayersTandem.createTandem( `layer${index}` )
       );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
     // @public (read-only) - model of the ground that absorbs energy, heats up, and radiates
-    this.groundLayer = new EnergyAbsorbingEmittingLayer( 0, {
-      substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
-      minimumTemperature: MINIMUM_GROUND_TEMPERATURE,
-      tandem: tandem.createTandem( 'groundLayer' )
-    } );
+    this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ) );
 
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink(
@@ -227,7 +220,6 @@ LayersModel.LayersModelIO = IOType.fromCoreType( 'LayersModelIO', LayersModel );
 // statics
 LayersModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
 LayersModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
-LayersModel.MINIMUM_GROUND_TEMPERATURE = MINIMUM_GROUND_TEMPERATURE;
 LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS = NUMBER_OF_ATMOSPHERE_LAYERS;
 LayersModel.TemperatureUnits = TemperatureUnits;
 

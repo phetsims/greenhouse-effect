@@ -100,6 +100,27 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   }
 
   /**
+   * Interact with the provided energy packets.  This must be overridden in descendant classes.
+   * @param {EMEnergyPacket[]} emEnergyPackets
+   * @returns {number}
+   * @protected
+   */
+  interactWithEnergyPackets( emEnergyPackets ) {
+    assert && assert( false, 'this method must be overridden in descendant classes' );
+  }
+
+  /**
+   * Returns true if the provided energy packet crossed over this layer during its latest step.
+   * @param {EMEnergyPacket} energyPacket
+   * @returns {boolean}
+   * @protected
+   */
+  energyPacketCrossedThisLayer( energyPacket ) {
+    return ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
+           ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude );
+  }
+
+  /**
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt - delta time, in seconds
@@ -107,33 +128,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    */
   interactWithEnergy( emEnergyPackets, dt ) {
 
-    let absorbedEnergy = 0;
+    // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
+    // packets can be updated, and often are, during this step.
+    const absorbedEnergy = this.interactWithEnergyPackets( emEnergyPackets );
 
-    emEnergyPackets.forEach( energyPacket => {
-      if ( ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
-           ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude ) ) {
-
-        // Should this energy packet be fully or partially absorbed?
-        // TODO: The ground is handled quirkily here, it should probably be separate out at some point.
-        if ( this.altitude === 0 ) {
-
-          // The ground fully absorbs all energy that comes into it.
-          absorbedEnergy += energyPacket.energy;
-          energyPacket.energy = 0; // reduce energy to zero, which will cause this one to be removed from the list
-        }
-        else {
-
-          // This is an atmospheric layer.  These partially absorb IR and ignore visible light.
-          if ( energyPacket.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-            const energyToAbsorb = energyPacket.energy * this.energyAbsorptionProportionProperty.value;
-            absorbedEnergy += energyToAbsorb;
-            energyPacket.energy -= energyToAbsorb;
-          }
-        }
-      }
-    } );
-
-    // Remove all the fully absorbed energy packets.
+    // Remove any energy packets that were fully absorbed.
     _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
 
     // Calculate the temperature change that would occur due to the incoming energy using the specific heat formula.

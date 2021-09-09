@@ -8,10 +8,10 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Utils from '../../../../dot/js/Utils.js';
 
 // constants
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
