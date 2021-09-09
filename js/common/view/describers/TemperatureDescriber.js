@@ -99,8 +99,8 @@ class TemperatureDescriber {
    */
   static getTemperatureValueString( temperatureKelvin, unitsValue ) {
     const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
-                                unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
-                                GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
+                           unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
+                           GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
     return Utils.toFixed( convertedValue, 0 );
   }
