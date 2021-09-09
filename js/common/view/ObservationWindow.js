@@ -30,6 +30,7 @@ import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../../waves/model/WavesModel.js';
+import ObservationWindowPDOMNode from '../../waves/view/ObservationWindowPDOMNode.js';
 import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import LayersModel from '../model/LayersModel.js';
@@ -239,6 +240,13 @@ class ObservationWindow extends Node {
     } );
     soundManager.addSoundGenerator( sunlightStartingSoundClip );
 
+    // pdom - manages descriptions for the observation window
+    // TODO: Use subclasses instead of instanceof, see https://github.com/phetsims/greenhouse-effect/issues/17
+    let observationWindowPDOMNode = null;
+    if ( model instanceof WavesModel ) {
+      observationWindowPDOMNode = new ObservationWindowPDOMNode( model );
+    }
+
     // Add the button that will be used to start and restart the model.
     const startSunlightButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
@@ -351,6 +359,14 @@ class ObservationWindow extends Node {
       labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
 
     }, options ) );
+
+    // TODO: Should always be added to the appropriate subclass, see https://github.com/phetsims/greenhouse-effect/issues/17
+    if ( observationWindowPDOMNode ) {
+      this.addChild( observationWindowPDOMNode );
+
+      // description of the observation window comes before all other content
+      this.pdomOrder = [ observationWindowPDOMNode, null ];
+    }
 
     // @private - Make the presentation node available for stepping.
     this.presentationNode = presentationNode;
