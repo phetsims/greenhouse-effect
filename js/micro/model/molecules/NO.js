@@ -9,9 +9,9 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import Molecule from '../Molecule.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
+import Molecule from '../Molecule.js';
 
 // Model Data for the nitrogen monoxide molecule.
 const INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.

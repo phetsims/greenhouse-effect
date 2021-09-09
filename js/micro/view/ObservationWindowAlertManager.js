@@ -7,12 +7,12 @@
  * @author Jesse Greenberg
  */
 
-import MoleculeUtils from './MoleculeUtils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
+import MoleculeUtils from './MoleculeUtils.js';
 
 const moleculesFloatingAwayPatternString = greenhouseEffectStrings.a11y.moleculesFloatingAwayPattern;
 const photonsOnString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOn;

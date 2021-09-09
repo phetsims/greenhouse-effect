@@ -10,14 +10,14 @@
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import ExcitationStrategy from '../ExcitationStrategy.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 import NO from './NO.js';
 import O from './O.js';
 

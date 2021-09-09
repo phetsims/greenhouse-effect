@@ -19,11 +19,11 @@
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
+import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;

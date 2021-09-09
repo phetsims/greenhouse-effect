@@ -12,11 +12,11 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 
 // Model Data for Methane
 const INITIAL_CARBON_HYDROGEN_DISTANCE = 155; // In picometers.

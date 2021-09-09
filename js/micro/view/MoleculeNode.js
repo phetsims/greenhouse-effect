@@ -9,8 +9,8 @@
 
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import AtomNode from './AtomNode.js';
 import AtomicBondNode from './AtomicBondNode.js';
+import AtomNode from './AtomNode.js';
 
 class MoleculeNode extends Node {
 

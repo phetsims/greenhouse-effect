@@ -9,11 +9,11 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 
 // Model Data for the carbon dioxide molecule.
 const INITIAL_CARBON_OXYGEN_DISTANCE = 170; // In picometers.

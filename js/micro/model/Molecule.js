@@ -23,10 +23,10 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
-import MicroPhoton from './MicroPhoton.js';
 import Atom from './atoms/Atom.js';
 import AtomicBond from './atoms/AtomicBond.js';
+import MicroPhoton from './MicroPhoton.js';
+import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 
 // constants
 const PHOTON_EMISSION_SPEED = 3000; // Picometers per second.

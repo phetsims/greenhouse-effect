@@ -12,6 +12,7 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
+import irReemissionSound from '../../../sounds/greenhouse-effect-ir-reemission_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
@@ -21,7 +22,6 @@ import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerChec
 import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
-import irReemissionSound from '../../../sounds/greenhouse-effect-ir-reemission_mp3.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {

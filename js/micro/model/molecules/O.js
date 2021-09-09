@@ -10,8 +10,8 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import Molecule from '../Molecule.js';
 import Atom from '../atoms/Atom.js';
+import Molecule from '../Molecule.js';
 
 class O extends Molecule {
 

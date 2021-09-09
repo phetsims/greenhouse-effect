@@ -9,6 +9,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -20,7 +21,6 @@ import infraredPhotonFromMoleculeSound from '../../../sounds/photon-release-ir_m
 import microwavePhotonFromMoleculeSound from '../../../sounds/photon-release-microwave_mp3.js';
 import ultravioletPhotonFromMoleculeSound from '../../../sounds/photon-release-uv_mp3.js';
 import visiblePhotonFromMoleculeSound from '../../../sounds/photon-release-visible_mp3.js';
-import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 

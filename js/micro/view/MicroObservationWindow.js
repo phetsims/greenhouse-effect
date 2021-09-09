@@ -21,11 +21,11 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
-import MicroPhotonNode from './MicroPhotonNode.js';
 
 const buttonNodeReturnMoleculeString = greenhouseEffectStrings.ButtonNode.ReturnMolecule;
 const observationWindowLabelString = greenhouseEffectStrings.a11y.observationWindowLabel;

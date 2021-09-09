@@ -17,22 +17,20 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Molecule from './Molecule.js';
 import MicroPhoton from './MicroPhoton.js';
-import PhotonTarget from './PhotonTarget.js';
-import WavelengthConstants from './WavelengthConstants.js';
+import Molecule from './Molecule.js';
 import CH4 from './molecules/CH4.js';
 import CO from './molecules/CO.js';
 import CO2 from './molecules/CO2.js';
@@ -41,6 +39,8 @@ import N2 from './molecules/N2.js';
 import NO2 from './molecules/NO2.js';
 import O2 from './molecules/O2.js';
 import O3 from './molecules/O3.js';
+import PhotonTarget from './PhotonTarget.js';
+import WavelengthConstants from './WavelengthConstants.js';
 
 // ------- constants -------------
 

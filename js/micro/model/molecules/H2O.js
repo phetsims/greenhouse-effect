@@ -9,12 +9,12 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import Atom from '../atoms/Atom.js';
+import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
-import Atom from '../atoms/Atom.js';
-import AtomicBond from '../atoms/AtomicBond.js';
 
 // Model Data for the water molecule
 // These constants define the initial shape of the water atom.  The angle between the atoms is intended to be correct,
