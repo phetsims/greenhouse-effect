@@ -129,14 +129,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   }
 
   /**
-   * @param dt
-   * @public
-   */
-  step( dt ) {
-    this.observationWindow.step( dt );
-  }
-
-  /**
    * Reset view components.
    * @protected
    * @override

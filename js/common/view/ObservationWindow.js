@@ -187,6 +187,11 @@ class ObservationWindow extends Node {
         canvasBounds: SIZE.toBounds(),
         tandem: tandem.createTandem( 'wavesCanvasNode' )
       } );
+
+      // Update the view when changes occur to the modelled waves.
+      model.wavesChangedEmitter.addListener( () => {
+        presentationNode.invalidatePaint();
+      } );
     }
     else if ( model.photons ) {
 
@@ -413,15 +418,6 @@ class ObservationWindow extends Node {
         }
       )
     );
-  }
-
-  /**
-   * TODO: This may not be needed long term, see https://github.com/phetsims/greenhouse-effect/issues/17.
-   * @param {number} dt
-   * @public
-   */
-  step( dt ) {
-    this.presentationNode.step && this.presentationNode.step();
   }
 
   /**

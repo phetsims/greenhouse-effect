@@ -65,11 +65,6 @@ class WavesCanvasNode extends CanvasNode {
     this.model.waveGroup.forEach( wave => this.drawWave( context, wave ) );
   }
 
-  // @public
-  step() {
-    this.invalidatePaint();
-  }
-
   /**
    * function to draw a sinusoidal wave on a canvas
    * @param {CanvasRenderingContext2D} context

@@ -10,6 +10,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Line from '../../../../kite/js/segments/Line.js';
@@ -89,6 +90,9 @@ class WavesModel extends ConcentrationModel {
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
+
+    // @public - signals when the waves have changed so that the view can update them
+    this.wavesChangedEmitter = new Emitter();
 
     // @private - the source of the waves of visible light that come from the sun
     this.sunWaveSource = new SunWaveSource(
@@ -170,6 +174,7 @@ class WavesModel extends ConcentrationModel {
    * @param {number} dt - in seconds
    */
   stepModel( dt ) {
+    const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
     this.groundWaveSource.step( dt );
@@ -181,6 +186,11 @@ class WavesModel extends ConcentrationModel {
     this.waveGroup.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
       this.waveGroup.disposeElement( wave );
     } );
+
+    // Emit a notification if anything has changed about the waves during this step so that the view can be updated.
+    if ( this.waveGroup.count > 0 || numberOfWavesAtStartOfStep > 0 ) {
+      this.wavesChangedEmitter.emit();
+    }
   }
 
   /**
@@ -400,6 +410,7 @@ class WavesModel extends ConcentrationModel {
    * @public
    */
   reset() {
+    const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
     this.cloudEnabledProperty.reset();
     this.waveGroup.clear();
@@ -408,6 +419,9 @@ class WavesModel extends ConcentrationModel {
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
     this.waveAtmosphereInteractions.length = 0;
+    if ( numberOfWavesBeforeReset > 0 ) {
+      this.wavesChangedEmitter.emit();
+    }
   }
 
   /**
