@@ -7,16 +7,17 @@
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import ConcentrationModel from '../../model/ConcentrationModel.js';
 
 // strings used to describe the levels of concentration in the model
-const concentrationNoString = 'no';
-const concentrationVeryLowString = 'very low levels of';
-const concentrationLowString = 'low levels of';
-const concentrationModerateString = 'moderate levels of';
-const concentrationHighString = 'high levels of';
-const concentrationVeryHighString = 'very high levels of';
-const concentrationMaxString = 'max levels of';
+const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
+const concentrationVeryLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryLow;
+const concentrationLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.low;
+const concentrationModerateString = greenhouseEffectStrings.a11y.concentrationDescriptions.moderate;
+const concentrationHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.high;
+const concentrationVeryHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryHigh;
+const concentrationMaxString = greenhouseEffectStrings.a11y.concentrationDescriptions.max;
 
 // The range of concentration in the model is split up evenly and described with these strings. Does not include
 // "no" and "max" strings because those are only used at the most extreme values.
@@ -27,6 +28,17 @@ const nonExtremeConcentrationDescriptionStrings = [
   concentrationHighString,
   concentrationVeryHighString
 ];
+
+// strings used to describe the concentration my year
+const iceAgeString = greenhouseEffectStrings.a11y.timePeriodDescriptions.iceAge;
+const seventeenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.seventeenFifty;
+const nineteenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.nineteenFifty;
+const twentyTwentyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.twentyTwenty;
+
+// strings used to describe the sky
+const skyDescriptionPatternString = greenhouseEffectStrings.a11y.sky.skyDescriptionPattern;
+const cloudyString = greenhouseEffectStrings.a11y.sky.cloudy;
+const clearString = greenhouseEffectStrings.a11y.sky.clear;
 
 class ConcentrationDescriber {
   constructor() {}
@@ -40,8 +52,8 @@ class ConcentrationDescriber {
    * @param {boolean} cloudEnabled
    */
   static getSkyCloudDescription( cloudEnabled ) {
-    const skyPatternString = 'The sky is {{cloudDescription}}.';
-    const cloudDescriptionString = cloudEnabled ? 'cloudy' : 'clear';
+    const skyPatternString = skyDescriptionPatternString;
+    const cloudDescriptionString = cloudEnabled ? cloudyString : clearString;
     return StringUtils.fillIn( skyPatternString, { cloudDescription: cloudDescriptionString } );
   }
 
@@ -55,10 +67,10 @@ class ConcentrationDescriber {
    * @returns {string}
    */
   static getTimePeriodString( timePeriodValue ) {
-    return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? 'ice age' :
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? 'year seventeen fifty' :
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? 'year nineteen fifty' :
-           'year twenty twenty';
+    return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeString :
+           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyString :
+           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyString :
+           twentyTwentyString;
   }
 
   /**
@@ -72,7 +84,7 @@ class ConcentrationDescriber {
    * @param {number} value - value of concentration in the model
    * @returns {string}
    */
-  static getConcentrationDescriptionString( value ) {
+  static getConcentrationDescription( value ) {
     let descriptionString = '';
 
     // if at the extreme values (and only at extreme values), unique descriptions are used

@@ -9,6 +9,7 @@ import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import LayersModel from '../../model/LayersModel.js';
 
@@ -17,13 +18,13 @@ import LayersModel from '../../model/LayersModel.js';
 const DESCRIBED_TEMPERATURE_RANGE = new Range( 245, 290 );
 
 // strings used to describe temperature
-const temperatureVeryHighString = 'very high';
-const temperatureHighString = 'high';
-const temperatureSomewhatHighString = 'somewhat high';
-const temperatureModerateString = 'moderate';
-const temperatureSomewhatLowString = 'somewhat low';
-const temperatureLowString = 'low';
-const temperatureVeryLowString = 'very low';
+const temperatureVeryHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryHigh;
+const temperatureHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.high;
+const temperatureSomewhatHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatHigh;
+const temperatureModerateString = greenhouseEffectStrings.a11y.temperatureDescriptions.moderate;
+const temperatureSomewhatLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatLow;
+const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.low;
+const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
 
 const qualitativeTemperatureDescriptionStrings = [
   temperatureVeryLowString,
@@ -34,6 +35,11 @@ const qualitativeTemperatureDescriptionStrings = [
   temperatureHighString,
   temperatureVeryHighString
 ];
+
+// written units of temperature
+const kelvinString = greenhouseEffectStrings.a11y.temperatureUnits.kelvin;
+const celsiusString = greenhouseEffectStrings.a11y.temperatureUnits.celsius;
+const fahrenheitString = greenhouseEffectStrings.a11y.temperatureUnits.fahrenheit;
 
 class TemperatureDescriber {
   constructor() {}
@@ -50,7 +56,7 @@ class TemperatureDescriber {
    * @returns {string}
    */
   static getQuantitativeTemperatureDescription( temperatureKelvin, unitsValue ) {
-    return StringUtils.fillIn( '{{value}} {{units}}', {
+    return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
     } );
@@ -63,7 +69,7 @@ class TemperatureDescriber {
    * "low"
    * @public
    *
-   * @param {LayersModel.TemperatureUnits} value - the temperature in kelvin
+   * @param {number} value - the temperature in kelvin
    * @returns {string}
    */
   static getQualitativeTemperatureDescriptionString( value ) {
@@ -92,11 +98,11 @@ class TemperatureDescriber {
    * @returns {string}
    */
   static getTemperatureValueString( temperatureKelvin, unitsValue ) {
-    const temperatureProperty = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
+    const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
                                 unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
                                 GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
-    return Utils.toFixed( temperatureProperty.value, 0 );
+    return Utils.toFixed( convertedValue, 0 );
   }
 
   /**
@@ -110,9 +116,9 @@ class TemperatureDescriber {
    * @returns {string}
    */
   static getTemperatureUnitsString( unitsValue ) {
-    return unitsValue === LayersModel.TemperatureUnits.KELVIN ? 'Kelvin' :
-           unitsValue === LayersModel.TemperatureUnits.CELSIUS ? 'degrees Celsius' :
-           'degrees Fahrenheit';
+    return unitsValue === LayersModel.TemperatureUnits.KELVIN ? kelvinString :
+           unitsValue === LayersModel.TemperatureUnits.CELSIUS ? celsiusString :
+           fahrenheitString;
 
   }
 }

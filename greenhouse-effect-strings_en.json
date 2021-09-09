@@ -207,6 +207,88 @@
         "value": "Explore temperature without exact measurements."
       }
     },
+    "temperatureDescriptions": {
+      "veryHigh": {
+        "value": "very high"
+      },
+      "high": {
+        "value": "high"
+      },
+      "somewhatHigh": {
+        "value": "somewhat high"
+      },
+      "moderate": {
+        "value": "moderate"
+      },
+      "somewhatLow": {
+        "value": "somewhat low"
+      },
+      "low": {
+        "value": "low"
+      },
+      "veryLow": {
+        "value": "very low"
+      }
+    },
+    "temperatureUnits": {
+      "kelvin": {
+        "value": "Kelvin"
+      },
+      "celsius": {
+        "value": "degrees Celsius"
+      },
+      "fahrenheit": {
+        "value": "degrees Fahrenheit"
+      }
+    },
+    "concentrationDescriptions": {
+      "no": {
+        "value": "no"
+      },
+      "veryLow": {
+        "value": "very low levels of"
+      },
+      "low": {
+        "value": "low levels of"
+      },
+      "moderate": {
+        "value": "moderate levels of"
+      },
+      "high": {
+        "value": "high levels of"
+      },
+      "veryHigh": {
+        "value": "very high levels of"
+      },
+      "max": {
+        "value": "max levels of"
+      }
+    },
+    "timePeriodDescriptions": {
+      "iceAge": {
+        "value": "Ice age"
+      },
+      "seventeenFifty": {
+        "value": "Year seventeen fifty"
+      },
+      "nineteenFifty": {
+        "value": "Year nineteen fifty"
+      },
+      "twentyTwenty": {
+        "value": "Year twenty twenty"
+      }
+    },
+    "sky": {
+      "skyDescriptionPattern": {
+        "value": "The sky is {{cloudDescription}}."
+      },
+      "cloudy": {
+        "value": "cloudy"
+      },
+      "clear": {
+        "value": "clear"
+      }
+    },
     "energyLegend": {
       "title": {
         "value": "Energy Legend"
@@ -231,6 +313,30 @@
         },
         "controlAreaDescription": {
           "value": "The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+        },
+        "currently": {
+          "value": "Currently,"
+        },
+        "currentlyNoSunlight": {
+          "value": "Currently, no sunlight in observation window;"
+        },
+        "greenhouseGassesInAtmospherePattern": {
+          "value": "{{valueDescription}} greenhouse gasses in atmosphere"
+        },
+        "timePeriodPattern": {
+          "value": "the time period is the {{timePeriodDescription}}"
+        },
+        "summaryWithTemperaturePattern": {
+          "value": "{{currentlyDescription}} {{concentrationDescription}}. {{temperatureDescription}}. {{skyDescription}}"
+        },
+        "summaryWithoutTemperaturePattern": {
+          "value": "{{currentlyDescription}} {{concentrationDescription}}. {{skyDescription}}"
+        },
+        "surfaceTemperaturePattern": {
+          "value": "Earth's surface temperature is {{temperatureDescription}}"
+        },
+        "qualitativeAndQuantitativeTemperatureDescriptionPattern": {
+          "value": "{{qualitativeDescription}}, {{quantitativeDescription}}"
         }
       }
     },

@@ -14,6 +14,18 @@ import TemperatureDescriber from '../../common/view/describers/TemperatureDescri
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
+// constants
+const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
+const currentlyNoSunlightString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
+
+const greenhouseGassesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGassesInAtmospherePattern;
+const timePeriodPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern;
+
+const summaryWithTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
+const summaryWithoutTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
+
+const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePattern;
+const qualitativeAndQuantitativeTemperatureDescriptionPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPattern;
 class WavesScreenSummaryContentNode extends Node {
 
   /**
@@ -73,7 +85,7 @@ class WavesScreenSummaryContentNode extends Node {
     let descriptionString = '';
 
     // the leading portion of the summary may include an extra hint that sunlight isn't shining yet
-    const currentlyDescriptionString = sunIsShining ? 'Currently,' : 'Currently, no sunlight in observation window;';
+    const currentlyDescriptionString = sunIsShining ? currentlyString : currentlyNoSunlightString;
 
     // portion that describes the state of the sky
     const skyDescriptionString = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
@@ -81,12 +93,12 @@ class WavesScreenSummaryContentNode extends Node {
     // portion that describes the state of the concentration in the atmosphere
     let concentrationDescriptionString = '';
     if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE ) {
-      concentrationDescriptionString = StringUtils.fillIn( '{{valueDescription}} greenhouse gasses in atmosphere', {
-        valueDescription: ConcentrationDescriber.getConcentrationDescriptionString( concentration )
+      concentrationDescriptionString = StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
+        valueDescription: ConcentrationDescriber.getConcentrationDescription( concentration )
       } );
     }
     else {
-      concentrationDescriptionString = StringUtils.fillIn( 'the time period is the {{timePeriodDescription}}', {
+      concentrationDescriptionString = StringUtils.fillIn( timePeriodPatternString, {
         timePeriodDescription: ConcentrationDescriber.getTimePeriodString( date )
       } );
     }
@@ -98,18 +110,16 @@ class WavesScreenSummaryContentNode extends Node {
     // temperature while the sun is not shining can create confusing descriptions where the concentration is high
     // but the temperature is still low.
     if ( ( surfaceTemperatureVisible || surfaceThermometerVisible ) && sunIsShining ) {
-      patternString = '{{currentlyDescription}} {{concentrationDescription}}. {{temperatureDescription}}. {{skyDescription}}';
+      patternString = summaryWithTemperaturePatternString;
 
       // Portion that generates the temperature description. If the thermometer is visible, it will include a
       // quantitative description of the temperature. If user has elected to view the temperature in another
       // representation we include a qualitative description of the temperature.
-      const temperaturePatternString = 'Earth\'s surface temperature is {{temperatureDescription}}';
       const qualitativeTemperatureDescriptionString = TemperatureDescriber.getQualitativeTemperatureDescriptionString( surfaceTemperatureKelvin );
       const quantitativeTemperatureDescriptionString = TemperatureDescriber.getQuantitativeTemperatureDescription( surfaceTemperatureKelvin, temperatureUnits );
 
       let temperatureFragmentString = '';
       if ( surfaceTemperatureVisible && surfaceThermometerVisible ) {
-        const qualitativeAndQuantitativeTemperatureDescriptionPatternString = '{{qualitativeDescription}}, {{quantitativeDescription}}';
         temperatureFragmentString = StringUtils.fillIn( qualitativeAndQuantitativeTemperatureDescriptionPatternString, {
           qualitativeDescription: qualitativeTemperatureDescriptionString,
           quantitativeDescription: quantitativeTemperatureDescriptionString
@@ -122,7 +132,7 @@ class WavesScreenSummaryContentNode extends Node {
         temperatureFragmentString = quantitativeTemperatureDescriptionString;
       }
 
-      const temperatureDescriptionString = StringUtils.fillIn( temperaturePatternString, {
+      const temperatureDescriptionString = StringUtils.fillIn( surfaceTemperaturePatternString, {
         temperatureDescription: temperatureFragmentString
       } );
 
@@ -137,7 +147,7 @@ class WavesScreenSummaryContentNode extends Node {
     else {
 
       // assemble the final description without temperature information
-      patternString = '{{currentlyDescription}} {{concentrationDescription}}. {{skyDescription}}';
+      patternString = summaryWithoutTemperaturePatternString;
       descriptionString = StringUtils.fillIn( patternString, {
         currentlyDescription: currentlyDescriptionString,
         concentrationDescription: concentrationDescriptionString,
