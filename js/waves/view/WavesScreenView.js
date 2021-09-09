@@ -8,7 +8,6 @@
  */
 
 import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -20,10 +19,10 @@ import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import irReemissionSound from '../../../sounds/greenhouse-effect-ir-reemission_mp3.js';
+import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
@@ -42,13 +41,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem: tandem,
 
       // pdom
-      screenSummaryContent: new Node( {
-        children: [
-          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription } ),
-          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription } ),
-          new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.startSunlightHint } )
-        ]
-      } )
+      screenSummaryContent: new WavesScreenSummaryContentNode( model )
     } );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox( model.surfaceThermometerVisibleProperty, tandem.createTandem( 'surfaceThermometerCheckbox' ) );

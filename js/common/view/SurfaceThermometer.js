@@ -10,7 +10,6 @@
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -138,7 +137,6 @@ class SurfaceThermometer extends Node {
     assert && assert( options.numberDisplayOptions.valuePattern === undefined );
 
     options.numberDisplayOptions.valuePattern = StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-      degrees: MathSymbols.DEGREES,
       units: unitsString
     } );
 
