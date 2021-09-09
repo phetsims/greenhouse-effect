@@ -17,6 +17,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -116,6 +117,25 @@ class ObservationWindow extends Node {
     const groundNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
       fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
       bottom: SIZE.height
+    } );
+
+    // glacier
+    const glacierWidth = SIZE.width * 0.3;
+    const glacierHeight = groundRectHeight * 0.25;
+    const glacierShape = new Shape()
+      .moveTo( glacierWidth * 0.15, 0 )
+      .lineTo( glacierWidth * 0.85, 0 )
+      .lineTo( glacierWidth, glacierHeight )
+      .lineTo( 0, glacierHeight )
+      .lineTo( glacierWidth * 0.2, 0 )
+      .close();
+    const glacierNode = new Path( glacierShape, {
+      fill: Color.WHITE,
+      centerX: groundNode.width * 0.75,
+      centerY: groundNode.centerY
+    } );
+    model.groundLayer.albedoProperty.link( groundAlbedo => {
+      glacierNode.visible = groundAlbedo > 0;
     } );
 
     // surface temperature node
@@ -326,6 +346,7 @@ class ObservationWindow extends Node {
         skyNode,
         glowInTheSkyNode,
         groundNode,
+        glacierNode,
         surfaceTemperatureNode,
         ...energyAbsorbingEmittingLayerNodes,
         presentationNode

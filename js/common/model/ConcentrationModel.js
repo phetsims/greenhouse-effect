@@ -10,6 +10,7 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -30,7 +31,7 @@ const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', '
 // to get the UI components working
 const CONCENTRATION_RANGE = new Range( 0, 1 );
 const DATE_TO_CONCENTRATION_MAP = new Map( [
-  [ CONCENTRATION_DATE.ICE_AGE, 0.5 ],
+  [ CONCENTRATION_DATE.ICE_AGE, 0.55 ],
   [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.7 ],
   [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.8 ],
   [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.83 ]
@@ -98,6 +99,24 @@ class ConcentrationModel extends LayersModel {
         atmosphereLayer.energyAbsorptionProportionProperty.set( proportionToAbsorbAtSeaLevel * altitudeProportionFactor );
       } );
     } );
+
+    Property.multilink(
+      [ this.dateProperty, this.concentrationControlModeProperty ],
+      ( date, concentrationControlMode ) => {
+        if ( date === CONCENTRATION_DATE.ICE_AGE &&
+             concentrationControlMode === CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+
+          // This is the ice age, so the ground should reflect some light.
+          this.groundLayer.albedoProperty.set( 0.02 );
+        }
+        else {
+
+          // This is not the ice age, so the ground should not reflect light (in this model, obviously this doesn't
+          // quite match real life).
+          this.groundLayer.albedoProperty.set( 0 );
+        }
+      }
+    );
   }
 
   /**

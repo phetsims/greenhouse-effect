@@ -34,6 +34,7 @@ import Wave from './Wave.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
+const TWO_PI = Math.PI * 2;
 
 // Wavelength values used when depicting the waves, in meters.  Far from real life.  Can be adjusted for desired look.
 const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
@@ -115,6 +116,9 @@ class WavesModel extends ConcentrationModel {
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map();
 
+    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of the glacier
+    this.glacierReflectedWavesMap = new Map();
+
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
     this.clouds.push(
@@ -181,6 +185,7 @@ class WavesModel extends ConcentrationModel {
     this.waveGroup.forEach( wave => wave.step( dt ) );
     this.updateWaveCloudInteractions();
     this.updateWaveAtmosphereInteractions();
+    this.updateWaveGlacierInteractions();
 
     // Remove any waves that have finished propagating.
     this.waveGroup.filter( wave => wave.isCompletelyPropagated ).forEach( wave => {
@@ -404,6 +409,59 @@ class WavesModel extends ConcentrationModel {
         } );
       }
     } );
+  }
+
+  /**
+   * update the interactions between light waves and the glacier
+   * @private
+   */
+  updateWaveGlacierInteractions() {
+
+    // See if any of the currently reflected waves should stop reflecting.
+    this.glacierReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
+      if ( this.groundLayer.albedoProperty.value === 0 || !this.waveGroup.includes( sourceWave ) ) {
+
+        // Either the albedo has gone to zero or the source wave has gone away.  In either case, free this wave to
+        // finish propagating on its own.
+        reflectedWave.isSourced = false;
+        this.glacierReflectedWavesMap.delete( sourceWave );
+      }
+    } );
+
+    // See if any new waves should be created.
+    if ( this.groundLayer.albedoProperty.value > 0 ) {
+
+      // Make a list of waves that originated from the sun and are reaching the glacier.
+      // TODO: This is using a fixed position and should be adjusted when we know exactly where the glacier will be,
+      //       see https://github.com/phetsims/greenhouse-effect/issues/73.
+      const wavesHittingTheGlacier = this.waveGroup.filter( wave =>
+        wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
+        wave.origin.x > 0 &&
+        wave.origin.y === this.sunWaveSource.waveStartAltitude &&
+        wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
+        wave.getEndPoint().y === 0
+      );
+
+      // Check if reflected waves are in place for these and, if not, add them.
+      wavesHittingTheGlacier.forEach( incidentWave => {
+
+        // If there is no reflected wave for this incident wave, create one.
+        if ( !this.glacierReflectedWavesMap.has( incidentWave ) ) {
+          const direction = GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.05 );
+          const reflectedWave = this.waveGroup.createNextElement(
+            incidentWave.wavelength,
+            new Vector2( incidentWave.origin.x, 0 ),
+            direction,
+            LayersModel.HEIGHT_OF_ATMOSPHERE,
+            {
+              intensityAtStart: 0.25, // arbitrarily chose to look good
+              initialPhaseOffset: ( incidentWave.getPhaseAt( LayersModel.HEIGHT_OF_ATMOSPHERE ) + Math.PI ) % TWO_PI
+            }
+          );
+          this.glacierReflectedWavesMap.set( incidentWave, reflectedWave );
+        }
+      } );
+    }
   }
 
   /**

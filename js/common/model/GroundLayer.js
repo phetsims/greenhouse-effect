@@ -6,8 +6,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import EnergyDirection from './EnergyDirection.js';
 
 // constants
 const MINIMUM_TEMPERATURE = 245;
@@ -31,6 +34,12 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     };
 
     super( 0, options );
+
+    // @public {Property.<number>} - albedo of the ground, meaning how much of the incoming light it reflects
+    this.albedoProperty = new NumberProperty( 0, {
+      range: new Range( 0, 1 ),
+      tandem: tandem.createTandem( 'albedoProperty' )
+    } );
   }
 
   /**
@@ -43,11 +52,23 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
   interactWithEnergyPackets( emEnergyPackets ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
-      if ( this.energyPacketCrossedThisLayer( energyPacket ) ) {
+      if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.directionOfTravel.y < 0 ) {
 
-        // The ground fully absorbs all energy that comes into it.
-        absorbedEnergy += energyPacket.energy;
-        energyPacket.energy = 0; // Reduce energy to zero, which will cause this packet to be removed from the list.
+        absorbedEnergy += energyPacket.energy * ( 1 - this.albedoProperty.value );
+        const reflectedEnergy = energyPacket.energy - absorbedEnergy;
+        if ( reflectedEnergy > 0 ) {
+
+          // Some of the energy in this packet has been reflected.  Reverse the direction of the packet and set its
+          // energy accordingly.
+          energyPacket.energy = reflectedEnergy;
+          energyPacket.directionOfTravel = EnergyDirection.UP;
+        }
+        else {
+
+          // All energy was absorbed.  Reduce the energy in the packet to zero, which will cause it to be removed from
+          // the list in the next step.
+          energyPacket.energy = 0;
+        }
       }
     } );
     return absorbedEnergy;
