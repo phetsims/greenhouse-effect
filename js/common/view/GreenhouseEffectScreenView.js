@@ -4,6 +4,7 @@
  * The base ScreenView for Greenhouse Effect, views for individual screens will extend this.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -12,6 +13,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -56,19 +58,25 @@ class GreenhouseEffectScreenView extends ScreenView {
       options.tandem.createTandem( 'observationWindow' ),
       options.observationWindowOptions
     );
+    this.addChild( this.observationWindow );
 
     // area between right edge of ScreenView and observation window
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
                        this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
 
-    // @protected {EnergyLegend} - for layout in subtypes
+    // @protected {EnergyLegend} - accessible in subtypes for layout purposes
     this.energyLegend = new EnergyLegend( rightWidth, merge( {
       tandem: options.tandem.createTandem( 'energyLegend' )
     }, options.energyLegendOptions ) );
 
-    // add these nodes to the play area
-    this.addChild( this.energyLegend );
-    this.addChild( this.observationWindow );
+    // @protected {VBox} - The parent node on the right side of the view where legends and controls are placed.  A VBox
+    // is used to support dynamic layout in conjunction with phet-io.
+    this.legendAndControlsVBox = new VBox( {
+      children: [ this.energyLegend ],
+      align: 'left',
+      spacing: 10
+    } );
+    this.addChild( this.legendAndControlsVBox );
 
     // @public {TimeControlNode} - for layout in subtypes
     this.timeControlNode = new TimeControlNode( model.isPlayingProperty, {
@@ -100,10 +108,17 @@ class GreenhouseEffectScreenView extends ScreenView {
     // height of area between bottom of the screen view and bottom of the observation window
     const bottomHeight = this.layoutBounds.height - this.observationWindow.bottom;
 
-    // several controls have layout relative to the TimeControlNode
-    this.timeControlNode.center = new Vector2( this.observationWindow.centerX, this.observationWindow.bottom + bottomHeight / 2 );
+    // Several controls have layout relative to the TimeControlNode.
+    this.timeControlNode.center = new Vector2(
+      this.observationWindow.centerX,
+      this.observationWindow.bottom + bottomHeight / 2
+    );
 
-    this.energyLegend.leftTop = this.observationWindow.rightTop.plusXY( GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING, 0 );
+    // The legends and controls are to the right of the observation window.
+    this.legendAndControlsVBox.leftTop = this.observationWindow.rightTop.plusXY(
+      GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING,
+      0
+    );
 
     this.resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.centerY = this.timeControlNode.centerY;

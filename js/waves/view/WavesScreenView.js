@@ -56,7 +56,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
         tandem: tandem.createTandem( 'concentrationControlPanel' )
       }
     );
-    this.addChild( concentrationControls );
+
+    // Add the concentration controls.  It goes into a VBox to support dynamic layout.
+    this.legendAndControlsVBox.addChild( concentrationControls );
 
     // cloud checkbox
     cloudCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY(
