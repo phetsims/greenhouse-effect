@@ -130,6 +130,7 @@ class ConcentrationControlPanel extends Panel {
       options.tandem.createTandem( 'controlRadioButtonGroup' )
     );
 
+    // Put the two concentration controls into a single node where only one is visible at a time.
     const controlsParentNode = new Node( {
       children: [ concentrationSlider, dateControl ]
     } );
@@ -137,21 +138,15 @@ class ConcentrationControlPanel extends Panel {
 
     const contentChildren = [ titleNode, controlsParentNode, controlRadioButtonGroup ];
 
-    // layout
-    controlsParentNode.centerTop = titleNode.centerBottom.plusXY( 0, CONTENT_SPACING );
-    controlRadioButtonGroup.centerTop = controlsParentNode.centerBottom.plusXY( 0, CONTENT_SPACING );
-
     let compositionDataNode = null;
     if ( options.includeCompositionData ) {
       compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty );
       contentChildren.push( compositionDataNode );
-
-      compositionDataNode.left = titleNode.left;
-      compositionDataNode.top = controlRadioButtonGroup.bottom + CONTENT_SPACING;
     }
 
-    const content = new Node( {
-      children: contentChildren
+    const content = new VBox( {
+      children: contentChildren,
+      spacing: CONTENT_SPACING
     } );
 
     super( content, options );
