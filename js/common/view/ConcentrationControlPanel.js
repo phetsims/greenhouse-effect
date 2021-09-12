@@ -106,13 +106,15 @@ class ConcentrationControlPanel extends Panel {
     // Title for the whole panel
     const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
       font: GreenhouseEffectConstants.TITLE_FONT,
-      maxWidth: width - PANEL_MARGINS * 2
+      maxWidth: width - PANEL_MARGINS * 2,
+      tandem: options.tandem.createTandem( 'titleNode' )
     } );
 
     // controls the concentration directly by value
     const concentrationSlider = new ConcentrationSlider(
       concentrationModel.manuallyControlledConcentrationProperty,
-      options.tandem.createTandem( 'concentrationSlider' ) );
+      options.tandem.createTandem( 'concentrationSlider' )
+    );
 
     // controls to select greenhouse gas concentration by date, and a meter displaying relative concentration
     const dateControl = new DateControl(
@@ -342,7 +344,8 @@ class ConcentrationSlider extends Node {
    * @param {Tandem} tandem
    */
   constructor( manuallyControlledConcentrationProperty, tandem ) {
-    super();
+
+    super( { tandem: tandem } );
 
     // Create the sound generator.
     const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( manuallyControlledConcentrationProperty, {

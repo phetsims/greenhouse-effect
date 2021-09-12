@@ -12,6 +12,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -37,11 +38,17 @@ class GreenhouseEffectCheckbox extends Checkbox {
       // i18n
       maxWidth: 250,
 
+      // phet-io
+      tandem: Tandem.REQUIRED,
+
       // pdom
       accessibleName: labelString
     }, options );
 
-    const labelText = new Text( labelString, { font: LABEL_FONT } );
+    const labelText = new Text( labelString, {
+      font: LABEL_FONT,
+      tandem: options.tandem.createTandem( 'labelText' )
+    } );
 
     const contentChildren = options.iconNode ? [ labelText, options.iconNode ] : [ labelText ];
     const checkboxContent = new HBox( {

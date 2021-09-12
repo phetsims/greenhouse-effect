@@ -51,7 +51,8 @@ class LayersModel extends GreenhouseEffectModel {
       range: new Range( 0, 500 ),
       units: 'K',
       tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioHighFrequency: true
     } );
 
     // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views

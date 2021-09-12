@@ -38,7 +38,9 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     // @public {Property.<number>} - albedo of the ground, meaning how much of the incoming light it reflects
     this.albedoProperty = new NumberProperty( 0, {
       range: new Range( 0, 1 ),
-      tandem: tandem.createTandem( 'albedoProperty' )
+      tandem: tandem.createTandem( 'albedoProperty' ),
+      phetioReadOnly: true,
+      phetioDocumentation: 'Proportion of incident light reflected from the ground from 0 (no reflection) to 1 (all light is reflected).'
     } );
   }
 

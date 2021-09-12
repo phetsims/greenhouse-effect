@@ -79,8 +79,10 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
+      units: 'K',
       tandem: options.tandem.createTandem( 'temperatureProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioHighFrequency: true
     } );
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase

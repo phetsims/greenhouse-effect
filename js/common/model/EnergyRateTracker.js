@@ -32,7 +32,9 @@ class EnergyRateTracker {
 
     // @public (read-only) {Property.<number>} - current total for the accumulation period
     this.energyRateProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'energyRateProperty' )
+      units: 'W',
+      tandem: options.tandem.createTandem( 'energyRateProperty' ),
+      phetioDocumentation: 'Amount of energy being produced or absorbed.'
     } );
 
     // @private {Object[]}, each object has a dt and energy value

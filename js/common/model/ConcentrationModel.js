@@ -54,7 +54,8 @@ class ConcentrationModel extends LayersModel {
     // @public {NumberProperty} - Property for the concentration, when the concentration is controlled directly by value
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
       range: CONCENTRATION_RANGE,
-      tandem: tandem.createTandem( 'manuallyControlledConcentrationProperty' )
+      tandem: tandem.createTandem( 'manuallyControlledConcentrationProperty' ),
+      phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
 
     // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
@@ -76,8 +77,10 @@ class ConcentrationModel extends LayersModel {
                DATE_TO_CONCENTRATION_MAP.get( date );
       }, {
         tandem: tandem.createTandem( 'concentrationProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-      } );
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO ),
+        phetioDocumentation: 'The concentration value being used in the model, set via the slider or the date control.'
+      }
+    );
 
     // Hook up the concentration to the layers created in the parent class.
     this.concentrationProperty.link( concentration => {
