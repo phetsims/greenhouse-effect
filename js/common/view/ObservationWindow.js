@@ -112,16 +112,33 @@ class ObservationWindow extends Node {
         .addColorStop( 1, '#CCF2FF' )
     } );
 
+    // control points used for the shape of the horizon
+    const nominalGroundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
+    const leftHillStartPoint = Vector2.ZERO;
+    const leftHillControlPoint1 = new Vector2( SIZE.width / 4, -nominalGroundHeight * 0.2 );
+    const leftHillControlPoint2 = new Vector2( 3 * SIZE.width / 8, nominalGroundHeight * 0.05 );
+    const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
+    const rightHillControlPoint1 = new Vector2( 5 * SIZE.width / 8, -nominalGroundHeight * 0.1 );
+    const rightHillControlPoint2 = new Vector2( 3 * SIZE.width / 4, -nominalGroundHeight * 0.25 );
+    const rightHillEndPoint = new Vector2( SIZE.width, 0 );
+
     // ground
-    const groundRectHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
-    const groundNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
-      fill: new LinearGradient( 0, 0, 0, groundRectHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
+    const groundShape = new Shape()
+      .moveToPoint( leftHillStartPoint )
+      .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
+      .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
+      .lineTo( SIZE.width, nominalGroundHeight )
+      .lineTo( 0, nominalGroundHeight )
+      .lineTo( 0, 0 )
+      .close();
+    const groundNode = new Path( groundShape, {
+      fill: new LinearGradient( 0, 0, 0, nominalGroundHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
       bottom: SIZE.height
     } );
 
     // glacier
     const glacierWidth = SIZE.width * 0.3;
-    const glacierHeight = groundRectHeight * 0.25;
+    const glacierHeight = nominalGroundHeight * 0.25;
     const glacierShape = new Shape()
       .moveTo( glacierWidth * 0.15, 0 )
       .lineTo( glacierWidth * 0.85, 0 )
@@ -139,10 +156,10 @@ class ObservationWindow extends Node {
     } );
 
     // surface temperature node
-    const surfaceTemperatureNode = new Rectangle( 0, 0, SIZE.width, groundRectHeight, {
-      fill: new LinearGradient( 0, 0, 0, groundRectHeight )
+    const surfaceTemperatureNode = new Path( groundShape, {
+      fill: new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
-        .addColorStop( 0.25, 'rgba( 255, 0, 0, 0 )' ),
+        .addColorStop( 0.33, 'rgba( 255, 0, 0, 0 )' ),
       bottom: SIZE.height
     } );
 
@@ -153,10 +170,10 @@ class ObservationWindow extends Node {
       SIZE.width,
       -modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) * 0.1,
       {
-        fill: new LinearGradient( 0, 0, 0, groundRectHeight )
+        fill: new LinearGradient( 0, 0, 0, nominalGroundHeight )
           .addColorStop( 0, 'rgba( 255, 0, 0, 0 )' )
           .addColorStop( 1, Color.RED ),
-        bottom: surfaceTemperatureNode.top
+        bottom: SIZE.height - nominalGroundHeight
       }
     );
 
