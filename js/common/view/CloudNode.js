@@ -37,7 +37,7 @@ class CloudNode extends Node {
 
     super( options );
 
-    const cloudPath = new Path( this.createCloudShape(
+    const cloudPath = new Path( CloudNode.createCloudShape(
       modelViewTransform.modelToViewPosition( cloud.position ),
       Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
       Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
@@ -68,16 +68,16 @@ class CloudNode extends Node {
   /**
    * Create a blobby cloud-like shape to represent the cloud. Returns a Shape to be used with a Path.
    *
-   * TODO: This is probably temporary, since we may have artwork or may refine the look of the cloud sometime in the
-   *       future.
+   * TODO: This may be temporary, since we may have artwork or may refine the look of the cloud sometime in the future.
+   *       See https://github.com/phetsims/greenhouse-effect/issues/49.
    *
-   * @private
    * @param {Vector2} position
    * @param {number} width
    * @param {number} height
    * @returns {Shape}
+   * @public
    */
-  createCloudShape( position, width, height ) {
+  static createCloudShape( position, width, height ) {
 
     const circleShapes = [];
     let drawnWidth = 0;

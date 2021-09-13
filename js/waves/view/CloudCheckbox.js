@@ -8,10 +8,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+
+// constants
+const CLOUD_ICON_WIDTH = 40;
 
 class CloudCheckbox extends GreenhouseEffectCheckbox {
 
@@ -21,9 +28,16 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
    */
   constructor( cloudEnabledProperty, tandem ) {
 
+    // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
+    // to height, so change with caution.
+    const unscaledCloudShape = CloudNode.createCloudShape( Vector2.ZERO, 170, 60 );
+    const cloudShapeScale = CLOUD_ICON_WIDTH / unscaledCloudShape.bounds.width;
+    const scaledCloudShape = unscaledCloudShape.transformed( Matrix3.scale( cloudShapeScale, cloudShapeScale ) );
+
     // temporary icon, something else will eventually be added
-    const iconNode = new Rectangle( 0, 0, 15, 15, {
-      fill: 'rgb(17,209,243)'
+    const iconNode = new Path( scaledCloudShape, {
+      stroke: Color.BLACK,
+      fill: Color.WHITE
     } );
 
     super( greenhouseEffectStrings.cloud, cloudEnabledProperty, {
