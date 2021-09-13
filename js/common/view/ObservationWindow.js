@@ -122,6 +122,14 @@ class ObservationWindow extends Node {
     const rightHillControlPoint2 = new Vector2( 3 * SIZE.width / 4, -nominalGroundHeight * 0.25 );
     const rightHillEndPoint = new Vector2( SIZE.width, 0 );
 
+    // gradients used as fill for the ground
+    const greenGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+        .addColorStop( 0, '#27580E' )
+        .addColorStop( 1, '#61DA25' );
+    const brownGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+      .addColorStop( 0, '#413935' )
+      .addColorStop( 1, '#B0A9A0' );
+
     // ground
     const groundShape = new Shape()
       .moveToPoint( leftHillStartPoint )
@@ -132,7 +140,7 @@ class ObservationWindow extends Node {
       .lineTo( 0, 0 )
       .close();
     const groundNode = new Path( groundShape, {
-      fill: new LinearGradient( 0, 0, 0, nominalGroundHeight ).addColorStop( 0, '#27580E' ).addColorStop( 1, '#61DA25' ),
+      fill: greenGroundGradient,
       bottom: SIZE.height
     } );
 
@@ -151,8 +159,12 @@ class ObservationWindow extends Node {
       centerX: groundNode.width * 0.75,
       centerY: groundNode.centerY
     } );
+
+    // The glacier is only visible when the ground albedo is greater than zero.  In this situation, the ground is also
+    // brown instead of green.
     model.groundLayer.albedoProperty.link( groundAlbedo => {
       glacierNode.visible = groundAlbedo > 0;
+      groundNode.fill = groundAlbedo > 0 ? brownGroundGradient : greenGroundGradient;
     } );
 
     // surface temperature node
