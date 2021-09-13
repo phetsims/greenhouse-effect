@@ -192,7 +192,7 @@ class DateControl extends Node {
         node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
         value: ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
-        tandemName: 'twentyNineteenRadioButton'
+        tandemName: 'twentyTwentyRadioButton'
       },
       {
         node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
