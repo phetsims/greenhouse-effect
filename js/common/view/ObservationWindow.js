@@ -7,6 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -16,6 +17,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -27,6 +29,10 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import glacierImage from '../../../images/glacier_png.js';
+import barnAndSheepImage from '../../../images/barn-and-sheep_png.js';
+import nineteenFiftyBackgroundImage from '../../../images/nineteenFiftyBackground_png.js';
+import twentyTwentyBackgroundImage from '../../../images/twentyTwentyBackground_png.js';
 import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -34,6 +40,7 @@ import WavesModel from '../../waves/model/WavesModel.js';
 import ObservationWindowPDOMNode from '../../waves/view/ObservationWindowPDOMNode.js';
 import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
+import ConcentrationModel from '../model/ConcentrationModel.js';
 import LayersModel from '../model/LayersModel.js';
 import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
@@ -124,8 +131,8 @@ class ObservationWindow extends Node {
 
     // gradients used as fill for the ground
     const greenGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-        .addColorStop( 0, '#27580E' )
-        .addColorStop( 1, '#61DA25' );
+      .addColorStop( 0, '#27580E' )
+      .addColorStop( 1, '#61DA25' );
     const brownGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
       .addColorStop( 0, '#413935' )
       .addColorStop( 1, '#B0A9A0' );
@@ -144,34 +151,11 @@ class ObservationWindow extends Node {
       bottom: SIZE.height
     } );
 
-    // glacier
-    const glacierWidth = SIZE.width * 0.3;
-    const glacierHeight = nominalGroundHeight * 0.25;
-    const glacierShape = new Shape()
-      .moveTo( glacierWidth * 0.15, 0 )
-      .lineTo( glacierWidth * 0.85, 0 )
-      .lineTo( glacierWidth, glacierHeight )
-      .lineTo( 0, glacierHeight )
-      .lineTo( glacierWidth * 0.2, 0 )
-      .close();
-    const glacierNode = new Path( glacierShape, {
-      fill: Color.WHITE,
-      centerX: groundNode.width * 0.75,
-      centerY: groundNode.centerY
-    } );
-
-    // The glacier is only visible when the ground albedo is greater than zero.  In this situation, the ground is also
-    // brown instead of green.
-    model.groundLayer.albedoProperty.link( groundAlbedo => {
-      glacierNode.visible = groundAlbedo > 0;
-      groundNode.fill = groundAlbedo > 0 ? brownGroundGradient : greenGroundGradient;
-    } );
-
     // surface temperature node
     const surfaceTemperatureNode = new Path( groundShape, {
       fill: new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
-        .addColorStop( 0.33, 'rgba( 255, 0, 0, 0 )' ),
+        .addColorStop( 0.55, 'rgba( 255, 0, 0, 0 )' ),
       bottom: SIZE.height
     } );
 
@@ -208,6 +192,70 @@ class ObservationWindow extends Node {
     else {
       surfaceTemperatureNode.visble = false;
     }
+
+    // artwork for the various dates
+    const glacierImageNode = new Image( glacierImage, {
+
+      // size and position empirically determined
+      maxWidth: SIZE.width * 0.5,
+      bottom: SIZE.height,
+      right: SIZE.width
+    } );
+    const barnAndSheepImageNode = new Image( barnAndSheepImage, {
+
+      // size and position empirically determined
+      maxWidth: 80,
+      centerX: groundNode.width * 0.52,
+      centerY: SIZE.height - groundNode.height * 0.4
+    } );
+    const nineteenFiftyBackgroundImageNode = new Image( nineteenFiftyBackgroundImage, {
+
+      // size and position empirically determined
+      maxWidth: SIZE.width,
+      centerY: SIZE.height - groundNode.height * 0.45
+    } );
+    const twentyTwentyBackgroundImageNode = new Image( twentyTwentyBackgroundImage, {
+
+      // size and position empirically determined
+      maxWidth: SIZE.width,
+      centerY: SIZE.height - groundNode.height * 0.45
+    } );
+    const artworkForDates = [
+      glacierImageNode,
+      barnAndSheepImageNode,
+      nineteenFiftyBackgroundImageNode,
+      twentyTwentyBackgroundImageNode
+    ];
+
+    // Control the visibility of the various date-oriented artwork.
+    Property.multilink(
+      [ model.concentrationControlModeProperty, model.dateProperty ],
+      ( concentrationControlMode, date ) => {
+
+        // Update the visibility of the various images that represent dates.
+        glacierImageNode.visible =
+          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE;
+        barnAndSheepImageNode.visible =
+          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          date === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY;
+        nineteenFiftyBackgroundImageNode.visible =
+          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          date === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY;
+        twentyTwentyBackgroundImageNode.visible =
+          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          date === ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY;
+
+        // In the ice age, the ground should look brown rather than green.
+        if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+             date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ) {
+          groundNode.fill = brownGroundGradient;
+        }
+        else {
+          groundNode.fill = greenGroundGradient;
+        }
+      }
+    );
 
     // Temporary code for representing layers, only added if the appropriate query parameter is set.
     const energyAbsorbingEmittingLayerNodes = [];
@@ -375,7 +423,7 @@ class ObservationWindow extends Node {
         skyNode,
         glowInTheSkyNode,
         groundNode,
-        glacierNode,
+        ...artworkForDates,
         surfaceTemperatureNode,
         ...energyAbsorbingEmittingLayerNodes,
         presentationNode

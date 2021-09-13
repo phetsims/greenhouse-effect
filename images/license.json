@@ -1,4 +1,12 @@
 {
+  "barn-and-sheep.png": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar"
+  },
   "flashlight-off.png": {
     "text": [
       "Copyright 2002-2015 University of Colorado Boulder"
@@ -6,6 +14,14 @@
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": ""
+  },
+  "glacier.png": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar"
   },
   "infrared-source-off.png": {
     "text": [
@@ -22,6 +38,14 @@
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": ""
+  },
+  "nineteenFiftyBackground.png": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar"
   },
   "photon-100.png": {
     "text": [
@@ -70,6 +94,14 @@
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amy Rouinfar, clipped from design doc"
+  },
+  "twentyTwentyBackground.png": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amy Rouinfar"
   },
   "waves-screen-mockup.png": {
     "text": [
