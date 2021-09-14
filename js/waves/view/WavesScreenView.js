@@ -93,7 +93,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // sound generation
     const irReemissionSoundGenerator = new SoundClip( irReemissionSound, {
-      initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0
+      initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0,
+      enableControlProperties: [ phet.greenhouseEffect.irReemissionSoundEnabled ]
     } );
     soundManager.addSoundGenerator( irReemissionSoundGenerator );
     model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {

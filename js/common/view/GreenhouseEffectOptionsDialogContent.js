@@ -47,7 +47,7 @@ phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
 );
 
 // global property that specifies whether to play a sound when IR is re-emitted in the atmosphere
-phet.greenhouseEffect.irReemissionSoundEnabled = new BooleanProperty( false );
+phet.greenhouseEffect.irReemissionSoundEnabled = new BooleanProperty( true );
 
 // global property that defines the opacity of the mockups for all screens
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
