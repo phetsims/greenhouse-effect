@@ -375,7 +375,8 @@ class ObservationWindow extends Node {
       helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText,
 
       // phet-io
-      tandem: tandem.createTandem( 'startSunlightButton' )
+      tandem: tandem.createTandem( 'startSunlightButton' ),
+      visiblePropertyOptions: { phetioReadOnly: true }
     } );
 
     // energy balance
