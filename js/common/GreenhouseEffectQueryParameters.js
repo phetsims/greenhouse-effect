@@ -20,7 +20,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   showAllLayers: { type: 'flag' },
 
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
-  waveGapsEnabled: { type: 'boolean', defaultValue: true },
+  waveGapsEnabled: { type: 'boolean', defaultValue: false },
 
   // a flag that enabled the observation window soundscape, which was turned off for an initial delivery
   soundscape: { type: 'boolean', defaultValue: false }
