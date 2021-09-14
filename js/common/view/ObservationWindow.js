@@ -30,8 +30,8 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import glacierImage from '../../../images/glacier_png.js';
 import barnAndSheepImage from '../../../images/barn-and-sheep_png.js';
+import glacierImage from '../../../images/glacier_png.js';
 import nineteenFiftyBackgroundImage from '../../../images/nineteenFiftyBackground_png.js';
 import twentyTwentyBackgroundImage from '../../../images/twentyTwentyBackground_png.js';
 import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
@@ -52,6 +52,8 @@ import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
+import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
+import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -528,9 +530,22 @@ class ObservationWindow extends Node {
       [ phet.greenhouseEffect.temperatureSoundProperty ],
       temperatureSound => temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
     );
+    const filteredLoopTemperatureSoundGeneratorEnabled = new DerivedProperty(
+      [ phet.greenhouseEffect.temperatureSoundProperty ],
+      temperatureSound =>
+        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ||
+        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS
+    );
+    const loopSpeedTemperatureSoundGeneratorEnabled = new DerivedProperty(
+      [ phet.greenhouseEffect.temperatureSoundProperty ],
+      temperatureSound =>
+        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE
+    );
 
     // sound generation
     if ( GreenhouseEffectQueryParameters.soundscape ) {
+
+      // Add the cross-fade-based sound generator.
       soundManager.addSoundGenerator(
         new TemperatureSoundGenerator(
           model.surfaceTemperatureKelvinProperty,
@@ -541,6 +556,38 @@ class ObservationWindow extends Node {
               model.surfaceThermometerVisibleProperty,
               model.isPlayingProperty,
               crossFadeTemperatureSoundGeneratorEnabled
+            ]
+          }
+        )
+      );
+
+      // Add the filter-based sound generator.
+      soundManager.addSoundGenerator(
+        new TemperatureSoundGeneratorFiltered(
+          model.surfaceTemperatureKelvinProperty,
+          model.sunEnergySource.isShiningProperty,
+          {
+            initialOutputLevel: 0.1,
+            enableControlProperties: [
+              model.surfaceThermometerVisibleProperty,
+              model.isPlayingProperty,
+              filteredLoopTemperatureSoundGeneratorEnabled
+            ]
+          }
+        )
+      );
+
+      // Add the playback-speed-based sound generator.
+      soundManager.addSoundGenerator(
+        new TemperatureSoundGeneratorSpeed(
+          model.surfaceTemperatureKelvinProperty,
+          model.sunEnergySource.isShiningProperty,
+          {
+            initialOutputLevel: 0.1,
+            enableControlProperties: [
+              model.surfaceThermometerVisibleProperty,
+              model.isPlayingProperty,
+              loopSpeedTemperatureSoundGeneratorEnabled
             ]
           }
         )
