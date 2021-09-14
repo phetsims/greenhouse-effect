@@ -530,20 +530,22 @@ class ObservationWindow extends Node {
     );
 
     // sound generation
-    soundManager.addSoundGenerator(
-      new TemperatureSoundGenerator(
-        model.surfaceTemperatureKelvinProperty,
-        {
-          initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0.0,
-          enableControlProperties: [
-            model.sunEnergySource.isShiningProperty,
-            model.surfaceThermometerVisibleProperty,
-            model.isPlayingProperty,
-            crossFadeTemperatureSoundGeneratorEnabled
-          ]
-        }
-      )
-    );
+    if ( GreenhouseEffectQueryParameters.soundscape ) {
+      soundManager.addSoundGenerator(
+        new TemperatureSoundGenerator(
+          model.surfaceTemperatureKelvinProperty,
+          {
+            initialOutputLevel: 0.1,
+            enableControlProperties: [
+              model.sunEnergySource.isShiningProperty,
+              model.surfaceThermometerVisibleProperty,
+              model.isPlayingProperty,
+              crossFadeTemperatureSoundGeneratorEnabled
+            ]
+          }
+        )
+      );
+    }
   }
 
   /**

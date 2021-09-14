@@ -92,23 +92,25 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.addChild( mockup );
 
     // sound generation
-    const irReemissionSoundGenerator = new SoundClip( irReemissionSound, {
-      initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0,
-      enableControlProperties: [ phet.greenhouseEffect.irReemissionSoundEnabled ]
-    } );
-    soundManager.addSoundGenerator( irReemissionSoundGenerator );
-    model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
-      if ( numberOfWaves > previousNumberOfWaves ) {
-        const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
+    if ( GreenhouseEffectQueryParameters.soundscape ) {
+      const irReemissionSoundGenerator = new SoundClip( irReemissionSound, {
+        initialOutputLevel: GreenhouseEffectQueryParameters.soundscape ? 0.1 : 0,
+        enableControlProperties: [ phet.greenhouseEffect.irReemissionSoundEnabled ]
+      } );
+      soundManager.addSoundGenerator( irReemissionSoundGenerator );
+      model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
+        if ( numberOfWaves > previousNumberOfWaves ) {
+          const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
 
-        // If the newly added wave is downward-moving and infrared, produce the sound.
-        if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
-             mostRecentlyAddedWave.directionOfTravel.y < 0 ) {
+          // If the newly added wave is downward-moving and infrared, produce the sound.
+          if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+               mostRecentlyAddedWave.directionOfTravel.y < 0 ) {
 
-          irReemissionSoundGenerator.play();
+            irReemissionSoundGenerator.play();
+          }
         }
-      }
-    } );
+      } );
+    }
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
