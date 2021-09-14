@@ -105,11 +105,12 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
       new VBox( {
         children: [
           new Text( 'Sounds', { font: new PhetFont( { size: 26, weight: 'bold' } ) } ),
+          new Text( 'Note: Use "soundscape=true" to enable soundscape.', { font: new PhetFont( { size: 18 } ) } ),
           new Text( 'Temperature:', GENERAL_TEXT_OPTIONS ),
           new HBox( { children: [ new HStrut( 20 ), temperatureSoundRadioButtonGroup ] } ),
           irReemissionSoundEnabledCheckbox
         ],
-        spacing: 20,
+        spacing: 15,
         align: 'left'
       } ),
       {
