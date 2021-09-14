@@ -7,6 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -46,6 +47,7 @@ import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode from './FluxMeterNode.js';
+import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
@@ -519,6 +521,14 @@ class ObservationWindow extends Node {
       contentNode.addChild( new CloudNode( cloud, modelViewTransform ) );
     } );
 
+    // Derived properties used for enabling the various flavors of sound generation for temperature.
+    // TODO: These are used for prototyping different sound options and should be removed prior to publication, see
+    //       https://github.com/phetsims/greenhouse-effect/issues/36.
+    const crossFadeTemperatureSoundGeneratorEnabled = new DerivedProperty(
+      [ phet.greenhouseEffect.temperatureSoundProperty ],
+      temperatureSound => temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
+    );
+
     // sound generation
     soundManager.addSoundGenerator(
       new TemperatureSoundGenerator(
@@ -528,7 +538,8 @@ class ObservationWindow extends Node {
           enableControlProperties: [
             model.sunEnergySource.isShiningProperty,
             model.surfaceThermometerVisibleProperty,
-            model.isPlayingProperty
+            model.isPlayingProperty,
+            crossFadeTemperatureSoundGeneratorEnabled
           ]
         }
       )
