@@ -36,8 +36,10 @@ class Cloud extends PhetioObject {
   constructor( position, width, height, options ) {
 
     options = merge( {
+
+      // phet-io
       phetioState: false,
-      tandem: Tandem.OPTIONAL
+      tandem: Tandem.REQUIRED // tandem is required because Cloud is used in a Map that is serialized
     }, options );
 
     super( options );
