@@ -149,7 +149,9 @@ EnergyInfoQueueItem.EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueu
  * 'Dynamic element serialization', as described in the Serialization section of
  * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
  */
-EnergyRateTracker.EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker );
+EnergyRateTracker.EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
+  defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
+} );
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
 export default EnergyRateTracker;

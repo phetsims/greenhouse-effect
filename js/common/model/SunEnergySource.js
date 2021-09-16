@@ -83,15 +83,6 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
-   * TODO: stateSchema default applyState doesn't know if composite keys should call applyState or fromStateObject, https://github.com/phetsims/tandem/issues/245
-   * for phet-io
-   * @public
-   */
-  applyState( stateObject ) {
-    EnergyRateTracker.EnergyRateTrackerIO.applyState( this.outputEnergyRateTracker, stateObject.outputEnergyRateTracker );
-  }
-
-  /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
    * @public
