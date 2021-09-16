@@ -6,6 +6,7 @@
  * @author John Blanco
  */
 
+import NumberProperty from '../../axon/js/NumberProperty.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -13,6 +14,9 @@ import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import WavesScreen from './waves/WavesScreen.js';
 
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
+
+// TODO: Constant for faking out the mockup code, see https://github.com/phetsims/greenhouse-effect/issues/77.
+phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
 const simOptions = {
   credits: {
