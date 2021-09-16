@@ -21,7 +21,7 @@ import EnergyDirection from './EnergyDirection.js';
 
 // constants
 const CLOUD_SUBSTANCE_REFLECTIVITY = new Map( [
-  [ GreenhouseEffectConstants.VISIBLE_WAVELENGTH, 0.1 ],
+  [ GreenhouseEffectConstants.VISIBLE_WAVELENGTH, 0.08 ],
   [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 0 ]
 ] );
 
