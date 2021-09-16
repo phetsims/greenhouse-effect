@@ -35,7 +35,7 @@ class SunEnergySource extends PhetioObject {
 
     super( {
       tandem: tandem,
-      phetioState: false
+      phetioType: SunEnergySource.SunEnergySourceIO
     } );
 
     // @public - controls whether the sun is shining
@@ -83,22 +83,13 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
+   * TODO: stateSchema default applyState doesn't know if composite keys should call applyState or fromStateObject, https://github.com/phetsims/tandem/issues/245
    * for phet-io
    * @public
    */
-  // toStateObject() {
-  //   return {
-  //     outputEnergyRateTracker: this.outputEnergyRateTracker.toStateObject()
-  //   };
-  // }
-
-  /**
-   * for phet-io
-   * @public
-   */
-  // applyState( stateObject ) {
-  //   this.outputEnergyRateTracker.applyState( stateObject.outputEnergyRateTracker );
-  // }
+  applyState( stateObject ) {
+    EnergyRateTracker.EnergyRateTrackerIO.applyState( this.outputEnergyRateTracker, stateObject.outputEnergyRateTracker );
+  }
 
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
