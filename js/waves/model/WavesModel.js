@@ -20,6 +20,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import MapIO from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
@@ -479,6 +480,7 @@ class WavesModel extends ConcentrationModel {
     this.waveGroup.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
+    this.glacierReflectedWavesMap.clear();
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
     this.waveAtmosphereInteractions.length = 0;
@@ -497,7 +499,9 @@ class WavesModel extends ConcentrationModel {
         this.waveAtmosphereInteractions
       ),
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
-      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource )
+      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
+      cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
+      glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.glacierReflectedWavesMap )
     } );
   }
 
@@ -509,6 +513,8 @@ class WavesModel extends ConcentrationModel {
     this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
+    this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
+    this.glacierReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.glacierReflectedWavesMap );
     super.applyState( stateObject );
   }
 
@@ -519,7 +525,11 @@ class WavesModel extends ConcentrationModel {
    */
   static get STATE_SCHEMA() {
     return {
-      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO )
+      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ),
+      sunWaveSource: EMWaveSource.EMWaveSourceIO,
+      groundWaveSource: EMWaveSource.EMWaveSourceIO,
+      cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
+      glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
     };
   }
 }
