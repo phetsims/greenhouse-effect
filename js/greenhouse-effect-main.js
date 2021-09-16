@@ -21,10 +21,10 @@ phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 const simOptions = {
   credits: {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
-    leadDesign: '',
+    leadDesign: 'Kathy Perkins, Amy Rouinfar',
     softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',
-    team: '',
-    qualityAssurance: '',
+    team: 'Wendy Adams, Danielle Harlow, Kelly Lancaster, Trish Loeblein, Robert Parson, Carl Wieman',
+    qualityAssurance: 'Nancy Salpepi, Kathryn Woessner',
     graphicArts: '',
     soundDesign: 'Ashton Morris'
   }
