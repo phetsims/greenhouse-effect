@@ -9,7 +9,6 @@
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import GreenhouseEffectOptionsDialogContent from './common/view/GreenhouseEffectOptionsDialogContent.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import WavesScreen from './waves/WavesScreen.js';
 
@@ -24,12 +23,7 @@ const simOptions = {
     qualityAssurance: '',
     graphicArts: '',
     soundDesign: 'Ashton Morris'
-  },
-
-  // TODO: This should be removed before publication, see
-  //       https://github.com/phetsims/greenhouse-effect/issues/16 and
-  //       https://github.com/phetsims/greenhouse-effect/issues/36
-  createOptionsDialogContent: tandem => new GreenhouseEffectOptionsDialogContent( tandem )
+  }
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
