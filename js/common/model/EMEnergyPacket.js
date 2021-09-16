@@ -11,6 +11,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EnergyDirection from './EnergyDirection.js';
 
 class EMEnergyPacket {
 
@@ -74,12 +75,17 @@ class EMEnergyPacket {
    * @public
    */
   static fromStateObject( stateObject ) {
-    return new EMEnergyPacket(
-      stateObject.wavelength,
-      stateObject.energy,
-      stateObject.altitude,
-      Vector2.fromStateObject( stateObject.directionOfTravel )
+    const directionOfTravel = Vector2.fromStateObject( stateObject.directionOfTravel ).equals( EnergyDirection.UP ) ? EnergyDirection.UP : EnergyDirection.DOWN;
+    assert && directionOfTravel === EnergyDirection.DOWN && assert( Vector2.fromStateObject( stateObject.directionOfTravel ).equals( EnergyDirection.DOWN ), 'sanity check for the two EnergyDirection choices' );
+
+    const emEnergyPacket = new EMEnergyPacket(
+      NumberIO.fromStateObject( stateObject.wavelength ),
+      NumberIO.fromStateObject( stateObject.energy ),
+      NumberIO.fromStateObject( stateObject.altitude ),
+      directionOfTravel
     );
+    emEnergyPacket.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
+    return emEnergyPacket;
   }
 
   /**
