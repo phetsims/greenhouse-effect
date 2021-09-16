@@ -8,6 +8,8 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -22,7 +24,7 @@ import LayersModel from './LayersModel.js';
 // the value that gets to the desired blackbody temperature of the Earth when using the Stefan-Boltzmann equation.
 const OUTPUT_ENERGY_RATE = 240;
 
-class SunEnergySource {
+class SunEnergySource extends PhetioObject {
 
   /**
    * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
@@ -30,6 +32,11 @@ class SunEnergySource {
    * @param {Tandem} tandem
    */
   constructor( surfaceAreaOfIncidentLight, emEnergyPackets, tandem ) {
+
+    super( {
+      tandem: tandem,
+      phetioState: false
+    } );
 
     // @public - controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
@@ -74,7 +81,45 @@ class SunEnergySource {
     this.outputEnergyRateTracker.reset();
     this.isShiningProperty.reset();
   }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  // toStateObject() {
+  //   return {
+  //     outputEnergyRateTracker: this.outputEnergyRateTracker.toStateObject()
+  //   };
+  // }
+
+  /**
+   * for phet-io
+   * @public
+   */
+  // applyState( stateObject ) {
+  //   this.outputEnergyRateTracker.applyState( stateObject.outputEnergyRateTracker );
+  // }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
+    };
+  }
 }
+
+/**
+ * @public
+ * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
+ * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
+ * 'Dynamic element serialization', as described in the Serialization section of
+ * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+ */
+SunEnergySource.SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
 
 // statics
 SunEnergySource.OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
