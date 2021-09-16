@@ -208,6 +208,11 @@ class WavesModel extends ConcentrationModel {
 
     const cloud = this.clouds[ 0 ];
 
+    // The reflectivity value used visually is NOT the actual value used in the cloud model.  This is because the actual
+    // value didn't produce enough of a visible wave.  In other words, this value is "Hollywooded" to get the look we
+    // wanted.  See https://github.com/phetsims/greenhouse-effect/issues/82.
+    const visualCloudReflectivity = 0.4;
+
     // See if any of the currently reflected waves should stop reflecting.
     this.cloudReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
       if ( !cloud.enabledProperty.value || sourceWave.startPoint.y < cloud.position.y ) {
@@ -246,7 +251,7 @@ class WavesModel extends ConcentrationModel {
             direction,
             LayersModel.HEIGHT_OF_ATMOSPHERE,
             {
-              intensityAtStart: incidentWave.intensityAtStart * cloud.getReflectivity( incidentWave.wavelength ),
+              intensityAtStart: incidentWave.intensityAtStart * visualCloudReflectivity,
               initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
                                   ( 2 * Math.PI )
             }
@@ -262,7 +267,7 @@ class WavesModel extends ConcentrationModel {
         if ( !incidentWave.hasAttenuator( cloud ) ) {
           incidentWave.addAttenuator(
             incidentWave.startPoint.y - cloud.position.y,
-            cloud.getReflectivity( incidentWave.wavelength ),
+            visualCloudReflectivity,
             cloud
           );
         }
