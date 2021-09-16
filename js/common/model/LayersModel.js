@@ -179,9 +179,7 @@ class LayersModel extends GreenhouseEffectModel {
    */
   toStateObject() {
     return {
-      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets ),
-      outerSpace: SpaceEnergySink.SpaceEnergySinkIO.toStateObject( this.outerSpace ),
-      sunEnergySource: SunEnergySource.SunEnergySourceIO.toStateObject( this.sunEnergySource )
+      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets )
     };
   }
 
@@ -197,8 +195,6 @@ class LayersModel extends GreenhouseEffectModel {
     this.emEnergyPackets.push(
       ...ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets )
     );
-    SpaceEnergySink.SpaceEnergySinkIO.applyState( this.outerSpace, stateObject.outerSpace );
-    SunEnergySource.SunEnergySourceIO.applyState( this.sunEnergySource, stateObject.sunEnergySource );
   }
 
   /**
@@ -208,9 +204,7 @@ class LayersModel extends GreenhouseEffectModel {
    */
   static get STATE_SCHEMA() {
     return {
-      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ),
-      outerSpace: SpaceEnergySink.SpaceEnergySinkIO,
-      sunEnergySource: SunEnergySource.SunEnergySourceIO
+      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
     };
   }
 }
