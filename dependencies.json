@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.0.0-rc.1 Tue Sep 21 2021 18:24:47 GMT-0400 (Eastern Daylight Time)",
+  "comment": "# greenhouse-effect 1.0.0-rc.2 Tue Sep 21 2021 18:48:17 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "8c0617f12d529681da872da99cf93b0758be3562",
+    "sha": "47fc06e25875f3fc227cabab61bb8d59213540ef",
     "branch": "1.0"
   },
   "joist": {
