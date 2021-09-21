@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.0.0-rc.1 Tue Sep 14 2021 11:45:12 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# greenhouse-effect 1.0.0-rc.1 Tue Sep 21 2021 17:43:15 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -25,12 +25,12 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "2a396d909aa01586ae7d462245cf466e892d893c",
+    "sha": "55963505b6a09fa0809ce1078495402bd8339d99",
     "branch": "1.0"
   },
   "joist": {
-    "sha": "4e91201733325250e67ce7654cbad1bb6633c3eb",
-    "branch": "HEAD"
+    "sha": "a1bc1e2ce8cd268032b176393357f91f9a2aa587",
+    "branch": "greenhouse-effect-1.0"
   },
   "kite": {
     "sha": "c41bc13e3d3a043b33e3db63a8426afb6529c480",
@@ -93,8 +93,8 @@
     "branch": "HEAD"
   },
   "tambo": {
-    "sha": "6bd65f125cf87f26931366e98a610a22d9879978",
-    "branch": "HEAD"
+    "sha": "b5c1fc83c89caf85c533af8267243d58b9560b6c",
+    "branch": "greenhouse-effect-1.0"
   },
   "tandem": {
     "sha": "ea4936f76f091b9e087bf29cf52195047957673a",
