@@ -113,28 +113,29 @@ class ObservationWindow extends Node {
       stroke: 'black'
     } );
 
-    // sky
-    const skyRectHeight = -modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom;
+    // sky - make it extend a bit below ground level to allow some contour in the surface of the Earth
+    const skyRectHeight =
+      ( -modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) - groundOffsetFromBottom ) * 1.1;
     const skyNode = new Rectangle( 0, 0, SIZE.width, skyRectHeight, {
       fill: new LinearGradient( 0, 0, 0, skyRectHeight )
         .addColorStop( 0, '#000010' )
         .addColorStop( 0.15, '#000057' )
         .addColorStop( 0.45, '#00bfff' )
-        .addColorStop( 1, '#CCF2FF' )
+        .addColorStop( 0.95, '#CCF2FF' )
     } );
 
-    // control points used for the shape of the horizon
+    // control points used for the shape of the ground
     const nominalGroundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
+    const oneEighthWidth = SIZE.width / 8;
     const leftHillStartPoint = Vector2.ZERO;
-    const leftHillControlPoint1 = new Vector2( SIZE.width / 4, -nominalGroundHeight * 0.2 );
-    const leftHillControlPoint2 = new Vector2( 3 * SIZE.width / 8, nominalGroundHeight * 0.05 );
+    const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.2 );
+    const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
     const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
-    const rightHillControlPoint1 = new Vector2( 5 * SIZE.width / 8, -nominalGroundHeight * 0.1 );
-    const rightHillControlPoint2 = new Vector2( 3 * SIZE.width / 4, -nominalGroundHeight * 0.25 );
+    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.1 );
+    const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
     const rightHillEndPoint = new Vector2( SIZE.width, 0 );
 
-    // gradients used as fill for the ground
-    const greenGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+    /* gradients used as fill for the ground*/const greenGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
       .addColorStop( 0, '#27580E' )
       .addColorStop( 1, '#61DA25' );
     const brownGroundGradient = new LinearGradient( 0, 0, 0, nominalGroundHeight )
