@@ -131,7 +131,7 @@ class ObservationWindow extends Node {
     const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.2 );
     const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
     const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
-    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.1 );
+    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
     const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
     const rightHillEndPoint = new Vector2( SIZE.width, 0 );
 
