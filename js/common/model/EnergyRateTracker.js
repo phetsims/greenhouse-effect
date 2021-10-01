@@ -98,16 +98,6 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty.reset();
   }
 
-  /**
-   * for phet-io
-   * @public
-   */
-  // toStateObject() {
-  //   return {
-  //     energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO ).toStateObject( this.energyInfoQueue )
-  //   };
-  // }
-
   // @public
   static get STATE_SCHEMA() {
     return {
