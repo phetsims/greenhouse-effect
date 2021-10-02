@@ -4,14 +4,14 @@
  * @author John Blanco
  */
 
-import LayersModel from '../../common/model/LayersModel.js';
+import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
  * @constructor
  */
-class LayerModelModel extends LayersModel {
+class LayerModelModel extends ConcentrationModel {
 
   /**
    * @mixes {PhotonsModelComponents}

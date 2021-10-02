@@ -11,6 +11,9 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import GreenhouseEffectOptionsDialogContent from './common/view/GreenhouseEffectOptionsDialogContent.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
+import LayerModelScreen from './layer-model/LayerModelScreen.js';
+import MicroScreen from './micro/MicroScreen.js';
+import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
 
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
@@ -35,7 +38,9 @@ const simOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
   const sim = new Sim( greenhouseEffectTitleString, [
-    new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) )
-  ], simOptions );
+    new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) ),
+    new PhotonsScreen( Tandem.ROOT.createTandem( 'photonsScreen' ) ),
+    new LayerModelScreen( Tandem.ROOT.createTandem( 'LayerModelScreen' ) ),
+    new MicroScreen( Tandem.ROOT.createTandem( 'microScreen' ) ) ], simOptions );
   sim.start();
 } );
