@@ -193,7 +193,6 @@ class MicroScreenView extends ScreenView {
       listener: () => {
         const dialog = lightSpectrumDialogCapsule.getElement();
         dialog.show();
-        dialog.focusCloseButton();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
