@@ -26,6 +26,7 @@ const temperatureToFilterFrequency = new LinearFunction(
   FILTER_FREQUENCY_RANGE.max
 );
 const TIME_CONSTANT = 0.015;
+const FILTER_Q = 10; // empirically determined
 
 class TemperatureSoundGeneratorFiltered extends SoundGenerator {
 
@@ -46,10 +47,12 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     // low pass filter
     const lowPassFilter = this.audioContext.createBiquadFilter();
     lowPassFilter.type = 'lowpass';
+    lowPassFilter.Q.value = FILTER_Q;
 
     // band pass filter
     const bandPassFilter = this.audioContext.createBiquadFilter();
     bandPassFilter.type = 'bandpass';
+    bandPassFilter.Q.value = FILTER_Q;
 
     // Send the loop into both filters.
     baseSoundLoop.connect( lowPassFilter );
