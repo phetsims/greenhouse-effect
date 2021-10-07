@@ -1,10 +1,11 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * A GreenhouseEffectModel that includes setting concentration of greenhouse gasses in the atmosphere. Also
- * includes clouds for photon-cloud interactions.
+ * ConcentrationModel is a GreenhouseEffectModel that adds in the ability to set the concentration of greenhouse gases
+ * in the atmosphere and adjusts the attributes of the atmospheric layers accordingly.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

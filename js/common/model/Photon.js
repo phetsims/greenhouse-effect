@@ -25,6 +25,8 @@ class Photon {
   constructor( initialPosition, wavelength, tandem, options ) {
 
     options = merge( {
+
+      // {Vector2|null} - will be created if not supplied
       initialVelocity: null
     }, options );
 
