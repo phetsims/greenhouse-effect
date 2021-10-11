@@ -27,15 +27,18 @@ import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
-const GENERAL_TEXT_OPTIONS = { font: new PhetFont( 24 ) };
-const SLIDER_LABEL_FONT = new PhetFont( 20 );
-const PANEL_MARGIN = 10;
+const HEADING_1_TEXT_OPTIONS = { font: new PhetFont( { size: 20, weight: 'bold' } ) };
+const HEADING_2_TEXT_OPTIONS = { font: new PhetFont( { size: 18, weight: 'bold' } ) };
+const SELECTOR_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
+const SLIDER_LABEL_FONT = new PhetFont( 18 );
+const PANEL_MARGIN = 8;
 
 const TemperatureSoundNames = Enumeration.byKeys( [
   'MULTIPLE_LOOPS_WITH_CROSS_FADES',
   'SINGLE_LOOP_WITH_LOW_PASS',
   'SINGLE_LOOP_WITH_BAND_PASS',
-  'SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE'
+  'SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE',
+  'NONE'
 ] );
 
 // Define the globals that will be set by this node.  They must be defined during load time.
@@ -53,7 +56,7 @@ phet.greenhouseEffect.irReemissionSoundEnabled = new BooleanProperty( true );
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
 
-class GreenhouseEffectOptionsDialogContent extends VBox {
+class GreenhouseEffectOptionsDialogContent extends HBox {
 
   /**
    * @param {Tandem} tandem
@@ -63,23 +66,28 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
     // items for radio button group for selecting temperature sound
     const items = [
       {
+        value: TemperatureSoundNames.NONE,
+        node: new Text( 'None', SELECTOR_TEXT_OPTIONS ),
+        tandemName: 'noneRadioButton'
+      },
+      {
         value: TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES,
-        node: new Text( 'Multiple loops with cross-fades', GENERAL_TEXT_OPTIONS ),
+        node: new Text( 'Multiple loops with cross-fades', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'multipleLoopsWithCrossFadeRadioButton'
       },
       {
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS,
-        node: new Text( 'Single loop with low pass filter', GENERAL_TEXT_OPTIONS ),
+        node: new Text( 'Single loop with low pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithLowPassRadioButton'
       },
       {
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS,
-        node: new Text( 'Single loop with band pass filter', GENERAL_TEXT_OPTIONS ),
+        node: new Text( 'Single loop with band pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithBandPassRadioButton'
       },
       {
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE,
-        node: new Text( 'Single loop with playback rate change', GENERAL_TEXT_OPTIONS ),
+        node: new Text( 'Single loop with playback rate change', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithRateChangeRadioButton'
       }
     ];
@@ -93,7 +101,7 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
 
     // checkbox for enabling/disabling IR re-emission sound
     const irReemissionSoundEnabledCheckbox = new Checkbox(
-      new Text( 'IR re-emission', GENERAL_TEXT_OPTIONS ),
+      new Text( 'IR re-emission', SELECTOR_TEXT_OPTIONS ),
       phet.greenhouseEffect.irReemissionSoundEnabled,
       {
         tandem: tandem.createTandem( 'irReemissionSoundEnabledCheckbox' )
@@ -104,9 +112,9 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
     const soundOptionsPanel = new Panel(
       new VBox( {
         children: [
-          new Text( 'Sounds', { font: new PhetFont( { size: 26, weight: 'bold' } ) } ),
-          new Text( 'Note: Use "soundscape=true" to enable soundscape.', { font: new PhetFont( { size: 18 } ) } ),
-          new Text( 'Temperature:', GENERAL_TEXT_OPTIONS ),
+          new Text( 'Sounds', HEADING_1_TEXT_OPTIONS ),
+          new Text( 'Note: Use "soundscape=true" to enable soundscape.', SELECTOR_TEXT_OPTIONS ),
+          new Text( 'Temperature:', HEADING_2_TEXT_OPTIONS ),
           new HBox( { children: [ new HStrut( 20 ), temperatureSoundRadioButtonGroup ] } ),
           irReemissionSoundEnabledCheckbox
         ],
@@ -130,7 +138,7 @@ class GreenhouseEffectOptionsDialogContent extends VBox {
     const mockupOptionPanel = new Panel(
       new VBox( {
         children: [
-          new Text( 'Mockups', { font: new PhetFont( { size: 26, weight: 'bold' } ) } ),
+          new Text( 'Mockups', HEADING_1_TEXT_OPTIONS ),
           mockupOpacityControl
         ],
         spacing: 20,
@@ -204,7 +212,7 @@ class MockupOpacityControl extends VBox {
 
     super( {
       children: [
-        new Text( 'Opacity (all screens)', GENERAL_TEXT_OPTIONS ),
+        new Text( 'Opacity (all screens)', SELECTOR_TEXT_OPTIONS ),
         sliderAndLabels
       ],
       spacing: 10
