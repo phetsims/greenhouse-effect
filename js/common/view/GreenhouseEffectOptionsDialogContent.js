@@ -32,6 +32,7 @@ const HEADING_2_TEXT_OPTIONS = { font: new PhetFont( { size: 18, weight: 'bold' 
 const SELECTOR_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
 const SLIDER_LABEL_FONT = new PhetFont( 18 );
 const PANEL_MARGIN = 8;
+const CHECKBOX_WIDTH = 13;
 
 const TemperatureSoundNames = Enumeration.byKeys( [
   'MULTIPLE_LOOPS_WITH_CROSS_FADES',
@@ -50,11 +51,13 @@ phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
 );
 
 // global property that specifies whether to play a sound when IR is re-emitted in the atmosphere
-phet.greenhouseEffect.irReemissionSoundEnabled = new BooleanProperty( true );
+phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty = new BooleanProperty( false );
+phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty = new BooleanProperty( false );
+phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty = new BooleanProperty( false );
+phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty = new BooleanProperty( false );
 
 // global property that defines the opacity of the mockups for all screens
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
-
 
 class GreenhouseEffectOptionsDialogContent extends HBox {
 
@@ -100,13 +103,48 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     } );
 
     // checkbox for enabling/disabling IR re-emission sound
-    const irReemissionSoundEnabledCheckbox = new Checkbox(
-      new Text( 'IR re-emission', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.irReemissionSoundEnabled,
+    const irEmissionFromGroundSoundEnabledCheckbox = new Checkbox(
+      new Text( 'IR emission from ground discrete', SELECTOR_TEXT_OPTIONS ),
+      phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty,
       {
-        tandem: tandem.createTandem( 'irReemissionSoundEnabledCheckbox' )
+        boxWidth: CHECKBOX_WIDTH,
+        tandem: tandem.createTandem( 'irEmissionFromGroundSoundEnabledCheckbox' )
       }
     );
+    const irWaveFromGroundExistsSoundEnabledCheckbox = new Checkbox(
+      new Text( 'IR from ground loop', SELECTOR_TEXT_OPTIONS ),
+      phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty,
+      {
+        boxWidth: CHECKBOX_WIDTH,
+        tandem: tandem.createTandem( 'irWaveFromGroundExistsSoundEnabledCheckbox' )
+      }
+    );
+    const irEmissionFromAtmosphereEnabledCheckbox = new Checkbox(
+      new Text( 'IR emission from atmosphere discrete', SELECTOR_TEXT_OPTIONS ),
+      phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty,
+      {
+        boxWidth: CHECKBOX_WIDTH,
+        tandem: tandem.createTandem( 'irEmissionFromAtmosphereEnabledCheckbox' )
+      }
+    );
+    const irWaveFromAtmosphereExistsSoundEnabledCheckbox = new Checkbox(
+      new Text( 'IR from atmosphere loop', SELECTOR_TEXT_OPTIONS ),
+      phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty,
+      {
+        boxWidth: CHECKBOX_WIDTH,
+        tandem: tandem.createTandem( 'irWaveFromAtmosphereExistsSoundEnabledCheckbox' )
+      }
+    );
+    const irWaveControls = new VBox( {
+      children: [
+        irEmissionFromGroundSoundEnabledCheckbox,
+        irWaveFromGroundExistsSoundEnabledCheckbox,
+        irEmissionFromAtmosphereEnabledCheckbox,
+        irWaveFromAtmosphereExistsSoundEnabledCheckbox
+      ],
+      spacing: 5,
+      align: 'left'
+    } );
 
     // panel with sound options
     const soundOptionsPanel = new Panel(
@@ -116,7 +154,8 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
           new Text( 'Note: Use "soundscape=true" to enable soundscape.', SELECTOR_TEXT_OPTIONS ),
           new Text( 'Temperature:', HEADING_2_TEXT_OPTIONS ),
           new HBox( { children: [ new HStrut( 20 ), temperatureSoundRadioButtonGroup ] } ),
-          irReemissionSoundEnabledCheckbox
+          new Text( 'IR Emission & Waves:', HEADING_2_TEXT_OPTIONS ),
+          new HBox( { children: [ new HStrut( 20 ), irWaveControls ] } )
         ],
         spacing: 15,
         align: 'left'
@@ -163,7 +202,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     // @private - internal dispose function
     this.disposeGreenhouseEffectOptionsDialogContent = () => {
       temperatureSoundRadioButtonGroup.dispose();
-      irReemissionSoundEnabledCheckbox.dispose();
+      irEmissionFromAtmosphereEnabledCheckbox.dispose();
       mockupOpacityControl.dispose();
     };
   }
