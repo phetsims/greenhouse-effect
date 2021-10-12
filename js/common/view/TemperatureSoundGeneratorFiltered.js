@@ -84,7 +84,6 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     isSunShiningProperty.link( isSunShining => {
       if ( isSunShining ) {
         baseSoundLoop.play();
-        console.log( `(after) lowPassFilter.Q.value = ${lowPassFilter.Q.value}` );
       }
       else {
         baseSoundLoop.stop();

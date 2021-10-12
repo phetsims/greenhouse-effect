@@ -1,0 +1,46 @@
+/* eslint-disable */
+import asyncLoader from '../../phet-core/js/asyncLoader.js';
+import base64SoundToByteArray from '../../tambo/js/base64SoundToByteArray.js';
+import WrappedAudioBuffer from '../../tambo/js/WrappedAudioBuffer.js';
+import phetAudioContext from '../../tambo/js/phetAudioContext.js';
+
+const soundURI = 'data:audio/mpeg;base64,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VGAAAU3/+zDEtgEGOEERQOHjUNIIINxcpHr4EcbVUoaRbVkgDDbYFrYqoAKetT3IwgJjdPvNOYOOZQmGf6fb/r/7dP+o6mN8r9x1o1plu7VZ0NbZv1xm4ktNgAAAKDfgCsKhqhioobwmpuC5Ko/hbkGaLjIcxpOV2Qhl1PBXxFKkaf5XryuHc9X63d3eIhwA7LMszlB3MNvLn00M+xDB06v/+zLExgEGNEMG4eXjUJgH4mj2nVLM3DloxFs63MD7RuDKHlZ80tpyLN3t06DZuN0k0SviWMRo4sTM2t4Y11nTxN+eviDj35480IsyBMyYEJisV9VMQU1FMy45OS41VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//syxN4BBphBDGDl41DciWGoHKx6VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7MsTsAQekVQRsaElRDiGhKByUelVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+zDE74DGCDkFQT0jkVUFSLnv/JZVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=';
+const soundByteArray = base64SoundToByteArray( phetAudioContext, soundURI );
+const unlock = asyncLoader.createLock( soundURI );
+const wrappedAudioBuffer = new WrappedAudioBuffer();
+
+// safe way to unlock
+let unlocked = false;
+const safeUnlock = () => {
+  if ( !unlocked ) {
+    unlock();
+    unlocked = true;
+  }
+};
+
+const onDecodeSuccess = decodedAudio => {
+  if ( wrappedAudioBuffer.audioBufferProperty.value === null ) {
+    wrappedAudioBuffer.audioBufferProperty.set( decodedAudio );
+    safeUnlock();
+  }
+};
+const onDecodeError = decodeError => {
+  console.warn( 'decode of audio data failed, using stubbed sound, error: ' + decodeError );
+  wrappedAudioBuffer.audioBufferProperty.set( phetAudioContext.createBuffer( 1, 1, phetAudioContext.sampleRate ) );
+  safeUnlock();
+};
+const decodePromise = phetAudioContext.decodeAudioData( soundByteArray.buffer, onDecodeSuccess, onDecodeError );
+if ( decodePromise ) {
+  decodePromise
+    .then( decodedAudio => {
+      if ( wrappedAudioBuffer.audioBufferProperty.value === null ) {
+        wrappedAudioBuffer.audioBufferProperty.set( decodedAudio );
+        safeUnlock();
+      }
+    } )
+    .catch( e => {
+      console.warn( 'promise rejection caught for audio decode, error = ' + e );
+      safeUnlock();
+    } );
+}
+export default wrappedAudioBuffer;
