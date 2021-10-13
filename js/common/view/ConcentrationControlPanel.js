@@ -37,6 +37,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
+import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -364,6 +365,9 @@ class ConcentrationSlider extends Node {
       keyboardStep: manuallyControlledConcentrationProperty.range.max / 10,
       shiftKeyboardStep: manuallyControlledConcentrationProperty.range.max / 20, // finer grain
       pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4, // coarser grain,
+      a11yCreateAriaValueText: value => {
+        return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
+      },
 
       // phet-io
       tandem: tandem.createTandem( 'slider' )

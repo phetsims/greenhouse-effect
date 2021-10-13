@@ -18,7 +18,6 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
 const currentlyNoSunlightString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
 
-const greenhouseGassesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGassesInAtmospherePattern;
 const timePeriodPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern;
 
 const summaryWithTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
@@ -26,6 +25,7 @@ const summaryWithoutTemperaturePatternString = greenhouseEffectStrings.a11y.wave
 
 const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePattern;
 const qualitativeAndQuantitativeTemperatureDescriptionPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPattern;
+
 class WavesScreenSummaryContentNode extends Node {
 
   /**
@@ -93,9 +93,7 @@ class WavesScreenSummaryContentNode extends Node {
     // portion that describes the state of the concentration in the atmosphere
     let concentrationDescriptionString = '';
     if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE ) {
-      concentrationDescriptionString = StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
-        valueDescription: ConcentrationDescriber.getConcentrationDescription( concentration )
-      } );
+      concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {
       concentrationDescriptionString = StringUtils.fillIn( timePeriodPatternString, {

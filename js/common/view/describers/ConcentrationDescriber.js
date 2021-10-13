@@ -10,6 +10,9 @@ import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import ConcentrationModel from '../../model/ConcentrationModel.js';
 
+// constants
+const greenhouseGassesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGassesInAtmospherePattern;
+
 // strings used to describe the levels of concentration in the model
 const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
 const concentrationVeryLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryLow;
@@ -109,6 +112,22 @@ class ConcentrationDescriber {
 
     assert && assert( descriptionString !== '', `no description for concentration value: ${value}` );
     return descriptionString;
+  }
+
+  /**
+   * Returns a description of the amount of greenhouse concentration in the atmosphere by value. Will return
+   * something like
+   * "Very high levels of greenhouse gasses in atmosphere." or
+   * "No greenhouse gasses in atmosphere."
+   * @public
+   *
+   * @param {number} value - value of concentration in the model
+   * @returns {string}
+   */
+  static getConcentrationDescriptionWithValue( value ) {
+    return StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
+      valueDescription: ConcentrationDescriber.getConcentrationDescription( value )
+    } );
   }
 }
 
