@@ -7,6 +7,7 @@
 import Image from '../../../../scenery/js/nodes/Image.js';
 import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
@@ -16,7 +17,11 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-    super( model, {
+
+    // Create the observation window that will depict the layers and photons.
+    const observationWindow = new LayerModelObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
+
+    super( model, observationWindow, {
 
       // phet-io
       tandem: tandem

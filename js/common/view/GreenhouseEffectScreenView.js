@@ -18,7 +18,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyLegend from './EnergyLegend.js';
-import ObservationWindow from './ObservationWindow.js';
 
 const OBSERVATION_WINDOW_SIZE = new Dimension2( 780, 525 );
 
@@ -27,16 +26,17 @@ class GreenhouseEffectScreenView extends ScreenView {
   /**
    * @param {GreenhouseEffectModel} model
    * @param {Tandem} tandem
+   * @param {Node} observationWindow
    * @param {Object} [options]
    */
-  constructor( model, options ) {
+  constructor( model, observationWindow, options ) {
 
     options = merge( {
 
       // passed along to the EnergyLegend
       energyLegendOptions: null,
 
-      // {Object|null} - options passed to the ObservationWindow
+      // {Object|null} - options passed to the GreenhouseEffectObservationWindow
       observationWindowOptions: null,
 
       tandem: Tandem.REQUIRED
@@ -51,13 +51,9 @@ class GreenhouseEffectScreenView extends ScreenView {
     // @private {GreenhouseEffectModel}
     this.model = model;
 
-    // @protected (read-only) - The observation window where the ground, sky, waves, photons, and such will appear. This
-    // is protected for layout purposes in subtypes.
-    this.observationWindow = new ObservationWindow(
-      model,
-      options.tandem.createTandem( 'observationWindow' ),
-      options.observationWindowOptions
-    );
+    // @protected (read-only) {GreenhouseEffectObservationWindow} - The window where much of the action happens.
+    // TODO: Does this really need to be protected or can it be local?
+    this.observationWindow = observationWindow;
     this.addChild( this.observationWindow );
 
     // area between right edge of ScreenView and observation window

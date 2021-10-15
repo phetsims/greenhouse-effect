@@ -2,13 +2,16 @@
   "extends": "../chipper/tsconfig-core.json",
   "references": [
     {
-      "path": "../nitroglycerin"
-    },
-    {
       "path": "../bamboo"
     },
     {
+      "path": "../nitroglycerin"
+    },
+    {
       "path": "../joist"
+    },
+    {
+      "path": "../twixt"
     }
   ],
   "include": [

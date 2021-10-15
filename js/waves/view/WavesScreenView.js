@@ -21,6 +21,7 @@ import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryP
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from './CloudCheckbox.js';
@@ -35,7 +36,14 @@ class WavesScreenView extends GreenhouseEffectScreenView {
    */
   constructor( model, tandem ) {
 
-    super( model, {
+    // Create the observation window that will depict the ground, sky, light waves, etc.
+    const observationWindow = new LandscapeObservationWindow(
+      model,
+      tandem.createTandem( 'observationWindow' ),
+      { showTemperatureGlow: true }
+    );
+
+    super( model, observationWindow, {
       energyLegendOptions: {
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
       },
@@ -227,7 +235,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
    */
   reset() {
     super.reset();
-    this.observationWindow.reset();
   }
 }
 

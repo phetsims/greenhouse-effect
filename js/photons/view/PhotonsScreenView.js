@@ -8,6 +8,7 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
@@ -18,7 +19,10 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
    */
   constructor( model, tandem ) {
 
-    super( model, {
+    // Create the observation window that will depict the ground, sky, photons, etc.
+    const observationWindow = new LandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
+
+    super( model, observationWindow, {
 
       // phet-io
       tandem: tandem

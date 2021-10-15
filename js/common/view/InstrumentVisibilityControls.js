@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Visibility controls for components in the ObservationWindow of this sim.
+ * Visibility controls for components in the observation window of this sim.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
