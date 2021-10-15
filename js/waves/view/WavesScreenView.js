@@ -165,7 +165,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
           const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
 
           if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-            if ( mostRecentlyAddedWave.directionOfTravel.y < 0 ) {
+            if ( mostRecentlyAddedWave.propagationDirection.y < 0 ) {
               irWaveEmittedFromAtmosphereSoundGenerator.play();
             }
             else {
@@ -179,7 +179,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
         let numberOfDownwardMovingIRWaves = 0;
         model.waveGroup.forEach( wave => {
           if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-            if ( wave.directionOfTravel.y > 0 ) {
+            if ( wave.propagationDirection.y > 0 ) {
               numberOfUpwardMovingIRWaves++;
             }
             else {

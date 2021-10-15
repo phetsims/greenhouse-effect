@@ -90,7 +90,7 @@ class WavesCanvasNode extends CanvasNode {
     context.beginPath();
 
     // vectors used in the calculation process
-    const unitVector = new Vector2( wave.directionOfTravel.x, -wave.directionOfTravel.y );
+    const unitVector = new Vector2( wave.propagationDirection.x, -wave.propagationDirection.y );
     const unitNormal = unitVector.perpendicular;
 
     let moved = false;
@@ -108,7 +108,7 @@ class WavesCanvasNode extends CanvasNode {
       amplitude,
       wavelength,
       phaseOffsetAtStart,
-      wave.directionOfTravel.getAngle()
+      wave.propagationDirection.getAngle()
     );
 
     // Render the wave, changing the thickness if and when the intensity of the wave changes.
@@ -175,7 +175,7 @@ class WavesCanvasNode extends CanvasNode {
         amplitudeInView,
         wavelengthInView,
         phaseAtNominalXPosition,
-        wave.directionOfTravel.getAngle()
+        wave.propagationDirection.getAngle()
       );
     }
     return xPosition;

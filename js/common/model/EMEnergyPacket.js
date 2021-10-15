@@ -6,7 +6,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
+import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -19,9 +19,9 @@ class EMEnergyPacket {
    * @param {number} wavelength - in meters
    * @param {number} energy - in joules
    * @param {number} initialAltitude - in meters
-   * @param {Vector2} directionOfTravel
+   * @param {EnergyDirection} direction
    */
-  constructor( wavelength, energy, initialAltitude, directionOfTravel ) {
+  constructor( wavelength, energy, initialAltitude, direction ) {
 
     // @public (read-only) {number}
     this.wavelength = wavelength;
@@ -35,8 +35,9 @@ class EMEnergyPacket {
     // @public (read-only) {number} - the altitude at the previous step, in meters
     this.previousAltitude = initialAltitude;
 
-    // @public (read-only) {EnergyDirection} - the direction in which this energy packet is moving
-    this.directionOfTravel = directionOfTravel;
+    // @public (read-only) {EnergyDirection} - The direction in which this energy packet is moving, constrained to up
+    //                                         or down.
+    this.direction = direction;
   }
 
   /**
@@ -46,8 +47,7 @@ class EMEnergyPacket {
   step( dt ) {
     this.previousAltitude = this.altitude;
 
-    // The following is optimized for speed, and make some assumptions about the direction of travel.
-    if ( this.directionOfTravel.y > 0 ) {
+    if ( this.direction === EnergyDirection.UP ) {
       this.altitude += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }
     else {
@@ -66,7 +66,7 @@ class EMEnergyPacket {
       energy: NumberIO.toStateObject( this.energy ),
       altitude: NumberIO.toStateObject( this.altitude ),
       previousAltitude: NumberIO.toStateObject( this.previousAltitude ),
-      directionOfTravel: Vector2.Vector2IO.toStateObject( this.directionOfTravel )
+      direction: EnumerationIO( EnergyDirection ).toStateObject( this.direction )
     };
   }
 
@@ -75,14 +75,11 @@ class EMEnergyPacket {
    * @public
    */
   static fromStateObject( stateObject ) {
-    const directionOfTravel = Vector2.fromStateObject( stateObject.directionOfTravel ).equals( EnergyDirection.UP ) ? EnergyDirection.UP : EnergyDirection.DOWN;
-    assert && directionOfTravel === EnergyDirection.DOWN && assert( Vector2.fromStateObject( stateObject.directionOfTravel ).equals( EnergyDirection.DOWN ), 'sanity check for the two EnergyDirection choices' );
-
     const emEnergyPacket = new EMEnergyPacket(
       NumberIO.fromStateObject( stateObject.wavelength ),
       NumberIO.fromStateObject( stateObject.energy ),
       NumberIO.fromStateObject( stateObject.altitude ),
-      directionOfTravel
+      EnumerationIO( EnergyDirection ).fromStateObject( stateObject.direction )
     );
     emEnergyPacket.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
     return emEnergyPacket;
@@ -99,7 +96,7 @@ class EMEnergyPacket {
       energy: NumberIO,
       altitude: NumberIO,
       previousAltitude: NumberIO,
-      directionOfTravel: Vector2.Vector2IO
+      direction: EnumerationIO( EnergyDirection )
     };
   }
 }

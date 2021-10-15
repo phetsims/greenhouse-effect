@@ -33,12 +33,13 @@ class Wave extends PhetioObject {
   /**
    * @param {number} wavelength - wavelength of this light wave, in meters
    * @param {Vector2} origin - the point from which the wave will originate
-   * @param {Vector2} directionOfTravel - a normalized vector (i.e. length = 1) that indicates direction of travel
+   * @param {Vector2} propagationDirection - a normalized vector (i.e. length = 1) that indicates the direction in which
+   *                                         this wave is propagating
    * @param {number} propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
    *                                    direction, in meters
    * @param {Object} [options]
    */
-  constructor( wavelength, origin, directionOfTravel, propagationLimit, options ) {
+  constructor( wavelength, origin, propagationDirection, propagationLimit, options ) {
     options = merge( {
 
       // {number} - the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
@@ -70,11 +71,11 @@ class Wave extends PhetioObject {
     }
 
     // parameter checking
-    assert && assert( Math.abs( directionOfTravel.magnitude - 1 ) < 1E-6, 'direction vector must be normalized' );
-    assert && assert( directionOfTravel.y !== 0, 'fully horizontal waves are not supported' );
+    assert && assert( Math.abs( propagationDirection.magnitude - 1 ) < 1E-6, 'propagation vector must be normalized' );
+    assert && assert( propagationDirection.y !== 0, 'fully horizontal waves are not supported' );
     assert && assert(
-      Math.sign( directionOfTravel.y ) === Math.sign( propagationLimit - origin.y ),
-      'propagation limit does not make sense for provided directionOfTravel'
+      Math.sign( propagationDirection.y ) === Math.sign( propagationLimit - origin.y ),
+      'propagation limit does not make sense for provided propagationDirection'
     );
     assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
 
@@ -86,7 +87,7 @@ class Wave extends PhetioObject {
     this.origin = origin;
 
     // @public (read-only) {Vector2}
-    this.directionOfTravel = directionOfTravel;
+    this.propagationDirection = propagationDirection;
 
     // @private {number} - the altitude past which this wave should not propagate
     this.propagationLimit = propagationLimit;
@@ -139,12 +140,12 @@ class Wave extends PhetioObject {
     else {
 
       // Move the wave forward, being careful not to move the start point beyond the propagation limit.
-      let dy = this.directionOfTravel.y * propagationDistance;
+      let dy = this.propagationDirection.y * propagationDistance;
       if ( Math.abs( dy ) > Math.abs( this.propagationLimit - this.startPoint.y ) ) {
         dy = this.propagationLimit - this.startPoint.y;
       }
       this.startPoint.addXY(
-        this.directionOfTravel.x * propagationDistance,
+        this.propagationDirection.x * propagationDistance,
         dy
       );
 
@@ -156,7 +157,7 @@ class Wave extends PhetioObject {
     }
 
     // Check if the current change causes this wave to extend beyond it's propagation limit and, if so, limit the length.
-    this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.directionOfTravel.y );
+    this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y );
 
     // Remove attenuators that are no longer on the wave.
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
@@ -191,7 +192,7 @@ class Wave extends PhetioObject {
    * @public
    */
   getEndAltitude() {
-    return this.startPoint + this.length * this.directionOfTravel.y;
+    return this.startPoint + this.length * this.propagationDirection.y;
   }
 
   /**
@@ -203,8 +204,8 @@ class Wave extends PhetioObject {
   getEndPoint( vectorToUse ) {
     const endPointVector = vectorToUse || new Vector2( 0, 0 );
     endPointVector.setXY(
-      this.startPoint.x + this.directionOfTravel.x * this.length,
-      this.startPoint.y + this.directionOfTravel.y * this.length
+      this.startPoint.x + this.propagationDirection.x * this.length,
+      this.startPoint.y + this.propagationDirection.y * this.length
     );
     return endPointVector;
   }
@@ -351,7 +352,7 @@ class Wave extends PhetioObject {
     return {
       wavelength: NumberIO.toStateObject( this.wavelength ),
       origin: Vector2.Vector2IO.toStateObject( this.origin ),
-      directionOfTravel: Vector2.Vector2IO.toStateObject( this.directionOfTravel ),
+      propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
       propagationLimit: NumberIO.toStateObject( this.propagationLimit ),
       startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
       length: NumberIO.toStateObject( this.length ),
@@ -375,7 +376,7 @@ class Wave extends PhetioObject {
   applyState( stateObject ) {
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
     this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
-    this.directionOfTravel = Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel );
+    this.propagationDirection = Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection );
     this.propagationLimit = NumberIO.fromStateObject( stateObject.propagationLimit );
     this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
     this.length = NumberIO.fromStateObject( stateObject.length );
@@ -400,7 +401,7 @@ class Wave extends PhetioObject {
     return [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),
-      Vector2.Vector2IO.fromStateObject( state.directionOfTravel ),
+      Vector2.Vector2IO.fromStateObject( state.propagationDirection ),
       NumberIO.fromStateObject( state.propagationLimit ),
       {
         intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
@@ -418,7 +419,7 @@ class Wave extends PhetioObject {
     return {
       wavelength: NumberIO,
       origin: Vector2.Vector2IO,
-      directionOfTravel: Vector2.Vector2IO,
+      propagationDirection: Vector2.Vector2IO,
       propagationLimit: NumberIO,
       startPoint: Vector2.Vector2IO,
       length: NumberIO,

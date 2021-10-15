@@ -1,6 +1,14 @@
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
 See https://github.com/phetsims/greenhouse-effect/issues/19
 
+# General Notes on the Layer-Based Model
+
+TODO: Flesh this out when it's done.
+- Used for the basis of the first three screens
+- Has energy packets in the underlying behavior, they only move up or down
+- Waves and photons can move any direction
+
+
 # Waves Screen
 
 TODO: Add verbiage about the following:

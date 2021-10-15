@@ -54,7 +54,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
   interactWithEnergyPackets( emEnergyPackets ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
-      if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.directionOfTravel.y < 0 ) {
+      if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.direction === EnergyDirection.DOWN ) {
 
         absorbedEnergy += energyPacket.energy * ( 1 - this.albedoProperty.value );
         const reflectedEnergy = energyPacket.energy - absorbedEnergy;
@@ -63,7 +63,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
           // Some of the energy in this packet has been reflected.  Reverse the direction of the packet and set its
           // energy accordingly.
           energyPacket.energy = reflectedEnergy;
-          energyPacket.directionOfTravel = EnergyDirection.UP;
+          energyPacket.direction = EnergyDirection.UP;
         }
         else {
 

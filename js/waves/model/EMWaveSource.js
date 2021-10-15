@@ -104,7 +104,7 @@ class EMWaveSource extends PhetioObject {
 
       // See whether there is a wave that is queued for creation that matches these parameters.
       const waveIsQueued = this.waveCreationQueue.reduce( ( previousValue, queuedWaveSpec ) =>
-        previousValue || queuedWaveSpec.directionOfTravel.equals( waveSourceSpec.directionOfTravel ) &&
+        previousValue || queuedWaveSpec.propagationDirection.equals( waveSourceSpec.propagationDirection ) &&
         ( queuedWaveSpec.originX === waveSourceSpec.minXPosition ||
         queuedWaveSpec.originX === waveSourceSpec.maxXPosition ),
         false
@@ -113,7 +113,7 @@ class EMWaveSource extends PhetioObject {
       // If the wave doesn't exist yet and isn't queued for creation, but SHOULD exist, create it.
       if ( !matchingWave && !waveIsQueued && this.waveProductionEnabledProperty.value ) {
         const xPosition = dotRandom.nextBoolean() ? waveSourceSpec.minXPosition : waveSourceSpec.maxXPosition;
-        this.addWaveToModel( xPosition, waveSourceSpec.directionOfTravel, waveIntensity );
+        this.addWaveToModel( xPosition, waveSourceSpec.propagationDirection, waveIntensity );
       }
 
       // If the wave already exists, update it.
@@ -147,7 +147,7 @@ class EMWaveSource extends PhetioObject {
             // Queue up a wave for creation after the spacing time.
             this.waveCreationQueue.push( new WaveCreationSpec(
               nextWaveOrigin,
-              waveSourceSpec.directionOfTravel,
+              waveSourceSpec.propagationDirection,
               this.interWaveTime
             ) );
           }
@@ -167,7 +167,7 @@ class EMWaveSource extends PhetioObject {
       if ( waveCreationSpec.countdown <= 0 ) {
 
         // Create the wave.
-        this.addWaveToModel( waveCreationSpec.originX, waveCreationSpec.directionOfTravel, waveIntensity );
+        this.addWaveToModel( waveCreationSpec.originX, waveCreationSpec.propagationDirection, waveIntensity );
       }
     } );
 
@@ -178,11 +178,11 @@ class EMWaveSource extends PhetioObject {
   /**
    * @private
    */
-  addWaveToModel( originX, directionOfTravel, intensity ) {
+  addWaveToModel( originX, propagationDirection ) {
     const newIRWave = this.waveGroup.createNextElement(
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
-      directionOfTravel,
+      propagationDirection,
       this.waveEndAltitude,
       { intensityAtStart: this.waveIntensityProperty.value }
     );
@@ -240,9 +240,9 @@ class EMWaveSource extends PhetioObject {
  */
 class WaveCreationSpec {
 
-  constructor( originX, directionOfTravel, timeToCreation ) {
+  constructor( originX, propagationDirection, timeToCreation ) {
     this.countdown = timeToCreation;
-    this.directionOfTravel = directionOfTravel;
+    this.propagationDirection = propagationDirection;
     this.originX = originX;
   }
 
@@ -250,7 +250,7 @@ class WaveCreationSpec {
   toStateObject() {
     return {
       countdown: NumberIO.toStateObject( this.countdown ),
-      directionOfTravel: Vector2.Vector2IO.toStateObject( this.directionOfTravel ),
+      propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
       originX: NumberIO.toStateObject( this.originX )
     };
   }
@@ -259,7 +259,7 @@ class WaveCreationSpec {
   static fromStateObject( stateObject ) {
     return new WaveCreationSpec(
       NumberIO.fromStateObject( stateObject.originX ),
-      Vector2.Vector2IO.fromStateObject( stateObject.directionOfTravel ),
+      Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
       NumberIO.fromStateObject( stateObject.countdown )
     );
   }
@@ -272,7 +272,7 @@ class WaveCreationSpec {
   static get STATE_SCHEMA() {
     return {
       countdown: NumberIO,
-      directionOfTravel: Vector2.Vector2IO,
+      propagationDirection: Vector2.Vector2IO,
       originX: NumberIO
     };
   }
@@ -287,10 +287,10 @@ WaveCreationSpec.WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO',
  */
 class WaveSourceSpec {
 
-  constructor( minXPosition, maxXPosition, directionOfTravel ) {
+  constructor( minXPosition, maxXPosition, propagationDirection ) {
     this.minXPosition = minXPosition;
     this.maxXPosition = maxXPosition;
-    this.directionOfTravel = directionOfTravel;
+    this.propagationDirection = propagationDirection;
   }
 }
 

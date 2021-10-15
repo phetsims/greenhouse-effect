@@ -71,9 +71,9 @@ class WavesModel extends ConcentrationModel {
 
     // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
-      ( tandem, wavelength, origin, directionOfTravel, propagationLimit, options ) => {
+      ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
         options = merge( { tandem: tandem }, options );
-        return new Wave( wavelength, origin, directionOfTravel, propagationLimit, options );
+        return new Wave( wavelength, origin, propagationDirection, propagationLimit, options );
       },
       [
         GreenhouseEffectConstants.INFRARED_WAVELENGTH,
@@ -231,7 +231,7 @@ class WavesModel extends ConcentrationModel {
       const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
-        wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
+        wave.propagationDirection.y < 0 &&
         wave.startPoint.y > cloud.position.y &&
         wave.startPoint.y - wave.length < cloud.position.y &&
         wave.startPoint.x > cloud.position.x - cloud.width / 2 &&
@@ -375,15 +375,15 @@ class WavesModel extends ConcentrationModel {
               assert && assert( intersection.length === 1, 'multiple intersections are not expected' );
 
               const waveStartToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.startPoint.y ) /
-                                                    waveFromTheGround.directionOfTravel.y;
+                                                    waveFromTheGround.propagationDirection.y;
               const waveOriginToIntersectionLength = ( this.atmosphereLine.start.y - waveFromTheGround.origin.y ) /
-                                                     waveFromTheGround.directionOfTravel.y;
+                                                     waveFromTheGround.propagationDirection.y;
 
               // Create the new emitted wave.
               const waveFromAtmosphericInteraction = this.waveGroup.createNextElement(
                 waveFromTheGround.wavelength,
                 intersection[ 0 ].point,
-                new Vector2( waveFromTheGround.directionOfTravel.x, -waveFromTheGround.directionOfTravel.y ),
+                new Vector2( waveFromTheGround.propagationDirection.x, -waveFromTheGround.propagationDirection.y ),
                 0,
                 {
                   // The emitted wave's intensity is a proportion of the wave that causes the interaction.
@@ -444,7 +444,7 @@ class WavesModel extends ConcentrationModel {
         wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
         wave.origin.x > 0 &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
-        wave.directionOfTravel.equals( GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR ) &&
+        wave.propagationDirection.y < 0 &&
         wave.getEndPoint().y === 0
       );
 

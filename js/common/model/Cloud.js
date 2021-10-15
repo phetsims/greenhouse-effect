@@ -109,9 +109,8 @@ class Cloud extends PhetioObject {
           emEnergyPackets.push( new EMEnergyPacket(
             energyPacket.wavelength,
             reflectedEnergy,
-            // altitude + ( altitude - energyPacket.altitude ),
             altitude,
-            energyPacket.directionOfTravel === EnergyDirection.UP ? EnergyDirection.DOWN : EnergyDirection.UP
+            EnergyDirection.getOpposite( energyPacket.direction )
           ) );
         }
       }
