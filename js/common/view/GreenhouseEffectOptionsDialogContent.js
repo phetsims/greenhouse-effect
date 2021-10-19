@@ -151,7 +151,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       new VBox( {
         children: [
           new Text( 'Sounds', HEADING_1_TEXT_OPTIONS ),
-          new Text( 'Note: Use "soundscape=true" to enable soundscape.', SELECTOR_TEXT_OPTIONS ),
           new Text( 'Temperature:', HEADING_2_TEXT_OPTIONS ),
           new HBox( { children: [ new HStrut( 20 ), temperatureSoundRadioButtonGroup ] } ),
           new Text( 'IR Emission & Waves:', HEADING_2_TEXT_OPTIONS ),

@@ -32,7 +32,6 @@ import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import ObservationWindowPDOMNode from '../../waves/view/ObservationWindowPDOMNode.js';
-import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import LayersModel from '../model/LayersModel.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
@@ -355,56 +354,54 @@ class GreenhouseEffectObservationWindow extends Node {
     );
 
     // sound generation
-    if ( GreenhouseEffectQueryParameters.soundscape ) {
 
-      // Add the cross-fade-based sound generator.
-      soundManager.addSoundGenerator(
-        new TemperatureSoundGenerator(
-          model.surfaceTemperatureKelvinProperty,
-          {
-            initialOutputLevel: 0.1,
-            enableControlProperties: [
-              model.sunEnergySource.isShiningProperty,
-              model.surfaceThermometerVisibleProperty,
-              model.isPlayingProperty,
-              crossFadeTemperatureSoundGeneratorEnabled
-            ]
-          }
-        )
-      );
+    // Add the cross-fade-based sound generator.
+    soundManager.addSoundGenerator(
+      new TemperatureSoundGenerator(
+        model.surfaceTemperatureKelvinProperty,
+        {
+          initialOutputLevel: 0.1,
+          enableControlProperties: [
+            model.sunEnergySource.isShiningProperty,
+            model.surfaceThermometerVisibleProperty,
+            model.isPlayingProperty,
+            crossFadeTemperatureSoundGeneratorEnabled
+          ]
+        }
+      )
+    );
 
-      // Add the filter-based sound generator.
-      soundManager.addSoundGenerator(
-        new TemperatureSoundGeneratorFiltered(
-          model.surfaceTemperatureKelvinProperty,
-          model.sunEnergySource.isShiningProperty,
-          {
-            initialOutputLevel: 0.1,
-            enableControlProperties: [
-              model.surfaceThermometerVisibleProperty,
-              model.isPlayingProperty,
-              filteredLoopTemperatureSoundGeneratorEnabled
-            ]
-          }
-        )
-      );
+    // Add the filter-based sound generator.
+    soundManager.addSoundGenerator(
+      new TemperatureSoundGeneratorFiltered(
+        model.surfaceTemperatureKelvinProperty,
+        model.sunEnergySource.isShiningProperty,
+        {
+          initialOutputLevel: 0.1,
+          enableControlProperties: [
+            model.surfaceThermometerVisibleProperty,
+            model.isPlayingProperty,
+            filteredLoopTemperatureSoundGeneratorEnabled
+          ]
+        }
+      )
+    );
 
-      // Add the playback-speed-based sound generator.
-      soundManager.addSoundGenerator(
-        new TemperatureSoundGeneratorSpeed(
-          model.surfaceTemperatureKelvinProperty,
-          model.sunEnergySource.isShiningProperty,
-          {
-            initialOutputLevel: 0.1,
-            enableControlProperties: [
-              model.surfaceThermometerVisibleProperty,
-              model.isPlayingProperty,
-              loopSpeedTemperatureSoundGeneratorEnabled
-            ]
-          }
-        )
-      );
-    }
+    // Add the playback-speed-based sound generator.
+    soundManager.addSoundGenerator(
+      new TemperatureSoundGeneratorSpeed(
+        model.surfaceTemperatureKelvinProperty,
+        model.sunEnergySource.isShiningProperty,
+        {
+          initialOutputLevel: 0.1,
+          enableControlProperties: [
+            model.surfaceThermometerVisibleProperty,
+            model.isPlayingProperty,
+            loopSpeedTemperatureSoundGeneratorEnabled
+          ]
+        }
+      )
+    );
   }
 }
 
