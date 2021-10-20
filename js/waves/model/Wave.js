@@ -100,10 +100,11 @@ class Wave extends PhetioObject {
     // @public (read-only) {number} - the length of this wave from the start point to where it ends
     this.length = 0;
 
-    // {boolean} - indicates whether this wave is coming from a sourced point or just moving through space
+    // @public (read-only) {boolean} - indicates whether this wave is coming from a sourced point or just moving through
+    //                                 space
     this.isSourced = true;
 
-    // (read-only) {number} - the length of time that this wave has existed
+    // @public (read-only) {number} - the length of time that this wave has existed
     this.existenceTime = 0;
 
     // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,

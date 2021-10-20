@@ -10,6 +10,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -18,7 +19,6 @@ import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
@@ -150,9 +150,13 @@ class WavesModel extends ConcentrationModel {
       ]
     );
 
-    // @private {WaveAtmosphereInteraction[]} - An array of the interactions that are currently occurring between IR
-    // waves and the atmosphere.
-    this.waveAtmosphereInteractions = [];
+    // @public (read-only) {ObservableArrayDef.<WaveAtmosphereInteraction>} - An array of the interactions that are
+    // currently occurring between IR waves and the atmosphere.
+    this.waveAtmosphereInteractions = createObservableArray( {
+      tandem: tandem.createTandem( 'waveAtmosphereInteractions' ),
+      phetioType: createObservableArray.ObservableArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ),
+      phetioDocumentation: 'Interactions between IR waves coming from the ground and the atmosphere'
+    } );
 
     // @private - Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas
     // of the atmosphere, reused by methods in order to reduce memory allocations.
@@ -314,9 +318,7 @@ class WavesModel extends ConcentrationModel {
         }
 
         // Remove this interaction from our list.
-        this.waveAtmosphereInteractions = this.waveAtmosphereInteractions.filter(
-          testInteraction => testInteraction !== interaction
-        );
+        this.waveAtmosphereInteractions.remove( interaction );
       }
       else {
 
@@ -341,7 +343,7 @@ class WavesModel extends ConcentrationModel {
     // exist but don't yet.
     wavesFromTheGround.forEach( waveFromTheGround => {
 
-      const hasActiveInteraction = Array.from( this.waveAtmosphereInteractions.values() ).reduce(
+      const hasActiveInteraction = this.waveAtmosphereInteractions.reduce(
         ( found, interaction ) => found || interaction.sourceWave === waveFromTheGround,
         false
       );
@@ -483,7 +485,7 @@ class WavesModel extends ConcentrationModel {
     this.glacierReflectedWavesMap.clear();
     this.sunWaveSource.reset();
     this.groundWaveSource.reset();
-    this.waveAtmosphereInteractions.length = 0;
+    this.waveAtmosphereInteractions.clear();
     if ( numberOfWavesBeforeReset > 0 ) {
       this.wavesChangedEmitter.emit();
     }
@@ -495,9 +497,6 @@ class WavesModel extends ConcentrationModel {
    */
   toStateObject() {
     return merge( super.toStateObject(), {
-      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).toStateObject(
-        this.waveAtmosphereInteractions
-      ),
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
@@ -510,7 +509,6 @@ class WavesModel extends ConcentrationModel {
    * @public
    */
   applyState( stateObject ) {
-    this.waveAtmosphereInteractions = ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ).fromStateObject( stateObject.waveAtmosphereInteractions );
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
@@ -525,7 +523,6 @@ class WavesModel extends ConcentrationModel {
    */
   static get STATE_SCHEMA() {
     return {
-      waveAtmosphereInteractions: ArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ),
       sunWaveSource: EMWaveSource.EMWaveSourceIO,
       groundWaveSource: EMWaveSource.EMWaveSourceIO,
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),

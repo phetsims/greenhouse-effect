@@ -118,7 +118,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
     soundManager.addSoundGenerator( irWaveEmittedFromGroundSoundGenerator );
 
-    const maxExpectedIRWavesFromGround = 3;
     // Create a sound generator for each of the waves that can originate from the ground.
     const irWaveRadiatingFromGroundSoundGenerators = [];
     _.times( 3, () => {
@@ -134,7 +133,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       irWaveRadiatingFromGroundSoundGenerators.push( soundGenerator );
     } );
 
-    // Create a sound generator for each of the waves that can originate from the atmosphere.
+    // Create a sound generator for each of the IR waves that can originate from the atmosphere.
     const irWaveRadiatingFromAtmosphereSoundGenerators = [];
     _.times( 3, () => {
       const soundGenerator = new SoundClip( irWaveRadiatingFromAtmosphereSound, {
@@ -156,57 +155,59 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
     soundManager.addSoundGenerator( irWaveRadiatingFromAtmosphereSoundGenerator );
 
+    // Play sounds related to IR waves emanating from the ground.
     model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
 
       // Fire off the one-shot sounds as new IR waves come into being.
       if ( numberOfWaves > previousNumberOfWaves ) {
         const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
 
-        if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-          if ( mostRecentlyAddedWave.propagationDirection.y < 0 ) {
-            irWaveEmittedFromAtmosphereSoundGenerator.play();
-          }
-          else {
-            irWaveEmittedFromGroundSoundGenerator.play();
-          }
+        if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+             mostRecentlyAddedWave.propagationDirection.y > 0 ) {
+
+          // A wave has been added that is coming from the ground, so play the sound that indicates this.
+          irWaveEmittedFromGroundSoundGenerator.play();
         }
       }
 
-      // Start and stop loops for the IR waves from the ground and the atmosphere.
-      let numberOfUpwardMovingIRWaves = 0;
-      let numberOfDownwardMovingIRWaves = 0;
-      model.waveGroup.forEach( wave => {
-        if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-          if ( wave.propagationDirection.y > 0 ) {
-            numberOfUpwardMovingIRWaves++;
-          }
-          else {
-            numberOfDownwardMovingIRWaves++;
-          }
+      const numberOfUpwardMovingIRWaves = model.waveGroup.getArray().reduce( ( previousCount, wave ) => {
+        if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y > 0 ) {
+          previousCount++;
+        }
+        return previousCount;
+      }, 0 );
+
+      assert && assert(
+        numberOfUpwardMovingIRWaves <= irWaveRadiatingFromGroundSoundGenerators.length,
+        'The number of waves from the ground exceeds the number of sound generators for ground-produced IR waves.'
+      );
+
+      // Make sure that the number of sound generators playing is equal to the number of waves coming from the ground.
+      irWaveRadiatingFromGroundSoundGenerators.forEach( ( soundGenerator, index ) => {
+        if ( !soundGenerator.isPlaying && numberOfUpwardMovingIRWaves > index ) {
+          soundGenerator.play();
+        }
+        else if ( soundGenerator.isPlaying && numberOfUpwardMovingIRWaves <= index ) {
+          soundGenerator.stop();
         }
       } );
-      _.times( maxExpectedIRWavesFromGround, index => {
+    } );
 
-        // Start or stop the loops that represent the sounds coming from the atmosphere back to the ground.
-        const irWaveRadiatingFromAtmosphereSoundGenerator = irWaveRadiatingFromAtmosphereSoundGenerators[ index ];
-        if ( numberOfDownwardMovingIRWaves > index && !irWaveRadiatingFromAtmosphereSoundGenerator.isPlaying ) {
-          irWaveRadiatingFromAtmosphereSoundGenerator.play();
-        }
-        else if ( numberOfDownwardMovingIRWaves <= index && irWaveRadiatingFromAtmosphereSoundGenerator.isPlaying ) {
-          irWaveRadiatingFromAtmosphereSoundGenerator.stop();
-        }
+    // Play the sounds related to IR interactions with the atmosphere.
+    model.waveAtmosphereInteractions.lengthProperty.lazyLink( ( numberOfInteractions, previousNumberOfInteractions ) => {
 
-        // The loops for the waves coming from the ground are only played if the loop for the same wave's interaction
-        // and subsequent return to the Earth are NOT being played.
-        const numberOfGroundEmissionIRLoopsToPlay = numberOfUpwardMovingIRWaves - numberOfDownwardMovingIRWaves;
+      // Play a one-shot sound each time a new interaction starts.
+      if ( numberOfInteractions > previousNumberOfInteractions ) {
+        irWaveEmittedFromAtmosphereSoundGenerator.play();
+      }
 
-        // Start or stop the loops that represent the sounds coming from the atmosphere back to the ground.
-        const irWaveRadiatingFromGroundSoundGenerator = irWaveRadiatingFromGroundSoundGenerators[ index ];
-        if ( numberOfGroundEmissionIRLoopsToPlay > index && !irWaveRadiatingFromGroundSoundGenerator.isPlaying ) {
-          irWaveRadiatingFromGroundSoundGenerator.play();
+      // Make sure that the number of sound generators playing is equal to the number of waves coming from the atmosphere.
+      irWaveRadiatingFromAtmosphereSoundGenerators.forEach( ( soundGenerator, index ) => {
+        if ( !soundGenerator.isPlaying && numberOfInteractions > index ) {
+          soundGenerator.play();
         }
-        else if ( numberOfGroundEmissionIRLoopsToPlay <= index && irWaveRadiatingFromGroundSoundGenerator.isPlaying ) {
-          irWaveRadiatingFromGroundSoundGenerator.stop();
+        else if ( soundGenerator.isPlaying && numberOfInteractions <= index ) {
+          soundGenerator.stop();
         }
       } );
     } );
