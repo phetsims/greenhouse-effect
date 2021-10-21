@@ -25,7 +25,8 @@
     "simFeatures": {
       "supportsSound": true
     },
-    "supportsOutputJS": true
+    "supportsOutputJS": true,
+    "typescript": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"

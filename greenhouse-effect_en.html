@@ -47,7 +47,8 @@
         "simFeatures": {
           "supportsSound": true
         },
-        "supportsOutputJS": true
+        "supportsOutputJS": true,
+        "typescript": true
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js"
@@ -136,7 +137,7 @@
 
   // Module loading in compilation-free (development) mode will be kicked off once strings are loaded.
   // This is done in load-unbuilt-strings.js
-  window.phet.chipper.loadModules = () => loadURL( 'js/greenhouse-effect-main.js', 'module' );
+  window.phet.chipper.loadModules = () => loadURL( '../chipper/dist/greenhouse-effect/js/greenhouse-effect-main.js', 'module' );
 </script>
 </body>
 </html>
