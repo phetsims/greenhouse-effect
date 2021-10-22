@@ -33,7 +33,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
     // to height, so change with caution.
-    const unscaledCloudShape: Shape = CloudNode.createCloudShape( Vector2.ZERO, 170, 60 );
+    const unscaledCloudShape: Shape = CloudNode.createCloudShape( Vector2.ZERO, 170, 50 );
     const cloudShapeScale: number = CLOUD_ICON_WIDTH / unscaledCloudShape.bounds.width;
     const scaledCloudShape: Shape = unscaledCloudShape.transformed( Matrix3.scale( cloudShapeScale, cloudShapeScale ) );
     const iconNode: Path = new Path( scaledCloudShape, {
