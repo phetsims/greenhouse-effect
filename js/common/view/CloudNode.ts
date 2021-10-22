@@ -14,26 +14,34 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Cloud from '../model/Cloud.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
 const CLOUD_BACKGROUND_STROKE = Color.BLACK;
 
+type CloudNodeOptions = {
+  showReferenceEllipse: boolean
+} & NodeOptions;
+
 class CloudNode extends Node {
+  private readonly disposeCloudNode: () => void;
 
   /**
    * @param {Cloud} cloud
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
    */
-  constructor( cloud, modelViewTransform, options ) {
+  constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, options: CloudNodeOptions ) {
 
     options = merge( {
 
       // {boolean} - useful for debugging
       showReferenceEllipse: false
 
-    }, options );
+    }, options ) as CloudNodeOptions;
 
     super( options );
 
@@ -77,7 +85,7 @@ class CloudNode extends Node {
    * @returns {Shape}
    * @public
    */
-  static createCloudShape( position, width, height ) {
+  static createCloudShape( position: Vector2, width: number, height: number ) {
 
     const circleShapes = [];
     let drawnWidth = 0;
