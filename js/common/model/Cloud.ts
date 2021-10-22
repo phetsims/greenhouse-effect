@@ -18,14 +18,22 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
-const CLOUD_SUBSTANCE_REFLECTIVITY = new Map( [
+const CLOUD_SUBSTANCE_REFLECTIVITY: Map<number, number> = new Map( [
   [ GreenhouseEffectConstants.VISIBLE_WAVELENGTH, 0.08 ],
   [ GreenhouseEffectConstants.INFRARED_WAVELENGTH, 0 ]
 ] );
 
 class Cloud extends PhetioObject {
+  readonly position: Vector2;
+  readonly width: number;
+  readonly height: number;
+  readonly enabledProperty: Property<boolean>;
+  readonly modelShape: Shape;
+  readonly totalReflectivityTable: Map<number, number>;
 
   /**
    * @param {Vector2} position
@@ -33,7 +41,7 @@ class Cloud extends PhetioObject {
    * @param {number} height - in meters
    * @param {Object} [options]
    */
-  constructor( position, width, height, options ) {
+  constructor( position: Vector2, width: number, height: number, options: Object ) {
 
     options = merge( {
 
@@ -47,32 +55,32 @@ class Cloud extends PhetioObject {
     // parameter checking
     assert && assert( width <= GreenhouseEffectConstants.SUNLIGHT_SPAN, 'cloud can\'t exceed the sunlight span' );
 
-    // @public (read-only) {Vector2}
+    // position in model space of the center of this cloud
     this.position = position;
 
-    // @public (read-only) {number}
+    // size of the cloud
     this.width = width;
     this.height = height;
 
-    // @public - controls whether the cloud is interacting with light
+    // controls whether or not the cloud is interacting with light
     this.enabledProperty = new BooleanProperty( false );
 
-    // @public (read-only) {Shape} - elliptical shape that defines the space which the cloud occupies
-    this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2 );
+    // elliptical shape that defines the space which the cloud occupies
+    this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2, 0 );
 
     // @private - Map of EM wavelengths to total reflectivity proportion for this cloud.  The reflectivity for a given
     // wavelength is the proportion of light that this cloud will reflect within the simulated space, and is based on
     // the reflectivity characteristics of the cloud and its width relative to the span of the incoming sunlight.
-    this.totalReflectivityTable = new Map( [
+    this.totalReflectivityTable = new Map<number, number>( [
       [
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
         width / GreenhouseEffectConstants.SUNLIGHT_SPAN *
-        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH )
+        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH )!
       ],
       [
         GreenhouseEffectConstants.INFRARED_WAVELENGTH,
         width / GreenhouseEffectConstants.SUNLIGHT_SPAN *
-        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH )
+        CLOUD_SUBSTANCE_REFLECTIVITY.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH )!
       ]
     ] );
   }
@@ -83,7 +91,7 @@ class Cloud extends PhetioObject {
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 
     emEnergyPackets.forEach( energyPacket => {
 
@@ -98,7 +106,7 @@ class Cloud extends PhetioObject {
         assert && assert( this.totalReflectivityTable.has( energyPacket.wavelength ) );
 
         // Calculate the amount of energy reflected by the cloud.
-        const reflectedEnergy = energyPacket.energy * this.totalReflectivityTable.get( energyPacket.wavelength );
+        const reflectedEnergy = energyPacket.energy * this.totalReflectivityTable.get( energyPacket.wavelength )!;
 
         if ( reflectedEnergy > 0 ) {
 
@@ -110,6 +118,7 @@ class Cloud extends PhetioObject {
             energyPacket.wavelength,
             reflectedEnergy,
             altitude,
+            // @ts-ignore - once enums are figured out and serializable, this should be replaced
             EnergyDirection.getOpposite( energyPacket.direction )
           ) );
         }
@@ -124,7 +133,7 @@ class Cloud extends PhetioObject {
    * @returns {number|null} - a normalized value between 0 and 1, which 1 is max reflectivity
    * @public
    */
-  getReflectivity( wavelength ) {
+  getReflectivity( wavelength: number ) {
     assert && assert(
       CLOUD_SUBSTANCE_REFLECTIVITY.has( wavelength ),
       'no reflectivity available for provided wavelength'
