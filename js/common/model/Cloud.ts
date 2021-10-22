@@ -2,7 +2,8 @@
 
 /**
  * The Cloud class is a simple model of a cloud in the atmosphere.  Clouds can interact with light, generally reflecting
- * it in both the up and down directions.  The shape of the cloud is modelled as an elliptical shape that is created from the provided width, height
+ * it in both the up and down directions.  The shape of the cloud is modelled as an elliptical shape that is created
+ * from the provided width, height
  * and center position.
  *
  * @author Jesse Greenberg
