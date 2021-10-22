@@ -38,6 +38,8 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -77,6 +79,10 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   selectedLineWidth: 2
 };
 
+type ConcentrationControlPanelOptions = {
+  includeCompositionData: boolean
+} & PanelOptions;
+
 class ConcentrationControlPanel extends Panel {
 
   /**
@@ -84,7 +90,7 @@ class ConcentrationControlPanel extends Panel {
    * @param {ConcentrationModel} concentrationModel
    * @param {Object} [options]
    */
-  constructor( width, concentrationModel, options ) {
+  constructor( width: number, concentrationModel: ConcentrationModel, options?: ConcentrationControlPanelOptions ) {
 
     options = merge( {
 
@@ -102,7 +108,7 @@ class ConcentrationControlPanel extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, options ) as ConcentrationControlPanelOptions;
 
     // Title for the whole panel
     const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
@@ -139,7 +145,7 @@ class ConcentrationControlPanel extends Panel {
 
     const contentChildren = [ titleNode, controlsParentNode, controlRadioButtonGroup ];
 
-    let compositionDataNode = null;
+    let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {
       compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty );
       contentChildren.push( compositionDataNode );
@@ -153,8 +159,10 @@ class ConcentrationControlPanel extends Panel {
     super( content, options );
 
     // only one form of controls is visible at a time
-    concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
+    concentrationModel.concentrationControlModeProperty.link( ( concentrationControl: EnumerationProperty<any> ) => {
+      // @ts-ignore
       concentrationSlider.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
+      // @ts-ignore
       dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE === concentrationControl;
 
       if ( compositionDataNode ) {
@@ -178,7 +186,11 @@ class DateControl extends Node {
    * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
    * @param {Tandem} tandem
    */
-  constructor( dateProperty, concentrationProperty, concentrationControlModeProperty, tandem ) {
+  constructor( dateProperty: EnumerationProperty<any>,
+               concentrationProperty: Property<number>,
+               concentrationControlModeProperty: EnumerationProperty<any>,
+               tandem: Tandem ) {
+
     super();
 
     // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
@@ -191,24 +203,28 @@ class DateControl extends Node {
     const items = [
       {
         node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
         node: new Text( iceAgeLabel, LABEL_OPTIONS ),
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
         labelContent: iceAgeLabel,
         tandemName: 'iceAgeRadioButton'
@@ -311,7 +327,7 @@ class DateControl extends Node {
 
     // place the value circle at a position representing current concentration
     const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
-    const concentrationHeightFunction = new LinearFunction(
+    const concentrationHeightFunction: LinearFunction = new LinearFunction(
       concentrationRange.getLength() * ( macroBoxProportionateCenterY - macroBoxProportionateHeight / 2 ),
       concentrationRange.getLength() * ( macroBoxProportionateCenterY + macroBoxProportionateHeight / 2 ),
       microConcentrationLine.bottom,
@@ -320,8 +336,10 @@ class DateControl extends Node {
     valueCircle.centerX = microConcentrationLine.centerX;
     Property.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
-      ( concentration, concentrationControlMode ) => {
+      ( concentration: number, concentrationControlMode: any ) => {
+        // @ts-ignore
         if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+          // @ts-ignore
           const centerY = concentrationHeightFunction( concentration );
           valueCircle.centerY = centerY;
         }
@@ -339,22 +357,26 @@ class ConcentrationSlider extends Node {
    * @param {NumberProperty} manuallyControlledConcentrationProperty
    * @param {Tandem} tandem
    */
-  constructor( manuallyControlledConcentrationProperty, tandem ) {
+  constructor( manuallyControlledConcentrationProperty: NumberProperty, tandem: Tandem ) {
 
     super( { tandem: tandem } );
 
     // Create the sound generator.
-    const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator( manuallyControlledConcentrationProperty, {
-      initialOutputLevel: 0.1
-    } );
+    const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator(
+      manuallyControlledConcentrationProperty,
+      { initialOutputLevel: 0.1 }
+    );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
-    const slider = new VSlider( manuallyControlledConcentrationProperty, manuallyControlledConcentrationProperty.range, {
+    const sliderRange = manuallyControlledConcentrationProperty.range!;
+
+    // @ts-ignore
+    const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
       // sound generation
-      drag: event => {
+      drag: ( event: SceneryEvent ) => {
         concentrationSliderSoundGenerator.drag( event );
       },
 
@@ -362,10 +384,10 @@ class ConcentrationSlider extends Node {
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label',
       helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
-      keyboardStep: manuallyControlledConcentrationProperty.range.max / 10,
-      shiftKeyboardStep: manuallyControlledConcentrationProperty.range.max / 20, // finer grain
-      pageKeyboardStep: manuallyControlledConcentrationProperty.range.max / 4, // coarser grain,
-      a11yCreateAriaValueText: value => {
+      keyboardStep: sliderRange.max / 10,
+      shiftKeyboardStep: sliderRange.max / 20, // finer grain
+      pageKeyboardStep: sliderRange.max / 4, // coarser grain,
+      a11yCreateAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
       },
 
@@ -388,11 +410,15 @@ class ConcentrationSlider extends Node {
 }
 
 class CompositionDataNode extends VBox {
+  private readonly waterText: RichText;
+  private readonly carbonDioxideText: RichText;
+  private readonly methaneText: RichText;
+  private readonly nitrousOxideText: RichText;
 
   /**
    * @param {EnumerationProperty} dateProperty
    */
-  constructor( dateProperty ) {
+  constructor( dateProperty: EnumerationProperty<any> ) {
     super( {
       align: 'left'
     } );
@@ -402,11 +428,11 @@ class CompositionDataNode extends VBox {
       maxWidth: 200
     };
     this.waterText = new RichText( '', textOptions );
-    this.carbondDioxideText = new RichText( '', textOptions );
+    this.carbonDioxideText = new RichText( '', textOptions );
     this.methaneText = new RichText( '', textOptions );
     this.nitrousOxideText = new RichText( '', textOptions );
 
-    this.children = [ this.waterText, this.carbondDioxideText, this.methaneText, this.nitrousOxideText ];
+    this.children = [ this.waterText, this.carbonDioxideText, this.methaneText, this.nitrousOxideText ];
 
     dateProperty.link( this.updateCompositionReadout.bind( this ) );
   }
@@ -418,14 +444,14 @@ class CompositionDataNode extends VBox {
    *
    * @param {ConcentrationModel.CONCENTRATION_DATE} date
    */
-  updateCompositionReadout( date ) {
+  updateCompositionReadout( date: any ) {
     const waterString = StringUtils.fillIn( waterConcentrationPatternString, { value: 70 } );
     const carbonDioxideString = StringUtils.fillIn( carbonDioxideConcentrationPatternString, { value: 414 } );
     const methaneString = StringUtils.fillIn( methaneConcentrationPatternString, { value: 1.876 } );
     const nitrousOxideString = StringUtils.fillIn( nitrousOxideConcentrationPatternString, { value: 0.332 } );
 
     this.waterText.text = waterString;
-    this.carbondDioxideText.text = carbonDioxideString;
+    this.carbonDioxideText.text = carbonDioxideString;
     this.methaneText.text = methaneString;
     this.nitrousOxideText.text = nitrousOxideString;
   }
@@ -441,7 +467,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
    * @param {EnumerationProperty} property - Property for the method of contorlling concentration
    * @param {Tandem} tandem
    */
-  constructor( property, tandem ) {
+  constructor( property: EnumerationProperty<any>, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'
@@ -451,7 +477,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     dateIcon.setScaleMagnitude( 34 / dateIcon.width, 34 / dateIcon.height );
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range, {
+    // @ts-ignore
+    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range as Range, {
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',
@@ -464,12 +491,14 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     const items = [
       {
         node: sliderIcon,
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
         tandemName: 'byConcentrationRadioButton'
       },
       {
         node: dateIcon,
+        // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
         tandemName: 'byTimePeriodRadioButton'
@@ -501,8 +530,13 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
  * Inner class used to generate the sounds for slider movements.
  */
 class ConcentrationSliderSoundGenerator extends SoundGenerator {
+  private readonly baseSoundClip: SoundClip;
+  private readonly numberOfBins: number;
+  private readonly binSize: number;
+  private readonly concentrationProperty: NumberProperty;
+  private previousConcentration: number;
 
-  constructor( concentrationProperty, options ) {
+  constructor( concentrationProperty: NumberProperty, options?: SoundGeneratorOptions ) {
 
     super( options );
 
@@ -520,18 +554,18 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     dynamicsCompressorNode.release.setValueAtTime( 0.25, now );
     dynamicsCompressorNode.connect( this.masterGainNode );
 
-    // @private - sound clip that forms the basis of all sounds that are produced
+    // the sound clip that forms the basis of all sounds that are produced
     this.baseSoundClip = new SoundClip( sliderBaseSound, {
       rateChangesAffectPlayingSounds: false
     } );
     this.baseSoundClip.connect( dynamicsCompressorNode );
 
-    // @private - The number of bins was chosen to match the design of the slider.
+    // The number of bins was chosen to match the design of the slider.
     this.numberOfBins = 10;
 
-    // @private - variables used by the methods below
+    // variables used by the methods below
     this.concentrationProperty = concentrationProperty;
-    this.binSize = this.concentrationProperty.range.max / this.numberOfBins;
+    this.binSize = this.concentrationProperty.range!.max / this.numberOfBins;
     this.previousConcentration = this.concentrationProperty.value;
   }
 
@@ -541,7 +575,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
    * @returns {number}
    * @private
    */
-  getBin( concentration ) {
+  getBin( concentration: number ) {
     return Math.min( Math.floor( concentration / this.binSize ), this.numberOfBins - 1 );
   }
 
@@ -556,7 +590,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
    * @param {number} numberOfTimesToPlay
    * @private
    */
-  playMultipleTimesRandomized( minimumPlaybackRate, numberOfTimesToPlay ) {
+  playMultipleTimesRandomized( minimumPlaybackRate: number, numberOfTimesToPlay: number ) {
 
     // parameters the bound the randomization, empirically determined
     const minimumInterSoundTime = 0.06;
@@ -579,21 +613,22 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
   /**
    * Handle a slider drag event by checking if the changes to the associated Property warrant the playing of a sound
    * and, if so, play it.
+   * @param {SceneryEvent} event
    * @public
    */
-  drag( event ) {
+  drag( event: SceneryEvent ) {
 
     const currentConcentration = this.concentrationProperty.value;
 
     if ( this.previousConcentration !== currentConcentration ) {
 
       // First check for hitting a min or max and, if that didn't happen, check for a change of bins.
-      if ( this.concentrationProperty.value === this.concentrationProperty.range.min ) {
+      if ( this.concentrationProperty.value === this.concentrationProperty.range!.min ) {
 
         // Play sound for the minimum value.
         this.baseSoundClip.play();
       }
-      else if ( this.concentrationProperty.value === this.concentrationProperty.range.max ) {
+      else if ( this.concentrationProperty.value === this.concentrationProperty.range!.max ) {
 
         // Play sound for the maximum value.
         this.baseSoundClip.setPlaybackRate( 2 * ( this.numberOfBins + 1 ) / this.numberOfBins + 1 );

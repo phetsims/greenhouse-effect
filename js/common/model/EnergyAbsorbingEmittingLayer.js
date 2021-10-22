@@ -1,8 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * A model of a horizontal layer of a material that absorbs energy, heats up, and then radiates energy.  This is modeled
- * as a black body.
+ * A model of a horizontal layer of a material that absorbs energy, heats up, and then radiates energy as a black body.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */

@@ -10,6 +10,8 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
 
@@ -17,9 +19,10 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
    * @param {number} altitude
    * @param {Tandem} tandem
    */
-  constructor( altitude, tandem ) {
+  constructor( altitude: number, tandem: Tandem ) {
 
     const options = {
+      // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.GLASS,
 
       // phet-io
@@ -39,7 +42,7 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
    * @override
    * @protected
    */
-  interactWithEnergyPackets( emEnergyPackets ) {
+  interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
       if ( this.energyPacketCrossedThisLayer( energyPacket ) ) {
