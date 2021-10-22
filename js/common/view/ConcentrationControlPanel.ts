@@ -159,7 +159,7 @@ class ConcentrationControlPanel extends Panel {
     super( content, options );
 
     // only one form of controls is visible at a time
-    concentrationModel.concentrationControlModeProperty.link( ( concentrationControl: EnumerationProperty<any> ) => {
+    concentrationModel.concentrationControlModeProperty.link( ( concentrationControl: EnumerationProperty ) => {
       // @ts-ignore
       concentrationSlider.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
       // @ts-ignore
@@ -186,9 +186,9 @@ class DateControl extends Node {
    * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
    * @param {Tandem} tandem
    */
-  constructor( dateProperty: EnumerationProperty<any>,
+  constructor( dateProperty: EnumerationProperty,
                concentrationProperty: Property<number>,
-               concentrationControlModeProperty: EnumerationProperty<any>,
+               concentrationControlModeProperty: EnumerationProperty,
                tandem: Tandem ) {
 
     super();
@@ -327,7 +327,7 @@ class DateControl extends Node {
 
     // place the value circle at a position representing current concentration
     const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
-    const concentrationHeightFunction: LinearFunction = new LinearFunction(
+    const concentrationHeightFunction = new LinearFunction(
       concentrationRange.getLength() * ( macroBoxProportionateCenterY - macroBoxProportionateHeight / 2 ),
       concentrationRange.getLength() * ( macroBoxProportionateCenterY + macroBoxProportionateHeight / 2 ),
       microConcentrationLine.bottom,
@@ -370,7 +370,6 @@ class ConcentrationSlider extends Node {
 
     const sliderRange = manuallyControlledConcentrationProperty.range!;
 
-    // @ts-ignore
     const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
@@ -418,7 +417,7 @@ class CompositionDataNode extends VBox {
   /**
    * @param {EnumerationProperty} dateProperty
    */
-  constructor( dateProperty: EnumerationProperty<any> ) {
+  constructor( dateProperty: EnumerationProperty ) {
     super( {
       align: 'left'
     } );
@@ -464,10 +463,10 @@ class CompositionDataNode extends VBox {
 class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {EnumerationProperty} property - Property for the method of contorlling concentration
+   * @param {EnumerationProperty} property - Property for the method of controlling concentration
    * @param {Tandem} tandem
    */
-  constructor( property: EnumerationProperty<any>, tandem: Tandem ) {
+  constructor( property: EnumerationProperty, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'
@@ -477,8 +476,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     dateIcon.setScaleMagnitude( 34 / dateIcon.width, 34 / dateIcon.height );
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
-    // @ts-ignore
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range as Range, {
+    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range, {
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',
@@ -536,7 +534,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
   private readonly concentrationProperty: NumberProperty;
   private previousConcentration: number;
 
-  constructor( concentrationProperty: NumberProperty, options?: SoundGeneratorOptions ) {
+  constructor( concentrationProperty: NumberProperty, options?: Partial<SoundGeneratorOptions> ) {
 
     super( options );
 

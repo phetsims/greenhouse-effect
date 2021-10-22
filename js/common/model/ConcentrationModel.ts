@@ -17,37 +17,47 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel from './LayersModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
-const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
+const SCALE_HEIGHT_OF_ATMOSPHERE: number = 8400; // in meters, taken from a Wikipedia article
 
 // values for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date
-const CONCENTRATION_CONTROL_MODE = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
+const CONCENTRATION_CONTROL_MODE: Enumeration = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
 
 // dates with recorded values of greenhouse concentration
-const CONCENTRATION_DATE = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
+const CONCENTRATION_DATE: Enumeration = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
 
 // maps the date to the modelled concentration, map values are not based on realistic values and are only temporary
 // to get the UI components working
-const CONCENTRATION_RANGE = new Range( 0, 1 );
+const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 const DATE_TO_CONCENTRATION_MAP = new Map( [
+  // @ts-ignore
   [ CONCENTRATION_DATE.ICE_AGE, 0.55 ],
+  // @ts-ignore
   [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.7 ],
+  // @ts-ignore
   [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.8 ],
+  // @ts-ignore
   [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.83 ]
 ] );
 
 class ConcentrationModel extends LayersModel {
+  public readonly dateProperty: EnumerationProperty;
+  public readonly manuallyControlledConcentrationProperty: NumberProperty;
+  public readonly concentrationControlModeProperty: EnumerationProperty;
+  public readonly concentrationProperty: DerivedProperty<number>;
 
   /**
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( tandem, options ) {
+  constructor( tandem: Tandem, options?: PhetioObjectOptions ) {
     super( tandem, options );
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
+    // @ts-ignore
     this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY, {
       tandem: tandem.createTandem( 'dateProperty' )
     } );
@@ -63,6 +73,7 @@ class ConcentrationModel extends LayersModel {
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
     this.concentrationControlModeProperty = new EnumerationProperty(
       CONCENTRATION_CONTROL_MODE,
+      // @ts-ignore
       CONCENTRATION_CONTROL_MODE.BY_VALUE, {
         tandem: tandem.createTandem( 'concentrationControlModeProperty' )
       }
@@ -71,8 +82,9 @@ class ConcentrationModel extends LayersModel {
     // @public {DerivedProperty.<number>} - The actual value of concentration for the model, depending on how the
     // concentration is to be controlled.
     this.concentrationProperty = new DerivedProperty(
-      [ this.dateProperty, this.manuallyControlledConcentrationProperty, this.concentrationControlModeProperty ],
-      ( date, manuallyControlledConcentration, concentrationControl ) => {
+      [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
+      ( concentrationControl: Enumeration, date: Enumeration, manuallyControlledConcentration: number ) => {
+        // @ts-ignore
         return concentrationControl === CONCENTRATION_CONTROL_MODE.BY_VALUE ?
                manuallyControlledConcentration :
                DATE_TO_CONCENTRATION_MAP.get( date );
@@ -84,7 +96,7 @@ class ConcentrationModel extends LayersModel {
     );
 
     // Hook up the concentration to the layers created in the parent class.
-    this.concentrationProperty.link( concentration => {
+    this.concentrationProperty.link( ( concentration: number ) => {
 
       // Map the normalized concentration to a value for the layer absorption proportion.  The higher layers absorb
       // less.  This numerical mapping is very important to the correct operation of the simulation with respect to
@@ -106,8 +118,10 @@ class ConcentrationModel extends LayersModel {
 
     Property.multilink(
       [ this.dateProperty, this.concentrationControlModeProperty ],
-      ( date, concentrationControlMode ) => {
+      ( date: Enumeration, concentrationControlMode: Enumeration ) => {
+        // @ts-ignore
         if ( date === CONCENTRATION_DATE.ICE_AGE &&
+             // @ts-ignore
              concentrationControlMode === CONCENTRATION_CONTROL_MODE.BY_DATE ) {
 
           // This is the ice age, so the ground should reflect some light.
@@ -135,22 +149,22 @@ class ConcentrationModel extends LayersModel {
     this.manuallyControlledConcentrationProperty.reset();
     super.reset();
   }
-}
 
-// @public @static
-ConcentrationModel.CONCENTRATION_CONTROL_MODE = CONCENTRATION_CONTROL_MODE;
-ConcentrationModel.CONCENTRATION_DATE = CONCENTRATION_DATE;
-ConcentrationModel.CONCENTRATION_RANGE = CONCENTRATION_RANGE;
-ConcentrationModel.DATE_CONCENTRATION_RANGE = new Range(
-  Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
-    ( minSoFar, currentValue ) => Math.min( minSoFar, currentValue ),
-    Number.POSITIVE_INFINITY
-  ),
-  Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
-    ( maxSoFar, currentValue ) => Math.max( maxSoFar, currentValue ),
-    Number.NEGATIVE_INFINITY
-  )
-);
+  // statics
+  public static readonly CONCENTRATION_CONTROL_MODE: Enumeration = CONCENTRATION_CONTROL_MODE;
+  public static readonly CONCENTRATION_DATE: Enumeration = CONCENTRATION_DATE;
+  public static readonly CONCENTRATION_RANGE: Range = CONCENTRATION_RANGE;
+  public static readonly DATE_CONCENTRATION_RANGE: Range = new Range(
+    Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
+      ( minSoFar, currentValue ) => Math.min( minSoFar, currentValue ),
+      Number.POSITIVE_INFINITY
+    ),
+    Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(
+      ( maxSoFar, currentValue ) => Math.max( maxSoFar, currentValue ),
+      Number.NEGATIVE_INFINITY
+    )
+  );
+}
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export default ConcentrationModel;

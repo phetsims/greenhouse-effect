@@ -1,8 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * The LayersModel of GreenhouseEffect is a superclass for several of the sim screens. It is responsible for managing the
- * "layers" implmentation for modeling interactions between waves or photons and the atmosphere.
+ * The LayersModel of GreenhouseEffect is a superclass for several of the sim screens. It is responsible for creating
+ * and managing the layers that absorb and radiate heat, thus modeling the capture of heat energy in Earth's atmosphere.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -26,6 +26,8 @@ import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Cloud from './Cloud.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -37,12 +39,25 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 class LayersModel extends GreenhouseEffectModel {
+  private readonly surfaceTemperatureKelvinProperty: NumberProperty;
+  private readonly surfaceTemperatureCelsiusProperty: DerivedProperty<number>;
+  private readonly surfaceTemperatureFahrenheitProperty: DerivedProperty<number>;
+  private readonly temperatureUnitsProperty: EnumerationProperty;
+  private readonly surfaceThermometerVisibleProperty: BooleanProperty;
+  private readonly energyBalanceVisibleProperty: BooleanProperty;
+  private readonly emEnergyPackets: EMEnergyPacket[];
+  private readonly sunEnergySource: SunEnergySource;
+  protected readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
+  protected readonly groundLayer: GroundLayer;
+  private readonly clouds: Cloud[];
+  private readonly outerSpace: SpaceEnergySink;
+  private modelSteppingTime: number;
 
   /**
    * @param {Tandem} [tandem]
    * @param {Object} [options]
    */
-  constructor( tandem, options ) {
+  constructor( tandem: Tandem, options?: PhetioObjectOptions ) {
 
     super( tandem, options );
 
@@ -62,6 +77,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
 
     // @public {EnumerationProperty} - displayed units of temperature
+    // @ts-ignore
     this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
@@ -117,7 +133,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.modelSteppingTime = 0;
 
     // Connect up the surface temperature property to that of the ground layer model element.
-    this.groundLayer.temperatureProperty.link( groundTemperature => {
+    this.groundLayer.temperatureProperty.link( ( groundTemperature: number ) => {
       this.surfaceTemperatureKelvinProperty.set( groundTemperature );
     } );
   }
@@ -127,7 +143,7 @@ class LayersModel extends GreenhouseEffectModel {
    * @override
    * @param {number} dt
    */
-  stepModel( dt ) {
+  stepModel( dt: number ) {
 
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
@@ -187,7 +203,7 @@ class LayersModel extends GreenhouseEffectModel {
    * for phet-io
    * @public
    */
-  applyState( stateObject ) {
+  applyState( stateObject: { emEnergyPackets: EMEnergyPacket[] } ) {
 
     // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
     // copy in the contents of the state object.
@@ -207,22 +223,22 @@ class LayersModel extends GreenhouseEffectModel {
       emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
     };
   }
+
+  // statics
+  public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
+  public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
+  public static readonly NUMBER_OF_ATMOSPHERE_LAYERS: number = NUMBER_OF_ATMOSPHERE_LAYERS;
+  public static readonly TemperatureUnits: Enumeration = TemperatureUnits;
+
+  /**
+   * @public
+   * LayersModelIO handles PhET-iO serialization of the LayersModel. Because serialization involves accessing private
+   * members, it delegates to LayersModel. The methods that LayersModelIO overrides are typical of 'Dynamic element
+   * serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  public static readonly LayersModelIO: IOType = IOType.fromCoreType( 'LayersModelIO', LayersModel );
 }
-
-/**
- * @public
- * LayersModelIO handles PhET-iO serialization of the LayersModel. Because serialization involves accessing private
- * members, it delegates to LayersModel. The methods that LayersModelIO overrides are typical of 'Dynamic element
- * serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-LayersModel.LayersModelIO = IOType.fromCoreType( 'LayersModelIO', LayersModel );
-
-// statics
-LayersModel.HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
-LayersModel.SUNLIGHT_SPAN = SUNLIGHT_SPAN;
-LayersModel.NUMBER_OF_ATMOSPHERE_LAYERS = NUMBER_OF_ATMOSPHERE_LAYERS;
-LayersModel.TemperatureUnits = TemperatureUnits;
 
 greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

@@ -13,20 +13,26 @@ import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+
+type GreenhouseEffectModelOptions = Partial<PhetioObjectOptions>;
 
 class GreenhouseEffectModel extends PhetioObject {
+  private readonly timeSpeedProperty: EnumerationProperty;
+  private readonly isPlayingProperty: BooleanProperty;
 
   /**
    * @param {Tandem} tandem
    * @param options
    */
-  constructor( tandem, options ) {
+  constructor( tandem: Tandem, options?: GreenhouseEffectModelOptions ) {
 
     options = merge( {
 
-      // By default, this is not stateful.  But note that some subtypes such as WavesModel override this
-      // and specify a phetioType
+      // By default this is not stateful, but note that some subtypes such as WavesModel override this and specify a
+      // phetioType.
       phetioState: false
+
     }, options );
 
     assert && assert( !options.tandem, 'tandem should not be supplied via options' );
@@ -35,7 +41,9 @@ class GreenhouseEffectModel extends PhetioObject {
     super( options );
 
     // @public {NumberProperty} - playing speed for the model
+    // @ts-ignore
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+      // @ts-ignore
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
       tandem: tandem.createTandem( 'timeSpeedProperty' )
     } );
@@ -52,7 +60,7 @@ class GreenhouseEffectModel extends PhetioObject {
    *
    * @param {number} dt - in seconds
    */
-  stepModel( dt ) {
+  stepModel( dt: number ) {
     throw new Error( 'Implement stepModel in subclass of GreenhouseEffectModel' );
   }
 
@@ -62,8 +70,9 @@ class GreenhouseEffectModel extends PhetioObject {
    * @public
    * @param {number} dt - in seconds
    */
-  step( dt ) {
+  step( dt: number ) {
     if ( this.isPlayingProperty.value ) {
+      // @ts-ignore
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
       this.stepModel( timeStep );
     }
