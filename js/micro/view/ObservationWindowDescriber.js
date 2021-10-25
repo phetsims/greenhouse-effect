@@ -65,7 +65,7 @@ class ObservationWindowDescriber {
 
     // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
     // interaction
-    this.activeMoleculeAlertManager = new ActiveMoleculeAlertManager( model, modelViewTransform );
+    this.activeMoleculeAlertManager = new ActiveMoleculeAlertManager( model, observationWindow, modelViewTransform );
 
     // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
     // to describe the absorbed photon not the photon wavelength currently being emitted

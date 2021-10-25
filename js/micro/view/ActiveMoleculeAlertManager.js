@@ -9,6 +9,7 @@
  */
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -60,8 +61,21 @@ const PASS_THROUGH_COUNT_BEFORE_DESCRIPTION = 5;
 // any more. See https://github.com/phetsims/molecules-and-light/issues/228
 const ALERT_DELAY = 5;
 
-class ActiveMoleculeAlertManager {
-  constructor( photonAbsorptionModel, modelViewTransform ) {
+class ActiveMoleculeAlertManager extends Alerter {
+
+  /**
+   * @param {PhotonAbsorptionModel} photonAbsorptionModel
+   * @param {MicroObservationWindow} observationWindow
+   * @param {ModelViewTransform2} modelViewTransform
+   */
+  constructor( photonAbsorptionModel, observationWindow, modelViewTransform ) {
+
+    super( {
+
+      // Alerts related to active molecules alert through the ObservationWindow because we often want alerts about
+      // molecules to continue for longer than the lifetime of an active molecule.
+      descriptionAlertNode: observationWindow
+    } );
 
     // @privates
     this.photonAbsorptionModel = photonAbsorptionModel;
@@ -133,8 +147,7 @@ class ActiveMoleculeAlertManager {
    * Increment variables watching timing of alerts
    * @public
    *
-   * @param {[type]} dt [description]
-   * @returns {[type]} [description]
+   * @param {number} dt [description]
    */
   step( dt ) {
     if ( this.timeSinceFirstAlert <= ALERT_DELAY ) {
@@ -149,14 +162,13 @@ class ActiveMoleculeAlertManager {
    * @param {Molecule} molecule
    */
   attachAbsorptionAlertListeners( molecule ) {
-    const utteranceQueue = phet.joist.sim.utteranceQueue;
 
     // vibration
     molecule.vibratingProperty.lazyLink( vibrating => {
       if ( vibrating ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getVibrationAlert( molecule );
-        utteranceQueue.addToBack( this.absorptionUtterance );
+        this.alertDescriptionUtterance( this.absorptionUtterance );
       }
     } );
 
@@ -165,7 +177,7 @@ class ActiveMoleculeAlertManager {
       if ( rotating ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getRotationAlert( molecule );
-        utteranceQueue.addToBack( this.absorptionUtterance );
+        this.alertDescriptionUtterance( this.absorptionUtterance );
       }
     } );
 
@@ -174,7 +186,7 @@ class ActiveMoleculeAlertManager {
       if ( highEnergy ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getExcitationAlert( molecule );
-        utteranceQueue.addToBack( this.absorptionUtterance );
+        this.alertDescriptionUtterance( this.absorptionUtterance );
       }
     } );
 
@@ -182,14 +194,14 @@ class ActiveMoleculeAlertManager {
     molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
       this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
       this.absorptionUtterance.alert = this.getBreakApartAlert( moleculeA, moleculeB );
-      utteranceQueue.addToBack( this.absorptionUtterance );
+      this.alertDescriptionUtterance( this.absorptionUtterance );
     } );
 
     // photon emission - alert this only in slow motion and paused playback
     molecule.photonEmittedEmitter.addListener( photon => {
       if ( !this.photonAbsorptionModel.runningProperty.get() || this.photonAbsorptionModel.slowMotionProperty.get() ) {
         this.absorptionUtterance.alert = this.getEmissionAlert( photon );
-        utteranceQueue.addToBack( this.absorptionUtterance );
+        this.alertDescriptionUtterance( this.absorptionUtterance );
       }
     } );
 
@@ -200,7 +212,7 @@ class ActiveMoleculeAlertManager {
       const passThroughAlert = this.getPassThroughAlert( photon, molecule );
       if ( passThroughAlert ) {
         this.absorptionUtterance.alert = passThroughAlert;
-        utteranceQueue.addToBack( this.absorptionUtterance );
+        this.alertDescriptionUtterance( this.absorptionUtterance );
       }
 
       if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
@@ -421,7 +433,7 @@ class ActiveMoleculeAlertManager {
    * @private
    *
    * @param {Molecule} molecule
-   * @returns {strings}
+   * @returns {string}
    */
   getRotationAlert( molecule ) {
     let alert = '';
