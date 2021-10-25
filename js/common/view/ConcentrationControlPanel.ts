@@ -318,10 +318,10 @@ class DateControl extends Node {
     );
 
     topConnectionLine.setPoint1( macroValueBox.rightTop );
-    topConnectionLine.setPoint2( microConcentrationLine.centerTop );
+    topConnectionLine.setPoint2( microConcentrationLine.centerTop ); // @ts-ignore
 
     bottomConnectionLine.setPoint1( macroValueBox.rightBottom );
-    bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom );
+    bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom ); // @ts-ignore
 
     dateRadioButtonGroup.leftTop = microConcentrationLine.rightTop.plusXY( 10, 0 );
 
@@ -370,7 +370,7 @@ class ConcentrationSlider extends Node {
 
     const sliderRange = manuallyControlledConcentrationProperty.range!;
 
-    const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, {
+    const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
@@ -476,7 +476,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
     dateIcon.setScaleMagnitude( 34 / dateIcon.width, 34 / dateIcon.height );
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range, {
+    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range, { // @ts-ignore
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',
