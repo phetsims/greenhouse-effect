@@ -38,10 +38,10 @@ class ObservationWindowDescriber {
 
   /**
    * @param {PhotonAbsorptionModel} model
+   * @param {MicroObservationWindow} observationWindow - the AlertManager sends alerts through this Node
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
-  constructor( model, modelViewTransform, returnMoleculeButtonVisibleProperty ) {
+  constructor( model, observationWindow, modelViewTransform ) {
 
     // @private {PhotonAbsorptionModel}
     this.model = model;
@@ -60,8 +60,8 @@ class ObservationWindowDescriber {
     this.moleculeBrokeApart = false;
 
     // @private - responsible for general alerts involving things in the observation window
-    this.alertManager = new ObservationWindowAlertManager();
-    this.alertManager.initialize( model, returnMoleculeButtonVisibleProperty );
+    this.alertManager = new ObservationWindowAlertManager( observationWindow );
+    this.alertManager.initialize( model, observationWindow.returnMoleculeButtonVisibleProperty );
 
     // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
     // interaction

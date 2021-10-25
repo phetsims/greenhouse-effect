@@ -8,6 +8,7 @@
  */
 
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -32,8 +33,18 @@ const shortGlowingAlertString = greenhouseEffectStrings.a11y.shortGlowingAlert;
 const moleculePiecesGoneString = greenhouseEffectStrings.a11y.moleculePiecesGone;
 const resetOrChangeMoleculeString = greenhouseEffectStrings.a11y.resetOrChangeMolecule;
 
-class ObservationWindowAlertManager {
-  constructor() {
+class ObservationWindowAlertManager extends Alerter {
+
+  /**
+   * @param {MicroObservationWindow} observationWindow
+   */
+  constructor( observationWindow ) {
+
+    super( {
+
+      // alerts go through the ObservationWindow itself
+      descriptionAlertNode: observationWindow
+    } );
 
     // @private {Utterance} - single utterances for categories of information so any one set of utterances
     // dont spam the user on frequent interaction
@@ -64,13 +75,11 @@ class ObservationWindowAlertManager {
    * @param {}
    */
   initialize( model, returnMoleculeButtonVisibleProperty ) {
-    const utteranceQueue = phet.joist.sim.utteranceQueue;
-
     this.model = model;
 
     model.photonEmitterOnProperty.lazyLink( on => {
       this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, model.runningProperty.value, model.slowMotionProperty.value );
-      utteranceQueue.addToBack( this.photonStateUtterance );
+      this.alertDescriptionUtterance( this.photonStateUtterance );
     } );
 
     model.runningProperty.lazyLink( running => {
@@ -82,25 +91,21 @@ class ObservationWindowAlertManager {
       }
 
       this.runningStateUtterance.alert = this.getRunningStateAlert( model.photonEmitterOnProperty.get(), running );
-      utteranceQueue.addToBack( this.runningStateUtterance );
+      this.alertDescriptionUtterance( this.runningStateUtterance );
     } );
 
     model.manualStepEmitter.addListener( () => {
       const alert = this.getManualStepAlert( model );
       if ( alert ) {
         this.manualStepUtterance.alert = alert;
-
-        // the alerts that result from pressing the step button should come before alerts resulting from model
-        // events because confirmation of button activation should come before other updates, so utterance
-        // is added to front
-        utteranceQueue.addToFront( this.manualStepUtterance );
+        this.alertDescriptionUtterance( this.manualStepUtterance );
       }
     } );
 
     model.photonEmittedEmitter.addListener( photon => {
       if ( !model.runningProperty.get() ) {
         this.photonEmittedUtterance.alert = this.getPhotonEmittedAlert( photon );
-        utteranceQueue.addToBack( this.photonEmittedUtterance );
+        this.alertDescriptionUtterance( this.photonEmittedUtterance );
       }
     } );
 
@@ -115,7 +120,7 @@ class ObservationWindowAlertManager {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        phet.joist.sim.utteranceQueue.addToBack( resetOrChangeMoleculeString );
+        this.alertDescriptionUtterance( resetOrChangeMoleculeString );
       }
     } );
   }

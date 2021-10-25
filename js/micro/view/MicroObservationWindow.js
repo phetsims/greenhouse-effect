@@ -204,7 +204,7 @@ class MicroObservationWindow extends Rectangle {
 
     // pdom
     // @public - generates descriptions for the target molecule
-    this.describer = new ObservationWindowDescriber( photonAbsorptionModel, this.modelViewTransform, this.returnMoleculeButtonVisibleProperty );
+    this.describer = new ObservationWindowDescriber( photonAbsorptionModel, this, modelViewTransform );
 
     // pdom - list that describes the state of contents in the Observation Window
     const phaseItem = new Node( { tagName: 'li' } );
