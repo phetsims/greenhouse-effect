@@ -56,6 +56,10 @@ phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty = new Boolean
 phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty = new BooleanProperty( false );
 phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty = new BooleanProperty( false );
 
+// Global property the specifies whether the output level of the loops used for IR waves should be mapped to the wave's
+// intensity.
+phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new BooleanProperty( false );
+
 // global property that defines the opacity of the mockups for all screens
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
@@ -135,12 +139,21 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
         tandem: tandem.createTandem( 'irWaveFromAtmosphereExistsSoundEnabledCheckbox' )
       }
     );
+    const mapIrWaveLoopOutputLevelsToIntensitiesCheckbox = new Checkbox(
+      new Text( 'Map IR loop volumes to wave intensities', SELECTOR_TEXT_OPTIONS ),
+      phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty,
+      {
+        boxWidth: CHECKBOX_WIDTH,
+        tandem: tandem.createTandem( 'mapIrWaveLoopOutputLevelsToIntensitiesCheckbox' )
+      }
+    );
     const irWaveControls = new VBox( {
       children: [
         irEmissionFromGroundSoundEnabledCheckbox,
         irWaveFromGroundExistsSoundEnabledCheckbox,
         irEmissionFromAtmosphereEnabledCheckbox,
-        irWaveFromAtmosphereExistsSoundEnabledCheckbox
+        irWaveFromAtmosphereExistsSoundEnabledCheckbox,
+        mapIrWaveLoopOutputLevelsToIntensitiesCheckbox
       ],
       spacing: 5,
       align: 'left'

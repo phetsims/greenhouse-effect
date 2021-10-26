@@ -106,6 +106,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     //       class once the sounds have been finalized.  See
     //       https://github.com/phetsims/greenhouse-effect/issues/36#issuecomment-929642225 and nearby comments.
 
+    const waveLoopMaxOutputLevel = 0.1;
+
     const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( irWaveEmittedFromAtmosphereSound, {
       initialOutputLevel: 0.1,
       enableControlProperties: [ phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty ]
@@ -122,7 +124,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     const irWaveRadiatingFromGroundSoundGenerators = [];
     _.times( 3, () => {
       const soundGenerator = new SoundClip( irWaveRadiatingFromGroundSound, {
-        initialOutputLevel: 0.1,
+        initialOutputLevel: waveLoopMaxOutputLevel,
         loop: true,
         enableControlProperties: [
           phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty,
@@ -137,7 +139,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     const irWaveRadiatingFromAtmosphereSoundGenerators = [];
     _.times( 3, () => {
       const soundGenerator = new SoundClip( irWaveRadiatingFromAtmosphereSound, {
-        initialOutputLevel: 0.1,
+        initialOutputLevel: waveLoopMaxOutputLevel,
         loop: true,
         enableControlProperties: [
           phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty,
@@ -155,7 +157,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
     soundManager.addSoundGenerator( irWaveRadiatingFromAtmosphereSoundGenerator );
 
-    // Play sounds related to IR waves emanating from the ground.
+    // Watch for new waves that start emanating from the ground and produce the appropriate sounds when they appear.
     model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
 
       // Fire off the one-shot sounds as new IR waves come into being.
@@ -212,6 +214,38 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       } );
     } );
 
+    // A method that is intended to be called during stepping to update the output levels of the loops to match the
+    // intensities of the waves to which they correspond.
+    // TODO: This way of doing the updates to the output levels of the loops and the code contained herein are all quite
+    //       sub-optimal, since it is inefficient.  If we end up keeping the loops and mapping their intensities to the
+    //       output levels of the loops, the Wave class should be modified to use a Property for the intensity, and then
+    //       this can be used to adjust the output levels.
+    this.updateSoundLoopLevels = () => {
+      let wavesFromGroundOutputLevel = waveLoopMaxOutputLevel;
+      let wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel;
+      if ( phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty.value ) {
+
+        model.waveGroup.forEach( wave => {
+          if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y > 0 ) {
+            wavesFromGroundOutputLevel = waveLoopMaxOutputLevel * wave.intensityAtStart;
+          }
+          else if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y < 0 ) {
+            wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel * wave.intensityAtStart;
+          }
+        } );
+      }
+      irWaveRadiatingFromGroundSoundGenerators.forEach( soundGenerator => {
+        if ( soundGenerator.isPlaying && soundGenerator.getOutputLevel() !== wavesFromGroundOutputLevel ) {
+          soundGenerator.setOutputLevel( wavesFromGroundOutputLevel );
+        }
+      } );
+      irWaveRadiatingFromAtmosphereSoundGenerators.forEach( soundGenerator => {
+        if ( soundGenerator.isPlaying && soundGenerator.getOutputLevel() !== wavesFromAtmosphereOutputLevel ) {
+          soundGenerator.setOutputLevel( wavesFromAtmosphereOutputLevel );
+        }
+      } );
+    };
+
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
       this.energyLegend,
@@ -233,6 +267,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
    */
   reset() {
     super.reset();
+  }
+
+  /**
+   * @public
+   */
+  step() {
+    this.updateSoundLoopLevels();
   }
 }
 
