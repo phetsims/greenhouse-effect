@@ -360,7 +360,7 @@ class GreenhouseEffectObservationWindow extends Node {
       new TemperatureSoundGenerator(
         model.surfaceTemperatureKelvinProperty,
         {
-          initialOutputLevel: 0.1,
+          initialOutputLevel: 0.05,
           enableControlProperties: [
             model.sunEnergySource.isShiningProperty,
             model.surfaceThermometerVisibleProperty,
@@ -377,7 +377,7 @@ class GreenhouseEffectObservationWindow extends Node {
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
         {
-          initialOutputLevel: 0.1,
+          initialOutputLevel: 0.05,
           enableControlProperties: [
             model.surfaceThermometerVisibleProperty,
             model.isPlayingProperty,
@@ -393,7 +393,7 @@ class GreenhouseEffectObservationWindow extends Node {
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
         {
-          initialOutputLevel: 0.1,
+          initialOutputLevel: 0.05,
           enableControlProperties: [
             model.surfaceThermometerVisibleProperty,
             model.isPlayingProperty,
