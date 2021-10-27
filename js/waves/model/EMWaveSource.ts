@@ -19,11 +19,86 @@ import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from './Wave.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import Property from '../../../../axon/js/Property.js';
+import WaveSourceSpec from './WaveSourceSpec.js';
 
 // constants
 const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
 
+/**
+ * simple inner class for amalgamating the information needed to space out the waves
+ */
+class WaveCreationSpec {
+  countdown: number;
+  readonly propagationDirection: Vector2;
+  readonly originX: number;
+
+  constructor( originX: number, propagationDirection: Vector2, timeToCreation: number ) {
+    this.countdown = timeToCreation;
+    this.propagationDirection = propagationDirection;
+    this.originX = originX;
+  }
+
+  // @public
+  toStateObject() {
+    return {
+      countdown: NumberIO.toStateObject( this.countdown ),
+      propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
+      originX: NumberIO.toStateObject( this.originX )
+    };
+  }
+
+  // @public
+  static fromStateObject( stateObject: WaveCreationSpecStateObject ) {
+    return new WaveCreationSpec(
+      NumberIO.fromStateObject( stateObject.originX ),
+      Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
+      NumberIO.fromStateObject( stateObject.countdown )
+    );
+  }
+
+  /**
+   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
+   * @returns {Object.<string,IOType>}
+   * @public
+   */
+  static get STATE_SCHEMA() {
+    return {
+      countdown: NumberIO,
+      propagationDirection: Vector2.Vector2IO,
+      originX: NumberIO
+    };
+  }
+
+  static WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
+}
+
+type WaveCreationSpecStateObject = {
+  countdown: typeof NumberIO,
+  propagationDirection: typeof Vector2.Vector2IO,
+  originX: typeof NumberIO
+}
+
+type EMWaveSourceOptions = {
+  waveIntensityProperty: null | Property<number>,
+  interWaveTime: number,
+  waveLifetimeRange: Range
+} & PhetioObjectOptions
+
 class EMWaveSource extends PhetioObject {
+  private readonly waveStartAltitude: number;
+
+  private readonly waveIntensityProperty: Property<number>;
+  private readonly waveProductionEnabledProperty: Property<boolean>;
+  private readonly waveGroup: PhetioGroup<Wave>;
+  private readonly wavelength: number;
+  private readonly waveEndAltitude: number;
+  private readonly waveSourceSpecs: WaveSourceSpec[];
+  private readonly interWaveTime: number;
+  private readonly waveLifetimeRange: Range;
+  private wavesToLifetimesMap: Map<Wave, number>;
+  private waveCreationQueue: WaveCreationSpec[];
 
   /**
    * @param {PhetioGroup.<Wave>} waveGroup
@@ -32,21 +107,20 @@ class EMWaveSource extends PhetioObject {
    * @param {number} waveStartAltitude - altitude from which waves will originate, it meters
    * @param {number} waveEndAltitude - altitude at which the waves will terminate, it meters
    * @param {WaveSourceSpec[]} waveSourceSpecs - specifications that define where the waves will be created
-   * @param {Object} [options]
+   * @param {Partial<EMWaveSourceOptions>} [options]
    */
-  constructor(
-    waveGroup,
-    waveProductionEnabledProperty,
-    wavelength,
-    waveStartAltitude,
-    waveEndAltitude,
-    waveSourceSpecs,
-    options ) {
+  constructor( waveGroup: PhetioGroup<Wave>,
+               waveProductionEnabledProperty: Property<boolean>,
+               wavelength: number,
+               waveStartAltitude: number,
+               waveEndAltitude: number,
+               waveSourceSpecs: WaveSourceSpec[],
+               options?: Partial<EMWaveSourceOptions> ) {
 
     options = merge( {
 
-      // {Property.<number> - A property that indicates what the produced wave intensity should be, will be created if
-      // not provided.
+      // {Property.<number> - A property that indicates what the produced wave intensity should be.  A Property for this
+      // will be created if none is provided.
       waveIntensityProperty: null,
 
       // {number} - time between waves, in seconds
@@ -58,7 +132,7 @@ class EMWaveSource extends PhetioObject {
       tandem: Tandem.REQUIRED,
       phetioType: EMWaveSource.EMWaveSourceIO
 
-    }, options );
+    }, options ) as EMWaveSourceOptions;
 
     super( options );
 
@@ -75,8 +149,8 @@ class EMWaveSource extends PhetioObject {
     this.wavelength = wavelength;
     this.waveEndAltitude = waveEndAltitude;
     this.waveSourceSpecs = waveSourceSpecs;
-    this.interWaveTime = options.interWaveTime;
-    this.waveLifetimeRange = options.waveLifetimeRange;
+    this.interWaveTime = options.interWaveTime!;
+    this.waveLifetimeRange = options.waveLifetimeRange!;
 
     // @private {Map.<Wave,number>} - map of waves produced by this wave source to their lifetimes
     this.wavesToLifetimesMap = new Map();
@@ -88,14 +162,14 @@ class EMWaveSource extends PhetioObject {
   /**
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
 
     const waveIntensity = this.waveIntensityProperty.value;
 
     this.waveSourceSpecs.forEach( waveSourceSpec => {
 
       // Look for a wave that matches these parameters in the set of all waves in the model.
-      const matchingWave = this.waveGroup.find( wave =>
+      const matchingWave = this.waveGroup.find( ( wave: Wave ) =>
         wave.wavelength === this.wavelength &&
         wave.isSourced &&
         ( waveSourceSpec.minXPosition === wave.origin.x || waveSourceSpec.maxXPosition === wave.origin.x ) &&
@@ -113,14 +187,14 @@ class EMWaveSource extends PhetioObject {
       // If the wave doesn't exist yet and isn't queued for creation, but SHOULD exist, create it.
       if ( !matchingWave && !waveIsQueued && this.waveProductionEnabledProperty.value ) {
         const xPosition = dotRandom.nextBoolean() ? waveSourceSpec.minXPosition : waveSourceSpec.maxXPosition;
-        this.addWaveToModel( xPosition, waveSourceSpec.propagationDirection, waveIntensity );
+        this.addWaveToModel( xPosition, waveSourceSpec.propagationDirection );
       }
 
       // If the wave already exists, update it.
       else if ( matchingWave ) {
 
         if ( !this.waveProductionEnabledProperty.value ||
-             matchingWave.existenceTime > this.wavesToLifetimesMap.get( matchingWave ) ) {
+             matchingWave.existenceTime > this.wavesToLifetimesMap.get( matchingWave )! ) {
 
           // This wave is done being produced.  Set it to propagate on its own.
           matchingWave.isSourced = false;
@@ -167,7 +241,7 @@ class EMWaveSource extends PhetioObject {
       if ( waveCreationSpec.countdown <= 0 ) {
 
         // Create the wave.
-        this.addWaveToModel( waveCreationSpec.originX, waveCreationSpec.propagationDirection, waveIntensity );
+        this.addWaveToModel( waveCreationSpec.originX, waveCreationSpec.propagationDirection );
       }
     } );
 
@@ -178,7 +252,7 @@ class EMWaveSource extends PhetioObject {
   /**
    * @private
    */
-  addWaveToModel( originX, propagationDirection ) {
+  addWaveToModel( originX: number, propagationDirection: Vector2 ) {
     const newIRWave = this.waveGroup.createNextElement(
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
@@ -217,7 +291,7 @@ class EMWaveSource extends PhetioObject {
   }
 
   // @public
-  applyState( stateObject ) {
+  applyState( stateObject: EMWaveSourceStateObject ) {
     this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject( stateObject.wavesToLifetimesMap );
     this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject( stateObject.waveCreationQueue );
   }
@@ -233,78 +307,22 @@ class EMWaveSource extends PhetioObject {
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
     };
   }
-}
-
-/**
- * simple inner class for amalgamating the information needed to space out the waves
- */
-class WaveCreationSpec {
-
-  constructor( originX, propagationDirection, timeToCreation ) {
-    this.countdown = timeToCreation;
-    this.propagationDirection = propagationDirection;
-    this.originX = originX;
-  }
-
-  // @public
-  toStateObject() {
-    return {
-      countdown: NumberIO.toStateObject( this.countdown ),
-      propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
-      originX: NumberIO.toStateObject( this.originX )
-    };
-  }
-
-  // @public
-  static fromStateObject( stateObject ) {
-    return new WaveCreationSpec(
-      NumberIO.fromStateObject( stateObject.originX ),
-      Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
-      NumberIO.fromStateObject( stateObject.countdown )
-    );
-  }
 
   /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   * @returns {Object.<string,IOType>}
-   * @public
+   * EMWaveSourceIO handles PhET-iO serialization of the EMWaveSource. Because serialization involves accessing private
+   * members, it delegates to EMWaveSource. The methods that EMWaveSourceIO overrides are typical of 'Dynamic element
+   * serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static get STATE_SCHEMA() {
-    return {
-      countdown: NumberIO,
-      propagationDirection: Vector2.Vector2IO,
-      originX: NumberIO
-    };
-  }
+  static EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource );
 }
 
-WaveCreationSpec.WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
-
-/**
- * A simple class that specifies a minimum and maximum X value for where waves will be produced and a direction of
- * travel.  This exists because the wave production occurs in pairs of X value locations, and the source shifts back
- * and forth between them in order to create some variation.
- */
-class WaveSourceSpec {
-
-  constructor( minXPosition, maxXPosition, propagationDirection ) {
-    this.minXPosition = minXPosition;
-    this.maxXPosition = maxXPosition;
-    this.propagationDirection = propagationDirection;
-  }
+type EMWaveSourceStateObject = {
+  // TODO: I (jbphet) need to talk with the phet-io guys to figure out how to spec this better.
+  wavesToLifetimesMap: any,
+  waveCreationQueue: any
 }
-
-/**
- * @public
- * EMWaveSourceIO handles PhET-iO serialization of the EMWaveSource. Because serialization involves accessing private
- * members, it delegates to EMWaveSource. The methods that EMWaveSourceIO overrides are typical of 'Dynamic element
- * serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-EMWaveSource.EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource );
-
-// statics
-EMWaveSource.WaveSourceSpec = WaveSourceSpec;
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );
+export { EMWaveSourceOptions };
 export default EMWaveSource;

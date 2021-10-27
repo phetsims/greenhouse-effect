@@ -11,18 +11,22 @@ import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDirection from './EnergyDirection.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 
 // constants
 const MINIMUM_TEMPERATURE = 245;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
+  readonly albedoProperty: NumberProperty;
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
+      // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
       minimumTemperature: MINIMUM_TEMPERATURE,
@@ -35,7 +39,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
 
     super( 0, options );
 
-    // @public {Property.<number>} - albedo of the ground, meaning how much of the incoming light it reflects
+    // albedo of the ground, meaning how much of the incoming light will be reflected
     this.albedoProperty = new NumberProperty( 0, {
       range: new Range( 0, 1 ),
       tandem: tandem.createTandem( 'albedoProperty' ),
@@ -51,9 +55,10 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
    * @override
    * @protected
    */
-  interactWithEnergyPackets( emEnergyPackets ) {
+  interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
+      // @ts-ignore
       if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.direction === EnergyDirection.DOWN ) {
 
         absorbedEnergy += energyPacket.energy * ( 1 - this.albedoProperty.value );
@@ -63,6 +68,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
           // Some of the energy in this packet has been reflected.  Reverse the direction of the packet and set its
           // energy accordingly.
           energyPacket.energy = reflectedEnergy;
+          // @ts-ignore
           energyPacket.direction = EnergyDirection.UP;
         }
         else {
@@ -75,10 +81,9 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     } );
     return absorbedEnergy;
   }
-}
 
-// statics
-GroundLayer.MINIMUM_TEMPERATURE = MINIMUM_TEMPERATURE;
+  static MINIMUM_TEMPERATURE: number = MINIMUM_TEMPERATURE
+}
 
 greenhouseEffect.register( 'GroundLayer', GroundLayer );
 export default GroundLayer;

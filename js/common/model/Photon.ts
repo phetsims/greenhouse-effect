@@ -11,6 +11,7 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -20,9 +21,16 @@ const IR_WAVELENGTH = GreenhouseEffectConstants.INFRARED_WAVELENGTH;
 const VISIBLE_WAVELENGTH = GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
 const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
 
-class Photon {
+type PhotonOptions = {
+  initialVelocity: Vector2
+}
 
-  constructor( initialPosition, wavelength, tandem, options ) {
+class Photon {
+  private readonly positionProperty: Vector2Property;
+  private readonly velocity: Vector2;
+  private readonly wavelength: number;
+
+  constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, options?: Partial<PhotonOptions> ) {
 
     options = merge( {
 
@@ -48,15 +56,15 @@ class Photon {
    * @param {number} dt - time, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     this.positionProperty.set( this.positionProperty.value.plus( this.velocity.timesScalar( dt ) ) );
   }
-}
 
-// statics
-Photon.IR_WAVELENGTH = IR_WAVELENGTH;
-Photon.VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
-Photon.SPEED = PHOTON_SPEED;
+  // static values
+  static IR_WAVELENGTH = IR_WAVELENGTH;
+  static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
+  static SPEED = PHOTON_SPEED;
+}
 
 greenhouseEffect.register( 'Photon', Photon );
 export default Photon;

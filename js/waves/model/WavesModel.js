@@ -26,9 +26,9 @@ import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibr
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import GroundWaveSource from '../../common/model/GroundWaveSource.js';
+import GroundWaveSource from './GroundWaveSource.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import SunWaveSource from '../../common/model/SunWaveSource.js';
+import SunWaveSource from './SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';

@@ -20,7 +20,7 @@ class EMEnergyPacket {
   energy: number;
   altitude: number;
   previousAltitude: number;
-  readonly direction: any; // TODO: Should be EnergyDirection once TS enums are worked out.
+  direction: any; // TODO: Should be EnergyDirection once TS enums are worked out.
 
   /**
    * @param {number} wavelength - in meters

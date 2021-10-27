@@ -8,9 +8,13 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource from '../../waves/model/EMWaveSource.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import LayersModel from './LayersModel.js';
+import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import LayersModel from '../../common/model/LayersModel.js';
+import Wave from '../../waves/model/Wave.js';
+import Property from '../../../../axon/js/Property.js';
+import WaveSourceSpec from './WaveSourceSpec.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
@@ -20,26 +24,28 @@ const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is e
 class GroundWaveSource extends EMWaveSource {
 
   /**
-   * TODO docs
-   * @param wavesInModel
-   * @param waveStartAltitude
-   * @param waveEndAltitude
-   * @param groundTemperatureProperty
-   * @param options
+   * @param {PhetioGroup.<Wave>} wavesInModel
+   * @param {number} waveStartAltitude
+   * @param {number} waveEndAltitude
+   * @param {Property.<number>} groundTemperatureProperty
+   * @param {EMWaveSourceOptions} options
    */
-  constructor( wavesInModel, waveStartAltitude, waveEndAltitude, groundTemperatureProperty, options ) {
+  constructor( wavesInModel: PhetioGroup<Wave>,
+               waveStartAltitude: number,
+               waveEndAltitude: number,
+               groundTemperatureProperty: Property<number>,
+               options?: Partial<EMWaveSourceOptions> ) {
 
     // derived Property that controls when IR waves can be produced
     const produceIRWavesProperty = new DerivedProperty(
       [ groundTemperatureProperty ],
-      temperature => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
+      ( temperature: number ) => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
     );
-
 
     // derived Property that maps temperature to the intensity of the IR waves
     const waveIntensityProperty = new DerivedProperty(
       [ groundTemperatureProperty ],
-      temperature => Utils.clamp(
+      ( temperature: number ) => Utils.clamp(
         // min intensity at the lowest temperature, max at highest
         ( temperature - MIN_WAVE_PRODUCTION_TEMPERATURE ) / ( MAX_EXPECTED_TEMPERATURE - MIN_WAVE_PRODUCTION_TEMPERATURE ),
         MINIMUM_WAVE_INTENSITY,
@@ -53,28 +59,28 @@ class GroundWaveSource extends EMWaveSource {
 
     super(
       wavesInModel,
-      produceIRWavesProperty,
+      produceIRWavesProperty as Property<boolean>,
       GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       waveStartAltitude,
       waveEndAltitude,
       [
 
         // leftmost waves
-        new EMWaveSource.WaveSourceSpec(
+        new WaveSourceSpec(
           -LayersModel.SUNLIGHT_SPAN * 0.32,
           -LayersModel.SUNLIGHT_SPAN * 0.27,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.08 )
         ),
 
         // center-ish waves
-        new EMWaveSource.WaveSourceSpec(
+        new WaveSourceSpec(
           -LayersModel.SUNLIGHT_SPAN * 0.1,
           -LayersModel.SUNLIGHT_SPAN * 0.05,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 )
         ),
 
         // rightmost waves
-        new EMWaveSource.WaveSourceSpec(
+        new WaveSourceSpec(
           LayersModel.SUNLIGHT_SPAN * 0.46,
           LayersModel.SUNLIGHT_SPAN * 0.49,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.075 )
