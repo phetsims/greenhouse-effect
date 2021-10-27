@@ -21,9 +21,48 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
 const DECIMAL_PLACES = 1; // used to round the output value so that there isn't too much "noise" due to floating point error and such
 
-class EnergyRateTracker extends PhetioObject {
+/**
+ * Simple data type used for tracking energy within EnergyRateTracker.
+ */
+class EnergyInfoQueueItem {
+  dt: number;
+  energy: number;
 
-  constructor( options ) {
+  constructor( dt: number, energy: number ) {
+    this.dt = dt;
+    this.energy = energy;
+  }
+
+  // @public
+  static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ) {
+    return new EnergyInfoQueueItem( stateObject.dt, stateObject.energy );
+  }
+
+  // @public
+  static get STATE_SCHEMA() {
+    return {
+      dt: NumberIO,
+      energy: NumberIO
+    };
+  }
+
+  static EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
+}
+
+type EnergyInfoQueueItemStateObject = {
+  dt: number,
+  energy: number
+}
+
+class EnergyRateTracker extends PhetioObject {
+  readonly energyRateProperty: NumberProperty;
+  private readonly energyInfoQueue: EnergyInfoQueueItem[];
+  private readonly accumulationPeriod: number;
+
+  /**
+   * @param [options]
+   */
+  constructor( options? : Partial<EnergyRateTrackerOptions> ) {
 
     options = merge( {
 
@@ -34,22 +73,22 @@ class EnergyRateTracker extends PhetioObject {
       tandem: Tandem.REQUIRED,
       phetioType: EnergyRateTracker.EnergyRateTrackerIO
 
-    }, options );
+    }, options ) as EnergyRateTrackerOptions;
 
     super( options );
 
-    // @public (read-only) {Property.<number>} - current total for the accumulation period
+    // current total for the accumulation period
     this.energyRateProperty = new NumberProperty( 0, {
       units: 'W',
       tandem: options.tandem.createTandem( 'energyRateProperty' ),
       phetioDocumentation: 'Amount of energy being produced or absorbed.'
     } );
 
-    // @private {Object[]}, each object has a dt and energy value
+    // a queue containing information about energy packets
     this.energyInfoQueue = [];
 
     // @private {number}
-    this.accumulationPeriod = options.accumulationPeriod;
+    this.accumulationPeriod = options.accumulationPeriod!;
   }
 
   /**
@@ -57,7 +96,7 @@ class EnergyRateTracker extends PhetioObject {
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  addEnergyInfo( energy, dt ) {
+  addEnergyInfo( energy: number, dt: number ) {
 
     // Put the new energy information into the queue.
     this.energyInfoQueue.push( new EnergyInfoQueueItem( dt, energy ) );
@@ -94,7 +133,7 @@ class EnergyRateTracker extends PhetioObject {
    * @public
    */
   reset() {
-    this.energyInfoQueue = [];
+    this.energyInfoQueue.length = 0;
     this.energyRateProperty.reset();
   }
 
@@ -104,44 +143,17 @@ class EnergyRateTracker extends PhetioObject {
       energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )
     };
   }
+
+  static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
+    // @ts-ignore
+    defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
+  } );
 }
 
-/**
- * Simple data type used for tracking energy.
- */
-class EnergyInfoQueueItem {
-
-  constructor( dt, energy ) {
-    this.dt = dt;
-    this.energy = energy;
-  }
-
-  // @public
-  static fromStateObject( stateObject ) {
-    return new EnergyInfoQueueItem( stateObject.dt, stateObject.energy );
-  }
-
-  // @public
-  static get STATE_SCHEMA() {
-    return {
-      dt: NumberIO,
-      energy: NumberIO
-    };
-  }
-}
-
-EnergyInfoQueueItem.EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
-
-/**
- * @public
- * EnergyRateTrackerIO handles PhET-iO serialization of the EnergyRateTracker. Because serialization involves accessing
- * private members, it delegates to EnergyRateTracker. The methods that EnergyRateTrackerIO overrides are typical of
- * 'Dynamic element serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-EnergyRateTracker.EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
-  defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
-} );
+// type definition for options specific to this class
+type EnergyRateTrackerOptions = {
+  accumulationPeriod: number
+} & PhetioObjectOptions;
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
 export default EnergyRateTracker;

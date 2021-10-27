@@ -9,6 +9,9 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+// TODO: The conversion to TypeScript was done very superficially here, since as of this writing the handling of enums
+//       isn't worked out.  This will need to be updated once we have a decent enum pattern.
+
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -17,14 +20,14 @@ const UP_VECTOR = new Vector2( 0, 1 );
 const DOWN_VECTOR = new Vector2( 0, -1 );
 
 const EnergyDirection = Enumeration.byKeys( [ 'UP', 'DOWN' ], {
-  beforeFreeze: EnergyDirection => {
+  beforeFreeze: ( EnergyDirection: any ) => {
 
     /**
      * Get a vector corresponding to the provided enum value.
      * @param {EnergyDirection} enumValue
      * @returns {Vector2}
      */
-    EnergyDirection.toVector = enumValue => {
+    EnergyDirection.toVector = ( enumValue: any ) => {
       if ( enumValue === EnergyDirection.UP ) {
         return UP_VECTOR;
       }
@@ -39,9 +42,9 @@ const EnergyDirection = Enumeration.byKeys( [ 'UP', 'DOWN' ], {
      * @param {EnergyDirection} enumValue
      * @returns {EnergyDirection}
      */
-    EnergyDirection.getOpposite = enumValue => enumValue === EnergyDirection.UP ?
-                                               EnergyDirection.DOWN :
-                                               EnergyDirection.UP;
+    EnergyDirection.getOpposite = ( enumValue: any ) => enumValue === EnergyDirection.UP ?
+                                                        EnergyDirection.DOWN :
+                                                        EnergyDirection.UP;
   }
 } );
 
