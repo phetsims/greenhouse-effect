@@ -13,7 +13,14 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
 
+// TODO: The direction should be of type EnergyDirection, but PhET's approach for enums isn't worked out yet, so it's
+//       using the 'any' type.  This will need to be fixed up.
 class EMEnergyPacket {
+  readonly wavelength: number;
+  energy: number;
+  altitude: number;
+  previousAltitude: number;
+  readonly direction: any; // TODO: Should be EnergyDirection once TS enums are worked out.
 
   /**
    * @param {number} wavelength - in meters
@@ -21,7 +28,7 @@ class EMEnergyPacket {
    * @param {number} initialAltitude - in meters
    * @param {EnergyDirection} direction
    */
-  constructor( wavelength, energy, initialAltitude, direction ) {
+  constructor( wavelength: number, energy: number, initialAltitude: number, direction: any ) {
 
     // @public (read-only) {number}
     this.wavelength = wavelength;
@@ -44,9 +51,10 @@ class EMEnergyPacket {
    * @param {number} dt - time, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     this.previousAltitude = this.altitude;
 
+    // @ts-ignore
     if ( this.direction === EnergyDirection.UP ) {
       this.altitude += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }
@@ -74,7 +82,7 @@ class EMEnergyPacket {
    * for phet-io
    * @public
    */
-  static fromStateObject( stateObject ) {
+  static fromStateObject( stateObject: EMEnergyPacketStateObject ) {
     const emEnergyPacket = new EMEnergyPacket(
       NumberIO.fromStateObject( stateObject.wavelength ),
       NumberIO.fromStateObject( stateObject.energy ),
@@ -99,16 +107,24 @@ class EMEnergyPacket {
       direction: EnumerationIO( EnergyDirection )
     };
   }
+
+  /**
+   * @public
+   * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
+   * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
+   * serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  static EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
 }
 
-/**
- * @public
- * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
- * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
- * serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-EMEnergyPacket.EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
+type EMEnergyPacketStateObject = {
+  wavelength: number,
+  energy: number,
+  altitude: number,
+  previousAltitude: number,
+  direction: any
+};
 
 greenhouseEffect.register( 'EMEnergyPacket', EMEnergyPacket );
 export default EMEnergyPacket;

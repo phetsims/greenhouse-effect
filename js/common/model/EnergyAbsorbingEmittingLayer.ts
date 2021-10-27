@@ -22,7 +22,9 @@ import EnergyDirection from './EnergyDirection.js';
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
+  // @ts-ignore
   GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
+  // @ts-ignore
   EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
@@ -41,17 +43,31 @@ const LAYER_THICKNESS = 0.0000003;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
+type EnergyAbsorbingEmittingLayerOptions = {
+  substance: any,
+  initialEnergyAbsorptionProportion: number,
+  minimumTemperature: number
+} & PhetioObjectOptions;
+
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
+  readonly altitude: number;
+  readonly temperatureProperty: NumberProperty;
+  readonly energyAbsorptionProportionProperty: NumberProperty;
+  private readonly substance: any;
+  private readonly mass: number;
+  private readonly specificHeatCapacity: number;
+  private readonly minimumTemperature: number;
 
   /**
    * @param {number} altitude
    * @param {Object} [options]
    */
-  constructor( altitude, options ) {
+  constructor( altitude: number, options?: Partial<EnergyAbsorbingEmittingLayerOptions> ) {
 
     options = merge( {
 
       // {Substance} - default to glass
+      // @ts-ignore
       substance: Substance.GLASS,
 
       // {number} - initial setting for the absorption proportion, must be from 0 to 1 inclusive
@@ -67,7 +83,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true,
       phetioState: false
 
-    }, options );
+    }, options ) as EnergyAbsorbingEmittingLayerOptions;
 
     super( options );
 
@@ -77,7 +93,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // @public (read-only) - The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default
     // so that it isn't radiating anything, and produce a compensated temperature that produces values more reasonable
     // to the surface of the Earth and its atmosphere.
-    this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
+    this.temperatureProperty = new NumberProperty( options.minimumTemperature!, {
       units: 'K',
       tandem: options.tandem.createTandem( 'temperatureProperty' ),
       phetioReadOnly: true,
@@ -86,7 +102,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     // @public - The proportion of energy coming into this layer that is absorbed and thus contributes to an increase
     // in temperature.  Non-absorbed energy is simply based from the input to the output.
-    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
+    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion!, {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
       phetioReadOnly: true,
@@ -97,7 +113,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
-    this.minimumTemperature = options.minimumTemperature;
+    this.minimumTemperature = options.minimumTemperature!;
   }
 
   /**
@@ -106,8 +122,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @returns {number}
    * @protected
    */
-  interactWithEnergyPackets( emEnergyPackets ) {
+  interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
     assert && assert( false, 'this method must be overridden in descendant classes' );
+    return 0;
   }
 
   /**
@@ -116,7 +133,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @returns {boolean}
    * @protected
    */
-  energyPacketCrossedThisLayer( energyPacket ) {
+  energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
     return ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
            ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude );
   }
@@ -127,11 +144,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @param {number} dt - delta time, in seconds
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 
     // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
     // packets can be updated, and often are, during this step.
-    const absorbedEnergy = this.interactWithEnergyPackets( emEnergyPackets );
+    const absorbedEnergy: number = this.interactWithEnergyPackets( emEnergyPackets );
 
     // Remove any energy packets that were fully absorbed.
     _.remove( emEnergyPackets, emEnergyPacket => emEnergyPacket.energy === 0 );
@@ -177,19 +194,23 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
+      // @ts-ignore
       if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
+          // @ts-ignore
           EnergyDirection.DOWN
         ) );
       }
+      // @ts-ignore
       if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
+          // @ts-ignore
           EnergyDirection.UP
         ) );
       }
@@ -202,12 +223,12 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   reset() {
     this.temperatureProperty.reset();
   }
-}
 
-// statics
-EnergyAbsorbingEmittingLayer.WIDTH = SURFACE_DIMENSIONS.width;
-EnergyAbsorbingEmittingLayer.SURFACE_AREA = SURFACE_AREA;
-EnergyAbsorbingEmittingLayer.Substance = Substance;
+  // statics
+  static WIDTH = SURFACE_DIMENSIONS.width;
+  static SURFACE_AREA = SURFACE_AREA;
+  static Substance = Substance;
+}
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;

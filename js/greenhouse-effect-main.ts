@@ -31,7 +31,7 @@ const simOptions = {
   // TODO: This should be removed before publication, see
   //       https://github.com/phetsims/greenhouse-effect/issues/16 and
   //       https://github.com/phetsims/greenhouse-effect/issues/36
-  createOptionsDialogContent: tandem => new GreenhouseEffectOptionsDialogContent( tandem )
+  createOptionsDialogContent: ( tandem: Tandem ) => new GreenhouseEffectOptionsDialogContent( tandem )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
