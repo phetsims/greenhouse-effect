@@ -25,6 +25,9 @@ type PhotonOptions = {
   initialVelocity: Vector2
 }
 
+// TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
+//       photons should always be moving at the speed of light.
+
 class Photon {
   private readonly positionProperty: Vector2Property;
   private readonly velocity: Vector2;

@@ -14,14 +14,18 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 
 class SpaceEnergySink extends PhetioObject {
+  private readonly altitude: number;
+  private readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
 
   /**
    * @param {number} altitude
    * @param {Tandem} tandem
    */
-  constructor( altitude, tandem ) {
+  constructor( altitude: number, tandem: Tandem ) {
 
     super( {
       tandem: tandem,
@@ -43,12 +47,13 @@ class SpaceEnergySink extends PhetioObject {
    * @param {number} dt
    * @public
    */
-  interactWithEnergy( emEnergyPackets, dt ) {
+  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 
     let energyEmittedIntoSpace = 0;
 
     emEnergyPackets.forEach( energyPacket => {
 
+      // @ts-ignore
       if ( energyPacket.altitude >= this.altitude && energyPacket.direction === EnergyDirection.UP ) {
         energyEmittedIntoSpace += energyPacket.energy;
         energyPacket.energy = 0; // reduce energy to zero, which will cause this one to be removed from the list
@@ -72,16 +77,16 @@ class SpaceEnergySink extends PhetioObject {
       incomingUpwardMovingEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
     };
   }
-}
 
-/**
- * @public
- * SpaceEnergySinkIO handles PhET-iO serialization of the SpaceEnergySink. Because serialization involves accessing
- * private members, it delegates to SpaceEnergySink. The methods that SpaceEnergySinkIO overrides are typical of
- * 'Dynamic element serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-SpaceEnergySink.SpaceEnergySinkIO = IOType.fromCoreType( 'SpaceEnergySinkIO', SpaceEnergySink );
+  /**
+   * @public
+   * SpaceEnergySinkIO handles PhET-iO serialization of the SpaceEnergySink. Because serialization involves accessing
+   * private members, it delegates to SpaceEnergySink. The methods that SpaceEnergySinkIO overrides are typical of
+   * 'Dynamic element serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  static SpaceEnergySinkIO = IOType.fromCoreType( 'SpaceEnergySinkIO', SpaceEnergySink );
+}
 
 greenhouseEffect.register( 'SpaceEnergySink', SpaceEnergySink );
 export default SpaceEnergySink;

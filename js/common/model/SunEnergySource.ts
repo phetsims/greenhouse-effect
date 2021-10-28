@@ -17,6 +17,7 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 
@@ -25,13 +26,17 @@ import LayersModel from './LayersModel.js';
 const OUTPUT_ENERGY_RATE = 240;
 
 class SunEnergySource extends PhetioObject {
+  private readonly isShiningProperty: BooleanProperty;
+  private readonly outputEnergyRateTracker: EnergyRateTracker;
+  private readonly surfaceAreaOfIncidentLight: number;
+  private readonly emEnergyPackets: EMEnergyPacket[];
 
   /**
    * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {Tandem} tandem
    */
-  constructor( surfaceAreaOfIncidentLight, emEnergyPackets, tandem ) {
+  constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], tandem: Tandem ) {
 
     super( {
       tandem: tandem,
@@ -61,7 +66,7 @@ class SunEnergySource extends PhetioObject {
    * @param {number} dt
    * @public
    */
-  produceEnergy( dt ) {
+  produceEnergy( dt: number ) {
     if ( this.isShiningProperty.value ) {
       const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
       this.outputEnergyRateTracker.addEnergyInfo( energyToProduce, dt );
@@ -69,6 +74,7 @@ class SunEnergySource extends PhetioObject {
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
         energyToProduce,
         LayersModel.HEIGHT_OF_ATMOSPHERE,
+        // @ts-ignore
         EnergyDirection.DOWN
       ) );
     }
@@ -92,19 +98,19 @@ class SunEnergySource extends PhetioObject {
       outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
     };
   }
+
+  /**
+   * @public
+   * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
+   * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
+   * 'Dynamic element serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  static SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
+
+  // static values
+  static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
 }
-
-/**
- * @public
- * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
- * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
- * 'Dynamic element serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-SunEnergySource.SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
-
-// statics
-SunEnergySource.OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );
 export default SunEnergySource;
