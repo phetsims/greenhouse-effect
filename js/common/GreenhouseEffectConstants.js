@@ -19,8 +19,8 @@ const GreenhouseEffectConstants = {
 
   // colors
   SCREEN_VIEW_BACKGROUND_COLOR: new Color( 254, 252, 231 ),
-  SUNLIGHT_COLOR: 'yellow',
-  INFRARED_COLOR: 'red',
+  SUNLIGHT_COLOR: Color.YELLOW,
+  INFRARED_COLOR: Color.RED,
 
   // spacing between observation window and UI components to its right
   OBSERVATION_WINDOW_RIGHT_SPACING: 15,

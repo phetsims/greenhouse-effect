@@ -36,12 +36,15 @@ const PLOT_VIEW_HEIGHT = 120; // view coordinates
 class EnergyBalancePanel extends Panel {
 
   /**
-   * @param {BooleanProperty} energyBalanceVisibleProperty - controls whether this Panel is visible in the view
-   * @param {NumberProperty} netEnergyInProperty
-   * @param {NumberProperty} netEnergyOutProperty
+   * @param {Property<boolean>} energyBalanceVisibleProperty - controls whether this Panel is visible in the view
+   * @param {Property<number>} netEnergyInProperty
+   * @param {Property<number>} netEnergyOutProperty
    * @param {Object} [options]
    */
-  constructor( energyBalanceVisibleProperty, netEnergyInProperty, netEnergyOutProperty, options ) {
+  constructor( energyBalanceVisibleProperty: Property<boolean>,
+               netEnergyInProperty: Property<number>,
+               netEnergyOutProperty: Property<number>,
+               options: PanelOptions ) {
 
     options = merge( {
 
@@ -49,7 +52,7 @@ class EnergyBalancePanel extends Panel {
       cornerRadius: 5,
       xMargin: 10,
       yMargin: 10
-    }, options );
+    }, options ) as PanelOptions;
 
     // title
     const titleText = new Text( greenhouseEffectStrings.energyBalancePanel.title, {
@@ -64,11 +67,15 @@ class EnergyBalancePanel extends Panel {
 
     // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
     // in this sim
-    const negatedEnergyInProperty = new DerivedProperty( [ netEnergyInProperty ], netEnergyIn => -netEnergyIn );
+    const negatedEnergyInProperty: DerivedProperty<number> = new DerivedProperty(
+      [ netEnergyInProperty ],
+      ( netEnergyIn: number ) => -netEnergyIn
+    );
 
-    const netEnergyProperty = new DerivedProperty( [ negatedEnergyInProperty, netEnergyOutProperty ], ( netIn, netOut ) => {
-      return netIn + netOut;
-    } );
+    const netEnergyProperty: DerivedProperty<number> = new DerivedProperty(
+      [ negatedEnergyInProperty, netEnergyOutProperty ],
+      ( netIn: number, netOut: number ) => netIn + netOut
+    );
 
     // the plot
     const balancePlot = new EnergyBalancePlot( negatedEnergyInProperty, netEnergyOutProperty, netEnergyProperty );
@@ -81,7 +88,7 @@ class EnergyBalancePanel extends Panel {
     balancePlot.centerTop = titleNode.centerBottom.plusXY( 0, 10 );
 
     // listeners
-    energyBalanceVisibleProperty.link( visible => {
+    energyBalanceVisibleProperty.link( ( visible: boolean ) => {
       this.visible = visible;
     } );
   }
@@ -97,7 +104,9 @@ class EnergyBalancePlot extends Node {
    * @param {Property.<number>} netEnergyOutProperty - Representing net energy out, read-only
    * @param {Property.<number>} netEnergyProperty - Representing net energy of the system, read-only
    */
-  constructor( netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ) {
+  constructor( netEnergyInProperty: Property<number>,
+               netEnergyOutProperty: Property<number>,
+               netEnergyProperty: Property<number> ) {
     super();
 
     // position of each bar, in model coordinates
@@ -118,11 +127,12 @@ class EnergyBalancePlot extends Node {
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
     const barPlot = new UpDownArrowPlot( chartTransform, [], {
-      pointToPaintableFields: point => {
+      pointToPaintableFields: ( point: Vector2 ) => {
         return { fill: BAR_COLOR, stroke: BAR_STROKE };
       }
     } );
 
+    // @ts-ignore
     const axisLine = new AxisLine( chartTransform, Orientation.HORIZONTAL, {
       stroke: 'grey',
       lineDash: [ 10, 5 ]
@@ -130,6 +140,7 @@ class EnergyBalancePlot extends Node {
 
     // labels
     const labelOptions = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 30 };
+    // @ts-ignore
     const gridLabels = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
 
       // the 'extent' is extra spacing between tick marks and labels, negative value because this is vertically
@@ -139,7 +150,7 @@ class EnergyBalancePlot extends Node {
       // place the labels at the max value of the plot
       value: verticalModelSpan,
 
-      createLabel: value => {
+      createLabel: ( value: number ) => {
         return value === inEnergyModelPosition ? new Text( greenhouseEffectStrings.energyBalancePanel.in, labelOptions ) :
                value === outEnergyModelPosition ? new Text( greenhouseEffectStrings.energyBalancePanel.out, labelOptions ) :
                new Text( greenhouseEffectStrings.energyBalancePanel.net, labelOptions );
@@ -156,9 +167,12 @@ class EnergyBalancePlot extends Node {
     this.clipArea = Shape.bounds( this.bounds );
 
     // listeners
-    Property.multilink( [ netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ], ( netIn, netOut, net ) => {
-      barPlot.setDataSet( [ new Vector2( 0, netIn ), new Vector2( 1, netOut ), new Vector2( 2, net ) ] );
-    } );
+    Property.multilink(
+      [ netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ],
+      ( netIn: number, netOut: number, netTotal: number ) => {
+        barPlot.setDataSet( [ new Vector2( 0, netIn ), new Vector2( 1, netOut ), new Vector2( 2, netTotal ) ] );
+      }
+    );
   }
 }
 

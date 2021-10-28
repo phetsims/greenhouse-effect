@@ -42,17 +42,22 @@ const LABEL_OPTIONS = {
 // The legend can display photon or wave representation of energy, see energyRepresentation option
 const EnergyRepresentation = Enumeration.byKeys( [ 'PHOTON', 'WAVE' ] );
 
+type EnergyLegendOptions = {
+  energyRepresentation: any
+} & PanelOptions;
+
 class EnergyLegend extends Panel {
 
   /**
    * @param {number} width - width of the legend, it needs to be wider than its contents for layout in screen view
    * @param {Object} [options]
    */
-  constructor( width, options ) {
+  constructor( width: number, options: EnergyLegendOptions ) {
 
     options = merge( {
 
       // {EnergyRepresentation} the energy icons will either display a photon or wave, depending on this option
+      // @ts-ignore
       energyRepresentation: EnergyRepresentation.PHOTON,
 
       // Panel options
@@ -68,7 +73,7 @@ class EnergyLegend extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, options ) as EnergyLegendOptions;
 
     // title
     const titleNode = new Text( greenhouseEffectStrings.energyLegend.title, {
@@ -104,9 +109,12 @@ class EnergyLegend extends Panel {
     const iconAlignGroup = new AlignGroup( { matchVertical: false } );
     const sunlightWaveBox = iconAlignGroup.createBox( sunlightWaveIcon );
     const infraredWaveBox = iconAlignGroup.createBox( infraredWaveIcon );
+    // @ts-ignore
     const sunlightPhotonBox = iconAlignGroup.createBox( sunlightPhotonIcon );
+    // @ts-ignore
     const infraredPhotonBox = iconAlignGroup.createBox( infraredPhotonIcon );
 
+    // @ts-ignore
     if ( options.energyRepresentation === EnergyRepresentation.WAVE ) {
       sunlightIcon = sunlightWaveBox;
       infraredIcon = infraredWaveBox;
@@ -134,7 +142,7 @@ class EnergyLegend extends Panel {
     } );
 
     // determine how much to extend width of contents so legend takes up desired width in the view
-    const maxItemWidth = _.maxBy( [ titleNode, sunlightRow, infraredRow ], item => item.width ).width;
+    const maxItemWidth = _.maxBy( [ titleNode, sunlightRow, infraredRow ], item => item.width )!.width;
     const marginWidth = width - maxItemWidth - PANEL_X_MARGIN * 2;
     assert && assert(
       marginWidth >= 0,
@@ -156,6 +164,9 @@ class EnergyLegend extends Panel {
 
     super( content, options );
   }
+
+  // static values
+  static EnergyRepresentation = EnergyRepresentation;
 }
 
 /**
@@ -165,7 +176,7 @@ class EnergyLegend extends Panel {
  * @param {Object} [options] - options for the wave Path
  * @returns {Path}
  */
-const createWaveIcon = ( wavelength, wavelengthsToDraw, options ) => {
+const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options: PathOptions ) => {
 
   options = merge( {
 
@@ -185,9 +196,6 @@ const createWaveIcon = ( wavelength, wavelengthsToDraw, options ) => {
 
   return new Path( waveShape, options );
 };
-
-// @public
-EnergyLegend.EnergyRepresentation = EnergyRepresentation;
 
 greenhouseEffect.register( 'EnergyLegend', EnergyLegend );
 export default EnergyLegend;

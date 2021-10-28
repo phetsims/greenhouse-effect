@@ -25,6 +25,13 @@ import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import FluxMeter from '../model/FluxMeter.js';
+import Property from '../../../../axon/js/Property.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
+import Color from '../../../../scenery/js/util/Color.js';
 
 const sunlightString = greenhouseEffectStrings.fluxMeter.sunlight;
 const infraredString = greenhouseEffectStrings.fluxMeter.infrared;
@@ -35,22 +42,33 @@ const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 
 class FluxMeterNode extends Node {
+  private readonly fluxPanel: Panel;
 
   /**
    * @param {FluxMeter} model - model component for the FluxMeter
-   * @param {BooleanProperty} visibleProperty
+   * @param {Property.<boolean>} visibleProperty
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Bounds2} observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
    * @param {Tandem} tandem
    */
-  constructor( model, visibleProperty, modelViewTransform, observationWindowViewBounds, tandem ) {
+  constructor( model: FluxMeter,
+               visibleProperty: Property<boolean>,
+               modelViewTransform: ModelViewTransform2,
+               observationWindowViewBounds: Bounds2,
+               tandem: Tandem ) {
     super();
 
     // wire connecting panel and sensor, beneath both so it appears like the wire is solidly connected to both
     const wireNode = new WireNode(
-      new DerivedProperty( [ model.wireSensorAttachmentPositionProperty ], position => modelViewTransform.modelToViewPosition( position ) ),
+      new DerivedProperty(
+        [ model.wireSensorAttachmentPositionProperty ],
+        ( position: Vector2 ) => modelViewTransform.modelToViewPosition( position )
+      ),
       new Vector2Property( new Vector2( 100, 0 ) ),
-      new DerivedProperty( [ model.wireMeterAttachmentPositionProperty ], position => modelViewTransform.modelToViewPosition( position ) ),
+      new DerivedProperty(
+        [ model.wireMeterAttachmentPositionProperty ],
+        ( position: Vector2 ) => modelViewTransform.modelToViewPosition( position )
+      ),
       new Vector2Property( new Vector2( -100, 0 ) ), {
         stroke: 'grey',
         lineWidth: 5
@@ -89,23 +107,23 @@ class FluxMeterNode extends Node {
     this.addChild( this.fluxPanel );
 
     // listeners
-    visibleProperty.link( visible => {
+    visibleProperty.link( ( visible: boolean ) => {
       this.visible = visible;
     } );
 
     // the offset position for the drag pickup, so that the translation doesn't snap to the cursor position
-    let startOffset = null;
+    let startOffset: Vector2 = Vector2.ZERO;
 
     // the sensor is constrained to the bounds of the observation window - the center is allowed to reach y=0, but
     // the top of the sensor cannot leave the observation window
     const dragViewBounds = observationWindowViewBounds.withMinY( observationWindowViewBounds.minY + fluxSensor.height );
 
     fluxSensor.addInputListener( new DragListener( {
-      start: event => {
-        startOffset = fluxSensor.globalToParentPoint( event.pointer.point ).subtract( fluxSensor.center );
+      start: ( event: SceneryEvent ) => {
+        startOffset = fluxSensor.globalToParentPoint( event.pointer.point! ).subtract( fluxSensor.center );
       },
-      drag: event => {
-        const viewPoint = fluxSensor.globalToParentPoint( event.pointer.point ).subtract( startOffset );
+      drag: ( event: SceneryEvent ) => {
+        const viewPoint = fluxSensor.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
         const constrainedViewPoint = dragViewBounds.closestPointTo( viewPoint );
 
         // do not let the sensor go below ground (y=0)
@@ -118,19 +136,32 @@ class FluxMeterNode extends Node {
       tandem: tandem.createTandem( 'dragListener' )
     } ) );
 
-    model.sensorPositionProperty.link( sensorPosition => {
+    model.sensorPositionProperty.link( ( sensorPosition: Vector2 ) => {
       fluxSensor.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
   }
 }
 
+type EnergyFluxDisplayArrowOptions = {
+  height?: number,
+  arrowNodeOptions: {
+    headHeight?: number,
+    headWidth?: number,
+    tailWidth?: number,
+    fill?: Color
+  }
+} & NodeOptions;
+
 /**
  * An inner class that implements the arrows displaying the amount of energy flux.
  */
 class EnergyFluxDisplayArrow extends Node {
-  constructor( energyInProperty, energyOutProperty, labelString, options ) {
+  constructor( energyInProperty: Property<number>,
+               energyOutProperty: Property<number>,
+               labelString: string,
+               providedOptions: EnergyFluxDisplayArrowOptions ) {
 
-    options = merge( {
+    const options = <EnergyFluxDisplayArrowOptions>merge( {
       height: 385,
 
       // {Object} - passed directly to the ArrowNodes
@@ -139,7 +170,7 @@ class EnergyFluxDisplayArrow extends Node {
         headWidth: 16,
         tailWidth: 8
       }
-    }, options );
+    }, providedOptions ) as Required<EnergyFluxDisplayArrowOptions>;
 
     super();
 
@@ -152,8 +183,20 @@ class EnergyFluxDisplayArrow extends Node {
     const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.4, options.height );
     this.addChild( boundsRectangle );
 
-    const inArrow = new ArrowNode( boundsRectangle.centerX, boundsRectangle.centerY + 10, boundsRectangle.centerX, boundsRectangle.centerY, options.arrowNodeOptions );
-    const outArrow = new ArrowNode( boundsRectangle.centerX, boundsRectangle.centerY - 10, boundsRectangle.centerX, boundsRectangle.centerY, options.arrowNodeOptions );
+    const inArrow = new ArrowNode(
+      boundsRectangle.centerX,
+      boundsRectangle.centerY + 10,
+      boundsRectangle.centerX,
+      boundsRectangle.centerY,
+      options.arrowNodeOptions
+    );
+    const outArrow = new ArrowNode(
+      boundsRectangle.centerX,
+      boundsRectangle.centerY - 10,
+      boundsRectangle.centerX,
+      boundsRectangle.centerY,
+      options.arrowNodeOptions
+    );
     boundsRectangle.addChild( inArrow );
     boundsRectangle.addChild( outArrow );
 
@@ -161,11 +204,13 @@ class EnergyFluxDisplayArrow extends Node {
     const heightFunction = new LinearFunction( -100, 100, -options.height / 2, options.height / 2, true );
 
     // redraw arrows when the flux Properties change
-    energyInProperty.link( energyIn => {
+    energyInProperty.link( ( energyIn: number ) => {
+      // @ts-ignore
       inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction( energyIn ) );
     } );
 
-    energyOutProperty.link( energyOut => {
+    energyOutProperty.link( ( energyOut: number ) => {
+      // @ts-ignore
       outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction( energyOut ) );
     } );
 
