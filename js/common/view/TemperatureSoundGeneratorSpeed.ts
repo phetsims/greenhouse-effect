@@ -14,6 +14,7 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import baseSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundLayer from '../model/GroundLayer.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 const EXPECTED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_TEMPERATURE, 295 );
@@ -32,7 +33,9 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
    * @param {Property.<boolean>} isSunShiningProperty
    * @param {Object} [options]
    */
-  constructor( temperatureProperty, isSunShiningProperty, options ) {
+  constructor( temperatureProperty: Property<number>,
+               isSunShiningProperty: Property<boolean>,
+               options: SoundGeneratorOptions ) {
 
     super( options );
 
@@ -43,7 +46,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     baseSoundLoop.connect( this.masterGainNode );
 
     // This loop should be producing sound whenever the sun is shining.
-    isSunShiningProperty.link( isSunShining => {
+    isSunShiningProperty.link( ( isSunShining: boolean ) => {
       if ( isSunShining ) {
         baseSoundLoop.play();
       }
@@ -53,7 +56,8 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     } );
 
     // Adjust the playback rate as the temperature changes.
-    temperatureProperty.link( temperature => {
+    temperatureProperty.link( ( temperature: number ) => {
+      // @ts-ignore
       baseSoundLoop.setPlaybackRate( temperatureToPlaybackRate( temperature ) );
     } );
   }

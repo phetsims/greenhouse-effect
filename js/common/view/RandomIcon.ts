@@ -28,7 +28,7 @@ class RandomIcon extends ScreenIcon {
   /**
    * @param {number} seed - seed value for the random number generator
    */
-  constructor( seed ) {
+  constructor( seed: number ) {
 
     const maxX = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width;
     const maxY = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height;
@@ -59,7 +59,7 @@ class RandomIcon extends ScreenIcon {
  * @private, function to generate a random color
  * @returns {Color}
  */
-const generateRandomColor = random => {
+const generateRandomColor = ( random: Random ) => {
   const r = Math.floor( random.nextDouble() * 256 );
   const g = Math.floor( random.nextDouble() * 256 );
   const b = Math.floor( random.nextDouble() * 256 );
@@ -74,7 +74,7 @@ const generateRandomColor = random => {
  * @returns {LinearGradient}
  * @private
  */
-const generateRandomLinearGradient = ( maxX, maxY, random ) => {
+const generateRandomLinearGradient = ( maxX: number, maxY: number, random: Random ) => {
   const vertical = random.nextDouble() > 0.5;
   let gradient;
   if ( vertical ) {
@@ -96,7 +96,7 @@ const generateRandomLinearGradient = ( maxX, maxY, random ) => {
  * @returns {Vector2}
  * @private
  */
-const generateRandomPoint = ( maxX, maxY, random ) => {
+const generateRandomPoint = ( maxX: number, maxY: number, random: Random ) => {
   return new Vector2( random.nextDouble() * maxX, random.nextDouble() * maxY );
 };
 
@@ -108,7 +108,7 @@ const generateRandomPoint = ( maxX, maxY, random ) => {
  * @param {Random} random
  * @private
  */
-const addRandomSegment = ( shape, maxX, maxY, random ) => {
+const addRandomSegment = ( shape: Shape, maxX: number, maxY: number, random: Random ) => {
   const decider = random.nextDouble();
   const endpoint = generateRandomPoint( maxX, maxY, random );
   let controlPoint1;
@@ -142,7 +142,7 @@ const addRandomSegment = ( shape, maxX, maxY, random ) => {
  * @returns {Shape}
  * @private
  */
-const generateRandomShape = ( numSegments, maxX, maxY, random ) => {
+const generateRandomShape = ( numSegments: number, maxX: number, maxY: number, random: Random ) => {
   const shape = new Shape();
   shape.moveToPoint( generateRandomPoint( maxX, maxY, random ) );
   for ( let i = 0; i < numSegments; i++ ) {

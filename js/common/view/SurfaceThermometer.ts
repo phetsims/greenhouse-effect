@@ -21,22 +21,33 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
+import Property from '../../../../axon/js/Property.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
+type SurfaceThermometerOptions = {
+  thermometerNodeOptions?: {
+    bulbDiameter: number,
+    tubeHeight: number,
+    tubeWidth: number,
+    backgroundFill: ColorDef
+  }
+} & NodeOptions;
+
 class SurfaceThermometer extends Node {
 
   /**
-   * @param {GreenhouseEffectModel} model
+   * @param {LayersModel} model
    * @param {Node} listParentNode
-   * @param {Object} [options]
+   * @param {SurfaceThermometerOptions} [providedOptions]
    */
-  constructor( model, listParentNode, options ) {
+  constructor( model: LayersModel, listParentNode: Node, providedOptions?: SurfaceThermometerOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       // {Object|null} - options passed along to the ThermometerNode
       thermometerNodeOptions: {
@@ -48,7 +59,7 @@ class SurfaceThermometer extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions ) as SurfaceThermometerOptions;
 
     // options passed to the supertype later in mutate
     super();
@@ -57,38 +68,49 @@ class SurfaceThermometer extends Node {
     model.surfaceThermometerVisibleProperty.linkAttribute( this, 'visible' );
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
-    const thermometerNode = new ThermometerNode( 240, 300, model.surfaceTemperatureKelvinProperty, options.thermometerNodeOptions );
+    const thermometerNode = new ThermometerNode(
+      240,
+      300,
+      model.surfaceTemperatureKelvinProperty,
+      options.thermometerNodeOptions
+    );
     this.addChild( thermometerNode );
 
     // ranges for each temperature Property, so the NumberDisplay can determine space needed for each readout
     const kelvinRange = model.surfaceTemperatureKelvinProperty.range;
-    const celsiusRange = new Range( GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.min ), GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.max ) );
-    const fahrenheitRange = new Range( GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.min ), GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.max ) );
+    const celsiusRange = new Range(
+      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange!.min ),
+      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange!.max )
+    );
+    const fahrenheitRange = new Range(
+      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange!.min ),
+      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange!.max )
+    );
 
     const comboBoxItems = [
       this.createComboBoxItem(
         kelvinUnitsString,
         model.surfaceTemperatureKelvinProperty,
-        model.surfaceTemperatureKelvinProperty.range,
-        LayersModel.TemperatureUnits.KELVIN, {
-          tandemName: 'kelvinItem'
-        }
+        model.surfaceTemperatureKelvinProperty.range!,
+        // @ts-ignore
+        LayersModel.TemperatureUnits.KELVIN,
+        'kelvinItem'
       ),
       this.createComboBoxItem(
         celsiusUnitsString,
         model.surfaceTemperatureCelsiusProperty,
         celsiusRange,
-        LayersModel.TemperatureUnits.CELSIUS, {
-          tandemName: 'celsiusItem'
-        }
+        // @ts-ignore
+        LayersModel.TemperatureUnits.CELSIUS,
+        'celsiusItem'
       ),
       this.createComboBoxItem(
         fahrenheitUnitsString,
         model.surfaceTemperatureFahrenheitProperty,
         fahrenheitRange,
-        LayersModel.TemperatureUnits.FAHRENHEIT, {
-          tandemName: 'fahrenheitItem'
-        }
+        // @ts-ignore
+        LayersModel.TemperatureUnits.FAHRENHEIT,
+        'fahrenheitItem'
       )
     ];
 
@@ -117,30 +139,33 @@ class SurfaceThermometer extends Node {
    *
    * @param {string} unitsString
    * @param {NumberProperty} property
-   * @param {Range} propertyRange
+   * @param {../../../../dot/js/Range} propertyRange
    * @param {Enumeration} propertyValue
-   * @param {Object} [options]
+   * @param {string} tandemName
    * @returns {ComboBoxItem}
    */
-  createComboBoxItem( unitsString, property, propertyRange, propertyValue, options ) {
-    options = merge( {
+  private createComboBoxItem( unitsString: string,
+                              property: Property<number>,
+                              propertyRange: Range,
+                              propertyValue: Enumeration,
+                              tandemName: string ) {
 
-      // options for the NumberDisplay
-      numberDisplayOptions: {
-        backgroundStroke: null,
-        textOptions: {
-          font: GreenhouseEffectConstants.CONTENT_FONT,
-          maxWidth: 120
-        }
-      }
-    }, options );
-    assert && assert( options.numberDisplayOptions.valuePattern === undefined );
+    const numberDisplayOptions = {
+      backgroundStroke: null,
+      textOptions: {
+        font: GreenhouseEffectConstants.CONTENT_FONT,
+        maxWidth: 120
+      },
+      valuePattern: StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+        units: unitsString
+      } )
+    };
 
-    options.numberDisplayOptions.valuePattern = StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-      units: unitsString
-    } );
-
-    return new ComboBoxItem( new NumberDisplay( property, propertyRange, options.numberDisplayOptions ), propertyValue, options );
+    return new ComboBoxItem(
+      new NumberDisplay( property, propertyRange, numberDisplayOptions ),
+      propertyValue,
+      { tandemName: tandemName }
+    );
   }
 }
 

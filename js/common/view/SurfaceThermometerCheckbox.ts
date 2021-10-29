@@ -11,14 +11,16 @@ import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
+import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
   /**
-   * @param {BooleanProperty} property
+   * @param {Property.<boolean>} property
    * @param {Tandem} tandem
    */
-  constructor( property, tandem ) {
+  constructor( property: Property<boolean>, tandem: Tandem ) {
     const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
     super( greenhouseEffectStrings.surfaceThermometer, property, {
       iconNode: iconNode,

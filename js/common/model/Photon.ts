@@ -29,9 +29,9 @@ type PhotonOptions = {
 //       photons should always be moving at the speed of light.
 
 class Photon {
-  private readonly positionProperty: Vector2Property;
+  readonly positionProperty: Vector2Property;
+  readonly wavelength: number;
   private readonly velocity: Vector2;
-  private readonly wavelength: number;
 
   constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, options?: Partial<PhotonOptions> ) {
 

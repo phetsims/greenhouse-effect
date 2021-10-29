@@ -72,36 +72,35 @@ const CROSS_FADE_SPAN = 6; // in degrees Kelvin
 const HALF_CROSS_FADE_SPAN = CROSS_FADE_SPAN / 2;
 
 class TemperatureSoundGenerator extends SoundGenerator {
+  private readonly temperatureSoundClipLoops: SoundClip[];
+  private readonly temperatureProperty: Property<number>;
 
   /**
    * @param {Property.<number>} temperatureProperty - temperature of the model, in Kelvin
    * @param {Object} [options]
    */
-  constructor( temperatureProperty, options ) {
+  constructor( temperatureProperty: Property<number>, options: SoundGeneratorOptions ) {
 
     super( options );
 
     const orderedTemperatureSoundSets = ORDERED_TEMPERATURE_SOUND_SETS[ TEMPERATURE_SOUND_SET_INDEX ];
 
-    // @private {SoundClip[]} - the temperature sound loops in order from lowest temperature to highest
+    // the temperature sound loops in order from lowest temperature to highest
     this.temperatureSoundClipLoops = orderedTemperatureSoundSets.map( sound => {
       const soundClip = new SoundClip( sound, { loop: true } );
       soundClip.connect( this.masterGainNode );
       return soundClip;
     } );
 
-    // @private - make the temperature Property available to the update method
+    // make the temperature Property available to the update method
     this.temperatureProperty = temperatureProperty;
-
-    // @private - make the enable control properties available to the update method
-    this.localEnableControlProperties = options.enableControlProperties || [];
 
     // Trigger updates when things change.  This class watches the enableControlProperties explicitly instead of only
     // relying on the base class to monitor them so that the loops can be turned off if they don't need to be playing.
     // This saves processor bandwidth on the audio rendering thread, since the parent class turns down the volume but
     // doesn't stop the loops.
     Property.multilink(
-      [ temperatureProperty, ...options.enableControlProperties ],
+      [ temperatureProperty, ...options.enableControlProperties as Property<boolean>[] ],
       () => { this.updateLoopStates(); }
     );
   }
@@ -128,7 +127,9 @@ class TemperatureSoundGenerator extends SoundGenerator {
     this.temperatureSoundClipLoops.forEach( loop => { loopsToOutputLevelsMap.set( loop, 0 ); } );
 
     // Get a value that summarizes the state of all the enable-control properties.
-    const okayToPlay = this.enableControlProperties.reduce( ( valueSoFar, enabled ) => valueSoFar || enabled );
+    const okayToPlay = this.enableControlProperties.reduce(
+      ( valueSoFar: boolean, enabled: boolean ) => valueSoFar || enabled
+    );
 
     // Set the volume levels for any loops that are non-zero.
     if ( okayToPlay ) {
