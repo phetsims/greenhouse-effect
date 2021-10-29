@@ -37,6 +37,7 @@ import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialo
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -47,23 +48,35 @@ const DARKNESS_OPACITY = 0.85;
 // determined and can be adjusted as needed to achieve the desired visual effect.
 const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 
+type GreenhouseEffectObservationWindowOptions = {
+  groundBaseColorProperty?: Property<Color> | null,
+  showTemperatureGlow?: boolean
+} & NodeOptions;
+
 class GreenhouseEffectObservationWindow extends Node {
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly windowFrame: Rectangle;
+  protected readonly presentationLayer: Node;
+  protected readonly backgroundLayer: Node;
+  protected readonly foregroundLayer: Node;
+  protected readonly controlsLayer: Node;
+  protected readonly groundNodeHeight: number;
+  protected readonly startSunlightButton: TextPushButton;
 
   /**
    * @param {LayersModel} model
    * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
    */
-  constructor( model, tandem, options ) {
+  constructor( model: LayersModel, tandem: Tandem, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
-    options = merge( {
+    const options: GreenhouseEffectObservationWindowOptions = merge( {
 
       // default position in the GreenhouseEffect sim
       left: 5,
       top: 10,
 
-      // {Property.<Color>} - A Property that encloses the base color of the ground, from which a gradient is created.
-      // This will be created if it is not provided.
+      // {Property.<Color>|null} - A Property that encloses the base color of the ground, from which a gradient is created.
       groundBaseColorProperty: null,
 
       // {boolean} - whether the ground and sky should appear to glow when warm
@@ -73,7 +86,7 @@ class GreenhouseEffectObservationWindow extends Node {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
-    }, options );
+    }, providedOptions );
 
     // TODO: Can the call to super be at the bottom instead of here?
     super();
@@ -111,14 +124,14 @@ class GreenhouseEffectObservationWindow extends Node {
     // Clip the root node to stay within the frame.
     this.windowFrame.clipArea = Shape.bounds( this.windowFrame.bounds );
 
-    // @protected {Node} - The layer that sits in front of the background in the Z-order but behind the controlsLayer.
+    // The layer that sits in front of the background in the Z-order but behind the controlsLayer.
     this.presentationLayer = new Node();
 
-    // @protected {Node} - Background node where items that will generally be behind other nodes (e.g. the ground)
+    //  Background node where items that will generally be behind other nodes (e.g. the ground)
     // should be placed.
     this.backgroundLayer = new Node();
 
-    // @protected {Node} - top layer in the Z-order
+    // top layer in the Z-order
     this.foregroundLayer = new Node();
 
     // @protected {Node} - Layers where controls should be added, will be in front of the background.
@@ -172,7 +185,8 @@ class GreenhouseEffectObservationWindow extends Node {
     const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
 
     // Update the ground as the base color changes.
-    groundBaseColorProperty.link( baseColor => {
+    groundBaseColorProperty.link( ( baseColor: Color ) => {
+      // @ts-ignore
       groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
         .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
@@ -180,11 +194,6 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // Add the temperature glow nodes if so configured.
     if ( options.showTemperatureGlow ) {
-
-      assert && assert(
-        model.surfaceTemperatureVisibleProperty,
-        'model is missing a property necessary for supporting visual temperature representations'
-      );
 
       // surface temperature node, which is meant to look like a glow on the surface
       const surfaceTemperatureNode = new Path( groundShape, {
@@ -211,7 +220,7 @@ class GreenhouseEffectObservationWindow extends Node {
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
       model.surfaceTemperatureVisibleProperty.linkAttribute( glowInTheSkyNode, 'visible' );
 
-      model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+      model.surfaceTemperatureKelvinProperty.link( ( surfaceTemperature: number ) => {
         const opacityOfTemperatureIndicationNodes = Utils.clamp(
           ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
           0,
@@ -239,11 +248,12 @@ class GreenhouseEffectObservationWindow extends Node {
     this.foregroundLayer.addChild( darknessNode );
 
     // {Animation|null} - an animation for fading the darkness out and thus the daylight in
-    let fadeToDayAnimation = null;
+    let fadeToDayAnimation: Animation | null = null;
 
     // pdom - manages descriptions for the observation window
     const greenhouseEffectObservationWindowPDOMNode = new ObservationWindowPDOMNode( model );
     this.addChild( greenhouseEffectObservationWindowPDOMNode );
+    // @ts-ignore
     this.pdomOrder = [ greenhouseEffectObservationWindowPDOMNode, null ];
 
     // sound generation for sunlight starting
@@ -289,11 +299,12 @@ class GreenhouseEffectObservationWindow extends Node {
     this.foregroundLayer.addChild( this.startSunlightButton );
 
     // Manage the visibility of the start sunlight button and the darkness overlay.
-    model.sunEnergySource.isShiningProperty.link( isShining => {
+    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
       this.startSunlightButton.visible = !isShining;
       this.controlsLayer.inputEnabled = isShining;
 
       // hide all of the content from a screen reader until sunlight has started
+      // @ts-ignore
       this.controlsLayer.pdomVisible = isShining;
 
       if ( isShining ) {
@@ -311,7 +322,7 @@ class GreenhouseEffectObservationWindow extends Node {
           fadeToDayAnimation = new Animation( {
             from: darknessNode.opacity,
             to: 0,
-            setValue: opacity => { darknessNode.opacity = opacity; },
+            setValue: ( opacity: number ) => { darknessNode.opacity = opacity; },
             duration: 2, // empirically determined
             easing: Easing.CUBIC_IN_OUT
           } );
@@ -339,17 +350,21 @@ class GreenhouseEffectObservationWindow extends Node {
     //       https://github.com/phetsims/greenhouse-effect/issues/36.
     const crossFadeTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
+      // @ts-ignore - for one thing, this is an enum value, for another, it will go away soon
       temperatureSound => temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
     );
     const filteredLoopTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
-      temperatureSound =>
+      ( temperatureSound: string ) =>
+        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ||
+        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS
     );
     const loopSpeedTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
-      temperatureSound =>
+      ( temperatureSound: string ) =>
+        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE
     );
 
@@ -403,8 +418,10 @@ class GreenhouseEffectObservationWindow extends Node {
       )
     );
   }
+
+  // static values
+  static SIZE = SIZE;
 }
 
-GreenhouseEffectObservationWindow.SIZE = SIZE;
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
 export default GreenhouseEffectObservationWindow;

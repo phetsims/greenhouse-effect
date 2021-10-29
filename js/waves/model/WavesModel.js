@@ -88,11 +88,6 @@ class WavesModel extends ConcentrationModel {
       }
     );
 
-    // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
-    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
-    } );
-
     // @public - signals when the waves have changed so that the view can update them
     this.wavesChangedEmitter = new Emitter();
 

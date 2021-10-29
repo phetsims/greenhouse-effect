@@ -26,7 +26,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 const OUTPUT_ENERGY_RATE = 240;
 
 class SunEnergySource extends PhetioObject {
-  private readonly isShiningProperty: BooleanProperty;
+  readonly isShiningProperty: BooleanProperty;
   private readonly outputEnergyRateTracker: EnergyRateTracker;
   private readonly surfaceAreaOfIncidentLight: number;
   private readonly emEnergyPackets: EMEnergyPacket[];

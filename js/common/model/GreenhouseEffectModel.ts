@@ -18,8 +18,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 type GreenhouseEffectModelOptions = Partial<PhetioObjectOptions>;
 
 class GreenhouseEffectModel extends PhetioObject {
-  private readonly timeSpeedProperty: EnumerationProperty;
-  private readonly isPlayingProperty: BooleanProperty;
+  readonly timeSpeedProperty: EnumerationProperty;
+  readonly isPlayingProperty: BooleanProperty;
 
   /**
    * @param {Tandem} tandem

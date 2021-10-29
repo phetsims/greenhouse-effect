@@ -14,12 +14,18 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Property from '../../../../axon/js/Property.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 
 // constants
 const LABEL_ICON_SPACING = 10;
 const LABEL_FONT = new PhetFont( {
   size: 14
 } );
+
+type GreenhouseEffectCheckboxOptions = {
+  iconNode?: Node
+} & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
 
@@ -28,11 +34,11 @@ class GreenhouseEffectCheckbox extends Checkbox {
    * @param {Property.<boolean>} property
    * @param {Object} [options]
    */
-  constructor( labelString, property, options ) {
+  constructor( labelString: string, property: Property<boolean>, options: GreenhouseEffectCheckboxOptions ) {
 
     options = merge( {
 
-      // {Node|null} - if provided, will be included in the icon for the checkbox
+      // {Node} - if provided, will be included in the icon for the checkbox
       iconNode: null,
 
       // i18n

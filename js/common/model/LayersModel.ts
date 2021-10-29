@@ -39,14 +39,15 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 class LayersModel extends GreenhouseEffectModel {
-  private readonly surfaceTemperatureKelvinProperty: NumberProperty;
-  private readonly surfaceTemperatureCelsiusProperty: DerivedProperty<number>;
-  private readonly surfaceTemperatureFahrenheitProperty: DerivedProperty<number>;
-  private readonly temperatureUnitsProperty: EnumerationProperty;
-  private readonly surfaceThermometerVisibleProperty: BooleanProperty;
-  private readonly energyBalanceVisibleProperty: BooleanProperty;
+  readonly surfaceTemperatureKelvinProperty: NumberProperty;
+  readonly surfaceTemperatureCelsiusProperty: DerivedProperty<number>;
+  readonly surfaceTemperatureFahrenheitProperty: DerivedProperty<number>;
+  readonly temperatureUnitsProperty: EnumerationProperty;
+  readonly surfaceThermometerVisibleProperty: BooleanProperty;
+  readonly energyBalanceVisibleProperty: BooleanProperty;
+  readonly surfaceTemperatureVisibleProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
-  private readonly sunEnergySource: SunEnergySource;
+  readonly sunEnergySource: SunEnergySource;
   protected readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
   protected readonly groundLayer: GroundLayer;
   private readonly clouds: Cloud[];
@@ -90,6 +91,11 @@ class LayersModel extends GreenhouseEffectModel {
     // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
+    } );
+
+    // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
+    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
 
     // @public (read-only) {EMEnergyPacket[]} - packets of electromagnetic energy that are moving around in
