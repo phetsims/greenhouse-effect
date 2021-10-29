@@ -13,6 +13,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
+import LayersModel from '../model/LayersModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const WINDOW_FRAME_SPACING = 10;
@@ -24,29 +26,27 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, tandem ) {
+  constructor( model: LayersModel, tandem: Tandem ) {
 
     super( model, tandem, { groundBaseColorProperty: new ColorProperty( Color.GRAY ) } );
 
     // flux meter
-    if ( model.fluxMeterVisibleProperty ) {
 
-      const fluxMeterNode = new FluxMeterNode(
-        model.fluxMeter,
-        model.fluxMeterVisibleProperty,
-        this.modelViewTransform,
-        this.windowFrame.bounds,
-        tandem.createTandem( 'fluxMeterNode' )
-      );
-      fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+    const fluxMeterNode = new FluxMeterNode(
+      model.fluxMeter,
+      model.fluxMeterVisibleProperty,
+      this.modelViewTransform,
+      this.windowFrame.bounds,
+      tandem.createTandem( 'fluxMeterNode' )
+    );
+    fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
 
-      // set the position of the wire to attach to the flux panel
-      model.fluxMeter.wireMeterAttachmentPositionProperty.set(
-        this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
-      );
+    // set the position of the wire to attach to the flux panel
+    model.fluxMeter.wireMeterAttachmentPositionProperty.set(
+      this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
+    );
 
-      this.foregroundLayer.addChild( fluxMeterNode );
-    }
+    this.foregroundLayer.addChild( fluxMeterNode );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {

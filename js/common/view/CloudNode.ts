@@ -34,7 +34,7 @@ class CloudNode extends Node {
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
    */
-  constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, options: CloudNodeOptions ) {
+  constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, options?: CloudNodeOptions ) {
 
     options = merge( {
 

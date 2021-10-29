@@ -44,7 +44,7 @@ class EnergyBalancePanel extends Panel {
   constructor( energyBalanceVisibleProperty: Property<boolean>,
                netEnergyInProperty: Property<number>,
                netEnergyOutProperty: Property<number>,
-               options: PanelOptions ) {
+               options?: PanelOptions ) {
 
     options = merge( {
 

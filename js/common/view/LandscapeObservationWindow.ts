@@ -26,11 +26,12 @@ import ConcentrationModel from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
-import FluxMeterNode from './FluxMeterNode.js';
-import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
+import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
 import SurfaceThermometer from './SurfaceThermometer.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Photon from '../model/Photon.js';
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -41,11 +42,11 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
   /**
-   * @param {LayersModel} model
+   * @param {ConcentrationModel} model
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model, tandem, options ) {
+  constructor( model: ConcentrationModel, tandem: Tandem, options: GreenhouseEffectObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
@@ -105,24 +106,38 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Control the visibility of the various date-oriented artwork.
     Property.multilink(
       [ model.concentrationControlModeProperty, model.dateProperty ],
-      ( concentrationControlMode, date ) => {
+      ( concentrationControlMode: any, date: any ) => {
 
         // Update the visibility of the various images that represent dates.
+        // @ts-ignore
         glacierImageNode.visible =
+          // @ts-ignore
           concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          // @ts-ignore
           date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE;
+        // @ts-ignore
         barnAndSheepImageNode.visible =
+          // @ts-ignore
           concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          // @ts-ignore
           date === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY;
+        // @ts-ignore
         nineteenFiftyBackgroundImageNode.visible =
+          // @ts-ignore
           concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          // @ts-ignore
           date === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY;
+        // @ts-ignore
         twentyTwentyBackgroundImageNode.visible =
+          // @ts-ignore
           concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+          // @ts-ignore
           date === ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY;
 
         // In the ice age, the ground should look brown rather than green.
+        // @ts-ignore
         if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE &&
+             // @ts-ignore
              date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ) {
           groundColorBaseProperty.set( ICE_AGE_GROUND_BASE_COLOR );
         }
@@ -162,7 +177,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
     // TODO: This will probably be handled differently (e.g. in subclasses) once we're further along in how the models
     //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
-    let presentationNode;
+    let presentationNode: Node;
     if ( model instanceof WavesModel ) {
       presentationNode = new WavesCanvasNode( model, this.modelViewTransform, {
         canvasBounds: SIZE.toBounds(),
@@ -171,24 +186,29 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
       // Update the view when changes occur to the modelled waves.
       model.wavesChangedEmitter.addListener( () => {
+        // @ts-ignore
         presentationNode.invalidatePaint();
       } );
     }
+    // @ts-ignore
     else if ( model.photons ) {
 
       presentationNode = new Node();
 
       // Add and remove photon nodes as they come and go in the model.
-      model.photons.addItemAddedListener( addedPhoton => {
+      // @ts-ignore
+      model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
         const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
         presentationNode.addChild( photonNode );
-        model.photons.addItemRemovedListener( removedPhoton => {
+        // @ts-ignore
+        model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
           if ( removedPhoton === addedPhoton ) {
             presentationNode.removeChild( photonNode );
           }
         } );
       } );
     }
+    // @ts-ignore
     this.presentationLayer.addChild( presentationNode );
 
     // energy balance
@@ -199,26 +219,6 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     );
     energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
-    // flux meter
-    if ( model.fluxMeterVisibleProperty ) {
-
-      const fluxMeterNode = new FluxMeterNode(
-        model.fluxMeter,
-        model.fluxMeterVisibleProperty,
-        this.modelViewTransform,
-        this.windowFrame.bounds,
-        tandem.createTandem( 'fluxMeterNode' )
-      );
-      fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
-
-      // set the position of the wire to attach to the flux panel
-      model.fluxMeter.wireMeterAttachmentPositionProperty.set(
-        this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
-      );
-
-      this.foregroundLayer.addChild( fluxMeterNode );
-    }
-
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
       tandem: tandem.createTandem( 'instrumentVisibilityControls' )
@@ -226,6 +226,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
 
     // Add the nodes to the layers provided by the parent class.  The order is important for correct layering.
+    // @ts-ignore
     artworkForDates.forEach( artworkNode => this.backgroundLayer.addChild( artworkNode ) );
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
     this.controlsLayer.addChild( energyBalancePanel );

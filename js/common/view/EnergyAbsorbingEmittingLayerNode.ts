@@ -20,8 +20,8 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 
 type EnergyAbsorbingEmittingLayerNodeOptions = {
   lineOptions?: {
-    stroke: Color,
-    lineWidth: number
+    stroke?: Color,
+    lineWidth?: number
   }
 } & NodeOptions;
 

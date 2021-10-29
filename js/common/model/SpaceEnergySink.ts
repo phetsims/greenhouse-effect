@@ -19,7 +19,7 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 
 class SpaceEnergySink extends PhetioObject {
   private readonly altitude: number;
-  private readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
+  readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
 
   /**
    * @param {number} altitude

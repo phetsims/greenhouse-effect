@@ -50,10 +50,10 @@ class LayersModel extends GreenhouseEffectModel {
   readonly fluxMeterVisibleProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
   readonly sunEnergySource: SunEnergySource;
-  protected readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
-  protected readonly groundLayer: GroundLayer;
-  private readonly clouds: Cloud[];
-  private readonly outerSpace: SpaceEnergySink;
+  readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
+  readonly groundLayer: GroundLayer;
+  readonly clouds: Cloud[];
+  readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
   readonly fluxMeter: FluxMeter;
 

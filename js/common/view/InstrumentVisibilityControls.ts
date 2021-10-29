@@ -17,7 +17,7 @@ import LayersModel from '../model/LayersModel.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 
 type InstrumentVisibilityControlsOptions = {
-  vBoxOptions: { align: string, spacing: number, children?: Node[] }
+  vBoxOptions?: { align: string, spacing: number, children?: Node[] }
 } & PathOptions;
 
 class InstrumentVisibilityControls extends Rectangle {
@@ -26,7 +26,7 @@ class InstrumentVisibilityControls extends Rectangle {
    * @param {LayersModel} model
    * @param {InstrumentVisibilityControlsOptions} [providedOptions]
    */
-  constructor( model: LayersModel, providedOptions: InstrumentVisibilityControlsOptions ) {
+  constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
 
     const options = merge( {
 
@@ -42,7 +42,7 @@ class InstrumentVisibilityControls extends Rectangle {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as InstrumentVisibilityControlsOptions;
+    }, providedOptions ) as Required<InstrumentVisibilityControlsOptions>;
 
     assert && assert(
       options.vBoxOptions.children === undefined,

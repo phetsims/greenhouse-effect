@@ -42,7 +42,7 @@ const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 
 class FluxMeterNode extends Node {
-  private readonly fluxPanel: Panel;
+  readonly fluxPanel: Panel;
 
   /**
    * @param {FluxMeter} model - model component for the FluxMeter

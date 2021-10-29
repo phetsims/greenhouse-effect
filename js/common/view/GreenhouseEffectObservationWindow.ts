@@ -54,8 +54,8 @@ type GreenhouseEffectObservationWindowOptions = {
 } & NodeOptions;
 
 class GreenhouseEffectObservationWindow extends Node {
-  private readonly modelViewTransform: ModelViewTransform2;
-  private readonly windowFrame: Rectangle;
+  protected readonly modelViewTransform: ModelViewTransform2;
+  protected readonly windowFrame: Rectangle;
   protected readonly presentationLayer: Node;
   protected readonly backgroundLayer: Node;
   protected readonly foregroundLayer: Node;

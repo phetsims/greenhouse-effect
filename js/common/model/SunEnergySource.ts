@@ -27,7 +27,7 @@ const OUTPUT_ENERGY_RATE = 240;
 
 class SunEnergySource extends PhetioObject {
   readonly isShiningProperty: BooleanProperty;
-  private readonly outputEnergyRateTracker: EnergyRateTracker;
+  readonly outputEnergyRateTracker: EnergyRateTracker;
   private readonly surfaceAreaOfIncidentLight: number;
   private readonly emEnergyPackets: EMEnergyPacket[];
 
