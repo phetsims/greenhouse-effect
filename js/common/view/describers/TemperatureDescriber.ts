@@ -55,7 +55,7 @@ class TemperatureDescriber {
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}
    */
-  static getQuantitativeTemperatureDescription( temperatureKelvin, unitsValue ) {
+  static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: any ) {
     return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
@@ -72,7 +72,7 @@ class TemperatureDescriber {
    * @param {number} value - the temperature in kelvin
    * @returns {string}
    */
-  static getQualitativeTemperatureDescriptionString( value ) {
+  static getQualitativeTemperatureDescriptionString( value: number ) {
     const delta = DESCRIBED_TEMPERATURE_RANGE.getLength() / qualitativeTemperatureDescriptionStrings.length;
 
     // qualitativeTemperatureDescriptionStrings are ordered from lowest to highest temperature. If we don't find a
@@ -97,8 +97,10 @@ class TemperatureDescriber {
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}
    */
-  static getTemperatureValueString( temperatureKelvin, unitsValue ) {
+  static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ) {
+    // @ts-ignore
     const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
+                           // @ts-ignore
                            unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
                            GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
@@ -115,8 +117,10 @@ class TemperatureDescriber {
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}
    */
-  static getTemperatureUnitsString( unitsValue ) {
+  static getTemperatureUnitsString( unitsValue: any ) {
+    // @ts-ignore
     return unitsValue === LayersModel.TemperatureUnits.KELVIN ? kelvinString :
+           // @ts-ignore
            unitsValue === LayersModel.TemperatureUnits.CELSIUS ? celsiusString :
            fahrenheitString;
 

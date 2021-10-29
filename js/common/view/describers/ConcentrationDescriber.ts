@@ -54,7 +54,7 @@ class ConcentrationDescriber {
    *
    * @param {boolean} cloudEnabled
    */
-  static getSkyCloudDescription( cloudEnabled ) {
+  static getSkyCloudDescription( cloudEnabled: boolean ) {
     const skyPatternString = skyDescriptionPatternString;
     const cloudDescriptionString = cloudEnabled ? cloudyString : clearString;
     return StringUtils.fillIn( skyPatternString, { cloudDescription: cloudDescriptionString } );
@@ -69,9 +69,12 @@ class ConcentrationDescriber {
    * @param {ConcentrationModel.CONCENTRATION_DATE} timePeriodValue
    * @returns {string}
    */
-  static getTimePeriodString( timePeriodValue ) {
+  static getTimePeriodString( timePeriodValue: any ) {
+    // @ts-ignore
     return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeString :
+           // @ts-ignore
            timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyString :
+           // @ts-ignore
            timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyString :
            twentyTwentyString;
   }
@@ -87,7 +90,7 @@ class ConcentrationDescriber {
    * @param {number} value - value of concentration in the model
    * @returns {string}
    */
-  static getConcentrationDescription( value ) {
+  static getConcentrationDescription( value: number ) {
     let descriptionString = '';
 
     // if at the extreme values (and only at extreme values), unique descriptions are used
@@ -124,7 +127,7 @@ class ConcentrationDescriber {
    * @param {number} value - value of concentration in the model
    * @returns {string}
    */
-  static getConcentrationDescriptionWithValue( value ) {
+  static getConcentrationDescriptionWithValue( value: number ) {
     return StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
       valueDescription: ConcentrationDescriber.getConcentrationDescription( value )
     } );

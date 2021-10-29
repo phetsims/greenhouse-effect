@@ -13,16 +13,22 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
+import LayersModel from '../model/LayersModel.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+
+type InstrumentVisibilityControlsOptions = {
+  vBoxOptions: { align: string, spacing: number, children?: Node[] }
+} & PathOptions;
 
 class InstrumentVisibilityControls extends Rectangle {
 
   /**
    * @param {LayersModel} model
-   * @param {Object} [options]
+   * @param {InstrumentVisibilityControlsOptions} [providedOptions]
    */
-  constructor( model, options ) {
+  constructor( model: LayersModel, providedOptions: InstrumentVisibilityControlsOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       // fill for the rectangle surrounding controls, so controls are easier to see against
       // background artwork of the ObservationWindow
@@ -36,8 +42,12 @@ class InstrumentVisibilityControls extends Rectangle {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options );
-    assert && assert( options.vBoxOptions.children === undefined, 'InstrumentVisibilityControls sets children through options' );
+    }, providedOptions ) as InstrumentVisibilityControlsOptions;
+
+    assert && assert(
+      options.vBoxOptions.children === undefined,
+      'InstrumentVisibilityControls sets children through options'
+    );
 
     // add controls to children
     const children = [];

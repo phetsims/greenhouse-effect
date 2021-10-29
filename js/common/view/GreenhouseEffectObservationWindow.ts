@@ -423,5 +423,7 @@ class GreenhouseEffectObservationWindow extends Node {
   static SIZE = SIZE;
 }
 
+export { GreenhouseEffectObservationWindowOptions };
+
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
 export default GreenhouseEffectObservationWindow;

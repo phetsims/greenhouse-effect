@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -17,21 +16,33 @@ import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyLegend from './EnergyLegend.js';
+import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
+import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 
-const OBSERVATION_WINDOW_SIZE = new Dimension2( 780, 525 );
+type GreenhouseEffectScreenViewOptions = {
+  energyLegendOptions: EnergyLegendOptions,
+  observationWindowOptions: GreenhouseEffectObservationWindowOptions,
+} & NodeOptions;
 
 class GreenhouseEffectScreenView extends ScreenView {
+  private readonly model: GreenhouseEffectModel;
+  private readonly observationWindow: GreenhouseEffectObservationWindow;
+  protected readonly energyLegend: EnergyLegend;
+  protected readonly legendAndControlsVBox: VBox;
+  protected readonly timeControlNode: TimeControlNode;
+  protected readonly resetAllButton: ResetAllButton;
 
   /**
    * @param {GreenhouseEffectModel} model
-   * @param {Tandem} tandem
    * @param {Node} observationWindow
-   * @param {Object} [options]
+   * @param {GreenhouseEffectScreenViewOptions} [providedOptions]
    */
-  constructor( model, observationWindow, options ) {
+  constructor( model: GreenhouseEffectModel,
+               observationWindow: GreenhouseEffectObservationWindow,
+               providedOptions: GreenhouseEffectScreenViewOptions ) {
 
-    options = merge( {
+    const options: GreenhouseEffectScreenViewOptions = merge( {
 
       // passed along to the EnergyLegend
       energyLegendOptions: null,
@@ -40,7 +51,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       observationWindowOptions: null,
 
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions ) as GreenhouseEffectScreenViewOptions;
 
     if ( options.energyLegendOptions ) {
       assert && assert( !options.energyLegendOptions.tandem, 'EnergyLegend Tandem is set by GreenhouseEffectScreenView' );
@@ -48,11 +59,10 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     super( options );
 
-    // @private {GreenhouseEffectModel}
+    // model instance that will be displayed in this view
     this.model = model;
 
-    // @protected (read-only) {GreenhouseEffectObservationWindow} - The window where much of the action happens.
-    // TODO: Does this really need to be protected or can it be local?
+    // Add the observation window to the view.  This is generally provided by the subclass.
     this.observationWindow = observationWindow;
     this.addChild( this.observationWindow );
 
@@ -60,10 +70,10 @@ class GreenhouseEffectScreenView extends ScreenView {
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -
                        this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
 
-    // @protected {EnergyLegend} - accessible in subtypes for layout purposes
+    // energy legend, accessible in subtypes for layout purposes
     this.energyLegend = new EnergyLegend( rightWidth, merge( {
       tandem: options.tandem.createTandem( 'energyLegend' )
-    }, options.energyLegendOptions ) );
+    }, options.energyLegendOptions ) as EnergyLegendOptions );
 
     // @protected {VBox} - The parent node on the right side of the view where legends and controls are placed.  A VBox
     // is used to support dynamic layout in conjunction with phet-io.
@@ -121,10 +131,12 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // pdom - order and assign components to their sections in the PDOM, for default components but can
     // be overridden by subtypes
+    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       this.energyLegend,
       this.observationWindow
     ];
+    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       this.timeControlNode,
       this.resetAllButton
@@ -135,12 +147,10 @@ class GreenhouseEffectScreenView extends ScreenView {
    * Resets view components.
    * @protected
    */
-  reset() {
+  protected reset() {
     this.model.reset();
   }
 }
-
-GreenhouseEffectScreenView.OBSERVATION_WINDOW_SIZE = OBSERVATION_WINDOW_SIZE;
 
 greenhouseEffect.register( 'GreenhouseEffectScreenView', GreenhouseEffectScreenView );
 export default GreenhouseEffectScreenView;

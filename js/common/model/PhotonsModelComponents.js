@@ -21,7 +21,6 @@ import inheritance from '../../../../phet-core/js/inheritance.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import FluxMeter from './FluxMeter.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import LayersModel from './LayersModel.js';
 import Photon from './Photon.js';
@@ -62,9 +61,6 @@ const PhotonsModelComponents = {
         // @public (read-only) {ObservableArray.<Photon>}
         this.photons = createObservableArray();
 
-        // @private - model component for the FluxMeter
-        this.fluxMeter = new FluxMeter( options.tandem.createTandem( 'fluxMeter' ) );
-
         // @private {number}
         this.photonCreationCountdown = 0;
 
@@ -72,13 +68,7 @@ const PhotonsModelComponents = {
         this.allPhotonsVisibleProperty = new BooleanProperty( false, {
           tandem: options.tandem.createTandem( 'allPhotonsVisibleProperty' )
         } );
-
-        // @public {BooleanProperty} - whether or not the flux meter is visible
-        this.fluxMeterVisibleProperty = new BooleanProperty( false, {
-          tandem: options.tandem.createTandem( 'fluxMeterVisibleProperty' )
-        } );
       },
-
 
       /**
        * Reset all aspects of PhotonsModelComponents.

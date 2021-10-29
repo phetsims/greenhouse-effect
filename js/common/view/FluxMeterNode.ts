@@ -56,6 +56,7 @@ class FluxMeterNode extends Node {
                modelViewTransform: ModelViewTransform2,
                observationWindowViewBounds: Bounds2,
                tandem: Tandem ) {
+
     super();
 
     // wire connecting panel and sensor, beneath both so it appears like the wire is solidly connected to both

@@ -25,6 +25,8 @@ import Checkbox from '../../../../sun/js/Checkbox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const HEADING_1_TEXT_OPTIONS = { font: new PhetFont( { size: 20, weight: 'bold' } ) };
@@ -47,6 +49,7 @@ const TemperatureSoundNames = Enumeration.byKeys( [
 // global property that specifies which sound generator to use for temperature
 phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
   TemperatureSoundNames,
+  // @ts-ignore
   TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
 );
 
@@ -64,35 +67,41 @@ phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new Boole
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
 class GreenhouseEffectOptionsDialogContent extends HBox {
+  private readonly disposeGreenhouseEffectOptionsDialogContent:() => void;
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     // items for radio button group for selecting temperature sound
     const items = [
       {
+        // @ts-ignore
         value: TemperatureSoundNames.NONE,
         node: new Text( 'None', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'noneRadioButton'
       },
       {
+        // @ts-ignore
         value: TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES,
         node: new Text( 'Multiple loops with cross-fades', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'multipleLoopsWithCrossFadeRadioButton'
       },
       {
+        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS,
         node: new Text( 'Single loop with low pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithLowPassRadioButton'
       },
       {
+        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS,
         node: new Text( 'Single loop with band pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithBandPassRadioButton'
       },
       {
+        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE,
         node: new Text( 'Single loop with playback rate change', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithRateChangeRadioButton'
@@ -226,18 +235,22 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     this.disposeGreenhouseEffectOptionsDialogContent();
     super.dispose();
   }
+
+  // static values
+  static TemperatureSoundNames = TemperatureSoundNames;
 }
 
 /**
  * Inner class that defines the control used to set the opacity of the screen mockups.
  */
 class MockupOpacityControl extends VBox {
+  private readonly disposeMockupOpacityControl: () => void;
 
   /**
    * @param {Property.<number>} opacityProperty
    * @param {Tandem} tandem
    */
-  constructor( opacityProperty, tandem ) {
+  constructor( opacityProperty: Property<number>, tandem: Tandem ) {
 
     // slider
     const slider = new HSlider(
@@ -283,9 +296,6 @@ class MockupOpacityControl extends VBox {
     super.dispose();
   }
 }
-
-// statics
-GreenhouseEffectOptionsDialogContent.TemperatureSoundNames = TemperatureSoundNames;
 
 greenhouseEffect.register( 'GreenhouseEffectOptionsDialogContent', GreenhouseEffectOptionsDialogContent );
 export default GreenhouseEffectOptionsDialogContent;

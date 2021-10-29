@@ -28,6 +28,7 @@ import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Cloud from './Cloud.js';
+import FluxMeter from './FluxMeter.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -46,6 +47,7 @@ class LayersModel extends GreenhouseEffectModel {
   readonly surfaceThermometerVisibleProperty: BooleanProperty;
   readonly energyBalanceVisibleProperty: BooleanProperty;
   readonly surfaceTemperatureVisibleProperty: BooleanProperty;
+  readonly fluxMeterVisibleProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
   readonly sunEnergySource: SunEnergySource;
   protected readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
@@ -53,6 +55,7 @@ class LayersModel extends GreenhouseEffectModel {
   private readonly clouds: Cloud[];
   private readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
+  readonly fluxMeter: FluxMeter;
 
   /**
    * @param {Tandem} [tandem]
@@ -62,7 +65,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( tandem, options );
 
-    // @public {NumberProperty} - the temperature of the surface in degrees Kelvin
+    // the temperature of the surface in degrees Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 500 ),
       units: 'K',
@@ -71,38 +74,46 @@ class LayersModel extends GreenhouseEffectModel {
       phetioHighFrequency: true
     } );
 
-    // @public {DerivedProperty.<number> - the temperature, but in Celsius used in multiple views
+    // the temperature, but in Celsius used in multiple views
     this.surfaceTemperatureCelsiusProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToCelsius );
 
-    // @public {DerivedProperty.<number> - the temperature, but in
+    // the temperature, but in
     this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
 
-    // @public {EnumerationProperty} - displayed units of temperature
+    // displayed units of temperature
     // @ts-ignore
     this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
-    // @public {BooleanProperty} - whether or not the thermometer measuring surface temperature is visible
+    // whether or not the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
     } );
 
-    // @public {BooleanProperty} - whether or not the "Energy Balance" display is visible
+    // whether or not the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
     } );
 
-    // @public {BooleanProperty} - whether or not the glowing representation of surface temperature is visible
+    // whether or not the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
 
-    // @public (read-only) {EMEnergyPacket[]} - packets of electromagnetic energy that are moving around in
-    // the model
+    // whether or not the flux meter is visible
+    this.fluxMeterVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
+    } );
+
+    //  model component for the FluxMeter
+    // TODO: This isn't used in all screens, so we may want to make its creation optional.
+    this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
+
+    // packets of electromagnetic energy that are moving around in the model
     this.emEnergyPackets = [];
 
-    // @private - main energy source coming into the system
+    // main energy source coming into the system
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
       this.emEnergyPackets,
