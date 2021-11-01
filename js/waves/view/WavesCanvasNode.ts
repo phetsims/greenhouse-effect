@@ -15,20 +15,31 @@ import Color from '../../../../scenery/js/util/Color.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Wave from '../model/Wave.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
 
+type RenderingParameters = {
+  baseColor: ColorDef,
+  amplitude: number,
+  wavelength: number
+}
+
 class WavesCanvasNode extends CanvasNode {
+  private readonly model: WavesModel;
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly waveRenderingParameters: Map<number, RenderingParameters>;
 
   /**
    * @param {WavesModel} model
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
    */
-  constructor( model, modelViewTransform, options ) {
+  constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, options: CanvasNodeOptions ) {
     super( options );
     this.model = model;
     this.modelViewTransform = modelViewTransform;
@@ -61,7 +72,7 @@ class WavesCanvasNode extends CanvasNode {
   }
 
   // @public
-  paintCanvas( context ) {
+  paintCanvas( context: CanvasRenderingContext2D ) {
     this.model.waveGroup.forEach( wave => this.drawWave( context, wave ) );
   }
 
@@ -72,15 +83,15 @@ class WavesCanvasNode extends CanvasNode {
    * @param {ModelViewTransform2} modelViewTransform
    * @private
    */
-  drawWave( context, wave ) {
+  drawWave( context: CanvasRenderingContext2D, wave: Wave ) {
 
     // convenience variables
     const modelViewTransform = this.modelViewTransform;
     const startPoint = modelViewTransform.modelToViewPosition( wave.startPoint );
     const renderingParameters = this.waveRenderingParameters.get( wave.wavelength );
-    const amplitude = renderingParameters.amplitude;
-    const wavelength = renderingParameters.wavelength;
-    const baseColor = renderingParameters.baseColor;
+    const amplitude = renderingParameters!.amplitude;
+    const wavelength = renderingParameters!.wavelength;
+    const baseColor = renderingParameters!.baseColor;
 
     // Set the context up with its initial values.  The stroke style may change as the wave intensity varies.
     let waveIntensity = wave.intensityAtStart;
@@ -161,7 +172,7 @@ class WavesCanvasNode extends CanvasNode {
    * @returns {number}
    * @private
    */
-  getAttenuatorXPosition( index, wave, amplitudeInView, wavelengthInView ) {
+  getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ) {
     const sortedAttenuators = wave.getSortedAttenuators();
     const attenuatorDistanceFromStart = sortedAttenuators[ index ] ?
                                         sortedAttenuators[ index ].distanceFromStart :
@@ -201,7 +212,10 @@ class WavesCanvasNode extends CanvasNode {
    * @returns {number} - amount of compensation in view coordinate frame
    * @private
    */
-  static getXCompensationForTilt( amplitudeInView, wavelengthInView, phase, propagationAngle ) {
+  static getXCompensationForTilt( amplitudeInView: number,
+                                  wavelengthInView: number,
+                                  phase: number,
+                                  propagationAngle: number ) {
 
     // The following would probably be easier to understand if vectors were used, but for performance reasons we wanted
     // to avoid the memory allocations.
@@ -215,7 +229,7 @@ class WavesCanvasNode extends CanvasNode {
 greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
 
-const waveIntensityToLineWidth = waveIntensity => {
+const waveIntensityToLineWidth = ( waveIntensity: number ): number => {
 
   // TODO: Are there performance costs for using non-integer line widths?  We need to make this determination and decide
   //       whether to use integer or floating point values.
@@ -223,7 +237,7 @@ const waveIntensityToLineWidth = waveIntensity => {
   return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.5, WAVE_MAX_LINE_WIDTH );
 };
 
-const waveIntensityToAlpha = waveIntensity => {
+const waveIntensityToAlpha = ( waveIntensity: number ): number => {
   return Math.min( waveIntensity + 0.25, 1 );
 };
 

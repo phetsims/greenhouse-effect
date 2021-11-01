@@ -11,6 +11,7 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import LayersModel from '../../common/model/LayersModel.js';
 
 // constants
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
@@ -20,7 +21,7 @@ class ObservationWindowPDOMNode extends Node {
   /**
    * @param {LayersModel} model
    */
-  constructor( model ) {
+  constructor( model: LayersModel ) {
     super( {
 
       // pdom
@@ -43,8 +44,9 @@ class ObservationWindowPDOMNode extends Node {
       surfaceTemperatureItemNode
     ];
 
-    model.sunEnergySource.isShiningProperty.link( isShining => {
+    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
       const descriptionString = isShining ? 'on' : 'off';
+      // @ts-ignore
       sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
         sunDescription: descriptionString
       } );

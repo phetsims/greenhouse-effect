@@ -13,6 +13,8 @@ import ConcentrationDescriber from '../../common/view/describers/ConcentrationDe
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import WavesModel from '../model/WavesModel.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
@@ -31,13 +33,22 @@ class WavesScreenSummaryContentNode extends Node {
   /**
    * @param {WavesModel} model
    */
-  constructor( model ) {
+  constructor( model: WavesModel ) {
     super();
 
-    const playAreaDescriptionNode = new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription } );
-    const controlAreaDescriptionNode = new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription } );
+    const playAreaDescriptionNode = new Node( {
+      tagName: 'p',
+      innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription
+    } );
+    const controlAreaDescriptionNode = new Node( {
+      tagName: 'p',
+      innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription
+    } );
     const simStateDescriptionNode = new Node( { tagName: 'p' } ); // content set with the changing model
-    const startSunlightHintNode = new Node( { tagName: 'p', innerContent: greenhouseEffectStrings.a11y.startSunlightHint } );
+    const startSunlightHintNode = new Node( {
+      tagName: 'p',
+      innerContent: greenhouseEffectStrings.a11y.startSunlightHint
+    } );
 
     this.children = [
       playAreaDescriptionNode,
@@ -47,18 +58,41 @@ class WavesScreenSummaryContentNode extends Node {
     ];
 
     Property.multilink( [
-      model.sunEnergySource.isShiningProperty,
-      model.concentrationProperty,
-      model.dateProperty,
-      model.surfaceTemperatureKelvinProperty,
-      model.concentrationControlModeProperty,
-      model.surfaceTemperatureVisibleProperty,
-      model.surfaceThermometerVisibleProperty,
-      model.temperatureUnitsProperty,
-      model.cloudEnabledProperty
-    ], ( sunIsShining, concentration, date, surfaceTemperatureKelvin, concentrationControlMode, surfaceTemperatureVisible, surfaceThermometerVisible, temperatureUnits, cloudEnabled ) => {
-      simStateDescriptionNode.innerContent = this.getScreenDescriptionString( sunIsShining, concentration, date, surfaceTemperatureKelvin, concentrationControlMode, surfaceTemperatureVisible, surfaceThermometerVisible, temperatureUnits, cloudEnabled );
-    } );
+        model.sunEnergySource.isShiningProperty,
+        model.concentrationProperty,
+        model.dateProperty,
+        model.surfaceTemperatureKelvinProperty,
+        model.concentrationControlModeProperty,
+        model.surfaceTemperatureVisibleProperty,
+        model.surfaceThermometerVisibleProperty,
+        model.temperatureUnitsProperty,
+        model.cloudEnabledProperty
+      ],
+      (
+        sunIsShining: boolean,
+        concentration: number,
+        date: Enumeration,
+        surfaceTemperatureKelvin: number,
+        concentrationControlMode: Enumeration,
+        surfaceTemperatureVisible: boolean,
+        surfaceThermometerVisible: boolean,
+        temperatureUnits: Enumeration,
+        cloudEnabled: boolean
+      ) => {
+        // @ts-ignore
+        simStateDescriptionNode.innerContent = this.getScreenDescriptionString(
+          sunIsShining,
+          concentration,
+          date,
+          surfaceTemperatureKelvin,
+          concentrationControlMode,
+          surfaceTemperatureVisible,
+          surfaceThermometerVisible,
+          temperatureUnits,
+          cloudEnabled
+        );
+      }
+    );
   }
 
   /**
@@ -79,7 +113,15 @@ class WavesScreenSummaryContentNode extends Node {
    * @param {boolean} cloudEnabled - is there a cloud in the sky?
    * @returns {string}
    */
-  getScreenDescriptionString( sunIsShining, concentration, date, surfaceTemperatureKelvin, concentrationControlMode, surfaceTemperatureVisible, surfaceThermometerVisible, temperatureUnits, cloudEnabled ) {
+  getScreenDescriptionString( sunIsShining: boolean,
+                              concentration: number,
+                              date: Enumeration,
+                              surfaceTemperatureKelvin: number,
+                              concentrationControlMode: Enumeration,
+                              surfaceTemperatureVisible: boolean,
+                              surfaceThermometerVisible: boolean,
+                              temperatureUnits: Enumeration,
+                              cloudEnabled: boolean ) {
 
     // the final description
     let descriptionString = '';
@@ -92,6 +134,7 @@ class WavesScreenSummaryContentNode extends Node {
 
     // portion that describes the state of the concentration in the atmosphere
     let concentrationDescriptionString = '';
+    // @ts-ignore
     if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE ) {
       concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }

@@ -12,6 +12,8 @@ import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
@@ -19,7 +21,7 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
    * @param {BooleanProperty} property - controls whether surface temperature is displayed
    * @param {Tandem} tandem
    */
-  constructor( property, tandem ) {
+  constructor( property: Property<boolean>, tandem: Tandem ) {
 
     const iconWidth = 15;
 
