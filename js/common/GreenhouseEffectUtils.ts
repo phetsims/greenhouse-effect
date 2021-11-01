@@ -12,23 +12,15 @@ const GreenhouseEffectUtils = {
 
   /**
    * Converts a temperature in Kelvin to that temperature in Fahrenheit.
-   * @public
-   *
-   * @param kelvin
-   * @returns {number}
    */
-  kelvinToFahrenheit( kelvin ) {
+  kelvinToFahrenheit( kelvin: number ): number {
     return GreenhouseEffectUtils.kelvinToCelsius( kelvin ) * 9 / 5 + 32;
   },
 
   /**
    * Converts a temperature in Kelvin to that temperature in Celsius.
-   * @public
-   *
-   * @param {number} kelvin
-   * @returns {number}
    */
-  kelvinToCelsius( kelvin ) {
+  kelvinToCelsius( kelvin: number ): number {
     return kelvin - 273.15;
   }
 };

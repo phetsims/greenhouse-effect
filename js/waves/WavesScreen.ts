@@ -12,13 +12,14 @@ import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 class WavesScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
@@ -31,7 +32,7 @@ class WavesScreen extends Screen {
 
     super(
       () => new WavesModel( tandem.createTandem( 'model' ) ),
-      model => new WavesScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: WavesModel ) => new WavesScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

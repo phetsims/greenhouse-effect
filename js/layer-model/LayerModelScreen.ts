@@ -10,32 +10,32 @@ import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
-import PhotonsModel from './model/PhotonsModel.js';
-import PhotonsScreenView from './view/PhotonsScreenView.js';
+import LayerModelModel from './model/LayerModelModel.js';
+import LayerModelScreenView from './view/LayerModelScreenView.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
-class PhotonsScreen extends Screen {
+class LayerModelScreen extends Screen {
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
-      homeScreenIcon: new RandomIcon( 1 ),
+      homeScreenIcon: new RandomIcon( 544 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.photons,
-      descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription
+      name: greenhouseEffectStrings.screen.layerModel
     };
 
     super(
-      () => new PhotonsModel( tandem.createTandem( 'model' ) ),
-      model => new PhotonsScreenView( model, tandem.createTandem( 'view' ) ),
+      () => new LayerModelModel( tandem.createTandem( 'model' ) ),
+      ( model: LayerModelModel ) => new LayerModelScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
 }
 
-greenhouseEffect.register( 'PhotonsScreen', PhotonsScreen );
-export default PhotonsScreen;
+greenhouseEffect.register( 'LayerModelScreen', LayerModelScreen );
+export default LayerModelScreen;
