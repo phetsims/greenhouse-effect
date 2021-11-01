@@ -50,18 +50,18 @@ const TemperatureSoundNames = Enumeration.byKeys( [
 phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
   TemperatureSoundNames,
   // @ts-ignore
-  TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
+  TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS
 );
 
 // global property that specifies whether to play a sound when IR is re-emitted in the atmosphere
 phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty = new BooleanProperty( false );
-phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty = new BooleanProperty( false );
+phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty = new BooleanProperty( true );
 phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty = new BooleanProperty( false );
-phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty = new BooleanProperty( false );
+phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty = new BooleanProperty( true );
 
 // Global property the specifies whether the output level of the loops used for IR waves should be mapped to the wave's
 // intensity.
-phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new BooleanProperty( false );
+phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new BooleanProperty( true );
 
 // global property that defines the opacity of the mockups for all screens
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
