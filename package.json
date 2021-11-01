@@ -23,7 +23,8 @@
       "adapted-from-phet"
     ],
     "simFeatures": {
-      "supportsSound": true
+      "supportsSound": true,
+      "supportsInteractiveDescription": true
     },
     "supportsOutputJS": true,
     "typescript": true
