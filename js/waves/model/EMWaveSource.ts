@@ -87,8 +87,7 @@ type EMWaveSourceOptions = {
 } & PhetioObjectOptions
 
 class EMWaveSource extends PhetioObject {
-  private readonly waveStartAltitude: number;
-
+  readonly waveStartAltitude: number;
   private readonly waveIntensityProperty: Property<number>;
   private readonly waveProductionEnabledProperty: Property<boolean>;
   private readonly waveGroup: PhetioGroup<Wave>;

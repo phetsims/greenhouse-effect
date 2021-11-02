@@ -28,7 +28,26 @@ import WavesModel from './WavesModel.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
+type WaveOptions = {
+  intensityAtStart?: number,
+  initialPhaseOffset?: number,
+  debugTag?: string | null,
+} & PhetioObjectOptions;
+
 class Wave extends PhetioObject {
+  readonly debugTag: string | null;
+  wavelength: number;
+  origin: Vector2;
+  propagationDirection: Vector2;
+  startPoint: Vector2;
+  propagationLimit: number;
+  length: number;
+  existenceTime: number;
+  phaseOffsetAtOrigin: number;
+  intensityAtStart: number;
+  renderingWavelength: number;
+  private modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
+  isSourced: boolean;
 
   /**
    * @param {number} wavelength - wavelength of this light wave, in meters
@@ -37,10 +56,15 @@ class Wave extends PhetioObject {
    *                                         this wave is propagating
    * @param {number} propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
    *                                    direction, in meters
-   * @param {Object} [options]
+   * @param {WaveOptions} [providedOptions]
    */
-  constructor( wavelength, origin, propagationDirection, propagationLimit, options ) {
-    options = merge( {
+  constructor( wavelength: number,
+               origin: Vector2,
+               propagationDirection: Vector2,
+               propagationLimit: number,
+               providedOptions: WaveOptions ) {
+
+    const options = merge( {
 
       // {number} - the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
       intensityAtStart: 1,
@@ -53,10 +77,11 @@ class Wave extends PhetioObject {
 
       // phet-io
       tandem: Tandem.REQUIRED,
+      // @ts-ignore
       phetioType: Wave.WaveIO,
       phetioDynamicElement: true
 
-    }, options );
+    }, providedOptions ) as Required<WaveOptions>;
 
     // options checking
     assert && assert(
@@ -66,9 +91,7 @@ class Wave extends PhetioObject {
 
     super( options );
 
-    if ( options.debugTag ) {
-      this.debugTag = options.debugTag;
-    }
+    this.debugTag = options.debugTag;
 
     // parameter checking
     assert && assert( Math.abs( propagationDirection.magnitude - 1 ) < 1E-6, 'propagation vector must be normalized' );
@@ -119,17 +142,17 @@ class Wave extends PhetioObject {
     // @private {Map.<PhetioObject,WaveAttenuator>} - A Map that maps model objects to the attenuation that they are
     // currently causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type
     // spec. Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
-    this.modelObjectToAttenuatorMap = new Map();
+    this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
 
     // @public (read-only) {number} - the wavelength used when rendering the view for this wave
-    this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength );
+    this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength )!;
   }
 
   /**
    * @param dt - delta time, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
 
     const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
 
@@ -193,16 +216,16 @@ class Wave extends PhetioObject {
    * @public
    */
   getEndAltitude() {
-    return this.startPoint + this.length * this.propagationDirection.y;
+    return this.startPoint.y + this.length * this.propagationDirection.y;
   }
 
   /**
    * Get a vector that represents the end point of this wave.  This does not account for any amplitude of the wave, and
    * just treats it as a line between two points.  If a vector is provided, none is allocated.
-   * @param [vectorToUse]
+   * @param {Vector2} [vectorToUse]
    * @public
    */
-  getEndPoint( vectorToUse ) {
+  getEndPoint( vectorToUse: Vector2 ) {
     const endPointVector = vectorToUse || new Vector2( 0, 0 );
     endPointVector.setXY(
       this.startPoint.x + this.propagationDirection.x * this.length,
@@ -217,7 +240,7 @@ class Wave extends PhetioObject {
    * @returns {number}
    * @public
    */
-  getIntensityAt( distanceFromStart ) {
+  getIntensityAt( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
     this.getSortedAttenuators().forEach( attenuator => {
       if ( attenuator.distanceFromStart < distanceFromStart ) {
@@ -232,7 +255,7 @@ class Wave extends PhetioObject {
    * @returns {number}
    * @private
    */
-  getIntensityAtEnd() {
+  getIntensityAtEnd(): number {
     return this.getIntensityAt( this.length );
   }
 
@@ -241,7 +264,7 @@ class Wave extends PhetioObject {
    * @param {number} intensity - a normalized intensity value
    * @public
    */
-  setIntensityAtStart( intensity ) {
+  setIntensityAtStart( intensity: number ) {
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
     this.intensityAtStart = intensity;
   }
@@ -252,7 +275,9 @@ class Wave extends PhetioObject {
    * @param {Object} causalModelElement - the model element that is causing this attenuation to exist
    * @public
    */
-  addAttenuator( distanceFromStart, attenuationAmount, causalModelElement ) {
+  addAttenuator( distanceFromStart: number,
+                 attenuationAmount: number,
+                 causalModelElement: PhetioObject ) {
 
     // parameter checking
     assert && assert(
@@ -278,7 +303,7 @@ class Wave extends PhetioObject {
    * @param {Object} causalModelElement
    * @public
    */
-  removeAttenuator( causalModelElement ) {
+  removeAttenuator( causalModelElement: PhetioObject ) {
 
     assert && assert(
       this.modelObjectToAttenuatorMap.has( causalModelElement ),
@@ -294,7 +319,7 @@ class Wave extends PhetioObject {
    * @param {Object} modelElement
    * @public
    */
-  hasAttenuator( modelElement ) {
+  hasAttenuator( modelElement: PhetioObject ) {
     return this.modelObjectToAttenuatorMap.has( modelElement );
   }
 
@@ -304,14 +329,14 @@ class Wave extends PhetioObject {
    * @param {number} attenuation
    * @public
    */
-  setAttenuation( modelElement, attenuation ) {
+  setAttenuation( modelElement: PhetioObject, attenuation: number ) {
 
     // state and parameter checking
     assert && assert( this.hasAttenuator( modelElement ), 'no attenuator is on this wave for this model element' );
     assert && assert( attenuation >= 0 && attenuation <= 1, 'invalid attenuation value' );
 
     // Update the attenuation value and the corresponding intensity change.
-    this.modelObjectToAttenuatorMap.get( modelElement ).attenuation = attenuation;
+    this.modelObjectToAttenuatorMap.get( modelElement )!.attenuation = attenuation;
   }
 
   /**
@@ -329,7 +354,7 @@ class Wave extends PhetioObject {
    * @returns {number} - phase of the end point in radians
    * @public
    */
-  getPhaseAt( distanceFromOrigin ) {
+  getPhaseAt( distanceFromOrigin: number ) {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
@@ -374,7 +399,7 @@ class Wave extends PhetioObject {
    * @returns {Object}
    * @public
    */
-  applyState( stateObject ) {
+  applyState( stateObject: WaveStateObject ) {
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
     this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
     this.propagationDirection = Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection );
@@ -398,7 +423,7 @@ class Wave extends PhetioObject {
    * @returns {Object[]}
    * @public
    */
-  static stateToArgsForConstructor( state ) {
+  static stateToArgsForConstructor( state: WaveStateObject ) {
     return [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),
@@ -432,19 +457,31 @@ class Wave extends PhetioObject {
       modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
     };
   }
+
+  /**
+   * @public
+   * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
+   * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
+   * as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  static WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
 }
 
-/**
- * @public
- * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
- * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
- * as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-Wave.WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
-
-// statics
-Wave.PHASE_RATE = PHASE_RATE;
+type WaveStateObject = {
+  wavelength: number,
+  origin: Vector2,
+  propagationDirection: Vector2
+  propagationLimit: number,
+  startPoint: Vector2,
+  length: number,
+  isSourced: boolean,
+  existenceTime: number,
+  phaseOffsetAtOrigin: number,
+  intensityAtStart: number,
+  modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>,
+  renderingWavelength: number
+}
 
 greenhouseEffect.register( 'Wave', Wave );
 export default Wave;

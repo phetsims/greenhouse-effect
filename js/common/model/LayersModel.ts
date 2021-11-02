@@ -210,7 +210,7 @@ class LayersModel extends GreenhouseEffectModel {
    * for phet-io
    * @public
    */
-  toStateObject() {
+  toStateObject(): LayersModelStateObject {
     return {
       emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets )
     };
@@ -220,7 +220,7 @@ class LayersModel extends GreenhouseEffectModel {
    * for phet-io
    * @public
    */
-  applyState( stateObject: { emEnergyPackets: EMEnergyPacket[] } ) {
+  applyState( stateObject: LayersModelStateObject ) {
 
     // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
     // copy in the contents of the state object.
@@ -235,7 +235,7 @@ class LayersModel extends GreenhouseEffectModel {
    * @returns {Object.<string,IOType>}
    * @public
    */
-  static get STATE_SCHEMA() {
+  protected static get STATE_SCHEMA() {
     return {
       emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
     };
@@ -256,6 +256,13 @@ class LayersModel extends GreenhouseEffectModel {
    */
   public static readonly LayersModelIO: IOType = IOType.fromCoreType( 'LayersModelIO', LayersModel );
 }
+
+type LayersModelStateObject = {
+  // TODO: I (jbphet) will need some help sorting out how this should work with phet-io.
+  emEnergyPackets: Array<any>
+}
+
+export { LayersModelStateObject };
 
 greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

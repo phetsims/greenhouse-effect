@@ -27,11 +27,13 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import GroundWaveSource from './GroundWaveSource.js';
-import LayersModel from '../../common/model/LayersModel.js';
+import LayersModel, { LayersModelStateObject } from '../../common/model/LayersModel.js';
 import SunWaveSource from './SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -46,11 +48,27 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
 class WavesModel extends ConcentrationModel {
+  readonly cloudEnabledProperty: BooleanProperty;
+  readonly waveGroup: PhetioGroup<Wave>;
+  readonly wavesChangedEmitter: Emitter<[]>;
+  private readonly sunWaveSource: SunWaveSource;
+  private readonly groundWaveSource: GroundWaveSource;
+  private cloudReflectedWavesMap: Map<Wave, Wave>;
+  private glacierReflectedWavesMap: Map<Wave, Wave>;
+  private readonly atmosphereLayerToXRangeMap: Map<EnergyAbsorbingEmittingLayer, Range>;
+  private readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
+  private readonly waveLineStart: Vector2;
+  private readonly waveLineEnd: Vector2;
+  private readonly waveLine: Line;
+  private readonly atmosphereLineStart: Vector2;
+  private readonly atmosphereLineEnd: Vector2;
+  private readonly atmosphereLine: Line;
+  private readonly waveReflectedSoundGenerator: SoundClip;
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
     super( tandem, {
 
       // phet-io
@@ -64,7 +82,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Update the enabled state of the cloud.
-    this.cloudEnabledProperty.lazyLink( cloudEnabled => {
+    this.cloudEnabledProperty.lazyLink( ( cloudEnabled: boolean ) => {
       assert && assert( this.clouds.length === 1 );
       this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
     } );
@@ -110,10 +128,10 @@ class WavesModel extends ConcentrationModel {
     );
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
-    this.cloudReflectedWavesMap = new Map();
+    this.cloudReflectedWavesMap = new Map<Wave, Wave>();
 
     // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of the glacier
-    this.glacierReflectedWavesMap = new Map();
+    this.glacierReflectedWavesMap = new Map<Wave, Wave>();
 
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
@@ -121,7 +139,7 @@ class WavesModel extends ConcentrationModel {
       new Cloud( new Vector2( -16000, 20000 ), 18000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
     );
 
-    // @private {Map.<EnergyAbsorbingEmittingLayer,Range} - A Map containing atmospheric layers and ranges that define
+    // @private {Map.<EnergyAbsorbingEmittingLayer,Range>} - A Map containing atmospheric layers and ranges that define
     // the x coordinate within which IR waves should interact with that layer.
     this.atmosphereLayerToXRangeMap = new Map(
       [
@@ -177,7 +195,7 @@ class WavesModel extends ConcentrationModel {
    *
    * @param {number} dt - in seconds
    */
-  stepModel( dt ) {
+  stepModel( dt: number ) {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
@@ -351,7 +369,7 @@ class WavesModel extends ConcentrationModel {
         // Get a line that represents where the wave starts and ends.  Use pre-allocated components to reduce
         // allocations.
         this.waveLine.setStart( waveFromTheGround.startPoint );
-        this.waveLineEnd = waveFromTheGround.getEndPoint( this.waveLineEnd );
+        waveFromTheGround.getEndPoint( this.waveLineEnd );
         this.waveLine.setEnd( this.waveLineEnd );
 
         // Check if this wave is crossing any of the atmosphere interaction areas.
@@ -490,20 +508,20 @@ class WavesModel extends ConcentrationModel {
    * for phet-io
    * @public
    */
-  toStateObject() {
+  toStateObject(): WavesModelStateObject {
     return merge( super.toStateObject(), {
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
       glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.glacierReflectedWavesMap )
-    } );
+    } ) as WavesModelStateObject;
   }
 
   /**
    * for phet-io
    * @public
    */
-  applyState( stateObject ) {
+  applyState( stateObject: WavesModelStateObject ) {
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
@@ -516,15 +534,37 @@ class WavesModel extends ConcentrationModel {
    * @returns {Object.<string,IOType>}
    * @public
    */
-  static get STATE_SCHEMA() {
-    return {
+  protected static get STATE_SCHEMA() {
+    const superclassStateSchema = ConcentrationModel.STATE_SCHEMA;
+    const subclassStateSchema = {
       sunWaveSource: EMWaveSource.EMWaveSourceIO,
       groundWaveSource: EMWaveSource.EMWaveSourceIO,
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
       glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
     };
+    return { ...superclassStateSchema, ...subclassStateSchema };
   }
+
+  /**
+   * @public
+   * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
+   * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
+   * serialization', as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   */
+  static WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
+
+  // other static values
+  static REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
+  static WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 }
+
+type WavesModelStateObject = {
+  sunWaveSource: any,
+  groundWaveSource: any,
+  cloudReflectedWavesMap: any,
+  glacierReflectedWavesMap: any
+} & LayersModelStateObject;
 
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
@@ -532,7 +572,7 @@ class WavesModel extends ConcentrationModel {
  *
  * @param concentration
  */
-const mapGasConcentrationToAttenuation = concentration => {
+const mapGasConcentrationToAttenuation = ( concentration: number ): number => {
 
   // This equation was empirically determined, and will only work if the wave intensity coming from the ground doesn't
   // change.  In other words, this is a touchy part of the whole system, so update as needed but be careful about it.
@@ -543,14 +583,18 @@ const mapGasConcentrationToAttenuation = concentration => {
  * A simple inner class for tracking interactions between the IR waves and the atmosphere.
  */
 class WaveAtmosphereInteraction {
-  constructor( atmosphereLayer, sourceWave, emittedWave ) {
+  readonly atmosphereLayer: EnergyAbsorbingEmittingLayer;
+  readonly sourceWave: Wave;
+  readonly emittedWave: Wave;
+
+  constructor( atmosphereLayer: EnergyAbsorbingEmittingLayer, sourceWave: Wave, emittedWave: Wave ) {
     this.atmosphereLayer = atmosphereLayer;
     this.sourceWave = sourceWave;
     this.emittedWave = emittedWave;
   }
 
   // @public
-  toStateObject() {
+  toStateObject(): WaveAtmosphereInteractionStateObject {
     return {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
       sourceWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.sourceWave ),
@@ -559,7 +603,7 @@ class WaveAtmosphereInteraction {
   }
 
   // @public
-  static fromStateObject( stateObject ) {
+  static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ) {
     return new WaveAtmosphereInteraction(
       ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
       ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
@@ -578,25 +622,18 @@ class WaveAtmosphereInteraction {
       emittedWave: ReferenceIO( Wave.WaveIO )
     };
   }
+
+  static WaveAtmosphereInteractionIO = IOType.fromCoreType(
+    'WaveAtmosphereInteractionIO',
+    WaveAtmosphereInteraction
+  );
 }
 
-WaveAtmosphereInteraction.WaveAtmosphereInteractionIO = IOType.fromCoreType(
-  'WaveAtmosphereInteractionIO',
-  WaveAtmosphereInteraction
-);
-
-/**
- * @public
- * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
- * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
- * serialization', as described in the Serialization section of
- * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
- */
-WavesModel.WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
-
-// statics
-WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
-WavesModel.WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
+type WaveAtmosphereInteractionStateObject = {
+  atmosphereLayer: any,
+  sourceWave: any,
+  emittedWave: any
+}
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
 export default WavesModel;
