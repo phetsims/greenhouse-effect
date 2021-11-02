@@ -58,7 +58,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     // Adjust the playback rate as the temperature changes.
     temperatureProperty.link( ( temperature: number ) => {
       // @ts-ignore
-      baseSoundLoop.setPlaybackRate( temperatureToPlaybackRate( temperature ) );
+      baseSoundLoop.setPlaybackRate( temperatureToPlaybackRate.evaluate( temperature ) );
     } );
   }
 }

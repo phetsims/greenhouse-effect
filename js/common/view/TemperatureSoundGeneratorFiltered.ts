@@ -98,7 +98,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     // Adjust the filters as the temperature changes.
     temperatureProperty.link( ( temperature: number ) => {
       // @ts-ignore
-      const frequency = temperatureToFilterFrequency( temperature );
+      const frequency = temperatureToFilterFrequency.evaluate( temperature );
       const now = this.audioContext.currentTime;
       lowPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );
       bandPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );

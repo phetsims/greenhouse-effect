@@ -207,12 +207,12 @@ class EnergyFluxDisplayArrow extends Node {
     // redraw arrows when the flux Properties change
     energyInProperty.link( ( energyIn: number ) => {
       // @ts-ignore
-      inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction( energyIn ) );
+      inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyIn ) );
     } );
 
     energyOutProperty.link( ( energyOut: number ) => {
       // @ts-ignore
-      outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction( energyOut ) );
+      outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyOut ) );
     } );
 
     // layout
