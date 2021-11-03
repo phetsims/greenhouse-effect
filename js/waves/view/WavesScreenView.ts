@@ -26,14 +26,17 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
+import WavesModel from '../model/WavesModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
+  private readonly updateSoundLoopLevels: () => void;
 
   /**
    * @param {WavesModel} model
    * @param {tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: WavesModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
     const observationWindow = new LandscapeObservationWindow(
@@ -44,6 +47,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     super( model, observationWindow, {
       energyLegendOptions: {
+        // @ts-ignore
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
       },
 
@@ -51,6 +55,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem: tandem,
 
       // pdom
+      // @ts-ignore - I (jbphet) got stuck on this one and bailed.
       screenSummaryContent: new WavesScreenSummaryContentNode( model )
     } );
 
@@ -60,7 +65,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
-      model, {
+      model,
+      {
 
         // phet-io
         tandem: tandem.createTandem( 'concentrationControlPanel' )
@@ -99,6 +105,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.addChild( visibilityBox );
+    // @ts-ignore
     this.addChild( mockup );
 
     // sound generation
@@ -121,7 +128,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     soundManager.addSoundGenerator( irWaveEmittedFromGroundSoundGenerator );
 
     // Create a sound generator for each of the waves that can originate from the ground.
-    const irWaveRadiatingFromGroundSoundGenerators = [];
+    const irWaveRadiatingFromGroundSoundGenerators: SoundClip[] = [];
     _.times( 3, () => {
       const soundGenerator = new SoundClip( irWaveRadiatingFromGroundSound, {
         initialOutputLevel: waveLoopMaxOutputLevel,
@@ -136,7 +143,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
 
     // Create a sound generator for each of the IR waves that can originate from the atmosphere.
-    const irWaveRadiatingFromAtmosphereSoundGenerators = [];
+    const irWaveRadiatingFromAtmosphereSoundGenerators: SoundClip[] = [];
     _.times( 3, () => {
       const soundGenerator = new SoundClip( irWaveRadiatingFromAtmosphereSound, {
         initialOutputLevel: waveLoopMaxOutputLevel,
@@ -158,7 +165,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     soundManager.addSoundGenerator( irWaveRadiatingFromAtmosphereSoundGenerator );
 
     // Watch for new waves that start emanating from the ground and produce the appropriate sounds when they appear.
-    model.waveGroup.countProperty.link( ( numberOfWaves, previousNumberOfWaves ) => {
+    model.waveGroup.countProperty.link( ( numberOfWaves: number, previousNumberOfWaves: number ) => {
 
       // Fire off the one-shot sounds as new IR waves come into being.
       if ( numberOfWaves > previousNumberOfWaves ) {
@@ -196,23 +203,25 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
 
     // Play the sounds related to IR interactions with the atmosphere.
-    model.waveAtmosphereInteractions.lengthProperty.lazyLink( ( numberOfInteractions, previousNumberOfInteractions ) => {
+    model.waveAtmosphereInteractions.lengthProperty.lazyLink(
+      ( numberOfInteractions: number, previousNumberOfInteractions: number ) => {
 
-      // Play a one-shot sound each time a new interaction starts.
-      if ( numberOfInteractions > previousNumberOfInteractions ) {
-        irWaveEmittedFromAtmosphereSoundGenerator.play();
+        // Play a one-shot sound each time a new interaction starts.
+        if ( numberOfInteractions > previousNumberOfInteractions ) {
+          irWaveEmittedFromAtmosphereSoundGenerator.play();
+        }
+
+        // Make sure that the number of sound generators playing is equal to the number of waves coming from the atmosphere.
+        irWaveRadiatingFromAtmosphereSoundGenerators.forEach( ( soundGenerator, index ) => {
+          if ( !soundGenerator.isPlaying && numberOfInteractions > index ) {
+            soundGenerator.play();
+          }
+          else if ( soundGenerator.isPlaying && numberOfInteractions <= index ) {
+            soundGenerator.stop();
+          }
+        } );
       }
-
-      // Make sure that the number of sound generators playing is equal to the number of waves coming from the atmosphere.
-      irWaveRadiatingFromAtmosphereSoundGenerators.forEach( ( soundGenerator, index ) => {
-        if ( !soundGenerator.isPlaying && numberOfInteractions > index ) {
-          soundGenerator.play();
-        }
-        else if ( soundGenerator.isPlaying && numberOfInteractions <= index ) {
-          soundGenerator.stop();
-        }
-      } );
-    } );
+    );
 
     // A method that is intended to be called during stepping to update the output levels of the loops to match the
     // intensities of the waves to which they correspond.
@@ -247,12 +256,14 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     };
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
+    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       this.energyLegend,
       this.observationWindow,
       concentrationControls,
       cloudCheckbox
     ];
+    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       visibilityBox,
       this.timeControlNode,

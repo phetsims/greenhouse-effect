@@ -12,8 +12,14 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  */
 
 class WaveAttenuator {
+  attenuation: number;
+  distanceFromStart: number;
 
-  constructor( initialAttenuation, distanceFromStart ) {
+  /**
+   * @param {number} initialAttenuation - amount of attenuation at construction, may be changed later
+   * @param {number} distanceFromStart - distance from the start of the wave, in meters
+   */
+  constructor( initialAttenuation: number, distanceFromStart: number ) {
 
     // @public {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
     // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave
@@ -29,7 +35,7 @@ class WaveAttenuator {
    * @returns {Object}
    * @public
    */
-  toStateObject() {
+  toStateObject(): WaveAttenuatorStateObject {
     return {
       attenuation: NumberIO.toStateObject( this.attenuation ),
       distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
@@ -41,7 +47,7 @@ class WaveAttenuator {
    * @returns {Object}
    * @public
    */
-  static fromStateObject( stateObject ) {
+  static fromStateObject( stateObject: WaveAttenuatorStateObject ) {
     return new WaveAttenuator(
       NumberIO.fromStateObject( stateObject.attenuation ),
       NumberIO.fromStateObject( stateObject.distanceFromStart )
@@ -59,9 +65,15 @@ class WaveAttenuator {
       distanceFromStart: NumberIO
     };
   }
+
+  // phet-io
+  static WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
 }
 
-WaveAttenuator.WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
+type WaveAttenuatorStateObject = {
+  attenuation: number,
+  distanceFromStart: number
+}
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );
 export default WaveAttenuator;

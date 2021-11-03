@@ -56,7 +56,7 @@ class WavesModel extends ConcentrationModel {
   private cloudReflectedWavesMap: Map<Wave, Wave>;
   private glacierReflectedWavesMap: Map<Wave, Wave>;
   private readonly atmosphereLayerToXRangeMap: Map<EnergyAbsorbingEmittingLayer, Range>;
-  private readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
+  readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
   private readonly waveLineStart: Vector2;
   private readonly waveLineEnd: Vector2;
   private readonly waveLine: Line;

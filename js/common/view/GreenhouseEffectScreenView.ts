@@ -23,11 +23,11 @@ import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOpt
 type GreenhouseEffectScreenViewOptions = {
   energyLegendOptions: EnergyLegendOptions,
   observationWindowOptions: GreenhouseEffectObservationWindowOptions,
-} & NodeOptions;
+} & ScreenViewOptions;
 
 class GreenhouseEffectScreenView extends ScreenView {
   private readonly model: GreenhouseEffectModel;
-  private readonly observationWindow: GreenhouseEffectObservationWindow;
+  protected readonly observationWindow: GreenhouseEffectObservationWindow;
   protected readonly energyLegend: EnergyLegend;
   protected readonly legendAndControlsVBox: VBox;
   protected readonly timeControlNode: TimeControlNode;
