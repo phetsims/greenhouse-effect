@@ -106,16 +106,16 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     //       class once the sounds have been finalized.  See
     //       https://github.com/phetsims/greenhouse-effect/issues/36#issuecomment-929642225 and nearby comments.
 
-    const waveLoopMaxOutputLevel = 0.1;
+    const waveLoopMaxOutputLevel = 0.15;
 
     const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( irWaveEmittedFromAtmosphereSound, {
-      initialOutputLevel: 0.1,
+      initialOutputLevel: 0.15,
       enableControlProperties: [ phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty ]
     } );
     soundManager.addSoundGenerator( irWaveEmittedFromAtmosphereSoundGenerator );
 
     const irWaveEmittedFromGroundSoundGenerator = new SoundClip( irWaveEmittedFromGroundSound, {
-      initialOutputLevel: 0.1,
+      initialOutputLevel: 0.15,
       enableControlProperties: [ phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty ]
     } );
     soundManager.addSoundGenerator( irWaveEmittedFromGroundSoundGenerator );
