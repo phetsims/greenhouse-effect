@@ -7,28 +7,22 @@
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 /**
  * @constructor
  */
-class LayerModelModel extends ConcentrationModel {
+class LayerModelModel extends PhotonsModelComponents( ConcentrationModel ) {
 
   /**
    * @mixes {PhotonsModelComponents}
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
     super( tandem );
 
     // initialize the photon model components for the LayerModelModel
-    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty, {
-
-      // the PhotonModelComponents trait should appear as part of the LayerModelModel so
-      // pass the tandem directly through
-      tandem: tandem
-    } );
-
-    //TODO
+    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty );
   }
 
   /**
@@ -36,6 +30,7 @@ class LayerModelModel extends ConcentrationModel {
    * @public
    */
   reset() {
+    this.resetPhotonsModelComponents();
     super.reset();
   }
 
@@ -44,12 +39,10 @@ class LayerModelModel extends ConcentrationModel {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt ) {
-    //TODO
+  step( dt: number ) {
+    this.stepPhotonsModelComponents( dt );
   }
 }
-
-PhotonsModelComponents.compose( LayerModelModel );
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
 export default LayerModelModel;

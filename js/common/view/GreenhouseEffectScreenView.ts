@@ -21,8 +21,8 @@ import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 
 type GreenhouseEffectScreenViewOptions = {
-  energyLegendOptions: EnergyLegendOptions,
-  observationWindowOptions: GreenhouseEffectObservationWindowOptions,
+  energyLegendOptions?: EnergyLegendOptions,
+  observationWindowOptions?: GreenhouseEffectObservationWindowOptions,
 } & ScreenViewOptions;
 
 class GreenhouseEffectScreenView extends ScreenView {

@@ -12,25 +12,23 @@ import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Property from '../../../../axon/js/Property.js';
 
 /**
  * @mixes PhotonsModelComponents
  * @constructor
  */
-class PhotonsModel extends ConcentrationModel {
+class PhotonsModel extends PhotonsModelComponents( ConcentrationModel ) {
+  private readonly numberOfActiveCloudsProperty: Property<number>;
 
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
     super( tandem );
 
-    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty, {
-
-      // PhotonsModelComponents should appear as if they are directly components of the
-      // ConcentrationModel, so just pass the tandem through
-      tandem: tandem
-    } );
+    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty );
 
     // Add the clouds.  These are always present in the model, but aren't always visible.  Positions were chosen to
     // look decent.
@@ -54,7 +52,7 @@ class PhotonsModel extends ConcentrationModel {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  stepModel( dt ) {
+  stepModel( dt: number ) {
     this.stepPhotonsModelComponents( dt );
   }
 
@@ -67,8 +65,6 @@ class PhotonsModel extends ConcentrationModel {
     super.reset();
   }
 }
-
-PhotonsModelComponents.compose( PhotonsModel );
 
 greenhouseEffect.register( 'PhotonsModel', PhotonsModel );
 export default PhotonsModel;

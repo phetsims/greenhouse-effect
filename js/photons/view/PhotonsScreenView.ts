@@ -10,14 +10,16 @@ import ConcentrationControlPanel from '../../common/view/ConcentrationControlPan
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import PhotonsModel from '../model/PhotonsModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
   /**
-   * @param {ConcentrationModel} model
+   * @param {PhotonsModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: PhotonsModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, photons, etc.
     const observationWindow = new LandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
@@ -47,6 +49,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
+    // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
@@ -66,7 +69,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     //TODO
   }
 }

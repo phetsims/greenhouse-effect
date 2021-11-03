@@ -9,6 +9,8 @@ import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import LayerModelModel from '../model/LayerModelModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -16,7 +18,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * @param {LayerModelModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: LayerModelModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the layers and photons.
     const observationWindow = new LayerModelObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
@@ -33,6 +35,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
+    // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
   }
@@ -50,7 +53,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     //TODO
   }
 }

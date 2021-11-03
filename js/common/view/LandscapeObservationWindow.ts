@@ -46,7 +46,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( model: ConcentrationModel, tandem: Tandem, options: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: ConcentrationModel, tandem: Tandem, options?: GreenhouseEffectObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
