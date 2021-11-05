@@ -151,10 +151,10 @@ class LayersModel extends GreenhouseEffectModel {
     this.clouds = [];
 
     // Add or remove the energy absorbing and emitting layers that model the atmosphere.
-    this.numberOfAtmosphereLayersProperty.link( ( numberOfLayers: number ) => {
+    this.numberOfAtmosphereLayersProperty.link( ( targetNumberOfLayers: number ) => {
 
       // The layers are evenly spaced between the ground and the top of the atmosphere.
-      const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / ( numberOfLayers + 1 );
+      const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / ( targetNumberOfLayers + 1 );
 
       // Adjust the altitude of the existing layers to take into account the ones that will be added or removed.
       this.atmosphereLayers.forEach( ( atmosphereLayer: AtmosphereLayer, index: number ) => {
@@ -165,10 +165,10 @@ class LayersModel extends GreenhouseEffectModel {
       const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
 
       // Add or remove the appropriate number of layers.
-      if ( numberOfLayers < this.atmosphereLayers.length ) {
+      if ( targetNumberOfLayers > this.atmosphereLayers.length ) {
 
         // add layers
-        for ( let i = this.atmosphereLayers.length; i < numberOfLayers; i++ ) {
+        for ( let i = this.atmosphereLayers.length; i < targetNumberOfLayers; i++ ) {
           const atmosphereLayer = new AtmosphereLayer(
             distanceBetweenLayers * ( i + 1 ),
             atmosphereLayersTandem.createTandem( `layer${i}` )
@@ -176,10 +176,10 @@ class LayersModel extends GreenhouseEffectModel {
           this.atmosphereLayers.push( atmosphereLayer );
         }
       }
-      else if ( numberOfLayers > this.atmosphereLayers.length ) {
+      else if ( targetNumberOfLayers < this.atmosphereLayers.length ) {
 
         // remove layers
-        _.times( numberOfLayers - this.atmosphereLayers.length, () => {
+        _.times( targetNumberOfLayers - this.atmosphereLayers.length, () => {
           this.atmosphereLayers.pop();
         } );
       }

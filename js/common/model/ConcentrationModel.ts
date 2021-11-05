@@ -29,19 +29,19 @@ const CONCENTRATION_CONTROL_MODE: Enumeration = Enumeration.byKeys( [ 'BY_VALUE'
 // dates with recorded values of greenhouse concentration
 const CONCENTRATION_DATE: Enumeration = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
 
-// maps the date to the modelled concentration, map values are not based on realistic values and are only temporary
-// to get the UI components working
-const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
+// Map of dates to concentration values.  These values were determined empirically to make the equilibrium temperature
+// reached in the sim match the values specified in the design doc.
 const DATE_TO_CONCENTRATION_MAP = new Map( [
   // @ts-ignore
-  [ CONCENTRATION_DATE.ICE_AGE, 0.55 ],
+  [ CONCENTRATION_DATE.ICE_AGE, 0.625 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.7 ],
+  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.718 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.8 ],
+  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.722 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.83 ]
+  [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.748 ]
 ] );
+const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
 class ConcentrationModel extends LayersModel {
 

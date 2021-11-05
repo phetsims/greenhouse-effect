@@ -29,6 +29,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
+const DECIMAL_PLACES_IN_READOUT = 1;
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
@@ -174,6 +175,7 @@ class ThermometerAndReadout extends Node {
 
     const numberDisplayOptions = {
       backgroundStroke: null,
+      decimalPlaces: DECIMAL_PLACES_IN_READOUT,
       textOptions: {
         font: GreenhouseEffectConstants.CONTENT_FONT,
         maxWidth: 120
@@ -202,6 +204,7 @@ class ThermometerAndReadout extends Node {
                                            propertyRange: Range ) {
 
     const numberDisplayOptions = {
+      decimalPlaces: DECIMAL_PLACES_IN_READOUT,
       textOptions: {
         font: GreenhouseEffectConstants.CONTENT_FONT,
         maxWidth: 120
