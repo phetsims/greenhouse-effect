@@ -15,23 +15,45 @@ import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWind
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-
-// constants
-const WINDOW_FRAME_SPACING = 10;
+import ThermometerAndReadout from './ThermometerAndReadout.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   /**
    * @param {LayersModel} model
    * @param {Tandem} tandem
-   * @param {Object} [options]
    */
   constructor( model: LayersModel, tandem: Tandem ) {
 
     super( model, tandem, { groundBaseColorProperty: new ColorProperty( Color.GRAY ) } );
 
-    // flux meter
+    // surface thermometer
+    const surfaceThermometer = new ThermometerAndReadout( model, {
 
+      thermometerNodeOptions: {
+        bulbDiameter: 25,
+        tubeHeight: 80,
+        tubeWidth: 14,
+        lineWidth: 1.5,
+        tickSpacing: 8,
+        majorTickLength: 7,
+        minorTickLength: 4
+
+      },
+
+      // @ts-ignore
+      readoutType: ThermometerAndReadout.ReadoutType.FIXED,
+
+      left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      bottom: GreenhouseEffectObservationWindow.SIZE.height -
+              GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+
+      // phet-io
+      tandem: tandem.createTandem( 'surfaceThermometer' )
+    } );
+    this.addChild( surfaceThermometer );
+
+    // flux meter
     const fluxMeterNode = new FluxMeterNode(
       model.fluxMeter,
       model.fluxMeterVisibleProperty,
@@ -39,7 +61,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       this.windowFrame.bounds,
       tandem.createTandem( 'fluxMeterNode' )
     );
-    fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+    fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
 
     // set the position of the wire to attach to the flux panel
     model.fluxMeter.wireMeterAttachmentPositionProperty.set(
@@ -52,7 +77,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
       tandem: tandem.createTandem( 'instrumentVisibilityControls' )
     } );
-    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
 
     // Add the nodes to the layers provided by the parent class.
     this.controlsLayer.addChild( instrumentVisibilityControls );

@@ -29,13 +29,12 @@ import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import PhotonNode from './PhotonNode.js';
-import SurfaceThermometer from './SurfaceThermometer.js';
+import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Photon from '../model/Photon.js';
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
-const WINDOW_FRAME_SPACING = 10;
 const GREEN_GRASS_BASE_COLOR = Color.GREEN;
 const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 
@@ -44,27 +43,30 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   /**
    * @param {ConcentrationModel} model
    * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
    */
-  constructor( model: ConcentrationModel, tandem: Tandem, options?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: ConcentrationModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
 
-    options = merge( {
+    const options = merge( {
       groundBaseColorProperty: groundColorBaseProperty
-    }, options );
+    }, providedOptions );
 
     super( model, tandem, options );
 
     // thermometer
     const listParentNode = new Node();
-    const surfaceThermometer = new SurfaceThermometer( model, listParentNode, {
+    const surfaceThermometer = new ThermometerAndReadout( model, {
 
       // phet-io
       tandem: tandem.createTandem( 'surfaceThermometer' )
     } );
-    surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY( WINDOW_FRAME_SPACING, -WINDOW_FRAME_SPACING );
+    surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
     listParentNode.leftBottom = surfaceThermometer.leftBottom;
     this.controlsLayer.addChild( surfaceThermometer );
     this.controlsLayer.addChild( listParentNode );
@@ -217,13 +219,19 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty
     );
-    energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
       tandem: tandem.createTandem( 'instrumentVisibilityControls' )
     } );
-    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY( WINDOW_FRAME_SPACING, WINDOW_FRAME_SPACING );
+    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
 
     // Add the nodes to the layers provided by the parent class.  The order is important for correct layering.
     // @ts-ignore

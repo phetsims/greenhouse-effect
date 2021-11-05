@@ -48,6 +48,9 @@ const DARKNESS_OPACITY = 0.85;
 // determined and can be adjusted as needed to achieve the desired visual effect.
 const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 
+// Standard inset for controls and instruments that exist inside the observation window.
+const CONTROL_AND_INSTRUMENT_INSET = 10;
+
 type GreenhouseEffectObservationWindowOptions = {
   groundBaseColorProperty?: Property<Color> | null,
   showTemperatureGlow?: boolean
@@ -420,10 +423,11 @@ class GreenhouseEffectObservationWindow extends Node {
   }
 
   // static values
-  static SIZE = SIZE;
+  static SIZE: Dimension2 = SIZE;
+  static CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;
 }
 
-export { GreenhouseEffectObservationWindowOptions };
-
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
+
+export { GreenhouseEffectObservationWindowOptions };
 export default GreenhouseEffectObservationWindow;
