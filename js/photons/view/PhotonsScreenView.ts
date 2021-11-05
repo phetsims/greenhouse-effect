@@ -41,6 +41,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
+    // @ts-ignore
     this.legendAndControlsVBox.addChild( concentrationControlPanel );
 
     const mockup = new Image( photonsScreenMockup, {

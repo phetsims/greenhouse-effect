@@ -4,8 +4,8 @@
  * The LayersModel of GreenhouseEffect is a superclass for several of the sim screens. It is responsible for creating
  * and managing the layers that absorb and radiate heat, thus modeling the capture of heat energy in Earth's atmosphere.
  *
- * @author John Blanco
- * @author Jesse Greenberg
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -28,18 +28,25 @@ import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Cloud from './Cloud.js';
+import merge from '../../../../phet-core/js/merge.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import FluxMeter from './FluxMeter.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
-const NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
+const DEFAULT_INITIAL_NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
+type LayersModelOptions = {
+  initialNumberOfAtmosphereLayers?: number
+} & PhetioObjectOptions;
+
 class LayersModel extends GreenhouseEffectModel {
+
   readonly surfaceTemperatureKelvinProperty: NumberProperty;
   readonly surfaceTemperatureCelsiusProperty: DerivedProperty<number>;
   readonly surfaceTemperatureFahrenheitProperty: DerivedProperty<number>;
@@ -50,22 +57,33 @@ class LayersModel extends GreenhouseEffectModel {
   readonly fluxMeterVisibleProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
   readonly sunEnergySource: SunEnergySource;
-  readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
+  readonly atmosphereLayers: ObservableArray<EnergyAbsorbingEmittingLayer>;
   readonly groundLayer: GroundLayer;
   readonly clouds: Cloud[];
   readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
+  private readonly numberOfAtmosphereLayersProperty: NumberProperty;
   readonly fluxMeter: FluxMeter;
 
   /**
    * @param {Tandem} [tandem]
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
-  constructor( tandem: Tandem, options?: PhetioObjectOptions ) {
+  constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
+
+    const options = merge( {
+      initialNumberOfAtmosphereLayers: DEFAULT_INITIAL_NUMBER_OF_ATMOSPHERE_LAYERS
+    }, providedOptions ) as Required<LayersModelOptions>;
 
     super( tandem, options );
 
-    // the temperature of the surface in degrees Kelvin
+    this.numberOfAtmosphereLayersProperty = new NumberProperty( options.initialNumberOfAtmosphereLayers, {
+      range: new Range( 0, DEFAULT_INITIAL_NUMBER_OF_ATMOSPHERE_LAYERS ),
+      tandem: tandem.createTandem( 'numberOfAtmosphereLayersProperty' ),
+      phetioReadOnly: true
+    } );
+
+    // temperature of the ground in Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 500 ),
       units: 'K',
@@ -74,11 +92,17 @@ class LayersModel extends GreenhouseEffectModel {
       phetioHighFrequency: true
     } );
 
-    // the temperature, but in Celsius used in multiple views
-    this.surfaceTemperatureCelsiusProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToCelsius );
+    // temperature of the ground in Celsius
+    this.surfaceTemperatureCelsiusProperty = new DerivedProperty(
+      [ this.surfaceTemperatureKelvinProperty ],
+      GreenhouseEffectUtils.kelvinToCelsius
+    );
 
-    // the temperature, but in
-    this.surfaceTemperatureFahrenheitProperty = new DerivedProperty( [ this.surfaceTemperatureKelvinProperty ], GreenhouseEffectUtils.kelvinToFahrenheit );
+    // temperature of the ground in Fahrenheit
+    this.surfaceTemperatureFahrenheitProperty = new DerivedProperty(
+      [ this.surfaceTemperatureKelvinProperty ],
+      GreenhouseEffectUtils.kelvinToFahrenheit
+    );
 
     // displayed units of temperature
     // @ts-ignore
@@ -121,30 +145,51 @@ class LayersModel extends GreenhouseEffectModel {
     );
 
     // @public (read-only) {EnergyAbsorbingEmittingLayer[]} - the energy-absorbing-and-emitting layers for the atmosphere
-    this.atmosphereLayers = [];
+    this.atmosphereLayers = createObservableArray();
 
     // @public {Cloud[]} - array of clouds that can be individually turned on or off
     this.clouds = [];
 
-    // Create the energy absorbing and emitting layers that model the atmosphere.
-    const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / NUMBER_OF_ATMOSPHERE_LAYERS;
-    const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
-    _.times( NUMBER_OF_ATMOSPHERE_LAYERS, index => {
-      const atmosphereLayer = new AtmosphereLayer(
-        distanceBetweenLayers * ( index + 1 ),
-        atmosphereLayersTandem.createTandem( `layer${index}` )
-      );
-      this.atmosphereLayers.push( atmosphereLayer );
+    // Add or remove the energy absorbing and emitting layers that model the atmosphere.
+    this.numberOfAtmosphereLayersProperty.link( ( numberOfLayers: number ) => {
+
+      // The layers are evenly spaced between the ground and the top of the atmosphere.
+      const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / ( numberOfLayers + 1 );
+
+      // Adjust the altitude of the existing layers to take into account the ones that will be added or removed.
+      this.atmosphereLayers.forEach( ( atmosphereLayer: AtmosphereLayer, index: number ) => {
+        atmosphereLayer.altitudeProperty.set( distanceBetweenLayers * ( index + 1 ) );
+      } );
+
+      // Tandem value used when creating that atmosphere layers so that they can be numbered.
+      const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
+
+      // Add or remove the appropriate number of layers.
+      if ( numberOfLayers < this.atmosphereLayers.length ) {
+
+        // add layers
+        for ( let i = this.atmosphereLayers.length; i < numberOfLayers; i++ ) {
+          const atmosphereLayer = new AtmosphereLayer(
+            distanceBetweenLayers * ( i + 1 ),
+            atmosphereLayersTandem.createTandem( `layer${i}` )
+          );
+          this.atmosphereLayers.push( atmosphereLayer );
+        }
+      }
+      else if ( numberOfLayers > this.atmosphereLayers.length ) {
+
+        // remove layers
+        _.times( numberOfLayers - this.atmosphereLayers.length, () => {
+          this.atmosphereLayers.pop();
+        } );
+      }
     } );
 
     // @public (read-only) - model of the ground that absorbs energy, heats up, and radiates
     this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ) );
 
     // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
-    this.outerSpace = new SpaceEnergySink(
-      HEIGHT_OF_ATMOSPHERE + distanceBetweenLayers,
-      tandem.createTandem( 'outerSpace' )
-    );
+    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
     // @private - used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
@@ -244,7 +289,6 @@ class LayersModel extends GreenhouseEffectModel {
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
   public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
-  public static readonly NUMBER_OF_ATMOSPHERE_LAYERS: number = NUMBER_OF_ATMOSPHERE_LAYERS;
   public static readonly TemperatureUnits: Enumeration = TemperatureUnits;
 
   /**
@@ -263,6 +307,7 @@ type LayersModelStateObject = {
 }
 
 export { LayersModelStateObject };
+export { LayersModelOptions };
 
 greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

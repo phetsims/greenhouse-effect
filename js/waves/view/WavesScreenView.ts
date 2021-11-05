@@ -74,6 +74,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
+    // @ts-ignore
     this.legendAndControlsVBox.addChild( concentrationControls );
 
     // cloud checkbox

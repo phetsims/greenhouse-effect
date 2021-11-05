@@ -237,6 +237,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // @ts-ignore
     artworkForDates.forEach( artworkNode => this.backgroundLayer.addChild( artworkNode ) );
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
+    // @ts-ignore
     this.controlsLayer.addChild( energyBalancePanel );
     this.controlsLayer.addChild( instrumentVisibilityControls );
 

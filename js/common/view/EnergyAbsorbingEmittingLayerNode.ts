@@ -46,7 +46,7 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
       options
     );
 
-    const centerY = modelViewTransform.modelToViewY( layerModel.altitude );
+    const centerY = modelViewTransform.modelToViewY( layerModel.altitudeProperty );
     const widthInView = modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH );
     const line = new Line( 0, centerY, widthInView, centerY, options.lineOptions );
 

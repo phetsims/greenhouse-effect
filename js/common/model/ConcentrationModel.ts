@@ -16,7 +16,7 @@ import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayersModel from './LayersModel.js';
+import LayersModel, { LayersModelOptions } from './LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
@@ -44,6 +44,7 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
 ] );
 
 class ConcentrationModel extends LayersModel {
+
   public readonly dateProperty: EnumerationProperty;
   public readonly manuallyControlledConcentrationProperty: NumberProperty;
   public readonly concentrationControlModeProperty: EnumerationProperty;
@@ -53,7 +54,7 @@ class ConcentrationModel extends LayersModel {
    * @param {Tandem} tandem
    * @param {Object} [options]
    */
-  constructor( tandem: Tandem, options?: PhetioObjectOptions ) {
+  constructor( tandem: Tandem, options?: LayersModelOptions ) {
     super( tandem, options );
 
     // @public {EnumerationProperty} - selected date which will select a value for concentration
@@ -111,7 +112,7 @@ class ConcentrationModel extends LayersModel {
 
         // Adjust the energy absorption amounts for each of the layers based on their altitude.  The calculation uses
         // the barometric formula, see https://en.wikipedia.org/wiki/Barometric_formula.
-        const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitude / SCALE_HEIGHT_OF_ATMOSPHERE );
+        const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitudeProperty.value / SCALE_HEIGHT_OF_ATMOSPHERE );
         atmosphereLayer.energyAbsorptionProportionProperty.set( proportionToAbsorbAtSeaLevel * altitudeProportionFactor );
       } );
     } );
@@ -165,6 +166,8 @@ class ConcentrationModel extends LayersModel {
     )
   );
 }
+
+export { LayersModel };
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export default ConcentrationModel;

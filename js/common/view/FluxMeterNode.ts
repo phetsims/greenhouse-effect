@@ -105,6 +105,7 @@ class FluxMeterNode extends Node {
 
     // @public {Panel} - contains the display showing energy flux, public for positioning in the view
     this.fluxPanel = new Panel( content );
+    // @ts-ignore
     this.addChild( this.fluxPanel );
 
     // listeners

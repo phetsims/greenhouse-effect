@@ -1,25 +1,25 @@
 // Copyright 2020-2021, University of Colorado Boulder
 
 /**
- * @author John Blanco
- * @author Jesse Greenberg
+ * main model for the "Photons" screen
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Cloud from '../../common/model/Cloud.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import PhotonsModelComponents from '../../common/model/PhotonsModelComponents.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
+import PhotonsLayerModel from '../../common/model/PhotonsLayerModel.js';
 
 /**
- * @mixes PhotonsModelComponents
  * @constructor
  */
-class PhotonsModel extends PhotonsModelComponents( ConcentrationModel ) {
+class PhotonsModel extends PhotonsLayerModel {
   private readonly numberOfActiveCloudsProperty: Property<number>;
 
   /**
@@ -27,8 +27,6 @@ class PhotonsModel extends PhotonsModelComponents( ConcentrationModel ) {
    */
   constructor( tandem: Tandem ) {
     super( tandem );
-
-    this.initializePhotonsModelComponents( this.sunEnergySource.isShiningProperty );
 
     // Add the clouds.  These are always present in the model, but aren't always visible.  Positions were chosen to
     // look decent.
@@ -45,24 +43,6 @@ class PhotonsModel extends PhotonsModelComponents( ConcentrationModel ) {
 
     // @private
     this.tandem = tandem;
-  }
-
-  /**
-   * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  stepModel( dt: number ) {
-    this.stepPhotonsModelComponents( dt );
-  }
-
-  /**
-   * Resets the model.
-   * @public
-   */
-  reset() {
-    this.resetPhotonsModelComponents();
-    super.reset();
   }
 }
 

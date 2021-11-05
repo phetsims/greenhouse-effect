@@ -50,7 +50,7 @@ type EnergyAbsorbingEmittingLayerOptions = {
 } & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
-  readonly altitude: number;
+  readonly altitudeProperty: NumberProperty;
   readonly temperatureProperty: NumberProperty;
   readonly energyAbsorptionProportionProperty: NumberProperty;
   private readonly substance: any;
@@ -88,7 +88,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     super( options );
 
     // altitude in meters where this layer resides
-    this.altitude = altitude;
+    this.altitudeProperty = new NumberProperty( altitude, {
+      units: 'm',
+      tandem: options.tandem.createTandem( 'altitudeProperty' ),
+      phetioReadOnly: true
+    } );
 
     // The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default so that it isn't
     // radiating anything, and produce a compensated temperature that produces values more reasonable to the surface of
@@ -134,8 +138,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @protected
    */
   energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
-    return ( energyPacket.previousAltitude > this.altitude && energyPacket.altitude <= this.altitude ) ||
-           ( energyPacket.previousAltitude < this.altitude && energyPacket.altitude >= this.altitude );
+    const altitude = this.altitudeProperty.value;
+    return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
+           ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
   }
 
   /**
@@ -199,7 +204,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
-          this.altitude,
+          this.altitudeProperty.value,
           // @ts-ignore
           EnergyDirection.DOWN
         ) );
@@ -209,7 +214,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
-          this.altitude,
+          this.altitudeProperty.value,
           // @ts-ignore
           EnergyDirection.UP
         ) );
