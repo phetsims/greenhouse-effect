@@ -132,7 +132,6 @@ class EnergyBalancePlot extends Node {
       }
     } );
 
-    // @ts-ignore
     const axisLine = new AxisLine( chartTransform, Orientation.HORIZONTAL, {
       stroke: 'grey',
       lineDash: [ 10, 5 ]
@@ -140,7 +139,6 @@ class EnergyBalancePlot extends Node {
 
     // labels
     const labelOptions = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 30 };
-    // @ts-ignore
     const gridLabels = new TickLabelSet( chartTransform, Orientation.HORIZONTAL, 1, {
 
       // the 'extent' is extra spacing between tick marks and labels, negative value because this is vertically
