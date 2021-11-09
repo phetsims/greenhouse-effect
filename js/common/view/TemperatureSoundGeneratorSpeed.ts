@@ -46,7 +46,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     baseSoundLoop.connect( this.masterGainNode );
 
     // This loop should be producing sound whenever the sun is shining.
-    isSunShiningProperty.link( ( isSunShining: boolean ) => {
+    isSunShiningProperty.link( isSunShining => {
       if ( isSunShining ) {
         baseSoundLoop.play();
       }
@@ -56,8 +56,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     } );
 
     // Adjust the playback rate as the temperature changes.
-    temperatureProperty.link( ( temperature: number ) => {
-      // @ts-ignore
+    temperatureProperty.link( temperature => {
       baseSoundLoop.setPlaybackRate( temperatureToPlaybackRate.evaluate( temperature ) );
     } );
   }

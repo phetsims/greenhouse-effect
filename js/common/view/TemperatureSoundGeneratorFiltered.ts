@@ -86,7 +86,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     } );
 
     // This loop should be producing sound whenever the sun is shining.
-    isSunShiningProperty.link( ( isSunShining: boolean ) => {
+    isSunShiningProperty.link( isSunShining => {
       if ( isSunShining ) {
         baseSoundLoop.play();
       }
@@ -96,8 +96,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     } );
 
     // Adjust the filters as the temperature changes.
-    temperatureProperty.link( ( temperature: number ) => {
-      // @ts-ignore
+    temperatureProperty.link( temperature => {
       const frequency = temperatureToFilterFrequency.evaluate( temperature );
       const now = this.audioContext.currentTime;
       lowPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );

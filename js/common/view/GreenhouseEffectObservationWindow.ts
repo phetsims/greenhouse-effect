@@ -188,7 +188,7 @@ class GreenhouseEffectObservationWindow extends Node {
     const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
 
     // Update the ground as the base color changes.
-    groundBaseColorProperty.link( ( baseColor: Color ) => {
+    groundBaseColorProperty.link( baseColor => {
       // @ts-ignore
       groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )

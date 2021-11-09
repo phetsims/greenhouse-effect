@@ -109,7 +109,7 @@ class FluxMeterNode extends Node {
     this.addChild( this.fluxPanel );
 
     // listeners
-    visibleProperty.link( ( visible: boolean ) => {
+    visibleProperty.link( visible => {
       this.visible = visible;
     } );
 
@@ -206,12 +206,12 @@ class EnergyFluxDisplayArrow extends Node {
     const heightFunction = new LinearFunction( -100, 100, -options.height / 2, options.height / 2, true );
 
     // redraw arrows when the flux Properties change
-    energyInProperty.link( ( energyIn: number ) => {
+    energyInProperty.link( energyIn => {
       // @ts-ignore
       inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyIn ) );
     } );
 
-    energyOutProperty.link( ( energyOut: number ) => {
+    energyOutProperty.link( energyOut => {
       // @ts-ignore
       outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyOut ) );
     } );
