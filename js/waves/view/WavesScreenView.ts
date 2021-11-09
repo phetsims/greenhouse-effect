@@ -166,10 +166,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     soundManager.addSoundGenerator( irWaveRadiatingFromAtmosphereSoundGenerator );
 
     // Watch for new waves that start emanating from the ground and produce the appropriate sounds when they appear.
-    model.waveGroup.countProperty.link( ( numberOfWaves: number, previousNumberOfWaves: number ) => {
+    model.waveGroup.countProperty.link( ( numberOfWaves: number, previousNumberOfWaves: number | null ) => {
 
       // Fire off the one-shot sounds as new IR waves come into being.
-      if ( numberOfWaves > previousNumberOfWaves ) {
+      if ( previousNumberOfWaves !== null && numberOfWaves > previousNumberOfWaves ) {
         const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
 
         if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
