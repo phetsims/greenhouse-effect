@@ -51,7 +51,7 @@ class PhotonsLayerModel extends ConcentrationModel {
    *
    * @param {number} dt
    */
-  step( dt: number ) {
+  stepModel( dt: number ) {
 
     if ( this.sunEnergySource.isShiningProperty.value ) {
 
@@ -98,7 +98,7 @@ class PhotonsLayerModel extends ConcentrationModel {
     photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
     photonsToAdd.forEach( photon => { this.photons.push( photon ); } );
 
-    super.step( dt );
+    super.stepModel( dt );
   }
 }
 
