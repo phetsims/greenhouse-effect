@@ -82,7 +82,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Update the enabled state of the cloud.
-    this.cloudEnabledProperty.lazyLink( ( cloudEnabled: boolean ) => {
+    this.cloudEnabledProperty.lazyLink( cloudEnabled => {
       assert && assert( this.clouds.length === 1 );
       this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
     } );

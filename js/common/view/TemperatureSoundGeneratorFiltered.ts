@@ -62,7 +62,8 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     baseSoundLoop.connect( bandPassFilter );
 
     // Put the appropriate filter in the signal chain depending on which sound generation is selected for temperature.
-    phet.greenhouseEffect.temperatureSoundProperty.link( ( temperatureSound: string ) => {
+    // @ts-ignore
+    phet.greenhouseEffect.temperatureSoundProperty.link( temperatureSound => {
       // @ts-ignore
       if ( temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ) {
         lowPassFilter.connect( this.masterGainNode );
@@ -86,7 +87,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     } );
 
     // This loop should be producing sound whenever the sun is shining.
-    isSunShiningProperty.link( ( isSunShining: boolean ) => {
+    isSunShiningProperty.link( isSunShining => {
       if ( isSunShining ) {
         baseSoundLoop.play();
       }
@@ -96,7 +97,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     } );
 
     // Adjust the filters as the temperature changes.
-    temperatureProperty.link( ( temperature: number ) => {
+    temperatureProperty.link( temperature => {
       const frequency = temperatureToFilterFrequency.evaluate( temperature );
       const now = this.audioContext.currentTime;
       lowPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );

@@ -159,7 +159,7 @@ class ConcentrationControlPanel extends Panel {
     super( content, options );
 
     // only one form of controls is visible at a time
-    concentrationModel.concentrationControlModeProperty.link( ( concentrationControl: any ) => {
+    concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
       // @ts-ignore
       concentrationSlider.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
       // @ts-ignore
