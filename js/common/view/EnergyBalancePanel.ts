@@ -88,7 +88,7 @@ class EnergyBalancePanel extends Panel {
     balancePlot.centerTop = titleNode.centerBottom.plusXY( 0, 10 );
 
     // listeners
-    energyBalanceVisibleProperty.link( visible => {
+    energyBalanceVisibleProperty.link( ( visible: boolean ) => {
       this.visible = visible;
     } );
   }

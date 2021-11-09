@@ -109,7 +109,7 @@ class FluxMeterNode extends Node {
     this.addChild( this.fluxPanel );
 
     // listeners
-    visibleProperty.link( visible => {
+    visibleProperty.link( ( visible: boolean ) => {
       this.visible = visible;
     } );
 
@@ -138,7 +138,7 @@ class FluxMeterNode extends Node {
       tandem: tandem.createTandem( 'dragListener' )
     } ) );
 
-    model.sensorPositionProperty.link( sensorPosition => {
+    model.sensorPositionProperty.link( ( sensorPosition: Vector2 ) => {
       fluxSensor.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
   }
@@ -206,12 +206,12 @@ class EnergyFluxDisplayArrow extends Node {
     const heightFunction = new LinearFunction( -100, 100, -options.height / 2, options.height / 2, true );
 
     // redraw arrows when the flux Properties change
-    energyInProperty.link( energyIn => {
+    energyInProperty.link( ( energyIn: number ) => {
       // @ts-ignore
       inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyIn ) );
     } );
 
-    energyOutProperty.link( energyOut => {
+    energyOutProperty.link( ( energyOut: number ) => {
       // @ts-ignore
       outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyOut ) );
     } );

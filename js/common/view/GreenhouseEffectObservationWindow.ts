@@ -188,7 +188,7 @@ class GreenhouseEffectObservationWindow extends Node {
     const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
 
     // Update the ground as the base color changes.
-    groundBaseColorProperty.link( baseColor => {
+    groundBaseColorProperty.link( ( baseColor: ColorDef ) => {
       // @ts-ignore
       groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
@@ -223,7 +223,7 @@ class GreenhouseEffectObservationWindow extends Node {
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
       model.surfaceTemperatureVisibleProperty.linkAttribute( glowInTheSkyNode, 'visible' );
 
-      model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+      model.surfaceTemperatureKelvinProperty.link( ( surfaceTemperature: number ) => {
         const opacityOfTemperatureIndicationNodes = Utils.clamp(
           ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
           0,
@@ -302,7 +302,7 @@ class GreenhouseEffectObservationWindow extends Node {
     this.foregroundLayer.addChild( this.startSunlightButton );
 
     // Manage the visibility of the start sunlight button and the darkness overlay.
-    model.sunEnergySource.isShiningProperty.link( isShining => {
+    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
       this.startSunlightButton.visible = !isShining;
       this.controlsLayer.inputEnabled = isShining;
 

@@ -97,7 +97,7 @@ class ConcentrationModel extends LayersModel {
     );
 
     // Hook up the concentration to the layers created in the parent class.
-    this.concentrationProperty.link( concentration => {
+    this.concentrationProperty.link( ( concentration: number ) => {
 
       // Map the normalized concentration to a value for the layer absorption proportion.  The higher layers absorb
       // less.  This numerical mapping is very important to the correct operation of the simulation with respect to

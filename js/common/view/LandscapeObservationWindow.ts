@@ -32,6 +32,14 @@ import PhotonNode from './PhotonNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Photon from '../model/Photon.js';
+import irPhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-absorbed_mp3.js';
+import irPhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-emitted_mp3.js';
+import visiblePhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-absorbed_mp3.js';
+import visiblePhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-emitted_mp3.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -208,6 +216,42 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
             presentationNode.removeChild( photonNode );
           }
         } );
+      } );
+
+      // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
+      //                        be modularized, probably into its own class.
+      const photonSoundLevel = 0.2;
+      const playThreshold = 0.5;
+      const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
+      soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
+      const irPhotonEmittedSoundClip = new SoundClip( irPhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
+      soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
+      const visiblePhotonAbsorbedSoundClip = new SoundClip( visiblePhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
+      soundManager.addSoundGenerator( visiblePhotonAbsorbedSoundClip );
+      const visiblePhotonEmittedSoundClip = new SoundClip( visiblePhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
+      soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
+
+      // @ts-ignore
+      model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+        if ( dotRandom.nextDouble() > playThreshold ) {
+          if ( addedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+            irPhotonEmittedSoundClip.play();
+          }
+          else {
+            visiblePhotonEmittedSoundClip.play();
+          }
+        }
+      } );
+      // @ts-ignore
+      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+        if ( dotRandom.nextDouble() > playThreshold ) {
+          if ( removedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+            irPhotonAbsorbedSoundClip.play();
+          }
+          else {
+            visiblePhotonAbsorbedSoundClip.play();
+          }
+        }
       } );
     }
     // @ts-ignore

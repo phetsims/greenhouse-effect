@@ -14,6 +14,7 @@ import visiblePhotonImage from '../../../images/thin2_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Photon from '../model/Photon.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // Map of photon wavelengths to visual images used for representing them.
 const mapWavelengthToImageName = new Map<any, Object>( [
@@ -48,7 +49,7 @@ class PhotonNode extends Node {
     this.addChild( new Image( mapWavelengthToImageName.get( this.photon.wavelength ) ) );
 
     // Observe position changes.
-    photon.positionProperty.link( position => {
+    photon.positionProperty.link( ( position: Vector2 ) => {
       this.center = this.modelViewTransform.modelToViewPosition( position );
     } );
   }
