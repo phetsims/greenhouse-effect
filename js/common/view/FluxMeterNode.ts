@@ -138,7 +138,7 @@ class FluxMeterNode extends Node {
       tandem: tandem.createTandem( 'dragListener' )
     } ) );
 
-    model.sensorPositionProperty.link( ( sensorPosition: Vector2 ) => {
+    model.sensorPositionProperty.link( sensorPosition => {
       fluxSensor.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
   }

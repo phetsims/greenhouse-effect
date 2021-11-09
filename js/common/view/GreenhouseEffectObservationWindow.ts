@@ -223,7 +223,7 @@ class GreenhouseEffectObservationWindow extends Node {
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
       model.surfaceTemperatureVisibleProperty.linkAttribute( glowInTheSkyNode, 'visible' );
 
-      model.surfaceTemperatureKelvinProperty.link( ( surfaceTemperature: number ) => {
+      model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
         const opacityOfTemperatureIndicationNodes = Utils.clamp(
           ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
           0,
@@ -302,7 +302,7 @@ class GreenhouseEffectObservationWindow extends Node {
     this.foregroundLayer.addChild( this.startSunlightButton );
 
     // Manage the visibility of the start sunlight button and the darkness overlay.
-    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
+    model.sunEnergySource.isShiningProperty.link( isShining => {
       this.startSunlightButton.visible = !isShining;
       this.controlsLayer.inputEnabled = isShining;
 

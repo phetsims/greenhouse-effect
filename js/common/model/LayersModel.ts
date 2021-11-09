@@ -151,7 +151,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.clouds = [];
 
     // Add or remove the energy absorbing and emitting layers that model the atmosphere.
-    this.numberOfAtmosphereLayersProperty.link( ( targetNumberOfLayers: number ) => {
+    this.numberOfAtmosphereLayersProperty.link( targetNumberOfLayers => {
 
       // The layers are evenly spaced between the ground and the top of the atmosphere.
       const distanceBetweenLayers = HEIGHT_OF_ATMOSPHERE / ( targetNumberOfLayers + 1 );
@@ -195,7 +195,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.modelSteppingTime = 0;
 
     // Connect up the surface temperature property to that of the ground layer model element.
-    this.groundLayer.temperatureProperty.link( ( groundTemperature: number ) => {
+    this.groundLayer.temperatureProperty.link( groundTemperature => {
       this.surfaceTemperatureKelvinProperty.set( groundTemperature );
     } );
   }

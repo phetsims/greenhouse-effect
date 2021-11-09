@@ -44,7 +44,7 @@ class ObservationWindowPDOMNode extends Node {
       surfaceTemperatureItemNode
     ];
 
-    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
+    model.sunEnergySource.isShiningProperty.link( isShining => {
       const descriptionString = isShining ? 'on' : 'off';
       // @ts-ignore
       sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
