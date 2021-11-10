@@ -9,7 +9,6 @@
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
-import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -18,6 +17,8 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 // constants
 const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -66,7 +67,12 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
       right: 100,
       backgroundStroke: Color.BLACK,
       cornerRadius: 3,
-      numberFormatter: ( number: number ) => `${Utils.toFixed( number, 1 )} ${MathSymbols.DEGREES}K`,
+      numberFormatter: ( temperature: number ) => {
+        return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+          value: Utils.toFixed( temperature, 1 ),
+          units: greenhouseEffectStrings.temperature.units.kelvin
+        } );
+      },
       textOptions: {
         font: new PhetFont( 14 )
       }
