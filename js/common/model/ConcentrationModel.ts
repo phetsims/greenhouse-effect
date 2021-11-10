@@ -88,7 +88,7 @@ class ConcentrationModel extends LayersModel {
         // @ts-ignore
         return concentrationControl === CONCENTRATION_CONTROL_MODE.BY_VALUE ?
                manuallyControlledConcentration :
-               DATE_TO_CONCENTRATION_MAP.get( date );
+               DATE_TO_CONCENTRATION_MAP.get( date )!;
       }, {
         tandem: tandem.createTandem( 'concentrationProperty' ),
         phetioType: DerivedProperty.DerivedPropertyIO( NumberIO ),
