@@ -460,7 +460,8 @@ class CompositionDataNode extends VBox {
  * An inner class for the control panel that creates a RadioButtonGroup that selects between controlling concentration
  * by date or by value.
  */
-class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup {
+// @ts-ignore improve enumeration pattern
+class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<any> {
 
   /**
    * @param {EnumerationProperty} property - Property for the method of controlling concentration
