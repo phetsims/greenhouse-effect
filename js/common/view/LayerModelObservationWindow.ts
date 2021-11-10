@@ -33,6 +33,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
+      maxTemperature: 380,
+
       thermometerNodeOptions: {
         bulbDiameter: 25,
         tubeHeight: 80,
@@ -41,7 +43,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         tickSpacing: 8,
         majorTickLength: 7,
         minorTickLength: 4
-
       },
 
       // @ts-ignore
