@@ -17,6 +17,8 @@ import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
+import Photon from '../model/Photon.js';
+import PhotonNode from './PhotonNode.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
@@ -54,7 +56,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
     this.backgroundLayer.addChild( surfaceThermometer );
 
-    // atmosphere layers
+    // Add and remove the visual representations of the atmosphere layers as they come and go in the model.
     model.atmosphereLayers.addItemAddedListener( addedAtmosphereLayer => {
       const atmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( addedAtmosphereLayer, this.modelViewTransform );
       this.backgroundLayer.addChild( atmosphereLayerNode );
@@ -62,6 +64,19 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         if ( removedAtmosphereLayer === addedAtmosphereLayer ) {
           this.backgroundLayer.removeChild( atmosphereLayerNode );
           atmosphereLayerNode.dispose();
+        }
+      } );
+    } );
+
+    // Add and remove photon nodes as they come and go in the model.
+    // @ts-ignore
+    model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+      const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
+      this.presentationLayer.addChild( photonNode );
+      // @ts-ignore
+      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+        if ( removedPhoton === addedPhoton ) {
+          this.presentationLayer.removeChild( photonNode );
         }
       } );
     } );
