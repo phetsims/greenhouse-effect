@@ -17,9 +17,10 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 
 // constants
-const LAYER_THICKNESS = 30; // in screen coordinates, empirically determined to match design spec
+const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
 
 type EnergyAbsorbingEmittingLayerNodeOptions = {
   lineOptions?: {
@@ -63,7 +64,12 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
     const numberDisplay = new NumberDisplay( layerModel.temperatureProperty, new Range( 0, 999 ), {
       centerY: 0,
       right: 100,
-      numberFormatter: ( number: number ) => `${Utils.toFixed( number, 2 )} ${MathSymbols.DEGREES}K`
+      backgroundStroke: Color.BLACK,
+      cornerRadius: 3,
+      numberFormatter: ( number: number ) => `${Utils.toFixed( number, 1 )} ${MathSymbols.DEGREES}K`,
+      textOptions: {
+        font: new PhetFont( 14 )
+      }
     } );
 
     // supertype constructor

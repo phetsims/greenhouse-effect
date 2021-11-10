@@ -52,15 +52,15 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       // phet-io
       tandem: tandem.createTandem( 'surfaceThermometer' )
     } );
-    this.addChild( surfaceThermometer );
+    this.backgroundLayer.addChild( surfaceThermometer );
 
     // atmosphere layers
     model.atmosphereLayers.addItemAddedListener( addedAtmosphereLayer => {
       const atmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( addedAtmosphereLayer, this.modelViewTransform );
-      this.addChild( atmosphereLayerNode );
+      this.backgroundLayer.addChild( atmosphereLayerNode );
       model.atmosphereLayers.addItemRemovedListener( removedAtmosphereLayer => {
         if ( removedAtmosphereLayer === addedAtmosphereLayer ) {
-          this.removeChild( atmosphereLayerNode );
+          this.backgroundLayer.removeChild( atmosphereLayerNode );
           atmosphereLayerNode.dispose();
         }
       } );
