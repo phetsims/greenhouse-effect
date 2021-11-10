@@ -62,7 +62,7 @@ class LayersModel extends GreenhouseEffectModel {
   readonly clouds: Cloud[];
   readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
-  private readonly numberOfAtmosphereLayersProperty: NumberProperty;
+  readonly numberOfAtmosphereLayersProperty: NumberProperty;
   readonly fluxMeter: FluxMeter;
 
   /**
@@ -77,6 +77,8 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( tandem, options );
 
+    // The number of layers in the atmosphere.  This is part of the API for this class in the sense that adjusting this
+    // number will cause layers to be added or removed.
     this.numberOfAtmosphereLayersProperty = new NumberProperty( options.initialNumberOfAtmosphereLayers, {
       range: new Range( 0, DEFAULT_INITIAL_NUMBER_OF_ATMOSPHERE_LAYERS ),
       tandem: tandem.createTandem( 'numberOfAtmosphereLayersProperty' ),
@@ -179,7 +181,7 @@ class LayersModel extends GreenhouseEffectModel {
       else if ( targetNumberOfLayers < this.atmosphereLayers.length ) {
 
         // remove layers
-        _.times( targetNumberOfLayers - this.atmosphereLayers.length, () => {
+        _.times( this.atmosphereLayers.length - targetNumberOfLayers, () => {
           this.atmosphereLayers.pop();
         } );
       }

@@ -24,7 +24,7 @@ import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
-import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
+import LayerDebugNode from './LayerDebugNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
@@ -162,7 +162,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     if ( GreenhouseEffectQueryParameters.showAllLayers ) {
 
       // Add the ground layer node.
-      energyAbsorbingEmittingLayerNodes.push( new EnergyAbsorbingEmittingLayerNode(
+      energyAbsorbingEmittingLayerNodes.push( new LayerDebugNode(
         model.groundLayer,
         this.modelViewTransform,
         {
@@ -173,7 +173,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
       // Add the atmosphere layer nodes.
       model.atmosphereLayers.forEach( atmosphereLayer => {
-        energyAbsorbingEmittingLayerNodes.push( new EnergyAbsorbingEmittingLayerNode(
+        energyAbsorbingEmittingLayerNodes.push( new LayerDebugNode(
           atmosphereLayer,
           this.modelViewTransform,
           {

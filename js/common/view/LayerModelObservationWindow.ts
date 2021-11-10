@@ -16,6 +16,7 @@ import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
@@ -52,6 +53,18 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       tandem: tandem.createTandem( 'surfaceThermometer' )
     } );
     this.addChild( surfaceThermometer );
+
+    // atmosphere layers
+    model.atmosphereLayers.addItemAddedListener( addedAtmosphereLayer => {
+      const atmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( addedAtmosphereLayer, this.modelViewTransform );
+      this.addChild( atmosphereLayerNode );
+      model.atmosphereLayers.addItemRemovedListener( removedAtmosphereLayer => {
+        if ( removedAtmosphereLayer === addedAtmosphereLayer ) {
+          this.removeChild( atmosphereLayerNode );
+          atmosphereLayerNode.dispose();
+        }
+      } );
+    } );
 
     // flux meter
     const fluxMeterNode = new FluxMeterNode(

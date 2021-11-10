@@ -11,6 +11,7 @@ import LayerModelObservationWindow from '../../common/view/LayerModelObservation
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import LayersControl from './LayersControl.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -38,6 +39,13 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+
+    const layersControl = new LayersControl(
+      this.energyLegend.width,
+      model,
+      tandem.createTandem( 'layersControl' )
+    );
+    this.legendAndControlsVBox.addChild( layersControl );
   }
 
   /**
