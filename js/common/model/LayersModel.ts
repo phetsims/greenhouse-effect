@@ -41,7 +41,8 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 type LayersModelOptions = {
-  numberOfAtmosphereLayers?: number
+  numberOfAtmosphereLayers?: number,
+  atmosphereLayersInitiallyActive?: boolean
 } & PhetioObjectOptions;
 
 class LayersModel extends GreenhouseEffectModel {
@@ -56,12 +57,11 @@ class LayersModel extends GreenhouseEffectModel {
   readonly fluxMeterVisibleProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
   readonly sunEnergySource: SunEnergySource;
-  readonly atmosphereLayers: EnergyAbsorbingEmittingLayer[];
+  readonly atmosphereLayers: AtmosphereLayer[];
   readonly groundLayer: GroundLayer;
   readonly clouds: Cloud[];
   readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
-  readonly numberOfAtmosphereLayersProperty: NumberProperty;
   readonly fluxMeter: FluxMeter;
 
   /**
@@ -71,18 +71,11 @@ class LayersModel extends GreenhouseEffectModel {
   constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
 
     const options = merge( {
-      numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS
+      numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
+      atmosphereLayersInitiallyActive: true
     }, providedOptions ) as Required<LayersModelOptions>;
 
     super( tandem, options );
-
-    // The number of layers in the atmosphere.  This is part of the API for this class in the sense that adjusting this
-    // number will cause layers to be added or removed.
-    this.numberOfAtmosphereLayersProperty = new NumberProperty( options.numberOfAtmosphereLayers, {
-      range: new Range( 0, DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS ),
-      tandem: tandem.createTandem( 'numberOfAtmosphereLayersProperty' ),
-      phetioReadOnly: true
-    } );
 
     // temperature of the ground in Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
@@ -160,7 +153,8 @@ class LayersModel extends GreenhouseEffectModel {
     _.times( options.numberOfAtmosphereLayers, index => {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
-        atmosphereLayersTandem.createTandem( `layer${index}` )
+        atmosphereLayersTandem.createTandem( `layer${index}` ),
+        { initiallyActive: options.atmosphereLayersInitiallyActive }
       );
       this.atmosphereLayers.push( atmosphereLayer );
     } );

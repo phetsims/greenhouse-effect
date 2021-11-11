@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Node that represents a layer that absorbs and emits energy.
+ * Node that represents a layer in the atmosphere that absorbs and emits energy.
  *
  * @author John Blanco
  */
@@ -19,6 +19,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import AtmosphereLayer from '../model/AtmosphereLayer.js';
 
 // constants
 const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -30,15 +31,9 @@ type EnergyAbsorbingEmittingLayerNodeOptions = {
   }
 } & NodeOptions;
 
-class EnergyAbsorbingEmittingLayerNode extends Node {
-  private readonly disposeEnergyAbsorbingEmittingLayerNode: () => void;
+class AtmosphereLayerNode extends Node {
 
-  /**
-   * @param {EnergyAbsorbingEmittingLayer} layerModel
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   */
-  constructor( layerModel: EnergyAbsorbingEmittingLayer,
+  constructor( atmosphereLayer: AtmosphereLayer,
                modelViewTransform: ModelViewTransform2,
                options?: EnergyAbsorbingEmittingLayerNodeOptions ) {
 
@@ -58,12 +53,13 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
       modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH ),
       LAYER_THICKNESS,
       {
-        fill: Color.LIGHT_GRAY
+        fill: Color.LIGHT_GRAY,
+        centerY: modelViewTransform.modelToViewY( atmosphereLayer.altitude )
       }
     );
 
-    const numberDisplay = new NumberDisplay( layerModel.temperatureProperty, new Range( 0, 999 ), {
-      centerY: 0,
+    const numberDisplay = new NumberDisplay( atmosphereLayer.temperatureProperty, new Range( 0, 999 ), {
+      centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
       cornerRadius: 3,
@@ -81,26 +77,11 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
     // supertype constructor
     super( merge( { children: [ mainBody, numberDisplay ] }, options ) );
 
-    const altitudeAdjuster = ( altitude: number ) => {
-      this.centerY = modelViewTransform.modelToViewY( altitude );
-    };
-    layerModel.altitudeProperty.link( altitudeAdjuster );
-
-    // disposal
-    this.disposeEnergyAbsorbingEmittingLayerNode = () => {
-      layerModel.altitudeProperty.unlink( altitudeAdjuster );
-    };
-  }
-
-  /**
-   * clean up memory usage
-   */
-  public dispose() {
-    this.disposeEnergyAbsorbingEmittingLayerNode();
-    super.dispose();
+    // This node should only be visible when the atmosphere layer is active.
+    atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );
   }
 }
 
-greenhouseEffect.register( 'EnergyAbsorbingEmittingLayerNode', EnergyAbsorbingEmittingLayerNode );
+greenhouseEffect.register( 'AtmosphereLayerNode', AtmosphereLayerNode );
 
-export default EnergyAbsorbingEmittingLayerNode;
+export default AtmosphereLayerNode;

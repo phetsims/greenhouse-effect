@@ -319,7 +319,7 @@ class WavesModel extends ConcentrationModel {
       // If the gas concentration has gone to zero or the source wave have moved all the way through this interaction
       // location, the interaction should end.
       if ( this.concentrationProperty.value === 0 ||
-           interaction.sourceWave.startPoint.y > interaction.atmosphereLayer.altitudeProperty.value ) {
+           interaction.sourceWave.startPoint.y > interaction.atmosphereLayer.altitude ) {
 
         // Free the wave that was being emitted to propagate on its own.
         interaction.emittedWave.isSourced = false;
@@ -378,8 +378,8 @@ class WavesModel extends ConcentrationModel {
           if ( layer.energyAbsorptionProportionProperty.value > 0 ) {
 
             // Establish the line in the atmosphere against which the wave is to be tested.
-            this.atmosphereLineStart.setXY( xRange.min, layer.altitudeProperty.value );
-            this.atmosphereLineEnd.setXY( xRange.max, layer.altitudeProperty.value );
+            this.atmosphereLineStart.setXY( xRange.min, layer.altitude );
+            this.atmosphereLineEnd.setXY( xRange.max, layer.altitude );
             this.atmosphereLine.setStart( this.atmosphereLineStart );
             this.atmosphereLine.setEnd( this.atmosphereLineEnd );
 

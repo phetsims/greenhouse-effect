@@ -68,7 +68,7 @@ class LayersControl extends Panel {
 
     // number picker for controlling the number of layers
     const numberOfLayersNumberPicker = new NumberPicker(
-      layersModel.numberOfAtmosphereLayersProperty,
+      layersModel.numberOfActiveAtmosphereLayersProperty,
       new Property( new Range( 0, MAX_LAYERS ) ),
       {
         cornerRadius: 3,

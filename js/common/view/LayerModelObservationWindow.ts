@@ -16,7 +16,7 @@ import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
-import EnergyAbsorbingEmittingLayerNode from './EnergyAbsorbingEmittingLayerNode.js';
+import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import Photon from '../model/Photon.js';
 import PhotonNode from './PhotonNode.js';
 
@@ -59,7 +59,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( atmosphereLayer => {
-      this.backgroundLayer.addChild( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, this.modelViewTransform ) );
+      this.backgroundLayer.addChild( new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform ) );
     } );
 
     // Add and remove photon nodes as they come and go in the model.

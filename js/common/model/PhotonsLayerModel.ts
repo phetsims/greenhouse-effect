@@ -100,9 +100,9 @@ class PhotonsLayerModel extends ConcentrationModel {
       const postMoveYPosition = photon.positionProperty.value.y;
       if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
 
-        // If this infrared photon crossed a layer, consider turning it around.
+        // If this infrared photon crossed an active layer, consider turning it around.
         this.atmosphereLayers.forEach( layer => {
-          if ( preMoveYPosition < layer.altitudeProperty.value && postMoveYPosition > layer.altitudeProperty.value ) {
+          if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
 
             if ( dotRandom.nextDouble() > 0.5 ) {
 
