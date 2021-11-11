@@ -18,7 +18,7 @@ class LayerModelModel extends PhotonsLayerModel {
    */
   constructor( tandem: Tandem ) {
     super( tandem, {
-      initialNumberOfAtmosphereLayers: 0
+      numberOfAtmosphereLayers: 3
     } );
   }
 }

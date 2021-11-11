@@ -57,16 +57,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
     this.backgroundLayer.addChild( surfaceThermometer );
 
-    // Add and remove the visual representations of the atmosphere layers as they come and go in the model.
-    model.atmosphereLayers.addItemAddedListener( addedAtmosphereLayer => {
-      const atmosphereLayerNode = new EnergyAbsorbingEmittingLayerNode( addedAtmosphereLayer, this.modelViewTransform );
-      this.backgroundLayer.addChild( atmosphereLayerNode );
-      model.atmosphereLayers.addItemRemovedListener( removedAtmosphereLayer => {
-        if ( removedAtmosphereLayer === addedAtmosphereLayer ) {
-          this.backgroundLayer.removeChild( atmosphereLayerNode );
-          atmosphereLayerNode.dispose();
-        }
-      } );
+    // Add the visual representations of the atmosphere layers.
+    model.atmosphereLayers.forEach( atmosphereLayer => {
+      this.backgroundLayer.addChild( new EnergyAbsorbingEmittingLayerNode( atmosphereLayer, this.modelViewTransform ) );
     } );
 
     // Add and remove photon nodes as they come and go in the model.

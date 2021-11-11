@@ -174,7 +174,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -totalRadiatedEnergyThisStep / ( this.mass * this.specificHeatCapacity );
 
-    // Total the two temperature change values.  This may be modified.
+    // Total the two temperature change values.
     let netTemperatureChange = temperatureChangeDueToIncomingEnergy + temperatureChangeDueToRadiatedEnergy;
 
     // Check whether the calculated temperature changes would cause this layer's temperature to go below its minimum

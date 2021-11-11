@@ -49,7 +49,7 @@ class LayerDebugNode extends Node {
       options
     );
 
-    const centerY = modelViewTransform.modelToViewY( layerModel.altitudeProperty );
+    const centerY = modelViewTransform.modelToViewY( layerModel.altitudeProperty.value );
     const widthInView = modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH );
     const line = new Line( 0, centerY, widthInView, centerY, options.lineOptions );
 
