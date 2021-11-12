@@ -22,10 +22,10 @@ type StringsType = {
   'cloud': string,
   'startSunlight': string,
   'energyLegend': {
-    'title': string,
-    'sunlight': string,
-    'infrared': string
+    'title': string
   },
+  'sunlight': string,
+  'infrared': string,
   'concentrationPanel': {
     'greenhouseGasConcentration': string,
     'lots': string,
@@ -97,6 +97,7 @@ type StringsType = {
     'energySource': string
   },
   'energyBalance': string,
+  'absorbingLayers': string,
   'a11y': {
     'observationWindowLabel': string,
     'energyBalance': {
