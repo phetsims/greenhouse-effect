@@ -2,8 +2,8 @@
 
 /**
  * LandscapeObservationWindow is a Scenery Node that is used within the Greenhouse Effect simulation to present a view
- * of a landscape and sky, artwork that represents different time periods, and some representation of how the light from
- * the sun is interacting with the ground and the atmosphere.
+ * of a landscape and sky, as well as artwork that represents different time periods.  It is intended to be used as a
+ * base class, and subclasses are used to add representations of energy interacting with the landscape and atmosphere.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -19,8 +19,6 @@ import glacierImage from '../../../images/glacier_png.js';
 import nineteenFiftyBackgroundImage from '../../../images/nineteenFiftyBackground_png.js';
 import twentyTwentyBackgroundImage from '../../../images/twentyTwentyBackground_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import WavesModel from '../../waves/model/WavesModel.js';
-import WavesCanvasNode from '../../waves/view/WavesCanvasNode.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
@@ -28,18 +26,8 @@ import LayerDebugNode from './LayerDebugNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
-import PhotonNode from './PhotonNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Photon from '../model/Photon.js';
-import irPhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-absorbed_mp3.js';
-import irPhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-emitted_mp3.js';
-import visiblePhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-absorbed_mp3.js';
-import visiblePhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-emitted_mp3.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -184,79 +172,6 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       } );
     }
 
-    // Create the presentation node, where the dynamic information (e.g. waves and photons) will be shown.
-    // TODO: This will probably be handled differently (e.g. in subclasses) once we're further along in how the models
-    //       work, see https://github.com/phetsims/greenhouse-effect/issues/17.
-    let presentationNode: Node;
-    if ( model instanceof WavesModel ) {
-      presentationNode = new WavesCanvasNode( model, this.modelViewTransform, {
-        canvasBounds: SIZE.toBounds(),
-        tandem: tandem.createTandem( 'wavesCanvasNode' )
-      } );
-
-      // Update the view when changes occur to the modelled waves.
-      model.wavesChangedEmitter.addListener( () => {
-        // @ts-ignore
-        presentationNode.invalidatePaint();
-      } );
-    }
-    // @ts-ignore
-    else if ( model.photons ) {
-
-      presentationNode = new Node();
-
-      // Add and remove photon nodes as they come and go in the model.
-      // @ts-ignore
-      model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-        const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
-        presentationNode.addChild( photonNode );
-        // @ts-ignore
-        model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
-          if ( removedPhoton === addedPhoton ) {
-            presentationNode.removeChild( photonNode );
-          }
-        } );
-      } );
-
-      // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
-      //                        be modularized, probably into its own class.
-      const photonSoundLevel = 0.2;
-      const playThreshold = 0.5;
-      const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
-      soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
-      const irPhotonEmittedSoundClip = new SoundClip( irPhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
-      soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
-      const visiblePhotonAbsorbedSoundClip = new SoundClip( visiblePhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
-      soundManager.addSoundGenerator( visiblePhotonAbsorbedSoundClip );
-      const visiblePhotonEmittedSoundClip = new SoundClip( visiblePhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
-      soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
-
-      // @ts-ignore
-      model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-        if ( dotRandom.nextDouble() > playThreshold ) {
-          if ( addedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-            irPhotonEmittedSoundClip.play();
-          }
-          else {
-            visiblePhotonEmittedSoundClip.play();
-          }
-        }
-      } );
-      // @ts-ignore
-      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
-        if ( dotRandom.nextDouble() > playThreshold ) {
-          if ( removedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-            irPhotonAbsorbedSoundClip.play();
-          }
-          else {
-            visiblePhotonAbsorbedSoundClip.play();
-          }
-        }
-      } );
-    }
-    // @ts-ignore
-    this.presentationLayer.addChild( presentationNode );
-
     // energy balance
     const energyBalancePanel = new EnergyBalancePanel(
       model.energyBalanceVisibleProperty,
@@ -290,6 +205,9 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       this.backgroundLayer.addChild( new CloudNode( cloud, this.modelViewTransform ) );
     } );
   }
+
+  // static values
+  public static SIZE = SIZE;
 }
 
 greenhouseEffect.register( 'LandscapeObservationWindow', LandscapeObservationWindow );
