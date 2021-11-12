@@ -19,6 +19,7 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 
 // constants
 const NOMINAL_PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
+const INITIAL_ABSORPTION_PROPORTION = 1.0;
 
 /**
  * @constructor
@@ -35,12 +36,8 @@ class LayerModelModel extends LayersModel {
   constructor( tandem: Tandem ) {
     super( tandem, {
       numberOfAtmosphereLayers: 3,
+      initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false
-    } );
-
-    // TODO: Temporary code to set atmosphere opacity.
-    this.atmosphereLayers.forEach( layer => {
-      layer.energyAbsorptionProportionProperty.set( 1 );
     } );
 
     this.photons = createObservableArray();

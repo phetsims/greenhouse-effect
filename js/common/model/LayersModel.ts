@@ -42,7 +42,8 @@ const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT'
 
 type LayersModelOptions = {
   numberOfAtmosphereLayers?: number,
-  atmosphereLayersInitiallyActive?: boolean
+  atmosphereLayersInitiallyActive?: boolean,
+  initialAtmosphereLayerAbsorptionProportion?: number
 } & PhetioObjectOptions;
 
 class LayersModel extends GreenhouseEffectModel {
@@ -72,6 +73,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     const options = merge( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
+      initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true
     }, providedOptions ) as Required<LayersModelOptions>;
 
@@ -154,7 +156,10 @@ class LayersModel extends GreenhouseEffectModel {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
         atmosphereLayersTandem.createTandem( `layer${index}` ),
-        { initiallyActive: options.atmosphereLayersInitiallyActive }
+        {
+          initiallyActive: options.atmosphereLayersInitiallyActive,
+          initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion
+        }
       );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
