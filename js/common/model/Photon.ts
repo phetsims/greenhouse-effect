@@ -31,7 +31,7 @@ type PhotonOptions = {
 class Photon {
   readonly positionProperty: Vector2Property;
   readonly wavelength: number;
-  readonly velocity: Vector2;
+  velocity: Vector2;
 
   constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, options?: Partial<PhotonOptions> ) {
 

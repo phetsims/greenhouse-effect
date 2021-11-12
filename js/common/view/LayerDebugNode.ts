@@ -1,7 +1,10 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Node that represents a layer that absorbs and emits energy.
+ * Node that represents a layer that absorbs and emits energy.  This is generally for debugging the behavior of the
+ * model.
+ *
+ * TODO: Once the "real" node for these layers has been created, this may become obsolete.
  *
  * @author John Blanco
  */
@@ -18,14 +21,14 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-type EnergyAbsorbingEmittingLayerNodeOptions = {
+type LayerDebugNodeOptions = {
   lineOptions?: {
     stroke?: Color,
     lineWidth?: number
   }
 } & NodeOptions;
 
-class EnergyAbsorbingEmittingLayerNode extends Node {
+class LayerDebugNode extends Node {
 
   /**
    * @param {EnergyAbsorbingEmittingLayer} layerModel
@@ -34,7 +37,7 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
    */
   constructor( layerModel: EnergyAbsorbingEmittingLayer,
                modelViewTransform: ModelViewTransform2,
-               options: EnergyAbsorbingEmittingLayerNodeOptions ) {
+               options: LayerDebugNodeOptions ) {
 
     options = merge(
       {
@@ -46,7 +49,7 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
       options
     );
 
-    const centerY = modelViewTransform.modelToViewY( layerModel.altitudeProperty );
+    const centerY = modelViewTransform.modelToViewY( layerModel.altitude );
     const widthInView = modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH );
     const line = new Line( 0, centerY, widthInView, centerY, options.lineOptions );
 
@@ -61,6 +64,6 @@ class EnergyAbsorbingEmittingLayerNode extends Node {
   }
 }
 
-greenhouseEffect.register( 'EnergyAbsorbingEmittingLayerNode', EnergyAbsorbingEmittingLayerNode );
+greenhouseEffect.register( 'LayerDebugNode', LayerDebugNode );
 
-export default EnergyAbsorbingEmittingLayerNode;
+export default LayerDebugNode;

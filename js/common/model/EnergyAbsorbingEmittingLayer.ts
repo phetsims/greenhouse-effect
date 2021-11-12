@@ -44,13 +44,13 @@ const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THIC
 const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
 type EnergyAbsorbingEmittingLayerOptions = {
-  substance: any,
-  initialEnergyAbsorptionProportion: number,
-  minimumTemperature: number
+  substance?: any,
+  initialEnergyAbsorptionProportion?: number,
+  minimumTemperature?: number
 } & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
-  readonly altitudeProperty: NumberProperty;
+  readonly altitude: number;
   readonly temperatureProperty: NumberProperty;
   readonly energyAbsorptionProportionProperty: NumberProperty;
   private readonly substance: any;
@@ -60,15 +60,16 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * @param {number} altitude
-   * @param {Object} [options]
+   * @param {EnergyAbsorbingEmittingLayerOptions} [providedOptions]
    */
-  constructor( altitude: number, options?: Partial<EnergyAbsorbingEmittingLayerOptions> ) {
+  constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       // {Substance} - default to glass
       // @ts-ignore
       substance: Substance.GLASS,
+      initiallyActive: true,
 
       // {number} - initial setting for the absorption proportion, must be from 0 to 1 inclusive
       initialEnergyAbsorptionProportion: 1,
@@ -83,21 +84,17 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true,
       phetioState: false
 
-    }, options ) as EnergyAbsorbingEmittingLayerOptions;
+    }, providedOptions ) as Required<EnergyAbsorbingEmittingLayerOptions>;
 
     super( options );
 
-    // altitude in meters where this layer resides
-    this.altitudeProperty = new NumberProperty( altitude, {
-      units: 'm',
-      tandem: options.tandem.createTandem( 'altitudeProperty' ),
-      phetioReadOnly: true
-    } );
+    // altitude in meters where this layer exists
+    this.altitude = altitude;
 
     // The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default so that it isn't
     // radiating anything, and produce a compensated temperature that produces values more reasonable to the surface of
     // the Earth and its atmosphere.
-    this.temperatureProperty = new NumberProperty( options.minimumTemperature!, {
+    this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
       units: 'K',
       tandem: options.tandem.createTandem( 'temperatureProperty' ),
       phetioReadOnly: true,
@@ -105,7 +102,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     } );
 
     // The proportion of energy coming into this layer that is absorbed and thus contributes to an increase in
-    // temperature.  Non-absorbed energy is simply based from the input to the output.
+    // temperature.  Non-absorbed energy is simply passed from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion!, {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
@@ -121,7 +118,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   }
 
   /**
-   * Interact with the provided energy packets.  This must be overridden in descendant classes.
+   * Interact with the provided energy packets.  This behavior varies depending on the nature of the layer, and must
+   * therefore be overridden in descendant classes.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @returns {number}
    * @protected
@@ -138,7 +136,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @protected
    */
   energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
-    const altitude = this.altitudeProperty.value;
+    const altitude = this.altitude;
     return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
            ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
   }
@@ -150,6 +148,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * @public
    */
   interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+
 
     // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
     // packets can be updated, and often are, during this step.
@@ -174,7 +173,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // Calculate the temperature change that would occur due to the radiated energy.
     const temperatureChangeDueToRadiatedEnergy = -totalRadiatedEnergyThisStep / ( this.mass * this.specificHeatCapacity );
 
-    // Total the two temperature change values.  This may be modified.
+    // Total the two temperature change values.
     let netTemperatureChange = temperatureChangeDueToIncomingEnergy + temperatureChangeDueToRadiatedEnergy;
 
     // Check whether the calculated temperature changes would cause this layer's temperature to go below its minimum
@@ -204,7 +203,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
-          this.altitudeProperty.value,
+          this.altitude,
           // @ts-ignore
           EnergyDirection.DOWN
         ) );
@@ -214,7 +213,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
-          this.altitudeProperty.value,
+          this.altitude,
           // @ts-ignore
           EnergyDirection.UP
         ) );
@@ -234,6 +233,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   static SURFACE_AREA = SURFACE_AREA;
   static Substance = Substance;
 }
+
+export { EnergyAbsorbingEmittingLayerOptions };
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;

@@ -29,10 +29,10 @@
   "energyLegend.title": {
     "value": "Energy"
   },
-  "energyLegend.sunlight": {
+  "sunlight": {
     "value": "Sunlight"
   },
-  "energyLegend.infrared": {
+  "infrared": {
     "value": "Infrared"
   },
   "concentrationPanel.greenhouseGasConcentration": {
@@ -187,6 +187,9 @@
   },
   "energyBalance": {
     "value": "Energy Balance"
+  },
+  "absorbingLayers": {
+    "value": "Absorbing Layers"
   },
   "a11y": {
     "observationWindowLabel": {

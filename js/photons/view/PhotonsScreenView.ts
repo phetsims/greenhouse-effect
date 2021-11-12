@@ -8,10 +8,10 @@ import Image from '../../../../scenery/js/nodes/Image.js';
 import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
-import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -22,7 +22,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
   constructor( model: PhotonsModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, photons, etc.
-    const observationWindow = new LandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
+    const observationWindow = new PhotonLandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
 
     super( model, observationWindow, {
 

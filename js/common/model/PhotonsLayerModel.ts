@@ -18,6 +18,7 @@ import LayersModel, { LayersModelOptions } from './LayersModel.js';
 import Photon from './Photon.js';
 import Property from '../../../../axon/js/Property.js';
 import ConcentrationModel from './ConcentrationModel.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
 const PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
@@ -80,18 +81,37 @@ class PhotonsLayerModel extends ConcentrationModel {
         // This photon is moving upwards and is out of the simulation area, so remove it.
         photonsToRemove.push( photon );
       }
-      else if ( photon.positionProperty.value.y < 0 && photon.wavelength === Photon.VISIBLE_WAVELENGTH ) {
+      else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
 
-        // This photon is at the ground.  Convert it to an infrared photon and send it back up.
+        // This photon is at the ground.  If it is a visible light photon, convert it to an infrared photon and send it
+        // back up.
         photonsToRemove.push( photon );
-        photonsToAdd.push( new Photon(
-          photon.positionProperty.value,
-          Photon.IR_WAVELENGTH,
-          Tandem.OPT_OUT,
-          { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 4 ) }
-        ) );
+        if ( photon.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH ) {
+          photonsToAdd.push( new Photon(
+            photon.positionProperty.value,
+            Photon.IR_WAVELENGTH,
+            Tandem.OPT_OUT,
+            { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 4 ) }
+          ) );
+        }
       }
+      const preMoveYPosition = photon.positionProperty.value.y;
       photon.step( dt );
+      const postMoveYPosition = photon.positionProperty.value.y;
+      if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+
+        // If this infrared photon crossed an active layer, consider turning it around.
+        this.atmosphereLayers.forEach( layer => {
+          if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
+
+            if ( dotRandom.nextDouble() > 0.5 ) {
+
+              // Reverse the direction of the photon.
+              photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
+            }
+          }
+        } );
+      }
     } );
 
     // And and remove photons from our list.

@@ -33,8 +33,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import SceneryEvent from '../../../../scenery/js/input/SceneryEvent.js';
 import Color from '../../../../scenery/js/util/Color.js';
 
-const sunlightString = greenhouseEffectStrings.fluxMeter.sunlight;
-const infraredString = greenhouseEffectStrings.fluxMeter.infrared;
+const sunlightString = greenhouseEffectStrings.sunlight;
+const infraredString = greenhouseEffectStrings.infrared;
 const energyFluxString = greenhouseEffectStrings.fluxMeter.energyFlux;
 
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates

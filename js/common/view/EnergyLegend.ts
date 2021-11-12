@@ -85,11 +85,11 @@ class EnergyLegend extends Panel {
 
     // labels
     const sunlightLabel = new Text(
-      greenhouseEffectStrings.energyLegend.sunlight,
+      greenhouseEffectStrings.sunlight,
       merge( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabel' ) } )
     );
     const infraredLabel = new Text(
-      greenhouseEffectStrings.energyLegend.infrared,
+      greenhouseEffectStrings.infrared,
       merge( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabel' ) } )
     );
 

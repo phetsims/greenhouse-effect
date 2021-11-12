@@ -20,7 +20,6 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
-import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from './CloudCheckbox.js';
@@ -28,6 +27,7 @@ import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 import WavesModel from '../model/WavesModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly updateSoundLoopLevels: () => void;
@@ -39,7 +39,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   constructor( model: WavesModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
-    const observationWindow = new LandscapeObservationWindow(
+    const observationWindow = new WaveLandscapeObservationWindow(
       model,
       tandem.createTandem( 'observationWindow' ),
       { showTemperatureGlow: true }

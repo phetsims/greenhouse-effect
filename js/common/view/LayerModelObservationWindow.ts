@@ -16,6 +16,9 @@ import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+import AtmosphereLayerNode from './AtmosphereLayerNode.js';
+import Photon from '../model/Photon.js';
+import PhotonNode from './PhotonNode.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
@@ -30,6 +33,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
+      maxTemperature: 380,
+
       thermometerNodeOptions: {
         bulbDiameter: 25,
         tubeHeight: 80,
@@ -38,7 +43,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         tickSpacing: 8,
         majorTickLength: 7,
         minorTickLength: 4
-
       },
 
       // @ts-ignore
@@ -51,7 +55,25 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       // phet-io
       tandem: tandem.createTandem( 'surfaceThermometer' )
     } );
-    this.addChild( surfaceThermometer );
+    this.backgroundLayer.addChild( surfaceThermometer );
+
+    // Add the visual representations of the atmosphere layers.
+    model.atmosphereLayers.forEach( atmosphereLayer => {
+      this.backgroundLayer.addChild( new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform ) );
+    } );
+
+    // Add and remove photon nodes as they come and go in the model.
+    // @ts-ignore
+    model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+      const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
+      this.presentationLayer.addChild( photonNode );
+      // @ts-ignore
+      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+        if ( removedPhoton === addedPhoton ) {
+          this.presentationLayer.removeChild( photonNode );
+        }
+      } );
+    } );
 
     // flux meter
     const fluxMeterNode = new FluxMeterNode(

@@ -112,7 +112,7 @@ class ConcentrationModel extends LayersModel {
 
         // Adjust the energy absorption amounts for each of the layers based on their altitude.  The calculation uses
         // the barometric formula, see https://en.wikipedia.org/wiki/Barometric_formula.
-        const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitudeProperty.value / SCALE_HEIGHT_OF_ATMOSPHERE );
+        const altitudeProportionFactor = Math.exp( -atmosphereLayer.altitude / SCALE_HEIGHT_OF_ATMOSPHERE );
         atmosphereLayer.energyAbsorptionProportionProperty.set( proportionToAbsorbAtSeaLevel * altitudeProportionFactor );
       } );
     } );

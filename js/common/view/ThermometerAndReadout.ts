@@ -37,6 +37,8 @@ const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenhe
 const ReadoutType = Enumeration.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
 type ThermometerAndReadoutOptions = {
+  minTemperature?: number,
+  maxTemperature?: number,
   readoutType?: any,
   listParentNode?: Node|null,
   thermometerNodeOptions?: ThermometerNodeOptions
@@ -52,7 +54,10 @@ class ThermometerAndReadout extends Node {
 
     const options = merge( {
 
-      // readout type that will be shown below the thermometer
+      minTemperature: 240,
+      maxTemperature: 300,
+
+      // readout type that will be shown below the thermometer, either SELECTABLE (i.e. a combo box) or fixed
       // @ts-ignore
       readoutType: ReadoutType.SELECTABLE,
 
@@ -69,7 +74,7 @@ class ThermometerAndReadout extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as ThermometerAndReadoutOptions;
+    }, providedOptions ) as Required<ThermometerAndReadoutOptions>;
 
     // options passed to the supertype later in mutate
     super();
@@ -79,8 +84,8 @@ class ThermometerAndReadout extends Node {
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
     const thermometerNode = new ThermometerNode(
-      240,
-      300,
+      options.minTemperature,
+      options.maxTemperature,
       model.surfaceTemperatureKelvinProperty,
       options.thermometerNodeOptions
     );
