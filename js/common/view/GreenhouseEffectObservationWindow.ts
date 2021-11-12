@@ -31,7 +31,7 @@ import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import ObservationWindowPDOMNode from '../../waves/view/ObservationWindowPDOMNode.js';
+import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
 import LayersModel from '../model/LayersModel.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
