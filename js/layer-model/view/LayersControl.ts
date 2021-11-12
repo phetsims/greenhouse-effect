@@ -46,7 +46,7 @@ class LayersControl extends Panel {
       labelContent: greenhouseEffectStrings.infrared,
 
       // phet-io
-      tandem: Tandem.REQUIRED
+      tandem: tandem
     };
 
     // Title text for the panel.
