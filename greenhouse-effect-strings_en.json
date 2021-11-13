@@ -35,6 +35,12 @@
   "infrared": {
     "value": "Infrared"
   },
+  "infraredAbsorbance": {
+    "value": "Infrared Absorbance"
+  },
+  "valuePercentPattern": {
+    "value": "{{value}}%"
+  },
   "concentrationPanel.greenhouseGasConcentration": {
     "value": "Greenhouse Gas Concentration"
   },

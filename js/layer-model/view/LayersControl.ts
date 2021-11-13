@@ -21,11 +21,14 @@ import HBox from '../../../../scenery/js/nodes/HBox.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
-const NON_TITLE_LABEL_FONT = new PhetFont( 14 );
-const CONTENT_SPACING = 10;
+const HEADING_FONT = new PhetFont( 14 );
+const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
 const PANEL_MARGIN = 5;
 
 class LayersControl extends Panel {
@@ -82,7 +85,7 @@ class LayersControl extends Panel {
 
     // label for picker that controls the number of layers
     const layerNumberControlLabel = new Text( greenhouseEffectStrings.absorbingLayers, {
-      font: NON_TITLE_LABEL_FONT
+      font: HEADING_FONT
     } );
 
     // Combine the control and label for controlling the number of layers into a single node.
@@ -91,9 +94,62 @@ class LayersControl extends Panel {
       spacing: 5
     } );
 
+    // label for the slider that controls IR absorbance
+    const irAbsorbanceSliderLabel = new Text( greenhouseEffectStrings.infraredAbsorbance, {
+      font: HEADING_FONT
+    } );
+
+    // convenience variable
+    const absorbanceRange = LayerModelModel.IR_ABSORBANCE_RANGE;
+
+    // slider for controlling the absorbance of the layers
+    const irAbsorbanceSlider = new HSlider(
+      layersModel.layersInfraredAbsorbanceProperty,
+      absorbanceRange,
+      {
+        trackSize: new Dimension2( width * 0.75, 1 ),
+        thumbSize: new Dimension2( 10, 20 ),
+        thumbTouchAreaXDilation: 8,
+        thumbTouchAreaYDilation: 8,
+        majorTickLength: 12,
+        minorTickLength: 6,
+        tickLabelSpacing: 2,
+
+        // phet-io
+        tandem: tandem.createTandem( 'absorbanceSlider' )
+      }
+    );
+    irAbsorbanceSlider.addMajorTick(
+      absorbanceRange.min,
+      new Text( StringUtils.fillIn( greenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.min * 100 } ), {
+        font: TICK_MARK_LABEL_FONT
+      } )
+    );
+    irAbsorbanceSlider.addMajorTick(
+      absorbanceRange.max,
+      new Text( StringUtils.fillIn( greenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.max * 100 } ), {
+        font: TICK_MARK_LABEL_FONT
+      } )
+    );
+    const tickMarkSpacing = 0.1;
+    for ( let minorTickMarkValue = absorbanceRange.min + tickMarkSpacing;
+          minorTickMarkValue < absorbanceRange.max;
+          minorTickMarkValue += tickMarkSpacing ) {
+
+      // Add minor tick mark to the slider.
+      irAbsorbanceSlider.addMinorTick( minorTickMarkValue );
+    }
+
+    // Put the label and slider for the IR absorbance control into their own VBox.
+    const irAbsorbanceControl = new VBox( {
+      children: [ irAbsorbanceSliderLabel, irAbsorbanceSlider ],
+      spacing: 5
+    } );
+
+
     const content = new VBox( {
-      children: [ titleNode, numberOfLayersControl ],
-      spacing: CONTENT_SPACING
+      children: [ titleNode, numberOfLayersControl, irAbsorbanceControl ],
+      spacing: 20
     } );
 
     super( content, options );

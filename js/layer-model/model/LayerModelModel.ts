@@ -20,12 +20,14 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 // constants
 const NOMINAL_PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
 const INITIAL_ABSORPTION_PROPORTION = 1.0;
+const IR_ABSORBANCE_RANGE = new Range( 0.1, 1 );
 
 /**
  * @constructor
  */
 class LayerModelModel extends LayersModel {
   readonly numberOfActiveAtmosphereLayersProperty: NumberProperty;
+  readonly layersInfraredAbsorbanceProperty: NumberProperty;
   readonly photons: ObservableArray<Photon>;
   photonCreationCountdown: number;
   readonly allPhotonsVisibleProperty: Property<boolean>;
@@ -40,10 +42,25 @@ class LayerModelModel extends LayersModel {
       atmosphereLayersInitiallyActive: false
     } );
 
+    // fields used for tracking and managing the photons
     this.photons = createObservableArray();
     this.photonCreationCountdown = 0;
     this.allPhotonsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
+    } );
+
+    // This Property is used to set the absorbance value used for all layers in this model.  It is part of the API for
+    // this class.
+    this.layersInfraredAbsorbanceProperty = new NumberProperty( INITIAL_ABSORPTION_PROPORTION, {
+      range: IR_ABSORBANCE_RANGE,
+      tandem: tandem.createTandem( 'layersInfraredAbsorbanceProperty' )
+    } );
+
+    // Monitor the absorbance setting and update the layers when changes occur.
+    this.layersInfraredAbsorbanceProperty.lazyLink( absorbance => {
+      this.atmosphereLayers.forEach( layer => {
+        layer.energyAbsorptionProportionProperty.set( absorbance );
+      } );
     } );
 
     const numberOfActiveLayers = this.atmosphereLayers.reduce( ( previousValue, layer ) => {
@@ -151,6 +168,9 @@ class LayerModelModel extends LayersModel {
     this.allPhotonsVisibleProperty.reset();
     super.reset();
   }
+
+  // static values
+  public static IR_ABSORBANCE_RANGE = IR_ABSORBANCE_RANGE;
 }
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
