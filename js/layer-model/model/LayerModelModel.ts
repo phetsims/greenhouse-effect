@@ -193,9 +193,12 @@ class LayerModelModel extends LayersModel {
    */
   public reset() {
     this.numberOfActiveAtmosphereLayersProperty.reset();
+    this.groundPhotonProductionTimeAccumulator = 0;
+    this.layersInfraredAbsorbanceProperty.reset();
     this.photons.clear();
     this.photonCreationCountdown = 0;
     this.allPhotonsVisibleProperty.reset();
+    this.atmosphereLayers.forEach( atmosphereLayer => { atmosphereLayer.reset(); } );
     super.reset();
   }
 
