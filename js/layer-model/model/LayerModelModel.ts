@@ -16,6 +16,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const NOMINAL_PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
@@ -31,6 +32,8 @@ class LayerModelModel extends LayersModel {
   readonly photons: ObservableArray<Photon>;
   photonCreationCountdown: number;
   readonly allPhotonsVisibleProperty: Property<boolean>;
+  private groundPhotonProductionRate: number;
+  private groundPhotonProductionTimeAccumulator: number;
 
   /**
    * @param {Tandem} tandem
@@ -81,6 +84,10 @@ class LayerModelModel extends LayersModel {
         layer.isActiveProperty.set( numberOfActiveLayers > index );
       } );
     } );
+
+    // TODO: The following code is somewhat temporary while photon production gets worked out.
+    this.groundPhotonProductionRate = 10;
+    this.groundPhotonProductionTimeAccumulator = 0;
   }
 
   /**
@@ -93,7 +100,7 @@ class LayerModelModel extends LayersModel {
 
     if ( this.sunEnergySource.isShiningProperty.value ) {
 
-      // Create photons if it's time to do so.
+      // Create photons from the sun if it's time to do so.
       this.photonCreationCountdown -= dt;
       while ( this.photonCreationCountdown <= 0 ) {
         this.photons.push( new Photon(
@@ -109,9 +116,10 @@ class LayerModelModel extends LayersModel {
       }
     }
 
-    // Update each of the individual photons.
     const photonsToRemove: Photon[] = [];
     const photonsToAdd: Photon[] = [];
+
+    // Update each of the individual photons.
     this.photons.forEach( photon => {
       if ( photon.positionProperty.value.y >= LayersModel.HEIGHT_OF_ATMOSPHERE && photon.velocity.y > 0 ) {
 
@@ -120,36 +128,58 @@ class LayerModelModel extends LayersModel {
       }
       else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
 
-        // This photon is at the ground.  If it is a visible light photon, convert it to an infrared photon and send it
-        // back up.
+        // This photon is moving downward and has reached the ground.  Remove it, thus simulating that it has been
+        // absorbed by the ground.
         photonsToRemove.push( photon );
-        if ( photon.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH ) {
-          photonsToAdd.push( new Photon(
-            photon.positionProperty.value,
-            Photon.IR_WAVELENGTH,
-            Tandem.OPT_OUT,
-            { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 4 ) }
-          ) );
+      }
+      else {
+        const preMoveYPosition = photon.positionProperty.value.y;
+        photon.step( dt );
+        const postMoveYPosition = photon.positionProperty.value.y;
+        if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+
+          // If this infrared photon crossed an active layer, consider turning it around.
+          this.atmosphereLayers.forEach( layer => {
+            if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
+
+              if ( dotRandom.nextDouble() < layer.energyAbsorptionProportionProperty.value ) {
+
+                // Reverse the direction of the photon.
+                photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
+              }
+            }
+          } );
         }
       }
-      const preMoveYPosition = photon.positionProperty.value.y;
-      photon.step( dt );
-      const postMoveYPosition = photon.positionProperty.value.y;
-      if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-
-        // If this infrared photon crossed an active layer, consider turning it around.
-        this.atmosphereLayers.forEach( layer => {
-          if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
-
-            if ( dotRandom.nextDouble() > 0.5 ) {
-
-              // Reverse the direction of the photon.
-              photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
-            }
-          }
-        } );
-      }
     } );
+
+    // Update the rate at which the ground is producing IR photons.
+    this.groundPhotonProductionRate = LayerModelModel.groundTemperatureToPhotonProductionRate(
+      this.groundLayer.temperatureProperty.value
+    );
+
+    // Produce photons from the ground based on its temperature.
+    if ( this.groundPhotonProductionRate > 0 ) {
+
+      this.groundPhotonProductionTimeAccumulator += dt;
+
+      while ( this.groundPhotonProductionTimeAccumulator >= 1 / this.groundPhotonProductionRate ) {
+
+        // Add an IR photon that is radiating from the ground.
+        photonsToAdd.push( new Photon(
+          new Vector2(
+            dotRandom.nextDoubleBetween( -GreenhouseEffectConstants.SUNLIGHT_SPAN / 2, GreenhouseEffectConstants.SUNLIGHT_SPAN / 2 ),
+            0
+          ),
+          Photon.IR_WAVELENGTH,
+          Tandem.OPT_OUT,
+          { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 8 ) }
+        ) );
+
+        // Reduce the accumulator to reflect that a photon has been produced.
+        this.groundPhotonProductionTimeAccumulator -= 1 / this.groundPhotonProductionRate;
+      }
+    }
 
     // And and remove photons from our list.
     photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
@@ -167,6 +197,16 @@ class LayerModelModel extends LayersModel {
     this.photonCreationCountdown = 0;
     this.allPhotonsVisibleProperty.reset();
     super.reset();
+  }
+
+  /**
+   * Calculate the rate of photon production for the ground based on its temperature.
+   * @param groundTemperature
+   */
+  static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
+
+    // The formula used here was empirically determined to get the desired density of photons.
+    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
   }
 
   // static values
