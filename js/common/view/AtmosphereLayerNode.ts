@@ -8,7 +8,6 @@
 
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -23,29 +22,14 @@ import AtmosphereLayer from '../model/AtmosphereLayer.js';
 
 // constants
 const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
-
-type EnergyAbsorbingEmittingLayerNodeOptions = {
-  lineOptions?: {
-    stroke?: Color,
-    lineWidth?: number
-  }
-} & NodeOptions;
+const LAYER_RECTANGLE_STROKE_BASE_COLOR = Color.DARK_GRAY;
+const LAYER_RECTANGLE_FILL_BASE_COLOR = Color.LIGHT_GRAY;
+const MINIMUM_OPACITY = 0.4;
+const MAXIMUM_OPACITY = 0.85;
 
 class AtmosphereLayerNode extends Node {
 
-  constructor( atmosphereLayer: AtmosphereLayer,
-               modelViewTransform: ModelViewTransform2,
-               options?: EnergyAbsorbingEmittingLayerNodeOptions ) {
-
-    options = merge(
-      {
-        lineOptions: {
-          stroke: Color.BLACK,
-          lineWidth: 4
-        }
-      },
-      options
-    );
+  constructor( atmosphereLayer: AtmosphereLayer, modelViewTransform: ModelViewTransform2 ) {
 
     const mainBody = new Rectangle(
       0,
@@ -53,10 +37,23 @@ class AtmosphereLayerNode extends Node {
       modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH ),
       LAYER_THICKNESS,
       {
-        fill: Color.LIGHT_GRAY,
+        stroke: LAYER_RECTANGLE_STROKE_BASE_COLOR,
+        fill: LAYER_RECTANGLE_FILL_BASE_COLOR,
         centerY: modelViewTransform.modelToViewY( atmosphereLayer.altitude )
       }
     );
+
+    // Adjust the opacity of the stroke and fill of the layer based on the absorbance.
+    atmosphereLayer.energyAbsorptionProportionProperty.link( energyAbsorptionProportion => {
+
+      // Map the proportion to an opacity.  We don't want to go 100% opaque or the photons would be obscured when they
+      // pass through the layer, so this mapping was empirically determined to look decent.
+      const opacity = MINIMUM_OPACITY + ( energyAbsorptionProportion * ( MAXIMUM_OPACITY - MINIMUM_OPACITY ) );
+      // @ts-ignore
+      mainBody.fill = LAYER_RECTANGLE_FILL_BASE_COLOR.withAlpha( opacity );
+      // @ts-ignore
+      mainBody.stroke = LAYER_RECTANGLE_STROKE_BASE_COLOR.withAlpha( opacity );
+    } );
 
     const numberDisplay = new NumberDisplay( atmosphereLayer.temperatureProperty, new Range( 0, 999 ), {
       centerY: mainBody.centerY,
@@ -75,7 +72,7 @@ class AtmosphereLayerNode extends Node {
     } );
 
     // supertype constructor
-    super( merge( { children: [ mainBody, numberDisplay ] }, options ) );
+    super( { children: [ mainBody, numberDisplay ] } );
 
     // This node should only be visible when the atmosphere layer is active.
     atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );

@@ -59,7 +59,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( atmosphereLayer => {
-      this.backgroundLayer.addChild( new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform ) );
+      this.foregroundLayer.addChild( new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform ) );
     } );
 
     // Add and remove photon nodes as they come and go in the model.
