@@ -151,7 +151,8 @@ class LayersModel extends GreenhouseEffectModel {
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.
     const distanceBetweenAtmosphereLayers = HEIGHT_OF_ATMOSPHERE / ( options.numberOfAtmosphereLayers + 1 );
 
-    // Add the atmosphere layers.
+    // Add the atmosphere layers.  These MUST be added in order of increasing altitude, since some of the other code
+    // assumes that this is the case.
     _.times( options.numberOfAtmosphereLayers, index => {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
@@ -211,6 +212,44 @@ class LayersModel extends GreenhouseEffectModel {
       // Adjust remaining time for stepping the model.
       this.modelSteppingTime -= MODEL_TIME_STEP;
     }
+  }
+
+  /**
+   * Find a layer, if there is one, that would be crossed by an object traveling from the start altitude to the end
+   * altitude.  If there are none, null is returned.  If there are several, the first one that would be crossed is
+   * returned.
+   *
+   * Comparisons are exclusive for the first altitude, inclusive for the second.  See the code for details.
+   *
+   * This is intended to be pretty efficient, hence the use of regular 'for' loops and 'break' statements.
+   */
+  protected findCrossedAtmosphereLayer( startAltitude: number, endAltitude: number ): AtmosphereLayer | null {
+    let crossedLayer = null;
+    if ( startAltitude < endAltitude ) {
+      for ( let i = 0; i < this.atmosphereLayers.length; i++ ) {
+        const atmosphereLayer = this.atmosphereLayers[ i ];
+        if ( atmosphereLayer.isActiveProperty.value &&
+             startAltitude < atmosphereLayer.altitude &&
+             endAltitude >= atmosphereLayer.altitude ) {
+
+          crossedLayer = atmosphereLayer;
+          break;
+        }
+      }
+    }
+    else if ( startAltitude > endAltitude ) {
+      for ( let i = this.atmosphereLayers.length - 1; i >= 0; i-- ) {
+        const atmosphereLayer = this.atmosphereLayers[ i ];
+        if ( atmosphereLayer.isActiveProperty.value &&
+             startAltitude > atmosphereLayer.altitude &&
+             endAltitude <= atmosphereLayer.altitude ) {
+
+          crossedLayer = atmosphereLayer;
+          break;
+        }
+      }
+    }
+    return crossedLayer;
   }
 
   /**

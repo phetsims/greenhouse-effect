@@ -93,8 +93,6 @@ class LayerModelModel extends LayersModel {
   /**
    * Step forward in time. Create new photons if it is time to do so, remove old photons, and animate existing ones.
    * @public
-   *
-   * @param {number} dt
    */
   stepModel( dt: number ) {
 
@@ -123,7 +121,7 @@ class LayerModelModel extends LayersModel {
     this.photons.forEach( photon => {
       if ( photon.positionProperty.value.y >= LayersModel.HEIGHT_OF_ATMOSPHERE && photon.velocity.y > 0 ) {
 
-        // This photon is moving upwards and is out of the simulation area, so remove it.
+        // This photon is moving upwards and is out of the simulated area, so remove it.
         photonsToRemove.push( photon );
       }
       else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
@@ -133,22 +131,26 @@ class LayerModelModel extends LayersModel {
         photonsToRemove.push( photon );
       }
       else {
-        const preMoveYPosition = photon.positionProperty.value.y;
+        const preMoveAltitude = photon.positionProperty.value.y;
         photon.step( dt );
-        const postMoveYPosition = photon.positionProperty.value.y;
+        const postMoveAltitude = photon.positionProperty.value.y;
         if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
 
-          // If this infrared photon crossed an active layer, consider turning it around.
-          this.atmosphereLayers.forEach( layer => {
-            if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
+          // Check if this photon crossed any atmosphere layers this step.
+          const crossedAtmosphereLayer = this.findCrossedAtmosphereLayer( preMoveAltitude, postMoveAltitude );
 
-              if ( dotRandom.nextDouble() < layer.energyAbsorptionProportionProperty.value ) {
+          if ( crossedAtmosphereLayer ) {
 
-                // Reverse the direction of the photon.
+            // The photon crossed a layer.  Decide whether it should interact or pass right through.
+            if ( dotRandom.nextDouble() < crossedAtmosphereLayer.energyAbsorptionProportionProperty.value ) {
+
+              // For the interaction, reverse it with 50% probability.
+              if ( dotRandom.nextBoolean() ) {
                 photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
+                photon.positionProperty.set( new Vector2( photon.positionProperty.value.x, crossedAtmosphereLayer.altitude ) );
               }
             }
-          } );
+          }
         }
       }
     } );
