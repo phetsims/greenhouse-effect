@@ -14,16 +14,10 @@ import Cloud from '../../common/model/Cloud.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
-import Photon from '../../common/model/Photon.js';
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import LayersModel from '../../common/model/LayersModel.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-
-// constants
-const PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
+import GroundLayer from '../../common/model/GroundLayer.js';
+import PhotonCollection from '../../common/model/PhotonCollection.js';
 
 /**
  * @constructor
@@ -31,9 +25,8 @@ const PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
 class PhotonsModel extends ConcentrationModel {
 
   private readonly numberOfActiveCloudsProperty: Property<number>;
-  readonly photons: ObservableArray<Photon>;
-  photonCreationCountdown: number;
   readonly allPhotonsVisibleProperty: Property<boolean>;
+  readonly photonCollection: PhotonCollection;
 
   /**
    * @param {Tandem} tandem
@@ -41,9 +34,9 @@ class PhotonsModel extends ConcentrationModel {
   constructor( tandem: Tandem ) {
     super( tandem );
 
-    // fields related to the photons and their management
-    this.photons = createObservableArray();
-    this.photonCreationCountdown = 0;
+    // the collection of visible and IR photons that move around and interact with the ground and atmosphere
+    this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers );
+
     this.allPhotonsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
     } );
@@ -72,76 +65,23 @@ class PhotonsModel extends ConcentrationModel {
    * @param {number} dt
    */
   stepModel( dt: number ) {
-
-    if ( this.sunEnergySource.isShiningProperty.value ) {
-
-      // Create photons if it's time to do so.
-      this.photonCreationCountdown -= dt;
-      while ( this.photonCreationCountdown <= 0 ) {
-        this.photons.push( new Photon(
-          new Vector2(
-            -LayersModel.SUNLIGHT_SPAN / 2 + dotRandom.nextDouble() * LayersModel.SUNLIGHT_SPAN,
-            LayersModel.HEIGHT_OF_ATMOSPHERE
-          ),
-          Photon.VISIBLE_WAVELENGTH,
-          Tandem.OPT_OUT,
-          { initialVelocity: new Vector2( 0, -Photon.SPEED ) }
-        ) );
-        this.photonCreationCountdown += 1 / PHOTON_CREATION_RATE;
-      }
-    }
-
-    // Update each of the individual photons.
-    const photonsToRemove: Photon[] = [];
-    const photonsToAdd: Photon[] = [];
-    this.photons.forEach( photon => {
-      if ( photon.positionProperty.value.y >= LayersModel.HEIGHT_OF_ATMOSPHERE && photon.velocity.y > 0 ) {
-
-        // This photon is moving upwards and is out of the simulation area, so remove it.
-        photonsToRemove.push( photon );
-      }
-      else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
-
-        // This photon is at the ground.  If it is a visible light photon, convert it to an infrared photon and send it
-        // back up.
-        photonsToRemove.push( photon );
-        if ( photon.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH ) {
-          photonsToAdd.push( new Photon(
-            photon.positionProperty.value,
-            Photon.IR_WAVELENGTH,
-            Tandem.OPT_OUT,
-            { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 4 ) }
-          ) );
-        }
-      }
-      const preMoveYPosition = photon.positionProperty.value.y;
-      photon.step( dt );
-      const postMoveYPosition = photon.positionProperty.value.y;
-      if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-
-        // If this infrared photon crossed an active layer, consider turning it around.
-        this.atmosphereLayers.forEach( layer => {
-          if ( layer.isActiveProperty.value && preMoveYPosition < layer.altitude && postMoveYPosition > layer.altitude ) {
-
-            if ( dotRandom.nextDouble() > 0.5 ) {
-
-              // Reverse the direction of the photon.
-              photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
-            }
-          }
-        } );
-      }
-    } );
-
-    // And and remove photons from our list.
-    photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
-    photonsToAdd.forEach( photon => { this.photons.push( photon ); } );
-
+    this.photonCollection.step( dt );
     super.stepModel( dt );
   }
 
   reset() {
+    this.photonCollection.reset();
     super.reset();
+  }
+
+  /**
+   * Calculate the rate of photon production for the ground based on its temperature.
+   * @param groundTemperature
+   */
+  static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
+
+    // The formula used here was empirically determined to get the desired density of photons.
+    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
   }
 }
 

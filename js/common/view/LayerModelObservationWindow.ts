@@ -13,20 +13,16 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
-import LayersModel from '../model/LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import Photon from '../model/Photon.js';
 import PhotonNode from './PhotonNode.js';
+import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
-  /**
-   * @param {LayersModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model: LayersModel, tandem: Tandem ) {
+  constructor( model: LayerModelModel, tandem: Tandem ) {
 
     super( model, tandem, { groundBaseColorProperty: new ColorProperty( Color.GRAY ) } );
 
@@ -64,11 +60,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add and remove photon nodes as they come and go in the model.
     // @ts-ignore
-    model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       this.presentationLayer.addChild( photonNode );
       // @ts-ignore
-      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+      model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
         if ( removedPhoton === addedPhoton ) {
           this.presentationLayer.removeChild( photonNode );
         }

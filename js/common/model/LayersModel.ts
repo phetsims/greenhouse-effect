@@ -265,7 +265,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.temperatureUnitsProperty.reset();
     this.sunEnergySource.reset();
     this.groundLayer.reset();
-    this.atmosphereLayers.forEach( atmosphereLayer => {atmosphereLayer.reset(); } );
+    this.atmosphereLayers.forEach( atmosphereLayer => { atmosphereLayer.reset(); } );
     this.emEnergyPackets.length = 0;
   }
 

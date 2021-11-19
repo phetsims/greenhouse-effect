@@ -17,11 +17,11 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import { GreenhouseEffectObservationWindowOptions } from '../../common/view/GreenhouseEffectObservationWindow.js';
 import PhotonNode from '../../common/view/PhotonNode.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Photon from '../../common/model/Photon.js';
+import PhotonsModel from '../model/PhotonsModel.js';
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
@@ -30,7 +30,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
    * @param {Tandem} tandem
    * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
    */
-  constructor( model: ConcentrationModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: PhotonsModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
     super( model, tandem, providedOptions );
 
@@ -40,11 +40,11 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
     // Add and remove photon nodes as they come and go in the model.
     // @ts-ignore
-    model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       photonsRootNode.addChild( photonNode );
       // @ts-ignore
-      model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+      model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
         if ( removedPhoton === addedPhoton ) {
           photonsRootNode.removeChild( photonNode );
         }
@@ -65,7 +65,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
 
     // @ts-ignore
-    model.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
         if ( addedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
           irPhotonEmittedSoundClip.play();
@@ -76,7 +76,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
       }
     } );
     // @ts-ignore
-    model.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+    model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
         if ( removedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
           irPhotonAbsorbedSoundClip.play();
