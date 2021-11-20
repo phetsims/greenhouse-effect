@@ -56,19 +56,19 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     //                        be modularized, probably into its own class.
     const photonSoundLevel = 0.2;
     const playThreshold = 0.5;
-    const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
+    const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
     const irPhotonEmittedSoundClip = new SoundClip( irPhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
     soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
-    const visiblePhotonAbsorbedSoundClip = new SoundClip( visiblePhotonAbsorbedSound, { initialOutputLevel: photonSoundLevel } );
+    const visiblePhotonAbsorbedSoundClip = new SoundClip( visiblePhotonAbsorbedSound, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( visiblePhotonAbsorbedSoundClip );
-    const visiblePhotonEmittedSoundClip = new SoundClip( visiblePhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
+    const visiblePhotonEmittedSoundClip = new SoundClip( visiblePhotonEmittedSound, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
 
     // @ts-ignore
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
-        if ( addedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+        if ( addedPhoton.isInfrared() && addedPhoton.positionProperty.value.y > 0 ) {
           irPhotonEmittedSoundClip.play();
         }
         else {

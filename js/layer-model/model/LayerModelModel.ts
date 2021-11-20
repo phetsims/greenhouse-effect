@@ -37,7 +37,12 @@ class LayerModelModel extends LayersModel {
     } );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere
-    this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers );
+    this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
+      photonAbsorbingEmittingLayerOptions: {
+        photonMaxLateralJumpProportion: 0,
+        photonAbsorptionTime: 0.5
+      }
+    } );
 
     this.allPhotonsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )

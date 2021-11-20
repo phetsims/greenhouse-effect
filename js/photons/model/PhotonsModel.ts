@@ -38,7 +38,7 @@ class PhotonsModel extends ConcentrationModel {
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
       photonAbsorbingEmittingLayerOptions: {
         photonAbsorptionTime: 0.1,
-        photonMaxLateralJumpProportion: 0.005
+        photonMaxLateralJumpProportion: 0
       }
     } );
 
