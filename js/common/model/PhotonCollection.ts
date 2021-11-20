@@ -24,7 +24,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 
 // constants
-const SUN_PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
+const SUN_PHOTON_CREATION_RATE = 2; // photons created per second (from the sun)
 
 type PhotonCollectionOptions = {
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
@@ -226,7 +226,7 @@ class PhotonCollection {
   static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
 
     // The formula used here was empirically determined to get the desired density of photons.
-    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 20 );
+    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
   }
 }
 
