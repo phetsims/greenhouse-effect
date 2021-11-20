@@ -11,11 +11,11 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
-type GreenhouseEffectModelOptions = Partial<PhetioObjectOptions>;
+type GreenhouseEffectModelOptions = PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {
   readonly timeSpeedProperty: EnumerationProperty;

@@ -10,7 +10,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -59,12 +59,9 @@ class EnergyRateTracker extends PhetioObject {
   private readonly energyInfoQueue: EnergyInfoQueueItem[];
   private readonly accumulationPeriod: number;
 
-  /**
-   * @param [options]
-   */
-  constructor( options? : Partial<EnergyRateTrackerOptions> ) {
+  constructor( providedOptions?: Partial<EnergyRateTrackerOptions> ) {
 
-    options = merge( {
+    const options = merge( {
 
       // {number} - the period of time over which the recorded values are averaged
       accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD,
@@ -73,7 +70,7 @@ class EnergyRateTracker extends PhetioObject {
       tandem: Tandem.REQUIRED,
       phetioType: EnergyRateTracker.EnergyRateTrackerIO
 
-    }, options ) as EnergyRateTrackerOptions;
+    }, providedOptions ) as EnergyRateTrackerOptions;
 
     super( options );
 
@@ -152,7 +149,8 @@ class EnergyRateTracker extends PhetioObject {
 
 // type definition for options specific to this class
 type EnergyRateTrackerOptions = {
-  accumulationPeriod: number
+  accumulationPeriod: number;
+  tandem: Tandem;
 } & PhetioObjectOptions;
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );

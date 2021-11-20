@@ -30,6 +30,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Cloud from './Cloud.js';
 import merge from '../../../../phet-core/js/merge.js';
 import FluxMeter from './FluxMeter.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
