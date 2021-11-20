@@ -54,7 +54,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
     // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
     //                        be modularized, probably into its own class.
-    const photonSoundLevel = 0.2;
+    const photonSoundLevel = 0.08;
     const playThreshold = 0.5;
     const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
