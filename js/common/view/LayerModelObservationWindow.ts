@@ -64,11 +64,13 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       this.presentationLayer.addChild( photonNode );
       // @ts-ignore
-      model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+      const photonRemovedListener = removedPhoton => {
         if ( removedPhoton === addedPhoton ) {
           this.presentationLayer.removeChild( photonNode );
+          model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
         }
-      } );
+      };
+      model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
     } );
 
     // flux meter

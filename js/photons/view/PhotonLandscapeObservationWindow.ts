@@ -43,12 +43,13 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       photonsRootNode.addChild( photonNode );
-      // @ts-ignore
-      model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
+      const photonRemovedListener = ( removedPhoton: Photon ) => {
         if ( removedPhoton === addedPhoton ) {
           photonsRootNode.removeChild( photonNode );
+          model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
         }
-      } );
+      };
+      model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
     } );
 
     // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should

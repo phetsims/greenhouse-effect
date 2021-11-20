@@ -21,7 +21,7 @@ import Photon from './Photon.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import LayersModel from './LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions } from './PhotonAbsorbingEmittingLayer.js';
+import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 
 // constants
 const SUN_PHOTON_CREATION_RATE = 8; // photons created per second (from the sun)
@@ -35,38 +35,53 @@ class PhotonCollection {
   readonly photons: ObservableArray<Photon> = createObservableArray();
   private readonly sunEnergySource: SunEnergySource;
   private readonly groundLayer: GroundLayer;
-  private readonly atmosphereToPhotonAbsorbingEmittingLayersMap: Map<AtmosphereLayer, PhotonAbsorbingEmittingLayer>;
   private photonCreationCountdown: number = 0;
   private groundPhotonProductionRate: number = 0;
   private groundPhotonProductionTimeAccumulator: number = 0;
+  private readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
 
   constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
                atmosphereLayers: AtmosphereLayer[],
                providedOptions?: PhotonCollectionOptions ) {
 
+    // Some of the code in this class depends on the atmosphere layers being in ascending order of altitude, so verify
+    // that this is true.
+    if ( assert && atmosphereLayers.length > 1 ) {
+      let layersInAscendingOrder = true;
+      for ( let i = 1; i < atmosphereLayers.length; i++ ) {
+        if ( atmosphereLayers[ i ].altitude <= atmosphereLayers[ i - 1 ].altitude ) {
+          layersInAscendingOrder = false;
+          break;
+        }
+      }
+      assert( layersInAscendingOrder, 'atmosphere layers must be in order of ascending altitude' );
+    }
+
     const options = merge( {
 
       // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
       photonAbsorbingEmittingLayerOptions: {
-        photonMaxLateralJumpProportion: 0.01,
-        photonAbsorptionTime: 0.1
+        photonMaxLateralJumpProportion: 0.1,
+        photonAbsorptionTime: 1.0
       }
     }, providedOptions ) as PhotonCollectionOptions;
 
     this.sunEnergySource = sunEnergySource;
     this.groundLayer = groundLayer;
 
-    this.atmosphereToPhotonAbsorbingEmittingLayersMap = new Map<AtmosphereLayer, PhotonAbsorbingEmittingLayer>();
-    atmosphereLayers.forEach( atmosphereLayer => {
-      this.atmosphereToPhotonAbsorbingEmittingLayersMap.set(
+    // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit
+    // photons.
+    this.photonAbsorbingEmittingLayers = atmosphereLayers.map(
+      atmosphereLayer => new PhotonAbsorbingEmittingLayer(
+        this.photons,
         atmosphereLayer,
-        new PhotonAbsorbingEmittingLayer( options.photonAbsorbingEmittingLayerOptions )
-      );
-    } );
+        options.photonAbsorbingEmittingLayerOptions
+      ) );
   }
 
   step( dt: number ) {
+
     if ( this.sunEnergySource.isShiningProperty.value ) {
 
       // Create photons from the sun if it's time to do so.
@@ -97,28 +112,60 @@ class PhotonCollection {
       }
       else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
 
-        // This photon is moving downward and has reached the ground.  Remove it, thus simulating that it has been
-        // absorbed by the ground.
+        // This photon is moving downward and has reached the ground.  Remove it, thus simulating absorption into the
+        // ground.
         photonsToRemove.push( photon );
       }
       else {
-        const preMoveAltitude = photon.positionProperty.value.y;
+
+        // Move the photon.
         photon.step( dt );
-        const postMoveAltitude = photon.positionProperty.value.y;
-        if ( photon.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
 
-          // Check if this photon crossed any atmosphere layers this step.
-          const crossedAtmosphereLayer = this.findCrossedAtmosphereLayer( preMoveAltitude, postMoveAltitude );
+        // Test the photon against all the layers to see if it should be absorbed.  This loop is written for efficiency
+        // so that it does the least number of comparisons possible, hence the use of old-style C for loops and `break`
+        // statements.
 
-          if ( crossedAtmosphereLayer ) {
+        // If this is an infrared photon, test is against the atmosphere layers to see if it should be absorbed.
+        if ( photon.isInfrared() ) {
 
-            // The photon crossed a layer.  Decide whether it should interact or pass right through.
-            if ( dotRandom.nextDouble() < crossedAtmosphereLayer.energyAbsorptionProportionProperty.value ) {
+          // the following comparison loops are written for efficiency so that it does the least number of comparisons
+          // possible, hence the use of classic C-style for loops and `break` statements.
+          const photonMovingDown = photon.previousPosition.y > photon.positionProperty.value.y;
+          if ( photonMovingDown ) {
+            for ( let i = this.photonAbsorbingEmittingLayers.length - 1; i >= 0; i-- ) {
+              const photonAbsorbingEmittingLayer = this.photonAbsorbingEmittingLayers[ i ];
 
-              // For the interaction, reverse it with 50% probability.
-              if ( dotRandom.nextBoolean() ) {
-                photon.velocity = new Vector2( photon.velocity.x, -photon.velocity.y );
-                photon.positionProperty.set( new Vector2( photon.positionProperty.value.x, crossedAtmosphereLayer.altitude ) );
+              // Test the photon against this layer.  This may end up absorbing the photon.
+              const photonCrossingTestResult = photonAbsorbingEmittingLayer.checkForPhotonInteraction( photon );
+
+              // Continue only to the point where the photon has been absorbed, has crossed a layer without being
+              // absorbed, or still has a chance of crossing another layer in the direction it's heading.
+              // @ts-ignore
+              if ( photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ||
+                   // @ts-ignore
+                   photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_AND_ABSORBED ||
+                   // @ts-ignore
+                   photonCrossingTestResult === PhotonCrossingTestResult.FULLY_ABOVE ) {
+                break;
+              }
+            }
+          }
+          else {
+            for ( let i = 0; i < this.photonAbsorbingEmittingLayers.length; i++ ) {
+              const photonAbsorbingEmittingLayer = this.photonAbsorbingEmittingLayers[ i ];
+
+              // Test the photon against this layer.  This may end up absorbing the photon.
+              const photonCrossingTestResult = photonAbsorbingEmittingLayer.checkForPhotonInteraction( photon );
+
+              // Continue only to the point where the photon has been absorbed, has crossed a layer without being
+              // absorbed, or still has a chance of crossing another layer in the direction it's heading.
+              // @ts-ignore
+              if ( photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ||
+                   // @ts-ignore
+                   photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_AND_ABSORBED ||
+                   // @ts-ignore
+                   photonCrossingTestResult === PhotonCrossingTestResult.FULLY_BELOW ) {
+                break;
               }
             }
           }
@@ -157,6 +204,9 @@ class PhotonCollection {
     // And and remove photons from our list.
     photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
     photonsToAdd.forEach( photon => { this.photons.push( photon ); } );
+
+    // Test for photon interactions with the layers.
+    this.photonAbsorbingEmittingLayers.forEach( layer => layer.step( dt ) );
   }
 
   /**
@@ -164,49 +214,9 @@ class PhotonCollection {
    */
   reset() {
     this.photons.clear();
+    this.photonAbsorbingEmittingLayers.forEach( layer => layer.reset() );
     this.groundPhotonProductionRate = 0;
     this.groundPhotonProductionTimeAccumulator = 0;
-  }
-
-  /**
-   * Find a layer, if there is one, that would be crossed by an object traveling from the start altitude to the end
-   * altitude.  If there are none, null is returned.  If there are several, the first one that would be crossed is
-   * returned.
-   *
-   * Comparisons are exclusive for the first altitude, inclusive for the second.  See the code for details.
-   *
-   * This is intended to be pretty efficient, hence the use of regular 'for' loops and 'break' statements.
-   *
-   * TODO: This is temporary on 11/19/2021, need to replace with the right thing.
-   */
-  protected findCrossedAtmosphereLayer( startAltitude: number, endAltitude: number ): AtmosphereLayer | null {
-    const atmosphereLayers = Array.from( this.atmosphereToPhotonAbsorbingEmittingLayersMap.keys() );
-    let crossedLayer = null;
-    if ( startAltitude < endAltitude ) {
-      for ( let i = 0; i < atmosphereLayers.length; i++ ) {
-        const atmosphereLayer = atmosphereLayers[ i ];
-        if ( atmosphereLayer.isActiveProperty.value &&
-             startAltitude < atmosphereLayer.altitude &&
-             endAltitude >= atmosphereLayer.altitude ) {
-
-          crossedLayer = atmosphereLayer;
-          break;
-        }
-      }
-    }
-    else if ( startAltitude > endAltitude ) {
-      for ( let i = atmosphereLayers.length - 1; i >= 0; i-- ) {
-        const atmosphereLayer = atmosphereLayers[ i ];
-        if ( atmosphereLayer.isActiveProperty.value &&
-             startAltitude > atmosphereLayer.altitude &&
-             endAltitude <= atmosphereLayer.altitude ) {
-
-          crossedLayer = atmosphereLayer;
-          break;
-        }
-      }
-    }
-    return crossedLayer;
   }
 
   /**
@@ -216,7 +226,7 @@ class PhotonCollection {
   static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
 
     // The formula used here was empirically determined to get the desired density of photons.
-    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
+    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 20 );
   }
 }
 

@@ -30,8 +30,9 @@ type PhotonOptions = {
 
 class Photon {
   readonly positionProperty: Vector2Property;
+  readonly previousPosition: Vector2;
   readonly wavelength: number;
-  velocity: Vector2;
+  readonly velocity: Vector2;
 
   constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, options?: Partial<PhotonOptions> ) {
 
@@ -43,16 +44,18 @@ class Photon {
 
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
 
-    // @public (read-only) - position in model space
+    this.wavelength = wavelength;
+
+    // position in model space
     this.positionProperty = new Vector2Property( initialPosition, {
       tandem: tandem.createTandem( 'positionProperty' )
     } );
 
-    // @public {Vector2} - velocity vector, in meters/s
-    this.velocity = options.initialVelocity || new Vector2( 0, PHOTON_SPEED );
+    // previous position, used for checking when the photon has crossed some threshold
+    this.previousPosition = new Vector2( initialPosition.x, initialPosition.y );
 
-    // @public (read-only) {number}
-    this.wavelength = wavelength;
+    // velocity vector, in meters/s
+    this.velocity = options.initialVelocity || new Vector2( 0, PHOTON_SPEED );
   }
 
   /**
@@ -60,7 +63,35 @@ class Photon {
    * @public
    */
   step( dt: number ) {
+
+    // Keep track of the previous position, meaning the position just prior to the most recent update.  This is used to
+    // detect whether a photon has crossed a boundary.
+    this.previousPosition.set( this.positionProperty.value );
+
+    // Update the position.
     this.positionProperty.set( this.positionProperty.value.plus( this.velocity.timesScalar( dt ) ) );
+  }
+
+  /**
+   * convenience method for determining whether this is a visible photon
+   */
+  isVisible() {
+    return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
+  }
+
+  /**
+   * convenience method for determining whether this is an infrared photon
+   */
+  isInfrared() {
+    return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
+  }
+
+  /**
+   * Reset the previous position by making it match the current position.  This is generally used when a photon is
+   * being released from something and we don't want to detect false layer crossing after the release.
+   */
+  resetPreviousPosition() {
+    this.previousPosition.set( this.positionProperty.value );
   }
 
   // static values

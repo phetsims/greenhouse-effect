@@ -35,7 +35,12 @@ class PhotonsModel extends ConcentrationModel {
     super( tandem );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere
-    this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers );
+    this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
+      photonAbsorbingEmittingLayerOptions: {
+        photonAbsorptionTime: 0.1,
+        photonMaxLateralJumpProportion: 0.005
+      }
+    } );
 
     this.allPhotonsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
