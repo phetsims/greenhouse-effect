@@ -11,7 +11,7 @@
       "path": "../joist/tsconfig-module.json"
     },
     {
-      "path": "../twixt"
+      "path": "../twixt/tsconfig-module.json"
     }
   ],
   "include": [
