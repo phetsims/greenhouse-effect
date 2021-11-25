@@ -32,6 +32,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
 
     const mockup = new Image( layerModelScreenMockup, {
       center: this.layoutBounds.center,
+      // @ts-ignore TODO: Image doesn't have minWidth
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value

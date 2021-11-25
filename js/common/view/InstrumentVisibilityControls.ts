@@ -15,6 +15,7 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import LayersModel from '../model/LayersModel.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 
 type InstrumentVisibilityControlsOptions = {
   vBoxOptions?: { align: string, spacing: number, children?: Node[] }

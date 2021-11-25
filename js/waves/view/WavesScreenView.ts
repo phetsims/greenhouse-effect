@@ -88,6 +88,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
     const mockup = new Image( wavesScreenMockup, {
       center: this.layoutBounds.center,
+      // @ts-ignore TODO: Image doesn't have minWidth
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value

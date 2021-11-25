@@ -18,7 +18,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -188,7 +188,7 @@ class GreenhouseEffectObservationWindow extends Node {
     const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
 
     // Update the ground as the base color changes.
-    groundBaseColorProperty.link( baseColor => {
+    groundBaseColorProperty.link( ( baseColor: Color ) => {
       // @ts-ignore
       groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
         .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
