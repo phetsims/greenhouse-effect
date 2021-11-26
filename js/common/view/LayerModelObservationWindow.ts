@@ -7,8 +7,8 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Color from '../../../../scenery/js/util/Color.js';
-import ColorProperty from '../../../../scenery/js/util/ColorProperty.js';
+import { Color } from '../../../../scenery/js/imports.js';
+import { ColorProperty } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';

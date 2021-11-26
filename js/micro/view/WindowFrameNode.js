@@ -8,7 +8,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
+import { CanvasNode } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WindowFrameNode extends CanvasNode {

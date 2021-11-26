@@ -7,7 +7,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';

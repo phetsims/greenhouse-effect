@@ -10,10 +10,10 @@
 
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Color from '../../../../scenery/js/util/Color.js';
-import ColorProperty from '../../../../scenery/js/util/ColorProperty.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
+import { ColorProperty } from '../../../../scenery/js/imports.js';
 import barnAndSheepImage from '../../../images/barn-and-sheep_png.js';
 import glacierImage from '../../../images/glacier_png.js';
 import nineteenFiftyBackgroundImage from '../../../images/nineteenFiftyBackground_png.js';

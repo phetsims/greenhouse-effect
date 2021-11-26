@@ -18,11 +18,11 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import globalKeyStateTracker from '../../../../scenery/js/accessibility/globalKeyStateTracker.js';
-import KeyboardUtils from '../../../../scenery/js/accessibility/KeyboardUtils.js';
-import AriaHasPopUpMutator from '../../../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import { globalKeyStateTracker } from '../../../../scenery/js/imports.js';
+import { KeyboardUtils } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';

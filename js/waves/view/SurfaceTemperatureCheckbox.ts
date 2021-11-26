@@ -7,8 +7,8 @@
  */
 
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { LinearGradient } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';

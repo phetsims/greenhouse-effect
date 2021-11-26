@@ -4,7 +4,7 @@
  * @author John Blanco
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';

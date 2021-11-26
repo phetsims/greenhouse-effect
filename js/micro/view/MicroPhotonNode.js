@@ -7,8 +7,8 @@
  * @author Jesse Greenberg
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import microwavePhotonImage from '../../../images/microwave-photon_png.js';
 import photon100Image from '../../../images/photon-100_png.js';
 import photon660Image from '../../../images/photon-660_png.js';

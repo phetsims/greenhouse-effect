@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import infraredPhotonImage from '../../../images/photon-660_png.js';
 import visiblePhotonImage from '../../../images/thin2_png.js';

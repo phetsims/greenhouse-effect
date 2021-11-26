@@ -8,7 +8,7 @@
 
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import Color from '../../../scenery/js/util/Color.js';
+import { Color } from '../../../scenery/js/imports.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectConstants = {

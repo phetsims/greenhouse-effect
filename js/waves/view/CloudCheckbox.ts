@@ -10,8 +10,8 @@
 
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Path } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';

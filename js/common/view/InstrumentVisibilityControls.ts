@@ -7,14 +7,14 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import LayersModel from '../model/LayersModel.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import { PathOptions } from '../../../../scenery/js/nodes/Path.js';
 
 type InstrumentVisibilityControlsOptions = {

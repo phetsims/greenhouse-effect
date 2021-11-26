@@ -4,7 +4,7 @@
  * @author John Blanco
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';

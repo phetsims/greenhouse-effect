@@ -7,8 +7,8 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Image from '../../../../scenery/js/nodes/Image.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
