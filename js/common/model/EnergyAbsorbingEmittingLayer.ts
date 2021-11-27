@@ -234,7 +234,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   static Substance = Substance;
 }
 
-export { EnergyAbsorbingEmittingLayerOptions };
+export type { EnergyAbsorbingEmittingLayerOptions };
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;

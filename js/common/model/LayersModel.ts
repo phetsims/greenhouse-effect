@@ -325,8 +325,8 @@ type LayersModelStateObject = {
   emEnergyPackets: Array<any>
 }
 
-export { LayersModelStateObject };
-export { LayersModelOptions };
+export type { LayersModelStateObject };
+export type { LayersModelOptions };
 
 greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

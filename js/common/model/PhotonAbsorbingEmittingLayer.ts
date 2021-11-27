@@ -168,7 +168,7 @@ class PhotonAbsorbingEmittingLayer {
   }
 }
 
-export { PhotonAbsorbingEmittingLayerOptions };
+export type { PhotonAbsorbingEmittingLayerOptions };
 export { PhotonCrossingTestResult };
 
 greenhouseEffect.register( 'PhotonAbsorbingEmittingLayer', PhotonAbsorbingEmittingLayer );

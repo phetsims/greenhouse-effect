@@ -429,5 +429,5 @@ class GreenhouseEffectObservationWindow extends Node {
 
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
 
-export { GreenhouseEffectObservationWindowOptions };
+export type { GreenhouseEffectObservationWindowOptions };
 export default GreenhouseEffectObservationWindow;

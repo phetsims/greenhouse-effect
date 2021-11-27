@@ -197,7 +197,7 @@ const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options:
   return new Path( waveShape, options );
 };
 
-export { EnergyLegendOptions };
+export type { EnergyLegendOptions };
 
 greenhouseEffect.register( 'EnergyLegend', EnergyLegend );
 export default EnergyLegend;

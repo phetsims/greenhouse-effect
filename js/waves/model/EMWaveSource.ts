@@ -323,5 +323,5 @@ type EMWaveSourceStateObject = {
 }
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );
-export { EMWaveSourceOptions };
+export type { EMWaveSourceOptions };
 export default EMWaveSource;
