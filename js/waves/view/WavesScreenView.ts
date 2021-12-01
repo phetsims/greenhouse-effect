@@ -259,9 +259,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // pdom - override the pdomOrders for the supertype to insert subtype components
     // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
+      this.observationWindow.startSunlightButton, // pull the button from the observation window, requested by designers
       this.energyLegend,
-      this.observationWindow,
       concentrationControls,
+      this.observationWindow,
       cloudCheckbox
     ];
     // @ts-ignore

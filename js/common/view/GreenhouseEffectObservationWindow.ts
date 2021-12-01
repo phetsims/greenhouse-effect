@@ -64,7 +64,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
   protected readonly groundNodeHeight: number;
-  protected readonly startSunlightButton: TextPushButton;
+  public readonly startSunlightButton: TextPushButton;
 
   /**
    * @param {LayersModel} model
