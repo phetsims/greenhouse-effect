@@ -24,6 +24,7 @@ import { Rectangle } from '../../../../scenery/js/imports.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import { VBox } from '../../../../scenery/js/imports.js';
+import { SceneryEvent } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -39,7 +40,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import { SceneryEvent } from '../../../../scenery/js/imports.js';
+import RadiationDescriber from './describers/RadiationDescriber.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -88,9 +89,10 @@ class ConcentrationControlPanel extends Panel {
   /**
    * @param {number} width - width the panel contents are limited to, for i18n and layout with other screen components
    * @param {ConcentrationModel} concentrationModel
+   * @param {RadiationDescriber} radiationDescriber
    * @param {Object} [options]
    */
-  constructor( width: number, concentrationModel: ConcentrationModel, options?: ConcentrationControlPanelOptions ) {
+  constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, options?: ConcentrationControlPanelOptions ) {
 
     options = merge( {
 
@@ -120,6 +122,7 @@ class ConcentrationControlPanel extends Panel {
     // controls the concentration directly by value
     const concentrationSlider = new ConcentrationSlider(
       concentrationModel.manuallyControlledConcentrationProperty,
+      radiationDescriber,
       options.tandem.createTandem( 'concentrationSlider' )
     );
 
@@ -355,9 +358,10 @@ class ConcentrationSlider extends Node {
 
   /**
    * @param {NumberProperty} manuallyControlledConcentrationProperty
+   * @param {RadiationDescriber} radiationDescriber
    * @param {Tandem} tandem
    */
-  constructor( manuallyControlledConcentrationProperty: NumberProperty, tandem: Tandem ) {
+  constructor( manuallyControlledConcentrationProperty: NumberProperty, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
 
     super( { tandem: tandem } );
 
@@ -370,6 +374,7 @@ class ConcentrationSlider extends Node {
 
     const sliderRange = manuallyControlledConcentrationProperty.range!;
 
+    let valueOnStart = manuallyControlledConcentrationProperty.value;
     const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
@@ -377,6 +382,9 @@ class ConcentrationSlider extends Node {
       // sound generation
       drag: ( event: SceneryEvent ) => {
         concentrationSliderSoundGenerator.drag( event );
+      },
+      startDrag: ( event: SceneryEvent ) => {
+        valueOnStart = manuallyControlledConcentrationProperty.value;
       },
 
       // pdom
@@ -388,6 +396,10 @@ class ConcentrationSlider extends Node {
       pageKeyboardStep: sliderRange.max / 4, // coarser grain,
       a11yCreateAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
+      },
+      a11yCreateContextResponseAlert: ( mappedValue: number, newValue: number ) => {
+        const utterance = radiationDescriber.getRadiationRedirectionDescription( newValue, valueOnStart );
+        utterance && this.alertDescriptionUtterance( utterance );
       },
 
       // phet-io

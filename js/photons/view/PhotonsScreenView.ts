@@ -12,6 +12,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -30,9 +31,13 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
+    // Responsible for generating descriptions about the changing radiation.
+    const radiationDescriber = new RadiationDescriber( model );
+
     const concentrationControlPanel = new ConcentrationControlPanel(
       this.energyLegend.width,
-      model, {
+      model,
+      radiationDescriber, {
         includeCompositionData: true,
 
         // phet-io

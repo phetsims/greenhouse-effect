@@ -151,6 +151,10 @@ type StringsType = {
       'sunlightRadiation': string,
       'infraredRadiation': string
     },
+    'infraredRadiationRedirectedPattern': string,
+    'infraredRadiationRedirectedWithTemperaturePattern': string,
+    'more': string,
+    'less': string,
     'waves': {
       'homeScreenDescription': string,
       'screenSummary': {

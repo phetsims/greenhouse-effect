@@ -312,6 +312,18 @@
         "value": "Infrared radiation: red waves, wavelength longer than sunlight"
       }
     },
+    "infraredRadiationRedirectedPattern": {
+      "value":"{{moreOrLess}} infrared radiation redirected back to surface."
+    },
+    "infraredRadiationRedirectedWithTemperaturePattern": {
+      "value": "{{moreOrLess}} infrared radiation redirected back to surface, now {{quantitativeTemperature}}."
+    },
+    "more": {
+      "value": "more"
+    },
+    "less": {
+      "value": "less"
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."

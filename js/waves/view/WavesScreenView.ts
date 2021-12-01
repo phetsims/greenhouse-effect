@@ -7,8 +7,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import { Image } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Image, VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
@@ -28,6 +27,7 @@ import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 import WavesModel from '../model/WavesModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly updateSoundLoopLevels: () => void;
@@ -63,9 +63,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
     const cloudCheckbox = new CloudCheckbox( model.cloudEnabledProperty, tandem.createTandem( 'cloudCheckbox' ) );
 
+    // Responsible for generating descriptions about the changing radiation.
+    const radiationDescriber = new RadiationDescriber( model );
+
     const concentrationControls = new ConcentrationControlPanel(
       this.energyLegend.width,
       model,
+      radiationDescriber,
       {
 
         // phet-io
