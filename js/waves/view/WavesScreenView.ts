@@ -173,8 +173,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       if ( previousNumberOfWaves !== null && numberOfWaves > previousNumberOfWaves ) {
         const mostRecentlyAddedWave = model.waveGroup.getElement( numberOfWaves - 1 );
 
-        if ( mostRecentlyAddedWave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
-             mostRecentlyAddedWave.propagationDirection.y > 0 ) {
+        if ( mostRecentlyAddedWave.isInfrared && mostRecentlyAddedWave.propagationDirection.y > 0 ) {
 
           // A wave has been added that is coming from the ground, so play the sound that indicates this.
           irWaveEmittedFromGroundSoundGenerator.play();
@@ -182,7 +181,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       }
 
       const numberOfUpwardMovingIRWaves = model.waveGroup.getArray().reduce( ( previousCount, wave ) => {
-        if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y > 0 ) {
+        if ( wave.isInfrared && wave.propagationDirection.y > 0 ) {
           previousCount++;
         }
         return previousCount;
@@ -237,10 +236,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       if ( phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty.value ) {
 
         model.waveGroup.forEach( wave => {
-          if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y > 0 ) {
+          if ( wave.isInfrared && wave.propagationDirection.y > 0 ) {
             wavesFromGroundOutputLevel = waveLoopMaxOutputLevel * wave.intensityAtStart;
           }
-          else if ( wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH && wave.propagationDirection.y < 0 ) {
+          else if ( wave.isInfrared && wave.propagationDirection.y < 0 ) {
             wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel * wave.intensityAtStart;
           }
         } );

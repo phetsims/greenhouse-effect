@@ -19,7 +19,6 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
 import { GreenhouseEffectObservationWindowOptions } from '../../common/view/GreenhouseEffectObservationWindow.js';
 import PhotonNode from '../../common/view/PhotonNode.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 
@@ -68,7 +67,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // @ts-ignore
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
-        if ( addedPhoton.isInfrared() && addedPhoton.positionProperty.value.y > 0 ) {
+        if ( addedPhoton.isInfrared && addedPhoton.positionProperty.value.y > 0 ) {
           irPhotonEmittedSoundClip.play();
         }
         else {
@@ -79,7 +78,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // @ts-ignore
     model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
-        if ( removedPhoton.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
+        if ( removedPhoton.isInfrared ) {
           irPhotonAbsorbedSoundClip.play();
         }
         else {

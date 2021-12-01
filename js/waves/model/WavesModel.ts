@@ -246,7 +246,7 @@ class WavesModel extends ConcentrationModel {
 
       // Make a list of waves that originated from the sun and are currently passing through the cloud.
       const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
-        wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
+        wave.isV &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.propagationDirection.y < 0 &&
         wave.startPoint.y > cloud.position.y &&
@@ -347,10 +347,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Make a list of all IR waves that are currently emanating from the ground.
-    const wavesFromTheGround = this.waveGroup.filter( wave =>
-      wave.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
-      wave.origin.y === 0
-    );
+    const wavesFromTheGround = this.waveGroup.filter( wave => wave.isInfrared && wave.origin.y === 0 );
 
     // For each IR wave from the ground, check to see if there are any interactions with the atmosphere that should
     // exist but don't yet.
@@ -456,7 +453,7 @@ class WavesModel extends ConcentrationModel {
       // TODO: This is using a fixed position and should be adjusted when we know exactly where the glacier will be,
       //       see https://github.com/phetsims/greenhouse-effect/issues/73.
       const wavesHittingTheGlacier = this.waveGroup.filter( wave =>
-        wave.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH &&
+        wave.isVisible &&
         wave.origin.x > 0 &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.propagationDirection.y < 0 &&

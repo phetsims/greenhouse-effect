@@ -75,14 +75,14 @@ class Photon {
   /**
    * convenience method for determining whether this is a visible photon
    */
-  isVisible() {
+  get isVisible() {
     return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
   }
 
   /**
    * convenience method for determining whether this is an infrared photon
    */
-  isInfrared() {
+  get isInfrared() {
     return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
   }
 

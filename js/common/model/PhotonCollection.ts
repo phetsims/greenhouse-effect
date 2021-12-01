@@ -126,7 +126,7 @@ class PhotonCollection {
         // statements.
 
         // If this is an infrared photon, test is against the atmosphere layers to see if it should be absorbed.
-        if ( photon.isInfrared() ) {
+        if ( photon.isInfrared ) {
 
           // the following comparison loops are written for efficiency so that it does the least number of comparisons
           // possible, hence the use of classic C-style for loops and `break` statements.
