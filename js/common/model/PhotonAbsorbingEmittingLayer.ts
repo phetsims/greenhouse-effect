@@ -94,7 +94,7 @@ class PhotonAbsorbingEmittingLayer {
     // @ts-ignore
     if ( this.atmosphereLayer.isActiveProperty.value && result === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ) {
 
-      // Decide whether or not to absorb based on the absorption proportion and a random value.
+      // Decide whether to absorb the photon based on the absorption proportion and a random value.
       if ( dotRandom.nextDouble() <= this.atmosphereLayer.energyAbsorptionProportionProperty.value ) {
 
         // Absorb the photon by removing it from the list and adding it to the local map that will track the time for
@@ -162,7 +162,7 @@ class PhotonAbsorbingEmittingLayer {
     }
 
     // Add some randomness to the general direction.
-    velocity.rotate( dotRandom.nextDoubleBetween( -1, 1 ) * Math.PI / 8 );
+    velocity.rotate( dotRandom.nextDoubleBetween( -1, 1 ) * Math.PI / 4 );
 
     return velocity;
   }
