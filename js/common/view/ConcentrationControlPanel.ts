@@ -374,7 +374,6 @@ class ConcentrationSlider extends Node {
 
     const sliderRange = manuallyControlledConcentrationProperty.range!;
 
-    let valueOnStart = manuallyControlledConcentrationProperty.value;
     const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
@@ -382,9 +381,6 @@ class ConcentrationSlider extends Node {
       // sound generation
       drag: ( event: SceneryEvent ) => {
         concentrationSliderSoundGenerator.drag( event );
-      },
-      startDrag: ( event: SceneryEvent ) => {
-        valueOnStart = manuallyControlledConcentrationProperty.value;
       },
 
       // pdom
@@ -397,9 +393,8 @@ class ConcentrationSlider extends Node {
       a11yCreateAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
       },
-      a11yCreateContextResponseAlert: ( mappedValue: number, newValue: number ) => {
-        const utterance = radiationDescriber.getRadiationRedirectionDescription( newValue, valueOnStart );
-        utterance && this.alertDescriptionUtterance( utterance );
+      a11yCreateContextResponseAlert: ( mappedValue: number, newValue: number, oldValue: number ) => {
+        return radiationDescriber.getRadiationRedirectionDescription( newValue, oldValue );
       },
 
       // phet-io
