@@ -10,9 +10,7 @@
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
