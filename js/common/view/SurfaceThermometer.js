@@ -128,6 +128,7 @@ class SurfaceThermometer extends Node {
       // options for the NumberDisplay
       numberDisplayOptions: {
         backgroundStroke: null,
+        decimalPlaces: 1,
         textOptions: {
           font: GreenhouseEffectConstants.CONTENT_FONT,
           maxWidth: 120

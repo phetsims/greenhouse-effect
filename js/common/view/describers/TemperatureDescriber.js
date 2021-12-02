@@ -102,7 +102,7 @@ class TemperatureDescriber {
                            unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
                            GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
-    return Utils.toFixed( convertedValue, 0 );
+    return Utils.toFixed( convertedValue, 1 );
   }
 
   /**
