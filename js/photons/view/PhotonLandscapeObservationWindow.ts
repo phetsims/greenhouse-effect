@@ -37,6 +37,9 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     const photonsRootNode = new Node();
     this.presentationLayer.addChild( photonsRootNode );
 
+    // Move the presentation node for the  photons to the back of the z-order so that it is behind the haze.
+    photonsRootNode.moveToBack();
+
     // Add and remove photon nodes as they come and go in the model.
     // @ts-ignore
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {

@@ -10,7 +10,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Image } from '../../../../scenery/js/imports.js';
+import { Image, Rectangle } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import { ColorProperty } from '../../../../scenery/js/imports.js';
@@ -144,6 +144,19 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         }
       }
     );
+
+    // Create the node that will make the sky look a bit hazy as more greenhouse gasses are added.  Strictly speaking,
+    // most greenhouse gasses do not interact with visible light, so this is a bit of "Hollywooding" to make it clear
+    // that something in the atmosphere is changing.
+    const hazeNode = new Rectangle( 0, 0, SIZE.width, SIZE.height );
+    this.presentationLayer.addChild( hazeNode );
+
+    // Adjust the amount of "haze" based on the concentration of greenhouse gasses.
+    model.concentrationProperty.link( concentration => {
+
+      // mapping of concentration to alpha we empirically determined
+      hazeNode.fill = Color.LIGHT_GRAY.withAlpha( concentration / 3 );
+    } );
 
     // Debug code for representing layers, only added if the appropriate query parameter is set.
     const energyAbsorbingEmittingLayerNodes = [];

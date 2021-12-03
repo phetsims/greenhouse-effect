@@ -25,6 +25,9 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
     } );
     this.presentationLayer.addChild( wavesCanvasNode );
 
+    // Move the waves canvas to the back so that it is behind the haze.
+    wavesCanvasNode.moveToBack();
+
     // Update the view when changes occur to the modelled waves.
     model.wavesChangedEmitter.addListener( () => {
       // @ts-ignore
