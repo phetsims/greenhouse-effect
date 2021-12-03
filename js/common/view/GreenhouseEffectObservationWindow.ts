@@ -149,10 +149,10 @@ class GreenhouseEffectObservationWindow extends Node {
     // Create the node that will represent the sky.
     const skyNode = new Rectangle( 0, 0, SIZE.width, SIZE.height, {
       fill: new LinearGradient( 0, 0, 0, SIZE.height )
-        .addColorStop( 0, '#002533' )
-        .addColorStop( 0.2, '#0086B3' )
-        .addColorStop( 0.35, '#00bfff' )
-        .addColorStop( 0.80, '#CCF2FF' )
+        .addColorStop( 0, '#00131A' )
+        .addColorStop( 0.2, '#007399' )
+        .addColorStop( 0.35, '#00ACE6' )
+        .addColorStop( 0.80, '#B3ECFF' )
     } );
     this.backgroundLayer.addChild( skyNode );
 
