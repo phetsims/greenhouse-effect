@@ -38,8 +38,10 @@ const GreenhouseEffectConstants = {
   SUNLIGHT_SPAN: 85000,
 
   // wavelengths of light used, in meters
-  VISIBLE_WAVELENGTH: 580E-9,
-  INFRARED_WAVELENGTH: 850E-9,
+  VISIBLE_WAVELENGTH: 500E-9,
+  INFRARED_WAVELENGTH: 10E-6,
+
+  STEFAN_BOLTZMANN_CONSTANT: 5.670374419E-8, // This is the SI version, look it up for exact units.
 
   SPEED_OF_LIGHT: 8000, // in meters/s, obviously far slower than real light, chosen to look good
 

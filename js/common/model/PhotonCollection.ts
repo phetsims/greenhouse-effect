@@ -22,9 +22,12 @@ import createObservableArray from '../../../../axon/js/createObservableArray.js'
 import LayersModel from './LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
+import LinearFunction from '../../../../dot/js/LinearFunction.js';
 
 // constants
-const SUN_PHOTON_CREATION_RATE = 2; // photons created per second (from the sun)
+const SUN_PHOTON_CREATION_RATE = 1; // photons created per second (from the sun)
+const LINEAR_GROUND_PHOTON_RATE_CALCULATOR = new LinearFunction( 245, 288, 0, 1 );
+const USE_LINEAR_MAPPING = false;
 
 type PhotonCollectionOptions = {
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
@@ -201,7 +204,7 @@ class PhotonCollection {
       }
     }
 
-    // And and remove photons from our list.
+    // Add and remove photons from our list.
     photonsToRemove.forEach( photon => { this.photons.remove( photon ); } );
     photonsToAdd.forEach( photon => { this.photons.push( photon ); } );
 
@@ -225,8 +228,33 @@ class PhotonCollection {
    */
   static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
 
-    // The formula used here was empirically determined to get the desired density of photons.
-    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
+    let photonProductionRate = 0;
+
+    // The following computation is designed to produce no photons below the minimum ground temperature, produce a
+    // number that is based on the amount of radiating energy above that threshold, and to produce a quantity that makes
+    // sense - at least roughly - compared to the number of photons coming in from the sun.  See
+    // https://github.com/phetsims/greenhouse-effect/issues/116 for more background on this if needed.
+    const visibleToInfraredRatio = 10;
+    if ( groundTemperature > GroundLayer.MINIMUM_TEMPERATURE ) {
+      const radiatedEnergyPerUnitSurfaceArea = Math.pow( groundTemperature, 4 ) *
+                                               GreenhouseEffectConstants.STEFAN_BOLTZMANN_CONSTANT;
+
+      photonProductionRate = radiatedEnergyPerUnitSurfaceArea / 390 * visibleToInfraredRatio * SUN_PHOTON_CREATION_RATE;
+    }
+
+    // TODO: Temporary for experimentation, see https://github.com/phetsims/greenhouse-effect/issues/116
+    if ( USE_LINEAR_MAPPING ) {
+      photonProductionRate = LINEAR_GROUND_PHOTON_RATE_CALCULATOR.evaluate( groundTemperature ) *
+                             visibleToInfraredRatio *
+                             SUN_PHOTON_CREATION_RATE;
+    }
+
+    if ( phet.jbFlag ) {
+      console.log( `photonProductionRate = ${photonProductionRate}` );
+      phet.jbFlag = false;
+    }
+
+    return photonProductionRate;
   }
 }
 

@@ -41,7 +41,6 @@ const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
 const LAYER_THICKNESS = 0.0000003;
 
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
-const STEFAN_BOLTZMANN_CONSTANT = 5.670374419E-8; // This is the SI version, look it up for exact units.
 
 type EnergyAbsorbingEmittingLayerOptions = {
   substance?: any,
@@ -163,7 +162,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // Calculate the amount of energy that this layer will radiate per unit area at its current temperature using the
     // Stefan-Boltzmann equation.  This calculation doesn't allow the energy to radiate if it is below the initial
     // temperature, which is not real physics, but is needed for the desired behavior of the sim.
-    const radiatedEnergyPerUnitSurfaceArea = Math.pow( this.temperatureProperty.value, 4 ) * STEFAN_BOLTZMANN_CONSTANT * dt;
+    const radiatedEnergyPerUnitSurfaceArea = Math.pow( this.temperatureProperty.value, 4 ) *
+                                             GreenhouseEffectConstants.STEFAN_BOLTZMANN_CONSTANT * dt;
 
     // The total radiated energy depends on whether this layer is radiating in one direction or two.
     const numberOfRadiatingSurfaces = this.substance.radiationDirections.length;
