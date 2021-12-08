@@ -15,6 +15,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 const PhotonCrossingTestResult = Enumeration.byKeys( [
@@ -32,6 +33,7 @@ class PhotonAbsorbingEmittingLayer {
   private readonly photonToAbsorbedTimeMap: Map<Photon, number>;
   private readonly photons: ObservableArray<Photon>;
   private atmosphereLayer: AtmosphereLayer;
+  public atLeastOnePhotonAbsorbedProperty: BooleanProperty;
 
   constructor( photons: ObservableArray<Photon>,
                atmosphereLayer: AtmosphereLayer,
@@ -50,6 +52,7 @@ class PhotonAbsorbingEmittingLayer {
 
     this.photons = photons;
     this.atmosphereLayer = atmosphereLayer;
+    this.atLeastOnePhotonAbsorbedProperty = new BooleanProperty( false );
 
     // a Map that is used to track the amount of time that an absorbed photon has been absorbed into this layer
     this.photonToAbsorbedTimeMap = new Map<Photon, number>();
@@ -101,6 +104,7 @@ class PhotonAbsorbingEmittingLayer {
         // which it has been absorbed in this layer.
         this.photons.remove( photon );
         this.photonToAbsorbedTimeMap.set( photon, 0 );
+        this.atLeastOnePhotonAbsorbedProperty.set( true );
         // @ts-ignore
         result = PhotonCrossingTestResult.CROSSED_AND_ABSORBED;
       }
@@ -136,6 +140,7 @@ class PhotonAbsorbingEmittingLayer {
 
   reset() {
     this.photonToAbsorbedTimeMap.clear();
+    this.atLeastOnePhotonAbsorbedProperty.reset();
   }
 
   /**

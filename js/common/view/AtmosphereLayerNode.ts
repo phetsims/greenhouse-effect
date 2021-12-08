@@ -9,16 +9,16 @@
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -27,9 +27,19 @@ const LAYER_RECTANGLE_FILL_BASE_COLOR = Color.LIGHT_GRAY;
 const MINIMUM_OPACITY = 0.4;
 const MAXIMUM_OPACITY = 0.85;
 
+type AtmosphereLayerNodeOptions = {
+  numberDisplayEnabledProperty?: BooleanProperty
+};
+
 class AtmosphereLayerNode extends Node {
 
-  constructor( atmosphereLayer: AtmosphereLayer, modelViewTransform: ModelViewTransform2 ) {
+  constructor( atmosphereLayer: AtmosphereLayer,
+               modelViewTransform: ModelViewTransform2,
+               options?: AtmosphereLayerNodeOptions ) {
+
+    // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
+    const numberDisplayEnabledProperty = ( options && options.numberDisplayEnabledProperty ) ||
+                                         new BooleanProperty( true );
 
     const mainBody = new Rectangle(
       0,
@@ -55,11 +65,18 @@ class AtmosphereLayerNode extends Node {
       mainBody.stroke = LAYER_RECTANGLE_STROKE_BASE_COLOR.withAlpha( opacity );
     } );
 
-    const numberDisplay = new NumberDisplay( atmosphereLayer.temperatureProperty, new Range( 0, 999 ), {
+    // Create a derived property for the value that will be displayed as the temperature.
+    const temperatureValueProperty = new DerivedProperty(
+      [ atmosphereLayer.temperatureProperty, numberDisplayEnabledProperty ],
+      ( temperature, numberDisplayEnabled ) => numberDisplayEnabled ? temperature : null
+    );
+
+    const numberDisplay = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
       cornerRadius: 3,
+      noValueAlign: 'center',
       numberFormatter: ( temperature: number ) => {
         return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
           value: Utils.toFixed( temperature, 1 ),

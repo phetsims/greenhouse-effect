@@ -41,7 +41,7 @@ class PhotonCollection {
   private photonCreationCountdown: number = 0;
   private groundPhotonProductionRate: number = 0;
   private groundPhotonProductionTimeAccumulator: number = 0;
-  private readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
+  public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
 
   constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
