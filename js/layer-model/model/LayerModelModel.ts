@@ -40,7 +40,8 @@ class LayerModelModel extends LayersModel {
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
       photonAbsorbingEmittingLayerOptions: {
         photonMaxLateralJumpProportion: 0,
-        photonAbsorptionTime: 0.5
+        photonAbsorptionTime: 0.5,
+        thickness: 2800 // empirically determined to look good in the view
       }
     } );
 

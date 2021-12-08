@@ -21,14 +21,15 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
-const LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
+const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
 const LAYER_RECTANGLE_STROKE_BASE_COLOR = Color.DARK_GRAY;
 const LAYER_RECTANGLE_FILL_BASE_COLOR = Color.LIGHT_GRAY;
 const MINIMUM_OPACITY = 0.4;
 const MAXIMUM_OPACITY = 0.85;
 
 type AtmosphereLayerNodeOptions = {
-  numberDisplayEnabledProperty?: BooleanProperty
+  numberDisplayEnabledProperty?: BooleanProperty,
+  layerThickness?: number
 };
 
 class AtmosphereLayerNode extends Node {
@@ -41,11 +42,18 @@ class AtmosphereLayerNode extends Node {
     const numberDisplayEnabledProperty = ( options && options.numberDisplayEnabledProperty ) ||
                                          new BooleanProperty( true );
 
+    // If a thickness value is provided, use the model-view transform to convert it to view coordinates, otherwise use
+    // the default.
+    let layerThickness = DEFAULT_LAYER_THICKNESS;
+    if ( options && options.layerThickness ) {
+      layerThickness = -modelViewTransform.modelToViewDeltaY( options.layerThickness );
+    }
+
     const mainBody = new Rectangle(
       0,
-      -LAYER_THICKNESS / 2,
+      -layerThickness / 2,
       modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH ),
-      LAYER_THICKNESS,
+      layerThickness,
       {
         stroke: LAYER_RECTANGLE_STROKE_BASE_COLOR,
         fill: LAYER_RECTANGLE_FILL_BASE_COLOR,

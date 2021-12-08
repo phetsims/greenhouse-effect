@@ -23,12 +23,14 @@ const PhotonCrossingTestResult = Enumeration.byKeys( [
 );
 
 type PhotonAbsorbingEmittingLayerOptions = {
+  thickness?: number;
   photonMaxLateralJumpProportion?: number;
   photonAbsorptionTime?: number;
   absorbanceMultiplier?: number;
 };
 
 class PhotonAbsorbingEmittingLayer {
+  public readonly thickness: number;
   private readonly photonAbsorptionTime: number;
   private readonly photonMaxJumpDistance: number;
   private readonly absorbanceMultiplier: number;
@@ -42,6 +44,9 @@ class PhotonAbsorbingEmittingLayer {
                providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
 
     const options = merge( {
+
+      // thickness of the layer, in meters
+      thickness: 0,
 
       // This value represents the maximum lateral distance, expressed in proportion of the total layer width, between
       // where a photon is absorbed in a layer to where it is re-emitted.
@@ -59,6 +64,7 @@ class PhotonAbsorbingEmittingLayer {
     this.photons = photons;
     this.atmosphereLayer = atmosphereLayer;
     this.atLeastOnePhotonAbsorbedProperty = new BooleanProperty( false );
+    this.thickness = options.thickness;
 
     // a Map that is used to track the amount of time that an absorbed photon has been absorbed into this layer
     this.photonToAbsorbedTimeMap = new Map<Photon, number>();
@@ -79,8 +85,12 @@ class PhotonAbsorbingEmittingLayer {
     const previousPhotonAltitude = photon.previousPosition.y;
     const currentPhotonAltitude = photon.positionProperty.value.y;
     const layerAltitude = this.atmosphereLayer.altitude;
-    if ( previousPhotonAltitude < layerAltitude ) {
-      if ( currentPhotonAltitude < layerAltitude ) {
+    const bottomOfLayerAltitude = layerAltitude - this.thickness / 2;
+    const topOfLayerAltitude = layerAltitude + this.thickness / 2;
+
+    // TODO: This is a little hard to read, consider CROSSED_INDETERMINATE in the first portion, then post process, or something.
+    if ( previousPhotonAltitude < bottomOfLayerAltitude ) {
+      if ( currentPhotonAltitude < bottomOfLayerAltitude ) {
         // @ts-ignore
         result = PhotonCrossingTestResult.FULLY_BELOW;
       }
@@ -89,8 +99,8 @@ class PhotonAbsorbingEmittingLayer {
         result = PhotonCrossingTestResult.CROSSED_BUT_IGNORED;
       }
     }
-    else if ( previousPhotonAltitude > layerAltitude ) {
-      if ( currentPhotonAltitude > layerAltitude ) {
+    else if ( previousPhotonAltitude > topOfLayerAltitude ) {
+      if ( currentPhotonAltitude > topOfLayerAltitude ) {
         // @ts-ignore
         result = PhotonCrossingTestResult.FULLY_ABOVE;
       }
@@ -134,8 +144,8 @@ class PhotonAbsorbingEmittingLayer {
       if ( updatedAbsorptionTime > this.photonAbsorptionTime ) {
 
         // This photon has been around long enough, and it's time to release it.
-        photon.positionProperty.set( this.createPhotonReleasePosition( photon ) );
         photon.velocity.set( PhotonAbsorbingEmittingLayer.createPhotonReleaseVelocity() );
+        photon.positionProperty.set( this.createPhotonReleasePosition( photon ) );
         photon.resetPreviousPosition();
         this.photonToAbsorbedTimeMap.delete( photon );
         this.photons.push( photon );
@@ -158,7 +168,11 @@ class PhotonAbsorbingEmittingLayer {
    */
   private createPhotonReleasePosition( photon: Photon ): Vector2 {
     const jump = this.photonMaxJumpDistance * dotRandom.nextDoubleBetween( -1, 1 );
-    return new Vector2( photon.positionProperty.value.x + jump, this.atmosphereLayer.altitude );
+    const altitude = photon.velocity.y > 0 ?
+                     this.atmosphereLayer.altitude + this.thickness / 2 :
+                     this.atmosphereLayer.altitude - this.thickness / 2;
+
+    return new Vector2( photon.positionProperty.value.x + jump, altitude );
   }
 
   /**

@@ -55,8 +55,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
+      const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
       const atmosphereNode = new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform, {
-        numberDisplayEnabledProperty: model.photonCollection.photonAbsorbingEmittingLayers[ index ].atLeastOnePhotonAbsorbedProperty
+        numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
+        layerThickness: correspondingPhotonAbsorbingLayer.thickness
       } );
       this.foregroundLayer.addChild( atmosphereNode );
 
