@@ -23,15 +23,17 @@ const PhotonCrossingTestResult = Enumeration.byKeys( [
 );
 
 type PhotonAbsorbingEmittingLayerOptions = {
-  photonMaxLateralJumpProportion: number;
-  photonAbsorptionTime: number;
+  photonMaxLateralJumpProportion?: number;
+  photonAbsorptionTime?: number;
+  absorbanceMultiplier?: number;
 };
 
 class PhotonAbsorbingEmittingLayer {
   private readonly photonAbsorptionTime: number;
   private readonly photonMaxJumpDistance: number;
+  private readonly absorbanceMultiplier: number;
   private readonly photonToAbsorbedTimeMap: Map<Photon, number>;
-  private readonly photons: ObservableArray<Photon>;
+  public readonly photons: ObservableArray<Photon>;
   private atmosphereLayer: AtmosphereLayer;
   public atLeastOnePhotonAbsorbedProperty: BooleanProperty;
 
@@ -46,7 +48,11 @@ class PhotonAbsorbingEmittingLayer {
       photonMaxLateralJumpProportion: 0.01,
 
       // the time that a photon is absorbed into a layer before being re-emitted
-      photonAbsorptionTime: 0.1
+      photonAbsorptionTime: 0.1,
+
+      // A multiplier that is used on the layer's absorbance value when deciding whether to absorb a photon.  This can
+      // be used to increase the amount of photons absorbed beyond what happens "naturally".
+      absorbanceMultiplier: 1
 
     }, providedOptions ) as Required<PhotonAbsorbingEmittingLayerOptions>;
 
@@ -60,6 +66,7 @@ class PhotonAbsorbingEmittingLayer {
     // options that control various aspects of the photon re-emission process
     this.photonAbsorptionTime = options.photonAbsorptionTime;
     this.photonMaxJumpDistance = options.photonMaxLateralJumpProportion * AtmosphereLayer.WIDTH;
+    this.absorbanceMultiplier = options.absorbanceMultiplier;
   }
 
   /**
@@ -98,7 +105,8 @@ class PhotonAbsorbingEmittingLayer {
     if ( this.atmosphereLayer.isActiveProperty.value && result === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ) {
 
       // Decide whether to absorb the photon based on the absorption proportion and a random value.
-      if ( dotRandom.nextDouble() <= this.atmosphereLayer.energyAbsorptionProportionProperty.value ) {
+      if ( dotRandom.nextDouble() <=
+           ( this.atmosphereLayer.energyAbsorptionProportionProperty.value * this.absorbanceMultiplier ) ) {
 
         // Absorb the photon by removing it from the list and adding it to the local map that will track the time for
         // which it has been absorbed in this layer.
