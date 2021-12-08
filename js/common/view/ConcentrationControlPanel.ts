@@ -41,6 +41,7 @@ import ConcentrationModel from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -190,7 +191,7 @@ class DateControl extends Node {
    * @param {Tandem} tandem
    */
   constructor( dateProperty: EnumerationProperty,
-               concentrationProperty: Property<number>,
+               concentrationProperty: IReadOnlyProperty<number>,
                concentrationControlModeProperty: EnumerationProperty,
                tandem: Tandem ) {
 

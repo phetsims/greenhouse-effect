@@ -14,6 +14,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 class FluxMeter {
   readonly sunlightInProperty: NumberProperty;
@@ -23,7 +24,7 @@ class FluxMeter {
   readonly sensorBounds: Bounds2;
   readonly sensorPositionProperty: Vector2Property;
   readonly wireMeterAttachmentPositionProperty: Vector2Property;
-  readonly wireSensorAttachmentPositionProperty: DerivedProperty<Vector2>;
+  readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
   /**
    * @param {Tandem} tandem

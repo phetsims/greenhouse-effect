@@ -7,6 +7,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import AxisLine from '../../../../bamboo/js/AxisLine.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
@@ -67,12 +68,12 @@ class EnergyBalancePanel extends Panel {
 
     // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
     // in this sim
-    const negatedEnergyInProperty: DerivedProperty<number> = new DerivedProperty(
+    const negatedEnergyInProperty: IReadOnlyProperty<number> = new DerivedProperty(
       [ netEnergyInProperty ],
       ( netEnergyIn: number ) => -netEnergyIn
     );
 
-    const netEnergyProperty: DerivedProperty<number> = new DerivedProperty(
+    const netEnergyProperty: IReadOnlyProperty<number> = new DerivedProperty(
       [ negatedEnergyInProperty, netEnergyOutProperty ],
       ( netIn: number, netOut: number ) => netIn + netOut
     );
@@ -104,9 +105,9 @@ class EnergyBalancePlot extends Node {
    * @param {Property.<number>} netEnergyOutProperty - Representing net energy out, read-only
    * @param {Property.<number>} netEnergyProperty - Representing net energy of the system, read-only
    */
-  constructor( netEnergyInProperty: Property<number>,
+  constructor( netEnergyInProperty: IReadOnlyProperty<number>,
                netEnergyOutProperty: Property<number>,
-               netEnergyProperty: Property<number> ) {
+               netEnergyProperty: IReadOnlyProperty<number> ) {
     super();
 
     // position of each bar, in model coordinates

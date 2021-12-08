@@ -31,6 +31,7 @@ import Cloud from './Cloud.js';
 import merge from '../../../../phet-core/js/merge.js';
 import FluxMeter from './FluxMeter.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -50,8 +51,8 @@ type LayersModelOptions = {
 class LayersModel extends GreenhouseEffectModel {
 
   readonly surfaceTemperatureKelvinProperty: NumberProperty;
-  readonly surfaceTemperatureCelsiusProperty: DerivedProperty<number>;
-  readonly surfaceTemperatureFahrenheitProperty: DerivedProperty<number>;
+  readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
+  readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
   readonly temperatureUnitsProperty: EnumerationProperty;
   readonly surfaceThermometerVisibleProperty: BooleanProperty;
   readonly energyBalanceVisibleProperty: BooleanProperty;

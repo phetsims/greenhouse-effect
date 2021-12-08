@@ -99,7 +99,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
     // relying on the base class to monitor them so that the loops can be turned off if they don't need to be playing.
     // This saves processor bandwidth on the audio rendering thread, since the parent class turns down the volume but
     // doesn't stop the loops.
-    Property.multilink(
+    Property.multilink<any[]>(
       [ temperatureProperty, ...options.enableControlProperties as Property<boolean>[] ],
       () => { this.updateLoopStates(); }
     );

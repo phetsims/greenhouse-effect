@@ -18,6 +18,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel, { LayersModelOptions } from './LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE: number = 8400; // in meters, taken from a Wikipedia article
@@ -48,7 +49,7 @@ class ConcentrationModel extends LayersModel {
   public readonly dateProperty: EnumerationProperty;
   public readonly manuallyControlledConcentrationProperty: NumberProperty;
   public readonly concentrationControlModeProperty: EnumerationProperty;
-  public readonly concentrationProperty: DerivedProperty<number>;
+  public readonly concentrationProperty: IReadOnlyProperty<number>;
 
   /**
    * @param {Tandem} tandem

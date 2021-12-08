@@ -26,6 +26,7 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
 import Property from '../../../../axon/js/Property.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -173,7 +174,7 @@ class ThermometerAndReadout extends Node {
    * @returns {ComboBoxItem}
    */
   private static createComboBoxItem( unitsString: string,
-                                     property: Property<number>,
+                                     property: IReadOnlyProperty<number>,
                                      propertyRange: Range,
                                      propertyValue: Enumeration,
                                      tandemName: string ) {
