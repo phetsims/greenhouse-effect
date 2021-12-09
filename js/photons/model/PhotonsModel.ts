@@ -39,7 +39,7 @@ class PhotonsModel extends ConcentrationModel {
       photonAbsorbingEmittingLayerOptions: {
         photonAbsorptionTime: 0.1,
         photonMaxLateralJumpProportion: 0,
-        absorbanceMultiplier: 10
+        absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
       }
     } );
 

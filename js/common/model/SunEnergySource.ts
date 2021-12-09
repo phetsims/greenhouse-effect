@@ -2,7 +2,7 @@
 
 /**
  * SunEnergySource is used to produce energy at a constant rate.  The amount of energy produced is based on what the
- * real sun would be delivering to the Earth for the provide surface area.
+ * real sun would be delivering to the Earth for the provided surface area.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -18,16 +18,20 @@ import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // constants
+const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
 
 // Energy produced the sun in Watts per square meter.  This value is pretty realistic, and was adjusted so that it is
 // the value that gets to the desired blackbody temperature of the Earth when using the Stefan-Boltzmann equation.
 const OUTPUT_ENERGY_RATE = 240;
 
 class SunEnergySource extends PhetioObject {
-  readonly isShiningProperty: BooleanProperty;
-  readonly outputEnergyRateTracker: EnergyRateTracker;
+  public readonly isShiningProperty: BooleanProperty;
+  public readonly outputEnergyRateTracker: EnergyRateTracker;
+  public readonly proportionateOutputRateProperty: NumberProperty;
   private readonly surfaceAreaOfIncidentLight: number;
   private readonly emEnergyPackets: EMEnergyPacket[];
 
@@ -46,6 +50,12 @@ class SunEnergySource extends PhetioObject {
     // @public - controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
       tandem: tandem.createTandem( 'isShiningProperty' )
+    } );
+
+    // value that controls the output level relative to Earth's sun
+    this.proportionateOutputRateProperty = new NumberProperty( 1, {
+      range: OUTPUT_PROPORTION_RANGE,
+      tandem: tandem.createTandem( 'proportionateOutputRateProperty' )
     } );
 
     // @public - tracks the average energy output
@@ -68,7 +78,8 @@ class SunEnergySource extends PhetioObject {
    */
   produceEnergy( dt: number ) {
     if ( this.isShiningProperty.value ) {
-      const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight * dt;
+      const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight *
+                              this.proportionateOutputRateProperty.value * dt;
       this.outputEnergyRateTracker.addEnergyInfo( energyToProduce, dt );
       this.emEnergyPackets.push( new EMEnergyPacket(
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
@@ -110,6 +121,7 @@ class SunEnergySource extends PhetioObject {
 
   // static values
   static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
+  static OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
 }
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );

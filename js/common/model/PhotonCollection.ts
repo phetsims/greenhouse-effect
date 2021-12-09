@@ -234,7 +234,7 @@ class PhotonCollection {
     // number that is based on the amount of radiating energy above that threshold, and to produce a quantity that makes
     // sense - at least roughly - compared to the number of photons coming in from the sun.  See
     // https://github.com/phetsims/greenhouse-effect/issues/116 for more background on this if needed.
-    const visibleToInfraredRatio = 10;
+    const visibleToInfraredRatio = 5;
     if ( groundTemperature > GroundLayer.MINIMUM_TEMPERATURE ) {
       const radiatedEnergyPerUnitSurfaceArea = Math.pow( groundTemperature, 4 ) *
                                                GreenhouseEffectConstants.STEFAN_BOLTZMANN_CONSTANT;

@@ -12,6 +12,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LayersControl from './LayersControl.js';
+import SunAndReflectionControl from './SunAndReflectionControl.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -40,6 +41,13 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+
+    const sunAndReflectionControl = new SunAndReflectionControl(
+      this.energyLegend.width,
+      model,
+      tandem.createTandem( 'layersControl' )
+    );
+    this.legendAndControlsVBox.addChild( sunAndReflectionControl );
 
     const layersControl = new LayersControl(
       this.energyLegend.width,

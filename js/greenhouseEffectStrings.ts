@@ -19,6 +19,9 @@ type StringsType = {
   },
   'surfaceThermometer': string,
   'showSurfaceTemperature': string,
+  'solarIntensity': string,
+  'ourSun': string,
+  'surfaceAlbedo': string,
   'cloud': string,
   'startSunlight': string,
   'energyLegend': {
