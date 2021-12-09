@@ -82,6 +82,11 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     return absorbedEnergy;
   }
 
+  public reset(){
+    this.albedoProperty.reset();
+    super.reset();
+  }
+
   static MINIMUM_TEMPERATURE: number = MINIMUM_TEMPERATURE
 }
 
