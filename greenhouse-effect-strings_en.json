@@ -20,6 +20,15 @@
   "showSurfaceTemperature": {
     "value": "Show Surface Temperature"
   },
+  "solarIntensity": {
+    "value": "Solar Intensity"
+  },
+  "ourSun": {
+    "value": "Our Sun"
+  },
+  "surfaceAlbedo": {
+    "value": "Surface Albedo"
+  },
   "cloud": {
     "value": "Cloud"
   },
