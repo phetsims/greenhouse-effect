@@ -25,7 +25,7 @@ import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, Phot
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 
 // constants
-const SUN_PHOTON_CREATION_RATE = 1; // photons created per second (from the sun)
+const SUN_NOMINAL_PHOTON_CREATION_RATE = 1; // photons created per second (from the sun)
 const LINEAR_GROUND_PHOTON_RATE_CALCULATOR = new LinearFunction( 245, 288, 0, 1 );
 const USE_LINEAR_MAPPING = false;
 
@@ -99,7 +99,9 @@ class PhotonCollection {
           Tandem.OPT_OUT,
           { initialVelocity: new Vector2( 0, -Photon.SPEED ) }
         ) );
-        this.photonCreationCountdown += 1 / SUN_PHOTON_CREATION_RATE;
+        const photonCreationRate = SUN_NOMINAL_PHOTON_CREATION_RATE *
+                                   this.sunEnergySource.proportionateOutputRateProperty.value;
+        this.photonCreationCountdown += 1 / photonCreationRate;
       }
     }
 
@@ -239,14 +241,14 @@ class PhotonCollection {
       const radiatedEnergyPerUnitSurfaceArea = Math.pow( groundTemperature, 4 ) *
                                                GreenhouseEffectConstants.STEFAN_BOLTZMANN_CONSTANT;
 
-      photonProductionRate = radiatedEnergyPerUnitSurfaceArea / 390 * visibleToInfraredRatio * SUN_PHOTON_CREATION_RATE;
+      photonProductionRate = radiatedEnergyPerUnitSurfaceArea / 390 * visibleToInfraredRatio * SUN_NOMINAL_PHOTON_CREATION_RATE;
     }
 
     // TODO: Temporary for experimentation, see https://github.com/phetsims/greenhouse-effect/issues/116
     if ( USE_LINEAR_MAPPING ) {
       photonProductionRate = LINEAR_GROUND_PHOTON_RATE_CALCULATOR.evaluate( groundTemperature ) *
                              visibleToInfraredRatio *
-                             SUN_PHOTON_CREATION_RATE;
+                             SUN_NOMINAL_PHOTON_CREATION_RATE;
     }
 
     if ( phet.jbFlag ) {

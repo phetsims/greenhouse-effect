@@ -97,6 +97,7 @@ class SunEnergySource extends PhetioObject {
   reset() {
     this.outputEnergyRateTracker.reset();
     this.isShiningProperty.reset();
+    this.proportionateOutputRateProperty.reset();
   }
 
   /**
