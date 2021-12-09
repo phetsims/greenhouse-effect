@@ -19,11 +19,21 @@ import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import SunEnergySource from '../../common/model/SunEnergySource.js';
+import Range from '../../../../dot/js/Range.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
 const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
 const PANEL_MARGIN = 5;
+const COMMON_SLIDER_OPTIONS = {
+  thumbSize: new Dimension2( 10, 20 ),
+  thumbTouchAreaXDilation: 8,
+  thumbTouchAreaYDilation: 8,
+  majorTickLength: 12,
+  minorTickLength: 6,
+  tickLabelSpacing: 2
+};
 
 class SunAndReflectionControl extends Panel {
 
@@ -68,6 +78,9 @@ class SunAndReflectionControl extends Panel {
       font: HEADING_FONT
     } );
 
+    // track size of the sliders, based in part on the provided width
+    const sliderTrackSize = new Dimension2( width * 0.75, 1 );
+
     // convenience variable
     const solarIntensityProportionRange = SunEnergySource.OUTPUT_PROPORTION_RANGE;
 
@@ -75,18 +88,10 @@ class SunAndReflectionControl extends Panel {
     const solarIntensitySlider = new HSlider(
       layersModel.sunEnergySource.proportionateOutputRateProperty,
       solarIntensityProportionRange,
-      {
-        trackSize: new Dimension2( width * 0.75, 1 ),
-        thumbSize: new Dimension2( 10, 20 ),
-        thumbTouchAreaXDilation: 8,
-        thumbTouchAreaYDilation: 8,
-        majorTickLength: 12,
-        minorTickLength: 6,
-        tickLabelSpacing: 2,
-
-        // phet-io
+      merge( {}, COMMON_SLIDER_OPTIONS, {
+        trackSize: sliderTrackSize,
         tandem: tandem.createTandem( 'solarIntensitySlider' )
-      }
+      } )
     );
     const majorTicksOnSolarIntensitySlider = 4;
     const distanceBetweenMajorTicks = solarIntensityProportionRange.getLength() / ( majorTicksOnSolarIntensitySlider - 1 );
@@ -115,12 +120,47 @@ class SunAndReflectionControl extends Panel {
     // Put the label and slider for the solar intensity control into their own VBox.
     const solarIntensityControl = new VBox( {
       children: [ solarIntensitySliderLabel, solarIntensitySlider ],
-      spacing: 5
+      spacing: 8
+    } );    // label for the slider that controls the solar intensity
+
+    const surfaceAlbedoSliderLabel = new Text( greenhouseEffectStrings.surfaceAlbedo, {
+      font: HEADING_FONT
+    } );
+
+    // convenience variable
+    const surfaceAlbedoRange = new Range( 0, 0.9 );
+
+    // slider for controlling the solar intensity
+    const surfaceAlbedoSlider = new HSlider(
+      layersModel.groundLayer.albedoProperty,
+      surfaceAlbedoRange,
+      merge( {}, COMMON_SLIDER_OPTIONS, {
+        trackSize: sliderTrackSize,
+        tandem: tandem.createTandem( 'surfaceAlbedoSlider' )
+      } )
+    );
+    surfaceAlbedoSlider.addMajorTick(
+      surfaceAlbedoRange.min,
+      new Text( surfaceAlbedoRange.min, { font: TICK_MARK_LABEL_FONT } )
+    );
+    surfaceAlbedoSlider.addMajorTick(
+      surfaceAlbedoRange.max,
+      new Text( surfaceAlbedoRange.max, { font: TICK_MARK_LABEL_FONT } )
+    );
+    const distanceBetweenMinorTicks = 0.1; // from design doc
+    _.times( surfaceAlbedoRange.getLength() / distanceBetweenMinorTicks - 1, index => {
+      surfaceAlbedoSlider.addMinorTick( surfaceAlbedoRange.min + ( index + 1 ) * distanceBetweenMinorTicks );
+    } );
+
+    // Put the label and slider for the solar intensity control into their own VBox.
+    const surfaceAlbedoControl = new VBox( {
+      children: [ surfaceAlbedoSliderLabel, surfaceAlbedoSlider ],
+      spacing: 1
     } );
 
     const content = new VBox( {
-      children: [ titleNode, solarIntensityControl ],
-      spacing: 20
+      children: [ titleNode, solarIntensityControl, surfaceAlbedoControl ],
+      spacing: 24
     } );
 
     super( content, options );

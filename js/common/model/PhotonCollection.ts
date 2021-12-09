@@ -117,9 +117,17 @@ class PhotonCollection {
       }
       else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
 
-        // This photon is moving downward and has reached the ground.  Remove it, thus simulating absorption into the
-        // ground.
-        photonsToRemove.push( photon );
+        // This photon is moving downward and has reached the ground. Decide whether it should be absorbed or reflected.
+        if ( dotRandom.nextDouble() < this.groundLayer.albedoProperty.value ) {
+
+          // The photon should be reflected.  Simulate this by reversing its vertical velocity.
+          photon.velocity.setXY( photon.velocity.x, -photon.velocity.y );
+        }
+        else {
+
+          // The photon should be absorbed.  Simulate this by removing it.
+          photonsToRemove.push( photon );
+        }
       }
       else {
 
