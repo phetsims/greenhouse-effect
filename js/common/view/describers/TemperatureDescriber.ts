@@ -12,10 +12,11 @@ import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import LayersModel from '../../model/LayersModel.js';
+import GroundLayer from '../../model/GroundLayer.js';
 
 // constants
 // determined by inspection, temperature descriptions are evenly distributed across this range of values in Kelvin
-const DESCRIBED_TEMPERATURE_RANGE = new Range( 245, 290 );
+const DESCRIBED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_TEMPERATURE, 290 );
 
 // strings used to describe temperature
 const temperatureVeryHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryHigh;
@@ -47,8 +48,7 @@ class TemperatureDescriber {
   /**
    * Get formatted description for the current temperature in the provided units, for use in other contexts. Will
    * return something like:
-   * "245 Kelvin" or
-   * "12 Celsius
+   * "245 Kelvin" or "12 Celsius"
    * @public
    *
    * @param {number} temperatureKelvin - temperature, in kelvin

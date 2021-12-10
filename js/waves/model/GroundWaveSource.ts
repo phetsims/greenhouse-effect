@@ -15,10 +15,11 @@ import Wave from '../../waves/model/Wave.js';
 import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
-const MIN_WAVE_PRODUCTION_TEMPERATURE = 245; // min temperature at which the ground will produce IR waves, in Kelvin
+const MIN_WAVE_PRODUCTION_TEMPERATURE = GroundLayer.MINIMUM_TEMPERATURE; // min temperature at which the ground will produce IR waves
 const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
 class GroundWaveSource extends EMWaveSource {

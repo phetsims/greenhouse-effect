@@ -15,7 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 
 // constants
-const MINIMUM_TEMPERATURE = 245;
+const MINIMUM_TEMPERATURE = 245; // the minimum temperature that the ground is allowed to reach
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   readonly albedoProperty: NumberProperty;
