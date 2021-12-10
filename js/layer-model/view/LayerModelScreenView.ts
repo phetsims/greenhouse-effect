@@ -45,7 +45,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     const sunAndReflectionControl = new SunAndReflectionControl(
       this.energyLegend.width,
       model,
-      tandem.createTandem( 'layersControl' )
+      tandem.createTandem( 'sunAndReflectionControl' )
     );
     this.legendAndControlsVBox.addChild( sunAndReflectionControl );
 
