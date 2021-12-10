@@ -7,8 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Color } from '../../../../scenery/js/imports.js';
-import { ColorProperty } from '../../../../scenery/js/imports.js';
+import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
@@ -24,7 +23,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   constructor( model: LayerModelModel, tandem: Tandem ) {
 
-    super( model, tandem, { groundBaseColorProperty: new ColorProperty( Color.GRAY ) } );
+    const groundBaseColorProperty = new ColorProperty( Color.GRAY );
+
+    super( model, tandem, { groundBaseColorProperty: groundBaseColorProperty } );
 
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
@@ -79,6 +80,12 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         }
       };
       model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
+    } );
+
+    // Adjust the color of the ground as the albedo changes.
+    model.groundLayer.albedoProperty.link( albedo => {
+      const colorBaseValue = 255 * albedo;
+      groundBaseColorProperty.set( new Color( colorBaseValue, colorBaseValue, colorBaseValue ) );
     } );
 
     // flux meter

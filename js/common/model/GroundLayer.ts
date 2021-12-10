@@ -82,7 +82,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     return absorbedEnergy;
   }
 
-  public reset(){
+  public reset() {
     this.albedoProperty.reset();
     super.reset();
   }
