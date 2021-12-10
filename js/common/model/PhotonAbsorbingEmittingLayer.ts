@@ -56,7 +56,9 @@ class PhotonAbsorbingEmittingLayer {
       photonAbsorptionTime: 0.1,
 
       // A multiplier that is used on the layer's absorbance value when deciding whether to absorb a photon.  This can
-      // be used to increase the amount of photons absorbed beyond what happens "naturally".
+      // be used to increase or decrease the amount of photons absorbed beyond what happens "naturally", i.e. based on
+      // the absorbance of the corresponding AtmosphereLayer.  Note that this does *not* change the energy absorbance
+      // behavior, and thus would have no impact on the temperature values.
       absorbanceMultiplier: 1
 
     }, providedOptions ) as Required<PhotonAbsorbingEmittingLayerOptions>;
