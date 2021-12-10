@@ -190,9 +190,9 @@ class DateControl extends Node {
    * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
    * @param {Tandem} tandem
    */
-  constructor( dateProperty: EnumerationProperty,
+  constructor( dateProperty: EnumerationProperty<any>,
                concentrationProperty: IReadOnlyProperty<number>,
-               concentrationControlModeProperty: EnumerationProperty,
+               concentrationControlModeProperty: EnumerationProperty<any>,
                tandem: Tandem ) {
 
     super();
@@ -425,7 +425,7 @@ class CompositionDataNode extends VBox {
   /**
    * @param {EnumerationProperty} dateProperty
    */
-  constructor( dateProperty: EnumerationProperty ) {
+  constructor( dateProperty: EnumerationProperty<any> ) {
     super( {
       align: 'left'
     } );
@@ -475,7 +475,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
    * @param {EnumerationProperty} property - Property for the method of controlling concentration
    * @param {Tandem} tandem
    */
-  constructor( property: EnumerationProperty, tandem: Tandem ) {
+  constructor( property: EnumerationProperty<any>, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'
