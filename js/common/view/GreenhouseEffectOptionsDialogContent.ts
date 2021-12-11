@@ -47,7 +47,7 @@ const TemperatureSoundNames = Enumeration.byKeys( [
 // Define the globals that will be set by this node.  They must be defined during load time.
 
 // global property that specifies which sound generator to use for temperature
-phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty<any>(
+phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
   TemperatureSoundNames,
   // @ts-ignore
   TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS

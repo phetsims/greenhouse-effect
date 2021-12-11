@@ -53,7 +53,7 @@ class LayersModel extends GreenhouseEffectModel {
   readonly surfaceTemperatureKelvinProperty: NumberProperty;
   readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
   readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
-  readonly temperatureUnitsProperty: EnumerationProperty<any>;
+  readonly temperatureUnitsProperty: EnumerationProperty;
   readonly surfaceThermometerVisibleProperty: BooleanProperty;
   readonly energyBalanceVisibleProperty: BooleanProperty;
   readonly surfaceTemperatureVisibleProperty: BooleanProperty;

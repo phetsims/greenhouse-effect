@@ -46,9 +46,9 @@ const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
 class ConcentrationModel extends LayersModel {
 
-  public readonly dateProperty: EnumerationProperty<any>;
+  public readonly dateProperty: EnumerationProperty;
   public readonly manuallyControlledConcentrationProperty: NumberProperty;
-  public readonly concentrationControlModeProperty: EnumerationProperty<any>;
+  public readonly concentrationControlModeProperty: EnumerationProperty;
   public readonly concentrationProperty: IReadOnlyProperty<number>;
 
   /**
