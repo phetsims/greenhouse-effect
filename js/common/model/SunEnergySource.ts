@@ -76,7 +76,7 @@ class SunEnergySource extends PhetioObject {
    * @param {number} dt
    * @public
    */
-  produceEnergy( dt: number ) {
+  public produceEnergy( dt: number ) {
     if ( this.isShiningProperty.value ) {
       const energyToProduce = OUTPUT_ENERGY_RATE * this.surfaceAreaOfIncidentLight *
                               this.proportionateOutputRateProperty.value * dt;
@@ -92,9 +92,16 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
+   * Get the current output energy in watts per square meter.
+   */
+  public getOutputEnergyRate() {
+    return OUTPUT_ENERGY_RATE * this.proportionateOutputRateProperty.value;
+  }
+
+  /**
    * @public
    */
-  reset() {
+  public reset() {
     this.outputEnergyRateTracker.reset();
     this.isShiningProperty.reset();
     this.proportionateOutputRateProperty.reset();

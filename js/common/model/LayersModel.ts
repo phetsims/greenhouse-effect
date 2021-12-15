@@ -38,6 +38,7 @@ const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
 const DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to give us good behavior for temperature and energy flux
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
+const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
 
 // units of temperature used by Greenhouse Effect
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
@@ -50,22 +51,24 @@ type LayersModelOptions = {
 
 class LayersModel extends GreenhouseEffectModel {
 
-  readonly surfaceTemperatureKelvinProperty: NumberProperty;
-  readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
-  readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
-  readonly temperatureUnitsProperty: EnumerationProperty;
-  readonly surfaceThermometerVisibleProperty: BooleanProperty;
-  readonly energyBalanceVisibleProperty: BooleanProperty;
-  readonly surfaceTemperatureVisibleProperty: BooleanProperty;
-  readonly fluxMeterVisibleProperty: BooleanProperty;
+  public readonly surfaceTemperatureKelvinProperty: NumberProperty;
+  public readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
+  public readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
+  public readonly temperatureUnitsProperty: EnumerationProperty;
+  public readonly surfaceThermometerVisibleProperty: BooleanProperty;
+  public readonly energyBalanceVisibleProperty: BooleanProperty;
+  public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
+  public readonly fluxMeterVisibleProperty: BooleanProperty;
+  public readonly inRadiativeBalanceProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
-  readonly sunEnergySource: SunEnergySource;
-  readonly atmosphereLayers: AtmosphereLayer[];
-  readonly groundLayer: GroundLayer;
-  readonly clouds: Cloud[];
-  readonly outerSpace: SpaceEnergySink;
+  public readonly sunEnergySource: SunEnergySource;
+  public readonly atmosphereLayers: AtmosphereLayer[];
+  public readonly groundLayer: GroundLayer;
+  public readonly clouds: Cloud[];
+  public readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
-  readonly fluxMeter: FluxMeter;
+  public readonly fluxMeter: FluxMeter;
+
 
   /**
    * @param {Tandem} [tandem]
@@ -102,28 +105,34 @@ class LayersModel extends GreenhouseEffectModel {
       GreenhouseEffectUtils.kelvinToFahrenheit
     );
 
+    // whether the amount of energy coming in from the sun matches that going back out to space, within a threshold
+    this.inRadiativeBalanceProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'inRadiativeBalanceProperty' ),
+      phetioReadOnly: true
+    } );
+
     // displayed units of temperature
     // @ts-ignore
     this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
-    // whether or not the thermometer measuring surface temperature is visible
+    // whether the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
     } );
 
-    // whether or not the "Energy Balance" display is visible
+    // whether the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
     } );
 
-    // whether or not the glowing representation of surface temperature is visible
+    // whether the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
 
-    // whether or not the flux meter is visible
+    // whether the flux meter is visible
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
     } );
@@ -214,6 +223,14 @@ class LayersModel extends GreenhouseEffectModel {
       // Adjust remaining time for stepping the model.
       this.modelSteppingTime -= MODEL_TIME_STEP;
     }
+
+    // Update the Property that tracks whether the system as a whole is in radiative balance.
+    const energyGoingIntoSpace = this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value /
+                                 EnergyAbsorbingEmittingLayer.SURFACE_AREA;
+    const energyComingFromSun = this.sunEnergySource.getOutputEnergyRate();
+    this.inRadiativeBalanceProperty.set(
+      Math.abs( energyComingFromSun - energyGoingIntoSpace ) < RADIATIVE_BALANCE_THRESHOLD
+    );
   }
 
   /**

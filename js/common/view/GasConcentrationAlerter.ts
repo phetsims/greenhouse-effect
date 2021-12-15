@@ -13,7 +13,7 @@ import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 
- // in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
+// in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
 const ALERT_INTERVAL = 2;
 
 class GasConcentrationAlerter extends Alerter {
@@ -42,7 +42,7 @@ class GasConcentrationAlerter extends Alerter {
 
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
 
-      if ( !this.model.groundLayer.atEquilibriumProperty.value ){
+      if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
         const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
           this.previousTemperature,
           this.model.surfaceTemperatureKelvinProperty.value,
