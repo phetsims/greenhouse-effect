@@ -255,6 +255,14 @@ class LayersModel extends GreenhouseEffectModel {
   }
 
   /**
+   * Getter method that is true when infrared radiation is present.
+   * TODO: Should this actually be implemented in subclasses and actually test for the presence of IR?
+   */
+  public isInfraredPresent(): boolean {
+    return this.groundLayer.temperatureProperty.value > GroundLayer.MINIMUM_TEMPERATURE;
+  }
+
+  /**
    * Resets all aspects of the model.
    * @override
    * @public
