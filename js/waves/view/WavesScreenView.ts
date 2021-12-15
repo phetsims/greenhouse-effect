@@ -289,8 +289,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   /**
    * @public
    */
-  step() {
+  step( dt: number ) {
     this.updateSoundLoopLevels();
+    this.observationWindow.step( dt );
   }
 }
 

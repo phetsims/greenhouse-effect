@@ -25,6 +25,7 @@ import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOpt
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -32,6 +33,7 @@ const GREEN_GRASS_BASE_COLOR = Color.GREEN;
 const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
+  private readonly gasConcentrationAlerter: GasConcentrationAlerter;
 
   /**
    * @param {ConcentrationModel} model
@@ -214,6 +216,15 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     model.clouds.forEach( cloud => {
       this.backgroundLayer.addChild( new CloudNode( cloud, this.modelViewTransform ) );
     } );
+
+    // pdom - responsive descriptions
+    this.gasConcentrationAlerter = new GasConcentrationAlerter( model, {
+      descriptionAlertNode: this
+    } );
+  }
+
+  public step( dt: number ): void {
+    this.gasConcentrationAlerter.step( dt );
   }
 
   // static values

@@ -179,6 +179,10 @@ type StringsType = {
     'startSunlightHint': string,
     'startSunlightButtonHelpText': string,
     'cloudCheckboxHelpText': string,
+    'surfaceTemperatureChangeWithValuePattern': string,
+    'surfaceTemperatureChangeWithoutValuePattern': string,
+    'warming': string,
+    'cooling': string,
     'concentrationPanel': {
       'title': string,
       'exploreMode': string,

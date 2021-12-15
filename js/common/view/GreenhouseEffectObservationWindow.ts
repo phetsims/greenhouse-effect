@@ -418,6 +418,10 @@ class GreenhouseEffectObservationWindow extends Node {
     );
   }
 
+  public step( dt: number ): void {
+    // Does nothing in the base class, override as necessary in subclasses.
+  }
+
   // static values
   static SIZE: Dimension2 = SIZE;
   static CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;

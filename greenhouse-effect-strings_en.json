@@ -322,7 +322,7 @@
       }
     },
     "infraredRadiationRedirectedPattern": {
-      "value":"{{moreOrLess}} infrared radiation redirected back to surface."
+      "value": "{{moreOrLess}} infrared radiation redirected back to surface."
     },
     "infraredRadiationRedirectedWithTemperaturePattern": {
       "value": "{{moreOrLess}} infrared radiation redirected back to surface, now {{quantitativeTemperature}}."
@@ -383,6 +383,18 @@
     },
     "cloudCheckboxHelpText": {
       "value": "Add cloud to sky."
+    },
+    "surfaceTemperatureChangeWithValuePattern": {
+      "value": "Surface temperature {{qualitativeDescription}}, now {{temperature}}."
+    },
+    "surfaceTemperatureChangeWithoutValuePattern": {
+      "value": "Surface temperature {{qualitativeDescription}}."
+    },
+    "warming": {
+      "value": "warming"
+    },
+    "cooling": {
+      "value": "cooling"
     },
     "concentrationPanel": {
       "title": {

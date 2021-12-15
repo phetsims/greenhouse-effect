@@ -26,6 +26,10 @@ const temperatureModerateString = greenhouseEffectStrings.a11y.temperatureDescri
 const temperatureSomewhatLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatLow;
 const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.low;
 const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
+const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
+const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
+const warmingString = greenhouseEffectStrings.a11y.warming;
+const coolingString = greenhouseEffectStrings.a11y.cooling;
 
 const qualitativeTemperatureDescriptionStrings = [
   temperatureVeryLowString,
@@ -100,7 +104,7 @@ class TemperatureDescriber {
   static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ) {
     // @ts-ignore
     const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
-                           // @ts-ignore
+      // @ts-ignore
                            unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
                            GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
@@ -120,10 +124,42 @@ class TemperatureDescriber {
   static getTemperatureUnitsString( unitsValue: any ) {
     // @ts-ignore
     return unitsValue === LayersModel.TemperatureUnits.KELVIN ? kelvinString :
-           // @ts-ignore
+      // @ts-ignore
            unitsValue === LayersModel.TemperatureUnits.CELSIUS ? celsiusString :
            fahrenheitString;
 
+  }
+
+  /**
+   * Get a description of the change in surface temperature, with more or less information depending on whether
+   * the thermometer is visible. Will return something like:
+   * "Surface temperature warming, now 277 Kelvin."
+   */
+  static getSurfaceTemperatureChangeString( oldTemperature: number,
+                                            currentTemperature: number,
+                                            thermometerVisible: boolean,
+                                            unitsValue: any ): string | null {
+    let changeString = null;
+
+    if ( oldTemperature !== currentTemperature ) {
+      const qualitativeDescriptionString = currentTemperature > oldTemperature ? warmingString : coolingString;
+
+      if ( thermometerVisible ) {
+        const temperatureValueString = TemperatureDescriber.getTemperatureValueString( currentTemperature, unitsValue );
+
+        changeString = StringUtils.fillIn( surfaceTemperatureChangeWithValuePatternString, {
+          qualitativeDescription: qualitativeDescriptionString,
+          temperature: temperatureValueString
+        } );
+      }
+      else {
+        changeString = StringUtils.fillIn( surfaceTemperatureChangeWithoutValuePatternString, {
+          qualitativeDescription: qualitativeDescriptionString
+        } );
+      }
+    }
+
+    return changeString;
   }
 }
 
