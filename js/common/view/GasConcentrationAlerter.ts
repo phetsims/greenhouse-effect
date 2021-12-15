@@ -34,21 +34,24 @@ class GasConcentrationAlerter extends Alerter {
   }
 
   /**
-   * Create new alerts, if it has been long enough since the last alert.
+   * Create new alerts, if it has been long enough since the last alert and the temperature is changing.
    */
   public step( dt: number ): void {
 
     this.timeSinceLastAlert += dt;
 
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
-      const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-        this.previousTemperature,
-        this.model.surfaceTemperatureKelvinProperty.value,
-        this.model.surfaceThermometerVisibleProperty.value,
-        this.model.temperatureUnitsProperty.value
-      );
 
-      temperatureAlertString && this.alert( temperatureAlertString );
+      if ( !this.model.groundLayer.atEquilibriumProperty.value ){
+        const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+          this.previousTemperature,
+          this.model.surfaceTemperatureKelvinProperty.value,
+          this.model.surfaceThermometerVisibleProperty.value,
+          this.model.temperatureUnitsProperty.value
+        );
+
+        temperatureAlertString && this.alert( temperatureAlertString );
+      }
 
       this.previousTemperature = this.model.surfaceTemperatureKelvinProperty.value;
       this.timeSinceLastAlert = 0;

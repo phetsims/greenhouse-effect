@@ -243,6 +243,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    */
   reset() {
     this.temperatureProperty.reset();
+    this.atEquilibriumProperty.reset();
   }
 
   // statics
