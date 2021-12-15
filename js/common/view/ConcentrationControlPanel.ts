@@ -16,15 +16,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { Line } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
-import { SceneryEvent } from '../../../../scenery/js/imports.js';
+import { Circle, Line, Node, Path, Rectangle, RichText, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -88,10 +80,10 @@ type ConcentrationControlPanelOptions = {
 class ConcentrationControlPanel extends Panel {
 
   /**
-   * @param {number} width - width the panel contents are limited to, for i18n and layout with other screen components
-   * @param {ConcentrationModel} concentrationModel
-   * @param {RadiationDescriber} radiationDescriber
-   * @param {Object} [options]
+   * @param width - width the panel contents are limited to, for i18n and layout with other screen components
+   * @param concentrationModel
+   * @param radiationDescriber
+   * @param [options]
    */
   constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, options?: ConcentrationControlPanelOptions ) {
 
@@ -122,7 +114,7 @@ class ConcentrationControlPanel extends Panel {
 
     // controls the concentration directly by value
     const concentrationSlider = new ConcentrationSlider(
-      concentrationModel.manuallyControlledConcentrationProperty,
+      concentrationModel,
       radiationDescriber,
       options.tandem.createTandem( 'concentrationSlider' )
     );
@@ -356,26 +348,20 @@ class DateControl extends Node {
  * Inner class that is a labelled VSlider that directly controls greenhouse gas concentration in the sim.
  */
 class ConcentrationSlider extends Node {
-
-  /**
-   * @param {NumberProperty} manuallyControlledConcentrationProperty
-   * @param {RadiationDescriber} radiationDescriber
-   * @param {Tandem} tandem
-   */
-  constructor( manuallyControlledConcentrationProperty: NumberProperty, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
+  constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
 
     super( { tandem: tandem } );
 
     // Create the sound generator.
     const concentrationSliderSoundGenerator = new ConcentrationSliderSoundGenerator(
-      manuallyControlledConcentrationProperty,
+      concentrationModel.manuallyControlledConcentrationProperty,
       { initialOutputLevel: 0.1 }
     );
     soundManager.addSoundGenerator( concentrationSliderSoundGenerator );
 
-    const sliderRange = manuallyControlledConcentrationProperty.range!;
+    const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range!;
 
-    const slider = new VSlider( manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
+    const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
@@ -395,7 +381,13 @@ class ConcentrationSlider extends Node {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
       },
       a11yCreateContextResponseAlert: ( mappedValue: number, newValue: number, oldValue: number ) => {
-        return radiationDescriber.getRadiationRedirectionDescription( newValue, oldValue );
+        let contextResponseAlert = null;
+
+        if ( concentrationModel.isPlayingProperty.value && concentrationModel.isInfraredPresent() ) {
+          contextResponseAlert = radiationDescriber.getRadiationRedirectionDescription( newValue, oldValue );
+        }
+
+        return contextResponseAlert;
       },
 
       // phet-io
