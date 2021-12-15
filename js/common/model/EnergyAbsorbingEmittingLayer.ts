@@ -6,6 +6,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -19,6 +20,7 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
+const AT_EQUILIBRIUM_THRESHOLD = 0.005; // in Watts per square meter, empirically determined
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = Enumeration.byMap( {
@@ -56,6 +58,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   private readonly mass: number;
   private readonly specificHeatCapacity: number;
   private readonly minimumTemperature: number;
+  readonly atEquilibriumProperty: BooleanProperty;
 
   /**
    * @param {number} altitude
@@ -108,6 +111,14 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true,
       phetioDocumentation: 'Proportion, from 0 to 1, of light energy absorbed for interacting wavelengths.'
     } );
+
+    // A property that is true when this layer is in equilibrium, meaning that the amount of energy coming in is equal
+    // to or at least very close to the amount of energy going out.
+    this.atEquilibriumProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'atEquilibriumProperty' ),
+      phetioReadOnly: true
+    } );
+
 
     // @private
     this.substance = options.substance;
@@ -195,6 +206,12 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // Calculate the new temperature using the previous temperature and the changes due to energy absorption and
     // emission.
     this.temperatureProperty.set( this.temperatureProperty.value + netTemperatureChange );
+
+    // Determine whether this layer is currently considered to be at equilibrium.  This uses a threshold, and that
+    // threshold could be changed if a different behavior is needed.
+    this.atEquilibriumProperty.set(
+      Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD
+    );
 
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
