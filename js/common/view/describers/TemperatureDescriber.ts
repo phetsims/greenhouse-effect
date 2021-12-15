@@ -145,7 +145,7 @@ class TemperatureDescriber {
       const qualitativeDescriptionString = currentTemperature > oldTemperature ? warmingString : coolingString;
 
       if ( thermometerVisible ) {
-        const temperatureValueString = TemperatureDescriber.getTemperatureValueString( currentTemperature, unitsValue );
+        const temperatureValueString = TemperatureDescriber.getQuantitativeTemperatureDescription( currentTemperature, unitsValue );
 
         changeString = StringUtils.fillIn( surfaceTemperatureChangeWithValuePatternString, {
           qualitativeDescription: qualitativeDescriptionString,
