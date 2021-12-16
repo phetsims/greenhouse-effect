@@ -152,7 +152,7 @@ class GreenhouseEffectObservationWindow extends Node {
         .addColorStop( 0, '#00131A' )
         .addColorStop( 0.2, '#007399' )
         .addColorStop( 0.35, '#00ACE6' )
-        .addColorStop( 0.80, '#B3ECFF' )
+        .addColorStop( 0.80, '#80DFFF' )
     } );
     this.backgroundLayer.addChild( skyNode );
 
@@ -185,10 +185,22 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // Update the ground as the base color changes.
     groundBaseColorProperty.link( ( baseColor: Color ) => {
-      // @ts-ignore
-      groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-        .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
-        .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+
+      // Handle a gradient with equal values for R, G, and B as a special case with less variation from the darkest to
+      // the lightest colors.  This was added to support the variable albedo case, and allow the lightest color to look
+      // more "snow like".
+      if ( baseColor.r === baseColor.g && baseColor.g === baseColor.b ) {
+        // @ts-ignore
+        groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+          .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
+          .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+      }
+      else {
+        // @ts-ignore
+        groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+          .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
+          .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+      }
     } );
 
     // Add the temperature glow nodes if so configured.

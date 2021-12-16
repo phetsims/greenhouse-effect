@@ -84,7 +84,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {
-      const colorBaseValue = 255 * albedo;
+      const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
       groundBaseColorProperty.set( new Color( colorBaseValue, colorBaseValue, colorBaseValue ) );
     } );
 
