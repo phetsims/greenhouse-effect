@@ -9,33 +9,38 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDirection from './EnergyDirection.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 // constants
-const MINIMUM_TEMPERATURE = 245; // the minimum temperature that the ground is allowed to reach
+
+// The minimum temperature that the ground reaches at night (i.e. when no sunlight is present) when modeling the Earth.
+const MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = 245;
+
+// The minimum temperature that the ground is allowed to reach what the solar intensity and surface albedo of the ground
+// are variable.  This value was empirically determined by setting those values to their lowest and highest values
+// respectively and looking at the resulting temperature, then adding a bit of margin.
+const MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE = 115;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   readonly albedoProperty: NumberProperty;
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem: Tandem ) {
+  constructor( tandem: Tandem, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
-    const options = {
+    const options = merge( {
       // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
-      minimumTemperature: MINIMUM_TEMPERATURE,
+      minimumTemperature: MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
 
       // phet-io
       tandem: tandem,
       phetioReadOnly: true,
       phetioState: false
-    };
+    }, providedOptions );
 
     super( 0, options );
 
@@ -87,7 +92,8 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     super.reset();
   }
 
-  static MINIMUM_TEMPERATURE: number = MINIMUM_TEMPERATURE
+  static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE: number = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE
+  static MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE: number = MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE
 }
 
 greenhouseEffect.register( 'GroundLayer', GroundLayer );

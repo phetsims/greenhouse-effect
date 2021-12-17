@@ -16,7 +16,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import GroundLayer from '../../common/model/GroundLayer.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 
 /**
@@ -78,16 +77,6 @@ class PhotonsModel extends ConcentrationModel {
   reset() {
     this.photonCollection.reset();
     super.reset();
-  }
-
-  /**
-   * Calculate the rate of photon production for the ground based on its temperature.
-   * @param groundTemperature
-   */
-  static groundTemperatureToPhotonProductionRate( groundTemperature: number ) {
-
-    // The formula used here was empirically determined to get the desired density of photons.
-    return Math.max( 0, ( groundTemperature - GroundLayer.MINIMUM_TEMPERATURE ) / 5 );
   }
 }
 

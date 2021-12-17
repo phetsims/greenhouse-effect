@@ -185,7 +185,8 @@ class PhotonCollection {
 
     // Update the rate at which the ground is producing IR photons.
     this.groundPhotonProductionRate = PhotonCollection.groundTemperatureToIRPhotonProductionRate(
-      this.groundLayer.temperatureProperty.value
+      this.groundLayer.temperatureProperty.value,
+      this.groundLayer.minimumTemperature
     );
 
     // Produce photons from the ground based on its temperature.
@@ -231,17 +232,16 @@ class PhotonCollection {
 
   /**
    * Calculate the rate of infrared photon production for the ground based on its temperature.
-   * @param groundTemperature
    */
-  static groundTemperatureToIRPhotonProductionRate( groundTemperature: number ) {
+  static groundTemperatureToIRPhotonProductionRate( groundTemperature: number, cutoffTemperature: number ) {
 
     let photonProductionRate = 0;
 
-    // The following computation is designed to produce no photons below the minimum ground temperature, and above that
+    // The following computation is designed to produce no photons below the minimum cutoff temperature, and above that
     // to produce a quantity that makes sense - at least roughly - compared to the number of photons coming in from the
     // sun.  See https://github.com/phetsims/greenhouse-effect/issues/116 for more background on this.
     const visibleToInfraredRatio = 5;
-    if ( groundTemperature > GroundLayer.MINIMUM_TEMPERATURE ) {
+    if ( groundTemperature > cutoffTemperature ) {
       const radiatedEnergyPerUnitSurfaceArea = Math.pow( groundTemperature, 4 ) *
                                                GreenhouseEffectConstants.STEFAN_BOLTZMANN_CONSTANT;
 

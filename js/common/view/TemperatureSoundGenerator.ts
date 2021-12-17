@@ -30,6 +30,10 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundLayer from '../model/GroundLayer.js';
 
 // constants
+// TODO (maybe): On 12/17/2021 I (jbphet) added support to other portions of the sim for ground temperatures below what
+//               up until then, had been a minimum ground temperature of 245K.  I didn't update this sound generator to
+//               handle this change because it is most likely going away.  If it ends up living on, it will need to be
+//               changed to accommodate the potentially lower temperatures.
 const LOW_TO_MEDIUM_CROSSOVER_TEMPERATURE = 266; // in Kelvin
 const MEDIUM_TO_HUMAN_IDEAL_CROSSOVER_TEMPERATURE = 280; // in Kelvin
 const HUMAN_IDEAL_TO_HIGH_CROSSOVER_TEMPERATURE = 289; // in Kelvin
@@ -75,10 +79,6 @@ class TemperatureSoundGenerator extends SoundGenerator {
   private readonly temperatureSoundClipLoops: SoundClip[];
   private readonly temperatureProperty: Property<number>;
 
-  /**
-   * @param {Property.<number>} temperatureProperty - temperature of the model, in Kelvin
-   * @param {Object} [options]
-   */
   constructor( temperatureProperty: Property<number>, options: SoundGeneratorOptions ) {
 
     super( options );
@@ -113,12 +113,8 @@ class TemperatureSoundGenerator extends SoundGenerator {
   updateLoopStates() {
 
     // convenience variables
-    const temperature = this.temperatureProperty.value;
+    const temperature = Math.max( this.temperatureProperty.value, GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE );
     const loops = this.temperatureSoundClipLoops;
-
-    // The code below assumes that the minimum temperature really is a minimum, and the temperature never goes below
-    // that values.
-    assert && assert( temperature >= GroundLayer.MINIMUM_TEMPERATURE, 'temperature below minimum' );
 
     // Map of loops to output levels.
     const loopsToOutputLevelsMap = new Map();
@@ -138,10 +134,10 @@ class TemperatureSoundGenerator extends SoundGenerator {
 
         let level;
 
-        // By design, there is a little bit sound sound generation at the minimum temperature, but not much, and it
-        // fades in as the temperature starts to increase.  This is achieved by using the same algorithm for the cross
-        // add and the fade in, and setting up the fade in region to be in a place that sounds the way we want it to.
-        const fadeInKnee = GroundLayer.MINIMUM_TEMPERATURE + CROSS_FADE_SPAN * 0.8;
+        // By design, there is a little sound generation at the minimum temperature, but not much, and it fades in as
+        // the temperature starts to increase.  This is achieved by using the same algorithm for the cross add and the
+        // fade in, and setting up the fade in region to be in a place that sounds the way we want it to.
+        const fadeInKnee = GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE + CROSS_FADE_SPAN * 0.8;
         if ( temperature < fadeInKnee ) {
 
           // Fade this in based on how close the current temperature is to the minimum.

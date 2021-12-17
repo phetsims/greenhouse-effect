@@ -19,7 +19,7 @@ import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
-const MIN_WAVE_PRODUCTION_TEMPERATURE = GroundLayer.MINIMUM_TEMPERATURE; // min temperature at which the ground will produce IR waves
+const MIN_WAVE_PRODUCTION_TEMPERATURE = GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE; // min temperature at which the ground will produce IR waves
 const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
 class GroundWaveSource extends EMWaveSource {

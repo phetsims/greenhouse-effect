@@ -55,6 +55,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const listParentNode = new Node();
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
+      minTemperature: model.groundLayer.minimumTemperature - 5,
+
       // phet-io
       tandem: tandem.createTandem( 'surfaceThermometer' )
     } );

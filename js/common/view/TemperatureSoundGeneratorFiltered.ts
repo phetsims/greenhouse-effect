@@ -13,31 +13,20 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import baseSound from '../../../sounds/greenhouse-effect-temperature-base-ambience-4-octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GroundLayer from '../model/GroundLayer.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import Property from '../../../../axon/js/Property.js';
 
 // constants
-const EXPECTED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_TEMPERATURE, 295 );
 const FILTER_FREQUENCY_RANGE = new Range( 120, 2500 );
-const temperatureToFilterFrequency = new LinearFunction(
-  EXPECTED_TEMPERATURE_RANGE.min,
-  EXPECTED_TEMPERATURE_RANGE.max,
-  FILTER_FREQUENCY_RANGE.min,
-  FILTER_FREQUENCY_RANGE.max
-);
 const TIME_CONSTANT = 0.015;
 const FILTER_Q = 10; // empirically determined
 
 class TemperatureSoundGeneratorFiltered extends SoundGenerator {
+  private readonly temperatureToFilterFrequency: LinearFunction;
 
-  /**
-   * @param {Property.<number>} temperatureProperty - temperature of the model, in Kelvin
-   * @param {Property.<boolean>} isSunShiningProperty
-   * @param {Object} [options]
-   */
   constructor( temperatureProperty: Property<number>,
                isSunShiningProperty: Property<boolean>,
+               expectedTemperatureRange: Range,
                options: SoundGeneratorOptions ) {
 
     super( options );
@@ -46,6 +35,13 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     const baseSoundLoop = new SoundClip( baseSound, {
       loop: true
     } );
+
+    this.temperatureToFilterFrequency = new LinearFunction(
+      expectedTemperatureRange.min,
+      expectedTemperatureRange.max,
+      FILTER_FREQUENCY_RANGE.min,
+      FILTER_FREQUENCY_RANGE.max
+    );
 
     // low pass filter
     const lowPassFilter = this.audioContext.createBiquadFilter();
@@ -98,7 +94,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
 
     // Adjust the filters as the temperature changes.
     temperatureProperty.link( temperature => {
-      const frequency = temperatureToFilterFrequency.evaluate( temperature );
+      const frequency = this.temperatureToFilterFrequency.evaluate( temperature );
       const now = this.audioContext.currentTime;
       lowPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );
       bandPassFilter.frequency.setTargetAtTime( frequency, now, TIME_CONSTANT );

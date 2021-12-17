@@ -51,14 +51,14 @@ type EnergyAbsorbingEmittingLayerOptions = {
 } & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
-  readonly altitude: number;
-  readonly temperatureProperty: NumberProperty;
-  readonly energyAbsorptionProportionProperty: NumberProperty;
+  public readonly altitude: number;
+  public readonly temperatureProperty: NumberProperty;
+  public readonly energyAbsorptionProportionProperty: NumberProperty;
   private readonly substance: any;
   private readonly mass: number;
   private readonly specificHeatCapacity: number;
-  private readonly minimumTemperature: number;
-  readonly atEquilibriumProperty: BooleanProperty;
+  public readonly minimumTemperature: number;
+  public readonly atEquilibriumProperty: BooleanProperty;
 
   /**
    * @param {number} altitude
@@ -130,22 +130,16 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   /**
    * Interact with the provided energy packets.  This behavior varies depending on the nature of the layer, and must
    * therefore be overridden in descendant classes.
-   * @param {EMEnergyPacket[]} emEnergyPackets
-   * @returns {number}
-   * @protected
    */
-  interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
+  protected interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
     assert && assert( false, 'this method must be overridden in descendant classes' );
     return 0;
   }
 
   /**
    * Returns true if the provided energy packet crossed over this layer during its latest step.
-   * @param {EMEnergyPacket} energyPacket
-   * @returns {boolean}
-   * @protected
    */
-  energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
+  protected energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
     const altitude = this.altitude;
     return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
            ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
@@ -153,11 +147,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
-   * @param {EMEnergyPacket[]} emEnergyPackets
-   * @param {number} dt - delta time, in seconds
-   * @public
    */
-  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 
 
     // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
@@ -239,9 +230,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   }
 
   /**
-   * @public
+   * restore initial state
    */
-  reset() {
+  public reset() {
     this.temperatureProperty.reset();
     this.atEquilibriumProperty.reset();
   }

@@ -12,6 +12,7 @@ import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
+import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const INITIAL_ABSORPTION_PROPORTION = 1.0;
@@ -32,6 +33,7 @@ class LayerModelModel extends LayersModel {
   constructor( tandem: Tandem ) {
     super( tandem, {
       numberOfAtmosphereLayers: 3,
+      minimumGroundTemperature: GroundLayer.MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false
     } );

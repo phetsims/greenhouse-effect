@@ -402,6 +402,7 @@ class GreenhouseEffectObservationWindow extends Node {
       new TemperatureSoundGeneratorFiltered(
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
+        new Range( model.groundLayer.minimumTemperature, 300 ),
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
@@ -418,6 +419,7 @@ class GreenhouseEffectObservationWindow extends Node {
       new TemperatureSoundGeneratorSpeed(
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
+        new Range( model.groundLayer.minimumTemperature, 300 ),
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [

@@ -44,6 +44,7 @@ const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically
 const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 type LayersModelOptions = {
+  minimumGroundTemperature?: number,
   numberOfAtmosphereLayers?: number,
   atmosphereLayersInitiallyActive?: boolean,
   initialAtmosphereLayerAbsorptionProportion?: number
@@ -78,6 +79,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     const options = merge( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
+      minimumGroundTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true
     }, providedOptions ) as Required<LayersModelOptions>;
@@ -152,7 +154,9 @@ class LayersModel extends GreenhouseEffectModel {
     );
 
     // model of the ground that absorbs energy, heats up, and radiates
-    this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ) );
+    this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ), {
+      minimumTemperature: options.minimumGroundTemperature
+    } );
 
     // the energy-absorbing-and-emitting layers for the atmosphere
     this.atmosphereLayers = [];
@@ -276,7 +280,7 @@ class LayersModel extends GreenhouseEffectModel {
    * TODO: Should this actually be implemented in subclasses and actually test for the presence of IR?
    */
   public isInfraredPresent(): boolean {
-    return this.groundLayer.temperatureProperty.value > GroundLayer.MINIMUM_TEMPERATURE;
+    return this.groundLayer.temperatureProperty.value > this.groundLayer.minimumTemperature;
   }
 
   /**

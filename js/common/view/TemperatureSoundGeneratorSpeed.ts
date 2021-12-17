@@ -13,28 +13,16 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import baseSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GroundLayer from '../model/GroundLayer.js';
 import Property from '../../../../axon/js/Property.js';
 
 // constants
-const EXPECTED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_TEMPERATURE, 295 );
 const PLAYBACK_RATE_RANGE = new Range( 0.5, 1.5 );
-const temperatureToPlaybackRate = new LinearFunction(
-  EXPECTED_TEMPERATURE_RANGE.min,
-  EXPECTED_TEMPERATURE_RANGE.max,
-  PLAYBACK_RATE_RANGE.min,
-  PLAYBACK_RATE_RANGE.max
-);
 
 class TemperatureSoundGeneratorSpeed extends SoundGenerator {
 
-  /**
-   * @param {Property.<number>} temperatureProperty - temperature of the model, in Kelvin
-   * @param {Property.<boolean>} isSunShiningProperty
-   * @param {Object} [options]
-   */
   constructor( temperatureProperty: Property<number>,
                isSunShiningProperty: Property<boolean>,
+               expectedTemperatureRange: Range,
                options: SoundGeneratorOptions ) {
 
     super( options );
@@ -54,6 +42,13 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
         baseSoundLoop.stop();
       }
     } );
+
+    const temperatureToPlaybackRate = new LinearFunction(
+      expectedTemperatureRange.min,
+      expectedTemperatureRange.max,
+      PLAYBACK_RATE_RANGE.min,
+      PLAYBACK_RATE_RANGE.max
+    );
 
     // Adjust the playback rate as the temperature changes.
     temperatureProperty.link( temperature => {

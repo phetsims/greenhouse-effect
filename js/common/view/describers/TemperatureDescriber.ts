@@ -16,7 +16,7 @@ import GroundLayer from '../../model/GroundLayer.js';
 
 // constants
 // determined by inspection, temperature descriptions are evenly distributed across this range of values in Kelvin
-const DESCRIBED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_TEMPERATURE, 290 );
+const DESCRIBED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE, 290 );
 
 // strings used to describe temperature
 const temperatureVeryHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryHigh;
