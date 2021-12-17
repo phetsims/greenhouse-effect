@@ -12,7 +12,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import visiblePhotonImage from '../../../images/thin2_png.js';
+import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -64,7 +64,7 @@ class SunAndReflectionControl extends Panel {
     } );
 
     // Image of a photon that will be combined with the title text to form the overall title for the panel.
-    const visiblePhotonIcon = new Image( visiblePhotonImage, {
+    const visiblePhotonIcon = new Image( visiblePhoton_png, {
       maxWidth: 20 // empirically determined to look how we want it
     } );
 

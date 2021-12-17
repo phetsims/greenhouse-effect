@@ -13,7 +13,7 @@ import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../..
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import photon660Image from '../../../images/photon-660_png.js';
-import thin2Image from '../../../images/thin2_png.js';
+import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -98,7 +98,7 @@ class EnergyLegend extends Panel {
     const infraredWavelengths = 2.5;
     const sunlightWaveIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, { stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR } );
     const infraredWaveIcon = createWaveIcon( sunlightWavelength * sunlightWavelengths / infraredWavelengths, infraredWavelengths, { stroke: GreenhouseEffectConstants.INFRARED_COLOR } );
-    const sunlightPhotonIcon = new Image( thin2Image );
+    const sunlightPhotonIcon = new Image( visiblePhoton_png );
     const infraredPhotonIcon = new Image( photon660Image );
 
     const iconAlignGroup = new AlignGroup( { matchVertical: false } );
