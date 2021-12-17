@@ -19,7 +19,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
-
 // constants that define shape of wave icon, in view coordinates
 const WAVE_ICON_AMPLITUDE = 7;
 
