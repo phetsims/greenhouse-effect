@@ -27,6 +27,7 @@ import LayersModel from '../model/LayersModel.js';
 import Property from '../../../../axon/js/Property.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import GroundLayer from '../model/GroundLayer.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -55,7 +56,7 @@ class ThermometerAndReadout extends Node {
 
     const options = merge( {
 
-      minTemperature: 240,
+      minTemperature: GroundLayer.MINIMUM_TEMPERATURE,
       maxTemperature: 300,
 
       // readout type that will be shown below the thermometer, either SELECTABLE (i.e. a combo box) or fixed
