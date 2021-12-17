@@ -271,7 +271,7 @@ class GreenhouseEffectObservationWindow extends Node {
     const sunlightStartingSoundClip = new SoundClip( startSunlightSound, {
       initialOutputLevel: 0.5
     } );
-    soundManager.addSoundGenerator( sunlightStartingSoundClip );
+    soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 
     // @protected {TextPushButton} - button used to start and restart sunlight
     this.startSunlightButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
@@ -394,7 +394,8 @@ class GreenhouseEffectObservationWindow extends Node {
             crossFadeTemperatureSoundGeneratorEnabled
           ]
         }
-      )
+      ),
+      { associatedViewNode: this }
     );
 
     // Add the filter-based sound generator.
@@ -411,7 +412,8 @@ class GreenhouseEffectObservationWindow extends Node {
             filteredLoopTemperatureSoundGeneratorEnabled
           ]
         }
-      )
+      ),
+      { associatedViewNode: this }
     );
 
     // Add the playback-speed-based sound generator.
@@ -428,7 +430,8 @@ class GreenhouseEffectObservationWindow extends Node {
             loopSpeedTemperatureSoundGeneratorEnabled
           ]
         }
-      )
+      ),
+      { associatedViewNode: this }
     );
   }
 

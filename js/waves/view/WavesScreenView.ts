@@ -144,7 +144,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
           model.isPlayingProperty
         ]
       } );
-      soundManager.addSoundGenerator( soundGenerator );
+      soundManager.addSoundGenerator( soundGenerator, { associatedViewNode: this } );
       irWaveRadiatingFromGroundSoundGenerators.push( soundGenerator );
     } );
 
@@ -159,7 +159,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
           model.isPlayingProperty
         ]
       } );
-      soundManager.addSoundGenerator( soundGenerator );
+      soundManager.addSoundGenerator( soundGenerator, { associatedViewNode: this } );
       irWaveRadiatingFromAtmosphereSoundGenerators.push( soundGenerator );
     } );
 
