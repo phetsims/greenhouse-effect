@@ -4,6 +4,7 @@
  * Legend in GreenhouseEffect to show representations of sunlight and infrared energy.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Shape from '../../../../kite/js/Shape.js';
@@ -18,11 +19,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
+
 // constants that define shape of wave icon, in view coordinates
 const WAVE_ICON_AMPLITUDE = 7;
 
 // spacing used for contents in the legend
-const SPACING = 10;
+const MIN_HORIZONTAL_SPACING = 10;
 
 // horizontal margin for panel contents
 const PANEL_X_MARGIN = 8;
@@ -96,12 +98,18 @@ class EnergyLegend extends Panel {
     const sunlightWavelength = 15;
     const sunlightWavelengths = 3.5;
     const infraredWavelengths = 2.5;
-    const sunlightWaveIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, { stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR } );
-    const infraredWaveIcon = createWaveIcon( sunlightWavelength * sunlightWavelengths / infraredWavelengths, infraredWavelengths, { stroke: GreenhouseEffectConstants.INFRARED_COLOR } );
+    const sunlightWaveIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
+      stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR
+    } );
+    const infraredWaveIcon = createWaveIcon(
+      sunlightWavelength * sunlightWavelengths / infraredWavelengths,
+      infraredWavelengths,
+      { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
+    );
     const sunlightPhotonIcon = new Image( visiblePhoton_png );
     const infraredPhotonIcon = new Image( photon660Image );
 
-    const iconAlignGroup = new AlignGroup( { matchVertical: false } );
+    const iconAlignGroup = new AlignGroup();
     const sunlightWaveBox = iconAlignGroup.createBox( sunlightWaveIcon );
     const infraredWaveBox = iconAlignGroup.createBox( infraredWaveIcon );
     // @ts-ignore
@@ -109,19 +117,24 @@ class EnergyLegend extends Panel {
     // @ts-ignore
     const infraredPhotonBox = iconAlignGroup.createBox( infraredPhotonIcon );
 
+    // for layout
+    let interRowSpacing;
+
     // @ts-ignore
     if ( options.energyRepresentation === EnergyRepresentation.WAVE ) {
       sunlightIcon = sunlightWaveBox;
       infraredIcon = infraredWaveBox;
+      interRowSpacing = Math.max( sunlightWaveBox.bounds.height - sunlightPhotonBox.bounds.height, 0 );
     }
     else {
       sunlightIcon = sunlightPhotonBox;
       infraredIcon = infraredPhotonBox;
+      interRowSpacing = Math.max( sunlightPhotonBox.bounds.height - sunlightWaveBox.bounds.height, 0 );
     }
 
     const sunlightRow = new HBox( {
       children: [ sunlightLabel, sunlightIcon ],
-      spacing: SPACING,
+      spacing: MIN_HORIZONTAL_SPACING + Math.max( infraredLabel.bounds.width - sunlightLabel.bounds.width, 0 ),
 
       // pdom
       tagName: 'li',
@@ -129,7 +142,7 @@ class EnergyLegend extends Panel {
     } );
     const infraredRow = new HBox( {
       children: [ infraredLabel, infraredIcon ],
-      spacing: SPACING,
+      spacing: MIN_HORIZONTAL_SPACING + Math.max( sunlightLabel.bounds.width - infraredLabel.bounds.width, 0 ),
 
       // pdom
       tagName: 'li',
@@ -150,7 +163,7 @@ class EnergyLegend extends Panel {
     const infraredBox = legendAlignGroup.createBox( infraredRow, { xAlign: 'left', rightMargin: marginWidth } );
 
     const content = new VBox( {
-      spacing: SPACING,
+      spacing: interRowSpacing,
       children: [ titleBox, sunlightBox, infraredBox ],
 
       // pdom
