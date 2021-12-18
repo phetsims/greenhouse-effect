@@ -11,10 +11,10 @@
 import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
-import barnAndSheepImage from '../../../images/barn-and-sheep_png.js';
-import glacierImage from '../../../images/glacier_png.js';
-import nineteenFiftyBackgroundImage from '../../../images/nineteenFiftyBackground_png.js';
-import twentyTwentyBackgroundImage from '../../../images/twentyTwentyBackground_png.js';
+import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
+import glacier_png from '../../../images/glacier_png.js';
+import nineteenFiftyBackground_png from '../../../images/nineteenFiftyBackground_png.js';
+import twentyTwentyBackground_png from '../../../images/twentyTwentyBackground_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
@@ -69,27 +69,27 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     this.controlsLayer.addChild( listParentNode );
 
     // artwork for the various dates
-    const glacierImageNode = new Image( glacierImage, {
+    const glacierImageNode = new Image( glacier_png, {
 
       // size and position empirically determined
       maxWidth: SIZE.width * 0.5,
       bottom: SIZE.height,
       right: SIZE.width
     } );
-    const barnAndSheepImageNode = new Image( barnAndSheepImage, {
+    const barnAndSheepImageNode = new Image( barnAndSheep_png, {
 
       // size and position empirically determined
       maxWidth: 80,
       centerX: SIZE.width * 0.52,
       centerY: SIZE.height - this.groundNodeHeight * 0.5
     } );
-    const nineteenFiftyBackgroundImageNode = new Image( nineteenFiftyBackgroundImage, {
+    const nineteenFiftyBackgroundImageNode = new Image( nineteenFiftyBackground_png, {
 
       // size and position empirically determined
       maxWidth: SIZE.width,
       centerY: SIZE.height - this.groundNodeHeight * 0.5
     } );
-    const twentyTwentyBackgroundImageNode = new Image( twentyTwentyBackgroundImage, {
+    const twentyTwentyBackgroundImageNode = new Image( twentyTwentyBackground_png, {
 
       // size and position empirically determined
       maxWidth: SIZE.width,

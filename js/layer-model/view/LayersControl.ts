@@ -16,7 +16,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import { Image } from '../../../../scenery/js/imports.js';
-import photon660Image from '../../../images/photon-660_png.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -60,7 +60,7 @@ class LayersControl extends Panel {
     } );
 
     // Image of a photon that will be combined with the title text to form the overall title for the panel.
-    const infraredPhotonIcon = new Image( photon660Image, {
+    const infraredPhotonIcon = new Image( infraredPhoton_png, {
       maxWidth: 20 // empirically determined to look how we want it
     } );
 

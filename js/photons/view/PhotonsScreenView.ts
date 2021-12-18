@@ -5,7 +5,7 @@
  */
 
 import { Image } from '../../../../scenery/js/imports.js';
-import photonsScreenMockup from '../../../images/photons-screen-mockup_png.js';
+import photonsScreenMockup_png from '../../../images/photonsScreenMockup_png.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -49,7 +49,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     // @ts-ignore
     this.legendAndControlsVBox.addChild( concentrationControlPanel );
 
-    const mockup = new Image( photonsScreenMockup, {
+    const mockup = new Image( photonsScreenMockup_png, {
       center: this.layoutBounds.center,
       // @ts-ignore TODO: Image doesn't have minWidth
       minWidth: this.layoutBounds.width,

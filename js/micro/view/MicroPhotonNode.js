@@ -9,19 +9,19 @@
 
 import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import microwavePhotonImage from '../../../images/microwave-photon_png.js';
-import photon100Image from '../../../images/photon-100_png.js';
-import photon660Image from '../../../images/photon-660_png.js';
+import microwavePhoton_png from '../../../images/microwavePhoton_png.js';
+import ultravioletPhoton_png from '../../../images/ultravioletPhoton_png.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 // Map of photon wavelengths to visual images used for representing them.
 const mapWavelengthToImageName = {};
-mapWavelengthToImageName[ WavelengthConstants.MICRO_WAVELENGTH ] = microwavePhotonImage;
-mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = photon660Image;
+mapWavelengthToImageName[ WavelengthConstants.MICRO_WAVELENGTH ] = microwavePhoton_png;
+mapWavelengthToImageName[ WavelengthConstants.IR_WAVELENGTH ] = infraredPhoton_png;
 mapWavelengthToImageName[ WavelengthConstants.VISIBLE_WAVELENGTH ] = visiblePhoton_png;
-mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = photon100Image;
+mapWavelengthToImageName[ WavelengthConstants.UV_WAVELENGTH ] = ultravioletPhoton_png;
 
 class MicroPhotonNode extends Node {
 

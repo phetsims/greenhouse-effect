@@ -17,13 +17,13 @@ import { Image } from '../../../../scenery/js/imports.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
-import flashlightOffImage from '../../../images/flashlight-off_png.js';
-import heatLampOffImage from '../../../images/infrared-source-off_png.js';
-import uvLightOffImage from '../../../images/uv-source-off_png.js';
-import flashlightOnImage from '../../../mipmaps/flashlight_png.js';
-import heatLampOnImage from '../../../mipmaps/infrared-source_png.js';
-import microwaveTransmitterImage from '../../../mipmaps/microwave-source_png.js';
-import uvLightOnImage from '../../../mipmaps/uv-source_png.js';
+import flashlightOff_png from '../../../images/flashlightOff_png.js';
+import infraredSourceOff_png from '../../../images/infraredSourceOff_png.js';
+import uvSourceOff_png from '../../../images/uvSourceOff_png.js';
+import flashlight_png from '../../../mipmaps/flashlight_png.js';
+import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
+import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
+import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -120,19 +120,19 @@ class PhotonEmitterNode extends Node {
 
     // create the wavelength dependent images and nodes
     if ( photonWavelength === WavelengthConstants.IR_WAVELENGTH ) {
-      this.photonEmitterOnImage = new Image( heatLampOnImage );
-      this.photonEmitterOffImage = new Image( heatLampOffImage );
+      this.photonEmitterOnImage = new Image( infraredSource_png );
+      this.photonEmitterOffImage = new Image( infraredSourceOff_png );
     }
     else if ( photonWavelength === WavelengthConstants.VISIBLE_WAVELENGTH ) {
-      this.photonEmitterOnImage = new Image( flashlightOnImage );
-      this.photonEmitterOffImage = new Image( flashlightOffImage );
+      this.photonEmitterOnImage = new Image( flashlight_png );
+      this.photonEmitterOffImage = new Image( flashlightOff_png );
     }
     else if ( photonWavelength === WavelengthConstants.UV_WAVELENGTH ) {
-      this.photonEmitterOnImage = new Image( uvLightOnImage );
-      this.photonEmitterOffImage = new Image( uvLightOffImage );
+      this.photonEmitterOnImage = new Image( uvSource_png );
+      this.photonEmitterOffImage = new Image( uvSourceOff_png );
     }
     else if ( photonWavelength === WavelengthConstants.MICRO_WAVELENGTH ) {
-      this.photonEmitterOnImage = new Image( microwaveTransmitterImage );
+      this.photonEmitterOnImage = new Image( microwaveSource_png );
     }
 
     // scale, center - no 'off' image for microwave emitter

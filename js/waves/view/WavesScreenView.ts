@@ -10,7 +10,7 @@
 import { Image, VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import wavesScreenMockup from '../../../images/waves-screen-mockup_png.js';
+import wavesScreenMockup_png from '../../../images/wavesScreenMockup_png.js';
 import irWaveRadiatingFromGroundSound from '../../../sounds/greenhouse-effect-waves-ir-loop_mp3.js';
 import irWaveRadiatingFromAtmosphereSound from '../../../sounds/greenhouse-effect-waves-ir-reemission-loop_mp3.js';
 import irWaveEmittedFromAtmosphereSound from '../../../sounds/greenhouse-effect-waves-ir-reemission-starting-sound_mp3.js';
@@ -90,7 +90,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // The mockup is an image that represents the design, and is useful for positioning elements during the early
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
-    const mockup = new Image( wavesScreenMockup, {
+    const mockup = new Image( wavesScreenMockup_png, {
       center: this.layoutBounds.center,
       // @ts-ignore TODO: Image doesn't have minWidth
       minWidth: this.layoutBounds.width,

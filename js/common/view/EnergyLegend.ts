@@ -13,7 +13,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import photon660Image from '../../../images/photon-660_png.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -106,7 +106,7 @@ class EnergyLegend extends Panel {
       { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
     );
     const sunlightPhotonIcon = new Image( visiblePhoton_png );
-    const infraredPhotonIcon = new Image( photon660Image );
+    const infraredPhotonIcon = new Image( infraredPhoton_png );
 
     const iconAlignGroup = new AlignGroup();
     const sunlightWaveBox = iconAlignGroup.createBox( sunlightWaveIcon );

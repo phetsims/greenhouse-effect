@@ -8,7 +8,7 @@
  */
 
 import { Image, Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import infraredPhotonImage from '../../../images/photon-660_png.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Photon from '../model/Photon.js';
@@ -16,7 +16,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 
 // Map of photon wavelengths to visual images used for representing them.
 const mapWavelengthToImageName = new Map<any, Object>( [
-  [ Photon.IR_WAVELENGTH, infraredPhotonImage ],
+  [ Photon.IR_WAVELENGTH, infraredPhoton_png ],
   [ Photon.VISIBLE_WAVELENGTH, visiblePhoton_png ]
 ] );
 

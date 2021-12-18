@@ -5,7 +5,7 @@
  */
 
 import { Image } from '../../../../scenery/js/imports.js';
-import layerModelScreenMockup from '../../../images/model-screen-mockup_png.js';
+import modelScreenMockup_png from '../../../images/modelScreenMockup_png.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -31,7 +31,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
-    const mockup = new Image( layerModelScreenMockup, {
+    const mockup = new Image( modelScreenMockup_png, {
       center: this.layoutBounds.center,
       // @ts-ignore TODO: Image doesn't have minWidth
       minWidth: this.layoutBounds.width,
