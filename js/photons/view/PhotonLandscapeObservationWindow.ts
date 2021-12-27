@@ -9,10 +9,10 @@
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import irPhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-absorbed_mp3.js';
-import irPhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-ir-photon-emitted_mp3.js';
-import visiblePhotonAbsorbedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-absorbed_mp3.js';
-import visiblePhotonEmittedSound from '../../../sounds/greenhouse-effect-photons-screen-visible-light-photon-emitted_mp3.js';
+import greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3.js';
+import greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3.js';
+import greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3.js';
+import greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -58,13 +58,13 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     //                        be modularized, probably into its own class.
     const photonSoundLevel = 0.08;
     const playThreshold = 0.5;
-    const irPhotonAbsorbedSoundClip = new SoundClip( irPhotonAbsorbedSound, { initialOutputLevel: 0 } );
+    const irPhotonAbsorbedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
-    const irPhotonEmittedSoundClip = new SoundClip( irPhotonEmittedSound, { initialOutputLevel: photonSoundLevel } );
+    const irPhotonEmittedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3, { initialOutputLevel: photonSoundLevel } );
     soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
-    const visiblePhotonAbsorbedSoundClip = new SoundClip( visiblePhotonAbsorbedSound, { initialOutputLevel: 0 } );
+    const visiblePhotonAbsorbedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( visiblePhotonAbsorbedSoundClip );
-    const visiblePhotonEmittedSoundClip = new SoundClip( visiblePhotonEmittedSound, { initialOutputLevel: 0 } );
+    const visiblePhotonEmittedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
 
     // @ts-ignore

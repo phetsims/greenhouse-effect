@@ -1,5 +1,5 @@
 {
-  "absorb-photon.mp3": {
+  "absorbPhoton.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "break-apart.mp3": {
+  "breakApart.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
   },
-  "greenhouse-effect-ir-reemission.mp3": {
+  "greenhouseEffectIrReemission.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -31,7 +31,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-photons-screen-ir-photon-absorbed.mp3": {
+  "greenhouseEffectPhotonsScreenIrPhotonAbsorbed.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -39,7 +39,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-photons-screen-ir-photon-emitted.mp3": {
+  "greenhouseEffectPhotonsScreenIrPhotonEmitted.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -47,7 +47,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-photons-screen-visible-light-photon-absorbed.mp3": {
+  "greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -55,7 +55,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-photons-screen-visible-light-photon-emitted.mp3": {
+  "greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -63,7 +63,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-temperature-base-ambience-4-octaves.mp3": {
+  "greenhouseEffectTemperatureBaseAmbience4Octaves.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -71,7 +71,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-waves-ir-reemission-loop.mp3": {
+  "greenhouseEffectWavesIrReemissionLoop.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -79,7 +79,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-waves-ir-reemission-starting-sound.mp3": {
+  "greenhouseEffectWavesIrReemissionStartingSound.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -87,7 +87,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-waves-ir-loop.mp3": {
+  "greenhouseEffectWavesIrLoop.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -95,7 +95,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-effect-waves-ir-starting-sound.mp3": {
+  "greenhouseEffectWavesIrStartingSound.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -103,7 +103,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-high.mp3": {
+  "greenhouseTemperatureHigh.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -111,7 +111,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-high-v2.mp3": {
+  "greenhouseTemperatureHighV2.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -119,7 +119,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-high-v3.mp3": {
+  "greenhouseTemperatureHighV3.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -127,7 +127,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-low.mp3": {
+  "greenhouseTemperatureLow.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -135,7 +135,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-low-v2.mp3": {
+  "greenhouseTemperatureLowV2.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -143,7 +143,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-low-v3.mp3": {
+  "greenhouseTemperatureLowV3.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -151,7 +151,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium.mp3": {
+  "greenhouseTemperatureMedium.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -159,7 +159,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium-v2.mp3": {
+  "greenhouseTemperatureMediumV2.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -167,7 +167,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium-v3.mp3": {
+  "greenhouseTemperatureMediumV3.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -175,7 +175,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium-human-ideal.mp3": {
+  "greenhouseTemperatureMediumHumanIdeal.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -183,7 +183,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium-human-ideal-v2.mp3": {
+  "greenhouseTemperatureMediumHumanIdealV2.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -191,7 +191,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-medium-human-ideal-v3.mp3": {
+  "greenhouseTemperatureMediumHumanIdealV3.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -199,7 +199,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-rising-with-base-note-high.mp3": {
+  "greenhouseTemperatureRisingWithBaseNoteHigh.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -207,7 +207,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-rising-with-base-note-human-ideal.mp3": {
+  "greenhouseTemperatureRisingWithBaseNoteHumanIdeal.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -215,7 +215,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-rising-with-base-note-low.mp3": {
+  "greenhouseTemperatureRisingWithBaseNoteLow.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -223,7 +223,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-temperature-rising-with-base-note-medium.mp3": {
+  "greenhouseTemperatureRisingWithBaseNoteMedium.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -231,7 +231,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouse-wave-reflection-vibrato.mp3": {
+  "greenhouseWaveReflectionVibrato.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -239,7 +239,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-emit-microwave.mp3": {
+  "photonEmitMicrowave.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -247,7 +247,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-emit-ir.mp3": {
+  "photonEmitIr.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -255,7 +255,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-emit-visible.mp3": {
+  "photonEmitVisible.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -263,7 +263,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-emit-uv.mp3": {
+  "photonEmitUv.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -271,7 +271,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-release-microwave.mp3": {
+  "photonReleaseMicrowave.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -279,7 +279,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-release-ir.mp3": {
+  "photonReleaseIr.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -287,7 +287,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-release-visible.mp3": {
+  "photonReleaseVisible.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -295,7 +295,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "photon-release-uv.mp3": {
+  "photonReleaseUv.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -303,7 +303,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotation-clockwise.mp3": {
+  "rotationClockwise.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -311,7 +311,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotation-clockwise-slow-motion.mp3": {
+  "rotationClockwiseSlowMotion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -319,7 +319,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotation-counterclockwise.mp3": {
+  "rotationCounterclockwise.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -327,7 +327,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "rotation-counterclockwise-slow-motion.mp3": {
+  "rotationCounterclockwiseSlowMotion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -335,7 +335,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "slider-movement.mp3": {
+  "sliderMovement.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],
@@ -343,7 +343,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations), originally grab-001.mp3"
   },
-  "start-sunlight-chord.mp3": {
+  "startSunlightChord.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -359,7 +359,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "vibration-slow-motion.mp3": {
+  "vibrationSlowMotion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
     ],

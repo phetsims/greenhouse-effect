@@ -24,7 +24,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import startSunlightSound from '../../../sounds/start-sunlight-chord_mp3.js';
+import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
@@ -268,7 +268,7 @@ class GreenhouseEffectObservationWindow extends Node {
     this.pdomOrder = [ greenhouseEffectObservationWindowPDOMNode, null ];
 
     // sound generation for sunlight starting
-    const sunlightStartingSoundClip = new SoundClip( startSunlightSound, {
+    const sunlightStartingSoundClip = new SoundClip( startSunlightChord_mp3, {
       initialOutputLevel: 0.5
     } );
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );

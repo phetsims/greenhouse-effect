@@ -10,22 +10,22 @@
 import Property from '../../../../axon/js/Property.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import temperatureHighV2Sound from '../../../sounds/greenhouse-temperature-high-v2_mp3.js';
-import temperatureHighV3Sound from '../../../sounds/greenhouse-temperature-high-v3_mp3.js';
-import temperatureHighSound from '../../../sounds/greenhouse-temperature-high_mp3.js';
-import temperatureLowV2Sound from '../../../sounds/greenhouse-temperature-low-v2_mp3.js';
-import temperatureLowV3Sound from '../../../sounds/greenhouse-temperature-low-v3_mp3.js';
-import temperatureLowSound from '../../../sounds/greenhouse-temperature-low_mp3.js';
-import temperatureMediumHumanIdealV2Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v2_mp3.js';
-import temperatureMediumHumanIdealV3Sound from '../../../sounds/greenhouse-temperature-medium-human-ideal-v3_mp3.js';
-import temperatureMediumHumanIdealSound from '../../../sounds/greenhouse-temperature-medium-human-ideal_mp3.js';
-import temperatureMediumV2Sound from '../../../sounds/greenhouse-temperature-medium-v2_mp3.js';
-import temperatureMediumV3Sound from '../../../sounds/greenhouse-temperature-medium-v3_mp3.js';
-import temperatureMediumSound from '../../../sounds/greenhouse-temperature-medium_mp3.js';
-import temperatureRisingHighSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-high_mp3.js';
-import temperatureRisingHumanIdealSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-human-ideal_mp3.js';
-import temperatureRisingLowSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
-import temperatureRisingMediumSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-medium_mp3.js';
+import greenhouseTemperatureHighV2_mp3 from '../../../sounds/greenhouseTemperatureHighV2_mp3.js';
+import greenhouseTemperatureHighV3_mp3 from '../../../sounds/greenhouseTemperatureHighV3_mp3.js';
+import greenhouseTemperatureHigh_mp3 from '../../../sounds/greenhouseTemperatureHigh_mp3.js';
+import greenhouseTemperatureLowV2_mp3 from '../../../sounds/greenhouseTemperatureLowV2_mp3.js';
+import greenhouseTemperatureLowV3_mp3 from '../../../sounds/greenhouseTemperatureLowV3_mp3.js';
+import greenhouseTemperatureLow_mp3 from '../../../sounds/greenhouseTemperatureLow_mp3.js';
+import greenhouseTemperatureMediumHumanIdealV2_mp3 from '../../../sounds/greenhouseTemperatureMediumHumanIdealV2_mp3.js';
+import greenhouseTemperatureMediumHumanIdealV3_mp3 from '../../../sounds/greenhouseTemperatureMediumHumanIdealV3_mp3.js';
+import greenhouseTemperatureMediumHumanIdeal_mp3 from '../../../sounds/greenhouseTemperatureMediumHumanIdeal_mp3.js';
+import greenhouseTemperatureMediumV2_mp3 from '../../../sounds/greenhouseTemperatureMediumV2_mp3.js';
+import greenhouseTemperatureMediumV3_mp3 from '../../../sounds/greenhouseTemperatureMediumV3_mp3.js';
+import greenhouseTemperatureMedium_mp3 from '../../../sounds/greenhouseTemperatureMedium_mp3.js';
+import greenhouseTemperatureRisingWithBaseNoteHigh_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteHigh_mp3.js';
+import greenhouseTemperatureRisingWithBaseNoteHumanIdeal_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteHumanIdeal_mp3.js';
+import greenhouseTemperatureRisingWithBaseNoteLow_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteLow_mp3.js';
+import greenhouseTemperatureRisingWithBaseNoteMedium_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteMedium_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundLayer from '../model/GroundLayer.js';
 
@@ -39,36 +39,36 @@ const MEDIUM_TO_HUMAN_IDEAL_CROSSOVER_TEMPERATURE = 280; // in Kelvin
 const HUMAN_IDEAL_TO_HIGH_CROSSOVER_TEMPERATURE = 289; // in Kelvin
 const ORDERED_TEMPERATURE_SOUND_SETS = [
   [
-    temperatureLowSound,
-    temperatureMediumSound,
-    temperatureMediumHumanIdealSound,
-    temperatureHighSound
+    greenhouseTemperatureLow_mp3,
+    greenhouseTemperatureMedium_mp3,
+    greenhouseTemperatureMediumHumanIdeal_mp3,
+    greenhouseTemperatureHigh_mp3
   ],
   [
-    temperatureLowV2Sound,
-    temperatureMediumV2Sound,
-    temperatureMediumHumanIdealV2Sound,
-    temperatureHighV2Sound
+    greenhouseTemperatureLowV2_mp3,
+    greenhouseTemperatureMediumV2_mp3,
+    greenhouseTemperatureMediumHumanIdealV2_mp3,
+    greenhouseTemperatureHighV2_mp3
   ],
   [
-    temperatureLowV3Sound,
-    temperatureMediumV3Sound,
-    temperatureMediumHumanIdealV3Sound,
-    temperatureHighV3Sound
+    greenhouseTemperatureLowV3_mp3,
+    greenhouseTemperatureMediumV3_mp3,
+    greenhouseTemperatureMediumHumanIdealV3_mp3,
+    greenhouseTemperatureHighV3_mp3
   ],
   [
     // favorite set from the 7/13/2021 sound design meeting (was a mix-and-match sort of thing)
-    temperatureLowV3Sound,
-    temperatureMediumV2Sound,
-    temperatureMediumHumanIdealV3Sound,
-    temperatureHighV2Sound
+    greenhouseTemperatureLowV3_mp3,
+    greenhouseTemperatureMediumV2_mp3,
+    greenhouseTemperatureMediumHumanIdealV3_mp3,
+    greenhouseTemperatureHighV2_mp3
   ],
   [
     // ambient-ish sounds
-    temperatureRisingLowSound,
-    temperatureRisingMediumSound,
-    temperatureRisingHumanIdealSound,
-    temperatureRisingHighSound
+    greenhouseTemperatureRisingWithBaseNoteLow_mp3,
+    greenhouseTemperatureRisingWithBaseNoteMedium_mp3,
+    greenhouseTemperatureRisingWithBaseNoteHumanIdeal_mp3,
+    greenhouseTemperatureRisingWithBaseNoteHigh_mp3
   ]
 ];
 const TEMPERATURE_SOUND_SET_INDEX = 4;

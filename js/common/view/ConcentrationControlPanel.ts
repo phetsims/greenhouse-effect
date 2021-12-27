@@ -25,7 +25,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import sliderBaseSound from '../../../sounds/slider-movement_mp3.js';
+import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -554,7 +554,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     dynamicsCompressorNode.connect( this.masterGainNode );
 
     // the sound clip that forms the basis of all sounds that are produced
-    this.baseSoundClip = new SoundClip( sliderBaseSound, {
+    this.baseSoundClip = new SoundClip( sliderMovement_mp3, {
       rateChangesAffectPlayingSounds: false
     } );
     this.baseSoundClip.connect( dynamicsCompressorNode );

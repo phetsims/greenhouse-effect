@@ -9,15 +9,15 @@
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import photonAbsorbedSound from '../../../sounds/absorb-photon_mp3.js';
-import breakApartSound from '../../../sounds/break-apart_mp3.js';
-import moleculeEnergizedSound from '../../../sounds/energized_mp3.js';
-import rotationClockwiseSlowMotionSound from '../../../sounds/rotation-clockwise-slow-motion_mp3.js';
-import rotationClockwiseNormalSpeedSound from '../../../sounds/rotation-clockwise_mp3.js';
-import rotationCounterclockwiseSlowMotionSound from '../../../sounds/rotation-counterclockwise-slow-motion_mp3.js';
-import rotationCounterclockwiseNormalSpeedSound from '../../../sounds/rotation-counterclockwise_mp3.js';
-import vibrationSlowMotionSound from '../../../sounds/vibration-slow-motion_mp3.js';
-import vibrationNormalSpeedStereoSound from '../../../sounds/vibration_mp3.js';
+import absorbPhoton_mp3 from '../../../sounds/absorbPhoton_mp3.js';
+import breakApart_mp3 from '../../../sounds/breakApart_mp3.js';
+import energized_mp3 from '../../../sounds/energized_mp3.js';
+import rotationClockwiseSlowMotion_mp3 from '../../../sounds/rotationClockwiseSlowMotion_mp3.js';
+import rotationClockwise_mp3 from '../../../sounds/rotationClockwise_mp3.js';
+import rotationCounterclockwiseSlowMotion_mp3 from '../../../sounds/rotationCounterclockwiseSlowMotion_mp3.js';
+import rotationCounterclockwise_mp3 from '../../../sounds/rotationCounterclockwise_mp3.js';
+import vibrationSlowMotion_mp3 from '../../../sounds/vibrationSlowMotion_mp3.js';
+import vibration_mp3 from '../../../sounds/vibration_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -37,21 +37,21 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     super( options );
 
     // photon absorbed sound
-    const photonAbsorbedSoundClip = new SoundClip( photonAbsorbedSound, { initialOutputLevel: 0.1 } );
+    const photonAbsorbedSoundClip = new SoundClip( absorbPhoton_mp3, { initialOutputLevel: 0.1 } );
     photonAbsorbedSoundClip.connect( this.soundSourceDestination );
     const photonAbsorbedSoundPlayer = () => {
       photonAbsorbedSoundClip.play();
     };
 
     // break apart sound
-    const breakApartSoundClip = new SoundClip( breakApartSound, { initialOutputLevel: 1 } );
+    const breakApartSoundClip = new SoundClip( breakApart_mp3, { initialOutputLevel: 1 } );
     breakApartSoundClip.connect( this.soundSourceDestination );
     const breakApartSoundPlayer = () => {
       breakApartSoundClip.play();
     };
 
     // "energized" sound, which is played when the molecule enters a higher-energy state (depicted in the view as glowing)
-    const moleculeEnergizedLoop = new SoundClip( moleculeEnergizedSound, {
+    const moleculeEnergizedLoop = new SoundClip( energized_mp3, {
       loop: true,
       initialOutputLevel: 0.3,
       enableControlProperties: [ simIsRunningProperty ]
@@ -75,28 +75,28 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
 
     // clockwise normal speed
     const rotateClockwiseNormalSpeedLoop = new SoundClip(
-      rotationClockwiseNormalSpeedSound,
+      rotationClockwise_mp3,
       rotationLoopOptions
     );
     rotateClockwiseNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // clockwise slow motion
     const rotateClockwiseSlowMotionLoop = new SoundClip(
-      rotationClockwiseSlowMotionSound,
+      rotationClockwiseSlowMotion_mp3,
       rotationLoopOptions
     );
     rotateClockwiseSlowMotionLoop.connect( this.soundSourceDestination );
 
     // counterclockwise normal speed
     const rotateCounterclockwiseNormalSpeedLoop = new SoundClip(
-      rotationCounterclockwiseNormalSpeedSound,
+      rotationCounterclockwise_mp3,
       rotationLoopOptions
     );
     rotateCounterclockwiseNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // counterclockwise slow motion
     const rotateCounterclockwiseSlowMotionLoop = new SoundClip(
-      rotationCounterclockwiseSlowMotionSound,
+      rotationCounterclockwiseSlowMotion_mp3,
       rotationLoopOptions
     );
     rotateCounterclockwiseSlowMotionLoop.connect( this.soundSourceDestination );
@@ -143,11 +143,11 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     };
 
     // vibration normal speed
-    const moleculeVibrationNormalSpeedLoop = new SoundClip( vibrationNormalSpeedStereoSound, vibrationLoopOptions );
+    const moleculeVibrationNormalSpeedLoop = new SoundClip( vibration_mp3, vibrationLoopOptions );
     moleculeVibrationNormalSpeedLoop.connect( this.soundSourceDestination );
 
     // vibration slow motion
-    const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotionSound, {
+    const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotion_mp3, {
       initialOutputLevel: 0.4,
       loop: true,
       enableControlProperties: [ simIsRunningProperty ]

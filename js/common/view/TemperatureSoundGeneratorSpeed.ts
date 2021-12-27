@@ -11,7 +11,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import baseSound from '../../../sounds/greenhouse-temperature-rising-with-base-note-low_mp3.js';
+import greenhouseTemperatureRisingWithBaseNoteLow_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteLow_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -28,7 +28,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     super( options );
 
     // the loop which will be filtered to produce the sounds
-    const baseSoundLoop = new SoundClip( baseSound, {
+    const baseSoundLoop = new SoundClip( greenhouseTemperatureRisingWithBaseNoteLow_mp3, {
       loop: true
     } );
     baseSoundLoop.connect( this.masterGainNode );

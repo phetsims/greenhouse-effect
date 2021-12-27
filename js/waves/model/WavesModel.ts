@@ -22,7 +22,7 @@ import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
-import waveReflectionSound from '../../../sounds/greenhouse-wave-reflection-vibrato_mp3.js';
+import greenhouseWaveReflectionVibrato_mp3 from '../../../sounds/greenhouseWaveReflectionVibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
@@ -184,7 +184,7 @@ class WavesModel extends ConcentrationModel {
     //       see https://github.com/phetsims/greenhouse-effect/issues/36.  UPDATE 7/27/2021 - This has been turned down
     //       to 0 in preparation for creating a dev version with a consistent but minimal initial sound design.
     // sound generation
-    this.waveReflectedSoundGenerator = new SoundClip( waveReflectionSound, { initialOutputLevel: 0 } );
+    this.waveReflectedSoundGenerator = new SoundClip( greenhouseWaveReflectionVibrato_mp3, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( this.waveReflectedSoundGenerator );
   }
 

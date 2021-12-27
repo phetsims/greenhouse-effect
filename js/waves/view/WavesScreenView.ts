@@ -11,10 +11,10 @@ import { Image, VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import wavesScreenMockup_png from '../../../images/wavesScreenMockup_png.js';
-import irWaveRadiatingFromGroundSound from '../../../sounds/greenhouse-effect-waves-ir-loop_mp3.js';
-import irWaveRadiatingFromAtmosphereSound from '../../../sounds/greenhouse-effect-waves-ir-reemission-loop_mp3.js';
-import irWaveEmittedFromAtmosphereSound from '../../../sounds/greenhouse-effect-waves-ir-reemission-starting-sound_mp3.js';
-import irWaveEmittedFromGroundSound from '../../../sounds/greenhouse-effect-waves-ir-starting-sound_mp3.js';
+import greenhouseEffectWavesIrLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrLoop_mp3.js';
+import greenhouseEffectWavesIrReemissionLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionLoop_mp3.js';
+import greenhouseEffectWavesIrReemissionStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionStartingSound_mp3.js';
+import greenhouseEffectWavesIrStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrStartingSound_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
@@ -121,13 +121,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     const waveLoopMaxOutputLevel = 0.15;
 
-    const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( irWaveEmittedFromAtmosphereSound, {
+    const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionStartingSound_mp3, {
       initialOutputLevel: 0.15,
       enableControlProperties: [ phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty ]
     } );
     soundManager.addSoundGenerator( irWaveEmittedFromAtmosphereSoundGenerator );
 
-    const irWaveEmittedFromGroundSoundGenerator = new SoundClip( irWaveEmittedFromGroundSound, {
+    const irWaveEmittedFromGroundSoundGenerator = new SoundClip( greenhouseEffectWavesIrStartingSound_mp3, {
       initialOutputLevel: 0.15,
       enableControlProperties: [ phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty ]
     } );
@@ -136,7 +136,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // Create a sound generator for each of the waves that can originate from the ground.
     const irWaveRadiatingFromGroundSoundGenerators: SoundClip[] = [];
     _.times( 3, () => {
-      const soundGenerator = new SoundClip( irWaveRadiatingFromGroundSound, {
+      const soundGenerator = new SoundClip( greenhouseEffectWavesIrLoop_mp3, {
         initialOutputLevel: waveLoopMaxOutputLevel,
         loop: true,
         enableControlProperties: [
@@ -151,7 +151,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // Create a sound generator for each of the IR waves that can originate from the atmosphere.
     const irWaveRadiatingFromAtmosphereSoundGenerators: SoundClip[] = [];
     _.times( 3, () => {
-      const soundGenerator = new SoundClip( irWaveRadiatingFromAtmosphereSound, {
+      const soundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionLoop_mp3, {
         initialOutputLevel: waveLoopMaxOutputLevel,
         loop: true,
         enableControlProperties: [
@@ -163,7 +163,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       irWaveRadiatingFromAtmosphereSoundGenerators.push( soundGenerator );
     } );
 
-    const irWaveRadiatingFromAtmosphereSoundGenerator = new SoundClip( irWaveRadiatingFromAtmosphereSound, {
+    const irWaveRadiatingFromAtmosphereSoundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionLoop_mp3, {
       initialOutputLevel: 0.1,
       loop: true,
       enableControlProperties: [ phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty ]

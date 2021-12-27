@@ -20,9 +20,9 @@ import { Text } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import flashlight2Image from '../../../mipmaps/flashlight_png.js';
+import flashlight_png from '../../../mipmaps/flashlight_png.js';
 import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
-import microwaveTransmitter from '../../../mipmaps/microwaveSource_png.js';
+import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -99,7 +99,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
     const ultravioletTandemName = 'ultravioletRadioButton';
     const radioButtonGroupTandem = tandem.createTandem( 'radioButtonGroup' );
     const radioButtonContent = [ {
-      node: createRadioButtonContent( new Image( microwaveTransmitter ), microwavePhotonNode ),
+      node: createRadioButtonContent( new Image( microwaveSource_png ), microwavePhotonNode ),
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveString, {
         font: labelFont,
@@ -117,7 +117,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       tandemName: infraredTandemName,
       labelContent: quadWavelengthSelectorInfraredString
     }, {
-      node: createRadioButtonContent( new Image( flashlight2Image ), visiblePhotonNode ),
+      node: createRadioButtonContent( new Image( flashlight_png ), visiblePhotonNode ),
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new Text( quadWavelengthSelectorVisibleString, {
         font: labelFont,
