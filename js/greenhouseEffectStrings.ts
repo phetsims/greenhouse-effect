@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.
@@ -156,6 +156,8 @@ type StringsType = {
     },
     'infraredRadiationRedirectedPattern': string,
     'infraredRadiationRedirectedWithTemperaturePattern': string,
+    'infraredRadiationEmittedFromSurfacePattern': string,
+    'infraredRadiationEmittedFromSurfaceWithTemperaturePattern': string,
     'more': string,
     'less': string,
     'increases': string,

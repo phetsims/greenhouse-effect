@@ -327,6 +327,12 @@
     "infraredRadiationRedirectedWithTemperaturePattern": {
       "value": "{{moreOrLess}} infrared radiation redirected back to surface, now {{quantitativeTemperature}}."
     },
+    "infraredRadiationEmittedFromSurfacePattern": {
+      "value": "{{moreOrLess}} infrared radiation emitted from surface."
+    },
+    "infraredRadiationEmittedFromSurfaceWithTemperaturePattern": {
+      "value": "{{moreOrLess}} infrared radiation emitted from surface, now {{quantitativeTemperature}}."
+    },
     "more": {
       "value": "more"
     },
