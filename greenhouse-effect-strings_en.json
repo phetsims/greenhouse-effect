@@ -333,6 +333,21 @@
     "less": {
       "value": "less"
     },
+    "increases":{
+      "value": "increases"
+    },
+    "decreases": {
+      "value": "decreases"
+    },
+    "inflowToEarth": {
+      "value": "inflow to Earth"
+    },
+    "outflowToSpace": {
+      "value": "outflow to space"
+    },
+    "outgoingEnergyPattern": {
+      "value": "Outgoing energy {{increasesOrDecreases}}; net energy {{inflowOrOutflow}}."
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."

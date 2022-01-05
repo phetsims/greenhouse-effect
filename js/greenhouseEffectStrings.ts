@@ -158,6 +158,11 @@ type StringsType = {
     'infraredRadiationRedirectedWithTemperaturePattern': string,
     'more': string,
     'less': string,
+    'increases': string,
+    'decreases': string,
+    'inflowToEarth': string,
+    'outflowToSpace': string,
+    'outgoingEnergyPattern': string,
     'waves': {
       'homeScreenDescription': string,
       'screenSummary': {
