@@ -19,6 +19,10 @@ import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerte
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+
+// number of decimal places to pay attention to in the temperature values
+const TEMPERATURE_DECIMAL_PLACES = 1;
 
 // in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
 const ALERT_INTERVAL = 2;
@@ -51,12 +55,14 @@ class GasConcentrationAlerter extends Alerter {
         return inEnergy - outEnergy;
       } );
 
-    this.previousTemperature = model.surfaceTemperatureKelvinProperty.value;
+    this.previousTemperature = Utils.toFixedNumber(
+      model.surfaceTemperatureKelvinProperty.value,
+      TEMPERATURE_DECIMAL_PLACES
+    );
     this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
     this.model = model;
 
     model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
-      console.log( `atEquilibrium = ${atEquilibrium}` );
       if ( atEquilibrium ) {
         this.alert( TemperatureDescriber.getSurfaceTemperatureStableString(
           model.surfaceTemperatureKelvinProperty.value,
@@ -75,12 +81,18 @@ class GasConcentrationAlerter extends Alerter {
 
     this.timeSinceLastAlert += dt;
 
+    // Do some rounding on the current temperature so that we don't alert when the changes are too small.
+    const currentTemperature = Utils.toFixedNumber(
+      this.model.surfaceTemperatureKelvinProperty.value,
+      TEMPERATURE_DECIMAL_PLACES
+    );
+
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
 
       if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
         const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
           this.previousTemperature,
-          this.model.surfaceTemperatureKelvinProperty.value,
+          currentTemperature,
           this.model.surfaceThermometerVisibleProperty.value,
           this.model.temperatureUnitsProperty.value
         );
@@ -96,7 +108,7 @@ class GasConcentrationAlerter extends Alerter {
         outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
       }
 
-      this.previousTemperature = this.model.surfaceTemperatureKelvinProperty.value;
+      this.previousTemperature = currentTemperature;
       this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
       this.timeSinceLastAlert = 0;
     }
