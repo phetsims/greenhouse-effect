@@ -411,6 +411,18 @@
     "surfaceTemperatureChangeWithoutValuePattern": {
       "value": "Surface temperature {{qualitativeDescription}}."
     },
+    "surfaceTemperatureStable": {
+      "value": "Surface temperature stable."
+    },
+    "surfaceTemperatureStableWithDescription": {
+      "value": "Surface temperature stable and {{qualitativeDescription}}."
+    },
+    "surfaceTemperatureStableWithValue": {
+      "value": "Surface temperature stable at {{quantitativeDescription}}."
+    },
+    "surfaceTemperatureStableWithDescriptionAndValue": {
+      "value": "Surface temperature stable and {{qualitativeDescription}}, at {{quantitativeDescription}}."
+    },
     "warming": {
       "value": "warming"
     },

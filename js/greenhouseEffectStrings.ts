@@ -188,6 +188,10 @@ type StringsType = {
     'cloudCheckboxHelpText': string,
     'surfaceTemperatureChangeWithValuePattern': string,
     'surfaceTemperatureChangeWithoutValuePattern': string,
+    'surfaceTemperatureStable': string,
+    'surfaceTemperatureStableWithDescription': string,
+    'surfaceTemperatureStableWithValue': string,
+    'surfaceTemperatureStableWithDescriptionAndValue': string,
     'warming': string,
     'cooling': string,
     'concentrationPanel': {

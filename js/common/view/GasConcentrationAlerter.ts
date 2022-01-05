@@ -6,6 +6,10 @@
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
+ *
+ *
+ * TODO: 1/5/2022 - This is named GasConcentrationAlerter, but it's doing more than just talking about the state.  We
+ *                  should consider a new name, perhaps LayerModelStateAlerter or something along those lines.
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -30,8 +34,8 @@ class GasConcentrationAlerter extends Alerter {
   // Outgoing energy value for the last description, saved so we know how energy changes from alert to alert.
   private previousOutgoingEnergy: number;
 
-  private outgoingEnergyProperty: NumberProperty;
-  private incomingEnergyProperty: NumberProperty;
+  private readonly outgoingEnergyProperty: NumberProperty;
+  private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: DerivedProperty<number, number[]>;
 
   private model: ConcentrationModel;
@@ -50,6 +54,18 @@ class GasConcentrationAlerter extends Alerter {
     this.previousTemperature = model.surfaceTemperatureKelvinProperty.value;
     this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
     this.model = model;
+
+    model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
+      console.log( `atEquilibrium = ${atEquilibrium}` );
+      if ( atEquilibrium ) {
+        this.alert( TemperatureDescriber.getSurfaceTemperatureStableString(
+          model.surfaceTemperatureKelvinProperty.value,
+          model.surfaceThermometerVisibleProperty.value,
+          model.surfaceTemperatureVisibleProperty.value,
+          model.temperatureUnitsProperty.value
+        ) );
+      }
+    } );
   }
 
   /**
@@ -68,17 +84,15 @@ class GasConcentrationAlerter extends Alerter {
           this.model.surfaceThermometerVisibleProperty.value,
           this.model.temperatureUnitsProperty.value
         );
-
-        let outgoingEnergyAlertString;
-        if ( this.model.energyBalanceVisibleProperty.value ) {
-          outgoingEnergyAlertString = EnergyDescriber.getOutgoingEnergyChangeDescription(
-            this.outgoingEnergyProperty.value,
-            this.previousOutgoingEnergy,
-            this.netEnergyProperty.value
-          );
-        }
-
         temperatureAlertString && this.alert( temperatureAlertString );
+      }
+
+      if ( this.model.energyBalanceVisibleProperty.value && !this.model.inRadiativeBalanceProperty.value ) {
+        const outgoingEnergyAlertString = EnergyDescriber.getOutgoingEnergyChangeDescription(
+          this.outgoingEnergyProperty.value,
+          this.previousOutgoingEnergy,
+          this.netEnergyProperty.value
+        );
         outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
       }
 

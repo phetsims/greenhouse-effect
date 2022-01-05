@@ -119,7 +119,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true
     } );
 
-
     // @private
     this.substance = options.substance;
     this.mass = VOLUME * options.substance.density;

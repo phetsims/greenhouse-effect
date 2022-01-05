@@ -28,6 +28,10 @@ const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescription
 const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
 const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
 const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
+const surfaceTemperatureStable = greenhouseEffectStrings.a11y.surfaceTemperatureStable;
+const surfaceTemperatureStableWithDescription = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescription;
+const surfaceTemperatureStableWithValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithValue;
+const surfaceTemperatureStableWithDescriptionAndValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
 const warmingString = greenhouseEffectStrings.a11y.warming;
 const coolingString = greenhouseEffectStrings.a11y.cooling;
 
@@ -160,6 +164,42 @@ class TemperatureDescriber {
     }
 
     return changeString;
+  }
+
+  /**
+   * Get a description of the surface temperature when it is stable, i.e. the ground is in equilibrium. This will
+   * include more or less information depending on whether the thermometer is visible and/or the surface temperature
+   * indicator is visible. Will return something like: "Surface temperature stable and hot, now 277 Kelvin."
+   *
+   * Please note that this does not actually check that the temperature *is* stable, so use wisely.
+   */
+  static getSurfaceTemperatureStableString( temperature: number,
+                                            thermometerVisible: boolean,
+                                            surfaceTemperatureIndicationVisible: boolean,
+                                            unitsValue: any ): string {
+
+    let stableTemperatureString = '';
+    if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionAndValue, {
+        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature ),
+        quantitativeDescription: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
+      } );
+    }
+    else if ( thermometerVisible && !surfaceTemperatureIndicationVisible ) {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithValue, {
+        quantitativeDescription: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
+      } );
+    }
+    else if ( !thermometerVisible && surfaceTemperatureIndicationVisible ) {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescription, {
+        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature )
+      } );
+    }
+    else if ( !thermometerVisible && !surfaceTemperatureIndicationVisible ) {
+      stableTemperatureString = surfaceTemperatureStable;
+    }
+
+    return stableTemperatureString;
   }
 }
 
