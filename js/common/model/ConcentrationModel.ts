@@ -13,7 +13,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel, { LayersModelOptions } from './LayersModel.js';
@@ -25,10 +25,10 @@ const SCALE_HEIGHT_OF_ATMOSPHERE: number = 8400; // in meters, taken from a Wiki
 
 // values for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date
-const CONCENTRATION_CONTROL_MODE: Enumeration = Enumeration.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
+const CONCENTRATION_CONTROL_MODE: EnumerationDeprecated = EnumerationDeprecated.byKeys( [ 'BY_VALUE', 'BY_DATE' ] );
 
 // dates with recorded values of greenhouse concentration
-const CONCENTRATION_DATE: Enumeration = Enumeration.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
+const CONCENTRATION_DATE: EnumerationDeprecated = EnumerationDeprecated.byKeys( [ 'ICE_AGE', 'SEVENTEEN_FIFTY', 'NINETEEN_FIFTY', 'TWENTY_TWENTY' ] );
 
 // Map of dates to concentration values.  These values were determined empirically to make the equilibrium temperature
 // reached in the sim match the values specified in the design doc.
@@ -85,7 +85,7 @@ class ConcentrationModel extends LayersModel {
     // concentration is to be controlled.
     this.concentrationProperty = new DerivedProperty(
       [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
-      ( concentrationControl: Enumeration, date: Enumeration, manuallyControlledConcentration: number ) => {
+      ( concentrationControl: EnumerationDeprecated, date: EnumerationDeprecated, manuallyControlledConcentration: number ) => {
         // @ts-ignore
         return concentrationControl === CONCENTRATION_CONTROL_MODE.BY_VALUE ?
                manuallyControlledConcentration :
@@ -120,7 +120,7 @@ class ConcentrationModel extends LayersModel {
 
     Property.multilink(
       [ this.dateProperty, this.concentrationControlModeProperty ],
-      ( date: Enumeration, concentrationControlMode: Enumeration ) => {
+      ( date: EnumerationDeprecated, concentrationControlMode: EnumerationDeprecated ) => {
         // @ts-ignore
         if ( date === CONCENTRATION_DATE.ICE_AGE &&
              // @ts-ignore
@@ -153,8 +153,8 @@ class ConcentrationModel extends LayersModel {
   }
 
   // statics
-  public static readonly CONCENTRATION_CONTROL_MODE: Enumeration = CONCENTRATION_CONTROL_MODE;
-  public static readonly CONCENTRATION_DATE: Enumeration = CONCENTRATION_DATE;
+  public static readonly CONCENTRATION_CONTROL_MODE: EnumerationDeprecated = CONCENTRATION_CONTROL_MODE;
+  public static readonly CONCENTRATION_DATE: EnumerationDeprecated = CONCENTRATION_DATE;
   public static readonly CONCENTRATION_RANGE: Range = CONCENTRATION_RANGE;
   public static readonly DATE_CONCENTRATION_RANGE: Range = new Range(
     Array.from( DATE_TO_CONCENTRATION_MAP.values() ).reduce(

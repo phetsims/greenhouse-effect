@@ -8,7 +8,7 @@
  */
 
 import Shape from '../../../../kite/js/Shape.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -36,7 +36,7 @@ const LABEL_OPTIONS = {
 };
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
-const EnergyRepresentation = Enumeration.byKeys( [ 'PHOTON', 'WAVE' ] );
+const EnergyRepresentation = EnumerationDeprecated.byKeys( [ 'PHOTON', 'WAVE' ] );
 
 type EnergyLegendOptions = {
   energyRepresentation: any

@@ -14,7 +14,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import { HStrut } from '../../../../scenery/js/imports.js';
@@ -36,7 +36,7 @@ const SLIDER_LABEL_FONT = new PhetFont( 18 );
 const PANEL_MARGIN = 8;
 const CHECKBOX_WIDTH = 13;
 
-const TemperatureSoundNames = Enumeration.byKeys( [
+const TemperatureSoundNames = EnumerationDeprecated.byKeys( [
   'MULTIPLE_LOOPS_WITH_CROSS_FADES',
   'SINGLE_LOOP_WITH_LOW_PASS',
   'SINGLE_LOOP_WITH_BAND_PASS',

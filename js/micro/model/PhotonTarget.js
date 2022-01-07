@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
@@ -20,7 +20,7 @@ const controlPanelOxygenString = greenhouseEffectStrings.ControlPanel.Oxygen;
 const controlPanelOzoneString = greenhouseEffectStrings.ControlPanel.Ozone;
 const controlPanelWaterString = greenhouseEffectStrings.ControlPanel.Water;
 
-const PhotonTarget = Enumeration.byKeys( [
+const PhotonTarget = EnumerationDeprecated.byKeys( [
   'SINGLE_CO_MOLECULE',
   'SINGLE_N2_MOLECULE',
   'SINGLE_O2_MOLECULE',

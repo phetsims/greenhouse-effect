@@ -10,7 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -23,7 +23,7 @@ import EnergyDirection from './EnergyDirection.js';
 const AT_EQUILIBRIUM_THRESHOLD = 0.005; // in Watts per square meter, empirically determined
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
-const Substance = Enumeration.byMap( {
+const Substance = EnumerationDeprecated.byMap( {
   // @ts-ignore
   GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
   // @ts-ignore

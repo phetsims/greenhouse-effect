@@ -13,13 +13,13 @@
 //       isn't worked out.  This will need to be updated once we have a decent enum pattern.
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 const UP_VECTOR = new Vector2( 0, 1 );
 const DOWN_VECTOR = new Vector2( 0, -1 );
 
-const EnergyDirection = Enumeration.byKeys( [ 'UP', 'DOWN' ], {
+const EnergyDirection = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN' ], {
   beforeFreeze: ( EnergyDirection: any ) => {
 
     /**

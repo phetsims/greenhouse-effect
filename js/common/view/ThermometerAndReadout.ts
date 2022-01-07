@@ -25,7 +25,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
 import Property from '../../../../axon/js/Property.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
 
@@ -36,7 +36,7 @@ const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
-const ReadoutType = Enumeration.byKeys( [ 'SELECTABLE', 'FIXED' ] );
+const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
 type ThermometerAndReadoutOptions = {
   minTemperature?: number,
@@ -170,14 +170,14 @@ class ThermometerAndReadout extends Node {
    * @param {string} unitsString
    * @param {NumberProperty} property
    * @param {../../../../dot/js/Range} propertyRange
-   * @param {Enumeration} propertyValue
+   * @param {EnumerationDeprecated} propertyValue
    * @param {string} tandemName
    * @returns {ComboBoxItem}
    */
   private static createComboBoxItem( unitsString: string,
                                      property: IReadOnlyProperty<number>,
                                      propertyRange: Range,
-                                     propertyValue: Enumeration,
+                                     propertyValue: EnumerationDeprecated,
                                      tandemName: string ) {
 
     const numberDisplayOptions = {

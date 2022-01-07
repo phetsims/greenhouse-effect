@@ -13,7 +13,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -41,7 +41,7 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
 
 // units of temperature used by Greenhouse Effect
-const TemperatureUnits = Enumeration.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
+const TemperatureUnits = EnumerationDeprecated.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 type LayersModelOptions = {
   minimumGroundTemperature?: number,
@@ -338,7 +338,7 @@ class LayersModel extends GreenhouseEffectModel {
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
   public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
-  public static readonly TemperatureUnits: Enumeration = TemperatureUnits;
+  public static readonly TemperatureUnits: EnumerationDeprecated = TemperatureUnits;
 
   /**
    * @public

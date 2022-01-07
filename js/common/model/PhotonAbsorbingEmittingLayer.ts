@@ -11,14 +11,14 @@ import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Photon from './Photon.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
-const PhotonCrossingTestResult = Enumeration.byKeys( [
+const PhotonCrossingTestResult = EnumerationDeprecated.byKeys( [
   'FULLY_ABOVE', 'FULLY_BELOW', 'CROSSED_BUT_IGNORED', 'CROSSED_AND_ABSORBED' ]
 );
 

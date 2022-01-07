@@ -10,7 +10,7 @@
  * @author Jesse Greenberg
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
@@ -43,7 +43,7 @@ const tetrahedralGeometryDescriptionString = greenhouseEffectStrings.a11y.tetrah
 const linearGeometryDescriptionString = greenhouseEffectStrings.a11y.linearGeometryDescription;
 
 // constants
-const Geometry = Enumeration.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
+const Geometry = EnumerationDeprecated.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
 
 const MolecularGeometryMap = new Map();
 MolecularGeometryMap.set( CO, Geometry.LINEAR );
@@ -194,7 +194,7 @@ MoleculeUtils.MolecularGeometryMap = MolecularGeometryMap;
 
 // @public
 // @static
-// {Enumeration}
+// {EnumerationDeprecated}
 MoleculeUtils.Geometry = Geometry;
 
 greenhouseEffect.register( 'MoleculeUtils', MoleculeUtils );

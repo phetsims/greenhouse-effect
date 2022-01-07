@@ -14,7 +14,7 @@ import TemperatureDescriber from '../../common/view/describers/TemperatureDescri
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
@@ -71,12 +71,12 @@ class WavesScreenSummaryContentNode extends Node {
       (
         sunIsShining: boolean,
         concentration: number,
-        date: Enumeration,
+        date: EnumerationDeprecated,
         surfaceTemperatureKelvin: number,
-        concentrationControlMode: Enumeration,
+        concentrationControlMode: EnumerationDeprecated,
         surfaceTemperatureVisible: boolean,
         surfaceThermometerVisible: boolean,
-        temperatureUnits: Enumeration,
+        temperatureUnits: EnumerationDeprecated,
         cloudEnabled: boolean
       ) => {
         // @ts-ignore
@@ -115,12 +115,12 @@ class WavesScreenSummaryContentNode extends Node {
    */
   getScreenDescriptionString( sunIsShining: boolean,
                               concentration: number,
-                              date: Enumeration,
+                              date: EnumerationDeprecated,
                               surfaceTemperatureKelvin: number,
-                              concentrationControlMode: Enumeration,
+                              concentrationControlMode: EnumerationDeprecated,
                               surfaceTemperatureVisible: boolean,
                               surfaceThermometerVisible: boolean,
-                              temperatureUnits: Enumeration,
+                              temperatureUnits: EnumerationDeprecated,
                               cloudEnabled: boolean ) {
 
     // the final description
