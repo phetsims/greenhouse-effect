@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * The LayersModel of GreenhouseEffect is a superclass for several of the sim screens. It is responsible for creating

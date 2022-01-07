@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * ConcentrationModel is a GreenhouseEffectModel that adds in the ability to set the concentration of greenhouse gases
