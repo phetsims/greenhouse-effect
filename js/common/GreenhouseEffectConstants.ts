@@ -43,7 +43,7 @@ const GreenhouseEffectConstants = {
 
   STEFAN_BOLTZMANN_CONSTANT: 5.670374419E-8, // This is the SI version, look it up for exact units.
 
-  SPEED_OF_LIGHT: 8000, // in meters/s, obviously far slower than real light, chosen to look good
+  SPEED_OF_LIGHT: 9000, // in meters/s, obviously far slower than real light, chosen to look good
 
   // useful normalized vectors
   STRAIGHT_DOWN_NORMALIZED_VECTOR: new Vector2( 0, -1 ),
