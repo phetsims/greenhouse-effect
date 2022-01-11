@@ -116,7 +116,7 @@ class TemperatureDescriber {
   }
 
   /**
-   * From the EnumerationProperty value, return the string for the units of temperature for use in interactive
+   * From the EnumerationDeprecatedProperty value, return the string for the units of temperature for use in interactive
    * descriptions. Will return something like
    * "Kelvin" or
    * "degrees Celsius"

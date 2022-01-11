@@ -31,7 +31,7 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
@@ -177,14 +177,14 @@ class ConcentrationControlPanel extends Panel {
 class DateControl extends Node {
 
   /**
-   * @param {EnumerationProperty} dateProperty
+   * @param {EnumerationDeprecatedProperty} dateProperty
    * @param {Property.<number>} concentrationProperty - setting date will modify concentration
-   * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
+   * @param {EnumerationDeprecatedProperty} concentrationControlModeProperty - setting date will modify concentration
    * @param {Tandem} tandem
    */
-  constructor( dateProperty: EnumerationProperty,
+  constructor( dateProperty: EnumerationDeprecatedProperty,
                concentrationProperty: IReadOnlyProperty<number>,
-               concentrationControlModeProperty: EnumerationProperty,
+               concentrationControlModeProperty: EnumerationDeprecatedProperty,
                tandem: Tandem ) {
 
     super();
@@ -415,9 +415,9 @@ class CompositionDataNode extends VBox {
   private readonly nitrousOxideText: RichText;
 
   /**
-   * @param {EnumerationProperty} dateProperty
+   * @param {EnumerationDeprecatedProperty} dateProperty
    */
-  constructor( dateProperty: EnumerationProperty ) {
+  constructor( dateProperty: EnumerationDeprecatedProperty ) {
     super( {
       align: 'left'
     } );
@@ -464,10 +464,10 @@ class CompositionDataNode extends VBox {
 class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<any> {
 
   /**
-   * @param {EnumerationProperty} property - Property for the method of controlling concentration
+   * @param {EnumerationDeprecatedProperty} property - Property for the method of controlling concentration
    * @param {Tandem} tandem
    */
-  constructor( property: EnumerationProperty, tandem: Tandem ) {
+  constructor( property: EnumerationDeprecatedProperty, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'

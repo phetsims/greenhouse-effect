@@ -10,7 +10,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
@@ -55,7 +55,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly surfaceTemperatureKelvinProperty: NumberProperty;
   public readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
   public readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
-  public readonly temperatureUnitsProperty: EnumerationProperty;
+  public readonly temperatureUnitsProperty: EnumerationDeprecatedProperty;
   public readonly surfaceThermometerVisibleProperty: BooleanProperty;
   public readonly energyBalanceVisibleProperty: BooleanProperty;
   public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
@@ -115,7 +115,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     // displayed units of temperature
     // @ts-ignore
-    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
+    this.temperatureUnitsProperty = new EnumerationDeprecatedProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 

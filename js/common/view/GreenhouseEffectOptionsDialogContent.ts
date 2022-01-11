@@ -10,7 +10,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -47,7 +47,7 @@ const TemperatureSoundNames = EnumerationDeprecated.byKeys( [
 // Define the globals that will be set by this node.  They must be defined during load time.
 
 // global property that specifies which sound generator to use for temperature
-phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
+phet.greenhouseEffect.temperatureSoundProperty = new EnumerationDeprecatedProperty(
   TemperatureSoundNames,
   // @ts-ignore
   TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS

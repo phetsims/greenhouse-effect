@@ -9,7 +9,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
@@ -46,9 +46,9 @@ const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
 class ConcentrationModel extends LayersModel {
 
-  public readonly dateProperty: EnumerationProperty;
+  public readonly dateProperty: EnumerationDeprecatedProperty;
   public readonly manuallyControlledConcentrationProperty: NumberProperty;
-  public readonly concentrationControlModeProperty: EnumerationProperty;
+  public readonly concentrationControlModeProperty: EnumerationDeprecatedProperty;
   public readonly concentrationProperty: IReadOnlyProperty<number>;
 
   /**
@@ -58,9 +58,9 @@ class ConcentrationModel extends LayersModel {
   constructor( tandem: Tandem, options?: LayersModelOptions ) {
     super( tandem, options );
 
-    // @public {EnumerationProperty} - selected date which will select a value for concentration
+    // @public {EnumerationDeprecatedProperty} - selected date which will select a value for concentration
     // @ts-ignore
-    this.dateProperty = new EnumerationProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY, {
+    this.dateProperty = new EnumerationDeprecatedProperty( CONCENTRATION_DATE, CONCENTRATION_DATE.SEVENTEEN_FIFTY, {
       tandem: tandem.createTandem( 'dateProperty' )
     } );
 
@@ -71,9 +71,9 @@ class ConcentrationModel extends LayersModel {
       phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
 
-    // @public {EnumerationProperty} - how the concentration can be changed, either by directly modifying
+    // @public {EnumerationDeprecatedProperty} - how the concentration can be changed, either by directly modifying
     // the value or by selecting a value for Earth's greenhouse gas concentration at a particular date
-    this.concentrationControlModeProperty = new EnumerationProperty(
+    this.concentrationControlModeProperty = new EnumerationDeprecatedProperty(
       CONCENTRATION_CONTROL_MODE,
       // @ts-ignore
       CONCENTRATION_CONTROL_MODE.BY_VALUE, {

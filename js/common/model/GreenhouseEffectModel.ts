@@ -8,7 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -18,7 +18,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 type GreenhouseEffectModelOptions = PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {
-  readonly timeSpeedProperty: EnumerationProperty;
+  readonly timeSpeedProperty: EnumerationDeprecatedProperty;
   readonly isPlayingProperty: BooleanProperty;
 
   /**
@@ -42,7 +42,7 @@ class GreenhouseEffectModel extends PhetioObject {
 
     // @public {NumberProperty} - playing speed for the model
     // @ts-ignore
-    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed, TimeSpeed.NORMAL, {
+    this.timeSpeedProperty = new EnumerationDeprecatedProperty( TimeSpeed, TimeSpeed.NORMAL, {
       // @ts-ignore
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
       tandem: tandem.createTandem( 'timeSpeedProperty' )
