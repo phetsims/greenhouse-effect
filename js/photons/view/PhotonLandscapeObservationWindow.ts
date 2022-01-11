@@ -82,7 +82,9 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     const visiblePhotonEmittedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3, { initialOutputLevel: 0 } );
     soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
 
+    // Range for playback of photon re-emission sounds, the numbers represent one musical half step up and down.
     const playbackRateRange = new Range( 0.94387431268, 1.05946309436 );
+
     // @ts-ignore
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
