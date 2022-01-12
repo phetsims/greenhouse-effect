@@ -19,14 +19,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { scenery } from '../../../../scenery/js/imports.js';
+import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import SunEnergySource from '../model/SunEnergySource.js';
+import EnergyDescriber from './describers/EnergyDescriber.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';
@@ -40,11 +39,13 @@ class EnergyBalancePanel extends Panel {
    * @param {Property<boolean>} energyBalanceVisibleProperty - controls whether this Panel is visible in the view
    * @param {Property<number>} netEnergyInProperty
    * @param {Property<number>} netEnergyOutProperty
+   * @param {Property<boolean>} inRadiativeBalanceProperty
    * @param {Object} [options]
    */
   constructor( energyBalanceVisibleProperty: Property<boolean>,
                netEnergyInProperty: Property<number>,
                netEnergyOutProperty: Property<number>,
+               inRadiativeBalanceProperty: Property<boolean>,
                options?: PanelOptions ) {
 
     options = merge( {
@@ -52,7 +53,12 @@ class EnergyBalancePanel extends Panel {
       // panel options
       cornerRadius: 5,
       xMargin: 10,
-      yMargin: 10
+      yMargin: 10,
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h4',
+      labelContent: greenhouseEffectStrings.energyBalancePanel.title
     }, options ) as PanelOptions;
 
     // title
@@ -91,6 +97,11 @@ class EnergyBalancePanel extends Panel {
     // listeners
     energyBalanceVisibleProperty.link( visible => {
       this.visible = visible;
+    } );
+
+    // pdom
+    Property.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy: number, inRadiativeBalance: boolean ) => {
+      this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( netEnergy, inRadiativeBalance );
     } );
   }
 }

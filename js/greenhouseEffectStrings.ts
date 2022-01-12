@@ -165,6 +165,10 @@ type StringsType = {
     'inflowToEarth': string,
     'outflowToSpace': string,
     'outgoingEnergyPattern': string,
+    'outgoingEnergyAtAtmospherePattern': string,
+    'outgoingEnergyAtAtmosphereEqual': string,
+    'lessThan': string,
+    'greaterThan': string,
     'waves': {
       'homeScreenDescription': string,
       'screenSummary': {

@@ -16,6 +16,10 @@ const decreasesString = greenhouseEffectStrings.a11y.decreases;
 const inflowToEarthString = greenhouseEffectStrings.a11y.inflowToEarth;
 const outflowToSpaceString = greenhouseEffectStrings.a11y.outflowToSpace;
 const outgoingEnergyPatternString = greenhouseEffectStrings.a11y.outgoingEnergyPattern;
+const greaterThanString = greenhouseEffectStrings.a11y.greaterThan;
+const lessThanString = greenhouseEffectStrings.a11y.lessThan;
+const outgoingEnergyAtAtmospherePatternString = greenhouseEffectStrings.a11y.outgoingEnergyAtAtmospherePattern;
+const outgoingEnergyAtAtmosphereEqualString = greenhouseEffectStrings.a11y.outgoingEnergyAtAtmosphereEqual;
 
 class EnergyDescriber {
   constructor() {}
@@ -40,6 +44,32 @@ class EnergyDescriber {
       descriptionString = StringUtils.fillIn( outgoingEnergyPatternString, {
         increasesOrDecreases: outgoingEnergyChangeString,
         inflowOrOutflow: flowChangeString
+      } );
+    }
+
+    return descriptionString;
+  }
+
+  /**
+   * Get a description of the energy flow at the top of the atmosphere. Will return something like
+   * "Outgoing energy is less than incoming energy at top of atmosphere, net energy inflow to Earth." OR
+   * "Outgoing energy is equal to incoming energy at top of atmosphere."
+   */
+  public static getNetEnergyAtAtmosphereDescription( netEnergy: number, inRadiativeBalance: boolean ): string {
+    let descriptionString;
+    if ( inRadiativeBalance ) {
+
+      // The model may be in radiative balance but net energy is not quite zero. In this case it is small enough that
+      // it is effectively zero.
+      descriptionString = outgoingEnergyAtAtmosphereEqualString;
+    }
+    else {
+      const changeString = netEnergy < 0 ? lessThanString : greaterThanString;
+      const flowString = netEnergy < 0 ? inflowToEarthString : outflowToSpaceString;
+
+      descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternString, {
+        greaterThanOrLessThan: changeString,
+        inflowOrOutflow: flowString
       } );
     }
 

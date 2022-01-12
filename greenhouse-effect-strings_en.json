@@ -354,6 +354,18 @@
     "outgoingEnergyPattern": {
       "value": "Outgoing energy {{increasesOrDecreases}}; net energy {{inflowOrOutflow}}."
     },
+    "outgoingEnergyAtAtmospherePattern": {
+      "value": "Outgoing energy is {{greaterThanOrLessThan}} incoming energy at top of atmosphere, net energy {{inflowOrOutflow}}."
+    },
+    "outgoingEnergyAtAtmosphereEqual": {
+      "value": "Outgoing energy is equal to incoming energy at top of atmosphere."
+    },
+    "lessThan": {
+      "value": "less than"
+    },
+    "greaterThan": {
+      "value": "greater than"
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."

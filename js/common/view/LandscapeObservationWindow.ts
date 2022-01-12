@@ -190,7 +190,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const energyBalancePanel = new EnergyBalancePanel(
       model.energyBalanceVisibleProperty,
       model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
-      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty
+      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
+      model.inRadiativeBalanceProperty
     );
     energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
