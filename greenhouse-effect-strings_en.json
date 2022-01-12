@@ -447,7 +447,7 @@
       "value": "The surface temperature is {{description}}."
     },
     "surfaceTemperatureIsQuantitativeAndQualitativePattern": {
-      "value": "The surfaceTemperature is {{description}}, {{value}}."
+      "value": "The surface temperature is {{description}}, {{value}}."
     },
     "infraredEmissionIntensityPattern": {
       "value": "Infrared waves emit with {{value}} intensity from surface and travel to space."
