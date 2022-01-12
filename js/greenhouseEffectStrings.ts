@@ -187,6 +187,7 @@ type StringsType = {
     'photons': {
       'homeScreenDescription': string
     },
+    'dateLevelsOfGreenhouseGassesPattern': string,
     'startSunlightHint': string,
     'startSunlightButtonHelpText': string,
     'cloudCheckboxHelpText': string,

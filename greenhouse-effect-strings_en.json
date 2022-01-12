@@ -408,6 +408,9 @@
         "value": "Explore greenhouse effect with photon representation."
       }
     },
+    "dateLevelsOfGreenhouseGassesPattern": {
+      "value": "{{date}} levels of greenhouse gases in atmosphere."
+    },
     "startSunlightHint": {
       "value": "Start sunlight to play."
     },

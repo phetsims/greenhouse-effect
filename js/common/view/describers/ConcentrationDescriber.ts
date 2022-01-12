@@ -12,6 +12,7 @@ import ConcentrationModel from '../../model/ConcentrationModel.js';
 
 // constants
 const greenhouseGassesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGassesInAtmospherePattern;
+const dateLevelsOfGreenhouseGassesPatternString = greenhouseEffectStrings.a11y.dateLevelsOfGreenhouseGassesPattern;
 
 // strings used to describe the levels of concentration in the model
 const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
@@ -130,6 +131,15 @@ class ConcentrationDescriber {
   static getConcentrationDescriptionWithValue( value: number ) {
     return StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
       valueDescription: ConcentrationDescriber.getConcentrationDescription( value )
+    } );
+  }
+
+  /**
+   * @param date - TODO: Replace with new Enumeration pattern
+   */
+  static getConcentrationDescriptionWithDate( date: any ) {
+    return StringUtils.fillIn( dateLevelsOfGreenhouseGassesPatternString, {
+      date: ConcentrationDescriber.getTimePeriodString( date )
     } );
   }
 }
