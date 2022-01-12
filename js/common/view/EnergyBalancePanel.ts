@@ -101,7 +101,7 @@ class EnergyBalancePanel extends Panel {
 
     // pdom
     Property.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy: number, inRadiativeBalance: boolean ) => {
-      this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( netEnergy, inRadiativeBalance );
+      this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
     } );
   }
 }
