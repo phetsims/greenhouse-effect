@@ -60,6 +60,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly energyBalanceVisibleProperty: BooleanProperty;
   public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
   public readonly fluxMeterVisibleProperty: BooleanProperty;
+  public readonly netInflowOfEnergyProperty: NumberProperty;
   public readonly inRadiativeBalanceProperty: BooleanProperty;
   private readonly emEnergyPackets: EMEnergyPacket[];
   public readonly sunEnergySource: SunEnergySource;
@@ -69,7 +70,6 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
   public readonly fluxMeter: FluxMeter;
-
 
   /**
    * @param {Tandem} [tandem]
@@ -106,6 +106,13 @@ class LayersModel extends GreenhouseEffectModel {
       [ this.surfaceTemperatureKelvinProperty ],
       GreenhouseEffectUtils.kelvinToFahrenheit
     );
+
+    // Net inflow of energy into the Earth.  When this is positive, more energy is coming into the Earth than is
+    // leaving, so it should be heating up.  When negative, the Earth is releasing energy and thus cooling down.
+    this.netInflowOfEnergyProperty = new NumberProperty( 0, {
+      tandem: tandem.createTandem( 'netInflowOfEnergyProperty' ),
+      phetioReadOnly: true
+    } );
 
     // whether the amount of energy coming in from the sun matches that going back out to space, within a threshold
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
@@ -232,6 +239,7 @@ class LayersModel extends GreenhouseEffectModel {
     const energyGoingIntoSpace = this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty.value /
                                  EnergyAbsorbingEmittingLayer.SURFACE_AREA;
     const energyComingFromSun = this.sunEnergySource.getOutputEnergyRate();
+    this.netInflowOfEnergyProperty.set( energyComingFromSun - energyGoingIntoSpace );
     this.inRadiativeBalanceProperty.set(
       Math.abs( energyComingFromSun - energyGoingIntoSpace ) < RADIATIVE_BALANCE_THRESHOLD
     );
