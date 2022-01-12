@@ -28,6 +28,7 @@ import Property from '../../../../axon/js/Property.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -35,7 +36,7 @@ const DECIMAL_PLACES_IN_READOUT = 1;
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
-const surfaceTemperatureString = greenhouseEffectStrings.a11y.surfaceTemperature;
+const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.surfaceTemperaturePattern;
 
 const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
@@ -143,12 +144,22 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        accessibleName: surfaceTemperatureString,
+        helpText: 'Select temperature units.',
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
       } );
       this.addChild( comboBox );
+
+      // The accessible name updates with the units selection and the value
+      Property.multilink(
+        [ model.temperatureUnitsProperty, model.surfaceTemperatureKelvinProperty ],
+        ( temperatureUnits, surfaceTemperature ) => {
+
+          comboBox.accessibleName = StringUtils.fillIn( surfaceTemperaturePatternString, {
+            value: TemperatureDescriber.getTemperatureValueString( surfaceTemperature, temperatureUnits )
+          } );
+        } );
     }
     else {
 
@@ -199,7 +210,14 @@ class ThermometerAndReadout extends Node {
     return new ComboBoxItem(
       new NumberDisplay( property, propertyRange, numberDisplayOptions ),
       propertyValue,
-      { tandemName: tandemName }
+      {
+
+        // phet-io
+        tandemName: tandemName,
+
+        // pdom
+        a11yLabel: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
+      }
     );
   }
 

@@ -210,8 +210,8 @@
     "observationWindowLabel": {
       "value": "Observation Window"
     },
-    "surfaceTemperature": {
-      "value": "Surface Temperature"
+    "surfaceTemperaturePattern": {
+      "value": "Surface Temperature {{value}}"
     },
     "energyBalance": {
       "helpText": {
