@@ -27,7 +27,6 @@ import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
 import LayersModel from '../model/LayersModel.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
@@ -260,12 +259,6 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // {Animation|null} - an animation for fading the darkness out and thus the daylight in
     let fadeToDayAnimation: Animation | null = null;
-
-    // pdom - manages descriptions for the observation window
-    const greenhouseEffectObservationWindowPDOMNode = new ObservationWindowPDOMNode( model );
-    this.addChild( greenhouseEffectObservationWindowPDOMNode );
-    // @ts-ignore
-    this.pdomOrder = [ greenhouseEffectObservationWindowPDOMNode, null ];
 
     // sound generation for sunlight starting
     const sunlightStartingSoundClip = new SoundClip( startSunlightChord_mp3, {

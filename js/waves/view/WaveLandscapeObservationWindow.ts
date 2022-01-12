@@ -12,6 +12,7 @@ import LandscapeObservationWindow from '../../common/view/LandscapeObservationWi
 import { GreenhouseEffectObservationWindowOptions } from '../../common/view/GreenhouseEffectObservationWindow.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
+import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
@@ -33,6 +34,11 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
       // @ts-ignore
       wavesCanvasNode.invalidatePaint();
     } );
+
+    // pdom - manages descriptions for the observation window
+    const greenhouseEffectObservationWindowPDOMNode = new WaveLandscapeObservationWindowPDOMNode( model );
+    this.addChild( greenhouseEffectObservationWindowPDOMNode );
+    this.pdomOrder = [ greenhouseEffectObservationWindowPDOMNode, null ];
   }
 }
 
