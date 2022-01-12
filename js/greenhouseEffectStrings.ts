@@ -105,6 +105,7 @@ type StringsType = {
   'absorbingLayers': string,
   'a11y': {
     'observationWindowLabel': string,
+    'surfaceTemperature': string,
     'energyBalance': {
       'helpText': string
     },

@@ -35,6 +35,7 @@ const DECIMAL_PLACES_IN_READOUT = 1;
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
+const surfaceTemperatureString = greenhouseEffectStrings.a11y.surfaceTemperature;
 
 const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
@@ -140,6 +141,9 @@ class ThermometerAndReadout extends Node {
         yMargin: 4,
         xMargin: 4,
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
+
+        // pdom
+        accessibleName: surfaceTemperatureString,
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )

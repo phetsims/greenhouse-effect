@@ -210,6 +210,9 @@
     "observationWindowLabel": {
       "value": "Observation Window"
     },
+    "surfaceTemperature": {
+      "value": "Surface Temperature"
+    },
     "energyBalance": {
       "helpText": {
         "value": "Measure incoming and outgoing energy at top of atmosphere."
