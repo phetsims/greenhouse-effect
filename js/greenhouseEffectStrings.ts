@@ -188,6 +188,8 @@ type StringsType = {
       'homeScreenDescription': string
     },
     'dateLevelsOfGreenhouseGassesPattern': string,
+    'sunlightWavesTravelFromSpace': string,
+    'sunlightWavesTravelWithCloudReflectionPattern': string,
     'startSunlightHint': string,
     'startSunlightButtonHelpText': string,
     'cloudCheckboxHelpText': string,

@@ -411,6 +411,12 @@
     "dateLevelsOfGreenhouseGassesPattern": {
       "value": "{{date}} levels of greenhouse gases in atmosphere."
     },
+    "sunlightWavesTravelFromSpace": {
+      "value": "Sunlight waves travel from space to surface."
+    },
+    "sunlightWavesTravelWithCloudReflectionPattern": {
+      "value": "{{sunlightDescription}} Cloud reflects some sunlight back into space."
+    },
     "startSunlightHint": {
       "value": "Start sunlight to play."
     },

@@ -82,6 +82,24 @@ class RadiationDescriber {
 
     return response;
   }
+
+  /**
+   * Get a description of the sunlight traveling from space, and potentially if clouds reflect
+   * some of that radiation back to space.
+   */
+  public static getSunlightTravelDescription( includeCloudReflection: boolean ) {
+    let descriptionString;
+    if ( includeCloudReflection ) {
+      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightWavesTravelWithCloudReflectionPattern, {
+        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace
+      } );
+    }
+    else {
+      descriptionString = greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
+    }
+
+    return descriptionString;
+  }
 }
 
 greenhouseEffect.register( 'RadiationDescriber', RadiationDescriber );

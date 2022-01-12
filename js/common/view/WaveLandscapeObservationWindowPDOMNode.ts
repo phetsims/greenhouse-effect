@@ -12,6 +12,7 @@ import WavesModel from '../../waves/model/WavesModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 import ConcentrationModel from '../model/ConcentrationModel.js';
+import RadiationDescriber from './describers/RadiationDescriber.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
   constructor( model: WavesModel ) {
@@ -23,6 +24,13 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       model.dateProperty
     ], ( controlMode, concentration, date ) => {
       this.concentrationItemNode.innerContent = WaveLandscapeObservationWindowPDOMNode.getConcentrationDescription( controlMode, concentration, date );
+    } );
+
+    Property.multilink( [ model.sunEnergySource.isShiningProperty, model.cloudEnabledProperty ], ( isShining, cloudEnabled ) => {
+      this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription( cloudEnabled );
+
+      // if the sun isn't shining yet, hide this portion of the content
+      this.sunlightWavesItemNode.pdomVisible = isShining;
     } );
 
     model.cloudEnabledProperty.link( cloudEnabled => {
