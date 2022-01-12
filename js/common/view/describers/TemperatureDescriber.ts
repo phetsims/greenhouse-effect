@@ -34,6 +34,9 @@ const surfaceTemperatureStableWithValue = greenhouseEffectStrings.a11y.surfaceTe
 const surfaceTemperatureStableWithDescriptionAndValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
 const warmingString = greenhouseEffectStrings.a11y.warming;
 const coolingString = greenhouseEffectStrings.a11y.cooling;
+const surfaceTemperatureIsQuantitativeAndQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePattern;
+const surfaceTemperatureIsQuantitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePattern;
+const surfaceTemperatureIsQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
 
 const qualitativeTemperatureDescriptionStrings = [
   temperatureVeryLowString,
@@ -200,6 +203,40 @@ class TemperatureDescriber {
     }
 
     return stableTemperatureString;
+  }
+
+  /**
+   * Get a description of what the current surface temperature "is". Similar to other functions in this
+   * class, but with slightly different gramatical structure for different contexts. If the thermometer and
+   * surface temperature indicators are both invisible, null will be returned.
+   *
+   * Will return something like
+   * "The surface temperature is high, 290 Kelvin."
+   */
+  static getSurfaceTemperatureIsString( temperature: number,
+                                        thermometerVisible: boolean,
+                                        surfaceTemperatureIndicationVisible: boolean,
+                                        unitsValue: any ): string | null {
+
+    let surfaceTemperatureDescriptionString = null;
+    if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
+      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativeAndQualitativePatternString, {
+        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature ),
+        value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
+      } );
+    }
+    else if ( thermometerVisible ) {
+      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativePatternString, {
+        value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
+      } );
+    }
+    else if ( surfaceTemperatureIndicationVisible ) {
+      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQualitativePatternString, {
+        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature )
+      } );
+    }
+
+    return surfaceTemperatureDescriptionString;
   }
 }
 

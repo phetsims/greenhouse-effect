@@ -12,6 +12,8 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel from '../../common/model/LayersModel.js';
+import Property from '../../../../axon/js/Property.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 // constants
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
@@ -50,6 +52,21 @@ class ObservationWindowPDOMNode extends Node {
       sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
         sunDescription: descriptionString
       } );
+    } );
+
+    Property.multilink( [
+      model.surfaceTemperatureKelvinProperty,
+      model.surfaceThermometerVisibleProperty,
+      model.surfaceTemperatureVisibleProperty,
+      model.temperatureUnitsProperty
+    ], ( temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits ) => {
+      const temperatureDescription = TemperatureDescriber.getSurfaceTemperatureIsString(
+        temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits
+      );
+
+      // There will not be a description at all if temperature displays are disabled
+      surfaceTemperatureItemNode.pdomVisible = !!temperatureDescription;
+      surfaceTemperatureItemNode.innerContent = temperatureDescription;
     } );
   }
 }

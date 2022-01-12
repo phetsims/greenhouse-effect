@@ -417,6 +417,15 @@
     "sunlightWavesTravelWithCloudReflectionPattern": {
       "value": "{{sunlightDescription}} Cloud reflects some sunlight back into space."
     },
+    "surfaceTemperatureIsQuantitativePattern": {
+      "value": "The surface temperature is {{value}}."
+    },
+    "surfaceTemperatureIsQualitativePattern": {
+      "value": "The surface temperature is {{description}}."
+    },
+    "surfaceTemperatureIsQuantitativeAndQualitativePattern": {
+      "value": "The surfaceTemperature is {{description}}, {{value}}."
+    },
     "startSunlightHint": {
       "value": "Start sunlight to play."
     },
