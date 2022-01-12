@@ -347,11 +347,11 @@
         "value": "Infrared radiation: red waves, wavelength longer than sunlight"
       }
     },
-    "infraredRadiationRedirectedPattern": {
-      "value": "{{moreOrLess}} infrared radiation redirected back to surface."
+    "infraredRadiationRedirectingPattern": {
+      "value": "{{moreOrLess}} infrared radiation redirecting back to surface."
     },
-    "infraredRadiationRedirectedWithTemperaturePattern": {
-      "value": "{{moreOrLess}} infrared radiation redirected back to surface, now {{quantitativeTemperature}}."
+    "infraredRadiationRedirectingWithTemperaturePattern": {
+      "value": "{{moreOrLess}} infrared radiation redirecting back to surface, now {{quantitativeTemperature}}."
     },
     "infraredRadiationEmittedFromSurfacePattern": {
       "value": "{{moreOrLess}} infrared radiation emitted from surface."
@@ -456,7 +456,7 @@
       "value": "Infrared waves emit with {{value}} intensity from surface and travel to space."
     },
     "infraredEmissionIntensityWithRedirectionPattern": {
-      "value": "{{surfaceEmission}} {{value}} infrared energy is redirected back to surface."
+      "value": "{{surfaceEmission}} {{value}} infrared energy is redirecting back to surface."
     },
     "startSunlightHint": {
       "value": "Start sunlight to play."

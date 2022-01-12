@@ -49,8 +49,8 @@ class RadiationDescriber {
    */
   public getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
     return this.getRadiationChangeDescription(
-      greenhouseEffectStrings.a11y.infraredRadiationRedirectedPattern,
-      greenhouseEffectStrings.a11y.infraredRadiationRedirectedWithTemperaturePattern,
+      greenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
+      greenhouseEffectStrings.a11y.infraredRadiationRedirectingWithTemperaturePattern,
       newConcentration,
       oldConcentration
     );

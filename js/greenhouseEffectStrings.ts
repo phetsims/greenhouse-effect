@@ -164,8 +164,8 @@ type StringsType = {
       'sunlightRadiation': string,
       'infraredRadiation': string
     },
-    'infraredRadiationRedirectedPattern': string,
-    'infraredRadiationRedirectedWithTemperaturePattern': string,
+    'infraredRadiationRedirectingPattern': string,
+    'infraredRadiationRedirectingWithTemperaturePattern': string,
     'infraredRadiationEmittedFromSurfacePattern': string,
     'infraredRadiationEmittedFromSurfaceWithTemperaturePattern': string,
     'more': string,
