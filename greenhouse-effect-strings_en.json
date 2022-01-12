@@ -282,6 +282,29 @@
         "value": "max levels of"
       }
     },
+    "infraredRedirectionDescriptions": {
+      "no": {
+        "value": "No"
+      },
+      "veryLow": {
+        "value": "Very low amount of"
+      },
+      "low": {
+        "value": "Low amount of"
+      },
+      "moderate": {
+        "value": "Moderate amount of"
+      },
+      "high": {
+        "value": "High amount of"
+      },
+      "veryHigh": {
+        "value": "Very high amount of"
+      },
+      "max": {
+        "value": "Max amount of"
+      }
+    },
     "timePeriodDescriptions": {
       "iceAge": {
         "value": "Ice age"
@@ -339,7 +362,7 @@
     "less": {
       "value": "less"
     },
-    "increases":{
+    "increases": {
       "value": "increases"
     },
     "decreases": {
@@ -425,6 +448,12 @@
     },
     "surfaceTemperatureIsQuantitativeAndQualitativePattern": {
       "value": "The surfaceTemperature is {{description}}, {{value}}."
+    },
+    "infraredEmissionIntensityPattern": {
+      "value": "Infrared waves emit with {{value}} intensity from surface and travel to space."
+    },
+    "infraredEmissionIntensityWithRedirectionPattern": {
+      "value": "{{surfaceEmission}} {{value}} infrared energy is redirected back to surface."
     },
     "startSunlightHint": {
       "value": "Start sunlight to play."

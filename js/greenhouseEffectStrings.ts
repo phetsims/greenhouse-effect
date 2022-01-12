@@ -137,6 +137,15 @@ type StringsType = {
       'veryHigh': string,
       'max': string
     },
+    'infraredRedirectionDescriptions': {
+      'no': string,
+      'veryLow': string,
+      'low': string,
+      'moderate': string,
+      'high': string,
+      'veryHigh': string,
+      'max': string
+    },
     'timePeriodDescriptions': {
       'iceAge': string,
       'seventeenFifty': string,
@@ -193,6 +202,8 @@ type StringsType = {
     'surfaceTemperatureIsQuantitativePattern': string,
     'surfaceTemperatureIsQualitativePattern': string,
     'surfaceTemperatureIsQuantitativeAndQualitativePattern': string,
+    'infraredEmissionIntensityPattern': string,
+    'infraredEmissionIntensityWithRedirectionPattern': string,
     'startSunlightHint': string,
     'startSunlightButtonHelpText': string,
     'cloudCheckboxHelpText': string,

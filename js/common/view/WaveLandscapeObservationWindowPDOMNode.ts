@@ -36,6 +36,19 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     model.cloudEnabledProperty.link( cloudEnabled => {
       this.skyItemNode.innerContent = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
     } );
+
+    Property.multilink(
+      [ model.surfaceTemperatureKelvinProperty, model.concentrationProperty ],
+      ( surfaceTemperature, concentration ) => {
+        const description = RadiationDescriber.getInfraredRadiationIntensityDescription( surfaceTemperature, concentration );
+        if ( description ) {
+          this.infraredWavesItemNode.pdomVisible = true;
+          this.infraredWavesItemNode.innerContent = description;
+        }
+        else {
+          this.infraredWavesItemNode.pdomVisible = false;
+        }
+      } );
   }
 
   /**

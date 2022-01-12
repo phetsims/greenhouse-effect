@@ -22,6 +22,7 @@ class ObservationWindowPDOMNode extends Node {
   protected skyItemNode: Node;
   protected concentrationItemNode: Node;
   protected sunlightWavesItemNode: Node;
+  protected infraredWavesItemNode: Node;
 
   constructor( model: LayersModel ) {
     super( {
@@ -34,7 +35,7 @@ class ObservationWindowPDOMNode extends Node {
     this.concentrationItemNode = new Node( ITEM_NODE_OPTIONS );
     this.skyItemNode = new Node( ITEM_NODE_OPTIONS );
     this.sunlightWavesItemNode = new Node( ITEM_NODE_OPTIONS );
-    const infraredWavesItemNode = new Node( ITEM_NODE_OPTIONS );
+    this.infraredWavesItemNode = new Node( ITEM_NODE_OPTIONS );
     const surfaceTemperatureItemNode = new Node( ITEM_NODE_OPTIONS );
 
     this.children = [
@@ -42,7 +43,7 @@ class ObservationWindowPDOMNode extends Node {
       this.concentrationItemNode,
       this.skyItemNode,
       this.sunlightWavesItemNode,
-      infraredWavesItemNode,
+      this.infraredWavesItemNode,
       surfaceTemperatureItemNode
     ];
 
