@@ -24,7 +24,7 @@ import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprec
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import EnumerationIO from '../../../../phet-core/js/EnumerationIO.js';
+import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
