@@ -347,6 +347,7 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
   public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
   public static readonly TemperatureUnits: EnumerationDeprecated = TemperatureUnits;
+  public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**
    * @public

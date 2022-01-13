@@ -105,6 +105,7 @@ type StringsType = {
   'absorbingLayers': string,
   'a11y': {
     'observationWindowLabel': string,
+    'surfaceTemperaturePattern': string,
     'energyBalance': {
       'helpText': string
     },
@@ -163,8 +164,8 @@ type StringsType = {
       'sunlightRadiation': string,
       'infraredRadiation': string
     },
-    'infraredRadiationRedirectedPattern': string,
-    'infraredRadiationRedirectedWithTemperaturePattern': string,
+    'infraredRadiationRedirectingPattern': string,
+    'infraredRadiationRedirectingWithTemperaturePattern': string,
     'infraredRadiationEmittedFromSurfacePattern': string,
     'infraredRadiationEmittedFromSurfaceWithTemperaturePattern': string,
     'more': string,

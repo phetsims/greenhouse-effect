@@ -20,6 +20,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import LayersModel from '../model/LayersModel.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -41,6 +42,7 @@ class GasConcentrationAlerter extends Alerter {
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: DerivedProperty<number, number[]>;
+  private previousNetInflowOfEnergy: number;
 
   private model: ConcentrationModel;
 
@@ -49,6 +51,7 @@ class GasConcentrationAlerter extends Alerter {
 
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
+    this.previousNetInflowOfEnergy = model.netInflowOfEnergyProperty.value;
 
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
       ( inEnergy: number, outEnergy: number ) => {
@@ -99,17 +102,29 @@ class GasConcentrationAlerter extends Alerter {
         temperatureAlertString && this.alert( temperatureAlertString );
       }
 
-      if ( this.model.energyBalanceVisibleProperty.value && !this.model.inRadiativeBalanceProperty.value ) {
-        const outgoingEnergyAlertString = EnergyDescriber.getOutgoingEnergyChangeDescription(
-          this.outgoingEnergyProperty.value,
-          this.previousOutgoingEnergy,
-          this.netEnergyProperty.value
-        );
-        outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+      if ( this.model.energyBalanceVisibleProperty.value ) {
+
+        // Did the energy balance change in such a way that we need to describe it?
+        const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+        if ( ( this.previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+               currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+             ( this.previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+               currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+             ( Math.abs( this.previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+               Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
+
+          // Yep.
+          const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
+            currentNetInflowOfEnergy,
+            this.model.inRadiativeBalanceProperty.value
+          );
+          outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+        }
       }
 
       this.previousTemperature = currentTemperature;
       this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
+      this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
       this.timeSinceLastAlert = 0;
     }
   }

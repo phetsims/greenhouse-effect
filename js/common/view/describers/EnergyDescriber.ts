@@ -64,8 +64,8 @@ class EnergyDescriber {
       descriptionString = outgoingEnergyAtAtmosphereEqualString;
     }
     else {
-      const changeString = netEnergy < 0 ? lessThanString : greaterThanString;
-      const flowString = netEnergy < 0 ? inflowToEarthString : outflowToSpaceString;
+      const changeString = netEnergy > 0 ? lessThanString : greaterThanString;
+      const flowString = netEnergy > 0 ? inflowToEarthString : outflowToSpaceString;
 
       descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternString, {
         greaterThanOrLessThan: changeString,
