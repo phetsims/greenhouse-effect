@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * LandscapeObservationWindow is a Scenery Node that is used within the Greenhouse Effect simulation to present a view

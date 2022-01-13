@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * GreenhouseEffectObservationWindow is a scenery node that presents a view of the ground to the horizon and the sky

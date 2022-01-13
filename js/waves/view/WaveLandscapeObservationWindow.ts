@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * WaveLandscapeObservationWindow adds the ability to depict electromagnetic waves to its parent class.
