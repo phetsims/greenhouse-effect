@@ -22,7 +22,7 @@ const VISIBLE_WAVELENGTH = GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
 const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
 
 type PhotonOptions = {
-  initialVelocity: Vector2
+  initialVelocity: Vector2 | null
 }
 
 // TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
@@ -34,13 +34,13 @@ class Photon {
   readonly wavelength: number;
   readonly velocity: Vector2;
 
-  constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, options?: Partial<PhotonOptions> ) {
+  constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, providedOptions?: Partial<PhotonOptions> ) {
 
-    options = merge( {
+    const options = merge( {
 
       // {Vector2|null} - will be created if not supplied
       initialVelocity: null
-    }, options );
+    }, providedOptions );
 
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
 
