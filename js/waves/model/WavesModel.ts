@@ -246,7 +246,7 @@ class WavesModel extends ConcentrationModel {
 
       // Make a list of waves that originated from the sun and are currently passing through the cloud.
       const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
-        wave.isV &&
+        wave.isVisible &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.propagationDirection.y < 0 &&
         wave.startPoint.y > cloud.position.y &&
