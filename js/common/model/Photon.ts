@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Photon is a model of a simple photon with the attributes needed by the Greenhouse Effect simulation.
