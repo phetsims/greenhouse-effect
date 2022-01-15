@@ -25,7 +25,8 @@ const simOptions = {
     team: 'Wendy Adams, Danielle Harlow, Kelly Lancaster, Trish Loeblein, Robert Parson, Carl Wieman',
     qualityAssurance: 'Nancy Salpepi, Kathryn Woessner',
     graphicArts: '',
-    soundDesign: 'Ashton Morris'
+    soundDesign: 'Ashton Morris',
+    thanks: 'Dedicated to the memory of Ron LeMaster.'
   },
 
   // TODO: This should be removed before publication, see
