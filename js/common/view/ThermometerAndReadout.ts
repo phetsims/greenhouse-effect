@@ -29,10 +29,11 @@ import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecate
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
-const DECIMAL_PLACES_IN_READOUT = 1;
+const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditionalTemperatureDigits ? 3 : 1;
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;

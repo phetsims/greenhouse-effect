@@ -19,6 +19,10 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
   showAllLayers: { type: 'flag' },
 
+  // Show additional digits on the temperature readout.  This can be useful for fine-tuning of albedo and gas
+  // concentration values.
+  showAdditionalTemperatureDigits: { type: 'flag' },
+
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
   waveGapsEnabled: { type: 'boolean', defaultValue: false }
 } );

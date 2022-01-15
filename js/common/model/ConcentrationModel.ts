@@ -19,6 +19,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel, { LayersModelOptions } from './LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import GroundLayer from './GroundLayer.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE: number = 8400; // in meters, taken from a Wikipedia article
@@ -36,11 +37,11 @@ const DATE_TO_CONCENTRATION_MAP = new Map( [
   // @ts-ignore
   [ CONCENTRATION_DATE.ICE_AGE, 0.625 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.718 ],
+  [ CONCENTRATION_DATE.SEVENTEEN_FIFTY, 0.720 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.722 ],
+  [ CONCENTRATION_DATE.NINETEEN_FIFTY, 0.724 ],
   // @ts-ignore
-  [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.748 ]
+  [ CONCENTRATION_DATE.TWENTY_TWENTY, 0.750 ]
 ] );
 const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
@@ -126,14 +127,13 @@ class ConcentrationModel extends LayersModel {
              // @ts-ignore
              concentrationControlMode === CONCENTRATION_CONTROL_MODE.BY_DATE ) {
 
-          // This is the ice age, so the ground should reflect some light.
-          this.groundLayer.albedoProperty.set( 0.02 );
+          // Set the albedo to correspond to the ice age.
+          this.groundLayer.albedoProperty.set( GroundLayer.PARTIALLY_GLACIATED_LAND_ALBEDO );
         }
         else {
 
-          // This is not the ice age, so the ground should not reflect light (in this model, obviously this doesn't
-          // quite match real life).
-          this.groundLayer.albedoProperty.set( 0 );
+          // Set the albedo to a non-ice-age value.
+          this.groundLayer.albedoProperty.set( GroundLayer.GREEN_MEADOW_ALBEDO );
         }
       }
     );

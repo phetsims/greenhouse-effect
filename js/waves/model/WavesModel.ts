@@ -34,6 +34,7 @@ import EMWaveSource from './EMWaveSource.js';
 import Wave from './Wave.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
+import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -437,17 +438,18 @@ class WavesModel extends ConcentrationModel {
 
     // See if any of the currently reflected waves should stop reflecting.
     this.glacierReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
-      if ( this.groundLayer.albedoProperty.value === 0 || !this.waveGroup.includes( sourceWave ) ) {
+      if ( this.groundLayer.albedoProperty.value < GroundLayer.PARTIALLY_GLACIATED_LAND_ALBEDO ||
+           !this.waveGroup.includes( sourceWave ) ) {
 
-        // Either the albedo has gone to zero or the source wave has gone away.  In either case, free this wave to
-        // finish propagating on its own.
+        // Either the albedo has gone below that of the ice age or the wave from the sun that was being reflected has
+        // gone away.  In either case, free this wave to finish propagating on its own.
         reflectedWave.isSourced = false;
         this.glacierReflectedWavesMap.delete( sourceWave );
       }
     } );
 
     // See if any new waves should be created.
-    if ( this.groundLayer.albedoProperty.value > 0 ) {
+    if ( this.groundLayer.albedoProperty.value >= GroundLayer.PARTIALLY_GLACIATED_LAND_ALBEDO ) {
 
       // Make a list of waves that originated from the sun and are reaching the glacier.
       // TODO: This is using a fixed position and should be adjusted when we know exactly where the glacier will be,

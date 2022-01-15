@@ -20,32 +20,46 @@ import merge from '../../../../phet-core/js/merge.js';
 // The minimum temperature that the ground reaches at night (i.e. when no sunlight is present) when modeling the Earth.
 const MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = 245;
 
+// Albedo values, see https://github.com/phetsims/greenhouse-effect/issues/124 for information on where these values
+// came from.
+const GREEN_MEADOW_ALBEDO = 0.15;
+const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.174;
+
 // The minimum temperature that the ground is allowed to reach what the solar intensity and surface albedo of the ground
 // are variable.  This value was empirically determined by setting those values to their lowest and highest values
 // respectively and looking at the resulting temperature, then adding a bit of margin.
 const MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE = 115;
 
+type GroundLayerOptions = {
+  initialAlbedo?: number
+} & EnergyAbsorbingEmittingLayerOptions;
+
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   readonly albedoProperty: NumberProperty;
 
-  constructor( tandem: Tandem, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
+  constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
 
     const options = merge( {
+
+      initialAlbedo: GREEN_MEADOW_ALBEDO,
+
       // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
+
+      // Set the minimum temperature to a value that is reasonable for surface of the Earth.
       minimumTemperature: MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
 
       // phet-io
       tandem: tandem,
       phetioReadOnly: true,
       phetioState: false
-    }, providedOptions );
+    }, providedOptions ) as Required<GroundLayerOptions>;
 
     super( 0, options );
 
     // albedo of the ground, meaning how much of the incoming light will be reflected
-    this.albedoProperty = new NumberProperty( 0, {
+    this.albedoProperty = new NumberProperty( options.initialAlbedo, {
       range: new Range( 0, 1 ),
       tandem: tandem.createTandem( 'albedoProperty' ),
       phetioReadOnly: true,
@@ -66,7 +80,10 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
       // @ts-ignore
       if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.direction === EnergyDirection.DOWN ) {
 
-        absorbedEnergy += energyPacket.energy * ( 1 - this.albedoProperty.value );
+        // Only visible light is reflected, IR is fully absorbed.
+        const albedo = energyPacket.isVisible ? this.albedoProperty.value : 0;
+
+        absorbedEnergy += energyPacket.energy * ( 1 - albedo );
         const reflectedEnergy = energyPacket.energy - absorbedEnergy;
         if ( reflectedEnergy > 0 ) {
 
@@ -92,8 +109,10 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     super.reset();
   }
 
-  static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE: number = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE
-  static MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE: number = MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE
+  static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
+  static MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE = MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE;
+  static GREEN_MEADOW_ALBEDO = GREEN_MEADOW_ALBEDO;
+  static PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
 }
 
 greenhouseEffect.register( 'GroundLayer', GroundLayer );
