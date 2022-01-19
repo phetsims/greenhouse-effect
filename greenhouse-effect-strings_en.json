@@ -453,6 +453,12 @@
     "energyBalanceUncheckedAlert": {
       "value": "Energy Balance hidden."
     },
+    "thermometerShownAlertPattern": {
+      "value": "Thermometer measuring surface temperature, {{value}}."
+    },
+    "thermometerRemovedAlert": {
+      "value": "Thermometer removed."
+    },
     "photons": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with photon representation."
