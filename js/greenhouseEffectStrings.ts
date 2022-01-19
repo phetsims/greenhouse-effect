@@ -194,6 +194,11 @@ type StringsType = {
         'qualitativeAndQuantitativeTemperatureDescriptionPattern': string
       }
     },
+    'timePeriodDescriptionPattern': string,
+    'twentyTwentyDescription': string,
+    'nineteenFiftyDescription': string,
+    'seventeenFiftyDescription': string,
+    'iceAgeDescription': string,
     'photons': {
       'homeScreenDescription': string
     },

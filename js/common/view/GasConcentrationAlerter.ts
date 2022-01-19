@@ -43,6 +43,13 @@ class GasConcentrationAlerter extends Alerter {
   // Value for concentration the last time a description was generated
   private previousConcentration: number;
 
+  // Number of times each date has been described as an alert response. There is a limit to the number of times
+  // these should be spoken. But these values should be reset with the simulation.
+  private descriptionsOfTwentyTwentyCount: number;
+  private descriptionsOfNineteenFifty: number;
+  private descriptionsOfSeventeenFifty: number;
+  private descriptionsOfIceAge: number;
+
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: DerivedProperty<number, number[]>;
@@ -57,6 +64,11 @@ class GasConcentrationAlerter extends Alerter {
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
     this.previousNetInflowOfEnergy = model.netInflowOfEnergyProperty.value;
     this.previousConcentration = model.concentrationProperty.value;
+
+    this.descriptionsOfTwentyTwentyCount = 0;
+    this.descriptionsOfNineteenFifty = 0;
+    this.descriptionsOfSeventeenFifty = 0;
+    this.descriptionsOfIceAge = 0;
 
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
       ( inEnergy: number, outEnergy: number ) => {

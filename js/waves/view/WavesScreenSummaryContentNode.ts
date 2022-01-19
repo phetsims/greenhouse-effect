@@ -20,8 +20,6 @@ import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecate
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
 const currentlyNoSunlightString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
 
-const timePeriodPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern;
-
 const summaryWithTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
 const summaryWithoutTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
 
@@ -139,9 +137,7 @@ class WavesScreenSummaryContentNode extends Node {
       concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {
-      concentrationDescriptionString = StringUtils.fillIn( timePeriodPatternString, {
-        timePeriodDescription: ConcentrationDescriber.getTimePeriodString( date )
-      } );
+      concentrationDescriptionString = ConcentrationDescriber.getTimePeriodDescription( date );
     }
 
     let patternString = '';

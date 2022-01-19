@@ -39,6 +39,11 @@ const seventeenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions
 const nineteenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.nineteenFifty;
 const twentyTwentyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.twentyTwenty;
 
+const iceAgeDescriptionString = greenhouseEffectStrings.a11y.iceAgeDescription;
+const seventeenFiftyDescriptionString = greenhouseEffectStrings.a11y.seventeenFiftyDescription;
+const nineteenFiftyDescriptionString = greenhouseEffectStrings.a11y.nineteenFiftyDescription;
+const twentyTwentyDescriptionString = greenhouseEffectStrings.a11y.twentyTwentyDescription;
+
 // strings used to describe the sky
 const skyDescriptionPatternString = greenhouseEffectStrings.a11y.sky.skyDescriptionPattern;
 const cloudyString = greenhouseEffectStrings.a11y.sky.cloudy;
@@ -73,11 +78,45 @@ class ConcentrationDescriber {
   static getTimePeriodString( timePeriodValue: any ) {
     // @ts-ignore
     return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeString :
-           // @ts-ignore
+      // @ts-ignore
            timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyString :
-           // @ts-ignore
+             // @ts-ignore
            timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyString :
            twentyTwentyString;
+  }
+
+  /**
+   * Get a description of a particular time period, including the date. Returns something like
+   * "year twenty twenty and there are lots of homes and factories" or
+   * "ice age and there is a large glacier"
+   */
+  public static getDescribedTimePeriodString( timePeriodValue: any ) {
+    const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
+    // @ts-ignore
+    const timePeriodDescriptionString = timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeDescriptionString :
+      // @ts-ignore
+                                        timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
+                                          // @ts-ignore
+                                        timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
+                                        twentyTwentyDescriptionString;
+
+
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.timePeriodDescriptionPattern, {
+      timePeriod: timePeriodString,
+      description: timePeriodDescriptionString
+    } );
+  }
+
+  /**
+   * Get a string that describes the time period in a full context like:
+   * "the time period is the year twenty twenty and there are a large number of homes and factories."
+   */
+  public static getTimePeriodDescription( timePeriodValue: any ) {
+
+    const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
+      timePeriodDescription: describedTimePeriod
+    } );
   }
 
   /**
