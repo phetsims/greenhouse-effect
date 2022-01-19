@@ -331,6 +331,21 @@
       },
       "clear": {
         "value": "clear"
+      },
+      "cloudAddedAlert": {
+        "value": "Cloud added to sky."
+      },
+      "someSunlightReflectedAlert": {
+        "value": "Some sunlight reflected back to space."
+      },
+      "cloudRemovedAlert": {
+        "value": "Cloud removed from sky."
+      },
+      "allSunlightReachesSurfaceAlert": {
+        "value": "All sunlight reaches surface."
+      },
+      "cloudAlertPattern": {
+        "value": "{{addedOrRemoved}} {{receivedOrReflected}}"
       }
     },
     "energyLegend": {

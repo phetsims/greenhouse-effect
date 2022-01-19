@@ -67,6 +67,32 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Get a description of the sky when a cloud is added or removed. Information about
+   * the sunlight will be included if the sun is shining. Will return something like
+   * "Cloud added to sky. Some sunlight redirected back to space."
+   */
+  static getSkyCloudChangeDescription( cloudEnabled: boolean, isShining: boolean ) {
+    let description;
+
+    const addedOrRemovedDescription = cloudEnabled ? greenhouseEffectStrings.a11y.sky.cloudAddedAlert :
+                                      greenhouseEffectStrings.a11y.sky.cloudRemovedAlert;
+    if ( isShining ) {
+      const receivedOrReflectedDescription = cloudEnabled ? greenhouseEffectStrings.a11y.sky.someSunlightReflectedAlert :
+                                             greenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlert;
+
+      description = StringUtils.fillIn( greenhouseEffectStrings.a11y.sky.cloudAlertPattern, {
+        addedOrRemoved: addedOrRemovedDescription,
+        receivedOrReflected: receivedOrReflectedDescription
+      } );
+    }
+    else {
+      description = addedOrRemovedDescription;
+    }
+
+    return description;
+  }
+
+  /**
    * Get the string describing the selected time period. Something like
    * "ice age" or
    * "year seventeen fifty"

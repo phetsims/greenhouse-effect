@@ -10,8 +10,7 @@
 
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Path } from '../../../../scenery/js/imports.js';
 import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -19,17 +18,15 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Shape from '../../../../kite/js/Shape.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
 
 class CloudCheckbox extends GreenhouseEffectCheckbox {
-
-  /**
-   * @param {Property.<boolean>} cloudEnabledProperty - controls whether the cloud is visible
-   * @param {Tandem} tandem
-   */
-  constructor( cloudEnabledProperty: Property<boolean>, tandem: Tandem ) {
+  constructor( cloudEnabledProperty: Property<boolean>, isShiningProperty: BooleanProperty, tandem: Tandem ) {
 
     // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
     // to height, so change with caution.
@@ -41,9 +38,19 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
+    // One utterance with changing content depending on simulation state
+    const checkboxUtterance = new Utterance();
+
+    Property.multilink( [ cloudEnabledProperty, isShiningProperty ], ( cloudEnabled, isShining ) => {
+      checkboxUtterance.alert = ConcentrationDescriber.getSkyCloudChangeDescription( cloudEnabled, isShining );
+    } );
+
     super( greenhouseEffectStrings.cloud, cloudEnabledProperty, {
       iconNode: iconNode,
       helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
+
+      checkedContextResponseUtterance: checkboxUtterance,
+      uncheckedContextResponseUtterance: checkboxUtterance,
 
       // phet-io
       tandem: tandem

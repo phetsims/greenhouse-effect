@@ -73,7 +73,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'surfaceThermometerCheckbox' )
     );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, model.surfaceTemperatureKelvinProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
-    const cloudCheckbox = new CloudCheckbox( model.cloudEnabledProperty, tandem.createTandem( 'cloudCheckbox' ) );
+    const cloudCheckbox = new CloudCheckbox( model.cloudEnabledProperty, model.sunEnergySource.isShiningProperty, tandem.createTandem( 'cloudCheckbox' ) );
 
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );

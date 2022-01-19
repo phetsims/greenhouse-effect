@@ -156,7 +156,12 @@ type StringsType = {
     'sky': {
       'skyDescriptionPattern': string,
       'cloudy': string,
-      'clear': string
+      'clear': string,
+      'cloudAddedAlert': string,
+      'someSunlightReflectedAlert': string,
+      'cloudRemovedAlert': string,
+      'allSunlightReachesSurfaceAlert': string,
+      'cloudAlertPattern': string
     },
     'energyLegend': {
       'title': string,
