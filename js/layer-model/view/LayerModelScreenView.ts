@@ -24,7 +24,9 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
   constructor( model: LayerModelModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the layers and photons.
-    const observationWindow = new LayerModelObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
+    const observationWindow = new LayerModelObservationWindow( model, {
+      tandem: tandem.createTandem( 'observationWindow' )
+    } );
 
     const timeControlNode = new LayersModelTimeControlNode( model );
 

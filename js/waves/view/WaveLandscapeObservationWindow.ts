@@ -13,16 +13,23 @@ import { GreenhouseEffectObservationWindowOptions } from '../../common/view/Gree
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
-  constructor( model: WavesModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: WavesModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
-    super( model, tandem, providedOptions );
+    const options = merge( {
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, providedOptions );
+
+    super( model, providedOptions );
 
     const wavesCanvasNode = new WavesCanvasNode( model, this.modelViewTransform, {
       canvasBounds: LandscapeObservationWindow.SIZE.toBounds(),
-      tandem: tandem.createTandem( 'wavesCanvasNode' )
+      tandem: options.tandem.createTandem( 'wavesCanvasNode' )
     } );
     this.presentationLayer.addChild( wavesCanvasNode );
 

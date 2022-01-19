@@ -24,7 +24,9 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
   constructor( model: PhotonsModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, photons, etc.
-    const observationWindow = new PhotonLandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
+    const observationWindow = new PhotonLandscapeObservationWindow( model, {
+      tandem: tandem.createTandem( 'observationWindow' )
+    } );
 
     const timeControlNode = new LayersModelTimeControlNode( model );
 

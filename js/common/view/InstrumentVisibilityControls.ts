@@ -19,7 +19,8 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 
 type InstrumentVisibilityControlsOptions = {
-  vBoxOptions?: { align: string, spacing: number, children?: Node[] }
+  vBoxOptions?: { align: string, spacing: number, children?: Node[] },
+  includeFluxMeterCheckbox?: boolean
 } & PathOptions;
 
 class InstrumentVisibilityControls extends Rectangle {
@@ -41,6 +42,9 @@ class InstrumentVisibilityControls extends Rectangle {
         align: 'left',
         spacing: 5
       },
+
+      // If true, a checkbox for the flux meter will be included in the controls
+      includeFluxMeterCheckbox: true,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -77,7 +81,7 @@ class InstrumentVisibilityControls extends Rectangle {
         }
       ) );
     }
-    if ( model.fluxMeterVisibleProperty ) {
+    if ( options.includeFluxMeterCheckbox ) {
       children.push( new GreenhouseEffectCheckbox(
         greenhouseEffectStrings.fluxMeter.title,
         model.fluxMeterVisibleProperty,

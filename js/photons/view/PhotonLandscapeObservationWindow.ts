@@ -25,6 +25,7 @@ import PhotonNode from '../../common/view/PhotonNode.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import Range from '../../../../dot/js/Range.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 // constants
 const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
@@ -35,15 +36,15 @@ const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
 ];
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
+  constructor( model: PhotonsModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
-  /**
-   * @param {ConcentrationModel} model
-   * @param {Tandem} tandem
-   * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
-   */
-  constructor( model: PhotonsModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+    const options = merge( {
 
-    super( model, tandem, providedOptions );
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, providedOptions );
+
+    super( model, options );
 
     // Create a parent node to which the individual photon nodes will all be added.
     const photonsRootNode = new Node();

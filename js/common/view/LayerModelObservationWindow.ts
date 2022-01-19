@@ -10,7 +10,7 @@
 import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import FluxMeterNode from './FluxMeterNode.js';
-import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
+import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
@@ -18,14 +18,27 @@ import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import Photon from '../model/Photon.js';
 import PhotonNode from './PhotonNode.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
+  constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
-  constructor( model: LayerModelModel, tandem: Tandem ) {
-
+    assert && assert( providedOptions.groundBaseColorProperty === undefined, 'LayerModelObservationWindow sets groundBaseColorProperty' );
     const groundBaseColorProperty = new ColorProperty( Color.GRAY );
 
-    super( model, tandem, { groundBaseColorProperty: groundBaseColorProperty } );
+    const options = merge( {
+
+      // pass on to the InstrumentVisibilityControls
+      instrumentVisibilityControls: null,
+
+      groundBaseColorProperty: groundBaseColorProperty,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
+
+    }, providedOptions );
+
+    super( model, options );
 
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
@@ -51,7 +64,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
       // phet-io
-      tandem: tandem.createTandem( 'surfaceThermometer' )
+      tandem: options.tandem.createTandem( 'surfaceThermometer' )
     } );
     this.backgroundLayer.addChild( surfaceThermometer );
 
@@ -95,7 +108,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       model.fluxMeterVisibleProperty,
       this.modelViewTransform,
       this.windowFrame.bounds,
-      tandem.createTandem( 'fluxMeterNode' )
+      options.tandem.createTandem( 'fluxMeterNode' )
     );
     fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -111,7 +124,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
-      tandem: tandem.createTandem( 'instrumentVisibilityControls' )
+      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
     } );
     instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,

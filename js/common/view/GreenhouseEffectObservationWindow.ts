@@ -48,7 +48,8 @@ const CONTROL_AND_INSTRUMENT_INSET = 10;
 
 type GreenhouseEffectObservationWindowOptions = {
   groundBaseColorProperty?: Property<Color> | null,
-  showTemperatureGlow?: boolean
+  showTemperatureGlow?: boolean,
+  tandem: Tandem
 } & NodeOptions;
 
 class GreenhouseEffectObservationWindow extends Node {
@@ -61,12 +62,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly groundNodeHeight: number;
   public readonly startSunlightButton: TextPushButton;
 
-  /**
-   * @param {LayersModel} model
-   * @param {Tandem} tandem
-   * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
-   */
-  constructor( model: LayersModel, tandem: Tandem, providedOptions: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
     const options: GreenhouseEffectObservationWindowOptions = merge( {
 
@@ -79,6 +75,9 @@ class GreenhouseEffectObservationWindow extends Node {
 
       // {boolean} - whether the ground and sky should appear to glow when warm
       showTemperatureGlow: false,
+
+      // phet-io
+      tandem: Tandem.REQUIRED,
 
       // pdom
       tagName: 'div',
@@ -297,7 +296,7 @@ class GreenhouseEffectObservationWindow extends Node {
       helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText,
 
       // phet-io
-      tandem: tandem.createTandem( 'startSunlightButton' ),
+      tandem: options.tandem.createTandem( 'startSunlightButton' ),
       visiblePropertyOptions: { phetioReadOnly: true }
     } );
     this.foregroundLayer.addChild( this.startSunlightButton );

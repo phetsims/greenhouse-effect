@@ -35,21 +35,19 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
 
-  /**
-   * @param {ConcentrationModel} model
-   * @param {Tandem} tandem
-   * @param {GreenhouseEffectObservationWindowOptions} [providedOptions]
-   */
-  constructor( model: ConcentrationModel, tandem: Tandem, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: ConcentrationModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
 
     const options = merge( {
-      groundBaseColorProperty: groundColorBaseProperty
+      groundBaseColorProperty: groundColorBaseProperty,
+
+      // phet-io
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    super( model, tandem, options );
+    super( model, options );
 
     // thermometer
     const listParentNode = new Node();
@@ -58,7 +56,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       minTemperature: model.groundLayer.minimumTemperature - 5,
 
       // phet-io
-      tandem: tandem.createTandem( 'surfaceThermometer' )
+      tandem: options.tandem.createTandem( 'surfaceThermometer' )
     } );
     surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -200,7 +198,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
-      tandem: tandem.createTandem( 'instrumentVisibilityControls' )
+      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
     } );
     instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
