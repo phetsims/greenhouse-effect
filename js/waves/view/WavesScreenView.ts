@@ -28,6 +28,7 @@ import WavesModel from '../model/WavesModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly updateSoundLoopLevels: () => void;
@@ -45,7 +46,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       { showTemperatureGlow: true }
     );
 
-    super( model, observationWindow, {
+    const timeControlNode = new LayersModelTimeControlNode( model );
+
+    super( model, observationWindow, timeControlNode, {
       energyLegendOptions: {
         // @ts-ignore
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE

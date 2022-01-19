@@ -36,10 +36,15 @@ class GreenhouseEffectScreenView extends ScreenView {
   /**
    * @param {GreenhouseEffectModel} model
    * @param {Node} observationWindow
+   * @param {TimeControlNode} timeControlNode - The TimeControlNode may have screen specific functionality.
+   *                                            TODO: The first three screens all use the same TimeControlNode as well
+   *                                            as other components. Perhaps we need to have a subclass for these
+   *                                            instead of providing the component with composition.
    * @param {GreenhouseEffectScreenViewOptions} [providedOptions]
    */
   constructor( model: GreenhouseEffectModel,
                observationWindow: GreenhouseEffectObservationWindow,
+               timeControlNode: TimeControlNode,
                providedOptions: GreenhouseEffectScreenViewOptions ) {
 
     const options: GreenhouseEffectScreenViewOptions = merge( {
@@ -84,18 +89,7 @@ class GreenhouseEffectScreenView extends ScreenView {
     } );
     this.addChild( this.legendAndControlsVBox );
 
-    // @public {TimeControlNode} - for layout in subtypes
-    this.timeControlNode = new TimeControlNode( model.isPlayingProperty, {
-      timeSpeedProperty: model.timeSpeedProperty,
-      playPauseStepButtonOptions: {
-        stepForwardButtonOptions: {
-          listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
-        }
-      },
-
-      // phet-io
-      tandem: options.tandem.createTandem( 'timeControlNode' )
-    } );
+    this.timeControlNode = timeControlNode;
     this.addChild( this.timeControlNode );
 
     // @protected {ResetAllButton}

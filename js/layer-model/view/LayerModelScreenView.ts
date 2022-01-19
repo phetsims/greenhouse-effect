@@ -13,6 +13,7 @@ import LayerModelModel from '../model/LayerModelModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LayersControl from './LayersControl.js';
 import SunAndReflectionControl from './SunAndReflectionControl.js';
+import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -25,7 +26,9 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // Create the observation window that will depict the layers and photons.
     const observationWindow = new LayerModelObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
 
-    super( model, observationWindow, {
+    const timeControlNode = new LayersModelTimeControlNode( model );
+
+    super( model, observationWindow, timeControlNode, {
 
       // phet-io
       tandem: tandem

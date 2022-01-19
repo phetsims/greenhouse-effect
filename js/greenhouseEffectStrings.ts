@@ -364,7 +364,9 @@ type StringsType = {
       'simPausedEmitterOnAlert': string,
       'simPausedEmitterOffAlert': string,
       'simPlayingHintAlert': string,
-      'stepHintAlert': string
+      'stepHintAlert': string,
+      'simPausedSunlightOffAlert': string,
+      'simPlayingSunlightOffAlert': string
     }
   }
 };

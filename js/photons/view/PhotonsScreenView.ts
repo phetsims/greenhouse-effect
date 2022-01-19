@@ -13,6 +13,7 @@ import PhotonsModel from '../model/PhotonsModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -25,7 +26,9 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     // Create the observation window that will depict the ground, sky, photons, etc.
     const observationWindow = new PhotonLandscapeObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
 
-    super( model, observationWindow, {
+    const timeControlNode = new LayersModelTimeControlNode( model );
+
+    super( model, observationWindow, timeControlNode, {
 
       // phet-io
       tandem: tandem

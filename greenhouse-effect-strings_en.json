@@ -911,6 +911,12 @@
       },
       "stepHintAlert": {
         "value": "Turn light source on to use Step Forward."
+      },
+      "simPausedSunlightOffAlert": {
+        "value": "Sim paused. Sunlight not started."
+      },
+      "simPlayingSunlightOffAlert": {
+        "value": "Turn sunlight on to play sim."
       }
     }
   }
