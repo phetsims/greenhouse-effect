@@ -380,15 +380,6 @@ class ConcentrationSlider extends Node {
       a11yCreateAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
       },
-      a11yCreateContextResponseAlert: ( mappedValue: number, newValue: number, oldValue: number ) => {
-        let contextResponseAlert = null;
-
-        if ( concentrationModel.isPlayingProperty.value && concentrationModel.isInfraredPresent() ) {
-          contextResponseAlert = radiationDescriber.getRadiationRedirectionDescription( newValue, oldValue );
-        }
-
-        return contextResponseAlert;
-      },
 
       // phet-io
       tandem: tandem.createTandem( 'slider' )

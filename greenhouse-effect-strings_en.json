@@ -354,16 +354,16 @@
       "value": "{{moreOrLess}} infrared radiation redirecting back to surface, now {{quantitativeTemperature}}."
     },
     "infraredRadiationEmittedFromSurfacePattern": {
-      "value": "{{moreOrLess}} infrared radiation emitted from surface."
+      "value": "{{moreOrLess}} infrared radiation emitting from surface."
     },
     "infraredRadiationEmittedFromSurfaceWithTemperaturePattern": {
-      "value": "{{moreOrLess}} infrared radiation emitted from surface, now {{quantitativeTemperature}}."
+      "value": "{{moreOrLess}} infrared radiation emitting from surface, now {{quantitativeTemperature}}."
     },
     "more": {
-      "value": "more"
+      "value": "More"
     },
     "less": {
-      "value": "less"
+      "value": "Less"
     },
     "increases": {
       "value": "increases"

@@ -21,6 +21,7 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import LayersModel from '../model/LayersModel.js';
+import RadiationDescriber from './describers/RadiationDescriber.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -39,6 +40,9 @@ class GasConcentrationAlerter extends Alerter {
   // Outgoing energy value for the last description, saved so we know how energy changes from alert to alert.
   private previousOutgoingEnergy: number;
 
+  // Value for concentration the last time a description was generated
+  private previousConcentration: number;
+
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: DerivedProperty<number, number[]>;
@@ -52,6 +56,7 @@ class GasConcentrationAlerter extends Alerter {
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
     this.previousNetInflowOfEnergy = model.netInflowOfEnergyProperty.value;
+    this.previousConcentration = model.concentrationProperty.value;
 
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
       ( inEnergy: number, outEnergy: number ) => {
@@ -90,9 +95,21 @@ class GasConcentrationAlerter extends Alerter {
       TEMPERATURE_DECIMAL_PLACES
     );
 
+    const currentConcentration = this.model.concentrationProperty.value;
+
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
 
       if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
+
+        // First, a description of the changing radiation redirecting back to the surface - this should only
+        // happen if there was some change to the concentration
+        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousConcentration ) {
+          const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousConcentration );
+          radiationRedirectingAlert && this.alert( radiationRedirectingAlert );
+        }
+
+        // Then, a description of the changing temperature - this should get described at interval even if there
+        // is no change in concentration.
         const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
           this.previousTemperature,
           currentTemperature,
@@ -100,6 +117,13 @@ class GasConcentrationAlerter extends Alerter {
           this.model.temperatureUnitsProperty.value
         );
         temperatureAlertString && this.alert( temperatureAlertString );
+
+        // Finally, a description of the changing surface temperature - again, only if there is some change in the
+        // concentration
+        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousConcentration ) {
+          const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription( this.model.concentrationProperty.value, this.previousConcentration );
+          surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
+        }
       }
 
       if ( this.model.energyBalanceVisibleProperty.value ) {
@@ -123,6 +147,7 @@ class GasConcentrationAlerter extends Alerter {
       }
 
       this.previousTemperature = currentTemperature;
+      this.previousConcentration = currentConcentration;
       this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
       this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
       this.timeSinceLastAlert = 0;

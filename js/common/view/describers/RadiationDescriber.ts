@@ -44,27 +44,25 @@ class RadiationDescriber {
   /**
    * Generates a description of the changing radiation as it is redirected with changing concentrations. Will return
    * something like
-   * "more infrared radiation redirected back to surface." or
-   * "less infrared radiation redirected back to surface, now 248.9 Kelvin."
+   * "More infrared radiation redirecting back to surface." or
+   * "Less infrared radiation redirecting back to surface."
    */
-  public getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
-    return this.getRadiationChangeDescription(
+  public static getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
+    return RadiationDescriber.getRadiationChangeDescription(
       greenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
-      greenhouseEffectStrings.a11y.infraredRadiationRedirectingWithTemperaturePattern,
       newConcentration,
       oldConcentration
     );
   }
 
   /**
-   * Generates a description of the change in radiation being emitted from the earth surface. Will return something like
-   * "more infrared radiation emitted from surface." or
-   * "less infrared radiation emitted from surface, now 248.9 Kelvin".
+   * Generates a description of the change in radiation being emitting from the earth surface. Will return something like
+   * "More infrared radiation emitting from surface." or
+   * "Less infrared radiation emitting from surface.".
    */
-  private getRadiationFromSurfaceChangeDescription( newConcentration: number, oldConcentration: number ): string | null {
-    return this.getRadiationChangeDescription(
+  public static getRadiationFromSurfaceChangeDescription( newConcentration: number, oldConcentration: number ): string | null {
+    return RadiationDescriber.getRadiationChangeDescription(
       greenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePattern,
-      greenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfaceWithTemperaturePattern,
       newConcentration,
       oldConcentration
     );
@@ -73,34 +71,17 @@ class RadiationDescriber {
   /**
    * Generates a description for the changing radiation. Depending on the provided string patterns, will return
    * something like:
-   * "More infrared radiation emitted from surface." or
-   * "Less infrared radiation redirected back to surface, now 248.9 Kelvin"
-   *
-   * @param patternString - Pattern string to describe change in radiation
-   * @param patternWithTemperatureString - Pattern string with information about temperature, if temperature is shown
-   * @param newConcentration
-   * @param oldConcentration
+   * "More infrared radiation emitting from surface." or
+   * "Less infrared radiation redirecting back to surface."
    */
-  private getRadiationChangeDescription( patternString: string, patternWithTemperatureString: string, newConcentration: number, oldConcentration: number ): string | null {
+  private static getRadiationChangeDescription( patternString: string, newConcentration: number, oldConcentration: number ): string | null {
     let response = null;
 
     if ( newConcentration !== oldConcentration ) {
       const moreOrLessString = newConcentration > oldConcentration ? greenhouseEffectStrings.a11y.more : greenhouseEffectStrings.a11y.less;
-
-      if ( this.model.surfaceThermometerVisibleProperty.value ) {
-        response = StringUtils.fillIn( patternWithTemperatureString, {
-          moreOrLess: moreOrLessString,
-          quantitativeTemperature: TemperatureDescriber.getQuantitativeTemperatureDescription(
-            this.model.surfaceTemperatureKelvinProperty.value,
-            this.model.temperatureUnitsProperty.value
-          )
-        } );
-      }
-      else {
-        response = StringUtils.fillIn( patternString, {
-          moreOrLess: moreOrLessString
-        } );
-      }
+      response = StringUtils.fillIn( patternString, {
+        moreOrLess: moreOrLessString
+      } );
     }
 
     return response;
