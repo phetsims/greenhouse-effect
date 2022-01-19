@@ -7,21 +7,18 @@
  */
 
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../../scenery/js/imports.js';
+import { LinearGradient, Rectangle } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 
 class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
-
-  /**
-   * @param {BooleanProperty} property - controls whether surface temperature is displayed
-   * @param {Tandem} tandem
-   */
-  constructor( property: Property<boolean>, tandem: Tandem ) {
+  constructor( property: Property<boolean>, temperatureProperty: NumberProperty, tandem: Tandem ) {
 
     const iconWidth = 15;
 
@@ -33,11 +30,18 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
         .addColorStop( 1, '#1A9900' )
     } );
 
+    const checkedUtterance = new Utterance();
+    temperatureProperty.link( temperatureKelvin => {
+      checkedUtterance.alert = TemperatureDescriber.getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin );
+    } );
+
     super( greenhouseEffectStrings.showSurfaceTemperature, property, {
       iconNode: iconNode,
 
       // pdom
       helpText: greenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
+      checkedContextResponseUtterance: checkedUtterance,
+      uncheckedContextResponseUtterance: new Utterance( { alert: 'Surface glow hidden.' } ),
 
       // phetio
       tandem: tandem

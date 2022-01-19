@@ -101,6 +101,17 @@ class TemperatureDescriber {
   }
 
   /**
+   * Get a qualitative description of the surface temperature as a full sentence. Returns something like
+   * "Surface temperature is somewhat high.
+   * @param temperatureKelvin
+   */
+  static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number ) {
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
+      description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin )
+    } );
+  }
+
+  /**
    * Get the current temperature in the provided units, formatted for use in interactive description.
    * @public
    *

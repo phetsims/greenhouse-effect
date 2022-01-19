@@ -204,6 +204,7 @@ type StringsType = {
     'energyBalanceUncheckedAlert': string,
     'thermometerShownAlertPattern': string,
     'thermometerRemovedAlert': string,
+    'qualitativeSurfaceTemperaturePattern': string,
     'photons': {
       'homeScreenDescription': string
     },

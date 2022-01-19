@@ -459,6 +459,9 @@
     "thermometerRemovedAlert": {
       "value": "Thermometer removed."
     },
+    "qualitativeSurfaceTemperaturePattern": {
+      "value": "Surface temperature is {{description}}."
+    },
     "photons": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with photon representation."
