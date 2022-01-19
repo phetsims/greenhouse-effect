@@ -28,15 +28,9 @@ type GreenhouseEffectCheckboxOptions = {
 } & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
+  constructor( labelString: string, property: Property<boolean>, providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
-  /**
-   * @param {string} labelString
-   * @param {Property.<boolean>} property
-   * @param {Object} [options]
-   */
-  constructor( labelString: string, property: Property<boolean>, options: GreenhouseEffectCheckboxOptions ) {
-
-    options = merge( {
+    const options = merge( {
 
       // {Node} - if provided, will be included in the icon for the checkbox
       iconNode: null,
@@ -49,7 +43,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
 
       // pdom
       accessibleName: labelString
-    }, options );
+    }, providedOptions ) as Required<GreenhouseEffectCheckboxOptions>;
 
     const labelText = new Text( labelString, {
       font: LABEL_FONT,

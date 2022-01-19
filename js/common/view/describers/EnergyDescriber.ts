@@ -55,7 +55,7 @@ class EnergyDescriber {
    * "Outgoing energy is less than incoming energy at top of atmosphere, net energy inflow to Earth." OR
    * "Outgoing energy is equal to incoming energy at top of atmosphere."
    */
-  public static getNetEnergyAtAtmosphereDescription( netEnergy: number, inRadiativeBalance: boolean ): string {
+  public static getNetEnergyAtAtmosphereDescription( netInflowOfEnergy: number, inRadiativeBalance: boolean ): string {
     let descriptionString;
     if ( inRadiativeBalance ) {
 
@@ -64,8 +64,8 @@ class EnergyDescriber {
       descriptionString = outgoingEnergyAtAtmosphereEqualString;
     }
     else {
-      const changeString = netEnergy > 0 ? lessThanString : greaterThanString;
-      const flowString = netEnergy > 0 ? inflowToEarthString : outflowToSpaceString;
+      const changeString = netInflowOfEnergy > 0 ? lessThanString : greaterThanString;
+      const flowString = netInflowOfEnergy > 0 ? inflowToEarthString : outflowToSpaceString;
 
       descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternString, {
         greaterThanOrLessThan: changeString,

@@ -13,6 +13,10 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import LayersModel from '../model/LayersModel.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import EnergyDescriber from './describers/EnergyDescriber.js';
+import Property from '../../../../axon/js/Property.js';
 
 type InstrumentVisibilityControlsOptions = {
   vBoxOptions?: { align: string, spacing: number, children?: Node[] }
@@ -47,6 +51,14 @@ class InstrumentVisibilityControls extends Rectangle {
       'InstrumentVisibilityControls sets children through options'
     );
 
+    const checkedUtterance = new Utterance();
+    Property.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy: number, inRadiativeBalance: boolean ) => {
+      checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
+        checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
+        outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )
+      } );
+    } );
+
     // add controls to children
     const children = [];
     if ( model.energyBalanceVisibleProperty ) {
@@ -58,7 +70,10 @@ class InstrumentVisibilityControls extends Rectangle {
           tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
           // pdom
-          helpText: greenhouseEffectStrings.a11y.energyBalance.helpText
+          helpText: greenhouseEffectStrings.a11y.energyBalance.helpText,
+
+          checkedContextResponseUtterance: checkedUtterance,
+          uncheckedContextResponseUtterance: new Utterance( { alert: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert } )
         }
       ) );
     }

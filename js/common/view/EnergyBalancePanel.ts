@@ -79,6 +79,7 @@ class EnergyBalancePanel extends Panel {
       ( netEnergyIn: number ) => -netEnergyIn
     );
 
+    // TODO: Use model.netInflowOfEnergyProperty instead of this custom one.
     const netEnergyProperty: IReadOnlyProperty<number> = new DerivedProperty(
       [ negatedEnergyInProperty, netEnergyOutProperty ],
       ( netIn: number, netOut: number ) => netIn + netOut

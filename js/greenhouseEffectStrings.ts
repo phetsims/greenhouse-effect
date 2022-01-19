@@ -199,6 +199,9 @@ type StringsType = {
     'nineteenFiftyDescription': string,
     'seventeenFiftyDescription': string,
     'iceAgeDescription': string,
+    'energyBalanceCheckedAlert': string,
+    'energyBalanceCheckedPattern': string,
+    'energyBalanceUncheckedAlert': string,
     'photons': {
       'homeScreenDescription': string
     },
