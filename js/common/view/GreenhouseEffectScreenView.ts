@@ -26,7 +26,7 @@ type GreenhouseEffectScreenViewOptions = {
 } & ScreenViewOptions;
 
 class GreenhouseEffectScreenView extends ScreenView {
-  private readonly model: GreenhouseEffectModel;
+  protected readonly model: GreenhouseEffectModel;
   protected readonly observationWindow: GreenhouseEffectObservationWindow;
   protected readonly energyLegend: EnergyLegend;
   protected readonly legendAndControlsVBox: VBox;
