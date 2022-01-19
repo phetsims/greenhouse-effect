@@ -42,6 +42,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // Create the observation window that will depict the ground, sky, light waves, etc.
     const observationWindow = new WaveLandscapeObservationWindow( model, {
       showTemperatureGlow: true,
+      instrumentVisibilityControlsOptions: {
+        includeFluxMeterCheckbox: false
+      },
+
+      // phet-io
       tandem: tandem.createTandem( 'observationWindow' )
     } );
 

@@ -104,4 +104,6 @@ class InstrumentVisibilityControls extends Rectangle {
 }
 
 greenhouseEffect.register( 'InstrumentVisibilityControls', InstrumentVisibilityControls );
+
+export type { InstrumentVisibilityControlsOptions };
 export default InstrumentVisibilityControls;

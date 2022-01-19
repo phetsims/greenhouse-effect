@@ -8,8 +8,7 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
-import { GreenhouseEffectObservationWindowOptions } from '../../common/view/GreenhouseEffectObservationWindow.js';
+import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
@@ -17,7 +16,7 @@ import merge from '../../../../phet-core/js/merge.js';
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
-  constructor( model: WavesModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: WavesModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     const options = merge( {
 
@@ -25,7 +24,7 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    super( model, providedOptions );
+    super( model, options );
 
     const wavesCanvasNode = new WavesCanvasNode( model, this.modelViewTransform, {
       canvasBounds: LandscapeObservationWindow.SIZE.toBounds(),

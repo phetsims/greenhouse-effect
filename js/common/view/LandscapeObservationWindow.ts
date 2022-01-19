@@ -22,10 +22,14 @@ import CloudNode from './CloudNode.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
-import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
+import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } from './InstrumentVisibilityControls.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GasConcentrationAlerter from './GasConcentrationAlerter.js';
+
+type LandscapeObservationWindowOptions = {
+  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions
+} & GreenhouseEffectObservationWindowOptions;
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -35,7 +39,7 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
 
-  constructor( model: ConcentrationModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
@@ -43,9 +47,17 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const options = merge( {
       groundBaseColorProperty: groundColorBaseProperty,
 
+      // passed along to the InstrumentVisibilityControls
+      instrumentVisibilityControlsOptions: {},
+
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions );
+    }, providedOptions ) as Required<LandscapeObservationWindowOptions>;
+
+    assert && assert( options.groundBaseColorProperty === groundColorBaseProperty, 'LandscapeObservationWindow sets groundBaseColorProperty' );
+
+    assert && assert( options.instrumentVisibilityControlsOptions.tandem === undefined, 'LandscapeObservationWindow sets tandem on InstrumentVisibilityControls' );
+    options.instrumentVisibilityControlsOptions.tandem = options.tandem.createTandem( 'instrumentVisibilityControls' );
 
     super( model, options );
 
@@ -197,9 +209,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
-    const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
-      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
-    } );
+    const instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
     instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
@@ -233,4 +243,5 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 }
 
 greenhouseEffect.register( 'LandscapeObservationWindow', LandscapeObservationWindow );
+export type { LandscapeObservationWindowOptions };
 export default LandscapeObservationWindow;

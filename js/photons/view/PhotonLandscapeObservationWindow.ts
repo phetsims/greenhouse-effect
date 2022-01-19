@@ -19,8 +19,7 @@ import reemissionOption3_mp3 from '../../../sounds/reemissionOption3_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import LandscapeObservationWindow from '../../common/view/LandscapeObservationWindow.js';
-import { GreenhouseEffectObservationWindowOptions } from '../../common/view/GreenhouseEffectObservationWindow.js';
+import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import PhotonNode from '../../common/view/PhotonNode.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonsModel from '../model/PhotonsModel.js';
@@ -36,13 +35,13 @@ const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
 ];
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
-  constructor( model: PhotonsModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  constructor( model: PhotonsModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     const options = merge( {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions );
+    }, providedOptions ) as Required<LandscapeObservationWindowOptions>;
 
     super( model, options );
 
