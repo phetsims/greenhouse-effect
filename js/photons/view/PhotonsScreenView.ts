@@ -28,7 +28,9 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       tandem: tandem.createTandem( 'observationWindow' )
     } );
 
-    const timeControlNode = new LayersModelTimeControlNode( model );
+    const timeControlNode = new LayersModelTimeControlNode( model, {
+      tandem: tandem.createTandem( 'timeControlNode' )
+    } );
 
     super( model, observationWindow, timeControlNode, {
 
