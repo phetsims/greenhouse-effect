@@ -22,6 +22,8 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import LayersModel from '../model/LayersModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
+import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -57,7 +59,7 @@ class GasConcentrationAlerter extends Alerter {
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
     this.previousNetInflowOfEnergy = model.netInflowOfEnergyProperty.value;
     this.previousConcentration = model.concentrationProperty.value;
-    
+
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
       ( inEnergy: number, outEnergy: number ) => {
         return inEnergy - outEnergy;
@@ -79,6 +81,23 @@ class GasConcentrationAlerter extends Alerter {
           model.temperatureUnitsProperty.value
         ) );
       }
+    } );
+
+    // TODO: Add descriptions for the new observation window scene when the dateProperty changes
+
+    // When the control mode changes, include a description of the new concentration levels and that
+    // the system is stabilizing (indicating that it left equilibrium and concentratoin changed). If
+    // controlling by date, describe the scene in the observation window.
+    model.concentrationControlModeProperty.lazyLink( controlMode => {
+
+      // if controlling by date, include a description of the selected date
+      // @ts-ignore
+      if ( controlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+        this.alert( ConcentrationDescriber.getTimePeriodCurrentlyDescription( model.dateProperty.value ) );
+      }
+
+      this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
+      this.alert( greenhouseEffectStrings.a11y.surfaceTemperatureStabilizing );
     } );
   }
 

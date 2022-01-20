@@ -459,6 +459,15 @@
     "iceAgeDescription": {
       "value": "there is a large glacier"
     },
+    "currentlyTimePeriodDescriptionPattern": {
+      "value": "Currently, {{timePeriodDescription}}"
+    },
+    "nowLevelsOfConcentrationPattern": {
+      "value": "Now {{value}} greenhouse gases in atmosphere."
+    },
+    "surfaceTemperatureStabilizing": {
+      "value": "Surface temperature stabilizing."
+    },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
     },

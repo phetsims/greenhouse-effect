@@ -146,6 +146,30 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Get a string that describes the time period in a full context, proceeded by "currently". Will return something like
+   * "Currently, the time period is the year twenty-twenty and there are a large number of homes and factories."
+   */
+  public static getTimePeriodCurrentlyDescription( timePeriodValue: any ): string {
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.currentlyTimePeriodDescriptionPattern, {
+      timePeriodDescription: ConcentrationDescriber.getTimePeriodDescription( timePeriodValue )
+    } );
+  }
+
+  /**
+   * Get a description of the current levels of greenhouse gases in the atmosphere in a sentence that starts with "Now",
+   * returns something like:
+   * "Now very high levels of greenhouse gases in atmosphere." or
+   * "Now low levels of greenhouse gases in atmosphere."
+   *
+   * @param concentrationValue
+   */
+  public static getCurrentConcentrationLevelsDescription( concentrationValue: number ): string {
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.nowLevelsOfConcentrationPattern, {
+      value: ConcentrationDescriber.getConcentrationDescription( concentrationValue )
+    } );
+  }
+
+  /**
    * Get a description of the level of concentration in the atmosphere, to be used in other sentences. Returns
    * something like
    * "low levels of" or
