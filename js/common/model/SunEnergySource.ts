@@ -24,9 +24,10 @@ import Range from '../../../../dot/js/Range.js';
 // constants
 const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
 
-// Energy produced the sun in Watts per square meter.  This value is pretty realistic, and was adjusted so that it is
-// the value that gets to the desired blackbody temperature of the Earth when using the Stefan-Boltzmann equation.
-const OUTPUT_ENERGY_RATE = 282;
+// Energy produced the sun in Watts per square meter.  This value was calculated using the Stefan-Boltzmann equation,
+// for more on the derivation see https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law, particularly the section
+// entitled "Effective temperature of the Earth".
+const OUTPUT_ENERGY_RATE = 343.6;
 
 class SunEnergySource extends PhetioObject {
   public readonly isShiningProperty: BooleanProperty;

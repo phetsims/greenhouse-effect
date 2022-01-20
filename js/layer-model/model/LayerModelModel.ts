@@ -12,11 +12,15 @@ import Property from '../../../../axon/js/Property.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
-import GroundLayer from '../../common/model/GroundLayer.js';
 
 // constants
 const INITIAL_ABSORPTION_PROPORTION = 1.0;
 const IR_ABSORBANCE_RANGE = new Range( 0.1, 1 );
+
+// This value, which is in Kelvin, is the minimum value that the ground is allowed to get to.  It was calculated by
+// using 50% sun and 0.9 albedo, since these are the values that are allowed in the UI design that would lead to the
+// lowest temperature.  This value was calculated, and then some margin was added.
+const MINIMUM_GROUND_TEMPERATURE = 125;
 
 /**
  * @constructor
@@ -33,7 +37,7 @@ class LayerModelModel extends LayersModel {
   constructor( tandem: Tandem ) {
     super( tandem, {
       numberOfAtmosphereLayers: 3,
-      minimumGroundTemperature: GroundLayer.MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE,
+      minimumGroundTemperature: MINIMUM_GROUND_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false
     } );

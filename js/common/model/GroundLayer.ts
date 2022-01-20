@@ -22,13 +22,8 @@ const MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = 245;
 
 // Albedo values, see https://github.com/phetsims/greenhouse-effect/issues/124 for information on where these values
 // came from.
-const GREEN_MEADOW_ALBEDO = 0.15;
-const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.174;
-
-// The minimum temperature that the ground is allowed to reach what the solar intensity and surface albedo of the ground
-// are variable.  This value was empirically determined by setting those values to their lowest and highest values
-// respectively and looking at the resulting temperature, then adding a bit of margin.
-const MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE = 115;
+const GROUND_ALBEDO = 0.2;
+const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 
 type GroundLayerOptions = {
   initialAlbedo?: number
@@ -41,7 +36,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
 
     const options = merge( {
 
-      initialAlbedo: GREEN_MEADOW_ALBEDO,
+      initialAlbedo: GROUND_ALBEDO,
 
       // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
@@ -110,8 +105,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
   }
 
   static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
-  static MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE = MINIMUM_LAYERS_MODEL_GROUND_TEMPERATURE;
-  static GREEN_MEADOW_ALBEDO = GREEN_MEADOW_ALBEDO;
+  static GREEN_MEADOW_ALBEDO = GROUND_ALBEDO;
   static PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
 }
 

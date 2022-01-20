@@ -47,6 +47,14 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 ] );
 
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
+const CLOUD_WIDTH = 18000; // in meters, empirically determined to look good
+
+// In the 1/19/2022 design meeting, we decided that when the cloud is on, the total amount of reflected light should go
+// up by 10%.  Note that this DOESN'T mean that we can just use 0.1 as the total target reflectance, because when it is
+// on it reduces the amount of light reaching the ground, so the calculation is more complex than that.  The following
+// calculation assumes that the ground with no clouds reflects 20% of incident light.
+const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * GreenhouseEffectConstants.SUNLIGHT_SPAN / CLOUD_WIDTH;
+assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}` );
 
 class WavesModel extends ConcentrationModel {
   readonly cloudEnabledProperty: BooleanProperty;
@@ -137,7 +145,13 @@ class WavesModel extends ConcentrationModel {
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
     this.clouds.push(
-      new Cloud( new Vector2( -16000, 20000 ), 18000, 4000, { tandem: tandem.createTandem( 'cloud' ) } )
+      new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, {
+
+        topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
+
+        // phetio
+        tandem: tandem.createTandem( 'cloud' )
+      } )
     );
 
     // @private {Map.<EnergyAbsorbingEmittingLayer,Range>} - A Map containing atmospheric layers and ranges that define
@@ -230,7 +244,7 @@ class WavesModel extends ConcentrationModel {
     // The reflectivity value used visually is NOT the actual value used in the cloud model.  This is because the actual
     // value didn't produce enough of a visible wave.  In other words, this value is "Hollywooded" to get the look we
     // wanted.  See https://github.com/phetsims/greenhouse-effect/issues/82.
-    const visualCloudReflectivity = 0.4;
+    const visualCloudReflectivity = 0.5;
 
     // See if any of the currently reflected waves should stop reflecting.
     this.cloudReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
