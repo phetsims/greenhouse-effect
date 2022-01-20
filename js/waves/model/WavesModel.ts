@@ -85,17 +85,6 @@ class WavesModel extends ConcentrationModel {
       phetioState: true
     } );
 
-    // @public {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
-    this.cloudEnabledProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'cloudEnabledProperty' )
-    } );
-
-    // Update the enabled state of the cloud.
-    this.cloudEnabledProperty.lazyLink( cloudEnabled => {
-      assert && assert( this.clouds.length === 1 );
-      this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
-    } );
-
     // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
@@ -136,12 +125,6 @@ class WavesModel extends ConcentrationModel {
       { tandem: tandem.createTandem( 'groundWaveSource' ) }
     );
 
-    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
-    this.cloudReflectedWavesMap = new Map<Wave, Wave>();
-
-    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of the glacier
-    this.glacierReflectedWavesMap = new Map<Wave, Wave>();
-
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
     this.clouds.push(
@@ -153,6 +136,23 @@ class WavesModel extends ConcentrationModel {
         tandem: tandem.createTandem( 'cloud' )
       } )
     );
+
+    // @public {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
+    this.cloudEnabledProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'cloudEnabledProperty' )
+    } );
+
+    // Update the enabled state of the cloud.
+    this.cloudEnabledProperty.link( cloudEnabled => {
+      assert && assert( this.clouds.length === 1 );
+      this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
+    } );
+
+    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
+    this.cloudReflectedWavesMap = new Map<Wave, Wave>();
+
+    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of the glacier
+    this.glacierReflectedWavesMap = new Map<Wave, Wave>();
 
     // @private {Map.<EnergyAbsorbingEmittingLayer,Range>} - A Map containing atmospheric layers and ranges that define
     // the x coordinate within which IR waves should interact with that layer.
