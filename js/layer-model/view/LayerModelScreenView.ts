@@ -14,6 +14,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import LayersControl from './LayersControl.js';
 import SunAndReflectionControl from './SunAndReflectionControl.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
+import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -38,6 +39,12 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
+    const morePhotonsCheckbox = new MorePhotonsCheckbox(
+      model.photonCollection.showAllSimulatedPhotonsInViewProperty,
+      tandem.createTandem( 'morePhotonsCheckbox' )
+    );
+    this.addChild( morePhotonsCheckbox );
+
     const mockup = new Image( modelScreenMockup_png, {
       center: this.layoutBounds.center,
       // @ts-ignore TODO: Image doesn't have minWidth
@@ -49,6 +56,11 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
+    // layout
+    morePhotonsCheckbox.left = this.observationWindow.left + 5;
+    morePhotonsCheckbox.centerY = this.timeControlNode.centerY;
+
+    // controls on the side
     const sunAndReflectionControl = new SunAndReflectionControl(
       this.energyLegend.width,
       model,

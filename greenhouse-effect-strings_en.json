@@ -20,6 +20,9 @@
   "showSurfaceTemperature": {
     "value": "Show Surface Temperature"
   },
+  "morePhotons": {
+    "value": "More Photons"
+  },
   "solarIntensity": {
     "value": "Solar Intensity"
   },

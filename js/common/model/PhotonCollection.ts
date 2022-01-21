@@ -22,9 +22,10 @@ import createObservableArray from '../../../../axon/js/createObservableArray.js'
 import LayersModel from './LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
-const SUN_NOMINAL_PHOTON_CREATION_RATE = 1; // photons created per second (from the sun)
+const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
 
 type PhotonCollectionOptions = {
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
@@ -32,13 +33,14 @@ type PhotonCollectionOptions = {
 
 class PhotonCollection {
 
-  readonly photons: ObservableArray<Photon> = createObservableArray();
+  public readonly photons: ObservableArray<Photon> = createObservableArray();
+  public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
+  public readonly showAllSimulatedPhotonsInViewProperty: BooleanProperty;
   private readonly sunEnergySource: SunEnergySource;
   private readonly groundLayer: GroundLayer;
   private photonCreationCountdown: number = 0;
   private groundPhotonProductionRate: number = 0;
   private groundPhotonProductionTimeAccumulator: number = 0;
-  public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
 
   constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
@@ -70,6 +72,16 @@ class PhotonCollection {
     this.sunEnergySource = sunEnergySource;
     this.groundLayer = groundLayer;
 
+    // There is a requirement in the sim design to support a mode where there are lots of visible photons and one where
+    // there are relatively few.  This property is the one that controls which of those to modes this photon collection
+    // is in.
+    this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false );
+
+    // TODO - temporary code while implementing the "more photons" feature
+    this.showAllSimulatedPhotonsInViewProperty.link( showAll => {
+      console.log( `showAll = ${showAll}` );
+    } );
+
     // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit
     // photons.
     this.photonAbsorbingEmittingLayers = atmosphereLayers.map(
@@ -77,7 +89,8 @@ class PhotonCollection {
         this.photons,
         atmosphereLayer,
         options.photonAbsorbingEmittingLayerOptions
-      ) );
+      )
+    );
   }
 
   step( dt: number ) {

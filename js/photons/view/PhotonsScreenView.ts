@@ -4,7 +4,7 @@
  * @author John Blanco
  */
 
-import { Image } from '../../../../scenery/js/imports.js';
+import { Image, VBox } from '../../../../scenery/js/imports.js';
 import photonsScreenMockup_png from '../../../images/photonsScreenMockup_png.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
@@ -14,6 +14,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
+import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
+import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -37,6 +39,18 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       // phet-io
       tandem: tandem
     } );
+
+    const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox(
+      model.surfaceThermometerVisibleProperty,
+      model.surfaceTemperatureKelvinProperty,
+      model.temperatureUnitsProperty,
+      tandem.createTandem( 'surfaceThermometerCheckbox' )
+    );
+
+    const morePhotonsCheckbox = new MorePhotonsCheckbox(
+      model.photonCollection.showAllSimulatedPhotonsInViewProperty,
+      tandem.createTandem( 'morePhotonsCheckbox' )
+    );
 
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );
@@ -66,6 +80,16 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
+
+    // layout code
+    const visibilityBox = new VBox( {
+      children: [ surfaceThermometerCheckbox, morePhotonsCheckbox ],
+      spacing: 5,
+      align: 'left'
+    } );
+    visibilityBox.left = this.observationWindow.left + 5;
+    visibilityBox.centerY = this.timeControlNode.centerY;
+    this.addChild( visibilityBox );
 
     concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
   }

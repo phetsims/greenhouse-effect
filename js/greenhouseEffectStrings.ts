@@ -19,6 +19,7 @@ type StringsType = {
   },
   'surfaceThermometer': string,
   'showSurfaceTemperature': string,
+  'morePhotons': string,
   'solarIntensity': string,
   'ourSun': string,
   'surfaceAlbedo': string,
