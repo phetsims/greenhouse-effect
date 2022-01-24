@@ -93,23 +93,6 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
   }
-
-  /**
-   * Resets the view.
-   * @public
-   */
-  reset() {
-    super.reset();
-  }
-
-  /**
-   * Steps the view.
-   * @param {number} dt - time step, in seconds
-   * @public
-   */
-  step( dt: number ) {
-    //TODO
-  }
 }
 
 greenhouseEffect.register( 'PhotonsScreenView', PhotonsScreenView );

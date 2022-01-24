@@ -144,6 +144,15 @@ class GreenhouseEffectScreenView extends ScreenView {
   protected reset() {
     this.model.reset();
   }
+
+  /**
+   * @public
+   */
+  step( dt: number ) {
+    if ( this.model.isPlayingProperty.value ) {
+      this.observationWindow.step( dt );
+    }
+  }
 }
 
 greenhouseEffect.register( 'GreenhouseEffectScreenView', GreenhouseEffectScreenView );

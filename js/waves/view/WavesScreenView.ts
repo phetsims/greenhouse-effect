@@ -292,22 +292,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   }
 
   /**
-   * Reset view components.
-   * @protected
-   * @override
-   */
-  reset() {
-    super.reset();
-  }
-
-  /**
    * @public
    */
   step( dt: number ) {
     if ( this.model.isPlayingProperty.value ) {
       this.updateSoundLoopLevels();
-      this.observationWindow.step( dt );
     }
+    super.step( dt );
   }
 }
 
