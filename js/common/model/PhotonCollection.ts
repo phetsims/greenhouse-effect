@@ -26,6 +26,9 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
+const DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS = 5; // ratio of invisible to visible photons when NOT showing all photons
+
+assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), 'value must be an integer' );
 
 type PhotonCollectionOptions = {
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
@@ -41,6 +44,8 @@ class PhotonCollection {
   private photonCreationCountdown: number = 0;
   private groundPhotonProductionRate: number = 0;
   private groundPhotonProductionTimeAccumulator: number = 0;
+  private visiblePhotonCreationCount: number = 0;
+  private infraredPhotonCreationCount: number = 0;
 
   constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
@@ -77,11 +82,6 @@ class PhotonCollection {
     // is in.
     this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false );
 
-    // TODO - temporary code while implementing the "more photons" feature
-    this.showAllSimulatedPhotonsInViewProperty.link( showAll => {
-      console.log( `showAll = ${showAll}` );
-    } );
-
     // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit
     // photons.
     this.photonAbsorbingEmittingLayers = atmosphereLayers.map(
@@ -99,6 +99,8 @@ class PhotonCollection {
 
       // Create photons from the sun if it's time to do so.
       this.photonCreationCountdown -= dt;
+      const photonCreationRate = SUN_NOMINAL_PHOTON_CREATION_RATE *
+                                 this.sunEnergySource.proportionateOutputRateProperty.value;
       while ( this.photonCreationCountdown <= 0 ) {
         this.photons.push( new Photon(
           new Vector2(
@@ -107,10 +109,14 @@ class PhotonCollection {
           ),
           Photon.VISIBLE_WAVELENGTH,
           Tandem.OPT_OUT,
-          { initialVelocity: new Vector2( 0, -Photon.SPEED ) }
+          {
+            initialVelocity: new Vector2( 0, -Photon.SPEED ),
+            showState: this.visiblePhotonCreationCount === 0 ?
+                       Photon.ShowState.ALWAYS :
+                       Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE
+          }
         ) );
-        const photonCreationRate = SUN_NOMINAL_PHOTON_CREATION_RATE *
-                                   this.sunEnergySource.proportionateOutputRateProperty.value;
+        this.visiblePhotonCreationCount = ( this.visiblePhotonCreationCount + 1 ) % DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS;
         this.photonCreationCountdown += 1 / photonCreationRate;
       }
     }
@@ -217,8 +223,16 @@ class PhotonCollection {
           ),
           Photon.IR_WAVELENGTH,
           Tandem.OPT_OUT,
-          { initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 8 ) }
+          {
+            initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 8 ),
+            showState: this.infraredPhotonCreationCount++ === 0 ?
+                       Photon.ShowState.ALWAYS :
+                       Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE
+          }
         ) );
+
+        // Update the counter that is used to decide the "show state" for the IR photons.
+        this.infraredPhotonCreationCount = ( this.infraredPhotonCreationCount + 1 ) % DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS;
 
         // Reduce the accumulator to reflect that a photon has been produced.
         this.groundPhotonProductionTimeAccumulator -= 1 / this.groundPhotonProductionRate;
@@ -241,6 +255,9 @@ class PhotonCollection {
     this.photonAbsorbingEmittingLayers.forEach( layer => layer.reset() );
     this.groundPhotonProductionRate = 0;
     this.groundPhotonProductionTimeAccumulator = 0;
+    this.showAllSimulatedPhotonsInViewProperty.reset();
+    this.visiblePhotonCreationCount = 0;
+    this.infraredPhotonCreationCount = 0;
   }
 
   /**

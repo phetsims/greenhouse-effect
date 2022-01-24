@@ -86,10 +86,19 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       this.presentationLayer.addChild( photonNode );
+      let visibilityController: ( showAllPhotons: boolean ) => void;
+      if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
+        visibilityController = showAllPhotons => { photonNode.visible = showAllPhotons; };
+        model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
+      }
       // @ts-ignore
       const photonRemovedListener = removedPhoton => {
         if ( removedPhoton === addedPhoton ) {
           this.presentationLayer.removeChild( photonNode );
+          photonNode.dispose();
+          if ( visibilityController ) {
+            model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
+          }
           model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
         }
       };

@@ -8,8 +8,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 
@@ -28,7 +26,6 @@ const MINIMUM_GROUND_TEMPERATURE = 125;
 class LayerModelModel extends LayersModel {
   readonly numberOfActiveAtmosphereLayersProperty: NumberProperty;
   readonly layersInfraredAbsorbanceProperty: NumberProperty;
-  readonly allPhotonsVisibleProperty: Property<boolean>;
   readonly photonCollection: PhotonCollection;
 
   /**
@@ -49,10 +46,6 @@ class LayerModelModel extends LayersModel {
         photonAbsorptionTime: 0.5,
         thickness: 2800 // empirically determined to look good in the view
       }
-    } );
-
-    this.allPhotonsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
     } );
 
     // This Property is used to set the absorbance value used for all layers in this model.  It is part of the API for
@@ -104,7 +97,6 @@ class LayerModelModel extends LayersModel {
   public reset() {
     this.numberOfActiveAtmosphereLayersProperty.reset();
     this.layersInfraredAbsorbanceProperty.reset();
-    this.allPhotonsVisibleProperty.reset();
     this.photonCollection.reset();
     super.reset();
   }

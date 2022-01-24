@@ -57,9 +57,20 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
       const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
       photonsRootNode.addChild( photonNode );
+      let visibilityController: ( showAllPhotons: boolean ) => void;
+      if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
+        visibilityController = showAllPhotons => {
+          photonNode.visible = showAllPhotons;
+        };
+        model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
+      }
       const photonRemovedListener = ( removedPhoton: Photon ) => {
         if ( removedPhoton === addedPhoton ) {
           photonsRootNode.removeChild( photonNode );
+          photonNode.dispose();
+          if ( visibilityController ) {
+            model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
+          }
           model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
         }
       };

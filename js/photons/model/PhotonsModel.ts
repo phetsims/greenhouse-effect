@@ -14,7 +14,6 @@ import Cloud from '../../common/model/Cloud.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Property from '../../../../axon/js/Property.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 
@@ -24,7 +23,6 @@ import PhotonCollection from '../../common/model/PhotonCollection.js';
 class PhotonsModel extends ConcentrationModel {
 
   private readonly numberOfActiveCloudsProperty: Property<number>;
-  readonly allPhotonsVisibleProperty: Property<boolean>;
   readonly photonCollection: PhotonCollection;
 
   /**
@@ -40,10 +38,6 @@ class PhotonsModel extends ConcentrationModel {
         photonMaxLateralJumpProportion: 0,
         absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
       }
-    } );
-
-    this.allPhotonsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'allPhotonsVisibleProperty' )
     } );
 
     // Add the clouds.  These are always present in the model, but aren't always visible.  Positions were chosen to

@@ -12,6 +12,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -21,25 +23,39 @@ const IR_WAVELENGTH = GreenhouseEffectConstants.INFRARED_WAVELENGTH;
 const VISIBLE_WAVELENGTH = GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
 const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
 
+// types and enumerations
+class ShowState extends EnumerationValue {
+  static ALWAYS = new ShowState();
+  static ONLY_IN_MORE_PHOTONS_MODE = new ShowState();
+
+  static enumeration = new Enumeration( ShowState );
+}
+
 type PhotonOptions = {
-  initialVelocity: Vector2 | null
+  initialVelocity?: Vector2 | null,
+  showState?: ShowState
 }
 
 // TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
 //       photons should always be moving at the speed of light.
 
 class Photon {
-  readonly positionProperty: Vector2Property;
-  readonly previousPosition: Vector2;
-  readonly wavelength: number;
-  readonly velocity: Vector2;
+  public readonly positionProperty: Vector2Property;
+  public readonly previousPosition: Vector2;
+  public readonly wavelength: number;
+  public readonly velocity: Vector2;
+  public readonly showState : ShowState;
 
   constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, providedOptions?: Partial<PhotonOptions> ) {
 
     const options = merge( {
 
       // {Vector2|null} - will be created if not supplied
-      initialVelocity: null
+      initialVelocity: null,
+
+      // {ShowState} - whether this photon should always be shown in the view or only in "more photons" mode
+      showState: ShowState.ALWAYS
+
     }, providedOptions );
 
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
@@ -56,6 +72,10 @@ class Photon {
 
     // velocity vector, in meters/s
     this.velocity = options.initialVelocity || new Vector2( 0, PHOTON_SPEED );
+
+    // This flag determines whether this photon should always be shown in the view or only shown when the "more photons"
+    // mode has been set.
+    this.showState = options.showState;
   }
 
   /**
@@ -98,6 +118,7 @@ class Photon {
   static IR_WAVELENGTH = IR_WAVELENGTH;
   static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
   static SPEED = PHOTON_SPEED;
+  static ShowState = ShowState;
 }
 
 greenhouseEffect.register( 'Photon', Photon );
