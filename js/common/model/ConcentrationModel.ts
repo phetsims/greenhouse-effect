@@ -166,6 +166,12 @@ class ConcentrationModel extends LayersModel {
       Number.NEGATIVE_INFINITY
     )
   );
+
+  public static getConcentrationForDate( date: any ): number {
+    assert && assert( DATE_TO_CONCENTRATION_MAP.has( date ), 'no concentration for the provided date' );
+    const concentration = DATE_TO_CONCENTRATION_MAP.get( date );
+    return concentration === undefined ? 0 : concentration;
+  }
 }
 
 export { LayersModel };

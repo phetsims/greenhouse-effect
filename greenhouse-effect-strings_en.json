@@ -468,6 +468,27 @@
     "nowLevelsOfConcentrationPattern": {
       "value": "Now {{value}} greenhouse gases in atmosphere."
     },
+    "qualitativeConcentrationChangeDescriptionPattern": {
+      "value": "Greenhouse gas levels {{comparativeDescription}} than {{year}}."
+    },
+    "higher": {
+      "value": "higher"
+    },
+    "muchHigher": {
+      "value": "much higher"
+    },
+    "vastlyHigher": {
+      "value": "vastly higher"
+    },
+    "lower": {
+      "value": "lower"
+    },
+    "muchLower": {
+      "value": "much lower"
+    },
+    "vastlyLower": {
+      "value": "vastly lower"
+    },
     "surfaceTemperatureStabilizing": {
       "value": "Surface temperature stabilizing."
     },

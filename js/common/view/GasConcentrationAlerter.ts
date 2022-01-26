@@ -9,7 +9,8 @@
  *
  *
  * TODO: 1/5/2022 - This is named GasConcentrationAlerter, but it's doing more than just talking about the state.  We
- *                  should consider a new name, perhaps LayerModelStateAlerter or something along those lines.
+ *                  should consider a new name, perhaps LayerModelStateAlerter or something along those lines.  See
+ *                  https://github.com/phetsims/greenhouse-effect/issues/129.
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -87,6 +88,10 @@ class GasConcentrationAlerter extends Alerter {
     // have changed
     model.dateProperty.lazyLink( ( date, previousDate ) => {
       this.alert( ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( date ) );
+      this.alert( ConcentrationDescriber.getQualitativeConcentrationChangeDescription(
+        ConcentrationModel.getConcentrationForDate( previousDate ),
+        previousDate, ConcentrationModel.getConcentrationForDate( date )
+      ) );
     } );
 
     // When the control mode changes, include a description of the new concentration levels and that

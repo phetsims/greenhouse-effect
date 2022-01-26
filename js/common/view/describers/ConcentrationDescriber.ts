@@ -191,6 +191,50 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Get a description of the change in the greenhouse gas concentration value from a previous year to a new one,
+   * returns something like:
+   * "Greenhouse gas levels much lower than twenty twenty."
+   */
+  public static getQualitativeConcentrationChangeDescription( oldConcentrationValue: number,
+                                                              oldYear: number,
+                                                              newConcentrationValue: number ): string {
+
+    assert && assert(
+      oldConcentrationValue !== newConcentrationValue,
+      'this method should not be called for equal concentration values'
+    );
+    const concentrationValuesDifference = newConcentrationValue - oldConcentrationValue;
+    let qualitativeDescriptionString;
+    if ( concentrationValuesDifference > 0 ) {
+      if ( concentrationValuesDifference <= 0.05 ) {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.higher;
+      }
+      else if ( concentrationValuesDifference <= 0.15 ) {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchHigher;
+      }
+      else {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.vastlyHigher;
+      }
+    }
+    else {
+      if ( concentrationValuesDifference >= -0.05 ) {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.lower;
+      }
+      else if ( concentrationValuesDifference >= -0.15 ) {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchLower;
+      }
+      else {
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.vastlyLower;
+      }
+    }
+
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.qualitativeConcentrationChangeDescriptionPattern, {
+      comparativeDescription: qualitativeDescriptionString,
+      year: ConcentrationDescriber.getTimePeriodString( oldYear )
+    } );
+  }
+
+  /**
    * Get a description of the level of concentration in the atmosphere, to be used in other sentences. Returns
    * something like
    * "low levels of" or

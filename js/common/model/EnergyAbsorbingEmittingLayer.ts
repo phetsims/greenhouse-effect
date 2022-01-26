@@ -205,15 +205,15 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     // Update the state of the at-equilibrium indicator.  Being at equilibrium in this model requires that the incoming
     // and outgoing energy values are equal for a certain amount of time.
-    if ( Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD ){
+    if ( Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD ) {
       this.atEquilibriumTime = Math.min( this.atEquilibriumTime + dt, EQUILIBRATION_TIME );
-      if ( this.atEquilibriumTime >= EQUILIBRATION_TIME && !this.atEquilibriumProperty.value ){
+      if ( this.atEquilibriumTime >= EQUILIBRATION_TIME && !this.atEquilibriumProperty.value ) {
         this.atEquilibriumProperty.set( true );
       }
     }
-    else{
+    else {
       this.atEquilibriumTime = 0;
-      if ( this.atEquilibriumProperty.value ){
+      if ( this.atEquilibriumProperty.value ) {
         this.atEquilibriumProperty.set( false );
       }
     }
