@@ -228,7 +228,7 @@
     },
     "showSurfaceTemperature": {
       "helpText": {
-        "value": "Explore temperature without exact measurements."
+        "value": "Surface glows to indicate temperature."
       }
     },
     "temperatureDescriptions": {
