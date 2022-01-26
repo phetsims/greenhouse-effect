@@ -525,7 +525,7 @@
       "value": "Start sunlight to begin observations."
     },
     "cloudCheckboxHelpText": {
-      "value": "Add cloud to sky."
+      "value": "Experiment with cloudy sky."
     },
     "surfaceTemperatureChangeWithValuePattern": {
       "value": "Surface temperature {{qualitativeDescription}}, now {{temperature}}."
@@ -559,7 +559,7 @@
         "value": "Explore Mode"
       },
       "exploreModeHelpText": {
-        "value": "Explore concentration manually or by time period."
+        "value": "Directly set the concentration or explore by time period."
       },
       "byConcentration": {
         "value": "By concentration"
