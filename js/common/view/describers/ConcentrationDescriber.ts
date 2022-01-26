@@ -118,14 +118,7 @@ class ConcentrationDescriber {
    */
   public static getDescribedTimePeriodString( timePeriodValue: any ) {
     const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
-    // @ts-ignore
-    const timePeriodDescriptionString = timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeDescriptionString :
-      // @ts-ignore
-                                        timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
-                                          // @ts-ignore
-                                        timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
-                                        twentyTwentyDescriptionString;
-
+    const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodDescription( timePeriodValue );
 
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.timePeriodDescriptionPattern, {
       timePeriod: timePeriodString,
@@ -134,10 +127,38 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Get a description of the time period, just the isolated fragment. Will return something like
+   * "a few homes and factories" or
+   * "a large number of homes and factories"
+   * @param timePeriodValue
+   */
+  public static getTimePeriodDescription( timePeriodValue: any ) {
+    // @ts-ignore
+    return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeDescriptionString :
+      // @ts-ignore
+           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
+             // @ts-ignore
+           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
+           twentyTwentyDescriptionString;
+
+  }
+
+  /**
+   * Returns a string that describes the current time period in the observation window, will return something like
+   * "Now a few homes and houses in observation window." or
+   * "Now a large number of homes and factories in observation window."
+   */
+  public static getObservationWindowNowTimePeriodDescription( timePeriodValue: any ): string {
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.observationWindowTimePeriodPattern, {
+      timePeriodDescription: ConcentrationDescriber.getTimePeriodDescription( timePeriodValue )
+    } );
+  }
+
+  /**
    * Get a string that describes the time period in a full context like:
    * "the time period is the year twenty twenty and there are a large number of homes and factories."
    */
-  public static getTimePeriodDescription( timePeriodValue: any ) {
+  public static getFullTimePeriodDescription( timePeriodValue: any ) {
 
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
@@ -151,7 +172,7 @@ class ConcentrationDescriber {
    */
   public static getTimePeriodCurrentlyDescription( timePeriodValue: any ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.currentlyTimePeriodDescriptionPattern, {
-      timePeriodDescription: ConcentrationDescriber.getTimePeriodDescription( timePeriodValue )
+      timePeriodDescription: ConcentrationDescriber.getFullTimePeriodDescription( timePeriodValue )
     } );
   }
 

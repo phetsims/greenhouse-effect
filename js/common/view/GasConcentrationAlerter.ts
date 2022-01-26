@@ -83,10 +83,14 @@ class GasConcentrationAlerter extends Alerter {
       }
     } );
 
-    // TODO: Add descriptions for the new observation window scene when the dateProperty changes
+    // When the date changes, describe the new scene in the observation window and how the concentration levels
+    // have changed
+    model.dateProperty.lazyLink( ( date, previousDate ) => {
+      this.alert( ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( date ) );
+    } );
 
     // When the control mode changes, include a description of the new concentration levels and that
-    // the system is stabilizing (indicating that it left equilibrium and concentratoin changed). If
+    // the system is stabilizing (indicating that it left equilibrium and concentration changed). If
     // controlling by date, describe the scene in the observation window.
     model.concentrationControlModeProperty.lazyLink( controlMode => {
 

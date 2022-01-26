@@ -489,6 +489,9 @@
     "qualitativeSurfaceTemperaturePattern": {
       "value": "Surface temperature is {{description}}."
     },
+    "observationWindowTimePeriodPattern": {
+      "value": "Now {{timePeriodDescription}} in observation window."
+    },
     "photons": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with photon representation."

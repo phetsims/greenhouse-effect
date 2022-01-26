@@ -214,6 +214,7 @@ type StringsType = {
     'thermometerShownAlertPattern': string,
     'thermometerRemovedAlert': string,
     'qualitativeSurfaceTemperaturePattern': string,
+    'observationWindowTimePeriodPattern': string,
     'photons': {
       'homeScreenDescription': string
     },

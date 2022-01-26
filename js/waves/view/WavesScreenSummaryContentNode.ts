@@ -137,7 +137,7 @@ class WavesScreenSummaryContentNode extends Node {
       concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {
-      concentrationDescriptionString = ConcentrationDescriber.getTimePeriodDescription( date );
+      concentrationDescriptionString = ConcentrationDescriber.getFullTimePeriodDescription( date );
     }
 
     let patternString = '';
