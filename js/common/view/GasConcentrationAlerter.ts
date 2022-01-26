@@ -106,7 +106,7 @@ class GasConcentrationAlerter extends Alerter {
       }
 
       this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
-      if ( model.sunEnergySource.isShiningProperty.value ){
+      if ( model.sunEnergySource.isShiningProperty.value ) {
         this.alert( greenhouseEffectStrings.a11y.surfaceTemperatureStabilizing );
       }
     } );
