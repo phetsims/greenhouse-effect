@@ -76,8 +76,8 @@ class InstrumentVisibilityControls extends Rectangle {
           // pdom
           helpText: greenhouseEffectStrings.a11y.energyBalance.helpText,
 
-          checkedContextResponseUtterance: checkedUtterance,
-          uncheckedContextResponseUtterance: new Utterance( { alert: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert } )
+          checkedContextResponse: checkedUtterance,
+          uncheckedContextResponse: new Utterance( { alert: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert } )
         }
       ) );
     }

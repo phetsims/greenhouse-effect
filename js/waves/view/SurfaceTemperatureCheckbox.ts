@@ -40,8 +40,8 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       helpText: greenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
-      checkedContextResponseUtterance: checkedUtterance,
-      uncheckedContextResponseUtterance: new Utterance( { alert: 'Surface glow hidden.' } ),
+      checkedContextResponse: checkedUtterance,
+      uncheckedContextResponse: new Utterance( { alert: 'Surface glow hidden.' } ),
 
       // phetio
       tandem: tandem

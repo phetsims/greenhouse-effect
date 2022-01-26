@@ -21,8 +21,8 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       helpText: 'help text not yet implemented',
-      checkedContextResponseUtterance: new Utterance( { alert: 'utterance not yet implement' } ),
-      uncheckedContextResponseUtterance: new Utterance( { alert: 'utterance not yet implement' } ),
+      checkedContextResponse: new Utterance( { alert: 'utterance not yet implement' } ),
+      uncheckedContextResponse: new Utterance( { alert: 'utterance not yet implement' } ),
 
       // phet-io
       tandem: tandem

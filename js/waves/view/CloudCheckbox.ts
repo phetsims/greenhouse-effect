@@ -49,8 +49,8 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       iconNode: iconNode,
       helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
 
-      checkedContextResponseUtterance: checkboxUtterance,
-      uncheckedContextResponseUtterance: checkboxUtterance,
+      checkedContextResponse: checkboxUtterance,
+      uncheckedContextResponse: checkboxUtterance,
 
       // phet-io
       tandem: tandem
