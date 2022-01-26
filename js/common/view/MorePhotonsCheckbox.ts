@@ -12,7 +12,6 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
 
 class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
   constructor( property: Property<boolean>, tandem: Tandem ) {
@@ -21,8 +20,8 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       helpText: 'help text not yet implemented',
-      checkedContextResponse: new Utterance( { alert: 'utterance not yet implement' } ),
-      uncheckedContextResponse: new Utterance( { alert: 'utterance not yet implement' } ),
+      checkedContextResponse: 'utterance not yet implement',
+      uncheckedContextResponse: 'utterance not yet implement',
 
       // phet-io
       tandem: tandem
