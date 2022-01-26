@@ -218,8 +218,13 @@ class ConcentrationDescriber {
    * @returns {string}
    */
   static getConcentrationDescriptionWithValue( value: number ) {
+
+    // Capitalize so that this statement appears in a sentence. Not friendly for i18n, but PhET decided that this
+    // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
+    const valueDescription = StringUtils.capitalize( ConcentrationDescriber.getConcentrationDescription( value ) );
+
     return StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
-      valueDescription: ConcentrationDescriber.getConcentrationDescription( value )
+      valueDescription: valueDescription
     } );
   }
 

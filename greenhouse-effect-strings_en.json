@@ -428,7 +428,7 @@
           "value": "Currently, no sunlight in observation window;"
         },
         "greenhouseGassesInAtmospherePattern": {
-          "value": "{{valueDescription}} greenhouse gasses in atmosphere"
+          "value": "{{valueDescription}} greenhouse gasses in atmosphere."
         },
         "timePeriodPattern": {
           "value": "the time period is the {{timePeriodDescription}}"
