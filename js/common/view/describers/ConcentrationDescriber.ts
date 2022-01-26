@@ -229,11 +229,16 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Returns a description of the levels of greenhouse gas concentration in the atmosphere by date. Will return
+   * something like
+   * "Year seventeen fifty levels of greenhouse gases in atmosphere."
    * @param date - TODO: Replace with new Enumeration pattern
    */
   static getConcentrationDescriptionWithDate( date: any ) {
+    const dateString = StringUtils.capitalize( ConcentrationDescriber.getTimePeriodString( date ) );
+
     return StringUtils.fillIn( dateLevelsOfGreenhouseGassesPatternString, {
-      date: ConcentrationDescriber.getTimePeriodString( date )
+      date: dateString
     } );
   }
 }

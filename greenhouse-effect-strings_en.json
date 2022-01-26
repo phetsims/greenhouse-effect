@@ -313,16 +313,16 @@
     },
     "timePeriodDescriptions": {
       "iceAge": {
-        "value": "Ice age"
+        "value": "ice age"
       },
       "seventeenFifty": {
-        "value": "Year seventeen fifty"
+        "value": "year seventeen fifty"
       },
       "nineteenFifty": {
-        "value": "Year nineteen fifty"
+        "value": "year nineteen fifty"
       },
       "twentyTwenty": {
-        "value": "Year twenty twenty"
+        "value": "year twenty twenty"
       }
     },
     "sky": {
@@ -582,6 +582,9 @@
         },
         "yearSeventeenFifty": {
           "value": "Year Seventeen Fifty"
+        },
+        "iceAge": {
+          "value": "Ice Age"
         }
       },
       "concentration": {

@@ -222,7 +222,7 @@ class DateControl extends Node {
         node: new Text( iceAgeLabel, LABEL_OPTIONS ),
         // @ts-ignore
         value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
-        labelContent: iceAgeLabel,
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
         tandemName: 'iceAgeRadioButton'
       }
     ];

@@ -247,7 +247,8 @@ type StringsType = {
         'helpText': string,
         'yearTwentyTwenty': string,
         'yearNineteenFifty': string,
-        'yearSeventeenFifty': string
+        'yearSeventeenFifty': string,
+        'iceAge': string
       },
       'concentration': {
         'label': string,
