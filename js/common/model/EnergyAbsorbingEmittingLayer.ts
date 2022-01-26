@@ -22,6 +22,11 @@ import EnergyDirection from './EnergyDirection.js';
 // constants
 const AT_EQUILIBRIUM_THRESHOLD = 0.005; // in Watts per square meter, empirically determined
 
+// This constant defines the amount of time that the incoming and outgoing energies have to be equal (within a
+// threshold) before deciding that the layer is at thermal equilibrium.  This is in seconds, and was empirically
+// determined.
+const EQUILIBRATION_TIME = 1;
+
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = EnumerationDeprecated.byMap( {
   // @ts-ignore
@@ -59,6 +64,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   private readonly specificHeatCapacity: number;
   public readonly minimumTemperature: number;
   public readonly atEquilibriumProperty: BooleanProperty;
+  private atEquilibriumTime: number;
 
   /**
    * @param {number} altitude
@@ -124,6 +130,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
     this.minimumTemperature = options.minimumTemperature!;
+    this.atEquilibriumTime = 0;
   }
 
   /**
@@ -148,7 +155,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
    */
   public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
-
 
     // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
     // packets can be updated, and often are, during this step.
@@ -197,11 +203,26 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // emission.
     this.temperatureProperty.set( this.temperatureProperty.value + netTemperatureChange );
 
+    // Update the state of the at-equilibrium indicator.  Being at equilibrium in this model requires that the incoming
+    // and outgoing energy values are equal for a certain amount of time.
+    if ( Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD ){
+      this.atEquilibriumTime = Math.min( this.atEquilibriumTime + dt, EQUILIBRATION_TIME );
+      if ( this.atEquilibriumTime >= EQUILIBRATION_TIME && !this.atEquilibriumProperty.value ){
+        this.atEquilibriumProperty.set( true );
+      }
+    }
+    else{
+      this.atEquilibriumTime = 0;
+      if ( this.atEquilibriumProperty.value ){
+        this.atEquilibriumProperty.set( false );
+      }
+    }
+
     // Determine whether this layer is currently considered to be at equilibrium.  This uses a threshold, and that
     // threshold could be changed if a different behavior is needed.
-    this.atEquilibriumProperty.set(
-      Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD
-    );
+    // this.atEquilibriumProperty.set(
+    //   Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD
+    // );
 
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
