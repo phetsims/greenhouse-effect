@@ -29,9 +29,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly updateSoundLoopLevels: () => void;
+  private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
 
   /**
    * @param {WavesModel} model
@@ -74,8 +79,45 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       model.temperatureUnitsProperty,
       tandem.createTandem( 'surfaceThermometerCheckbox' )
     );
-    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox( model.surfaceTemperatureVisibleProperty, model.surfaceTemperatureKelvinProperty, tandem.createTandem( 'surfaceTemperatureCheckbox' ) );
-    const cloudCheckbox = new CloudCheckbox( model.cloudEnabledProperty, model.sunEnergySource.isShiningProperty, tandem.createTandem( 'cloudCheckbox' ) );
+    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox(
+      model.surfaceTemperatureVisibleProperty,
+      model.surfaceTemperatureKelvinProperty,
+      tandem.createTandem( 'surfaceTemperatureCheckbox' )
+    );
+
+    // Create a property that keeps track of whether the cloud is enabled in manually-controlled-concentration mode.
+    // Note that the cloud is always enabled in date-controlled-concentration mode.
+    this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' )
+    } );
+
+    // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
+    const cloudCheckbox = new CloudCheckbox(
+      this.cloudEnabledInManualConcentrationModeProperty,
+      model.sunEnergySource.isShiningProperty,
+      {
+        visibleProperty: new DerivedProperty(
+          [ model.concentrationControlModeProperty ],
+          // @ts-ignore
+          mode => mode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE
+        ),
+        tandem: tandem.createTandem( 'cloudCheckbox' )
+      }
+    );
+
+    // Set up a multi-link that will turn the cloud on and off in the model.  The cloud is always shown in
+    // date-controlled-concentration mode, and can be turned on or off by the user in manually-controlled-concentration
+    // mode.
+    Property.multilink(
+      [ this.cloudEnabledInManualConcentrationModeProperty, model.concentrationControlModeProperty ],
+      ( cloudEnabledInManualConcentrationMode, concentrationControlMode ) => {
+        model.cloudEnabledProperty.set(
+          // @ts-ignore
+          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ||
+          cloudEnabledInManualConcentrationMode
+        );
+      }
+    );
 
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );
@@ -291,10 +333,12 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     ];
   }
 
-  /**
-   * @public
-   */
-  step( dt: number ) {
+  public reset() {
+    this.cloudEnabledInManualConcentrationModeProperty.reset();
+    super.reset();
+  }
+
+  public step( dt: number ) {
     if ( this.model.isPlayingProperty.value ) {
       this.updateSoundLoopLevels();
     }
