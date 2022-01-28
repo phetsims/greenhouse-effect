@@ -25,6 +25,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -33,7 +34,8 @@ const DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS = 5; // ratio of invisible to visi
 assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), 'value must be an integer' );
 
 type PhotonCollectionOptions = {
-  photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
+  photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions,
+  tandem: Tandem
 } & PhetioObjectOptions
 
 class PhotonCollection extends PhetioObject {
@@ -96,7 +98,9 @@ class PhotonCollection extends PhetioObject {
     // There is a requirement in the sim design to support a mode where there are lots of visible photons and one where
     // there are relatively few.  This property is the one that controls which of those to modes this photon collection
     // is in.
-    this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false );
+    this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'showAllSimulatedPhotonsInViewProperty' )
+    } );
 
     // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit
     // photons.
