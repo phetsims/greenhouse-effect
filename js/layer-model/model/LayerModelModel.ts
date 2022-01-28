@@ -45,7 +45,8 @@ class LayerModelModel extends LayersModel {
         photonMaxLateralJumpProportion: 0,
         photonAbsorptionTime: 0.5,
         thickness: 2800 // empirically determined to look good in the view
-      }
+      },
+      tandem: tandem.createTandem( 'photonCollection' )
     } );
 
     // This Property is used to set the absorbance value used for all layers in this model.  It is part of the API for

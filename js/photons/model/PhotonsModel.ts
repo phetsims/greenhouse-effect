@@ -37,7 +37,8 @@ class PhotonsModel extends ConcentrationModel {
         photonAbsorptionTime: 0.1,
         photonMaxLateralJumpProportion: 0,
         absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
-      }
+      },
+      tandem: tandem.createTandem( 'photonCollection' )
     } );
 
     // Add the clouds.  These are always present in the model, but aren't always visible.  Positions were chosen to

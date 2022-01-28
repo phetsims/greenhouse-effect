@@ -11,9 +11,11 @@ import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import StringIO from '../../../../tandem/js/types/StringIO.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -44,9 +46,9 @@ class Photon {
   public readonly previousPosition: Vector2;
   public readonly wavelength: number;
   public readonly velocity: Vector2;
-  public readonly showState : ShowState;
+  public readonly showState: ShowState;
 
-  constructor( initialPosition: Vector2, wavelength: number, tandem: Tandem, providedOptions?: Partial<PhotonOptions> ) {
+  constructor( initialPosition: Vector2, wavelength: number, providedOptions?: Partial<PhotonOptions> ) {
 
     const options = merge( {
 
@@ -63,9 +65,7 @@ class Photon {
     this.wavelength = wavelength;
 
     // position in model space
-    this.positionProperty = new Vector2Property( initialPosition, {
-      tandem: tandem.createTandem( 'positionProperty' )
-    } );
+    this.positionProperty = new Vector2Property( initialPosition );
 
     // previous position, used for checking when the photon has crossed some threshold
     this.previousPosition = new Vector2( initialPosition.x, initialPosition.y );
@@ -114,11 +114,63 @@ class Photon {
     this.previousPosition.set( this.positionProperty.value );
   }
 
+  toStateObject(): PhotonStateObject {
+    return {
+
+      // TODO: Is there a predefined type for serialized Vector2 instances?  I'm not seeing anything obvious in the
+      //  Vector2 code, and Vector2.toStateObject says its return value is duck-typed.
+      position: this.positionProperty.value.toStateObject() as SerializedVector2,
+      previousPosition: this.previousPosition.toStateObject() as SerializedVector2,
+      wavelength: this.wavelength,
+      velocity: this.velocity.toStateObject() as SerializedVector2,
+
+      // TODO: How are we supposed to serialize enumerations using the new pattern?
+      showState: this.showState.toString() as string
+    };
+  }
+
+  static fromStateObject( stateObject: PhotonStateObject ) {
+    return new Photon(
+      Vector2.fromStateObject( stateObject.position ),
+      stateObject.wavelength,
+      {
+        initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
+        showState: stateObject.showState === 'ALWAYS' ? ShowState.ALWAYS : ShowState.ONLY_IN_MORE_PHOTONS_MODE
+      }
+    );
+  }
+
+  static get STATE_SCHEMA() {
+    return {
+      position: Vector2.Vector2IO,
+      previousPosition: Vector2.Vector2IO,
+      wavelength: NumberIO,
+      velocity: Vector2.Vector2IO,
+      showState: StringIO
+    };
+  }
+
   // static values
   static IR_WAVELENGTH = IR_WAVELENGTH;
   static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
   static SPEED = PHOTON_SPEED;
   static ShowState = ShowState;
+
+  // phet-io
+  static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
+}
+
+type SerializedVector2 = {
+  x: number,
+  y: number
+}
+
+type PhotonStateObject = {
+  position: SerializedVector2,
+  previousPosition: SerializedVector2,
+  wavelength: number,
+  velocity: SerializedVector2,
+  showState: string
 }
 
 greenhouseEffect.register( 'Photon', Photon );

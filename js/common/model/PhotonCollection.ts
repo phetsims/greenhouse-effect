@@ -10,7 +10,6 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -23,6 +22,9 @@ import LayersModel from './LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -32,25 +34,38 @@ assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), '
 
 type PhotonCollectionOptions = {
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions
-}
+} & PhetioObjectOptions
 
-class PhotonCollection {
+class PhotonCollection extends PhetioObject {
 
-  public readonly photons: ObservableArray<Photon> = createObservableArray();
+  public readonly photons: ObservableArray<Photon>;
   public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
   public readonly showAllSimulatedPhotonsInViewProperty: BooleanProperty;
   private readonly sunEnergySource: SunEnergySource;
   private readonly groundLayer: GroundLayer;
-  private photonCreationCountdown: number = 0;
-  private groundPhotonProductionRate: number = 0;
-  private groundPhotonProductionTimeAccumulator: number = 0;
-  private visiblePhotonCreationCount: number = 0;
-  private infraredPhotonCreationCount: number = 0;
+  private photonCreationCountdown: number;
+  private groundPhotonProductionRate: number;
+  private groundPhotonProductionTimeAccumulator: number;
+  private visiblePhotonCreationCount: number;
+  private infraredPhotonCreationCount: number;
 
   constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
                atmosphereLayers: AtmosphereLayer[],
                providedOptions?: PhotonCollectionOptions ) {
+
+    const options = merge( {
+
+      phetioType: PhotonCollection.PhotonCollectionIO,
+
+      // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
+      photonAbsorbingEmittingLayerOptions: {
+        photonMaxLateralJumpProportion: 0.1,
+        photonAbsorptionTime: 1.0
+      }
+    }, providedOptions ) as PhotonCollectionOptions;
+
+    super( options );
 
     // Some of the code in this class depends on the atmosphere layers being in ascending order of altitude, so verify
     // that this is true.
@@ -65,17 +80,18 @@ class PhotonCollection {
       assert( layersInAscendingOrder, 'atmosphere layers must be in order of ascending altitude' );
     }
 
-    const options = merge( {
-
-      // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
-      photonAbsorbingEmittingLayerOptions: {
-        photonMaxLateralJumpProportion: 0.1,
-        photonAbsorptionTime: 1.0
-      }
-    }, providedOptions ) as PhotonCollectionOptions;
-
     this.sunEnergySource = sunEnergySource;
     this.groundLayer = groundLayer;
+
+    // Create the observable array where the photons will be kept.
+    this.photons = createObservableArray();
+
+    // Initialize the counters and other values that control the photon production rate.
+    this.photonCreationCountdown = 0;
+    this.groundPhotonProductionRate = 0;
+    this.groundPhotonProductionTimeAccumulator = 0;
+    this.visiblePhotonCreationCount = 0;
+    this.infraredPhotonCreationCount = 0;
 
     // There is a requirement in the sim design to support a mode where there are lots of visible photons and one where
     // there are relatively few.  This property is the one that controls which of those to modes this photon collection
@@ -93,6 +109,10 @@ class PhotonCollection {
     );
   }
 
+  /**
+   * Step the object forward in time.
+   * @param dt - time in seconds
+   */
   step( dt: number ) {
 
     if ( this.sunEnergySource.isShiningProperty.value ) {
@@ -108,7 +128,6 @@ class PhotonCollection {
             LayersModel.HEIGHT_OF_ATMOSPHERE
           ),
           Photon.VISIBLE_WAVELENGTH,
-          Tandem.OPT_OUT,
           {
             initialVelocity: new Vector2( 0, -Photon.SPEED ),
             showState: this.visiblePhotonCreationCount === 0 ?
@@ -222,7 +241,6 @@ class PhotonCollection {
             0
           ),
           Photon.IR_WAVELENGTH,
-          Tandem.OPT_OUT,
           {
             initialVelocity: new Vector2( 0, Photon.SPEED ).rotated( ( dotRandom.nextDouble() - 0.5 ) * Math.PI / 8 ),
             showState: this.infraredPhotonCreationCount++ === 0 ?
@@ -245,6 +263,32 @@ class PhotonCollection {
 
     // Test for photon interactions with the layers.
     this.photonAbsorbingEmittingLayers.forEach( layer => layer.step( dt ) );
+  }
+
+  /**
+   * Serialize this instance to a state object, used for phet-io.
+   */
+  toStateObject(): PhotonCollectionStateObject {
+    return {
+      photonStateObjects: this.photons.map( photon => photon.toStateObject() )
+    };
+  }
+
+  /**
+   * Set the state of this instance based on the provided state object, used for phet-io.
+   */
+  applyState( stateObject: PhotonCollectionStateObject ) {
+    this.photons.clear();
+    stateObject.photonStateObjects.forEach( photonStateObject => {
+      this.photons.push( Photon.fromStateObject( photonStateObject ) );
+    } );
+  }
+
+  // @public
+  static get STATE_SCHEMA() {
+    return {
+      photonStateObjects: ArrayIO( Photon.PhotonIO )
+    };
   }
 
   /**
@@ -284,6 +328,18 @@ class PhotonCollection {
 
     return photonProductionRate;
   }
+
+  static PhotonCollectionIO = IOType.fromCoreType( 'PhotonCollectionIO', PhotonCollection, {
+    // @ts-ignore
+    defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
+  } );
+}
+
+type PhotonCollectionStateObject = {
+
+  // TODO phetio: I feel like I should be using something like ArrayIO( Vector2 ) here, but it doesn't as a TypeScript
+  //  type, which isn't surprising I suppose, but I'm not sure what it SHOULD be.
+  photonStateObjects: any[]
 }
 
 greenhouseEffect.register( 'PhotonCollection', PhotonCollection );
