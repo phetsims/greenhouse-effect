@@ -83,7 +83,7 @@ class PhotonAbsorptionModel extends PhetioObject {
       tandem: tandem.createTandem( 'photonGroup' )
     } );
 
-    // @public - Property that indicating whether photons are being emitted from the photon emittter
+    // @public - Property that indicating whether photons are being emitted from the photon emitter
     this.photonEmitterOnProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'photonEmitterOnProperty' )
     } );
