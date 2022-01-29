@@ -274,7 +274,7 @@ class PhotonCollection extends PhetioObject {
    */
   toStateObject(): PhotonCollectionStateObject {
     return {
-      photonStateObjects: this.photons.map( photon => photon.toStateObject() )
+      photonStateObjects: ArrayIO( Photon.PhotonIO ).toStateObject( this.photons )
     };
   }
 
@@ -283,9 +283,9 @@ class PhotonCollection extends PhetioObject {
    */
   applyState( stateObject: PhotonCollectionStateObject ) {
     this.photons.clear();
-    stateObject.photonStateObjects.forEach( photonStateObject => {
-      this.photons.push( Photon.fromStateObject( photonStateObject ) );
-    } );
+    this.photons.push(
+      ...ArrayIO( Photon.PhotonIO ).fromStateObject( stateObject.photonStateObjects )
+    );
   }
 
   // @public

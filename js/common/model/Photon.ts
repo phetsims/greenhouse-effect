@@ -16,6 +16,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
+import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -114,18 +115,13 @@ class Photon {
     this.previousPosition.set( this.positionProperty.value );
   }
 
-  toStateObject(): PhotonStateObject {
+  toStateObject() {
     return {
-
-      // TODO: Is there a predefined type for serialized Vector2 instances?  I'm not seeing anything obvious in the
-      //  Vector2 code, and Vector2.toStateObject says its return value is duck-typed.
-      position: this.positionProperty.value.toStateObject() as SerializedVector2,
-      previousPosition: this.previousPosition.toStateObject() as SerializedVector2,
+      position: this.positionProperty.value.toStateObject(),
+      previousPosition: this.previousPosition.toStateObject(),
       wavelength: this.wavelength,
-      velocity: this.velocity.toStateObject() as SerializedVector2,
-
-      // TODO: How are we supposed to serialize enumerations using the new pattern?
-      showState: this.showState.toString() as string
+      velocity: this.velocity.toStateObject(),
+      showState: EnumerationIO( ShowState ).toStateObject( this.showState )
     };
   }
 
@@ -135,7 +131,7 @@ class Photon {
       stateObject.wavelength,
       {
         initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
-        showState: stateObject.showState === 'ALWAYS' ? ShowState.ALWAYS : ShowState.ONLY_IN_MORE_PHOTONS_MODE
+        showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
       }
     );
   }
