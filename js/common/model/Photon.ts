@@ -109,7 +109,7 @@ class Photon {
 
   /**
    * Reset the previous position by making it match the current position.  This is generally used when a photon is
-   * being released from something and we don't want to detect false layer crossing after the release.
+   * being released from something, and we don't want to detect false layer crossing after the release.
    */
   resetPreviousPosition() {
     this.previousPosition.set( this.positionProperty.value );
