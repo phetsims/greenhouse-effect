@@ -98,16 +98,26 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
     // @ts-ignore
     model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-      if ( dotRandom.nextDouble() > playThreshold ) {
-        if ( addedPhoton.isInfrared && addedPhoton.positionProperty.value.y > 0 ) {
-          irPhotonEmittedSoundClip.setPlaybackRate( dotRandom.nextDoubleInRange( playbackRateRange ) );
-          irPhotonEmittedSoundClip.play();
-        }
-        else {
-          visiblePhotonEmittedSoundClip.play();
-        }
+
+      // A new photon has been added to the collection.  Decide whether to play a sound signifying its arrival based on
+      // a number of factors, one of which is a random threshold used to reduce the number of sounds produced so that it
+      // doesn't become too distracting.
+      const playSound = addedPhoton.isInfrared &&
+                        addedPhoton.positionProperty.value.y > 0 && // don't play for photons coming from the ground
+                        ( model.photonCollection.showAllSimulatedPhotonsInViewProperty.value ||
+                          addedPhoton.showState === Photon.ShowState.ALWAYS ) &&
+                        dotRandom.nextDouble() > playThreshold;
+
+      if ( playSound ) {
+
+        // Do a little randomization of the playback rate so that the sound isn't too repetitive.
+        irPhotonEmittedSoundClip.setPlaybackRate( dotRandom.nextDoubleInRange( playbackRateRange ) );
+
+        // Play it.
+        irPhotonEmittedSoundClip.play();
       }
     } );
+
     // @ts-ignore
     model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
       if ( dotRandom.nextDouble() > playThreshold ) {
