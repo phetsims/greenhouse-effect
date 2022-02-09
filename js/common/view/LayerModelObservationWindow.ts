@@ -44,7 +44,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
       minTemperature: model.groundLayer.minimumTemperature - 5,
-      maxTemperature: 380,
+      maxTemperature: 475, // empirically determined
 
       thermometerNodeOptions: {
         bulbDiameter: 25,
