@@ -11,7 +11,6 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import merge from '../../../../phet-core/js/merge.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
@@ -30,6 +29,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -41,13 +41,16 @@ const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.surfaceTemp
 
 const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
-type ThermometerAndReadoutOptions = {
+type ThermometerAndReadoutSelfOptions = {
   minTemperature?: number,
   maxTemperature?: number,
   readoutType?: any,
   listParentNode?: Node | null,
-  thermometerNodeOptions?: ThermometerNodeOptions
-} & NodeOptions;
+  thermometerNodeOptions?: ThermometerNodeOptions,
+  tandem?: Tandem
+}
+
+type ThermometerAndReadoutOptions = ThermometerAndReadoutSelfOptions & NodeOptions;
 
 class ThermometerAndReadout extends Node {
 
@@ -57,7 +60,7 @@ class ThermometerAndReadout extends Node {
    */
   constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
 
-    const options = merge( {
+    const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>( {
 
       minTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       maxTemperature: 300,
@@ -67,7 +70,7 @@ class ThermometerAndReadout extends Node {
       readoutType: ReadoutType.SELECTABLE,
 
       // parent node used for the combo box list, only used for SELECTABLE readout
-      listParent: null,
+      listParentNode: null,
 
       // options passed along to the ThermometerNode
       thermometerNodeOptions: {
@@ -79,7 +82,7 @@ class ThermometerAndReadout extends Node {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as Required<ThermometerAndReadoutOptions>;
+    }, providedOptions );
 
     // options passed to the supertype later in mutate
     super();
