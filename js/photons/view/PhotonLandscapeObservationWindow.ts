@@ -103,9 +103,8 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
       // a number of factors, one of which is a random threshold used to reduce the number of sounds produced so that it
       // doesn't become too distracting.
       const playSound = addedPhoton.isInfrared &&
+                        addedPhoton.showState === Photon.ShowState.ALWAYS &&
                         addedPhoton.positionProperty.value.y > 0 && // don't play for photons coming from the ground
-                        ( model.photonCollection.showAllSimulatedPhotonsInViewProperty.value ||
-                          addedPhoton.showState === Photon.ShowState.ALWAYS ) &&
                         dotRandom.nextDouble() > playThreshold;
 
       if ( playSound ) {
