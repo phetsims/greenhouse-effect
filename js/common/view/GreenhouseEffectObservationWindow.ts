@@ -304,7 +304,6 @@ class GreenhouseEffectObservationWindow extends Node {
     // Manage the visibility of the start sunlight button and the darkness overlay.
     model.sunEnergySource.isShiningProperty.link( isShining => {
       this.startSunlightButton.visible = !isShining;
-      this.controlsLayer.inputEnabled = isShining;
 
       // hide all of the content from a screen reader until sunlight has started
       // @ts-ignore
