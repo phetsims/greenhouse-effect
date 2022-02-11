@@ -28,7 +28,7 @@ import WavesModel from './WavesModel.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
-type WaveOptions = {
+export type WaveOptions = {
   intensityAtStart?: number,
   initialPhaseOffset?: number,
   debugTag?: string | null,
@@ -225,7 +225,7 @@ class Wave extends PhetioObject {
    * @param {Vector2} [vectorToUse]
    * @public
    */
-  getEndPoint( vectorToUse: Vector2 ) {
+  getEndPoint( vectorToUse?: Vector2 ) {
     const endPointVector = vectorToUse || new Vector2( 0, 0 );
     endPointVector.setXY(
       this.startPoint.x + this.propagationDirection.x * this.length,

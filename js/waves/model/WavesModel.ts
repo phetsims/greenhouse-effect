@@ -31,7 +31,7 @@ import LayersModel, { LayersModelStateObject } from '../../common/model/LayersMo
 import SunWaveSource from './SunWaveSource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource from './EMWaveSource.js';
-import Wave from './Wave.js';
+import Wave, { WaveOptions } from './Wave.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
@@ -86,7 +86,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
-    this.waveGroup = new PhetioGroup(
+    this.waveGroup = new PhetioGroup<Wave, number, Vector2, Vector2, number, WaveOptions>(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
         options = merge( { tandem: tandem }, options );
         return new Wave( wavelength, origin, propagationDirection, propagationLimit, options );
