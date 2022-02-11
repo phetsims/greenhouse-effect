@@ -7,7 +7,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import { Node, PathOptions, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { PathOptions, Rectangle, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -19,7 +19,7 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 
 type InstrumentVisibilityControlsOptions = {
-  vBoxOptions?: { align: string, spacing: number, children?: Node[] },
+  vBoxOptions?: VBoxOptions,
   includeFluxMeterCheckbox?: boolean
 } & PathOptions;
 
