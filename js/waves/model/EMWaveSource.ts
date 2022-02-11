@@ -18,7 +18,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Wave from './Wave.js';
+import Wave, { WaveOptions } from './Wave.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
@@ -90,7 +90,7 @@ class EMWaveSource extends PhetioObject {
   readonly waveStartAltitude: number;
   private readonly waveIntensityProperty: Property<number>;
   private readonly waveProductionEnabledProperty: Property<boolean>;
-  private readonly waveGroup: PhetioGroup<Wave>;
+  private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   private readonly wavelength: number;
   private readonly waveEndAltitude: number;
   private readonly waveSourceSpecs: WaveSourceSpec[];
@@ -108,7 +108,7 @@ class EMWaveSource extends PhetioObject {
    * @param {WaveSourceSpec[]} waveSourceSpecs - specifications that define where the waves will be created
    * @param {Partial<EMWaveSourceOptions>} [options]
    */
-  constructor( waveGroup: PhetioGroup<Wave>,
+  constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveProductionEnabledProperty: Property<boolean>,
                wavelength: number,
                waveStartAltitude: number,

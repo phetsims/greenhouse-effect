@@ -11,11 +11,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import Wave from '../../waves/model/Wave.js';
+import Wave, { WaveOptions } from '../../waves/model/Wave.js';
 import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
@@ -31,7 +32,7 @@ class GroundWaveSource extends EMWaveSource {
    * @param {Property.<number>} groundTemperatureProperty
    * @param {EMWaveSourceOptions} options
    */
-  constructor( wavesInModel: PhetioGroup<Wave>,
+  constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveStartAltitude: number,
                waveEndAltitude: number,
                groundTemperatureProperty: Property<number>,

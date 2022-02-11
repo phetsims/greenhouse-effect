@@ -11,9 +11,10 @@ import EMWaveSource, { EMWaveSourceOptions } from '../../waves/model/EMWaveSourc
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
-import Wave from './Wave.js';
+import Wave, { WaveOptions } from './Wave.js';
 import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 class SunWaveSource extends EMWaveSource {
 
@@ -24,7 +25,7 @@ class SunWaveSource extends EMWaveSource {
    * @param {number} waveEndAltitude
    * @param [options]
    */
-  constructor( wavesInModel: PhetioGroup<Wave>,
+  constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveProductionEnabledProperty: Property<boolean>,
                waveStartAltitude: number,
                waveEndAltitude: number,

@@ -58,7 +58,7 @@ assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value f
 
 class WavesModel extends ConcentrationModel {
   readonly cloudEnabledProperty: BooleanProperty;
-  readonly waveGroup: PhetioGroup<Wave>;
+  readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   readonly wavesChangedEmitter: Emitter<[]>;
   private readonly sunWaveSource: SunWaveSource;
   private readonly groundWaveSource: GroundWaveSource;
@@ -86,7 +86,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
-    this.waveGroup = new PhetioGroup<Wave, number, Vector2, Vector2, number, WaveOptions>(
+    this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
         options = merge( { tandem: tandem }, options );
         return new Wave( wavelength, origin, propagationDirection, propagationLimit, options );
