@@ -14,7 +14,7 @@ import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class PhotonsScreen extends Screen {
+class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -32,7 +32,7 @@ class PhotonsScreen extends Screen {
 
     super(
       () => new PhotonsModel( tandem.createTandem( 'model' ) ),
-      ( model: PhotonsModel ) => new PhotonsScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new PhotonsScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

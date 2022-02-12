@@ -14,7 +14,7 @@ import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class LayerModelScreen extends Screen {
+class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -31,7 +31,7 @@ class LayerModelScreen extends Screen {
 
     super(
       () => new LayerModelModel( tandem.createTandem( 'model' ) ),
-      ( model: LayerModelModel ) => new LayerModelScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new LayerModelScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

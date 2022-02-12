@@ -14,7 +14,7 @@ import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-class WavesScreen extends Screen {
+class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
   /**
    * @param {Tandem} tandem
@@ -32,7 +32,7 @@ class WavesScreen extends Screen {
 
     super(
       () => new WavesModel( tandem.createTandem( 'model' ) ),
-      ( model: WavesModel ) => new WavesScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new WavesScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
