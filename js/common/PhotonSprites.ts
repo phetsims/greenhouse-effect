@@ -85,7 +85,7 @@ class PhotonSprites extends Sprites {
         numberOfPhotonsDisplayed++;
 
         // Add a new sprite instance to our list if we don't have enough.
-        if ( i + 1 > this.spriteInstances.length ) {
+        if ( numberOfPhotonsDisplayed > this.spriteInstances.length ) {
           const newSpriteInstance = SpriteInstance.dirtyFromPool();
           newSpriteInstance.transformType = SpriteInstanceTransformType.AFFINE;
           this.spriteInstances.push( newSpriteInstance );
@@ -93,7 +93,7 @@ class PhotonSprites extends Sprites {
 
         // Update the matrix that controls where this photon is rendered.
         const photonPosition = photon.positionProperty.value;
-        const spriteInstance = this.spriteInstances[ i ];
+        const spriteInstance = this.spriteInstances[ numberOfPhotonsDisplayed - 1 ];
         spriteInstance.sprite = photon.isVisible ? VISIBLE_PHOTON_SPRITE : INFRARED_PHOTON_SPRITE;
         spriteInstance.matrix.setToAffine(
           this.photonScale,
