@@ -47,40 +47,8 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     super( model, options );
 
     // Add the node that will render the photons.
-    this.photonsNode = new PhotonSprites( model.photonCollection.photons, this.modelViewTransform );
+    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
-
-    // Create a parent node to which the individual photon nodes will all be added.
-    // const photonsRootNode = new Node();
-    // this.presentationLayer.addChild( photonsRootNode );
-
-    // Move the presentation node for the  photons to the back of the z-order so that it is behind the haze.
-    // photonsRootNode.moveToBack();
-
-    // Add and remove photon nodes as they come and go in the model.
-    // @ts-ignore
-    // model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-    //   const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
-    //   photonsRootNode.addChild( photonNode );
-    //   let visibilityController: ( showAllPhotons: boolean ) => void;
-    //   if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
-    //     visibilityController = showAllPhotons => {
-    //       photonNode.visible = showAllPhotons;
-    //     };
-    //     model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
-    //   }
-    //   const photonRemovedListener = ( removedPhoton: Photon ) => {
-    //     if ( removedPhoton === addedPhoton ) {
-    //       photonsRootNode.removeChild( photonNode );
-    //       photonNode.dispose();
-    //       if ( visibilityController ) {
-    //         model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
-    //       }
-    //       model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
-    //     }
-    //   };
-    //   model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
-    // } );
 
     // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
     //                        be modularized, probably into its own class.

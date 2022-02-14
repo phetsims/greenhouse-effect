@@ -170,4 +170,5 @@ type PhotonStateObject = {
 }
 
 greenhouseEffect.register( 'Photon', Photon );
+export { ShowState };
 export default Photon;
