@@ -243,6 +243,8 @@ class LayersModel extends GreenhouseEffectModel {
     this.inRadiativeBalanceProperty.set(
       Math.abs( energyComingFromSun - energyGoingIntoSpace ) < RADIATIVE_BALANCE_THRESHOLD
     );
+
+    super.stepModel( dt );
   }
 
   /**

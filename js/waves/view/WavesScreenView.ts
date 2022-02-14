@@ -35,7 +35,6 @@ import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
-  private readonly updateSoundLoopLevels: () => void;
   private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
 
   /**
@@ -290,7 +289,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     //       sub-optimal, since it is inefficient.  If we end up keeping the loops and mapping their intensities to the
     //       output levels of the loops, the Wave class should be modified to use a Property for the intensity, and then
     //       this can be used to adjust the output levels.
-    this.updateSoundLoopLevels = () => {
+    const updateSoundLoopLevels = () => {
       let wavesFromGroundOutputLevel = waveLoopMaxOutputLevel;
       let wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel;
       if ( phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty.value ) {
@@ -316,6 +315,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       } );
     };
 
+    // Update the sound levels when the model is stepped.  No need to unlink since this view is never disposed.
+    model.steppedEmitter.addListener( updateSoundLoopLevels );
+
     // pdom - override the pdomOrders for the supertype to insert subtype components
     // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
@@ -336,13 +338,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   public reset() {
     this.cloudEnabledInManualConcentrationModeProperty.reset();
     super.reset();
-  }
-
-  public step( dt: number ) {
-    if ( this.model.isPlayingProperty.value ) {
-      this.updateSoundLoopLevels();
-    }
-    super.step( dt );
   }
 }
 

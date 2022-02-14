@@ -15,8 +15,6 @@ import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
-import Photon from '../model/Photon.js';
-import PhotonNode from './PhotonNode.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import merge from '../../../../phet-core/js/merge.js';
 
@@ -83,27 +81,27 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add and remove photon nodes as they come and go in the model.
     // @ts-ignore
-    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-      const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
-      this.presentationLayer.addChild( photonNode );
-      let visibilityController: ( showAllPhotons: boolean ) => void;
-      if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
-        visibilityController = showAllPhotons => { photonNode.visible = showAllPhotons; };
-        model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
-      }
-      // @ts-ignore
-      const photonRemovedListener = removedPhoton => {
-        if ( removedPhoton === addedPhoton ) {
-          this.presentationLayer.removeChild( photonNode );
-          photonNode.dispose();
-          if ( visibilityController ) {
-            model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
-          }
-          model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
-        }
-      };
-      model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
-    } );
+    // model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    //   const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
+    //   this.presentationLayer.addChild( photonNode );
+    //   let visibilityController: ( showAllPhotons: boolean ) => void;
+    //   if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
+    //     visibilityController = showAllPhotons => { photonNode.visible = showAllPhotons; };
+    //     model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
+    //   }
+    //   // @ts-ignore
+    //   const photonRemovedListener = removedPhoton => {
+    //     if ( removedPhoton === addedPhoton ) {
+    //       this.presentationLayer.removeChild( photonNode );
+    //       photonNode.dispose();
+    //       if ( visibilityController ) {
+    //         model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
+    //       }
+    //       model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
+    //     }
+    //   };
+    //   model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
+    // } );
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {

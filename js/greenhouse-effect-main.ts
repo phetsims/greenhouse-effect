@@ -19,6 +19,10 @@ import WavesScreen from './waves/WavesScreen.js';
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
 
 const simOptions = {
+
+  // Enabled for high-performance Sprites
+  webgl: true,
+
   credits: {
     leadDesign: 'Kathy Perkins, Amy Rouinfar',
     softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',

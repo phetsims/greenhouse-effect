@@ -14,12 +14,14 @@ import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 type GreenhouseEffectModelOptions = PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {
-  readonly timeSpeedProperty: EnumerationDeprecatedProperty;
-  readonly isPlayingProperty: BooleanProperty;
+  public readonly timeSpeedProperty: EnumerationDeprecatedProperty;
+  public readonly isPlayingProperty: BooleanProperty;
+  public readonly steppedEmitter: Emitter<[ number ]>;
 
   /**
    * @param {Tandem} tandem
@@ -40,7 +42,7 @@ class GreenhouseEffectModel extends PhetioObject {
 
     super( options );
 
-    // @public {NumberProperty} - playing speed for the model
+    // playing speed for the model
     // @ts-ignore
     this.timeSpeedProperty = new EnumerationDeprecatedProperty( TimeSpeed, TimeSpeed.NORMAL, {
       // @ts-ignore
@@ -48,10 +50,13 @@ class GreenhouseEffectModel extends PhetioObject {
       tandem: tandem.createTandem( 'timeSpeedProperty' )
     } );
 
-    // @public {BooleanProperty} - controls whether the model is stepping through time or paused
+    // controls whether the model is stepping through time or paused
     this.isPlayingProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'isPlayingProperty' )
     } );
+
+    // emitter that is fired on each step, used to signal the view that an update of sprites or canvases may be needed
+    this.steppedEmitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
   }
 
   /**
@@ -61,7 +66,7 @@ class GreenhouseEffectModel extends PhetioObject {
    * @param {number} dt - in seconds
    */
   stepModel( dt: number ) {
-    throw new Error( 'Implement stepModel in subclass of GreenhouseEffectModel' );
+    this.steppedEmitter.emit( dt );
   }
 
   /**

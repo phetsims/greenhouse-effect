@@ -6,7 +6,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3.js';
@@ -20,11 +19,11 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
-import PhotonNode from '../../common/view/PhotonNode.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhotonSprites from '../../common/PhotonSprites.js';
 
 // constants
 const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
@@ -35,6 +34,8 @@ const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
 ];
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
+  private readonly photonsNode: PhotonSprites;
+
   constructor( model: PhotonsModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     const options = merge( {
@@ -45,37 +46,41 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
     super( model, options );
 
+    // Add the node that will render the photons.
+    this.photonsNode = new PhotonSprites( model.photonCollection.photons, this.modelViewTransform );
+    this.presentationLayer.addChild( this.photonsNode );
+
     // Create a parent node to which the individual photon nodes will all be added.
-    const photonsRootNode = new Node();
-    this.presentationLayer.addChild( photonsRootNode );
+    // const photonsRootNode = new Node();
+    // this.presentationLayer.addChild( photonsRootNode );
 
     // Move the presentation node for the  photons to the back of the z-order so that it is behind the haze.
-    photonsRootNode.moveToBack();
+    // photonsRootNode.moveToBack();
 
     // Add and remove photon nodes as they come and go in the model.
     // @ts-ignore
-    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-      const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
-      photonsRootNode.addChild( photonNode );
-      let visibilityController: ( showAllPhotons: boolean ) => void;
-      if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
-        visibilityController = showAllPhotons => {
-          photonNode.visible = showAllPhotons;
-        };
-        model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
-      }
-      const photonRemovedListener = ( removedPhoton: Photon ) => {
-        if ( removedPhoton === addedPhoton ) {
-          photonsRootNode.removeChild( photonNode );
-          photonNode.dispose();
-          if ( visibilityController ) {
-            model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
-          }
-          model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
-        }
-      };
-      model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
-    } );
+    // model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    //   const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
+    //   photonsRootNode.addChild( photonNode );
+    //   let visibilityController: ( showAllPhotons: boolean ) => void;
+    //   if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
+    //     visibilityController = showAllPhotons => {
+    //       photonNode.visible = showAllPhotons;
+    //     };
+    //     model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
+    //   }
+    //   const photonRemovedListener = ( removedPhoton: Photon ) => {
+    //     if ( removedPhoton === addedPhoton ) {
+    //       photonsRootNode.removeChild( photonNode );
+    //       photonNode.dispose();
+    //       if ( visibilityController ) {
+    //         model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
+    //       }
+    //       model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
+    //     }
+    //   };
+    //   model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
+    // } );
 
     // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
     //                        be modularized, probably into its own class.
@@ -128,6 +133,11 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
         }
       }
     } );
+  }
+
+  step( dt: number ) {
+    this.photonsNode.update();
+    super.step( dt );
   }
 }
 
