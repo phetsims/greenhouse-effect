@@ -10,6 +10,8 @@
  * a Matrix3 (which determines how it's transformed).  At each model step, the positions of the PhotonInstance instances
  * are updated by adjusting their matrix, and then invalidatePaint is called to re-render the sprites.
  *
+ * TODO: Is there any need to size this node like we do for canvases?
+ *
  * @author John Blanco (PhET Interactive Simulations)
  */
 
@@ -20,6 +22,8 @@ import visiblePhoton_png from '../../images/visiblePhoton_png.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhotonCollection from './model/PhotonCollection.js';
 import { ShowState } from './model/Photon.js';
+import GreenhouseEffectConstants from './GreenhouseEffectConstants.js';
+import Range from '../../../dot/js/Range.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design
@@ -31,6 +35,10 @@ const VISIBLE_PHOTON_SPRITE = new Sprite( new SpriteImage(
   visiblePhoton_png,
   new Vector2( visiblePhoton_png.width / 2, visiblePhoton_png.height / 2 )
 ) );
+const HORIZONTAL_RENDERING_SPAN = new Range(
+  -GreenhouseEffectConstants.SUNLIGHT_SPAN / 2,
+  GreenhouseEffectConstants.SUNLIGHT_SPAN / 2
+);
 
 class PhotonSprites extends Sprites {
   private readonly spriteInstances: SpriteInstance[];
@@ -78,7 +86,11 @@ class PhotonSprites extends Sprites {
 
       // Convenience constants.
       const photon = photons[ i ];
-      const showThisPhoton = photon.showState === ShowState.ALWAYS || showAllPhotons;
+      const photonPosition = photon.positionProperty.value;
+
+      // Determine whether this photon should be displayed.
+      const showThisPhoton = ( photon.showState === ShowState.ALWAYS || showAllPhotons ) &&
+                             HORIZONTAL_RENDERING_SPAN.contains( photonPosition.x );
 
       if ( showThisPhoton ) {
 
@@ -92,7 +104,6 @@ class PhotonSprites extends Sprites {
         }
 
         // Update the matrix that controls where this photon is rendered.
-        const photonPosition = photon.positionProperty.value;
         const spriteInstance = this.spriteInstances[ numberOfPhotonsDisplayed - 1 ];
         spriteInstance.sprite = photon.isVisible ? VISIBLE_PHOTON_SPRITE : INFRARED_PHOTON_SPRITE;
         spriteInstance.matrix.setToAffine(
