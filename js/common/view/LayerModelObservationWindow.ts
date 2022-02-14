@@ -17,8 +17,11 @@ import ThermometerAndReadout from './ThermometerAndReadout.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhotonSprites from '../PhotonSprites.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
+  private readonly photonsNode: PhotonSprites;
+
   constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
     assert && assert( providedOptions.groundBaseColorProperty === undefined, 'LayerModelObservationWindow sets groundBaseColorProperty' );
@@ -79,29 +82,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       atmosphereNode.moveToBack();
     } );
 
-    // Add and remove photon nodes as they come and go in the model.
-    // @ts-ignore
-    // model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-    //   const photonNode = new PhotonNode( addedPhoton, this.modelViewTransform, { scale: 0.5 } );
-    //   this.presentationLayer.addChild( photonNode );
-    //   let visibilityController: ( showAllPhotons: boolean ) => void;
-    //   if ( addedPhoton.showState === Photon.ShowState.ONLY_IN_MORE_PHOTONS_MODE ) {
-    //     visibilityController = showAllPhotons => { photonNode.visible = showAllPhotons; };
-    //     model.photonCollection.showAllSimulatedPhotonsInViewProperty.link( visibilityController );
-    //   }
-    //   // @ts-ignore
-    //   const photonRemovedListener = removedPhoton => {
-    //     if ( removedPhoton === addedPhoton ) {
-    //       this.presentationLayer.removeChild( photonNode );
-    //       photonNode.dispose();
-    //       if ( visibilityController ) {
-    //         model.photonCollection.showAllSimulatedPhotonsInViewProperty.unlink( visibilityController );
-    //       }
-    //       model.photonCollection.photons.removeItemRemovedListener( photonRemovedListener );
-    //     }
-    //   };
-    //   model.photonCollection.photons.addItemRemovedListener( photonRemovedListener );
-    // } );
+    // Add the node that will render the photons.
+    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
+    this.presentationLayer.addChild( this.photonsNode );
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {
@@ -140,6 +123,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the nodes to the layers provided by the parent class.
     this.controlsLayer.addChild( instrumentVisibilityControls );
+  }
+
+  public step( dt: number ) {
+    this.photonsNode.update();
+    super.step( dt );
   }
 }
 
