@@ -8,13 +8,7 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3.js';
-import greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3.js';
-import greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3.js';
-import greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3 from '../../../sounds/greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3.js';
 import reemissionOption1_mp3 from '../../../sounds/reemissionOption1_mp3.js';
-import reemissionOption2_mp3 from '../../../sounds/reemissionOption2_mp3.js';
-import reemissionOption3_mp3 from '../../../sounds/reemissionOption3_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -24,14 +18,6 @@ import PhotonsModel from '../model/PhotonsModel.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
-
-// constants
-const IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS = [
-  greenhouseEffectPhotonsScreenIrPhotonEmitted_mp3,
-  reemissionOption1_mp3,
-  reemissionOption2_mp3,
-  reemissionOption3_mp3
-];
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -50,21 +36,13 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
 
-    // sound generation TODO: This is in the prototype phase as of early November 2021, and what is kept should
-    //                        be modularized, probably into its own class.
-    const photonSoundLevel = 0.04;
+    // sound generation
     const playThreshold = 0.5;
-    const irPhotonAbsorbedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenIrPhotonAbsorbed_mp3, { initialOutputLevel: 0 } );
-    soundManager.addSoundGenerator( irPhotonAbsorbedSoundClip );
-    const irPhotonEmittedSoundClip = new SoundClip( IR_PHOTON_EMITTED_FROM_ATMOSPHERE_SOUNDS[ 1 ], {
-      initialOutputLevel: photonSoundLevel,
+    const irPhotonEmittedSoundClip = new SoundClip( reemissionOption1_mp3, {
+      initialOutputLevel: 0.04, // empirically determined, pretty low because a lot of plays can be happening at once
       rateChangesAffectPlayingSounds: false
     } );
     soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
-    const visiblePhotonAbsorbedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenVisibleLightPhotonAbsorbed_mp3, { initialOutputLevel: 0 } );
-    soundManager.addSoundGenerator( visiblePhotonAbsorbedSoundClip );
-    const visiblePhotonEmittedSoundClip = new SoundClip( greenhouseEffectPhotonsScreenVisibleLightPhotonEmitted_mp3, { initialOutputLevel: 0 } );
-    soundManager.addSoundGenerator( visiblePhotonEmittedSoundClip );
 
     // Range for playback of photon re-emission sounds, the numbers represent one musical half step up and down.
     const playbackRateRange = new Range( 0.94387431268, 1.05946309436 );
@@ -87,18 +65,6 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
         // Play it.
         irPhotonEmittedSoundClip.play();
-      }
-    } );
-
-    // @ts-ignore
-    model.photonCollection.photons.addItemRemovedListener( ( removedPhoton: Photon ) => {
-      if ( dotRandom.nextDouble() > playThreshold ) {
-        if ( removedPhoton.isInfrared ) {
-          irPhotonAbsorbedSoundClip.play();
-        }
-        else {
-          visiblePhotonAbsorbedSoundClip.play();
-        }
       }
     } );
   }
