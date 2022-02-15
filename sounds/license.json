@@ -7,6 +7,14 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
+  "emissionOfInfraredPhotonFromAtmosphere.mp3": {
+    "text": [
+      "Copyright 2022 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
   "energized.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
@@ -258,30 +266,6 @@
   "photonReleaseUv.mp3": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "reemissionOption1.mp3": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "reemissionOption2.mp3": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "reemissionOption3.mp3": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
     ],
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",

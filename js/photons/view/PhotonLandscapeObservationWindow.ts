@@ -8,7 +8,7 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import reemissionOption1_mp3 from '../../../sounds/reemissionOption1_mp3.js';
+import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -38,7 +38,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
 
     // sound generation
     const playThreshold = 0.5;
-    const irPhotonEmittedSoundClip = new SoundClip( reemissionOption1_mp3, {
+    const irPhotonEmittedSoundClip = new SoundClip( emissionOfInfraredPhotonFromAtmosphere_mp3, {
       initialOutputLevel: 0.04, // empirically determined, pretty low because a lot of plays can be happening at once
       rateChangesAffectPlayingSounds: false
     } );
