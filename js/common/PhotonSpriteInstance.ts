@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * PhotonSpriteInstance is a specialization of SpriteInstance for photons.  It keeps a reference to the associated
