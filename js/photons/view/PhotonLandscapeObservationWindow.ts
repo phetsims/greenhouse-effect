@@ -8,16 +8,12 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
-import Photon from '../../common/model/Photon.js';
 import PhotonsModel from '../model/PhotonsModel.js';
-import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
+import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -37,36 +33,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     this.presentationLayer.addChild( this.photonsNode );
 
     // sound generation
-    const playThreshold = 0.5;
-    const irPhotonEmittedSoundClip = new SoundClip( emissionOfInfraredPhotonFromAtmosphere_mp3, {
-      initialOutputLevel: 0.04, // empirically determined, pretty low because a lot of plays can be happening at once
-      rateChangesAffectPlayingSounds: false
-    } );
-    soundManager.addSoundGenerator( irPhotonEmittedSoundClip );
-
-    // Range for playback of photon re-emission sounds, the numbers represent one musical half step up and down.
-    const playbackRateRange = new Range( 0.94387431268, 1.05946309436 );
-
-    // @ts-ignore
-    model.photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
-
-      // A new photon has been added to the collection.  Decide whether to play a sound signifying its arrival based on
-      // a number of factors, one of which is a random threshold used to reduce the number of sounds produced so that it
-      // doesn't become too distracting.
-      const playSound = addedPhoton.isInfrared &&
-                        addedPhoton.showState === Photon.ShowState.ALWAYS &&
-                        addedPhoton.positionProperty.value.y > 0 && // don't play for photons coming from the ground
-                        dotRandom.nextDouble() > playThreshold;
-
-      if ( playSound ) {
-
-        // Do a little randomization of the playback rate so that the sound isn't too repetitive.
-        irPhotonEmittedSoundClip.setPlaybackRate( dotRandom.nextDoubleInRange( playbackRateRange ) );
-
-        // Play it.
-        irPhotonEmittedSoundClip.play();
-      }
-    } );
+    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
 
   step( dt: number ) {
