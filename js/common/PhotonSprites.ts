@@ -71,6 +71,12 @@ class PhotonSprites extends Sprites {
       `photon scale factor not reasonable: ${this.photonScale}`
     );
 
+    // Update the photons if the state of the "More Photons" feature changes.  This is necessary in case the state
+    // changes while the sim is paused, since otherwise the periodic updates would handle it.
+    photonCollection.showAllSimulatedPhotonsInViewProperty.lazyLink( () => {
+      this.update();
+    } );
+
     // local variables needed for the methods
     this.spriteInstances = spriteInstances;
     this.photonCollection = photonCollection;
