@@ -27,14 +27,6 @@ import Range from '../../../dot/js/Range.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design
-const INFRARED_PHOTON_SPRITE = new Sprite( new SpriteImage(
-  infraredPhoton_png,
-  new Vector2( infraredPhoton_png.width / 2, infraredPhoton_png.height / 2 )
-) );
-const VISIBLE_PHOTON_SPRITE = new Sprite( new SpriteImage(
-  visiblePhoton_png,
-  new Vector2( visiblePhoton_png.width / 2, visiblePhoton_png.height / 2 )
-) );
 const HORIZONTAL_RENDERING_SPAN = new Range(
   -GreenhouseEffectConstants.SUNLIGHT_SPAN / 2,
   GreenhouseEffectConstants.SUNLIGHT_SPAN / 2
@@ -45,16 +37,28 @@ class PhotonSprites extends Sprites {
   private readonly photonCollection: PhotonCollection;
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly photonScale: number;
+  private readonly visiblePhotonSprite: Sprite;
+  private readonly infraredPhotonSprite: Sprite;
 
   constructor( photonCollection: PhotonCollection, modelViewTransform: ModelViewTransform2 ) {
 
-    const sprites = [ INFRARED_PHOTON_SPRITE, VISIBLE_PHOTON_SPRITE ];
+    // Create the sprites for the types of photons that will be displayed.
+    const visiblePhotonSprite = new Sprite( new SpriteImage(
+      visiblePhoton_png,
+      new Vector2( visiblePhoton_png.width / 2, visiblePhoton_png.height / 2 ),
+      { pickable: false }
+    ) );
+    const infraredPhotonSprite = new Sprite( new SpriteImage(
+      infraredPhoton_png,
+      new Vector2( infraredPhoton_png.width / 2, infraredPhoton_png.height / 2 ),
+      { pickable: false }
+    ) );
 
     // array of sprite instances, there will be one for each photon that is rendered
     const spriteInstances: SpriteInstance[] = [];
 
     super( {
-      sprites: sprites,
+      sprites: [ visiblePhotonSprite, infraredPhotonSprite ],
       spriteInstances: spriteInstances,
       renderer: 'webgl',
       pickable: false
@@ -71,6 +75,8 @@ class PhotonSprites extends Sprites {
     this.spriteInstances = spriteInstances;
     this.photonCollection = photonCollection;
     this.modelViewTransform = modelViewTransform;
+    this.infraredPhotonSprite = infraredPhotonSprite;
+    this.visiblePhotonSprite = visiblePhotonSprite;
   }
 
   /**
@@ -105,7 +111,7 @@ class PhotonSprites extends Sprites {
 
         // Update the matrix that controls where this photon is rendered.
         const spriteInstance = this.spriteInstances[ numberOfPhotonsDisplayed - 1 ];
-        spriteInstance.sprite = photon.isVisible ? VISIBLE_PHOTON_SPRITE : INFRARED_PHOTON_SPRITE;
+        spriteInstance.sprite = photon.isVisible ? this.visiblePhotonSprite : this.infraredPhotonSprite;
         spriteInstance.matrix.setToAffine(
           this.photonScale,
           0,
