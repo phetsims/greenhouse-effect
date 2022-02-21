@@ -29,11 +29,12 @@ import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import ConcentrationModel from '../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -156,10 +157,8 @@ class ConcentrationControlPanel extends Panel {
 
     // only one form of controls is visible at a time
     concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
-      // @ts-ignore
-      concentrationSlider.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE === concentrationControl;
-      // @ts-ignore
-      dateControl.visible = ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE === concentrationControl;
+      concentrationSlider.visible = ConcentrationControlMode.BY_VALUE === concentrationControl;
+      dateControl.visible = ConcentrationControlMode.BY_DATE === concentrationControl;
 
       if ( compositionDataNode ) {
         compositionDataNode.visible = dateControl.visible;
@@ -184,7 +183,7 @@ class DateControl extends Node {
    */
   constructor( dateProperty: EnumerationDeprecatedProperty,
                concentrationProperty: IReadOnlyProperty<number>,
-               concentrationControlModeProperty: EnumerationDeprecatedProperty,
+               concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                tandem: Tandem ) {
 
     super();
@@ -333,8 +332,7 @@ class DateControl extends Node {
     Property.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
       ( concentration: number, concentrationControlMode: any ) => {
-        // @ts-ignore
-        if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+        if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
           // @ts-ignore
           const centerY = concentrationHeightFunction.evaluate( concentration );
           valueCircle.centerY = centerY;
@@ -458,7 +456,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
    * @param {EnumerationDeprecatedProperty} property - Property for the method of controlling concentration
    * @param {Tandem} tandem
    */
-  constructor( property: EnumerationDeprecatedProperty, tandem: Tandem ) {
+  constructor( property: EnumerationProperty<ConcentrationControlMode>, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'
@@ -481,15 +479,13 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
     const items = [
       {
         node: sliderIcon,
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE,
+        value: ConcentrationControlMode.BY_VALUE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
         tandemName: 'byConcentrationRadioButton'
       },
       {
         node: dateIcon,
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE,
+        value: ConcentrationControlMode.BY_DATE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
         tandemName: 'byTimePeriodRadioButton'
       }

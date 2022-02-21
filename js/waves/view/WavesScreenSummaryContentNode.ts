@@ -8,7 +8,7 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -71,7 +71,7 @@ class WavesScreenSummaryContentNode extends Node {
         concentration: number,
         date: EnumerationDeprecated,
         surfaceTemperatureKelvin: number,
-        concentrationControlMode: EnumerationDeprecated,
+        concentrationControlMode: ConcentrationControlMode,
         surfaceTemperatureVisible: boolean,
         surfaceThermometerVisible: boolean,
         temperatureUnits: EnumerationDeprecated,
@@ -98,24 +98,12 @@ class WavesScreenSummaryContentNode extends Node {
    * "Currently, no sunlight in observation window; the time period is the year twenty twenty. The sky is cloudy." or
    * "Currently, max levels of greenhouse gases in atmosphere. Earth’s surface temperature is very high, 22 degrees
    * Celsius. The sky is cloudy.
-   * @private
-   *
-   * @param {boolean} sunIsShining - is the sun shining?
-   * @param {number} concentration - value of concentration in the model
-   * @param {ConcentrationModel.CONCENTRATION_DATE} date - modelled date of concentration (if controlling by date)
-   * @param {number} surfaceTemperatureKelvin - temperature of earth's surface in Kelvin
-   * @param {ConcentrationModel.CONCENTRATION_CONTROL_MODE} concentrationControlMode - mode of concentration control
-   * @param {boolean} surfaceTemperatureVisible - is the surface temperature visible?
-   * @param {boolean} surfaceThermometerVisible - is the surface thermometer visible?
-   * @param {LayersModel.TemperatureUnits} temperatureUnits - units selected to describe the temperature
-   * @param {boolean} cloudEnabled - is there a cloud in the sky?
-   * @returns {string}
    */
   getScreenDescriptionString( sunIsShining: boolean,
                               concentration: number,
                               date: EnumerationDeprecated,
                               surfaceTemperatureKelvin: number,
-                              concentrationControlMode: EnumerationDeprecated,
+                              concentrationControlMode: ConcentrationControlMode,
                               surfaceTemperatureVisible: boolean,
                               surfaceThermometerVisible: boolean,
                               temperatureUnits: EnumerationDeprecated,
@@ -132,8 +120,7 @@ class WavesScreenSummaryContentNode extends Node {
 
     // portion that describes the state of the concentration in the atmosphere
     let concentrationDescriptionString = '';
-    // @ts-ignore
-    if ( concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE ) {
+    if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
       concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {

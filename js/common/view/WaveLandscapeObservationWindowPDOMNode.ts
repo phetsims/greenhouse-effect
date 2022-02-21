@@ -11,7 +11,7 @@ import ObservationWindowPDOMNode from './ObservationWindowPDOMNode.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Property from '../../../../axon/js/Property.js';
-import ConcentrationModel from '../model/ConcentrationModel.js';
+import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
@@ -54,13 +54,12 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
   /**
    * Get a description of the concentration for the observation window, depending on whether concentration
    * is controlled by value or by date.
-   * TODO: Replace anys with proper types when we use new Enumeration pattern.
+   * TODO: Replace usages of `any` with proper types when we use new Enumeration pattern.
    */
   private static getConcentrationDescription( controlMode: any, concentration: number, date: any ) {
     let concentrationDescription;
 
-    // @ts-ignore
-    if ( controlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE ) {
+    if ( controlMode === ConcentrationControlMode.BY_VALUE ) {
       concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {

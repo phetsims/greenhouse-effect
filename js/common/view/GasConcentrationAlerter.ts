@@ -15,7 +15,7 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
-import ConcentrationModel from '../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
@@ -100,8 +100,7 @@ class GasConcentrationAlerter extends Alerter {
     model.concentrationControlModeProperty.lazyLink( controlMode => {
 
       // if controlling by date, include a description of the selected date
-      // @ts-ignore
-      if ( controlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ) {
+      if ( controlMode === ConcentrationControlMode.BY_DATE ) {
         this.alert( ConcentrationDescriber.getTimePeriodCurrentlyDescription( model.dateProperty.value ) );
       }
 

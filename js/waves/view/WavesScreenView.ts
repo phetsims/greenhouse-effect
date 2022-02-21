@@ -31,7 +31,7 @@ import RadiationDescriber from '../../common/view/describers/RadiationDescriber.
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
@@ -97,8 +97,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       {
         visibleProperty: new DerivedProperty(
           [ model.concentrationControlModeProperty ],
-          // @ts-ignore
-          mode => mode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_VALUE
+          mode => mode === ConcentrationControlMode.BY_VALUE
         ),
         tandem: tandem.createTandem( 'cloudCheckbox' )
       }
@@ -112,7 +111,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       ( cloudEnabledInManualConcentrationMode, concentrationControlMode ) => {
         model.cloudEnabledProperty.set(
           // @ts-ignore
-          concentrationControlMode === ConcentrationModel.CONCENTRATION_CONTROL_MODE.BY_DATE ||
+          concentrationControlMode === ConcentrationControlMode.BY_DATE ||
           cloudEnabledInManualConcentrationMode
         );
       }
