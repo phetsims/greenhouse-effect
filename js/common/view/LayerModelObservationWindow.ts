@@ -18,6 +18,8 @@ import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhotonSprites from '../PhotonSprites.js';
+import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -123,6 +125,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the nodes to the layers provided by the parent class.
     this.controlsLayer.addChild( instrumentVisibilityControls );
+
+    // sound generation
+    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
 
   public step( dt: number ) {
