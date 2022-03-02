@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * Controls for the concentration of greenhouse gasses in the sim. Concentration can be modified directly by value
+ * Controls for the concentration of greenhouse gases in the sim. Concentration can be modified directly by value
  * or greenhouse gas concentration can be selected from a particular date.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -93,7 +93,7 @@ class ConcentrationControlPanel extends Panel {
       xMargin: PANEL_MARGINS,
       yMargin: PANEL_MARGINS,
 
-      // {boolean} - if true, the panel will include a readout of the composition of greenhouse gasses when selecting
+      // {boolean} - if true, the panel will include a readout of the composition of greenhouse gases when selecting
       // concentrations by date
       includeCompositionData: false,
 

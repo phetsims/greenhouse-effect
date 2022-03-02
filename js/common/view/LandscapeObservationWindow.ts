@@ -151,13 +151,13 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       }
     );
 
-    // Create the node that will make the sky look a bit hazy as more greenhouse gasses are added.  Strictly speaking,
-    // most greenhouse gasses do not interact with visible light, so this is a bit of "Hollywooding" to make it clear
+    // Create the node that will make the sky look a bit hazy as more greenhouse gases are added.  Strictly speaking,
+    // most greenhouse gases do not interact with visible light, so this is a bit of "Hollywooding" to make it clear
     // that something in the atmosphere is changing.
     const hazeNode = new Rectangle( 0, 0, SIZE.width, SIZE.height );
     this.presentationLayer.addChild( hazeNode );
 
-    // Adjust the amount of "haze" based on the concentration of greenhouse gasses.
+    // Adjust the amount of "haze" based on the concentration of greenhouse gases.
     model.concentrationProperty.link( concentration => {
 
       // mapping of concentration to alpha we empirically determined

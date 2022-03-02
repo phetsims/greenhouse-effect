@@ -2,7 +2,7 @@
 
 /**
  * WavesModel uses a layer model for simulating temperature changes due to changes in the concentration of greenhouse
- * gasses, and also creates and moves light waves that interact with the ground and atmosphere in a way that simulates
+ * gases, and also creates and moves light waves that interact with the ground and atmosphere in a way that simulates
  * that behavior in Earth's atmosphere.
  *
  * @author Sam Reid (PhET Interactive Simulations)
@@ -325,7 +325,7 @@ class WavesModel extends ConcentrationModel {
   updateWaveAtmosphereInteractions() {
 
     // Calculate how much of each wave should go back towards the Earth and how much should continue on its way given
-    // the current concentration of greenhouse gasses.
+    // the current concentration of greenhouse gases.
     const irWaveAttenuation = mapGasConcentrationToAttenuation( this.concentrationProperty.value );
 
     // Update the existing interactions between the light waves and the atmosphere.
@@ -581,7 +581,7 @@ type WavesModelStateObject = {
 
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
- * concentration of greenhouse gasses.
+ * concentration of greenhouse gases.
  *
  * @param concentration
  */

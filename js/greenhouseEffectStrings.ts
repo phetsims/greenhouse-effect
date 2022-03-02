@@ -192,7 +192,7 @@ type StringsType = {
         'controlAreaDescription': string,
         'currently': string,
         'currentlyNoSunlight': string,
-        'greenhouseGassesInAtmospherePattern': string,
+        'greenhouseGasesInAtmospherePattern': string,
         'timePeriodPattern': string,
         'summaryWithTemperaturePattern': string,
         'summaryWithoutTemperaturePattern': string,
@@ -225,7 +225,7 @@ type StringsType = {
     'photons': {
       'homeScreenDescription': string
     },
-    'dateLevelsOfGreenhouseGassesPattern': string,
+    'dateLevelsOfGreenhouseGasesPattern': string,
     'sunlightWavesTravelFromSpace': string,
     'sunlightWavesTravelWithCloudReflectionPattern': string,
     'surfaceTemperatureIsQuantitativePattern': string,

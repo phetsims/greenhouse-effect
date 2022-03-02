@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * Responsible for generating strings related to the concentration of gasses in the atmosphere.
+ * Responsible for generating strings related to the concentration of gases in the atmosphere.
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
@@ -11,8 +11,8 @@ import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import ConcentrationModel from '../../model/ConcentrationModel.js';
 
 // constants
-const greenhouseGassesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGassesInAtmospherePattern;
-const dateLevelsOfGreenhouseGassesPatternString = greenhouseEffectStrings.a11y.dateLevelsOfGreenhouseGassesPattern;
+const greenhouseGasesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePattern;
+const dateLevelsOfGreenhouseGasesPatternString = greenhouseEffectStrings.a11y.dateLevelsOfGreenhouseGasesPattern;
 
 // strings used to describe the levels of concentration in the model
 const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
@@ -275,8 +275,8 @@ class ConcentrationDescriber {
   /**
    * Returns a description of the amount of greenhouse concentration in the atmosphere by value. Will return
    * something like
-   * "Very high levels of greenhouse gasses in atmosphere." or
-   * "No greenhouse gasses in atmosphere."
+   * "Very high levels of greenhouse gases in atmosphere." or
+   * "No greenhouse gases in atmosphere."
    * @public
    *
    * @param {number} value - value of concentration in the model
@@ -288,7 +288,7 @@ class ConcentrationDescriber {
     // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
     const valueDescription = StringUtils.capitalize( ConcentrationDescriber.getConcentrationDescription( value ) );
 
-    return StringUtils.fillIn( greenhouseGassesInAtmospherePatternString, {
+    return StringUtils.fillIn( greenhouseGasesInAtmospherePatternString, {
       valueDescription: valueDescription
     } );
   }
@@ -302,7 +302,7 @@ class ConcentrationDescriber {
   static getConcentrationDescriptionWithDate( date: any ) {
     const dateString = StringUtils.capitalize( ConcentrationDescriber.getTimePeriodString( date ) );
 
-    return StringUtils.fillIn( dateLevelsOfGreenhouseGassesPatternString, {
+    return StringUtils.fillIn( dateLevelsOfGreenhouseGasesPatternString, {
       date: dateString
     } );
   }

@@ -427,8 +427,8 @@
         "currentlyNoSunlight": {
           "value": "Currently, no sunlight in observation window;"
         },
-        "greenhouseGassesInAtmospherePattern": {
-          "value": "{{valueDescription}} greenhouse gasses in atmosphere."
+        "greenhouseGasesInAtmospherePattern": {
+          "value": "{{valueDescription}} greenhouse gases in atmosphere."
         },
         "timePeriodPattern": {
           "value": "the time period is the {{timePeriodDescription}}"
@@ -518,7 +518,7 @@
         "value": "Explore greenhouse effect with photon representation."
       }
     },
-    "dateLevelsOfGreenhouseGassesPattern": {
+    "dateLevelsOfGreenhouseGasesPattern": {
       "value": "{{date}} levels of greenhouse gases in atmosphere."
     },
     "sunlightWavesTravelFromSpace": {
