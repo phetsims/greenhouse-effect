@@ -31,6 +31,13 @@ const TEMPERATURE_DECIMAL_PLACES = 1;
 // in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
 const ALERT_INTERVAL = 4;
 
+// in seconds, how long to wait before the next alert after changing the concentration value
+const ALERT_DELAY_AFTER_CHANGING_CONCENTRATION = 2;
+
+// How many times a terse temperature alert should be spoken before a verbose temperature alert is used. Note this
+// is a counting variable, not in units of time.
+const NUMBER_OF_TERSE_TEMPERATURE_ALERTS = 2;
+
 class GasConcentrationAlerter extends Alerter {
 
   // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
@@ -44,6 +51,16 @@ class GasConcentrationAlerter extends Alerter {
 
   // Value for concentration the last time a description was generated
   private previousConcentration: number;
+
+  // The number of times that the temperature change alert has been announced. Whenever the concentration value changes
+  // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
+  // verbose temperature description is used. Otherwise a very terse alert is used. This is an attempt to reduce the
+  // how much is spoken every ALERT_INTERVAL
+  private temperatureChangeAlertCount: number = 0;
+
+  // When true, an extra verbose fragment about the surface temperature will be included. This will be true whenever
+  // the concentration changes.
+  private useVerboseSurfaceTemperatureAlert: boolean = true;
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
@@ -81,6 +98,16 @@ class GasConcentrationAlerter extends Alerter {
           model.temperatureUnitsProperty.value
         ) );
       }
+    } );
+
+    // Whenever the concentration changes, use the most verbose form of the temperature change alert.
+    model.concentrationProperty.link( concentration => {
+      this.useVerboseSurfaceTemperatureAlert = true;
+      this.temperatureChangeAlertCount = 0;
+
+      // after changing concentration, we should quickly hear content instead of waiting the full ALERT_INTERVAL
+      this.timeSinceLastAlert = ALERT_INTERVAL - ALERT_DELAY_AFTER_CHANGING_CONCENTRATION;
+      assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
     } );
 
     // When the date changes, describe the new scene in the observation window and how the concentration levels
@@ -134,14 +161,27 @@ class GasConcentrationAlerter extends Alerter {
         }
 
         // Then, a description of the changing temperature - this should get described at interval even if there
-        // is no change in concentration.
+        // is no change in concentration, though depending on how many times it has been spoken a terse form of it
+        // may be used.
+
+        // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS
+        // that this response is created. Temperature must also be visible in the view.
+        const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
+
         const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
           this.previousTemperature,
           currentTemperature,
-          this.model.surfaceThermometerVisibleProperty.value,
-          this.model.temperatureUnitsProperty.value
+          includeTemperatureValue,
+          this.model.temperatureUnitsProperty.value,
+          this.useVerboseSurfaceTemperatureAlert
         );
         temperatureAlertString && this.alert( temperatureAlertString );
+
+        // reset counter if we have spoken the terse form of the temperature change alert enough times
+        this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+
+        // not verbose until concentration changes again
+        this.useVerboseSurfaceTemperatureAlert = false;
 
         // Finally, a description of the changing surface temperature - again, only if there is some change in the
         // concentration

@@ -554,6 +554,12 @@
     "surfaceTemperatureChangeWithoutValuePattern": {
       "value": "Surface temperature {{qualitativeDescription}}."
     },
+    "temperatureChangeWithValuePattern": {
+      "value": "{{qualitativeDescription}}, now {{temperature}}"
+    },
+    "temperatureChangeWithoutValuePattern": {
+      "value": "{{qualitativeDescription}}."
+    },
     "surfaceTemperatureStable": {
       "value": "Surface temperature stable."
     },
@@ -571,6 +577,12 @@
     },
     "cooling": {
       "value": "cooling"
+    },
+    "warmingStatement": {
+      "value": "Warming."
+    },
+    "coolingStatement": {
+      "value": "Cooling."
     },
     "concentrationPanel": {
       "title": {

@@ -28,6 +28,8 @@ const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescription
 const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
 const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
 const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
+const temperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
+const temperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithoutValuePattern;
 const surfaceTemperatureStable = greenhouseEffectStrings.a11y.surfaceTemperatureStable;
 const surfaceTemperatureStableWithDescription = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescription;
 const surfaceTemperatureStableWithValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithValue;
@@ -151,27 +153,39 @@ class TemperatureDescriber {
   /**
    * Get a description of the change in surface temperature, with more or less information depending on whether
    * the thermometer is visible. Will return something like:
-   * "Surface temperature warming, now 277 Kelvin."
+   * "Surface temperature warming, now 277 Kelvin." or
+   * "Cooling, now 266.1 Kelvin."
    */
   static getSurfaceTemperatureChangeString( oldTemperature: number,
                                             currentTemperature: number,
                                             thermometerVisible: boolean,
-                                            unitsValue: any ): string | null {
+                                            unitsValue: any,
+                                            includeSurfaceTemperatureFragment: boolean ): string | null {
     let changeString = null;
+    let patternString = null;
 
     if ( oldTemperature !== currentTemperature ) {
-      const qualitativeDescriptionString = currentTemperature > oldTemperature ? warmingString : coolingString;
+      let qualitativeDescriptionString = currentTemperature > oldTemperature ? warmingString : coolingString;
+
+      // If we are not including the surface temperature fragment, the qualitative description is the first word.
+      // This is NOT i18n friendly, but PhET's policy is that is OK for now.
+      if ( !includeSurfaceTemperatureFragment ) {
+        qualitativeDescriptionString = StringUtils.capitalize( qualitativeDescriptionString );
+      }
 
       if ( thermometerVisible ) {
         const temperatureValueString = TemperatureDescriber.getQuantitativeTemperatureDescription( currentTemperature, unitsValue );
 
-        changeString = StringUtils.fillIn( surfaceTemperatureChangeWithValuePatternString, {
+        patternString = includeSurfaceTemperatureFragment ? surfaceTemperatureChangeWithValuePatternString : temperatureChangeWithValuePatternString;
+        changeString = StringUtils.fillIn( patternString, {
           qualitativeDescription: qualitativeDescriptionString,
           temperature: temperatureValueString
         } );
       }
       else {
-        changeString = StringUtils.fillIn( surfaceTemperatureChangeWithoutValuePatternString, {
+
+        patternString = includeSurfaceTemperatureFragment ? surfaceTemperatureChangeWithoutValuePatternString : temperatureChangeWithoutValuePatternString;
+        changeString = StringUtils.fillIn( patternString, {
           qualitativeDescription: qualitativeDescriptionString
         } );
       }
