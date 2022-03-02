@@ -29,7 +29,7 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 const TEMPERATURE_DECIMAL_PLACES = 1;
 
 // in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
-const ALERT_INTERVAL = 2;
+const ALERT_INTERVAL = 4;
 
 class GasConcentrationAlerter extends Alerter {
 
