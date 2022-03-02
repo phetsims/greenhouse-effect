@@ -24,7 +24,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import LayersModel from '../model/LayersModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -105,9 +104,6 @@ class GasConcentrationAlerter extends Alerter {
       }
 
       this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
-      if ( model.sunEnergySource.isShiningProperty.value ) {
-        this.alert( greenhouseEffectStrings.a11y.surfaceTemperatureStabilizing );
-      }
     } );
   }
 

@@ -489,9 +489,6 @@
     "vastlyLower": {
       "value": "vastly lower"
     },
-    "surfaceTemperatureStabilizing": {
-      "value": "Surface temperature stabilizing."
-    },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
     },
