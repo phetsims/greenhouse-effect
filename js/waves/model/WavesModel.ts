@@ -14,7 +14,7 @@ import createObservableArray from '../../../../axon/js/createObservableArray.js'
 import Emitter from '../../../../axon/js/Emitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Line from '../../../../kite/js/segments/Line.js';
+import { Line } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';

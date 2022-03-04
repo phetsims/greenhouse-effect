@@ -12,7 +12,7 @@ import Random from '../../../../dot/js/Random.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Screen from '../../../../joist/js/Screen.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';

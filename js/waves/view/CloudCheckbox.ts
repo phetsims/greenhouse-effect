@@ -17,7 +17,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';

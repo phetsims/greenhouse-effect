@@ -8,7 +8,7 @@
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Color, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
