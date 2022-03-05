@@ -468,7 +468,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
     dateIcon.setScaleMagnitude( 34 / dateIcon.width, 34 / dateIcon.height );
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range, { // @ts-ignore
+    assert && assert( dummyProperty.range );
+    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range!, { // @ts-ignore
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',
