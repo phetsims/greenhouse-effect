@@ -45,7 +45,7 @@ class SunAndReflectionControl extends Panel {
       maxWidth: width,
       xMargin: PANEL_MARGIN,
       yMargin: PANEL_MARGIN,
-      align: 'center',
+      align: 'center' as const,
 
       // pdom
       tagName: 'div',
