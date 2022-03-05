@@ -22,7 +22,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Panel from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
@@ -547,6 +547,7 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
     this.baseSoundClip = new SoundClip( sliderMovement_mp3, {
       rateChangesAffectPlayingSounds: false
     } );
+    // @ts-ignore TODO: typing for AudioParam
     this.baseSoundClip.connect( dynamicsCompressorNode );
 
     // The number of bins was chosen to match the design of the slider.

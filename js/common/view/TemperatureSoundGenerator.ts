@@ -9,7 +9,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseTemperatureHighV2_mp3 from '../../../sounds/greenhouseTemperatureHighV2_mp3.js';
 import greenhouseTemperatureHighV3_mp3 from '../../../sounds/greenhouseTemperatureHighV3_mp3.js';
 import greenhouseTemperatureHigh_mp3 from '../../../sounds/greenhouseTemperatureHigh_mp3.js';
@@ -88,6 +88,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
     // the temperature sound loops in order from lowest temperature to highest
     this.temperatureSoundClipLoops = orderedTemperatureSoundSets.map( sound => {
       const soundClip = new SoundClip( sound, { loop: true } );
+      // @ts-ignore TODO: typing for AudioParam
       soundClip.connect( this.masterGainNode );
       return soundClip;
     } );
@@ -124,7 +125,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
 
     // Get a value that summarizes the state of all the enable-control properties.
     const okayToPlay = this.enableControlProperties.reduce(
-      ( valueSoFar: boolean, enabled: boolean ) => valueSoFar || enabled
+      ( valueSoFar, enabled ) => valueSoFar || enabled.value, true
     );
 
     // Set the volume levels for any loops that are non-zero.

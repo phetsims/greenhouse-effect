@@ -10,7 +10,7 @@
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseEffectTemperatureBaseAmbience4Octaves_mp3 from '../../../sounds/greenhouseEffectTemperatureBaseAmbience4Octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
@@ -54,7 +54,9 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     bandPassFilter.Q.value = FILTER_Q;
 
     // Send the loop into both filters.
+    // @ts-ignore TODO: typing for AudioParam
     baseSoundLoop.connect( lowPassFilter );
+    // @ts-ignore TODO: typing for AudioParam
     baseSoundLoop.connect( bandPassFilter );
 
     // Put the appropriate filter in the signal chain depending on which sound generation is selected for temperature.

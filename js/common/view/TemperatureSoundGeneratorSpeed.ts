@@ -10,7 +10,7 @@
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseTemperatureRisingWithBaseNoteLow_mp3 from '../../../sounds/greenhouseTemperatureRisingWithBaseNoteLow_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Property from '../../../../axon/js/Property.js';
@@ -31,6 +31,7 @@ class TemperatureSoundGeneratorSpeed extends SoundGenerator {
     const baseSoundLoop = new SoundClip( greenhouseTemperatureRisingWithBaseNoteLow_mp3, {
       loop: true
     } );
+    // @ts-ignore TODO: typing for AudioParam
     baseSoundLoop.connect( this.masterGainNode );
 
     // This loop should be producing sound whenever the sun is shining.
