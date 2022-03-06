@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * TemperatureSoundGenerator is used to create an ambient sound the represents the temperature in the observation window

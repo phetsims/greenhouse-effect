@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Controls for the output level of the sun and the albedo (i.e. reflection level) of the ground.

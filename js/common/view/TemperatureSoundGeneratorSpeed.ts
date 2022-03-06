@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * TemperatureSoundGeneratorSpeed is used to create a sound indicating the temperature.  As the temperature goes up, it
