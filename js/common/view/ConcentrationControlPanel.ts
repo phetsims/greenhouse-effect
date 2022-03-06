@@ -499,7 +499,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
       items,
       merge(
         {
-          orientation: 'horizontal',
+          orientation: 'horizontal' as const,
 
           // pdom
           labelTagName: 'h4',
