@@ -22,6 +22,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import merge from '../../../../phet-core/js/merge.js';
+import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
