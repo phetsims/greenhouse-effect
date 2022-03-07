@@ -11,7 +11,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
@@ -48,9 +48,9 @@ class EnergyLegend extends Panel {
    * @param {number} width - width of the legend, it needs to be wider than its contents for layout in screen view
    * @param {Object} [options]
    */
-  constructor( width: number, options: EnergyLegendOptions ) {
+  constructor( width: number, providedOptions: EnergyLegendOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       // {EnergyRepresentation} the energy icons will either display a photon or wave, depending on this option
       // @ts-ignore
@@ -69,7 +69,7 @@ class EnergyLegend extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options ) as EnergyLegendOptions;
+    }, providedOptions ) as EnergyLegendOptions & { tandem: Tandem };
 
     // title
     const titleNode = new Text( greenhouseEffectStrings.energyLegend.title, {

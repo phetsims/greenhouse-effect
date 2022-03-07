@@ -8,7 +8,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import ScreenView from '../../../../joist/js/ScreenView.js';
+import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
@@ -56,7 +56,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       observationWindowOptions: null,
 
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as GreenhouseEffectScreenViewOptions;
+    }, providedOptions ) as GreenhouseEffectScreenViewOptions & { tandem: Tandem };
 
     if ( options.energyLegendOptions ) {
       assert && assert( !options.energyLegendOptions.tandem, 'EnergyLegend Tandem is set by GreenhouseEffectScreenView' );
@@ -77,7 +77,7 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // energy legend, accessible in subtypes for layout purposes
     this.energyLegend = new EnergyLegend( rightWidth, merge( {
-      tandem: options.tandem.createTandem( 'energyLegend' )
+      tandem: options.tandem!.createTandem( 'energyLegend' )
     }, options.energyLegendOptions ) as EnergyLegendOptions );
 
     // @protected {VBox} - The parent node on the right side of the view where legends and controls are placed.  A VBox
@@ -100,7 +100,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       },
       right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem.createTandem( 'resetAllButton' )
+      tandem: options.tandem!.createTandem( 'resetAllButton' )
     } );
     this.addChild( this.resetAllButton );
 

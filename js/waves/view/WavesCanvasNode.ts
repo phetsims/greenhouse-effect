@@ -10,8 +10,7 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { CanvasNode } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
@@ -24,7 +23,7 @@ const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
 
 type RenderingParameters = {
-  baseColor: ColorDef,
+  baseColor: Color,
   amplitude: number,
   wavelength: number
 }

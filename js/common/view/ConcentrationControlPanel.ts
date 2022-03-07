@@ -19,7 +19,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, Line, Node, Path, Rectangle, RichText, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -87,9 +87,9 @@ class ConcentrationControlPanel extends Panel {
    * @param radiationDescriber
    * @param [options]
    */
-  constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, options?: ConcentrationControlPanelOptions ) {
+  constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, providedOptions?: ConcentrationControlPanelOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       xMargin: PANEL_MARGINS,
       yMargin: PANEL_MARGINS,
@@ -105,7 +105,7 @@ class ConcentrationControlPanel extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, options ) as ConcentrationControlPanelOptions;
+    }, providedOptions ) as ConcentrationControlPanelOptions & { tandem: Tandem };
 
     // Title for the whole panel
     const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
