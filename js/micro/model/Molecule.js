@@ -541,7 +541,6 @@ class Molecule {
     photonToEmit.position = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
     this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     this.photonEmittedEmitter.emit( photonToEmit );
-    // this.trigger( 'photonEmitted', photonToEmit );
   }
 
   /**
