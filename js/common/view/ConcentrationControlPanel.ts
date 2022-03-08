@@ -35,7 +35,6 @@ import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprec
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import ValueChangeSoundGenerator from '../../../../tambo/js/sound-generators/ValueChangeSoundGenerator.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -365,7 +364,7 @@ class ConcentrationSlider extends Node {
       thumbSize: new Dimension2( 20, 10 ),
 
       // sound generation
-      soundGenerator: ValueChangeSoundGenerator.NO_SOUND,
+      soundGenerator: null,
       drag: ( event: SceneryEvent ) => {
         concentrationSliderSoundGenerator.drag( event );
       },
