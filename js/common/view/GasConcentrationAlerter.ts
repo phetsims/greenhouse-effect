@@ -24,6 +24,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import LayersModel from '../model/LayersModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -37,6 +38,12 @@ const ALERT_DELAY_AFTER_CHANGING_CONCENTRATION = 2;
 // How many times a terse temperature alert should be spoken before a verbose temperature alert is used. Note this
 // is a counting variable, not in units of time.
 const NUMBER_OF_TERSE_TEMPERATURE_ALERTS = 2;
+
+// A higher delay before waiting for the Utterance to stabilize so that we don't hear information about the new
+// scene in the observation window when rapidly changing dates.
+const DATE_CHANGE_UTTERANCE_OPTIONS = {
+  alertStableDelay: 500
+};
 
 class GasConcentrationAlerter extends Alerter {
 
@@ -112,12 +119,16 @@ class GasConcentrationAlerter extends Alerter {
 
     // When the date changes, describe the new scene in the observation window and how the concentration levels
     // have changed
+    const observationWindowSceneUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
+    const concentrationChangeUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
     model.dateProperty.lazyLink( ( date, previousDate ) => {
-      this.alert( ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( date ) );
-      this.alert( ConcentrationDescriber.getQualitativeConcentrationChangeDescription(
+      observationWindowSceneUtterance.alert = ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( date );
+      concentrationChangeUtterance.alert = ConcentrationDescriber.getQualitativeConcentrationChangeDescription(
         ConcentrationModel.getConcentrationForDate( previousDate ),
         previousDate, ConcentrationModel.getConcentrationForDate( date )
-      ) );
+      );
+      this.alert( observationWindowSceneUtterance );
+      this.alert( concentrationChangeUtterance );
     } );
 
     // When the control mode changes, include a description of the new concentration levels and that
