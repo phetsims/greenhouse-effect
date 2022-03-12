@@ -16,7 +16,7 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
-import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
+import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
