@@ -17,7 +17,7 @@ import SunEnergySource from './SunEnergySource.js';
 import GroundLayer from './GroundLayer.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Photon from './Photon.js';
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import LayersModel from './LayersModel.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';

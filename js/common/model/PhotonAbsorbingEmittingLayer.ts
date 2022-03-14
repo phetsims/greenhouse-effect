@@ -16,6 +16,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 const PhotonCrossingTestResult = EnumerationDeprecated.byKeys( [
