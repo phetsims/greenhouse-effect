@@ -110,7 +110,6 @@ class PhotonSprites extends Sprites {
 
         // Add a new sprite instance to our list if we don't have enough.
         if ( numberOfPhotonsDisplayed > this.spriteInstances.length ) {
-          // @ts-ignore TODO https://github.com/phetsims/greenhouse-effect/issues/136
           const newSpriteInstance = SpriteInstance.pool.fetch();
           newSpriteInstance.transformType = SpriteInstanceTransformType.AFFINE;
           this.spriteInstances.push( newSpriteInstance );
