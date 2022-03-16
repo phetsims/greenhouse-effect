@@ -34,8 +34,8 @@ const DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS = 5; // ratio of invisible to visi
 assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), 'value must be an integer' );
 
 type PhotonCollectionOptions = {
-  photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions,
-  tandem: Tandem
+  photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions;
+  tandem: Tandem;
 } & PhetioObjectOptions
 
 class PhotonCollection extends PhetioObject {
@@ -343,7 +343,7 @@ type PhotonCollectionStateObject = {
 
   // TODO phetio: I feel like I should be using something like ArrayIO( Vector2 ) here, but it doesn't as a TypeScript
   //  type, which isn't surprising I suppose, but I'm not sure what it SHOULD be.
-  photonStateObjects: any[]
+  photonStateObjects: any[];
 }
 
 greenhouseEffect.register( 'PhotonCollection', PhotonCollection );

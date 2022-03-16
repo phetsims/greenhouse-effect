@@ -50,8 +50,8 @@ class EnergyInfoQueueItem {
 }
 
 type EnergyInfoQueueItemStateObject = {
-  dt: number,
-  energy: number
+  dt: number;
+  energy: number;
 }
 
 class EnergyRateTracker extends PhetioObject {

@@ -483,18 +483,18 @@ class Wave extends PhetioObject {
 }
 
 type WaveStateObject = {
-  wavelength: number,
-  origin: Vector2,
-  propagationDirection: Vector2
-  propagationLimit: number,
-  startPoint: Vector2,
-  length: number,
-  isSourced: boolean,
-  existenceTime: number,
-  phaseOffsetAtOrigin: number,
-  intensityAtStart: number,
-  modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>,
-  renderingWavelength: number
+  wavelength: number;
+  origin: Vector2;
+  propagationDirection: Vector2;
+  propagationLimit: number;
+  startPoint: Vector2;
+  length: number;
+  isSourced: boolean;
+  existenceTime: number;
+  phaseOffsetAtOrigin: number;
+  intensityAtStart: number;
+  modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
+  renderingWavelength: number;
 }
 
 greenhouseEffect.register( 'Wave', Wave );

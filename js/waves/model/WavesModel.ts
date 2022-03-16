@@ -573,10 +573,10 @@ class WavesModel extends ConcentrationModel {
 }
 
 type WavesModelStateObject = {
-  sunWaveSource: any,
-  groundWaveSource: any,
-  cloudReflectedWavesMap: any,
-  glacierReflectedWavesMap: any
+  sunWaveSource: any;
+  groundWaveSource: any;
+  cloudReflectedWavesMap: any;
+  glacierReflectedWavesMap: any;
 } & LayersModelStateObject;
 
 /**
@@ -643,9 +643,9 @@ class WaveAtmosphereInteraction {
 }
 
 type WaveAtmosphereInteractionStateObject = {
-  atmosphereLayer: any,
-  sourceWave: any,
-  emittedWave: any
+  atmosphereLayer: any;
+  sourceWave: any;
+  emittedWave: any;
 }
 
 greenhouseEffect.register( 'WavesModel', WavesModel );

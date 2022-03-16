@@ -28,8 +28,8 @@ const MINIMUM_OPACITY = 0.4;
 const MAXIMUM_OPACITY = 0.85;
 
 type AtmosphereLayerNodeOptions = {
-  numberDisplayEnabledProperty?: BooleanProperty,
-  layerThickness?: number
+  numberDisplayEnabledProperty?: BooleanProperty;
+  layerThickness?: number;
 };
 
 class AtmosphereLayerNode extends Node {

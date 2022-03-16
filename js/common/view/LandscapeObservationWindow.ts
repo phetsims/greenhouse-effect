@@ -28,7 +28,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 
 type LandscapeObservationWindowOptions = {
-  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions
+  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
 } & GreenhouseEffectObservationWindowOptions;
 
 // constants

@@ -133,11 +133,11 @@ class EMEnergyPacket {
 }
 
 type EMEnergyPacketStateObject = {
-  wavelength: number,
-  energy: number,
-  altitude: number,
-  previousAltitude: number,
-  direction: any
+  wavelength: number;
+  energy: number;
+  altitude: number;
+  previousAltitude: number;
+  direction: any;
 };
 
 greenhouseEffect.register( 'EMEnergyPacket', EMEnergyPacket );

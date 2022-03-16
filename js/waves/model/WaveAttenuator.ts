@@ -71,8 +71,8 @@ class WaveAttenuator {
 }
 
 type WaveAttenuatorStateObject = {
-  attenuation: number,
-  distanceFromStart: number
+  attenuation: number;
+  distanceFromStart: number;
 }
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );

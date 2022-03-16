@@ -21,8 +21,8 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 
 type LayerDebugNodeOptions = {
   lineOptions?: {
-    stroke?: Color,
-    lineWidth?: number
+    stroke?: Color;
+    lineWidth?: number;
   }
 } & NodeOptions;
 

@@ -15,7 +15,7 @@ import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandsc
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type WaveLandscapeObservationWindowSelfOptions = {
-  tandem?: Tandem
+  tandem?: Tandem;
 };
 type WaveLandscapeObservationWindowOptions = WaveLandscapeObservationWindowSelfOptions & LandscapeObservationWindowOptions;
 

@@ -19,8 +19,8 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 
 type InstrumentVisibilityControlsOptions = {
-  vBoxOptions?: VBoxOptions,
-  includeFluxMeterCheckbox?: boolean
+  vBoxOptions?: VBoxOptions;
+  includeFluxMeterCheckbox?: boolean;
 } & PathOptions;
 
 class InstrumentVisibilityControls extends Rectangle {

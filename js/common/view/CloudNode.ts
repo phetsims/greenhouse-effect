@@ -21,7 +21,7 @@ const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
 const CLOUD_BACKGROUND_STROKE = Color.BLACK;
 
 type CloudNodeOptions = {
-  showReferenceEllipse: boolean
+  showReferenceEllipse: boolean;
 } & NodeOptions;
 
 class CloudNode extends Node {

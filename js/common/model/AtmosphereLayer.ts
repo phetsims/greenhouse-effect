@@ -16,7 +16,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 
 type AtmosphereLayerOptions = {
-  initiallyActive?: boolean
+  initiallyActive?: boolean;
 } & EnergyAbsorbingEmittingLayerOptions;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {

@@ -35,8 +35,8 @@ class ShowState extends EnumerationValue {
 }
 
 type PhotonOptions = {
-  initialVelocity?: Vector2 | null,
-  showState?: ShowState
+  initialVelocity?: Vector2 | null;
+  showState?: ShowState;
 }
 
 // TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
@@ -157,16 +157,16 @@ class Photon {
 }
 
 type SerializedVector2 = {
-  x: number,
-  y: number
+  x: number;
+  y: number;
 }
 
 type PhotonStateObject = {
-  position: SerializedVector2,
-  previousPosition: SerializedVector2,
-  wavelength: number,
-  velocity: SerializedVector2,
-  showState: string
+  position: SerializedVector2;
+  previousPosition: SerializedVector2;
+  wavelength: number;
+  velocity: SerializedVector2;
+  showState: string;
 }
 
 greenhouseEffect.register( 'Photon', Photon );

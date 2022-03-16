@@ -75,15 +75,15 @@ class WaveCreationSpec {
 }
 
 type WaveCreationSpecStateObject = {
-  countdown: typeof NumberIO,
-  propagationDirection: typeof Vector2.Vector2IO,
-  originX: typeof NumberIO
+  countdown: typeof NumberIO;
+  propagationDirection: typeof Vector2.Vector2IO;
+  originX: typeof NumberIO;
 }
 
 type EMWaveSourceOptions = {
-  waveIntensityProperty: null | Property<number>,
-  interWaveTime: number,
-  waveLifetimeRange: Range
+  waveIntensityProperty: null | Property<number>;
+  interWaveTime: number;
+  waveLifetimeRange: Range;
 } & PhetioObjectOptions
 
 class EMWaveSource extends PhetioObject {
@@ -318,8 +318,8 @@ class EMWaveSource extends PhetioObject {
 
 type EMWaveSourceStateObject = {
   // TODO: I (jbphet) need to talk with the phet-io guys to figure out how to spec this better.
-  wavesToLifetimesMap: any,
-  waveCreationQueue: any
+  wavesToLifetimesMap: any;
+  waveCreationQueue: any;
 }
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );

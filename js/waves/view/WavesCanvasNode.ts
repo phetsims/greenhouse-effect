@@ -23,9 +23,9 @@ const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
 
 type RenderingParameters = {
-  baseColor: Color,
-  amplitude: number,
-  wavelength: number
+  baseColor: Color;
+  amplitude: number;
+  wavelength: number;
 }
 
 class WavesCanvasNode extends CanvasNode {

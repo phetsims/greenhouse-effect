@@ -26,7 +26,7 @@ const GROUND_ALBEDO = 0.2;
 const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 
 type GroundLayerOptions = {
-  initialAlbedo?: number
+  initialAlbedo?: number;
 } & EnergyAbsorbingEmittingLayerOptions;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {

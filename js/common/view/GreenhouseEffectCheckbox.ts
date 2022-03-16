@@ -24,7 +24,7 @@ const LABEL_FONT = new PhetFont( {
 } );
 
 type GreenhouseEffectCheckboxOptions = {
-  iconNode?: Node
+  iconNode?: Node;
 } & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {

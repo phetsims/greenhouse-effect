@@ -140,10 +140,10 @@ class FluxMeterNode extends Node {
 type EnergyFluxDisplayArrowOptions = {
   height?: number,
   arrowNodeOptions: {
-    headHeight?: number,
-    headWidth?: number,
-    tailWidth?: number,
-    fill?: Color
+    headHeight?: number;
+    headWidth?: number;
+    tailWidth?: number;
+    fill?: Color;
   }
 } & NodeOptions;
 

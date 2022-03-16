@@ -39,7 +39,7 @@ const LABEL_OPTIONS = {
 const EnergyRepresentation = EnumerationDeprecated.byKeys( [ 'PHOTON', 'WAVE' ] );
 
 type EnergyLegendOptions = {
-  energyRepresentation: any
+  energyRepresentation: any;
 } & PanelOptions;
 
 class EnergyLegend extends Panel {

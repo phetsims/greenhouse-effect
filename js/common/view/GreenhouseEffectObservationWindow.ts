@@ -47,9 +47,9 @@ const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 const CONTROL_AND_INSTRUMENT_INSET = 10;
 
 type GreenhouseEffectObservationWindowOptions = {
-  groundBaseColorProperty?: Property<Color> | null,
-  showTemperatureGlow?: boolean,
-  tandem: Tandem
+  groundBaseColorProperty?: Property<Color> | null;
+  showTemperatureGlow?: boolean;
+  tandem: Tandem;
 } & NodeOptions;
 
 class GreenhouseEffectObservationWindow extends Node {

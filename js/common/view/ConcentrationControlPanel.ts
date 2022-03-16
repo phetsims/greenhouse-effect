@@ -75,7 +75,7 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
 };
 
 type ConcentrationControlPanelOptions = {
-  includeCompositionData?: boolean
+  includeCompositionData?: boolean;
 } & PanelOptions;
 
 class ConcentrationControlPanel extends Panel {

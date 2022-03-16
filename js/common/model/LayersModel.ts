@@ -44,10 +44,10 @@ const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically
 const TemperatureUnits = EnumerationDeprecated.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 type LayersModelOptions = {
-  minimumGroundTemperature?: number,
-  numberOfAtmosphereLayers?: number,
-  atmosphereLayersInitiallyActive?: boolean,
-  initialAtmosphereLayerAbsorptionProportion?: number
+  minimumGroundTemperature?: number;
+  numberOfAtmosphereLayers?: number;
+  atmosphereLayersInitiallyActive?: boolean;
+  initialAtmosphereLayerAbsorptionProportion?: number;
 } & PhetioObjectOptions;
 
 class LayersModel extends GreenhouseEffectModel {
@@ -363,7 +363,7 @@ class LayersModel extends GreenhouseEffectModel {
 
 type LayersModelStateObject = {
   // TODO: I (jbphet) will need some help sorting out how this should work with phet-io.
-  emEnergyPackets: Array<any>
+  emEnergyPackets: Array<any>;
 }
 
 export type { LayersModelStateObject };

@@ -27,10 +27,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 
 type ReflectivityValues = {
-  topVisibleLightReflectivity: number,
-  bottomVisibleLightReflectivity: number,
-  topInfraredLightReflectivity: number
-  bottomInfraredLightReflectivity: number
+  topVisibleLightReflectivity: number;
+  bottomVisibleLightReflectivity: number;
+  topInfraredLightReflectivity: number;
+  bottomInfraredLightReflectivity: number;
 };
 
 type CloudOptions = Partial<ReflectivityValues> & PhetioObjectOptions;

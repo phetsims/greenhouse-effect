@@ -42,12 +42,12 @@ const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.surfaceTemp
 const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
 type ThermometerAndReadoutSelfOptions = {
-  minTemperature?: number,
-  maxTemperature?: number,
-  readoutType?: any,
-  listParentNode?: Node | null,
-  thermometerNodeOptions?: ThermometerNodeOptions,
-  tandem?: Tandem
+  minTemperature?: number;
+  maxTemperature?: number;
+  readoutType?: any;
+  listParentNode?: Node | null;
+  thermometerNodeOptions?: ThermometerNodeOptions;
+  tandem?: Tandem;
 }
 
 type ThermometerAndReadoutOptions = ThermometerAndReadoutSelfOptions & NodeOptions;

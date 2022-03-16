@@ -51,9 +51,9 @@ const LAYER_THICKNESS = 0.0000003;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 
 type EnergyAbsorbingEmittingLayerOptions = {
-  substance?: any,
-  initialEnergyAbsorptionProportion?: number,
-  minimumTemperature?: number
+  substance?: any;
+  initialEnergyAbsorptionProportion?: number;
+  minimumTemperature?: number;
 } & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
