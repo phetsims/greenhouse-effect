@@ -10,18 +10,30 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
-  // whether or not to run with customizations for Open Sci Ed
-  openSciEd: { type: 'flag' },
+  // This threshold value is used to decide when an EnergyAbsorbingEmittingLayer is considered to be in equilibrium,
+  // meaning that the amount of incoming energy is close to the amount of outgoing energy.  There is another query
+  // parameter that controls the amount of time that this must be true.  This value is in Watts per square meter.  See
+  // https://github.com/phetsims/greenhouse-effect/issues/137 for more information.
+  atEquilibriumThreshold: { type: 'number', defaultValue: 0.005 },
+
+  // This value is used in conjunction with atEquilibriumThreshold to decide whether an EnergyAbsorbingEmittingLayer is
+  // in energy equilibrium.  To be considered to be in equilibrium, the net different between incoming and radiated
+  // energy must be less than the threshold for the at-equilibrium time.  This value is in seconds.  See
+  // https://github.com/phetsims/greenhouse-effect/issues/137 for more information.
+  atEquilibriumTime: { type: 'number', defaultValue: 1 },
 
   // a flag that starts the launches the sim with the sunlight initially started, for ease of development
   initiallyStarted: { type: 'boolean', defaultValue: false },
 
-  // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
-  showAllLayers: { type: 'flag' },
+  // whether or not to run with customizations for Open Sci Ed
+  openSciEd: { type: 'flag' },
 
   // Show additional digits on the temperature readout.  This can be useful for fine-tuning of albedo and gas
   // concentration values.
   showAdditionalTemperatureDigits: { type: 'flag' },
+
+  // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
+  showAllLayers: { type: 'flag' },
 
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
   waveGapsEnabled: { type: 'boolean', defaultValue: false }

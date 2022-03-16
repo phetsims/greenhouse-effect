@@ -18,14 +18,15 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 
 // constants
-const AT_EQUILIBRIUM_THRESHOLD = 0.005; // in Watts per square meter, empirically determined
+const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumThreshold; // in Watts per square meter, empirically determined
 
 // This constant defines the amount of time that the incoming and outgoing energies have to be equal (within a
 // threshold) before deciding that the layer is at thermal equilibrium.  This is in seconds, and was empirically
 // determined.
-const EQUILIBRATION_TIME = 1;
+const EQUILIBRATION_TIME = GreenhouseEffectQueryParameters.atEquilibriumTime;
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = EnumerationDeprecated.byMap( {
@@ -217,12 +218,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
         this.atEquilibriumProperty.set( false );
       }
     }
-
-    // Determine whether this layer is currently considered to be at equilibrium.  This uses a threshold, and that
-    // threshold could be changed if a different behavior is needed.
-    // this.atEquilibriumProperty.set(
-    //   Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt < AT_EQUILIBRIUM_THRESHOLD
-    // );
 
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
