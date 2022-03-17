@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * EnergyRateTracker uses a moving average calculation to track the amount of energy that is moving into or out of a
