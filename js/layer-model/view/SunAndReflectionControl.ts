@@ -80,6 +80,12 @@ class SunAndReflectionControl extends Panel {
     const sliderSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
     soundManager.addSoundGenerator( sliderSoundClip );
 
+    const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
+      initialPlaybackRate: 0.5,
+      initialOutputLevel: 0.075
+    } );
+    soundManager.addSoundGenerator( sliderBoundarySoundClip );
+
     // label for the slider that controls the solar intensity
     const solarIntensitySliderLabel = new Text( greenhouseEffectStrings.solarIntensity, {
       font: HEADING_FONT
@@ -99,7 +105,9 @@ class SunAndReflectionControl extends Panel {
         trackSize: sliderTrackSize,
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: sliderSoundClip,
-          middleMovingDownSoundPlayer: sliderSoundClip
+          middleMovingDownSoundPlayer: sliderSoundClip,
+          minSoundPlayer: sliderBoundarySoundClip,
+          maxSoundPlayer: sliderBoundarySoundClip
         },
         tandem: tandem.createTandem( 'solarIntensitySlider' )
       } )
@@ -149,7 +157,9 @@ class SunAndReflectionControl extends Panel {
         trackSize: sliderTrackSize,
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: sliderSoundClip,
-          middleMovingDownSoundPlayer: sliderSoundClip
+          middleMovingDownSoundPlayer: sliderSoundClip,
+          minSoundPlayer: sliderBoundarySoundClip,
+          maxSoundPlayer: sliderBoundarySoundClip
         },
         tandem: tandem.createTandem( 'surfaceAlbedoSlider' )
       } )
