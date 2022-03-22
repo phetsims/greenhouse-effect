@@ -21,6 +21,9 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import SunEnergySource from '../../common/model/SunEnergySource.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
+import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
@@ -73,6 +76,10 @@ class SunAndReflectionControl extends Panel {
       spacing: 10
     } );
 
+    // sound clip shared by both sliders for sound generation
+    const sliderSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
+    soundManager.addSoundGenerator( sliderSoundClip );
+
     // label for the slider that controls the solar intensity
     const solarIntensitySliderLabel = new Text( greenhouseEffectStrings.solarIntensity, {
       font: HEADING_FONT
@@ -90,6 +97,10 @@ class SunAndReflectionControl extends Panel {
       solarIntensityProportionRange,
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
+        valueChangeSoundGeneratorOptions: {
+          middleMovingUpSoundPlayer: sliderSoundClip,
+          middleMovingDownSoundPlayer: sliderSoundClip
+        },
         tandem: tandem.createTandem( 'solarIntensitySlider' )
       } )
     );
@@ -136,6 +147,10 @@ class SunAndReflectionControl extends Panel {
       surfaceAlbedoRange,
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
+        valueChangeSoundGeneratorOptions: {
+          middleMovingUpSoundPlayer: sliderSoundClip,
+          middleMovingDownSoundPlayer: sliderSoundClip
+        },
         tandem: tandem.createTandem( 'surfaceAlbedoSlider' )
       } )
     );

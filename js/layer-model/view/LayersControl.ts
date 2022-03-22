@@ -24,6 +24,9 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
@@ -69,6 +72,10 @@ class LayersControl extends Panel {
       spacing: 10
     } );
 
+    // sound clip used by slider for sound generation
+    const photonLikeSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
+    soundManager.addSoundGenerator( photonLikeSoundClip );
+
     // number picker for controlling the number of layers
     const numberOfLayersNumberPicker = new NumberPicker(
       layersModel.numberOfActiveAtmosphereLayersProperty,
@@ -77,6 +84,7 @@ class LayersControl extends Panel {
         cornerRadius: 3,
         xMargin: 5,
         font: new PhetFont( 16 ),
+        valueChangedSoundPlayer: photonLikeSoundClip,
 
         // phet-io
         tandem: tandem.createTandem( 'numberOfLayersControl' )
@@ -114,6 +122,10 @@ class LayersControl extends Panel {
         majorTickLength: 12,
         minorTickLength: 6,
         tickLabelSpacing: 2,
+        valueChangeSoundGeneratorOptions: {
+          middleMovingUpSoundPlayer: photonLikeSoundClip,
+          middleMovingDownSoundPlayer: photonLikeSoundClip
+        },
 
         // phet-io
         tandem: tandem.createTandem( 'absorbanceSlider' )
