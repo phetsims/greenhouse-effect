@@ -23,7 +23,7 @@ type LayerDebugNodeOptions = {
   lineOptions?: {
     stroke?: Color;
     lineWidth?: number;
-  }
+  };
 } & NodeOptions;
 
 class LayerDebugNode extends Node {

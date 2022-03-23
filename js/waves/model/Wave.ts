@@ -29,9 +29,9 @@ const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
 export type WaveOptions = {
-  intensityAtStart?: number,
-  initialPhaseOffset?: number,
-  debugTag?: string | null,
+  intensityAtStart?: number;
+  initialPhaseOffset?: number;
+  debugTag?: string | null;
 } & PhetioObjectOptions;
 
 class Wave extends PhetioObject {
