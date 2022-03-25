@@ -8,7 +8,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
 import PhotonCollection from '../model/PhotonCollection.js';
