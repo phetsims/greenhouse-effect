@@ -81,7 +81,7 @@ class SunAndReflectionControl extends Panel {
     soundManager.addSoundGenerator( sliderSoundClip );
 
     const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
-      initialPlaybackRate: 0.5,
+      initialPlaybackRate: 0.667,
       initialOutputLevel: 0.075
     } );
     soundManager.addSoundGenerator( sliderBoundarySoundClip );

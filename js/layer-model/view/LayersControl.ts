@@ -72,9 +72,16 @@ class LayersControl extends Panel {
       spacing: 10
     } );
 
-    // sound clip used by slider for sound generation
+    // sound clip used by slider for sound generation in the middle range
     const photonLikeSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
     soundManager.addSoundGenerator( photonLikeSoundClip );
+
+    // sound clip used by slider for sound generation at the min and max values
+    const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
+      initialPlaybackRate: 0.667,
+      initialOutputLevel: 0.075
+    } );
+    soundManager.addSoundGenerator( sliderBoundarySoundClip );
 
     // number picker for controlling the number of layers
     const numberOfLayersNumberPicker = new NumberPicker(
@@ -124,7 +131,9 @@ class LayersControl extends Panel {
         tickLabelSpacing: 2,
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: photonLikeSoundClip,
-          middleMovingDownSoundPlayer: photonLikeSoundClip
+          middleMovingDownSoundPlayer: photonLikeSoundClip,
+          minSoundPlayer: sliderBoundarySoundClip,
+          maxSoundPlayer: sliderBoundarySoundClip
         },
 
         // phet-io
