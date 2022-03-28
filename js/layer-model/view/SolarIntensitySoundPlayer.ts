@@ -42,7 +42,6 @@ class SolarIntensitySoundPlayer extends SoundClip {
     } );
 
     const options = optionize<SolarIntensitySoundPlayerOptions, SolarIntensitySoundPlayerSelfOptions, SoundClipOptions>( {
-      rateChangesAffectPlayingSounds: false,
       additionalAudioNodes: [ lowPassFilter ]
     }, providedOptions );
 

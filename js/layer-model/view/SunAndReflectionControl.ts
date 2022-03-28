@@ -25,6 +25,7 @@ import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderS
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
+import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
@@ -77,10 +78,6 @@ class SunAndReflectionControl extends Panel {
       spacing: 10
     } );
 
-    // sound clip for sound generation in the slider(s)
-    const sliderSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
-    soundManager.addSoundGenerator( sliderSoundClip );
-
     // convenience variable
     const solarIntensityProportionRange = SunEnergySource.OUTPUT_PROPORTION_RANGE;
 
@@ -95,7 +92,7 @@ class SunAndReflectionControl extends Panel {
     // sound clip for the min and max slider values
     const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
       initialPlaybackRate: 0.667,
-      initialOutputLevel: 0.075
+      initialOutputLevel: 0.1
     } );
     soundManager.addSoundGenerator( sliderBoundarySoundClip );
 
@@ -159,6 +156,13 @@ class SunAndReflectionControl extends Panel {
     // convenience variable
     const surfaceAlbedoRange = new Range( 0, 0.9 );
 
+    // sound player for the middle range of the surface albedo slider
+    const surfaceAlbedoSliderSoundPlayer = new SurfaceAlbedoSoundPlayer(
+      layersModel.groundLayer.albedoProperty,
+      surfaceAlbedoRange, { initialOutputLevel: 0.1 }
+    );
+    soundManager.addSoundGenerator( surfaceAlbedoSliderSoundPlayer );
+
     // slider for controlling the solar intensity
     const surfaceAlbedoSlider = new HSlider(
       layersModel.groundLayer.albedoProperty,
@@ -166,10 +170,11 @@ class SunAndReflectionControl extends Panel {
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
         valueChangeSoundGeneratorOptions: {
-          middleMovingUpSoundPlayer: sliderSoundClip,
-          middleMovingDownSoundPlayer: sliderSoundClip,
+          numberOfMiddleThresholds: 8,
           minSoundPlayer: sliderBoundarySoundClip,
-          maxSoundPlayer: sliderBoundarySoundClip
+          maxSoundPlayer: sliderBoundarySoundClip,
+          middleMovingUpSoundPlayer: surfaceAlbedoSliderSoundPlayer,
+          middleMovingDownSoundPlayer: surfaceAlbedoSliderSoundPlayer
         },
         tandem: tandem.createTandem( 'surfaceAlbedoSlider' )
       } )
