@@ -8,16 +8,13 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import { Image } from '../../../../scenery/js/imports.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
-import { HBox } from '../../../../scenery/js/imports.js';
 import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
@@ -27,6 +24,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
@@ -55,14 +53,14 @@ class LayersControl extends Panel {
       tandem: tandem
     };
 
-    // Title text for the panel.
+    // title text for the panel
     const titleTextNode = new Text( greenhouseEffectStrings.infrared, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleTextNode' )
     } );
 
-    // Image of a photon that will be combined with the title text to form the overall title for the panel.
+    // image of a photon that will be combined with the title text to form the overall title for the panel
     const infraredPhotonIcon = new Image( infraredPhoton_png, {
       maxWidth: 20 // empirically determined to look how we want it
     } );
@@ -83,6 +81,13 @@ class LayersControl extends Panel {
     } );
     soundManager.addSoundGenerator( sliderBoundarySoundClip );
 
+    // sound player for the number of layers
+    const numberOfLayersSoundPlayer = new NumberOfLayersSoundPlayer(
+      layersModel.numberOfActiveAtmosphereLayersProperty,
+      { initialOutputLevel: 0.2 }
+    );
+    soundManager.addSoundGenerator( numberOfLayersSoundPlayer );
+
     // number picker for controlling the number of layers
     const numberOfLayersNumberPicker = new NumberPicker(
       layersModel.numberOfActiveAtmosphereLayersProperty,
@@ -91,7 +96,8 @@ class LayersControl extends Panel {
         cornerRadius: 3,
         xMargin: 5,
         font: new PhetFont( 16 ),
-        valueChangedSoundPlayer: photonLikeSoundClip,
+        valueChangedSoundPlayer: numberOfLayersSoundPlayer,
+        boundarySoundPlayer: numberOfLayersSoundPlayer,
 
         // phet-io
         tandem: tandem.createTandem( 'numberOfLayersControl' )
