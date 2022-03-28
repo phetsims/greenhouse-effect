@@ -24,6 +24,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
@@ -76,10 +77,22 @@ class SunAndReflectionControl extends Panel {
       spacing: 10
     } );
 
-    // sound clip shared by both sliders for sound generation
+    // sound clip for sound generation in the slider(s)
     const sliderSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
     soundManager.addSoundGenerator( sliderSoundClip );
 
+    // convenience variable
+    const solarIntensityProportionRange = SunEnergySource.OUTPUT_PROPORTION_RANGE;
+
+    // sound player for the middle range of the solar intensity slider
+    const solarIntensitySliderSoundPlayer = new SolarIntensitySoundPlayer(
+      layersModel.sunEnergySource.proportionateOutputRateProperty,
+      solarIntensityProportionRange,
+      { initialOutputLevel: 0.075 }
+    );
+    soundManager.addSoundGenerator( solarIntensitySliderSoundPlayer );
+
+    // sound clip for the min and max slider values
     const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
       initialPlaybackRate: 0.667,
       initialOutputLevel: 0.075
@@ -94,9 +107,6 @@ class SunAndReflectionControl extends Panel {
     // track size of the sliders, based in part on the provided width
     const sliderTrackSize = new Dimension2( width * 0.75, 1 );
 
-    // convenience variable
-    const solarIntensityProportionRange = SunEnergySource.OUTPUT_PROPORTION_RANGE;
-
     // slider for controlling the solar intensity
     const solarIntensitySlider = new HSlider(
       layersModel.sunEnergySource.proportionateOutputRateProperty,
@@ -104,8 +114,8 @@ class SunAndReflectionControl extends Panel {
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
         valueChangeSoundGeneratorOptions: {
-          middleMovingUpSoundPlayer: sliderSoundClip,
-          middleMovingDownSoundPlayer: sliderSoundClip,
+          middleMovingUpSoundPlayer: solarIntensitySliderSoundPlayer,
+          middleMovingDownSoundPlayer: solarIntensitySliderSoundPlayer,
           minSoundPlayer: sliderBoundarySoundClip,
           maxSoundPlayer: sliderBoundarySoundClip
         },
