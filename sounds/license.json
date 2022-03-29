@@ -207,6 +207,22 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
+  "irAbsorbanceHigh.mp3": {
+    "text": [
+      "Copyright 2022 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "irAbsorbanceLow.mp3": {
+    "text": [
+      "Copyright 2022 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
   "layerModelBaseSliderSound.mp3": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"

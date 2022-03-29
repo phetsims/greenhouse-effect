@@ -25,6 +25,7 @@ import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderS
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
+import IrAbsorbanceSoundPlayer from './IrAbsorbanceSoundPlayer.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
@@ -70,9 +71,16 @@ class LayersControl extends Panel {
       spacing: 10
     } );
 
-    // sound clip used by slider for sound generation in the middle range
-    const photonLikeSoundClip = new SoundClip( layerModelBaseSliderSound_mp3, { initialOutputLevel: 0.075 } );
-    soundManager.addSoundGenerator( photonLikeSoundClip );
+    // convenience variable
+    const absorbanceRange = LayerModelModel.IR_ABSORBANCE_RANGE;
+
+    // sound player used by slider for sound generation in the middle range
+    const irAbsorbanceSoundPlayer = new IrAbsorbanceSoundPlayer(
+      layersModel.layersInfraredAbsorbanceProperty,
+      absorbanceRange,
+      { initialOutputLevel: 0.1 }
+    );
+    soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
 
     // sound clip used by slider for sound generation at the min and max values
     const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
@@ -120,9 +128,6 @@ class LayersControl extends Panel {
       font: HEADING_FONT
     } );
 
-    // convenience variable
-    const absorbanceRange = LayerModelModel.IR_ABSORBANCE_RANGE;
-
     // slider for controlling the absorbance of the layers
     const irAbsorbanceSlider = new HSlider(
       layersModel.layersInfraredAbsorbanceProperty,
@@ -136,8 +141,9 @@ class LayersControl extends Panel {
         minorTickLength: 6,
         tickLabelSpacing: 2,
         valueChangeSoundGeneratorOptions: {
-          middleMovingUpSoundPlayer: photonLikeSoundClip,
-          middleMovingDownSoundPlayer: photonLikeSoundClip,
+          numberOfMiddleThresholds: 8,
+          middleMovingUpSoundPlayer: irAbsorbanceSoundPlayer,
+          middleMovingDownSoundPlayer: irAbsorbanceSoundPlayer,
           minSoundPlayer: sliderBoundarySoundClip,
           maxSoundPlayer: sliderBoundarySoundClip
         },
