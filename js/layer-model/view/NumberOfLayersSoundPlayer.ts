@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * NumberOfLayersSoundPlayer is a sound generator that plays sounds that are intended to indicate the number of infrared
