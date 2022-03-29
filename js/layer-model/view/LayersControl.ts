@@ -78,7 +78,7 @@ class LayersControl extends Panel {
     const irAbsorbanceSoundPlayer = new IrAbsorbanceSoundPlayer(
       layersModel.layersInfraredAbsorbanceProperty,
       absorbanceRange,
-      { initialOutputLevel: 0.1 }
+      { initialOutputLevel: 0.2 }
     );
     soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
 

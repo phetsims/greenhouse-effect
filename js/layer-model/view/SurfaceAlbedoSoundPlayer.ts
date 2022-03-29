@@ -20,9 +20,9 @@ type SurfaceAlbedoSoundPlayerSelfOptions = {};
 type SurfaceAlbedoSoundPlayerOptions = SurfaceAlbedoSoundPlayerSelfOptions & SoundGeneratorOptions;
 
 // constants
-const NUMBER_OF_DELAY_LINES = 3;
+const NUMBER_OF_DELAY_LINES = 2;
 const DELAY_TIME = 0.2; // time for first delay, in seconds
-const DECAY_RATE = 0.5; // multiplier for decay of echo, must be less than 1
+const DECAY_RATE = 0.3; // multiplier for decay of echo, must be less than 1
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
