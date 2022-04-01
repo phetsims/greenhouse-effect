@@ -561,7 +561,7 @@
       "value": "Surface temperature {{qualitativeDescription}}."
     },
     "temperatureChangeWithValuePattern": {
-      "value": "{{qualitativeDescription}}, now {{temperature}}"
+      "value": "{{qualitativeDescription}}, now {{temperature}}."
     },
     "temperatureChangeWithoutValuePattern": {
       "value": "{{qualitativeDescription}}."
