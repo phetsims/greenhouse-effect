@@ -231,10 +231,10 @@ class ConcentrationDescriber {
     const concentrationValuesDifference = newConcentrationValue - oldConcentrationValue;
     let qualitativeDescriptionString;
     if ( concentrationValuesDifference > 0 ) {
-      if ( concentrationValuesDifference <= 0.05 ) {
+      if ( concentrationValuesDifference <= 0.04 ) {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.higher;
       }
-      else if ( concentrationValuesDifference <= 0.15 ) {
+      else if ( concentrationValuesDifference <= 0.1 ) {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchHigher;
       }
       else {
@@ -242,10 +242,10 @@ class ConcentrationDescriber {
       }
     }
     else {
-      if ( concentrationValuesDifference >= -0.05 ) {
+      if ( concentrationValuesDifference >= -0.04 ) {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.lower;
       }
-      else if ( concentrationValuesDifference >= -0.15 ) {
+      else if ( concentrationValuesDifference >= -0.1 ) {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchLower;
       }
       else {
