@@ -373,9 +373,9 @@ class ConcentrationSlider extends Node {
       labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label',
       helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
-      keyboardStep: sliderRange.max / 10,
-      shiftKeyboardStep: sliderRange.max / 20, // finer grain
-      pageKeyboardStep: sliderRange.max / 4, // coarser grain,
+      keyboardStep: 0.05,
+      shiftKeyboardStep: 0.01, // finer grain
+      pageKeyboardStep: 0.2, // coarser grain,
       a11yCreateAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
       },

@@ -9,6 +9,8 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import ConcentrationModel from '../../model/ConcentrationModel.js';
+import Range from '../../../../../dot/js/Range.js';
+import Utils from '../../../../../dot/js/Utils.js';
 
 // constants
 const greenhouseGasesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePattern;
@@ -16,21 +18,44 @@ const dateLevelsOfGreenhouseGasesPatternString = greenhouseEffectStrings.a11y.da
 
 // strings used to describe the levels of concentration in the model
 const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
+const concentrationExtremelyLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.extremelyLow;
 const concentrationVeryLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryLow;
 const concentrationLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.low;
 const concentrationModerateString = greenhouseEffectStrings.a11y.concentrationDescriptions.moderate;
 const concentrationHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.high;
 const concentrationVeryHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryHigh;
+const concentrationExtremelyHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.extremelyHigh;
 const concentrationMaxString = greenhouseEffectStrings.a11y.concentrationDescriptions.max;
 
-// The range of concentration in the model is split up evenly and described with these strings. Does not include
-// "no" and "max" strings because those are only used at the most extreme values.
-const nonExtremeConcentrationDescriptionStrings = [
-  concentrationVeryLowString,
-  concentrationLowString,
-  concentrationModerateString,
-  concentrationHighString,
-  concentrationVeryHighString
+// A type to assist with determining which concentration description to use
+type ConcentrationDescription = {
+  descriptionString: string;
+
+  // The concentration range in which the description string should be used
+  range: Range;
+
+  // Whether the description should be used when the value is at the min or max value of the range. There is a complex
+  // design requirement for whether the range should be inclusive or exclusive at the boundaries so that all
+  // concentration descriptions are heard as you move with a keyboard.
+  includeMin: boolean;
+  includeMax: boolean;
+};
+
+// Collection of concentration descriptions and their ranges, with fields defining whether the description
+// should be described at the range. The requirement for deciding whether to use the description when the value is
+// at the boundary of the Range is complicated but requested in the design document so that every description is heard
+// as you move through values with the default step size.
+// https://docs.google.com/document/d/1HWVypTlzM5oSUhhcv7gPdx1sSCs0j-xgIF3lbSgzwAQ/edit#
+const concentrationDescriptions: ConcentrationDescription[] = [
+  { range: new Range( 0, 0 ), descriptionString: concentrationNoString, includeMin: true, includeMax: true },
+  { range: new Range( 0, 0.05 ), descriptionString: concentrationExtremelyLowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.05, 0.25 ), descriptionString: concentrationVeryLowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.25, 0.45 ), descriptionString: concentrationLowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.45, 0.65 ), descriptionString: concentrationModerateString, includeMin: false, includeMax: false },
+  { range: new Range( 0.65, 0.80 ), descriptionString: concentrationHighString, includeMin: true, includeMax: false },
+  { range: new Range( 0.80, 0.95 ), descriptionString: concentrationVeryHighString, includeMin: true, includeMax: false },
+  { range: new Range( 0.95, 1 ), descriptionString: concentrationExtremelyHighString, includeMin: true, includeMax: false },
+  { range: new Range( 1, 1 ), descriptionString: concentrationMaxString, includeMin: true, includeMax: true }
 ];
 
 // strings used to describe the concentration my year
@@ -248,23 +273,18 @@ class ConcentrationDescriber {
   static getConcentrationDescription( value: number ) {
     let descriptionString = '';
 
-    // if at the extreme values (and only at extreme values), unique descriptions are used
-    if ( value === ConcentrationModel.CONCENTRATION_RANGE.min ) {
-      descriptionString = concentrationNoString;
-    }
-    else if ( value === ConcentrationModel.CONCENTRATION_RANGE.max ) {
-      descriptionString = concentrationMaxString;
-    }
-    else {
+    // format the value so that we describe it without js precision issues
+    const formattedValue = Utils.toFixedNumber( value, 2 );
 
-      // otherwise, the concentration strings are evenly divided along the range of non-extreme strings
-      const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
-      const delta = concentrationRange.getLength() / nonExtremeConcentrationDescriptionStrings.length;
-      for ( let i = 0; i < nonExtremeConcentrationDescriptionStrings.length; i++ ) {
-        if ( value < concentrationRange.min + delta * ( i + 1 ) ) {
-          descriptionString = nonExtremeConcentrationDescriptionStrings[ i ];
-          break;
-        }
+    for ( let i = 0; i < concentrationDescriptions.length; i++ ) {
+      const concentrationDescription = concentrationDescriptions[ i ];
+      const concentrationRange = concentrationDescription.range;
+      const minComparator = concentrationDescription.includeMin ? formattedValue >= concentrationRange.min : formattedValue > concentrationRange.min;
+      const maxComparator = concentrationDescription.includeMax ? formattedValue <= concentrationRange.max : formattedValue < concentrationRange.max;
+
+      if ( minComparator && maxComparator ) {
+        descriptionString = concentrationDescription.descriptionString;
+        break;
       }
     }
 

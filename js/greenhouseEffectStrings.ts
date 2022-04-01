@@ -132,11 +132,13 @@ type StringsType = {
     },
     'concentrationDescriptions': {
       'no': string,
+      'extremelyLow': string,
       'veryLow': string,
       'low': string,
       'moderate': string,
       'high': string,
       'veryHigh': string,
+      'extremelyHigh': string,
       'max': string
     },
     'infraredRedirectionDescriptions': {

@@ -269,6 +269,9 @@
       "no": {
         "value": "no"
       },
+      "extremelyLow": {
+        "value": "extremely low levels of"
+      },
       "veryLow": {
         "value": "very low levels of"
       },
@@ -283,6 +286,9 @@
       },
       "veryHigh": {
         "value": "very high levels of"
+      },
+      "extremelyHigh": {
+        "value": "extremely high levels of"
       },
       "max": {
         "value": "max levels of"
