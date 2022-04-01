@@ -598,7 +598,7 @@
         "value": "Explore Mode"
       },
       "exploreModeHelpText": {
-        "value": "Directly set the concentration or explore by time period."
+        "value": "Directly set the concentration or compare time periods."
       },
       "byConcentration": {
         "value": "By concentration"
@@ -611,7 +611,7 @@
           "value": "Time Period"
         },
         "helpText": {
-          "value": "Explore greenhouse concentrations during specific time periods."
+          "value": "Compare greenhouse gas levels at different time periods."
         },
         "yearTwentyTwenty": {
           "value": "Year Twenty Twenty"
