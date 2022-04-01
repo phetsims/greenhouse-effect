@@ -204,8 +204,8 @@ class ConcentrationDescriber {
   /**
    * Get a description of the current levels of greenhouse gases in the atmosphere in a sentence that starts with "Now",
    * returns something like:
-   * "Now very high levels of greenhouse gases in atmosphere." or
-   * "Now low levels of greenhouse gases in atmosphere."
+   * "Now very high levels of greenhouse gases." or
+   * "Now low levels of greenhouse gases."
    *
    * @param concentrationValue
    */

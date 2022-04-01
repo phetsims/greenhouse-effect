@@ -472,7 +472,7 @@
       "value": "Currently, {{timePeriodDescription}}"
     },
     "nowLevelsOfConcentrationPattern": {
-      "value": "Now {{value}} greenhouse gases in atmosphere."
+      "value": "Now {{value}} greenhouse gases."
     },
     "qualitativeConcentrationChangeDescriptionPattern": {
       "value": "Greenhouse gas levels {{comparativeDescription}} than {{year}}."
