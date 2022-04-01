@@ -440,13 +440,13 @@
           "value": "{{valueDescription}} greenhouse gases."
         },
         "timePeriodPattern": {
-          "value": "the time period is the {{timePeriodDescription}}"
+          "value": "the time period is the {{timePeriodDescription}}."
         },
         "summaryWithTemperaturePattern": {
-          "value": "{{currentlyDescription}} {{concentrationDescription}}. {{temperatureDescription}}. {{skyDescription}}"
+          "value": "{{currentlyDescription}} {{concentrationDescription}} {{temperatureDescription}}. {{skyDescription}}"
         },
         "summaryWithoutTemperaturePattern": {
-          "value": "{{currentlyDescription}} {{concentrationDescription}}. {{skyDescription}}"
+          "value": "{{currentlyDescription}} {{concentrationDescription}} {{skyDescription}}"
         },
         "surfaceTemperaturePattern": {
           "value": "Earth's surface temperature is {{temperatureDescription}}"
