@@ -14,6 +14,7 @@ import Utils from '../../../../../dot/js/Utils.js';
 
 // constants
 const greenhouseGasesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePattern;
+const greenhouseGasesValuePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePattern;
 const dateLevelsOfGreenhouseGasesPatternString = greenhouseEffectStrings.a11y.dateLevelsOfGreenhouseGasesPattern;
 
 // strings used to describe the levels of concentration in the model
@@ -297,18 +298,26 @@ class ConcentrationDescriber {
    * something like
    * "Very high levels of greenhouse gases in atmosphere." or
    * "No greenhouse gases in atmosphere."
+   *
+   * OR, "in atmosphere" can be excluded:
+   *
+   * "Moderate levels of greenhouse gases."
+   * "No greenhouse gases."
+   *
    * @public
    *
    * @param {number} value - value of concentration in the model
+   * @param {boolean} [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true
    * @returns {string}
    */
-  static getConcentrationDescriptionWithValue( value: number ) {
+  static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere: boolean = true ) {
 
     // Capitalize so that this statement appears in a sentence. Not friendly for i18n, but PhET decided that this
     // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
     const valueDescription = StringUtils.capitalize( ConcentrationDescriber.getConcentrationDescription( value ) );
 
-    return StringUtils.fillIn( greenhouseGasesInAtmospherePatternString, {
+    const patternString = includeInAtmosphere ? greenhouseGasesInAtmospherePatternString : greenhouseGasesValuePatternString;
+    return StringUtils.fillIn( patternString, {
       valueDescription: valueDescription
     } );
   }

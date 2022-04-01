@@ -377,7 +377,7 @@ class ConcentrationSlider extends Node {
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
       a11yCreateAriaValueText: ( value: number ) => {
-        return ConcentrationDescriber.getConcentrationDescriptionWithValue( value );
+        return ConcentrationDescriber.getConcentrationDescriptionWithValue( value, false );
       },
 
       // phet-io

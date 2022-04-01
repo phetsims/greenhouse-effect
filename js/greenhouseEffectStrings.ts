@@ -195,6 +195,7 @@ type StringsType = {
         'currently': string,
         'currentlyNoSunlight': string,
         'greenhouseGasesInAtmospherePattern': string,
+        'greenhouseGasesValuePattern': string,
         'timePeriodPattern': string,
         'summaryWithTemperaturePattern': string,
         'summaryWithoutTemperaturePattern': string,
