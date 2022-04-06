@@ -334,7 +334,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     ];
   }
 
-  public reset() {
+  public override reset() {
     this.cloudEnabledInManualConcentrationModeProperty.reset();
     super.reset();
   }

@@ -36,7 +36,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
 
-  step( dt: number ) {
+  override step( dt: number ) {
     this.photonsNode.update();
     super.step( dt );
   }

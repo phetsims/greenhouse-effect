@@ -87,7 +87,7 @@ class LayerModelModel extends LayersModel {
    * Step the model forward in time.
    * @public
    */
-  stepModel( dt: number ) {
+  override stepModel( dt: number ) {
     this.photonCollection.step( dt );
     super.stepModel( dt );
   }
@@ -95,7 +95,7 @@ class LayerModelModel extends LayersModel {
   /**
    * Return to initial conditions.
    */
-  public reset() {
+  public override reset() {
     this.numberOfActiveAtmosphereLayersProperty.reset();
     this.layersInfraredAbsorbanceProperty.reset();
     this.photonCollection.reset();

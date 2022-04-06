@@ -130,7 +130,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
 
-  public step( dt: number ) {
+  public override step( dt: number ) {
     this.photonsNode.update();
     super.step( dt );
   }

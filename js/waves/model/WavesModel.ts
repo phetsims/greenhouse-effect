@@ -206,11 +206,10 @@ class WavesModel extends ConcentrationModel {
   /**
    * Step the model forward by the provided time.
    * @protected
-   * @override
    *
    * @param {number} dt - in seconds
    */
-  stepModel( dt: number ) {
+  override stepModel( dt: number ) {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
@@ -501,7 +500,7 @@ class WavesModel extends ConcentrationModel {
   /**
    * @public
    */
-  reset() {
+  override reset() {
     const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
     this.cloudEnabledProperty.reset();
@@ -521,7 +520,7 @@ class WavesModel extends ConcentrationModel {
    * for phet-io
    * @public
    */
-  toStateObject(): WavesModelStateObject {
+  override toStateObject(): WavesModelStateObject {
     return merge( super.toStateObject(), {
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
@@ -534,7 +533,7 @@ class WavesModel extends ConcentrationModel {
    * for phet-io
    * @public
    */
-  applyState( stateObject: WavesModelStateObject ) {
+  override applyState( stateObject: WavesModelStateObject ) {
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
@@ -547,7 +546,7 @@ class WavesModel extends ConcentrationModel {
    * @returns {Object.<string,IOType>}
    * @public
    */
-  protected static get STATE_SCHEMA() {
+  protected static override get STATE_SCHEMA() {
     const superclassStateSchema = ConcentrationModel.STATE_SCHEMA;
     const subclassStateSchema = {
       sunWaveSource: EMWaveSource.EMWaveSourceIO,

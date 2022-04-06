@@ -66,10 +66,9 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
    * Interact with the provided energy packets in a way that is specific to the ground.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @returns {number}
-   * @override
    * @protected
    */
-  interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
+  override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
       // @ts-ignore
@@ -99,7 +98,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     return absorbedEnergy;
   }
 
-  public reset() {
+  public override reset() {
     this.albedoProperty.reset();
     super.reset();
   }

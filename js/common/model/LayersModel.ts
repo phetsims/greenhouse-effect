@@ -204,10 +204,9 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * @public
-   * @override
    * @param {number} dt
    */
-  stepModel( dt: number ) {
+  override stepModel( dt: number ) {
 
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
@@ -295,10 +294,9 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * Resets all aspects of the model.
-   * @override
    * @public
    */
-  reset() {
+  override reset() {
     super.reset();
 
     this.energyBalanceVisibleProperty.reset();

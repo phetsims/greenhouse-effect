@@ -161,7 +161,7 @@ class CloudNode extends Node {
    * Free memory references to avoid leaks.
    * @public
    */
-  dispose() {
+  override dispose() {
     this.disposeCloudNode();
     super.dispose();
   }

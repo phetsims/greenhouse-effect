@@ -80,7 +80,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * Resets the view.
    * @public
    */
-  reset() {
+  override reset() {
     super.reset();
   }
 
