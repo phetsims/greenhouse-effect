@@ -39,6 +39,12 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
 
+  // Observation window UI component visibility controls, public for pdomOrder.
+  public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
+
+  // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
+  public readonly surfaceThermometer: ThermometerAndReadout;
+
   constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
@@ -63,19 +69,19 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
     // thermometer
     const listParentNode = new Node();
-    const surfaceThermometer = new ThermometerAndReadout( model, {
+    this.surfaceThermometer = new ThermometerAndReadout( model, {
 
       minTemperature: model.groundLayer.minimumTemperature - 5,
 
       // phet-io
       tandem: options.tandem.createTandem( 'surfaceThermometer' )
     } );
-    surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY(
+    this.surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
     );
-    listParentNode.leftBottom = surfaceThermometer.leftBottom;
-    this.controlsLayer.addChild( surfaceThermometer );
+    listParentNode.leftBottom = this.surfaceThermometer.leftBottom;
+    this.controlsLayer.addChild( this.surfaceThermometer );
     this.controlsLayer.addChild( listParentNode );
 
     // artwork for the various dates
@@ -204,8 +210,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
-    const instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
-    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
+    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
+    this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
     );
@@ -216,7 +222,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
     // @ts-ignore
     this.controlsLayer.addChild( energyBalancePanel );
-    this.controlsLayer.addChild( instrumentVisibilityControls );
+    this.controlsLayer.addChild( this.instrumentVisibilityControls );
 
     // add clouds
     model.clouds.forEach( cloud => {

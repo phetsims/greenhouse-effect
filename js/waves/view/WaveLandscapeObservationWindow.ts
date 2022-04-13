@@ -51,7 +51,6 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
     // pdom - manages descriptions for the observation window
     const greenhouseEffectObservationWindowPDOMNode = new WaveLandscapeObservationWindowPDOMNode( model );
     this.addChild( greenhouseEffectObservationWindowPDOMNode );
-    this.pdomOrder = [ greenhouseEffectObservationWindowPDOMNode, null ];
   }
 }
 
