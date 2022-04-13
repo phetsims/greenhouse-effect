@@ -43,6 +43,12 @@ class WavesCanvasNode extends CanvasNode {
     this.model = model;
     this.modelViewTransform = modelViewTransform;
 
+    const modelVisibleWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH );
+    assert && assert( modelVisibleWavelength !== undefined );
+
+    const modelInfraredWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH );
+    assert && assert( modelInfraredWavelength !== undefined );
+
     // Create a Map with the parameters for drawing the different types of waves.
     this.waveRenderingParameters = new Map(
       [
@@ -51,9 +57,7 @@ class WavesCanvasNode extends CanvasNode {
           {
             baseColor: Color.YELLOW,
             amplitude: modelViewTransform.modelToViewDeltaX( WavesModel.WAVE_AMPLITUDE_FOR_RENDERING ),
-            wavelength: modelViewTransform.modelToViewDeltaX(
-              WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH )
-            )
+            wavelength: modelViewTransform.modelToViewDeltaX( modelVisibleWavelength! )
           }
         ],
         [
@@ -61,9 +65,7 @@ class WavesCanvasNode extends CanvasNode {
           {
             baseColor: Color.RED,
             amplitude: modelViewTransform.modelToViewDeltaX( WavesModel.WAVE_AMPLITUDE_FOR_RENDERING ),
-            wavelength: modelViewTransform.modelToViewDeltaX(
-              WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH )
-            )
+            wavelength: modelViewTransform.modelToViewDeltaX( modelInfraredWavelength! )
           }
         ]
       ]
@@ -79,7 +81,6 @@ class WavesCanvasNode extends CanvasNode {
    * function to draw a sinusoidal wave on a canvas
    * @param {CanvasRenderingContext2D} context
    * @param {Wave} wave
-   * @param {ModelViewTransform2} modelViewTransform
    * @private
    */
   drawWave( context: CanvasRenderingContext2D, wave: Wave ) {
