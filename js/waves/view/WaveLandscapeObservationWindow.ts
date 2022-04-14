@@ -13,6 +13,7 @@ import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 
 type WaveLandscapeObservationWindowSelfOptions = {
   tandem?: Tandem;
@@ -34,7 +35,7 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
     super( model, options );
 
     const wavesCanvasNode = new WavesCanvasNode( model, this.modelViewTransform, {
-      canvasBounds: LandscapeObservationWindow.SIZE.toBounds(),
+      canvasBounds: GreenhouseEffectObservationWindow.SIZE.toBounds(),
       tandem: options.tandem.createTandem( 'wavesCanvasNode' )
     } );
     this.presentationLayer.addChild( wavesCanvasNode );

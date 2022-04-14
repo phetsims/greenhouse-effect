@@ -238,9 +238,6 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   public override step( dt: number ): void {
     this.gasConcentrationAlerter.step( dt );
   }
-
-  // static values
-  public static override SIZE = SIZE;
 }
 
 greenhouseEffect.register( 'LandscapeObservationWindow', LandscapeObservationWindow );
