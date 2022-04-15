@@ -18,16 +18,12 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { globalKeyStateTracker } from '../../../../scenery/js/imports.js';
-import { KeyboardUtils } from '../../../../scenery/js/imports.js';
-import { AriaHasPopUpMutator } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, globalKeyStateTracker, KeyboardUtils, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
+import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import SoundPlayer from '../../../../tambo/js/SoundPlayer.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -197,7 +193,7 @@ class MicroScreenView extends ScreenView {
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
       // turn off default sound generation since dialog makes a sound when it opens
-      soundPlayer: SoundPlayer.NO_SOUND,
+      soundPlayer: nullSoundPlayer,
 
       // pdom
       innerContent: spectrumButtonLabelString,
