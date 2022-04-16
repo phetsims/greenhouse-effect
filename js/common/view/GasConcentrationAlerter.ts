@@ -25,6 +25,7 @@ import LayersModel from '../model/LayersModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -48,7 +49,7 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
 class GasConcentrationAlerter extends Alerter {
 
   // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
-  private timeSinceLastAlert: number = 0;
+  private timeSinceLastAlert: number;
 
   // Temperature for the last description, saved so that we know how temperature changes from alert to alert.
   private previousTemperature: number;
@@ -63,11 +64,11 @@ class GasConcentrationAlerter extends Alerter {
   // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
   // verbose temperature description is used. Otherwise a very terse alert is used. This is an attempt to reduce the
   // how much is spoken every ALERT_INTERVAL
-  private temperatureChangeAlertCount: number = 0;
+  private temperatureChangeAlertCount: number;
 
   // When true, an extra verbose fragment about the surface temperature will be included. This will be true whenever
   // the concentration changes.
-  private useVerboseSurfaceTemperatureAlert: boolean = true;
+  private useVerboseSurfaceTemperatureAlert: boolean;
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
@@ -77,7 +78,18 @@ class GasConcentrationAlerter extends Alerter {
   private model: ConcentrationModel;
 
   constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
-    super( providedOptions );
+
+    const options = optionize<AlerterOptions, {}, AlerterOptions>( {
+
+      // This alerter and simulation does not support Voicing.
+      alertToVoicing: false
+    }, providedOptions );
+
+    super( options );
+
+    this.useVerboseSurfaceTemperatureAlert = true;
+    this.temperatureChangeAlertCount = 0;
+    this.timeSinceLastAlert = 0;
 
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
