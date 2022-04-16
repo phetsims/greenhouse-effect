@@ -76,8 +76,8 @@ class GasConcentrationAlerter extends Alerter {
 
   private model: ConcentrationModel;
 
-  constructor( model: ConcentrationModel, options?: AlerterOptions ) {
-    super( options );
+  constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
+    super( providedOptions );
 
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
