@@ -310,7 +310,7 @@ class ConcentrationDescriber {
    * @param {boolean} [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true
    * @returns {string}
    */
-  static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere: boolean = true ) {
+  static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere = true ) {
 
     // Capitalize so that this statement appears in a sentence. Not friendly for i18n, but PhET decided that this
     // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
