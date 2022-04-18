@@ -25,7 +25,7 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 
 // constants
-const SCALE_HEIGHT_OF_ATMOSPHERE: number = 8400; // in meters, taken from a Wikipedia article
+const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
 
 // An enumeration for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date.
