@@ -60,7 +60,7 @@ class ThermometerAndReadout extends Node {
    */
   constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
 
-    const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>( {
+    const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>()( {
 
       minTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       maxTemperature: 300,

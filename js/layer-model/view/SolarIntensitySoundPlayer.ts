@@ -41,7 +41,7 @@ class SolarIntensitySoundPlayer extends SoundClip {
       lowPassFilter.frequency.setTargetAtTime( cutoffFrequency, phetAudioContext.currentTime, 0.015 );
     } );
 
-    const options = optionize<SolarIntensitySoundPlayerOptions, SolarIntensitySoundPlayerSelfOptions, SoundClipOptions>( {
+    const options = optionize<SolarIntensitySoundPlayerOptions, SolarIntensitySoundPlayerSelfOptions, SoundClipOptions>()( {
       additionalAudioNodes: [ lowPassFilter ]
     }, providedOptions );
 

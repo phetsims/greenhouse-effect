@@ -79,7 +79,7 @@ class GasConcentrationAlerter extends Alerter {
 
   constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
-    const options = optionize<AlerterOptions, {}, AlerterOptions>( {
+    const options = optionize<AlerterOptions, {}, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
       alertToVoicing: false

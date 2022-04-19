@@ -26,7 +26,7 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
     const options = optionize<WaveLandscapeObservationWindowOptions,
       WaveLandscapeObservationWindowSelfOptions,
-      LandscapeObservationWindowOptions>( {
+      LandscapeObservationWindowOptions>()( {
         tandem: Tandem.REQUIRED
       },
       providedOptions

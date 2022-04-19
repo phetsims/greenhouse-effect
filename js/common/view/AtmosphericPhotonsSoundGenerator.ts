@@ -29,7 +29,7 @@ class AtmosphericPhotonsSoundGenerator extends SoundClip {
 
   constructor( photonCollection: PhotonCollection, providedOptions?: AtmosphericPhotonsSoundGeneratorOptions ) {
 
-    const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, AtmosphericPhotonsSoundGeneratorSelfOptions, SoundClipOptions>( {
+    const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, AtmosphericPhotonsSoundGeneratorSelfOptions, SoundClipOptions>()( {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
       rateChangesAffectPlayingSounds: false
     }, providedOptions );
