@@ -20,14 +20,14 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
@@ -116,8 +116,8 @@ class PhotonAbsorptionModel extends PhetioObject {
       tandem: tandem.createTandem( 'runningProperty' )
     } );
 
-    // @public {EnumerationDeprecatedProperty.<TimeSpeed>} - controls play speed of the simulation
-    this.timeSpeedProperty = new EnumerationDeprecatedProperty( TimeSpeed, TimeSpeed.NORMAL, {
+    // @public controls play speed of the simulation
+    this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
       tandem: tandem.createTandem( 'timeSpeedProperty' )
     } );
