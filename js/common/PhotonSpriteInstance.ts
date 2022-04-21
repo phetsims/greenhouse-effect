@@ -62,7 +62,6 @@ class PhotonSpriteInstance extends SpriteInstance {
   }
 
   /**
-   * @public
    */
   dispose() {
     this.photon.positionProperty.unlink( this.photonListener );

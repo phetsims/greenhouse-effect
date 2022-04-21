@@ -35,7 +35,7 @@ class SpaceEnergySink extends PhetioObject {
     // @private
     this.altitude = altitude;
 
-    // @public {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
+    // {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
     this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker( {
       tandem: tandem.createTandem( 'incomingUpwardMovingEnergyRateTracker' )
     } );
@@ -45,7 +45,6 @@ class SpaceEnergySink extends PhetioObject {
    * Check for interaction with the provided energy.  In this case, energy that is emitted into space is removed.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt
-   * @public
    */
   interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 
@@ -70,7 +69,6 @@ class SpaceEnergySink extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {
@@ -79,7 +77,6 @@ class SpaceEnergySink extends PhetioObject {
   }
 
   /**
-   * @public
    * SpaceEnergySinkIO handles PhET-iO serialization of the SpaceEnergySink. Because serialization involves accessing
    * private members, it delegates to SpaceEnergySink. The methods that SpaceEnergySinkIO overrides are typical of
    * 'Dynamic element serialization', as described in the Serialization section of

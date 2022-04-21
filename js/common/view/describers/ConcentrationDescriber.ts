@@ -82,7 +82,6 @@ class ConcentrationDescriber {
    * Get a description of the clouds in the sky. Will return something like
    * "The sky is cloudy." or
    * "The sky is clear".
-   * @public
    *
    * @param {boolean} cloudEnabled
    */
@@ -122,7 +121,6 @@ class ConcentrationDescriber {
    * Get the string describing the selected time period. Something like
    * "ice age" or
    * "year seventeen fifty"
-   * @public
    *
    * @param {ConcentrationModel.CONCENTRATION_DATE} timePeriodValue
    * @returns {string}
@@ -266,7 +264,6 @@ class ConcentrationDescriber {
    * "low levels of" or
    * "very high levels of" or
    * "no"
-   * @public
    *
    * @param {number} value - value of concentration in the model
    * @returns {string}
@@ -304,7 +301,6 @@ class ConcentrationDescriber {
    * "Moderate levels of greenhouse gases."
    * "No greenhouse gases."
    *
-   * @public
    *
    * @param {number} value - value of concentration in the model
    * @param {boolean} [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true

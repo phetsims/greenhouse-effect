@@ -95,7 +95,6 @@ class Cloud extends PhetioObject {
    * Interact with the provided energy.  Energy may be partially reflected.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @param {number} dt - delta time, in seconds
-   * @public
    */
   interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
 

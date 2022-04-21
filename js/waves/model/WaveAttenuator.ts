@@ -21,19 +21,18 @@ class WaveAttenuator {
    */
   constructor( initialAttenuation: number, distanceFromStart: number ) {
 
-    // @public {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
+    // {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
     // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave
     // passing through will have its intensity reduced to zero).
     this.attenuation = initialAttenuation;
 
-    // @public {number}
+    // {number}
     this.distanceFromStart = distanceFromStart;
   }
 
   /**
    * Serializes this WaveAttenuator instance.
    * @returns {Object}
-   * @public
    */
   toStateObject(): WaveAttenuatorStateObject {
     return {
@@ -45,7 +44,6 @@ class WaveAttenuator {
   /**
    * @param stateObject
    * @returns {Object}
-   * @public
    */
   static fromStateObject( stateObject: WaveAttenuatorStateObject ) {
     return new WaveAttenuator(
@@ -57,7 +55,6 @@ class WaveAttenuator {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {

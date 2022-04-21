@@ -70,7 +70,6 @@ class GreenhouseEffectModel extends PhetioObject {
   /**
    * Step the simulation, called by Joist framework.
    *
-   * @public
    * @param {number} dt - in seconds
    */
   step( dt: number ) {
@@ -84,7 +83,6 @@ class GreenhouseEffectModel extends PhetioObject {
   /**
    * Resets all aspects of the model.
    *
-   * @public
    */
   reset() {
     this.timeSpeedProperty.reset();

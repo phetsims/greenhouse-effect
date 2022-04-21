@@ -187,10 +187,10 @@ class LayersModel extends GreenhouseEffectModel {
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
-    // @public {Cloud[]} - array of clouds that can be individually turned on or off
+    // {Cloud[]} - array of clouds that can be individually turned on or off
     this.clouds = [];
 
-    // @public (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
+    // (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
     // @private - used to track how much stepping of the model needs to occur
@@ -203,7 +203,6 @@ class LayersModel extends GreenhouseEffectModel {
   }
 
   /**
-   * @public
    * @param {number} dt
    */
   override stepModel( dt: number ) {
@@ -294,7 +293,6 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * Resets all aspects of the model.
-   * @public
    */
   override reset() {
     super.reset();
@@ -310,7 +308,6 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * for phet-io
-   * @public
    */
   toStateObject(): LayersModelStateObject {
     return {
@@ -320,7 +317,6 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * for phet-io
-   * @public
    */
   applyState( stateObject: LayersModelStateObject ) {
 
@@ -335,7 +331,6 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   protected static get STATE_SCHEMA() {
     return {
@@ -350,7 +345,6 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**
-   * @public
    * LayersModelIO handles PhET-iO serialization of the LayersModel. Because serialization involves accessing private
    * members, it delegates to LayersModel. The methods that LayersModelIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of

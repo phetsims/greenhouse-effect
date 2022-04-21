@@ -96,7 +96,7 @@ class FluxMeterNode extends Node {
     } );
     this.addChild( fluxSensor );
 
-    // @public {Panel} - contains the display showing energy flux, public for positioning in the view
+    // {Panel} - contains the display showing energy flux, public for positioning in the view
     this.fluxPanel = new Panel( content );
     // @ts-ignore
     this.addChild( this.fluxPanel );

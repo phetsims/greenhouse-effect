@@ -78,7 +78,6 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
 
   /**
    * Resets the view.
-   * @public
    */
   override reset() {
     super.reset();
@@ -87,7 +86,6 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
   /**
    * Steps the view.
    * @param {number} dt - time step, in seconds
-   * @public
    */
   override step( dt: number ) {
     //TODO

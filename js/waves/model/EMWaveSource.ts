@@ -40,7 +40,6 @@ class WaveCreationSpec {
     this.originX = originX;
   }
 
-  // @public
   toStateObject() {
     return {
       countdown: NumberIO.toStateObject( this.countdown ),
@@ -49,7 +48,6 @@ class WaveCreationSpec {
     };
   }
 
-  // @public
   static fromStateObject( stateObject: WaveCreationSpecStateObject ) {
     return new WaveCreationSpec(
       NumberIO.fromStateObject( stateObject.originX ),
@@ -61,7 +59,6 @@ class WaveCreationSpec {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {
@@ -135,7 +132,7 @@ class EMWaveSource extends PhetioObject {
 
     super( options );
 
-    // @public (read-only) {number} - altitude from which waves originate
+    // (read-only) {number} - altitude from which waves originate
     this.waveStartAltitude = waveStartAltitude;
 
     // @private {Property.<number>} - Controls whether waves should be produced.  If no wave intensity Property was
@@ -159,7 +156,6 @@ class EMWaveSource extends PhetioObject {
   }
 
   /**
-   * @public
    */
   step( dt: number ) {
 
@@ -274,14 +270,12 @@ class EMWaveSource extends PhetioObject {
   }
 
   /**
-   * @public
    */
   reset() {
     this.wavesToLifetimesMap.clear();
     this.waveCreationQueue.length = 0;
   }
 
-  // @public
   toStateObject() {
     return {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).toStateObject( this.wavesToLifetimesMap ),
@@ -289,7 +283,6 @@ class EMWaveSource extends PhetioObject {
     };
   }
 
-  // @public
   applyState( stateObject: EMWaveSourceStateObject ) {
     this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject( stateObject.wavesToLifetimesMap );
     this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject( stateObject.waveCreationQueue );
@@ -298,7 +291,6 @@ class EMWaveSource extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {

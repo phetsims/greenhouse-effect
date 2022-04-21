@@ -85,7 +85,7 @@ class WavesModel extends ConcentrationModel {
       phetioState: true
     } );
 
-    // @public (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
+    // (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
         options = merge( { tandem: tandem }, options );
@@ -104,7 +104,7 @@ class WavesModel extends ConcentrationModel {
       }
     );
 
-    // @public - signals when the waves have changed so that the view can update them
+    // signals when the waves have changed so that the view can update them
     this.wavesChangedEmitter = new Emitter();
 
     // @private - the source of the waves of visible light that come from the sun
@@ -137,7 +137,7 @@ class WavesModel extends ConcentrationModel {
       } )
     );
 
-    // @public {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
+    // {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
     this.cloudEnabledProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'cloudEnabledProperty' )
     } );
@@ -178,7 +178,7 @@ class WavesModel extends ConcentrationModel {
       ]
     );
 
-    // @public (read-only) {ObservableArrayDef.<WaveAtmosphereInteraction>} - An array of the interactions that are
+    // (read-only) {ObservableArrayDef.<WaveAtmosphereInteraction>} - An array of the interactions that are
     // currently occurring between IR waves and the atmosphere.
     this.waveAtmosphereInteractions = createObservableArray( {
       tandem: tandem.createTandem( 'waveAtmosphereInteractions' ),
@@ -498,7 +498,6 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * @public
    */
   override reset() {
     const numberOfWavesBeforeReset = this.waveGroup.count;
@@ -518,7 +517,6 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * for phet-io
-   * @public
    */
   override toStateObject(): WavesModelStateObject {
     return merge( super.toStateObject(), {
@@ -531,7 +529,6 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * for phet-io
-   * @public
    */
   override applyState( stateObject: WavesModelStateObject ) {
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
@@ -544,7 +541,6 @@ class WavesModel extends ConcentrationModel {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   protected static override get STATE_SCHEMA() {
     const superclassStateSchema = ConcentrationModel.STATE_SCHEMA;
@@ -558,7 +554,6 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * @public
    * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
    * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
@@ -605,7 +600,6 @@ class WaveAtmosphereInteraction {
     this.emittedWave = emittedWave;
   }
 
-  // @public
   toStateObject(): WaveAtmosphereInteractionStateObject {
     return {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
@@ -614,7 +608,6 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  // @public
   static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ) {
     return new WaveAtmosphereInteraction(
       ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
@@ -625,7 +618,6 @@ class WaveAtmosphereInteraction {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {

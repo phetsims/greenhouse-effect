@@ -81,7 +81,6 @@ class CloudNode extends Node {
    * @param {number} width
    * @param {number} height
    * @returns {Shape}
-   * @public
    */
   static createCloudShape( position: Vector2, width: number, height: number ) {
 
@@ -159,7 +158,6 @@ class CloudNode extends Node {
 
   /**
    * Free memory references to avoid leaks.
-   * @public
    */
   override dispose() {
     this.disposeCloudNode();

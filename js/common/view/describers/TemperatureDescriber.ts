@@ -62,7 +62,6 @@ class TemperatureDescriber {
    * Get formatted description for the current temperature in the provided units, for use in other contexts. Will
    * return something like:
    * "245 Kelvin" or "12 Celsius"
-   * @public
    *
    * @param {number} temperatureKelvin - temperature, in kelvin
    * @param {LayersModel.TemperatureUnits} unitsValue
@@ -80,7 +79,6 @@ class TemperatureDescriber {
    * "very high" or
    * "moderate" or
    * "low"
-   * @public
    *
    * @param {number} value - the temperature in kelvin
    * @returns {string}
@@ -115,7 +113,6 @@ class TemperatureDescriber {
 
   /**
    * Get the current temperature in the provided units, formatted for use in interactive description.
-   * @public
    *
    * @param {number} temperatureKelvin
    * @param {LayersModel.TemperatureUnits} unitsValue
@@ -136,7 +133,6 @@ class TemperatureDescriber {
    * descriptions. Will return something like
    * "Kelvin" or
    * "degrees Celsius"
-   * @public
    *
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}

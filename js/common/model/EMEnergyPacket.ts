@@ -30,19 +30,19 @@ class EMEnergyPacket {
    */
   constructor( wavelength: number, energy: number, initialAltitude: number, direction: any ) {
 
-    // @public (read-only) {number}
+    // (read-only) {number}
     this.wavelength = wavelength;
 
-    // @public {number}
+    // {number}
     this.energy = energy;
 
-    // @public (read-only) {number} - altitude in meters
+    // (read-only) {number} - altitude in meters
     this.altitude = initialAltitude;
 
-    // @public (read-only) {number} - the altitude at the previous step, in meters
+    // (read-only) {number} - the altitude at the previous step, in meters
     this.previousAltitude = initialAltitude;
 
-    // @public (read-only) {EnergyDirection} - The direction in which this energy packet is moving, constrained to up
+    // (read-only) {EnergyDirection} - The direction in which this energy packet is moving, constrained to up
     //                                         or down.
     this.direction = direction;
   }
@@ -63,7 +63,6 @@ class EMEnergyPacket {
 
   /**
    * @param {number} dt - time, in seconds
-   * @public
    */
   step( dt: number ) {
     this.previousAltitude = this.altitude;
@@ -80,7 +79,6 @@ class EMEnergyPacket {
   /**
    * Serializes this EMEnergyPacket instance.
    * @returns {Object}
-   * @public
    */
   toStateObject() {
     return {
@@ -94,7 +92,6 @@ class EMEnergyPacket {
 
   /**
    * for phet-io
-   * @public
    */
   static fromStateObject( stateObject: EMEnergyPacketStateObject ) {
     const emEnergyPacket = new EMEnergyPacket(
@@ -110,7 +107,6 @@ class EMEnergyPacket {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {
@@ -123,7 +119,6 @@ class EMEnergyPacket {
   }
 
   /**
-   * @public
    * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
    * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of

@@ -102,39 +102,39 @@ class Wave extends PhetioObject {
     );
     assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
 
-    // @public (read-only) {number}
+    // (read-only) {number}
     this.wavelength = wavelength;
 
-    // @public (read-only) {Vector2} - The point from which this wave originates.  This is immutable over the lifetime
+    // (read-only) {Vector2} - The point from which this wave originates.  This is immutable over the lifetime
     // of a wave, and it distinct from the start point, since the start point can move as the wave propagates.
     this.origin = origin;
 
-    // @public (read-only) {Vector2}
+    // (read-only) {Vector2}
     this.propagationDirection = propagationDirection;
 
     // @private {number} - the altitude past which this wave should not propagate
     this.propagationLimit = propagationLimit;
 
-    // @public (read-only) {Vector2} - The starting point where the wave currently exists in model space.  This will be
+    // (read-only) {Vector2} - The starting point where the wave currently exists in model space.  This will be
     // the same as the origin if the wave is being sourced, or will move if the wave is propagating without being
     // sourced.
     this.startPoint = origin.copy();
 
-    // @public (read-only) {number} - the length of this wave from the start point to where it ends
+    // (read-only) {number} - the length of this wave from the start point to where it ends
     this.length = 0;
 
-    // @public (read-only) {boolean} - indicates whether this wave is coming from a sourced point or just moving through
+    // (read-only) {boolean} - indicates whether this wave is coming from a sourced point or just moving through
     //                                 space
     this.isSourced = true;
 
-    // @public (read-only) {number} - the length of time that this wave has existed
+    // (read-only) {number} - the length of time that this wave has existed
     this.existenceTime = 0;
 
-    // @public (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
+    // (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
     // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
     this.phaseOffsetAtOrigin = options.initialPhaseOffset;
 
-    // @public (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
+    // (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
     // value which goes from anything just above 0 (and intensity of 0 is meaningless, so is not allowed by the code)
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
@@ -144,13 +144,12 @@ class Wave extends PhetioObject {
     // spec. Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
 
-    // @public (read-only) {number} - the wavelength used when rendering the view for this wave
+    // (read-only) {number} - the wavelength used when rendering the view for this wave
     this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength )!;
   }
 
   /**
    * @param dt - delta time, in seconds
-   * @public
    */
   step( dt: number ) {
 
@@ -213,7 +212,6 @@ class Wave extends PhetioObject {
    * needed, since it doesn't allocate a vector and may thus have better performance.  This treats the wave as a line
    * and does not account for any amplitude.
    * @returns {number}
-   * @public
    */
   getEndAltitude() {
     return this.startPoint.y + this.length * this.propagationDirection.y;
@@ -223,7 +221,6 @@ class Wave extends PhetioObject {
    * Get a vector that represents the end point of this wave.  This does not account for any amplitude of the wave, and
    * just treats it as a line between two points.  If a vector is provided, none is allocated.
    * @param {Vector2} [vectorToUse]
-   * @public
    */
   getEndPoint( vectorToUse?: Vector2 ) {
     const endPointVector = vectorToUse || new Vector2( 0, 0 );
@@ -238,7 +235,6 @@ class Wave extends PhetioObject {
    * Get the intensity of the wave at the specified distance from the starting point.
    * @param {number} distanceFromStart (in meters)
    * @returns {number}
-   * @public
    */
   getIntensityAt( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
@@ -262,7 +258,6 @@ class Wave extends PhetioObject {
   /**
    * Set the intensity at the start of the wave.
    * @param {number} intensity - a normalized intensity value
-   * @public
    */
   setIntensityAtStart( intensity: number ) {
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
@@ -273,7 +268,6 @@ class Wave extends PhetioObject {
    * @param {number} distanceFromStart
    * @param {number} attenuationAmount
    * @param {Object} causalModelElement - the model element that is causing this attenuation to exist
-   * @public
    */
   addAttenuator( distanceFromStart: number,
                  attenuationAmount: number,
@@ -301,7 +295,6 @@ class Wave extends PhetioObject {
   /**
    * Remove the attenuator associated with the provided model element.
    * @param {Object} causalModelElement
-   * @public
    */
   removeAttenuator( causalModelElement: PhetioObject ) {
 
@@ -317,7 +310,6 @@ class Wave extends PhetioObject {
   /**
    * Does the provided model element have an associated attenuator on this wave?
    * @param {Object} modelElement
-   * @public
    */
   hasAttenuator( modelElement: PhetioObject ) {
     return this.modelObjectToAttenuatorMap.has( modelElement );
@@ -327,7 +319,6 @@ class Wave extends PhetioObject {
    * Set the attenuation value in the attenuator associated with the provided model element.
    * @param {Object} modelElement
    * @param {number} attenuation
-   * @public
    */
   setAttenuation( modelElement: PhetioObject, attenuation: number ) {
 
@@ -342,7 +333,6 @@ class Wave extends PhetioObject {
   /**
    * true if the wave has completely propagated and has nothing else to do
    * @returns {boolean}
-   * @public
    */
   get isCompletelyPropagated() {
     return this.startPoint.y === this.propagationLimit;
@@ -366,7 +356,6 @@ class Wave extends PhetioObject {
    * Get the wave's phase at the specified distance from the origin.
    * @param {number} distanceFromOrigin
    * @returns {number} - phase of the end point in radians
-   * @public
    */
   getPhaseAt( distanceFromOrigin: number ) {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
@@ -375,7 +364,6 @@ class Wave extends PhetioObject {
   /**
    * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
    * @returns {WaveAttenuator[]}
-   * @public
    */
   getSortedAttenuators() {
     return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
@@ -386,7 +374,6 @@ class Wave extends PhetioObject {
   /**
    * Serializes this Wave instance.
    * @returns {Object}
-   * @public
    */
   toStateObject() {
     return {
@@ -411,7 +398,6 @@ class Wave extends PhetioObject {
   /**
    * @param stateObject
    * @returns {Object}
-   * @public
    */
   applyState( stateObject: WaveStateObject ) {
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
@@ -435,7 +421,6 @@ class Wave extends PhetioObject {
    * Creates the args that WaveGroup uses to instantiate a Wave.
    * @param {Object} state
    * @returns {Object[]}
-   * @public
    */
   static stateToArgsForConstructor( state: WaveStateObject ) {
     return [
@@ -453,7 +438,6 @@ class Wave extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {
@@ -473,7 +457,6 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * @public
    * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
    * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
    * as described in the Serialization section of

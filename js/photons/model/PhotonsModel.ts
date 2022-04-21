@@ -47,7 +47,7 @@ class PhotonsModel extends ConcentrationModel {
     this.clouds.push( new Cloud( new Vector2( 24000, 25000 ), 18000, 3000, { tandem: tandem.createTandem( 'cloud2' ) } ) );
     this.clouds.push( new Cloud( new Vector2( 5000, 32000 ), 12000, 2500, { tandem: tandem.createTandem( 'cloud1' ) } ) );
 
-    // @public {NumberProperty} - number of clouds that are active and thus reflecting light
+    // {NumberProperty} - number of clouds that are active and thus reflecting light
     this.numberOfActiveCloudsProperty = new NumberProperty( 0, {
       range: new Range( 0, this.clouds.length ),
       numberType: 'Integer',
@@ -60,7 +60,6 @@ class PhotonsModel extends ConcentrationModel {
 
   /**
    * Step forward in time. Create new photons if it is time to do so, remove old photons, and animate existing ones.
-   * @public
    *
    * @param {number} dt
    */

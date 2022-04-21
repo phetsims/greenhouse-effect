@@ -81,7 +81,6 @@ class Photon {
 
   /**
    * @param {number} dt - time, in seconds
-   * @public
    */
   step( dt: number ) {
 

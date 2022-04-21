@@ -48,7 +48,7 @@ class SunEnergySource extends PhetioObject {
       phetioType: SunEnergySource.SunEnergySourceIO
     } );
 
-    // @public - controls whether the sun is shining
+    // controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
       tandem: tandem.createTandem( 'isShiningProperty' )
     } );
@@ -59,7 +59,7 @@ class SunEnergySource extends PhetioObject {
       tandem: tandem.createTandem( 'proportionateOutputRateProperty' )
     } );
 
-    // @public - tracks the average energy output
+    // tracks the average energy output
     this.outputEnergyRateTracker = new EnergyRateTracker( {
       tandem: tandem.createTandem( 'outputEnergyRateTracker' )
     } );
@@ -75,7 +75,6 @@ class SunEnergySource extends PhetioObject {
    * Produce an energy packet that represents the sun shining towards the earth for the specified amount of time and
    * ass it to the group of energy packets.
    * @param {number} dt
-   * @public
    */
   public produceEnergy( dt: number ): void {
     if ( this.isShiningProperty.value ) {
@@ -100,7 +99,6 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
-   * @public
    */
   public reset(): void {
     this.outputEnergyRateTracker.reset();
@@ -111,7 +109,6 @@ class SunEnergySource extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    * @returns {Object.<string,IOType>}
-   * @public
    */
   static get STATE_SCHEMA() {
     return {
@@ -120,7 +117,6 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
-   * @public
    * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
    * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
    * 'Dynamic element serialization', as described in the Serialization section of

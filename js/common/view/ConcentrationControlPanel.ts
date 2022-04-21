@@ -603,7 +603,6 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
    * Handle a slider drag event by checking if the changes to the associated Property warrant the playing of a sound
    * and, if so, play it.
    * @param {SceneryEvent} event
-   * @public
    */
   drag( event: SceneryEvent ) {
 
