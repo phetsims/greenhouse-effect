@@ -45,7 +45,7 @@ class NumberOfLayersSoundPlayer extends SoundGenerator {
   /**
    * play the sound associated with the currently active number of layers
    */
-  public play() {
+  public play(): void {
 
     const numberOfLayers = this.numberOfLayersProperty.value;
 

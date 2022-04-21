@@ -56,7 +56,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
    * is controlled by value or by date.
    * TODO: Replace usages of `any` with proper types when we use new Enumeration pattern.
    */
-  private static getConcentrationDescription( controlMode: any, concentration: number, date: any ) {
+  private static getConcentrationDescription( controlMode: any, concentration: number, date: any ): string {
     let concentrationDescription;
 
     if ( controlMode === ConcentrationControlMode.BY_VALUE ) {

@@ -146,7 +146,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   /**
    * Returns true if the provided energy packet crossed over this layer during its latest step.
    */
-  protected energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ) {
+  protected energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ): boolean {
     const altitude = this.altitude;
     return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
            ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
@@ -155,7 +155,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   /**
    * Interact with the provided energy.  Energy may be reflected, absorbed, or ignored.
    */
-  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ): void {
 
     // Interact with the individual energy packets and figure out how much energy to absorb from them.  The energy
     // packets can be updated, and often are, during this step.
@@ -247,7 +247,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   /**
    * restore initial state
    */
-  public reset() {
+  public reset(): void {
     this.temperatureProperty.reset();
     this.atEquilibriumProperty.reset();
   }

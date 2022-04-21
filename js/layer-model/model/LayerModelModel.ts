@@ -95,7 +95,7 @@ class LayerModelModel extends LayersModel {
   /**
    * Return to initial conditions.
    */
-  public override reset() {
+  public override reset(): void {
     this.numberOfActiveAtmosphereLayersProperty.reset();
     this.layersInfraredAbsorbanceProperty.reset();
     this.photonCollection.reset();

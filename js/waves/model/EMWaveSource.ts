@@ -177,9 +177,9 @@ class EMWaveSource extends PhetioObject {
 
       // See whether there is a wave that is queued for creation that matches these parameters.
       const waveIsQueued = this.waveCreationQueue.reduce( ( previousValue, queuedWaveSpec ) =>
-        previousValue || queuedWaveSpec.propagationDirection.equals( waveSourceSpec.propagationDirection ) &&
-        ( queuedWaveSpec.originX === waveSourceSpec.minXPosition ||
-        queuedWaveSpec.originX === waveSourceSpec.maxXPosition ),
+          previousValue || queuedWaveSpec.propagationDirection.equals( waveSourceSpec.propagationDirection ) &&
+          ( queuedWaveSpec.originX === waveSourceSpec.minXPosition ||
+          queuedWaveSpec.originX === waveSourceSpec.maxXPosition ),
         false
       );
 

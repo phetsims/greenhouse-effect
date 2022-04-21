@@ -40,7 +40,7 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
     this.primarySoundClip.connect( this.masterGainNode );
 
     // Add a set of delay lines to get a bit of an echo effect.
-    const delayGainNodes : GainNode[] = [];
+    const delayGainNodes: GainNode[] = [];
     _.times( NUMBER_OF_DELAY_LINES, index => {
       const delayLine = new DelayNode( this.audioContext );
       delayLine.delayTime.value = ( index + 1 ) * DELAY_TIME;
@@ -63,11 +63,11 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
     } );
   }
 
-  public play() {
+  public play(): void {
     this.primarySoundClip.play();
   }
 
-  public stop() {
+  public stop(): void {
     this.primarySoundClip.stop();
   }
 }

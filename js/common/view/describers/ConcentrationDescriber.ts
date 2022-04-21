@@ -142,7 +142,7 @@ class ConcentrationDescriber {
    * "year twenty twenty and there are lots of homes and factories" or
    * "ice age and there is a large glacier"
    */
-  public static getDescribedTimePeriodString( timePeriodValue: any ) {
+  public static getDescribedTimePeriodString( timePeriodValue: any ): string {
     const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
     const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodDescription( timePeriodValue );
 
@@ -158,7 +158,7 @@ class ConcentrationDescriber {
    * "a large number of homes and factories"
    * @param timePeriodValue
    */
-  public static getTimePeriodDescription( timePeriodValue: any ) {
+  public static getTimePeriodDescription( timePeriodValue: any ): string {
     // @ts-ignore
     return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeDescriptionString :
       // @ts-ignore
@@ -184,7 +184,7 @@ class ConcentrationDescriber {
    * Get a string that describes the time period in a full context like:
    * "the time period is the year twenty twenty and there are a large number of homes and factories."
    */
-  public static getFullTimePeriodDescription( timePeriodValue: any ) {
+  public static getFullTimePeriodDescription( timePeriodValue: any ): string {
 
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {

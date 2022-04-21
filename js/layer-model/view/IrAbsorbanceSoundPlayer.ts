@@ -51,7 +51,7 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
   /**
    * Play the sound.  The volume levels of the sound clip will have been adjusted to do the cross-fade already.
    */
-  public play() {
+  public play(): void {
     this.lowValueSoundClip.play();
     this.highValueSoundClip.play();
   }
@@ -59,7 +59,7 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
   /**
    * Stop the sounds.  This isn't expected to be used much, but is necessary for the ISoundPlayer interface.
    */
-  public stop() {
+  public stop(): void {
     this.lowValueSoundClip.stop();
     this.highValueSoundClip.stop();
   }

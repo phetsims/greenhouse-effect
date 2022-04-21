@@ -147,7 +147,7 @@ class RadiationDescriber {
    * Get a description of the sunlight traveling from space, and potentially if clouds reflect
    * some of that radiation back to space.
    */
-  public static getSunlightTravelDescription( includeCloudReflection: boolean ) {
+  public static getSunlightTravelDescription( includeCloudReflection: boolean ): string {
     let descriptionString;
     if ( includeCloudReflection ) {
       descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightWavesTravelWithCloudReflectionPattern, {

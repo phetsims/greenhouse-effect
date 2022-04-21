@@ -3,7 +3,7 @@
 /**
  * PhotonSpriteInstance is a specialization of SpriteInstance for photons.  It keeps a reference to the associated
  * photon model element, and updates its transformation matrix to match the photon's position.
- * 
+ *
  * @author John Blanco (PhET Interactive Simulations)
  */
 

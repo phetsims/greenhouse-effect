@@ -67,7 +67,7 @@ phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new Boole
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
 class GreenhouseEffectOptionsDialogContent extends HBox {
-  private readonly disposeGreenhouseEffectOptionsDialogContent:() => void;
+  private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
 
   /**
    * @param {Tandem} tandem

@@ -148,7 +148,7 @@ class GreenhouseEffectScreenView extends ScreenView {
    * Resets view components.
    * @protected
    */
-  protected reset() {
+  protected reset(): void {
     this.model.reset();
   }
 }

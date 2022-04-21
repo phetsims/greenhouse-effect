@@ -34,7 +34,9 @@ class EnergyDescriber {
    * @param previousOutgoingEnergy - Amount of outgoing energy the last time change was described.
    * @param netEnergy - Net energy for the system.
    */
-  public static getOutgoingEnergyChangeDescription( outgoingEnergy: number, previousOutgoingEnergy: number, netEnergy: number ): string | null {
+  public static getOutgoingEnergyChangeDescription( outgoingEnergy: number,
+                                                    previousOutgoingEnergy: number,
+                                                    netEnergy: number ): string | null {
     let descriptionString = null;
 
     if ( outgoingEnergy !== previousOutgoingEnergy && netEnergy !== 0 ) {
@@ -55,7 +57,7 @@ class EnergyDescriber {
    * "Outgoing energy is less than incoming energy at top of atmosphere, net energy inflow to Earth." OR
    * "Outgoing energy is equal to incoming energy at top of atmosphere."
    */
-  public static getNetEnergyAtAtmosphereDescription( netInflowOfEnergy: number, inRadiativeBalance: boolean ): string {
+  public static getNetEnergyAtAtmosphereDescription( netInflowOfEnergy: number, inRadiativeBalance: boolean ): string | null {
     let descriptionString;
     if ( inRadiativeBalance ) {
 
