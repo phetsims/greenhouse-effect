@@ -89,7 +89,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt: number ) {
+  override step( dt: number ) {
     //TODO
   }
 }
