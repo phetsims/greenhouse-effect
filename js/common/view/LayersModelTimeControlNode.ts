@@ -22,8 +22,6 @@ class LayersModelTimeControlNode extends TimeControlNode {
       timeSpeedProperty: model.timeSpeedProperty,
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
-
-          // @ts-ignore, https://github.com/phetsims/greenhouse-effect/issues/144
           listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
         }
       }
