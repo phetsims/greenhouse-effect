@@ -59,18 +59,17 @@ class GreenhouseEffectModel extends PhetioObject {
 
   /**
    * Step the model forward by the provided time.
-   * @protected
    *
-   * @param {number} dt - in seconds
+   * @param dt - in seconds
    */
-  stepModel( dt: number ) {
+  protected stepModel( dt: number ) {
     this.steppedEmitter.emit( dt );
   }
 
   /**
    * Step the simulation, called by Joist framework.
    *
-   * @param {number} dt - in seconds
+   * @param dt - in seconds
    */
   step( dt: number ) {
     if ( this.isPlayingProperty.value ) {

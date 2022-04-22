@@ -60,7 +60,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
   protected readonly groundNodeHeight: number;
-  public readonly startSunlightButton: TextPushButton;
+  protected readonly startSunlightButton: TextPushButton;
 
   constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -108,7 +108,7 @@ class GreenhouseEffectObservationWindow extends Node {
       ( SIZE.height - groundHeight ) / LayersModel.HEIGHT_OF_ATMOSPHERE
     );
 
-    // @protected {Rectangle} - main window frame into which other items will need to fit
+    // main window frame into which other items will need to fit
     // TODO: 10/13/2021 - I (jbphet) am refactoring the observation window to be in subclasses.  The windowFrame needs
     //                    to be available to subclasses at this moment, but might not eventually, so check this later
     //                    and make it local if possible, or just delete this comment if not.
@@ -131,7 +131,7 @@ class GreenhouseEffectObservationWindow extends Node {
     // top layer in the Z-order
     this.foregroundLayer = new Node();
 
-    // @protected {Node} - Layers where controls should be added, will be in front of the background.
+    // Layers where controls should be added, will be in front of the background.
     this.controlsLayer = new Node();
 
     // Add the various layer in the order necessary for the desired layering.
@@ -140,7 +140,7 @@ class GreenhouseEffectObservationWindow extends Node {
     this.windowFrame.addChild( this.controlsLayer );
     this.windowFrame.addChild( this.foregroundLayer );
 
-    // @protected {Node} - The ground node will extend above and below the level of the ground in order to lend
+    // The ground node will extend above and below the level of the ground in order to lend
     // perspective to the view.
     this.groundNodeHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
 
@@ -265,7 +265,7 @@ class GreenhouseEffectObservationWindow extends Node {
     } );
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 
-    // @protected {TextPushButton} - button used to start and restart sunlight
+    // button used to start and restart sunlight
     this.startSunlightButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,

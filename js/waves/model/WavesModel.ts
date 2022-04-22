@@ -205,11 +205,10 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * Step the model forward by the provided time.
-   * @protected
    *
    * @param {number} dt - in seconds
    */
-  override stepModel( dt: number ) {
+  protected override stepModel( dt: number ) {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
     this.sunWaveSource.step( dt );

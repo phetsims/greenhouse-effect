@@ -57,9 +57,8 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
    * Interact with the provided energy packets in a way that is specific to the atmospheric layers.
    * @param {EMEnergyPacket[]} emEnergyPackets
    * @returns {number}
-   * @protected
    */
-  override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
+  protected override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ) {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
       if ( this.energyPacketCrossedThisLayer( energyPacket ) ) {

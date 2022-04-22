@@ -80,7 +80,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       tandem: options.tandem!.createTandem( 'energyLegend' )
     }, options.energyLegendOptions ) as EnergyLegendOptions );
 
-    // @protected {VBox} - The parent node on the right side of the view where legends and controls are placed.  A VBox
+    // The parent node on the right side of the view where legends and controls are placed.  A VBox
     // is used to support dynamic layout in conjunction with phet-io.
     this.legendAndControlsVBox = new VBox( {
       children: [ this.energyLegend ],
@@ -92,7 +92,6 @@ class GreenhouseEffectScreenView extends ScreenView {
     this.timeControlNode = timeControlNode;
     this.addChild( this.timeControlNode );
 
-    // @protected {ResetAllButton}
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -146,7 +145,6 @@ class GreenhouseEffectScreenView extends ScreenView {
 
   /**
    * Resets view components.
-   * @protected
    */
   protected reset(): void {
     this.model.reset();
