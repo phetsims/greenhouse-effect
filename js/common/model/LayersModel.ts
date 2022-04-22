@@ -205,7 +205,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * @param {number} dt
    */
-  protected override stepModel( dt: number ) {
+  public override stepModel( dt: number ) {
 
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.

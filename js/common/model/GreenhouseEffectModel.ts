@@ -58,11 +58,12 @@ class GreenhouseEffectModel extends PhetioObject {
   }
 
   /**
-   * Step the model forward by the provided time.
+   * Step the model forward by the provided time.  Generally, external clients should call the step function instead of
+   * stepModel, but there are some cases where calling this directly makes sense.
    *
    * @param dt - in seconds
    */
-  protected stepModel( dt: number ) {
+  public stepModel( dt: number ) {
     this.steppedEmitter.emit( dt );
   }
 

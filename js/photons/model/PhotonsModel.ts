@@ -63,7 +63,7 @@ class PhotonsModel extends ConcentrationModel {
    *
    * @param {number} dt
    */
-  override stepModel( dt: number ) {
+  public override stepModel( dt: number ) {
     this.photonCollection.step( dt );
     super.stepModel( dt );
   }
