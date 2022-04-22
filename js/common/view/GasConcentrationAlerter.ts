@@ -26,6 +26,7 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -72,7 +73,7 @@ class GasConcentrationAlerter extends Alerter {
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
-  private netEnergyProperty: DerivedProperty<number, number[]>;
+  private netEnergyProperty: IReadOnlyProperty<number>;
   private previousNetInflowOfEnergy: number;
 
   private model: ConcentrationModel;
