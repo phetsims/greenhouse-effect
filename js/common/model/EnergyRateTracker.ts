@@ -33,7 +33,7 @@ class EnergyInfoQueueItem {
     this.energy = energy;
   }
 
-  static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ) {
+  static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ): EnergyInfoQueueItem {
     return new EnergyInfoQueueItem( stateObject.dt, stateObject.energy );
   }
 
@@ -90,7 +90,7 @@ class EnergyRateTracker extends PhetioObject {
    * @param {number} energy - amount of energy to be recorded for this step, in joules
    * @param {number} dt - delta time, in seconds
    */
-  addEnergyInfo( energy: number, dt: number ) {
+  addEnergyInfo( energy: number, dt: number ): void {
 
     // Put the new energy information into the queue.
     this.energyInfoQueue.push( new EnergyInfoQueueItem( dt, energy ) );
@@ -124,8 +124,9 @@ class EnergyRateTracker extends PhetioObject {
   }
 
   /**
+   * Reset to initial state.
    */
-  reset() {
+  reset(): void {
     this.energyInfoQueue.length = 0;
     this.energyRateProperty.reset();
   }

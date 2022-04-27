@@ -18,6 +18,7 @@ import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
+
   constructor( property: Property<boolean>, temperatureProperty: NumberProperty, temperatureUnitsProperty: Property<any>, tandem: Tandem ) {
     const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
 

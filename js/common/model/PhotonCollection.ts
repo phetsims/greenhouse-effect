@@ -117,7 +117,7 @@ class PhotonCollection extends PhetioObject {
    * Step the object forward in time.
    * @param dt - time in seconds
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
 
     if ( this.sunEnergySource.isShiningProperty.value ) {
 
@@ -281,14 +281,14 @@ class PhotonCollection extends PhetioObject {
   /**
    * Set the state of this instance based on the provided state object, used for phet-io.
    */
-  applyState( stateObject: PhotonCollectionStateObject ) {
+  public applyState( stateObject: PhotonCollectionStateObject ): void {
     this.photons.clear();
     this.photons.push(
       ...ArrayIO( Photon.PhotonIO ).fromStateObject( stateObject.photonStateObjects )
     );
   }
 
-  static get STATE_SCHEMA() {
+  public static STATE_SCHEMA() {
     return {
       photonStateObjects: ArrayIO( Photon.PhotonIO )
     };
@@ -297,7 +297,7 @@ class PhotonCollection extends PhetioObject {
   /**
    * Restore initial state.
    */
-  reset() {
+  public reset(): void {
     this.photons.clear();
     this.photonAbsorbingEmittingLayers.forEach( layer => layer.reset() );
     this.groundPhotonProductionRate = 0;
@@ -310,7 +310,7 @@ class PhotonCollection extends PhetioObject {
   /**
    * Calculate the rate of infrared photon production for the ground based on its temperature.
    */
-  static groundTemperatureToIRPhotonProductionRate( groundTemperature: number, cutoffTemperature: number ) {
+  public static groundTemperatureToIRPhotonProductionRate( groundTemperature: number, cutoffTemperature: number ) {
 
     let photonProductionRate = 0;
 

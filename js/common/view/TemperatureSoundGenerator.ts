@@ -109,9 +109,8 @@ class TemperatureSoundGenerator extends SoundGenerator {
   /**
    * Update the play state (i.e. playing or not playing) and the output level of the loops based on the temperature and
    * the enable control properties.
-   * @private
    */
-  updateLoopStates() {
+  private updateLoopStates(): void {
 
     // convenience variables
     const temperature = Math.max( this.temperatureProperty.value, GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE );

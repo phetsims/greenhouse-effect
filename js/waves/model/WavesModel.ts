@@ -205,10 +205,9 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * Step the model forward by the provided time.
-   *
-   * @param {number} dt - in seconds
+   * @param {number} dt - delta time, in seconds
    */
-  public override stepModel( dt: number ) {
+  public override stepModel( dt: number ): void {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
     this.sunWaveSource.step( dt );
@@ -230,10 +229,9 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * update the interactions between light waves and the cloud
-   * @private
+   * Update the interactions between light waves and the cloud.
    */
-  updateWaveCloudInteractions() {
+  private updateWaveCloudInteractions(): void {
 
     assert && assert( this.clouds.length === 1, 'this subclass assumes only one cloud in the model' );
 
@@ -318,9 +316,8 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * Update the interactions between IR waves and the atmosphere.
-   * @private
    */
-  updateWaveAtmosphereInteractions() {
+  private updateWaveAtmosphereInteractions(): void {
 
     // Calculate how much of each wave should go back towards the Earth and how much should continue on its way given
     // the current concentration of greenhouse gases.

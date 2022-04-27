@@ -88,7 +88,7 @@ class PhotonSprites extends Sprites {
   /**
    * Update the information needed to render the photons as sprites and then trigger a re-rendering.
    */
-  update() {
+  public update(): void {
 
     const photons = this.photonCollection.photons;
     const showAllPhotons = this.photonCollection.showAllSimulatedPhotonsInViewProperty.value;

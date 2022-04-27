@@ -45,9 +45,8 @@ class PhotonSpriteInstance extends SpriteInstance {
 
   /**
    * Updates the matrix to match the organism's position and xDirection.
-   * @private
    */
-  updateMatrix() {
+  private updateMatrix(): void {
 
     const photonPosition = this.photon.positionProperty.value;
 
@@ -62,13 +61,10 @@ class PhotonSpriteInstance extends SpriteInstance {
   }
 
   /**
+   * Release references to avoid memory leaks.
    */
-  dispose() {
+  public dispose(): void {
     this.photon.positionProperty.unlink( this.photonListener );
-
-    // TODO: Typescript was complaining about this, which seemed a bit surprising, so I (jbphet) should check with other
-    //       developers.
-    // super.dispose && super.dispose();
   }
 }
 

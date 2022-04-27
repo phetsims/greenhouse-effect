@@ -138,7 +138,7 @@ class PhotonAbsorbingEmittingLayer {
    * Re-emit any previously absorbed photons that are ready.
    * @param dt - delta time, in seconds
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
 
     // For each of the photons that have been absorbed into this layer, decide whether it should be re-emitted and, if
     // so, decide where and in what direction.  If not, update the absorbed time.
@@ -159,7 +159,7 @@ class PhotonAbsorbingEmittingLayer {
     }
   }
 
-  reset() {
+  public reset(): void {
     this.photonToAbsorbedTimeMap.clear();
     this.atLeastOnePhotonAbsorbedProperty.reset();
   }

@@ -56,6 +56,7 @@ const celsiusString = greenhouseEffectStrings.a11y.temperatureUnits.celsius;
 const fahrenheitString = greenhouseEffectStrings.a11y.temperatureUnits.fahrenheit;
 
 class TemperatureDescriber {
+
   constructor() {}
 
   /**
@@ -65,9 +66,8 @@ class TemperatureDescriber {
    *
    * @param {number} temperatureKelvin - temperature, in kelvin
    * @param {LayersModel.TemperatureUnits} unitsValue
-   * @returns {string}
    */
-  static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: any ) {
+  public static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: any ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
@@ -81,9 +81,8 @@ class TemperatureDescriber {
    * "low"
    *
    * @param {number} value - the temperature in kelvin
-   * @returns {string}
    */
-  static getQualitativeTemperatureDescriptionString( value: number ) {
+  public static getQualitativeTemperatureDescriptionString( value: number ): string {
     const delta = DESCRIBED_TEMPERATURE_RANGE.getLength() / qualitativeTemperatureDescriptionStrings.length;
 
     // qualitativeTemperatureDescriptionStrings are ordered from lowest to highest temperature. If we don't find a
@@ -105,7 +104,7 @@ class TemperatureDescriber {
    * "Surface temperature is somewhat high.
    * @param temperatureKelvin
    */
-  static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number ) {
+  public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
       description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin )
     } );
@@ -118,7 +117,7 @@ class TemperatureDescriber {
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}
    */
-  static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ) {
+  public static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ): string {
     // @ts-ignore
     const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
       // @ts-ignore
@@ -137,7 +136,7 @@ class TemperatureDescriber {
    * @param {LayersModel.TemperatureUnits} unitsValue
    * @returns {string}
    */
-  static getTemperatureUnitsString( unitsValue: any ) {
+  public static getTemperatureUnitsString( unitsValue: any ): string {
     // @ts-ignore
     return unitsValue === LayersModel.TemperatureUnits.KELVIN ? kelvinString :
       // @ts-ignore

@@ -76,6 +76,7 @@ const cloudyString = greenhouseEffectStrings.a11y.sky.cloudy;
 const clearString = greenhouseEffectStrings.a11y.sky.clear;
 
 class ConcentrationDescriber {
+
   constructor() {}
 
   /**
@@ -85,7 +86,7 @@ class ConcentrationDescriber {
    *
    * @param {boolean} cloudEnabled
    */
-  static getSkyCloudDescription( cloudEnabled: boolean ) {
+  public static getSkyCloudDescription( cloudEnabled: boolean ): string {
     const skyPatternString = skyDescriptionPatternString;
     const cloudDescriptionString = cloudEnabled ? cloudyString : clearString;
     return StringUtils.fillIn( skyPatternString, { cloudDescription: cloudDescriptionString } );
@@ -96,7 +97,7 @@ class ConcentrationDescriber {
    * the sunlight will be included if the sun is shining. Will return something like
    * "Cloud added to sky. Some sunlight redirected back to space."
    */
-  static getSkyCloudChangeDescription( cloudEnabled: boolean, isShining: boolean ) {
+  public static getSkyCloudChangeDescription( cloudEnabled: boolean, isShining: boolean ): string {
     let description;
 
     const addedOrRemovedDescription = cloudEnabled ? greenhouseEffectStrings.a11y.sky.cloudAddedAlert :
@@ -121,11 +122,8 @@ class ConcentrationDescriber {
    * Get the string describing the selected time period. Something like
    * "ice age" or
    * "year seventeen fifty"
-   *
-   * @param {ConcentrationModel.CONCENTRATION_DATE} timePeriodValue
-   * @returns {string}
    */
-  static getTimePeriodString( timePeriodValue: any ) {
+  public static getTimePeriodString( timePeriodValue: any ): string {
     // @ts-ignore
     return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeString :
       // @ts-ignore
@@ -266,9 +264,8 @@ class ConcentrationDescriber {
    * "no"
    *
    * @param {number} value - value of concentration in the model
-   * @returns {string}
    */
-  static getConcentrationDescription( value: number ) {
+  public static getConcentrationDescription( value: number ): string {
     let descriptionString = '';
 
     // format the value so that we describe it without js precision issues
@@ -302,11 +299,10 @@ class ConcentrationDescriber {
    * "No greenhouse gases."
    *
    *
-   * @param {number} value - value of concentration in the model
-   * @param {boolean} [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true
-   * @returns {string}
+   * @param value - value of concentration in the model
+   * @param [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true
    */
-  static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere = true ) {
+  public static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere = true ): string {
 
     // Capitalize so that this statement appears in a sentence. Not friendly for i18n, but PhET decided that this
     // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
@@ -324,7 +320,7 @@ class ConcentrationDescriber {
    * "Year seventeen fifty levels of greenhouse gases in atmosphere."
    * @param date - TODO: Replace with new Enumeration pattern
    */
-  static getConcentrationDescriptionWithDate( date: any ) {
+  public static getConcentrationDescriptionWithDate( date: any ): string {
     const dateString = StringUtils.capitalize( ConcentrationDescriber.getTimePeriodString( date ) );
 
     return StringUtils.fillIn( dateLevelsOfGreenhouseGasesPatternString, {

@@ -63,7 +63,7 @@ class GreenhouseEffectModel extends PhetioObject {
    *
    * @param dt - in seconds
    */
-  public stepModel( dt: number ) {
+  public stepModel( dt: number ): void {
     this.steppedEmitter.emit( dt );
   }
 
@@ -72,7 +72,7 @@ class GreenhouseEffectModel extends PhetioObject {
    *
    * @param dt - in seconds
    */
-  step( dt: number ) {
+  public tep( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       // @ts-ignore
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
@@ -81,10 +81,9 @@ class GreenhouseEffectModel extends PhetioObject {
   }
 
   /**
-   * Resets all aspects of the model.
-   *
+   * Reset the model to its initial state.
    */
-  reset() {
+  public reset(): void {
     this.timeSpeedProperty.reset();
     this.isPlayingProperty.reset();
   }

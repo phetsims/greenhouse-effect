@@ -147,9 +147,8 @@ class ConcentrationModel extends LayersModel {
 
   /**
    * Resets all aspects of the model.
-   *
    */
-  public override reset() {
+  public override reset(): void {
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();

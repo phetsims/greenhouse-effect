@@ -429,11 +429,8 @@ class CompositionDataNode extends VBox {
   /**
    * Update the readout of greenhouse gas composition data for the provided date.
    * NOTE: Don't have data or lookup yet, that needs to be implemented.
-   * @private
-   *
-   * @param {ConcentrationModel.CONCENTRATION_DATE} date
    */
-  updateCompositionReadout( date: any ) {
+  private updateCompositionReadout( date: any ) {
     const waterString = StringUtils.fillIn( waterConcentrationPatternString, { value: 70 } );
     const carbonDioxideString = StringUtils.fillIn( carbonDioxideConcentrationPatternString, { value: 414 } );
     const methaneString = StringUtils.fillIn( methaneConcentrationPatternString, { value: 1.876 } );
@@ -559,12 +556,10 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
   }
 
   /**
-   * Get an zero-based index value (an integer) that indicates the bin into which the provided value falls.
-   * @param {number} concentration
+   * Get a zero-based index value (an integer) that indicates the bin into which the provided value falls.
    * @returns {number}
-   * @private
    */
-  getBin( concentration: number ) {
+  private getBin( concentration: number ): number {
     return Math.min( Math.floor( concentration / this.binSize ), this.numberOfBins - 1 );
   }
 
@@ -572,14 +567,10 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
    * Play the main sound clip multiple times with some randomization around the center pitch and the delay between each
    * play.
    *
-   * The algorithm used here was determine by informed trial-and-error based on an initial sound design that used a
+   * The algorithm used here was determined by informed trial-and-error based on an initial sound design that used a
    * bunch of separate sound clips.  See https://github.com/phetsims/greenhouse-effect/issues/28.
-   *
-   * @param {number} minimumPlaybackRate
-   * @param {number} numberOfTimesToPlay
-   * @private
    */
-  playMultipleTimesRandomized( minimumPlaybackRate: number, numberOfTimesToPlay: number ) {
+  private playMultipleTimesRandomized( minimumPlaybackRate: number, numberOfTimesToPlay: number ): void {
 
     // parameters the bound the randomization, empirically determined
     const minimumInterSoundTime = 0.06;
@@ -602,9 +593,8 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
   /**
    * Handle a slider drag event by checking if the changes to the associated Property warrant the playing of a sound
    * and, if so, play it.
-   * @param {SceneryEvent} event
    */
-  drag( event: SceneryEvent ) {
+  public drag( event: SceneryEvent ): void {
 
     const currentConcentration = this.concentrationProperty.value;
 

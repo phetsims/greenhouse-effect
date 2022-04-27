@@ -205,7 +205,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * @param {number} dt
    */
-  public override stepModel( dt: number ) {
+  public override stepModel( dt: number ): void {
 
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
@@ -294,7 +294,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * Resets all aspects of the model.
    */
-  public override reset() {
+  public override reset(): void {
     super.reset();
 
     this.energyBalanceVisibleProperty.reset();
@@ -318,7 +318,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * for phet-io
    */
-  applyState( stateObject: LayersModelStateObject ) {
+  public applyState( stateObject: LayersModelStateObject ): void {
 
     // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
     // copy in the contents of the state object.
@@ -330,7 +330,6 @@ class LayersModel extends GreenhouseEffectModel {
 
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   * @returns {Object.<string,IOType>}
    */
   protected static get STATE_SCHEMA() {
     return {

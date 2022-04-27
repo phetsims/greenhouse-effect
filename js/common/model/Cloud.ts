@@ -93,10 +93,10 @@ class Cloud extends PhetioObject {
 
   /**
    * Interact with the provided energy.  Energy may be partially reflected.
-   * @param {EMEnergyPacket[]} emEnergyPackets
-   * @param {number} dt - delta time, in seconds
+   * @param emEnergyPackets - energy packets that are moving withing the system
+   * @param dt - delta time, in seconds
    */
-  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ): void {
 
     if ( this.enabledProperty.value ) {
 

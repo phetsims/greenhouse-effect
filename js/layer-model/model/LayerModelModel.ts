@@ -86,7 +86,7 @@ class LayerModelModel extends LayersModel {
   /**
    * Step the model forward in time.
    */
-  public override stepModel( dt: number ) {
+  public override stepModel( dt: number ): void {
     this.photonCollection.step( dt );
     super.stepModel( dt );
   }

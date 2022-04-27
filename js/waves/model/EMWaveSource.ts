@@ -40,7 +40,7 @@ class WaveCreationSpec {
     this.originX = originX;
   }
 
-  toStateObject() {
+  public toStateObject(): WaveCreationSpecStateObject {
     return {
       countdown: NumberIO.toStateObject( this.countdown ),
       propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
@@ -48,7 +48,7 @@ class WaveCreationSpec {
     };
   }
 
-  static fromStateObject( stateObject: WaveCreationSpecStateObject ) {
+  public static fromStateObject( stateObject: WaveCreationSpecStateObject ): WaveCreationSpec {
     return new WaveCreationSpec(
       NumberIO.fromStateObject( stateObject.originX ),
       Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
@@ -156,8 +156,9 @@ class EMWaveSource extends PhetioObject {
   }
 
   /**
+   * Step forward in time.
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
 
     const waveIntensity = this.waveIntensityProperty.value;
 
@@ -244,10 +245,7 @@ class EMWaveSource extends PhetioObject {
     this.waveCreationQueue = this.waveCreationQueue.filter( waveSpec => waveSpec.countdown > 0 );
   }
 
-  /**
-   * @private
-   */
-  addWaveToModel( originX: number, propagationDirection: Vector2 ) {
+  private addWaveToModel( originX: number, propagationDirection: Vector2 ): void {
     const newIRWave = this.waveGroup.createNextElement(
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
@@ -270,20 +268,21 @@ class EMWaveSource extends PhetioObject {
   }
 
   /**
+   * Reset the wave source.
    */
-  reset() {
+  public reset(): void {
     this.wavesToLifetimesMap.clear();
     this.waveCreationQueue.length = 0;
   }
 
-  toStateObject() {
+  public toStateObject(): EMWaveSourceStateObject {
     return {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).toStateObject( this.wavesToLifetimesMap ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).toStateObject( this.waveCreationQueue )
     };
   }
 
-  applyState( stateObject: EMWaveSourceStateObject ) {
+  public applyState( stateObject: EMWaveSourceStateObject ): void {
     this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject( stateObject.wavesToLifetimesMap );
     this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject( stateObject.waveCreationQueue );
   }
@@ -310,6 +309,7 @@ class EMWaveSource extends PhetioObject {
 
 type EMWaveSourceStateObject = {
   // TODO: I (jbphet) need to talk with the phet-io guys to figure out how to spec this better.
+
   wavesToLifetimesMap: any;
   waveCreationQueue: any;
 }

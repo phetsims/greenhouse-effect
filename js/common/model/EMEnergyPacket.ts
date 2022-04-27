@@ -50,21 +50,21 @@ class EMEnergyPacket {
   /**
    * convenience method for determining whether the EM energy contained in this packet is in the visible light range
    */
-  get isVisible() {
+  public get isVisible(): boolean {
     return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
   }
 
   /**
    * convenience method for determining whether the EM energy contained in this packet is in the infrared light range
    */
-  get isInfrared() {
+  public get isInfrared(): boolean {
     return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
   }
 
   /**
-   * @param {number} dt - time, in seconds
+   * @param {number} dt - delta time, in seconds
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
     this.previousAltitude = this.altitude;
 
     // @ts-ignore
@@ -78,9 +78,8 @@ class EMEnergyPacket {
 
   /**
    * Serializes this EMEnergyPacket instance.
-   * @returns {Object}
    */
-  toStateObject() {
+  public toStateObject(): EMEnergyPacketStateObject {
     return {
       wavelength: NumberIO.toStateObject( this.wavelength ),
       energy: NumberIO.toStateObject( this.energy ),
@@ -93,7 +92,7 @@ class EMEnergyPacket {
   /**
    * for phet-io
    */
-  static fromStateObject( stateObject: EMEnergyPacketStateObject ) {
+  static fromStateObject( stateObject: EMEnergyPacketStateObject ): EMEnergyPacket {
     const emEnergyPacket = new EMEnergyPacket(
       NumberIO.fromStateObject( stateObject.wavelength ),
       NumberIO.fromStateObject( stateObject.energy ),
@@ -106,7 +105,6 @@ class EMEnergyPacket {
 
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   * @returns {Object.<string,IOType>}
    */
   static get STATE_SCHEMA() {
     return {

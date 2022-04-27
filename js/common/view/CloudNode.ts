@@ -82,7 +82,7 @@ class CloudNode extends Node {
    * @param {number} height
    * @returns {Shape}
    */
-  static createCloudShape( position: Vector2, width: number, height: number ) {
+  public static createCloudShape( position: Vector2, width: number, height: number ): Shape {
 
     const circleShapes = [];
     let drawnWidth = 0;
@@ -159,7 +159,7 @@ class CloudNode extends Node {
   /**
    * Free memory references to avoid leaks.
    */
-  public override dispose() {
+  public override dispose(): void {
     this.disposeCloudNode();
     super.dispose();
   }

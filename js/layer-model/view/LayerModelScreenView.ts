@@ -75,13 +75,6 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     );
     this.legendAndControlsVBox.addChild( layersControl );
   }
-
-  /**
-   * Resets the view.
-   */
-  public override reset() {
-    super.reset();
-  }
 }
 
 greenhouseEffect.register( 'LayerModelScreenView', LayerModelScreenView );

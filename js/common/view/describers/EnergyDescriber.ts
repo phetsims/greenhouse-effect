@@ -22,6 +22,7 @@ const outgoingEnergyAtAtmospherePatternString = greenhouseEffectStrings.a11y.out
 const outgoingEnergyAtAtmosphereEqualString = greenhouseEffectStrings.a11y.outgoingEnergyAtAtmosphereEqual;
 
 class EnergyDescriber {
+
   constructor() {}
 
   /**

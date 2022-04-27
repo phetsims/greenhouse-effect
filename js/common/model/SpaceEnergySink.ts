@@ -43,10 +43,8 @@ class SpaceEnergySink extends PhetioObject {
 
   /**
    * Check for interaction with the provided energy.  In this case, energy that is emitted into space is removed.
-   * @param {EMEnergyPacket[]} emEnergyPackets
-   * @param {number} dt
    */
-  interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ): void {
 
     let energyEmittedIntoSpace = 0;
 

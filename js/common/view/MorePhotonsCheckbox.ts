@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
+
   constructor( property: Property<boolean>, tandem: Tandem ) {
 
     super( greenhouseEffectStrings.morePhotons, property, {

@@ -41,11 +41,7 @@ class WaveAttenuator {
     };
   }
 
-  /**
-   * @param stateObject
-   * @returns {Object}
-   */
-  static fromStateObject( stateObject: WaveAttenuatorStateObject ) {
+  public static fromStateObject( stateObject: WaveAttenuatorStateObject ) {
     return new WaveAttenuator(
       NumberIO.fromStateObject( stateObject.attenuation ),
       NumberIO.fromStateObject( stateObject.distanceFromStart )

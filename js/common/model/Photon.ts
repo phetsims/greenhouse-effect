@@ -80,9 +80,10 @@ class Photon {
   }
 
   /**
-   * @param {number} dt - time, in seconds
+   * Step the model in time.
+   * @param {number} dt - delta time, in seconds
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
 
     // Keep track of the previous position, meaning the position just prior to the most recent update.  This is used to
     // detect whether a photon has crossed a boundary.
@@ -95,14 +96,14 @@ class Photon {
   /**
    * convenience method for determining whether this is a visible photon
    */
-  get isVisible() {
+  public get isVisible(): boolean {
     return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
   }
 
   /**
    * convenience method for determining whether this is an infrared photon
    */
-  get isInfrared() {
+  public get isInfrared(): boolean {
     return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
   }
 
@@ -110,11 +111,11 @@ class Photon {
    * Reset the previous position by making it match the current position.  This is generally used when a photon is
    * being released from something, and we don't want to detect false layer crossing after the release.
    */
-  resetPreviousPosition() {
+  public resetPreviousPosition(): void {
     this.previousPosition.set( this.positionProperty.value );
   }
 
-  toStateObject() {
+  public toStateObject(): PhotonStateObject {
     return {
       position: this.positionProperty.value.toStateObject(),
       previousPosition: this.previousPosition.toStateObject(),
@@ -124,7 +125,7 @@ class Photon {
     };
   }
 
-  static fromStateObject( stateObject: PhotonStateObject ) {
+  public static fromStateObject( stateObject: PhotonStateObject ): Photon {
     return new Photon(
       Vector2.fromStateObject( stateObject.position ),
       stateObject.wavelength,

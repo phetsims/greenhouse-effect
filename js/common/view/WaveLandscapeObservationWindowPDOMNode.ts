@@ -15,6 +15,7 @@ import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
+
   constructor( model: WavesModel ) {
     super( model );
 

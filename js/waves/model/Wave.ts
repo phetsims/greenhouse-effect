@@ -151,7 +151,7 @@ class Wave extends PhetioObject {
   /**
    * @param dt - delta time, in seconds
    */
-  step( dt: number ) {
+  public step( dt: number ): void {
 
     const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
 
@@ -211,18 +211,17 @@ class Wave extends PhetioObject {
    * Get the altitude at which this wave ends.  This can be used instead of getEndPoint when only the end altitude is
    * needed, since it doesn't allocate a vector and may thus have better performance.  This treats the wave as a line
    * and does not account for any amplitude.
-   * @returns {number}
    */
-  getEndAltitude() {
+  public getEndAltitude(): number {
     return this.startPoint.y + this.length * this.propagationDirection.y;
   }
 
   /**
    * Get a vector that represents the end point of this wave.  This does not account for any amplitude of the wave, and
-   * just treats it as a line between two points.  If a vector is provided, none is allocated.
-   * @param {Vector2} [vectorToUse]
+   * just treats it as a line between two points.  If a vector is provided, none is allocated.  This can help to reduce
+   * the number of memory allocations.
    */
-  getEndPoint( vectorToUse?: Vector2 ) {
+  public getEndPoint( vectorToUse?: Vector2 ): Vector2 {
     const endPointVector = vectorToUse || new Vector2( 0, 0 );
     endPointVector.setXY(
       this.startPoint.x + this.propagationDirection.x * this.length,
@@ -257,9 +256,9 @@ class Wave extends PhetioObject {
 
   /**
    * Set the intensity at the start of the wave.
-   * @param {number} intensity - a normalized intensity value
+   * @param intensity - a normalized intensity value
    */
-  setIntensityAtStart( intensity: number ) {
+  public setIntensityAtStart( intensity: number ): void {
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
     this.intensityAtStart = intensity;
   }
@@ -294,9 +293,8 @@ class Wave extends PhetioObject {
 
   /**
    * Remove the attenuator associated with the provided model element.
-   * @param {Object} causalModelElement
    */
-  removeAttenuator( causalModelElement: PhetioObject ) {
+  public removeAttenuator( causalModelElement: PhetioObject ): void {
 
     assert && assert(
       this.modelObjectToAttenuatorMap.has( causalModelElement ),
@@ -309,9 +307,8 @@ class Wave extends PhetioObject {
 
   /**
    * Does the provided model element have an associated attenuator on this wave?
-   * @param {Object} modelElement
    */
-  hasAttenuator( modelElement: PhetioObject ) {
+  public hasAttenuator( modelElement: PhetioObject ): boolean {
     return this.modelObjectToAttenuatorMap.has( modelElement );
   }
 

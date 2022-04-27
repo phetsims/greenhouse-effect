@@ -72,7 +72,7 @@ class WavesCanvasNode extends CanvasNode {
     );
   }
 
-  paintCanvas( context: CanvasRenderingContext2D ) {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
     this.model.waveGroup.forEach( wave => this.drawWave( context, wave ) );
   }
 

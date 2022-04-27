@@ -16,6 +16,7 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 
 class LayersModelTimeControlNode extends TimeControlNode {
+
   constructor( model: LayersModel, options?: any ) {
 
     options = merge( {
