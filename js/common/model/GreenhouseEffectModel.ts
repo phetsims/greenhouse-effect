@@ -68,11 +68,10 @@ class GreenhouseEffectModel extends PhetioObject {
   }
 
   /**
-   * Step the simulation, called by Joist framework.
-   *
+   * Step the simulation, called by PhET framework.
    * @param dt - in seconds
    */
-  public tep( dt: number ): void {
+  public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
       // @ts-ignore
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
