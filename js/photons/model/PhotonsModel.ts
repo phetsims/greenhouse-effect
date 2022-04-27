@@ -68,7 +68,7 @@ class PhotonsModel extends ConcentrationModel {
     super.stepModel( dt );
   }
 
-  override reset() {
+  public override reset() {
     this.photonCollection.reset();
     super.reset();
   }

@@ -294,7 +294,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * Resets all aspects of the model.
    */
-  override reset() {
+  public override reset() {
     super.reset();
 
     this.energyBalanceVisibleProperty.reset();

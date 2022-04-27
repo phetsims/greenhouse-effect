@@ -77,7 +77,7 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   /**
    * see base class for details
    */
-  override interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
+  public override interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ) {
     if ( this.isActiveProperty.value ) {
       super.interactWithEnergy( emEnergyPackets, dt );
     }

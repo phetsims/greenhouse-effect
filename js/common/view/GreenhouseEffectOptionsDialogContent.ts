@@ -230,7 +230,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
 
   /**
    */
-  override dispose() {
+  public override dispose() {
     this.disposeGreenhouseEffectOptionsDialogContent();
     super.dispose();
   }
@@ -289,7 +289,7 @@ class MockupOpacityControl extends VBox {
 
   /**
    */
-  override dispose() {
+  public override dispose() {
     this.disposeMockupOpacityControl();
     super.dispose();
   }

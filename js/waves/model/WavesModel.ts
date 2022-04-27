@@ -498,7 +498,7 @@ class WavesModel extends ConcentrationModel {
 
   /**
    */
-  override reset() {
+  public override reset() {
     const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
     this.cloudEnabledProperty.reset();
@@ -517,7 +517,7 @@ class WavesModel extends ConcentrationModel {
   /**
    * for phet-io
    */
-  override toStateObject(): WavesModelStateObject {
+  public override toStateObject(): WavesModelStateObject {
     return merge( super.toStateObject(), {
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
@@ -529,7 +529,7 @@ class WavesModel extends ConcentrationModel {
   /**
    * for phet-io
    */
-  override applyState( stateObject: WavesModelStateObject ) {
+  public override applyState( stateObject: WavesModelStateObject ) {
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
