@@ -106,7 +106,7 @@ class EMEnergyPacket {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  static get STATE_SCHEMA() {
+  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
     return {
       wavelength: NumberIO,
       energy: NumberIO,
