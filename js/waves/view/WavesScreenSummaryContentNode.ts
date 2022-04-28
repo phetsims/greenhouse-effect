@@ -8,13 +8,14 @@
 import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
@@ -69,7 +70,7 @@ class WavesScreenSummaryContentNode extends Node {
       (
         sunIsShining: boolean,
         concentration: number,
-        date: EnumerationDeprecated,
+        date: ConcentrationDate,
         surfaceTemperatureKelvin: number,
         concentrationControlMode: ConcentrationControlMode,
         surfaceTemperatureVisible: boolean,
@@ -101,7 +102,7 @@ class WavesScreenSummaryContentNode extends Node {
    */
   getScreenDescriptionString( sunIsShining: boolean,
                               concentration: number,
-                              date: EnumerationDeprecated,
+                              date: ConcentrationDate,
                               surfaceTemperatureKelvin: number,
                               concentrationControlMode: ConcentrationControlMode,
                               surfaceTemperatureVisible: boolean,

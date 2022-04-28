@@ -29,7 +29,7 @@ import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
@@ -181,7 +181,7 @@ class DateControl extends Node {
    * @param {EnumerationDeprecatedProperty} concentrationControlModeProperty - setting date will modify concentration
    * @param {Tandem} tandem
    */
-  constructor( dateProperty: EnumerationDeprecatedProperty,
+  constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
                concentrationProperty: IReadOnlyProperty<number>,
                concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                tandem: Tandem ) {
@@ -198,29 +198,25 @@ class DateControl extends Node {
     const items = [
       {
         node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY,
+        value: ConcentrationDate.TWENTY_TWENTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY,
+        value: ConcentrationDate.NINETEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY,
+        value: ConcentrationDate.SEVENTEEN_FIFTY,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
         node: new Text( iceAgeLabel, LABEL_OPTIONS ),
-        // @ts-ignore
-        value: ConcentrationModel.CONCENTRATION_DATE.ICE_AGE,
+        value: ConcentrationDate.ICE_AGE,
         labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
         tandemName: 'iceAgeRadioButton'
       }
@@ -331,9 +327,8 @@ class DateControl extends Node {
     valueCircle.centerX = microConcentrationLine.centerX;
     Property.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
-      ( concentration: number, concentrationControlMode: any ) => {
+      ( concentration: number, concentrationControlMode: ConcentrationControlMode ) => {
         if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
-          // @ts-ignore
           const centerY = concentrationHeightFunction.evaluate( concentration );
           valueCircle.centerY = centerY;
         }
@@ -404,10 +399,7 @@ class CompositionDataNode extends VBox {
   private readonly methaneText: RichText;
   private readonly nitrousOxideText: RichText;
 
-  /**
-   * @param {EnumerationDeprecatedProperty} dateProperty
-   */
-  constructor( dateProperty: EnumerationDeprecatedProperty ) {
+  constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
     super( {
       align: 'left'
     } );
@@ -430,7 +422,7 @@ class CompositionDataNode extends VBox {
    * Update the readout of greenhouse gas composition data for the provided date.
    * NOTE: Don't have data or lookup yet, that needs to be implemented.
    */
-  private updateCompositionReadout( date: any ) {
+  private updateCompositionReadout(): void {
     const waterString = StringUtils.fillIn( waterConcentrationPatternString, { value: 70 } );
     const carbonDioxideString = StringUtils.fillIn( carbonDioxideConcentrationPatternString, { value: 414 } );
     const methaneString = StringUtils.fillIn( methaneConcentrationPatternString, { value: 1.876 } );

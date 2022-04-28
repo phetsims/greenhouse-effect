@@ -17,7 +17,7 @@ import nineteenFiftyBackground_png from '../../../images/nineteenFiftyBackground
 import twentyTwentyBackground_png from '../../../images/twentyTwentyBackground_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
@@ -121,34 +121,20 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Control the visibility of the various date-oriented artwork.
     Property.multilink(
       [ model.concentrationControlModeProperty, model.dateProperty ],
-      ( concentrationControlMode: any, date: any ) => {
+      ( concentrationControlMode: ConcentrationControlMode, date: ConcentrationDate ) => {
 
         // Update the visibility of the various images that represent dates.
-        // @ts-ignore
-        glacierImageNode.visible =
-          concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-          // @ts-ignore
-          date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE;
-        // @ts-ignore
-        barnAndSheepImageNode.visible =
-          concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-          // @ts-ignore
-          date === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY;
-        // @ts-ignore
-        nineteenFiftyBackgroundImageNode.visible =
-          concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-          // @ts-ignore
-          date === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY;
-        // @ts-ignore
-        twentyTwentyBackgroundImageNode.visible =
-          concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-          // @ts-ignore
-          date === ConcentrationModel.CONCENTRATION_DATE.TWENTY_TWENTY;
+        glacierImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                   date === ConcentrationDate.ICE_AGE;
+        barnAndSheepImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                        date === ConcentrationDate.SEVENTEEN_FIFTY;
+        nineteenFiftyBackgroundImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                   date === ConcentrationDate.NINETEEN_FIFTY;
+        twentyTwentyBackgroundImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                  date === ConcentrationDate.TWENTY_TWENTY;
 
         // In the ice age, the ground should look brown rather than green.
-        if ( concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-             // @ts-ignore
-             date === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ) {
+        if ( concentrationControlMode === ConcentrationControlMode.BY_DATE && date === ConcentrationDate.ICE_AGE ) {
           groundColorBaseProperty.set( ICE_AGE_GROUND_BASE_COLOR );
         }
         else {

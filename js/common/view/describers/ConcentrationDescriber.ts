@@ -8,7 +8,7 @@
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
-import ConcentrationModel from '../../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationDate } from '../../model/ConcentrationModel.js';
 import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 
@@ -123,13 +123,10 @@ class ConcentrationDescriber {
    * "ice age" or
    * "year seventeen fifty"
    */
-  public static getTimePeriodString( timePeriodValue: any ): string {
-    // @ts-ignore
-    return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeString :
-      // @ts-ignore
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyString :
-             // @ts-ignore
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyString :
+  public static getTimePeriodString( timePeriodValue: ConcentrationDate ): string {
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeString :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyString :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyString :
            twentyTwentyString;
   }
 
@@ -138,7 +135,7 @@ class ConcentrationDescriber {
    * "year twenty twenty and there are lots of homes and factories" or
    * "ice age and there is a large glacier"
    */
-  public static getDescribedTimePeriodString( timePeriodValue: any ): string {
+  public static getDescribedTimePeriodString( timePeriodValue: ConcentrationDate ): string {
     const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
     const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodDescription( timePeriodValue );
 
@@ -154,15 +151,11 @@ class ConcentrationDescriber {
    * "a large number of homes and factories"
    * @param timePeriodValue
    */
-  public static getTimePeriodDescription( timePeriodValue: any ): string {
-    // @ts-ignore
-    return timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.ICE_AGE ? iceAgeDescriptionString :
-      // @ts-ignore
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
-             // @ts-ignore
-           timePeriodValue === ConcentrationModel.CONCENTRATION_DATE.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
+  public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeDescriptionString :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
            twentyTwentyDescriptionString;
-
   }
 
   /**
@@ -170,7 +163,7 @@ class ConcentrationDescriber {
    * "Now a few homes and houses in observation window." or
    * "Now a large number of homes and factories in observation window."
    */
-  public static getObservationWindowNowTimePeriodDescription( timePeriodValue: any ): string {
+  public static getObservationWindowNowTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.observationWindowTimePeriodPattern, {
       timePeriodDescription: ConcentrationDescriber.getTimePeriodDescription( timePeriodValue )
     } );
@@ -180,8 +173,7 @@ class ConcentrationDescriber {
    * Get a string that describes the time period in a full context like:
    * "the time period is the year twenty twenty and there are a large number of homes and factories."
    */
-  public static getFullTimePeriodDescription( timePeriodValue: any ): string {
-
+  public static getFullTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
       timePeriodDescription: describedTimePeriod
@@ -192,7 +184,7 @@ class ConcentrationDescriber {
    * Get a string that describes the time period in a full context, proceeded by "currently". Will return something like
    * "Currently, the time period is the year twenty-twenty and there are a large number of homes and factories."
    */
-  public static getTimePeriodCurrentlyDescription( timePeriodValue: any ): string {
+  public static getTimePeriodCurrentlyDescription( timePeriodValue: ConcentrationDate ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.currentlyTimePeriodDescriptionPattern, {
       timePeriodDescription: ConcentrationDescriber.getFullTimePeriodDescription( timePeriodValue )
     } );
@@ -218,7 +210,7 @@ class ConcentrationDescriber {
    * "Greenhouse gas levels much lower than twenty twenty."
    */
   public static getQualitativeConcentrationChangeDescription( oldConcentrationValue: number,
-                                                              oldYear: number,
+                                                              oldYear: ConcentrationDate,
                                                               newConcentrationValue: number ): string {
 
     assert && assert(
@@ -318,9 +310,8 @@ class ConcentrationDescriber {
    * Returns a description of the levels of greenhouse gas concentration in the atmosphere by date. Will return
    * something like
    * "Year seventeen fifty levels of greenhouse gases in atmosphere."
-   * @param date - TODO: Replace with new Enumeration pattern
    */
-  public static getConcentrationDescriptionWithDate( date: any ): string {
+  public static getConcentrationDescriptionWithDate( date: ConcentrationDate ): string {
     const dateString = StringUtils.capitalize( ConcentrationDescriber.getTimePeriodString( date ) );
 
     return StringUtils.fillIn( dateLevelsOfGreenhouseGasesPatternString, {

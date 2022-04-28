@@ -80,7 +80,6 @@ class Molecule {
       phetioState: false // Too tricky to load dynamic particle state in the state wrapper, and not enough benefit.  Opt out for now.
     } : {} );
 
-    // TODO: visibility annotation
     this.centerOfGravityProperty = new Vector2Property( options.initialPosition );
 
     // Atoms and bonds that form this molecule.
