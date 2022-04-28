@@ -8,9 +8,7 @@
  */
 
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { RadialGradient } from '../../../../scenery/js/imports.js';
+import { Circle, Node, RadialGradient } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class AtomNode extends Node {

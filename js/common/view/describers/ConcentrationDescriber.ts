@@ -8,7 +8,7 @@
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
-import ConcentrationModel, { ConcentrationDate } from '../../model/ConcentrationModel.js';
+import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 

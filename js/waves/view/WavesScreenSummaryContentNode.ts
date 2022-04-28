@@ -15,7 +15,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;

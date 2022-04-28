@@ -16,15 +16,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
-import { PDOMPeer } from '../../../../scenery/js/imports.js';
-import { LayoutBox } from '../../../../scenery/js/imports.js';
-import { Line } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../../scenery/js/imports.js';
+import { LayoutBox, Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 

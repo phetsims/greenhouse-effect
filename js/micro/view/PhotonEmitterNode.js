@@ -13,9 +13,7 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Image, Node, Text } from '../../../../scenery/js/imports.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
 import flashlightOff_png from '../../../images/flashlightOff_png.js';
 import infraredSourceOff_png from '../../../images/infraredSourceOff_png.js';

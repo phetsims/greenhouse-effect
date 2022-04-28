@@ -7,11 +7,10 @@
  * @author Jesse Greenberg
  */
 
-import { Image } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Image, Node } from '../../../../scenery/js/imports.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import microwavePhoton_png from '../../../images/microwavePhoton_png.js';
 import ultravioletPhoton_png from '../../../images/ultravioletPhoton_png.js';
-import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';

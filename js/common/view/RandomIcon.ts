@@ -13,10 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Screen from '../../../../joist/js/Screen.js';
 import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
-import { LinearGradient } from '../../../../scenery/js/imports.js';
+import { Color, LinearGradient, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants

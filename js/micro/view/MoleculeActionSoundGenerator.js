@@ -12,12 +12,12 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import absorbPhoton_mp3 from '../../../sounds/absorbPhoton_mp3.js';
 import breakApart_mp3 from '../../../sounds/breakApart_mp3.js';
 import energized_mp3 from '../../../sounds/energized_mp3.js';
-import rotationClockwiseSlowMotion_mp3 from '../../../sounds/rotationClockwiseSlowMotion_mp3.js';
 import rotationClockwise_mp3 from '../../../sounds/rotationClockwise_mp3.js';
-import rotationCounterclockwiseSlowMotion_mp3 from '../../../sounds/rotationCounterclockwiseSlowMotion_mp3.js';
+import rotationClockwiseSlowMotion_mp3 from '../../../sounds/rotationClockwiseSlowMotion_mp3.js';
 import rotationCounterclockwise_mp3 from '../../../sounds/rotationCounterclockwise_mp3.js';
-import vibrationSlowMotion_mp3 from '../../../sounds/vibrationSlowMotion_mp3.js';
+import rotationCounterclockwiseSlowMotion_mp3 from '../../../sounds/rotationCounterclockwiseSlowMotion_mp3.js';
 import vibration_mp3 from '../../../sounds/vibration_mp3.js';
+import vibrationSlowMotion_mp3 from '../../../sounds/vibrationSlowMotion_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
