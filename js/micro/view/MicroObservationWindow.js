@@ -12,7 +12,6 @@
 // const Shape = require( '/kite/js/Shape' );  // See below for comment on temporary replacement of clipArea shape.
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import platform from '../../../../phet-core/js/platform.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
@@ -77,12 +76,6 @@ class MicroObservationWindow extends Rectangle {
 
     const photonEmitterLayer = new Node();
     this.addChild( photonEmitterLayer );
-
-    // if using Edge, render the photon layer and emitter with SVG for improved performance, see #175
-    if ( platform.edge ) {
-      photonLayer.renderer = 'svg';
-      photonEmitterLayer.renderer = 'svg';
-    }
 
     // Create and add the photon emitter.
     const photonEmitterNode = new PhotonEmitterNode( PHOTON_EMITTER_WIDTH, photonAbsorptionModel, tandem.createTandem( 'photonEmitterNode' ) );
