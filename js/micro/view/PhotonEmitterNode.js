@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Node that represents the photon emitter in the view.  The graphical representation of the emitter changes based on
