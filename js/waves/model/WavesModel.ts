@@ -443,7 +443,7 @@ class WavesModel extends ConcentrationModel {
    * update the interactions between light waves and the glacier
    * @private
    */
-  updateWaveGlacierInteractions() {
+  updateWaveGlacierInteractions(): void {
 
     // See if any of the currently reflected waves should stop reflecting.
     this.glacierReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
@@ -495,7 +495,7 @@ class WavesModel extends ConcentrationModel {
 
   /**
    */
-  public override reset() {
+  public override reset(): void {
     const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
     this.cloudEnabledProperty.reset();
@@ -526,7 +526,7 @@ class WavesModel extends ConcentrationModel {
   /**
    * for phet-io
    */
-  public override applyState( stateObject: WavesModelStateObject ) {
+  public override applyState( stateObject: WavesModelStateObject ): void {
     this.sunWaveSource.applyState( stateObject.sunWaveSource );
     this.groundWaveSource.applyState( stateObject.groundWaveSource );
     this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap );
@@ -604,7 +604,7 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ) {
+  static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ): WaveAtmosphereInteraction {
     return new WaveAtmosphereInteraction(
       ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
       ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),

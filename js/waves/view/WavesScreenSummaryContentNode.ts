@@ -107,7 +107,7 @@ class WavesScreenSummaryContentNode extends Node {
                               surfaceTemperatureVisible: boolean,
                               surfaceThermometerVisible: boolean,
                               temperatureUnits: EnumerationDeprecated,
-                              cloudEnabled: boolean ) {
+                              cloudEnabled: boolean ): string {
 
     // the final description
     let descriptionString = '';

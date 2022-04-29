@@ -197,7 +197,7 @@ class ThermometerAndReadout extends Node {
                                      property: IReadOnlyProperty<number>,
                                      propertyRange: Range,
                                      propertyValue: EnumerationDeprecated,
-                                     tandemName: string ) {
+                                     tandemName: string ): ComboBoxItem<EnumerationDeprecated> {
 
     const numberDisplayOptions = {
       backgroundStroke: null,
@@ -234,7 +234,7 @@ class ThermometerAndReadout extends Node {
    */
   private static createTemperatureReadout( unitsString: string,
                                            property: Property<number>,
-                                           propertyRange: Range ) {
+                                           propertyRange: Range ): NumberDisplay {
 
     const numberDisplayOptions = {
       decimalPlaces: DECIMAL_PLACES_IN_READOUT,

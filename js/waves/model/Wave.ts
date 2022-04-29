@@ -270,7 +270,7 @@ class Wave extends PhetioObject {
    */
   addAttenuator( distanceFromStart: number,
                  attenuationAmount: number,
-                 causalModelElement: PhetioObject ) {
+                 causalModelElement: PhetioObject ): void {
 
     // parameter checking
     assert && assert(
@@ -317,7 +317,7 @@ class Wave extends PhetioObject {
    * @param {Object} modelElement
    * @param {number} attenuation
    */
-  setAttenuation( modelElement: PhetioObject, attenuation: number ) {
+  setAttenuation( modelElement: PhetioObject, attenuation: number ): void {
 
     // state and parameter checking
     assert && assert( this.hasAttenuator( modelElement ), 'no attenuator is on this wave for this model element' );
@@ -354,7 +354,7 @@ class Wave extends PhetioObject {
    * @param {number} distanceFromOrigin
    * @returns {number} - phase of the end point in radians
    */
-  getPhaseAt( distanceFromOrigin: number ) {
+  getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
@@ -362,7 +362,7 @@ class Wave extends PhetioObject {
    * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
    * @returns {WaveAttenuator[]}
    */
-  getSortedAttenuators() {
+  getSortedAttenuators(): WaveAttenuator[] {
     return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
       attenuator1.distanceFromStart - attenuator2.distanceFromStart
     );
@@ -372,7 +372,7 @@ class Wave extends PhetioObject {
    * Serializes this Wave instance.
    * @returns {Object}
    */
-  toStateObject() {
+  toStateObject(): { wavelength: any; origin: any; propagationDirection: any; propagationLimit: any; startPoint: any; length: any; isSourced: any; existenceTime: any; phaseOffsetAtOrigin: any; intensityAtStart: any; modelObjectToAttenuatorMap: any; renderingWavelength: any } {
     return {
       wavelength: NumberIO.toStateObject( this.wavelength ),
       origin: Vector2.Vector2IO.toStateObject( this.origin ),
@@ -396,7 +396,7 @@ class Wave extends PhetioObject {
    * @param stateObject
    * @returns {Object}
    */
-  applyState( stateObject: WaveStateObject ) {
+  applyState( stateObject: WaveStateObject ): void {
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
     this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
     this.propagationDirection = Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection );
@@ -419,7 +419,7 @@ class Wave extends PhetioObject {
    * @param {Object} state
    * @returns {Object[]}
    */
-  static stateToArgsForConstructor( state: WaveStateObject ) {
+  static stateToArgsForConstructor( state: WaveStateObject ): any[] {
     return [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),

@@ -82,7 +82,7 @@ class WavesCanvasNode extends CanvasNode {
    * @param {Wave} wave
    * @private
    */
-  drawWave( context: CanvasRenderingContext2D, wave: Wave ) {
+  drawWave( context: CanvasRenderingContext2D, wave: Wave ): void {
 
     // convenience variables
     const modelViewTransform = this.modelViewTransform;
@@ -171,7 +171,7 @@ class WavesCanvasNode extends CanvasNode {
    * @returns {number}
    * @private
    */
-  getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ) {
+  getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ): number {
     const sortedAttenuators = wave.getSortedAttenuators();
     const attenuatorDistanceFromStart = sortedAttenuators[ index ] ?
                                         sortedAttenuators[ index ].distanceFromStart :
@@ -214,7 +214,7 @@ class WavesCanvasNode extends CanvasNode {
   static getXCompensationForTilt( amplitudeInView: number,
                                   wavelengthInView: number,
                                   phase: number,
-                                  propagationAngle: number ) {
+                                  propagationAngle: number ): number {
 
     // The following would probably be easier to understand if vectors were used, but for performance reasons we wanted
     // to avoid the memory allocations.

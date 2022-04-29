@@ -310,7 +310,7 @@ class PhotonCollection extends PhetioObject {
   /**
    * Calculate the rate of infrared photon production for the ground based on its temperature.
    */
-  public static groundTemperatureToIRPhotonProductionRate( groundTemperature: number, cutoffTemperature: number ) {
+  public static groundTemperatureToIRPhotonProductionRate( groundTemperature: number, cutoffTemperature: number ): number {
 
     let photonProductionRate = 0;
 
