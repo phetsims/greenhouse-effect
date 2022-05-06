@@ -4,7 +4,7 @@
  * Options dialog for testing out sound design options.
  *
  * TODO: This is temporary and should be removed once the sound design is finalized, see
- *       https://github.com/phetsims/greenhouse-effect/issues/36.
+ *       https://github.com/phetsims/greenhouse-effect/issues/147.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
