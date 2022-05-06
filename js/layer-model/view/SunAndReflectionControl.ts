@@ -26,6 +26,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
@@ -39,6 +40,8 @@ const COMMON_SLIDER_OPTIONS = {
   minorTickLength: 6,
   tickLabelSpacing: 2
 };
+const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
+const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
 class SunAndReflectionControl extends Panel {
 
@@ -110,6 +113,10 @@ class SunAndReflectionControl extends Panel {
       solarIntensityProportionRange,
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SOLAR_INTENSITY_SLIDER_STEP_SIZE ),
+        keyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
+        shiftKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
+        pageKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE * 2,
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: solarIntensitySliderSoundPlayer,
           middleMovingDownSoundPlayer: solarIntensitySliderSoundPlayer,
@@ -169,6 +176,10 @@ class SunAndReflectionControl extends Panel {
       surfaceAlbedoRange,
       merge( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, SURFACE_ALBEDO_SLIDER_STEP_SIZE ),
+        keyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
+        shiftKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
+        pageKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE * 2,
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
           minSoundPlayer: sliderBoundarySoundClip,

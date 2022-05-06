@@ -26,12 +26,14 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 import IrAbsorbanceSoundPlayer from './IrAbsorbanceSoundPlayer.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
 const HEADING_FONT = new PhetFont( 14 );
 const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
 const PANEL_MARGIN = 5;
+const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
 class LayersControl extends Panel {
 
@@ -140,6 +142,10 @@ class LayersControl extends Panel {
         majorTickLength: 12,
         minorTickLength: 6,
         tickLabelSpacing: 2,
+        constrainValue: ( value: number ) => Utils.roundToInterval( value, IR_ABSORBANCE_STEP_SIZE ),
+        keyboardStep: IR_ABSORBANCE_STEP_SIZE,
+        shiftKeyboardStep: IR_ABSORBANCE_STEP_SIZE,
+        pageKeyboardStep: IR_ABSORBANCE_STEP_SIZE * 2,
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
           middleMovingUpSoundPlayer: irAbsorbanceSoundPlayer,
