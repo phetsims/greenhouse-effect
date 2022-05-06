@@ -109,7 +109,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     const temperatureSoundRadioButtonGroup = new AquaRadioButtonGroup( phet.greenhouseEffect.temperatureSoundProperty, items, {
       orientation: 'vertical',
       align: 'left',
-      tandem: tandem.createTandem( 'temperatureSoundRadioButtonGroup' )
+      tandem: Tandem.OPT_OUT
     } );
 
     // checkbox for enabling/disabling IR re-emission sound
@@ -118,7 +118,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty,
       {
         boxWidth: CHECKBOX_WIDTH,
-        tandem: tandem.createTandem( 'irEmissionFromGroundSoundEnabledCheckbox' )
+        tandem: Tandem.OPT_OUT
       }
     );
     const irWaveFromGroundExistsSoundEnabledCheckbox = new Checkbox(
@@ -126,7 +126,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty,
       {
         boxWidth: CHECKBOX_WIDTH,
-        tandem: tandem.createTandem( 'irWaveFromGroundExistsSoundEnabledCheckbox' )
+        tandem: Tandem.OPT_OUT
       }
     );
     const irEmissionFromAtmosphereEnabledCheckbox = new Checkbox(
@@ -134,7 +134,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty,
       {
         boxWidth: CHECKBOX_WIDTH,
-        tandem: tandem.createTandem( 'irEmissionFromAtmosphereEnabledCheckbox' )
+        tandem: Tandem.OPT_OUT
       }
     );
     const irWaveFromAtmosphereExistsSoundEnabledCheckbox = new Checkbox(
@@ -142,7 +142,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty,
       {
         boxWidth: CHECKBOX_WIDTH,
-        tandem: tandem.createTandem( 'irWaveFromAtmosphereExistsSoundEnabledCheckbox' )
+        tandem: Tandem.OPT_OUT
       }
     );
     const mapIrWaveLoopOutputLevelsToIntensitiesCheckbox = new Checkbox(
@@ -150,7 +150,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty,
       {
         boxWidth: CHECKBOX_WIDTH,
-        tandem: tandem.createTandem( 'mapIrWaveLoopOutputLevelsToIntensitiesCheckbox' )
+        tandem: Tandem.OPT_OUT
       }
     );
     const irWaveControls = new VBox( {
