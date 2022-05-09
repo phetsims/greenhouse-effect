@@ -76,11 +76,6 @@ class CloudNode extends Node {
    *
    * TODO: This may be temporary, since we may have artwork or may refine the look of the cloud sometime in the future.
    *       See https://github.com/phetsims/greenhouse-effect/issues/49.
-   *
-   * @param {Vector2} position
-   * @param {number} width
-   * @param {number} height
-   * @returns {Shape}
    */
   public static createCloudShape( position: Vector2, width: number, height: number ): Shape {
 

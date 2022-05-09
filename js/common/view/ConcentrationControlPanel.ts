@@ -548,7 +548,6 @@ class ConcentrationSliderSoundGenerator extends SoundGenerator {
 
   /**
    * Get a zero-based index value (an integer) that indicates the bin into which the provided value falls.
-   * @returns {number}
    */
   private getBin( concentration: number ): number {
     return Math.min( Math.floor( concentration / this.binSize ), this.numberOfBins - 1 );

@@ -232,8 +232,7 @@ class Wave extends PhetioObject {
 
   /**
    * Get the intensity of the wave at the specified distance from the starting point.
-   * @param {number} distanceFromStart (in meters)
-   * @returns {number}
+   * @param distanceFromStart - in meters
    */
   getIntensityAt( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
@@ -243,15 +242,6 @@ class Wave extends PhetioObject {
       }
     } );
     return intensity;
-  }
-
-  /**
-   * Get the intensity of the wave at its end point.
-   * @returns {number}
-   * @private
-   */
-  getIntensityAtEnd(): number {
-    return this.getIntensityAt( this.length );
   }
 
   /**
@@ -329,9 +319,8 @@ class Wave extends PhetioObject {
 
   /**
    * true if the wave has completely propagated and has nothing else to do
-   * @returns {boolean}
    */
-  get isCompletelyPropagated() {
+  get isCompletelyPropagated(): boolean {
     return this.startPoint.y === this.propagationLimit;
   }
 
@@ -351,8 +340,7 @@ class Wave extends PhetioObject {
 
   /**
    * Get the wave's phase at the specified distance from the origin.
-   * @param {number} distanceFromOrigin
-   * @returns {number} - phase of the end point in radians
+   * @param distanceFromOrigin - in meters
    */
   getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
@@ -360,7 +348,6 @@ class Wave extends PhetioObject {
 
   /**
    * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
-   * @returns {WaveAttenuator[]}
    */
   getSortedAttenuators(): WaveAttenuator[] {
     return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
@@ -370,7 +357,6 @@ class Wave extends PhetioObject {
 
   /**
    * Serializes this Wave instance.
-   * @returns {Object}
    */
   toStateObject(): { wavelength: any; origin: any; propagationDirection: any; propagationLimit: any; startPoint: any; length: any; isSourced: any; existenceTime: any; phaseOffsetAtOrigin: any; intensityAtStart: any; modelObjectToAttenuatorMap: any; renderingWavelength: any } {
     return {
@@ -394,7 +380,6 @@ class Wave extends PhetioObject {
 
   /**
    * @param stateObject
-   * @returns {Object}
    */
   applyState( stateObject: WaveStateObject ): void {
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
@@ -416,8 +401,6 @@ class Wave extends PhetioObject {
 
   /**
    * Creates the args that WaveGroup uses to instantiate a Wave.
-   * @param {Object} state
-   * @returns {Object[]}
    */
   static stateToArgsForConstructor( state: WaveStateObject ): any[] {
     return [
@@ -434,7 +417,6 @@ class Wave extends PhetioObject {
 
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   * @returns {Object.<string,IOType>}
    */
   public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
     return {

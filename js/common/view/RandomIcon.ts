@@ -54,9 +54,8 @@ class RandomIcon extends ScreenIcon {
 
 /**
  * @private, function to generate a random color
- * @returns {Color}
  */
-const generateRandomColor = ( random: Random ) => {
+const generateRandomColor = ( random: Random ): Color => {
   const r = Math.floor( random.nextDouble() * 256 );
   const g = Math.floor( random.nextDouble() * 256 );
   const b = Math.floor( random.nextDouble() * 256 );
@@ -65,13 +64,8 @@ const generateRandomColor = ( random: Random ) => {
 
 /**
  * utility function to generate a random linear gradient
- * @param {number} maxX
- * @param {number} maxY
- * @param {Random} random
- * @returns {LinearGradient}
- * @private
  */
-const generateRandomLinearGradient = ( maxX: number, maxY: number, random: Random ) => {
+const generateRandomLinearGradient = ( maxX: number, maxY: number, random: Random ): LinearGradient => {
   const vertical = random.nextDouble() > 0.5;
   let gradient;
   if ( vertical ) {
@@ -87,13 +81,8 @@ const generateRandomLinearGradient = ( maxX: number, maxY: number, random: Rando
 
 /**
  * utility function to generate a random point
- * @param {number} maxX
- * @param {number} maxY
- * @param {Random} random
- * @returns {Vector2}
- * @private
  */
-const generateRandomPoint = ( maxX: number, maxY: number, random: Random ) => {
+const generateRandomPoint = ( maxX: number, maxY: number, random: Random ): Vector2 => {
   return new Vector2( random.nextDouble() * maxX, random.nextDouble() * maxY );
 };
 
@@ -132,14 +121,8 @@ const addRandomSegment = ( shape: Shape, maxX: number, maxY: number, random: Ran
 
 /**
  * utility function to generate random shape
- * @param numSegments
- * @param maxX
- * @param maxY
- * @param {Random} random
- * @returns {Shape}
- * @private
  */
-const generateRandomShape = ( numSegments: number, maxX: number, maxY: number, random: Random ) => {
+const generateRandomShape = ( numSegments: number, maxX: number, maxY: number, random: Random ): Shape => {
   const shape = new Shape();
   shape.moveToPoint( generateRandomPoint( maxX, maxY, random ) );
   for ( let i = 0; i < numSegments; i++ ) {

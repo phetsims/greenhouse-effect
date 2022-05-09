@@ -184,14 +184,6 @@ class ThermometerAndReadout extends Node {
   /**
    * Create a ComboBox item for the units combo box. The Node for the ComboBox item is a NumberDisplay showing the
    * current value of temperature in those units.
-   * @private
-   *
-   * @param {string} unitsString
-   * @param {NumberProperty} property
-   * @param {../../../../dot/js/Range} propertyRange
-   * @param {EnumerationDeprecated} propertyValue
-   * @param {string} tandemName
-   * @returns {ComboBoxItem}
    */
   private static createComboBoxItem( unitsString: string,
                                      property: IReadOnlyProperty<number>,

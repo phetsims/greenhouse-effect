@@ -112,10 +112,6 @@ class TemperatureDescriber {
 
   /**
    * Get the current temperature in the provided units, formatted for use in interactive description.
-   *
-   * @param {number} temperatureKelvin
-   * @param {LayersModel.TemperatureUnits} unitsValue
-   * @returns {string}
    */
   public static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ): string {
     // @ts-ignore
@@ -132,9 +128,6 @@ class TemperatureDescriber {
    * descriptions. Will return something like
    * "Kelvin" or
    * "degrees Celsius"
-   *
-   * @param {LayersModel.TemperatureUnits} unitsValue
-   * @returns {string}
    */
   public static getTemperatureUnitsString( unitsValue: any ): string {
     // @ts-ignore

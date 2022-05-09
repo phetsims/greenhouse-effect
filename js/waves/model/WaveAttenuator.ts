@@ -32,7 +32,6 @@ class WaveAttenuator {
 
   /**
    * Serializes this WaveAttenuator instance.
-   * @returns {Object}
    */
   toStateObject(): WaveAttenuatorStateObject {
     return {
@@ -50,7 +49,6 @@ class WaveAttenuator {
 
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   * @returns {Object.<string,IOType>}
    */
   public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
     return {

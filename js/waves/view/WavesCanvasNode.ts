@@ -164,14 +164,12 @@ class WavesCanvasNode extends CanvasNode {
    * Get the X value in scaled view coordinates at which this attenuator should be rendered when drawing the provided
    * wave.  This value is compensated so as to look like it is occurring along a horizontal line, see
    * https://github.com/phetsims/greenhouse-effect/issues/66.
-   * @param {number} index - index of the attenuator of interest
-   * @param {Wave} wave - wave on which the attenuator exists
-   * @param {number} amplitudeInView
-   * @param {number} wavelengthInView
-   * @returns {number}
-   * @private
+   * @param index - index of the attenuator of interest
+   * @param wave - wave on which the attenuator exists
+   * @param amplitudeInView
+   * @param wavelengthInView
    */
-  getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ): number {
+  private getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ): number {
     const sortedAttenuators = wave.getSortedAttenuators();
     const attenuatorDistanceFromStart = sortedAttenuators[ index ] ?
                                         sortedAttenuators[ index ].distanceFromStart :
@@ -208,13 +206,11 @@ class WavesCanvasNode extends CanvasNode {
    * @param {number} wavelengthInView
    * @param {number} phase - in radians
    * @param {number} propagationAngle - in radians, 0 is straight to the right
-   * @returns {number} - amount of compensation in view coordinate frame
-   * @private
    */
-  static getXCompensationForTilt( amplitudeInView: number,
-                                  wavelengthInView: number,
-                                  phase: number,
-                                  propagationAngle: number ): number {
+  private static getXCompensationForTilt( amplitudeInView: number,
+                                          wavelengthInView: number,
+                                          phase: number,
+                                          propagationAngle: number ): number {
 
     // The following would probably be easier to understand if vectors were used, but for performance reasons we wanted
     // to avoid the memory allocations.

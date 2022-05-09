@@ -25,7 +25,6 @@ const EnergyDirection = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN' ], {
     /**
      * Get a vector corresponding to the provided enum value.
      * @param {EnergyDirection} enumValue
-     * @returns {Vector2}
      */
     EnergyDirection.toVector = ( enumValue: any ) => {
       if ( enumValue === EnergyDirection.UP ) {
@@ -40,7 +39,6 @@ const EnergyDirection = EnumerationDeprecated.byKeys( [ 'UP', 'DOWN' ], {
     /**
      * Get the opposite of the provide direction.
      * @param {EnergyDirection} enumValue
-     * @returns {EnergyDirection}
      */
     EnergyDirection.getOpposite = ( enumValue: any ) => enumValue === EnergyDirection.UP ?
                                                         EnergyDirection.DOWN :

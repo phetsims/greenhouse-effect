@@ -178,10 +178,9 @@ class EnergyLegend extends Panel {
 
 /**
  * Creates a wave icon for the legend.
- * @param {number} wavelength - wavelength for the wave icon in view coordinates
- * @param {number} wavelengthsToDraw - how many wavelengths to draw for the icon
- * @param {Object} [options] - options for the wave Path
- * @returns {Path}
+ * @param wavelength - wavelength for the wave icon in view coordinates
+ * @param wavelengthsToDraw - how many wavelengths to draw for the icon
+ * @param [options] - options for the wave Path
  */
 const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options: PathOptions ) => {
 
