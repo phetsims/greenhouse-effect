@@ -120,8 +120,8 @@ class SunAndReflectionControl extends Panel {
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: solarIntensitySliderSoundPlayer,
           middleMovingDownSoundPlayer: solarIntensitySliderSoundPlayer,
-          minSoundPlayer: sliderBoundarySoundClip,
-          maxSoundPlayer: sliderBoundarySoundClip
+          minSoundPlayer: solarIntensitySliderSoundPlayer,
+          maxSoundPlayer: solarIntensitySliderSoundPlayer
         },
         tandem: tandem.createTandem( 'solarIntensitySlider' )
       } )
