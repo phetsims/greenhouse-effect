@@ -27,7 +27,6 @@ class PhotonSpriteInstance extends SpriteInstance {
     // Set the transform type field in super SpriteInstance.
     this.transformType = SpriteInstanceTransformType.TRANSLATION_AND_SCALE;
 
-    // @private {function}
     this.photonListener = this.updateMatrix.bind( this );
 
     // Initialize the fields here even though they will be set in the call to initialize because TypeScript requires it.

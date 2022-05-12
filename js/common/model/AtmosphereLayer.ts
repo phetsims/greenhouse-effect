@@ -13,18 +13,19 @@ import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } fro
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-type AtmosphereLayerOptions = {
+type SelfOptions = {
   initiallyActive?: boolean;
-} & EnergyAbsorbingEmittingLayerOptions;
+};
+export type AtmosphereLayerOptions = SelfOptions & EnergyAbsorbingEmittingLayerOptions;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   readonly isActiveProperty: BooleanProperty;
 
   constructor( altitude: number, tandem: Tandem, providedOptions?: AtmosphereLayerOptions ) {
 
-    const options = merge( {
+    const options = optionize<AtmosphereLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
       // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.GLASS,
