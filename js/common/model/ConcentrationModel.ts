@@ -131,7 +131,7 @@ class ConcentrationModel extends LayersModel {
 
     Property.multilink(
       [ this.dateProperty, this.concentrationControlModeProperty ],
-      ( date: ConcentrationDate, concentrationControlMode: ConcentrationControlMode ) => {
+      ( date, concentrationControlMode ) => {
         if ( date === ConcentrationDate.ICE_AGE && concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
 
           // Set the albedo to correspond to the ice age.

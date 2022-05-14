@@ -121,7 +121,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Control the visibility of the various date-oriented artwork.
     Property.multilink(
       [ model.concentrationControlModeProperty, model.dateProperty ],
-      ( concentrationControlMode: ConcentrationControlMode, date: ConcentrationDate ) => {
+      ( concentrationControlMode, date ) => {
 
         // Update the visibility of the various images that represent dates.
         glacierImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&

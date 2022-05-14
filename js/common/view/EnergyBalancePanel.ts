@@ -101,7 +101,7 @@ class EnergyBalancePanel extends Panel {
     } );
 
     // pdom
-    Property.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy: number, inRadiativeBalance: boolean ) => {
+    Property.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy, inRadiativeBalance ) => {
       this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
     } );
   }
@@ -180,7 +180,7 @@ class EnergyBalancePlot extends Node {
     // listeners
     Property.multilink(
       [ netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ],
-      ( netIn: number, netOut: number, netTotal: number ) => {
+      ( netIn, netOut, netTotal ) => {
         barPlot.setDataSet( [ new Vector2( 0, netIn ), new Vector2( 1, netOut ), new Vector2( 2, netTotal ) ] );
       }
     );

@@ -108,7 +108,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // mode.
     Property.multilink(
       [ this.cloudEnabledInManualConcentrationModeProperty, model.concentrationControlModeProperty ],
-      ( cloudEnabledInManualConcentrationMode: boolean, concentrationControlMode: ConcentrationControlMode ) => {
+      ( cloudEnabledInManualConcentrationMode, concentrationControlMode ) => {
         model.cloudEnabledProperty.set(
           concentrationControlMode === ConcentrationControlMode.BY_DATE ||
           cloudEnabledInManualConcentrationMode

@@ -326,7 +326,7 @@ class DateControl extends Node {
     valueCircle.centerX = microConcentrationLine.centerX;
     Property.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
-      ( concentration: number, concentrationControlMode: ConcentrationControlMode ) => {
+      ( concentration, concentrationControlMode ) => {
         if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
           const centerY = concentrationHeightFunction.evaluate( concentration );
           valueCircle.centerY = centerY;

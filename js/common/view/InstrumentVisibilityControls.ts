@@ -56,7 +56,7 @@ class InstrumentVisibilityControls extends Rectangle {
     );
 
     const checkedUtterance = new Utterance();
-    Property.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy: number, inRadiativeBalance: boolean ) => {
+    Property.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy, inRadiativeBalance ) => {
       checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
         checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
         outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )

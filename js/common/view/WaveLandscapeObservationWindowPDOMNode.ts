@@ -25,7 +25,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.concentrationProperty,
         model.dateProperty
       ],
-      ( controlMode: ConcentrationControlMode, concentration: number, date: ConcentrationDate ) => {
+      ( controlMode, concentration, date ) => {
         this.concentrationItemNode.innerContent =
           WaveLandscapeObservationWindowPDOMNode.getConcentrationDescription( controlMode, concentration, date );
       }

@@ -67,17 +67,16 @@ class WavesScreenSummaryContentNode extends Node {
         model.cloudEnabledProperty
       ],
       (
-        sunIsShining: boolean,
-        concentration: number,
-        date: ConcentrationDate,
-        surfaceTemperatureKelvin: number,
-        concentrationControlMode: ConcentrationControlMode,
-        surfaceTemperatureVisible: boolean,
-        surfaceThermometerVisible: boolean,
-        temperatureUnits: EnumerationDeprecated,
-        cloudEnabled: boolean
+        sunIsShining,
+        concentration,
+        date,
+        surfaceTemperatureKelvin,
+        concentrationControlMode,
+        surfaceTemperatureVisible,
+        surfaceThermometerVisible,
+        temperatureUnits,
+        cloudEnabled
       ) => {
-        // @ts-ignore
         simStateDescriptionNode.innerContent = this.getScreenDescriptionString(
           sunIsShining,
           concentration,
