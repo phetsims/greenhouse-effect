@@ -76,13 +76,13 @@ class EnergyBalancePanel extends Panel {
     // in this sim
     const negatedEnergyInProperty: IReadOnlyProperty<number> = new DerivedProperty(
       [ netEnergyInProperty ],
-      ( netEnergyIn: number ) => -netEnergyIn
+      netEnergyIn => -netEnergyIn
     );
 
     // TODO: Use model.netInflowOfEnergyProperty instead of this custom one.
     const netEnergyProperty: IReadOnlyProperty<number> = new DerivedProperty(
       [ negatedEnergyInProperty, netEnergyOutProperty ],
-      ( netIn: number, netOut: number ) => netIn + netOut
+      ( netIn, netOut ) => netIn + netOut
     );
 
     // the plot

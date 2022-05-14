@@ -357,7 +357,7 @@ class GreenhouseEffectObservationWindow extends Node {
     );
     const filteredLoopTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
-      ( temperatureSound: string ) =>
+      temperatureSound =>
         // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ||
         // @ts-ignore
@@ -365,7 +365,7 @@ class GreenhouseEffectObservationWindow extends Node {
     );
     const loopSpeedTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
-      ( temperatureSound: string ) =>
+      temperatureSound =>
         // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE
     );

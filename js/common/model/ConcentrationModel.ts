@@ -96,7 +96,7 @@ class ConcentrationModel extends LayersModel {
     );
     this.concentrationProperty = new DerivedProperty(
       [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
-      ( concentrationControl: ConcentrationControlMode, date: ConcentrationDate, manuallyControlledConcentration: number ) => {
+      ( concentrationControl, date, manuallyControlledConcentration ) => {
         return concentrationControl === ConcentrationControlMode.BY_VALUE ?
                manuallyControlledConcentration :
                DATE_TO_CONCENTRATION_MAP.get( date )!;

@@ -76,7 +76,7 @@ class AtmosphereLayerNode extends Node {
     // Create a derived property for the value that will be displayed as the temperature.
     const temperatureValueProperty = new DerivedProperty(
       [ atmosphereLayer.temperatureProperty, numberDisplayEnabledProperty ],
-      ( temperature: number, numberDisplayEnabled: boolean ) => numberDisplayEnabled ? temperature : null
+      ( temperature, numberDisplayEnabled ) => numberDisplayEnabled ? temperature : null
     );
 
     const numberDisplay = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {

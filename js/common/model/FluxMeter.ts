@@ -50,7 +50,7 @@ class FluxMeter {
     // the position in model coordinates where the flux meter wire connects to the sensor, in meters
     this.wireSensorAttachmentPositionProperty = new DerivedProperty(
       [ this.sensorPositionProperty ],
-      ( sensorPosition: Vector2 ) => {
+      sensorPosition => {
         return sensorPosition.plusXY( this.sensorBounds.width / 2, 0 );
       },
       {

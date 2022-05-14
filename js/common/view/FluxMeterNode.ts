@@ -56,12 +56,12 @@ class FluxMeterNode extends Node {
     const wireNode = new WireNode(
       new DerivedProperty(
         [ model.wireSensorAttachmentPositionProperty ],
-        ( position: Vector2 ) => modelViewTransform.modelToViewPosition( position )
+        position => modelViewTransform.modelToViewPosition( position )
       ),
       new Vector2Property( new Vector2( 100, 0 ) ),
       new DerivedProperty(
         [ model.wireMeterAttachmentPositionProperty ],
-        ( position: Vector2 ) => modelViewTransform.modelToViewPosition( position )
+        position => modelViewTransform.modelToViewPosition( position )
       ),
       new Vector2Property( new Vector2( -100, 0 ) ), {
         stroke: 'grey',

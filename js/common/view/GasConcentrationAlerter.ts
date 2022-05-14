@@ -98,7 +98,7 @@ class GasConcentrationAlerter extends Alerter {
     this.previousConcentration = model.concentrationProperty.value;
 
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
-      ( inEnergy: number, outEnergy: number ) => {
+      ( inEnergy, outEnergy ) => {
         return inEnergy - outEnergy;
       } );
 

@@ -41,13 +41,13 @@ class GroundWaveSource extends EMWaveSource {
     // derived Property that controls when IR waves can be produced
     const produceIRWavesProperty = new DerivedProperty(
       [ groundTemperatureProperty ],
-      ( temperature: number ) => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
+      temperature => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
     );
 
     // derived Property that maps temperature to the intensity of the IR waves
     const waveIntensityProperty = new DerivedProperty(
       [ groundTemperatureProperty ],
-      ( temperature: number ) => Utils.clamp(
+      temperature => Utils.clamp(
         // min intensity at the lowest temperature, max at highest
         ( temperature - MIN_WAVE_PRODUCTION_TEMPERATURE ) / ( MAX_EXPECTED_TEMPERATURE - MIN_WAVE_PRODUCTION_TEMPERATURE ),
         MINIMUM_WAVE_INTENSITY,
