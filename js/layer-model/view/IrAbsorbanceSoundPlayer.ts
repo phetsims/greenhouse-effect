@@ -34,7 +34,7 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
     super( providedOptions );
 
-    // Create and hook up the two sound clips that will act as the sound sounds.
+    // Create and hook up the two sound clips that will act as the two core sounds.
     this.lowValueSoundClip = new SoundClip( irAbsorbanceLow_mp3 );
     this.lowValueSoundClip.connect( this.masterGainNode );
     this.highValueSoundClip = new SoundClip( irAbsorbanceHigh_mp3 );
