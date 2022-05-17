@@ -14,20 +14,26 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
+import impulseResponseLargeRoom_mp3 from '../../../../tambo/sounds/impulseResponseLargeRoom_mp3.js';
 
 // types for options
 type SurfaceAlbedoSoundPlayerSelfOptions = {};
 type SurfaceAlbedoSoundPlayerOptions = SurfaceAlbedoSoundPlayerSelfOptions & SoundGeneratorOptions;
 
-// constants
-const NUMBER_OF_DELAY_LINES = 2;
-const DELAY_TIME = 0.2; // time for first delay, in seconds
-const DECAY_RATE = 0.3; // multiplier for decay of echo, must be less than 1
-
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
-  // the sound clip that will be played when activity occurs
-  private readonly primarySoundClip: SoundClip;
+  // sound clip that will be played when activity occurs
+  private readonly primarySoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
+
+  // sound clip played at min and max values
+  private readonly boundarySoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
+      initialPlaybackRate: 0.667
+    }
+  );
+
+  private readonly surfaceAlbedoProperty: NumberProperty;
+  private readonly surfaceAlbedoRange: Range;
 
   constructor( surfaceAlbedoProperty: NumberProperty,
                surfaceAlbedoRange: Range,
@@ -35,40 +41,49 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
     super( providedOptions );
 
-    // Create the primary sound clip and hook it up to the output.
-    this.primarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
+    // Make the number property and its range available to the methods.
+    this.surfaceAlbedoProperty = surfaceAlbedoProperty;
+    this.surfaceAlbedoRange = surfaceAlbedoRange;
+
+    // Hook up the primary and boundary sound clips to the output.
     this.primarySoundClip.connect( this.masterGainNode );
+    this.boundarySoundClip.connect( this.masterGainNode );
 
-    // Add a set of delay lines to get a bit of an echo effect.
-    const delayGainNodes: GainNode[] = [];
-    _.times( NUMBER_OF_DELAY_LINES, index => {
-      const delayLine = new DelayNode( this.audioContext );
-      delayLine.delayTime.value = ( index + 1 ) * DELAY_TIME;
-      this.primarySoundClip.connect( delayLine );
-      const gainNode = new GainNode( this.audioContext );
-      delayGainNodes.push( gainNode );
-      delayLine.connect( gainNode );
-      gainNode.connect( this.masterGainNode );
-    } );
+    // Add a convolver that will act as a reverb effect.
+    const convolver = phetAudioContext.createConvolver();
+    convolver.buffer = impulseResponseLargeRoom_mp3.audioBufferProperty.value;
 
-    // Adjust the delay gain nodes as the albedo changes, making it so that more echo occurs with the higher levels of
+    // Add a gain node that will be used for the reverb level.
+    const reverbGainNode = phetAudioContext.createGain();
+
+    // Connect things up.
+    this.primarySoundClip.connect( convolver );
+    this.boundarySoundClip.connect( convolver );
+    convolver.connect( reverbGainNode );
+    reverbGainNode.connect( this.masterGainNode );
+
+    // Adjust the reverb level as the albedo changes, making it so that more reverb occurs with the higher levels of
     // surface albedo.
     surfaceAlbedoProperty.link( surfaceAlbedo => {
       const normalizedSurfaceAlbedo = ( surfaceAlbedo - surfaceAlbedoRange.min ) / surfaceAlbedoRange.getLength();
-      let nextGainValue = normalizedSurfaceAlbedo * DECAY_RATE;
-      delayGainNodes.forEach( gainNode => {
-        gainNode.gain.setTargetAtTime( nextGainValue, 0, 0.1 );
-        nextGainValue = nextGainValue * DECAY_RATE;
-      } );
+      const gainMultiplier = 1.5; // empirically determined to get the desired sound.
+      reverbGainNode.gain.setTargetAtTime( normalizedSurfaceAlbedo * gainMultiplier, phetAudioContext.currentTime, 0.015 );
     } );
   }
 
   public play(): void {
-    this.primarySoundClip.play();
+    const surfaceAlbedo = this.surfaceAlbedoProperty.value;
+    if ( surfaceAlbedo > this.surfaceAlbedoRange.min && surfaceAlbedo < this.surfaceAlbedoRange.max ) {
+      this.primarySoundClip.play();
+    }
+    else {
+      this.boundarySoundClip.play();
+    }
   }
 
   public stop(): void {
     this.primarySoundClip.stop();
+    this.boundarySoundClip.stop();
   }
 }
 

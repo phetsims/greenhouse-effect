@@ -92,13 +92,6 @@ class SunAndReflectionControl extends Panel {
     );
     soundManager.addSoundGenerator( solarIntensitySliderSoundPlayer );
 
-    // sound clip for the min and max slider values
-    const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
-      initialPlaybackRate: 0.667,
-      initialOutputLevel: 0.1
-    } );
-    soundManager.addSoundGenerator( sliderBoundarySoundClip );
-
     // label for the slider that controls the solar intensity
     const solarIntensitySliderLabel = new Text( greenhouseEffectStrings.solarIntensity, {
       font: HEADING_FONT
@@ -182,8 +175,8 @@ class SunAndReflectionControl extends Panel {
         pageKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE * 2,
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
-          minSoundPlayer: sliderBoundarySoundClip,
-          maxSoundPlayer: sliderBoundarySoundClip,
+          minSoundPlayer: surfaceAlbedoSliderSoundPlayer,
+          maxSoundPlayer: surfaceAlbedoSliderSoundPlayer,
           middleMovingUpSoundPlayer: surfaceAlbedoSliderSoundPlayer,
           middleMovingDownSoundPlayer: surfaceAlbedoSliderSoundPlayer
         },
