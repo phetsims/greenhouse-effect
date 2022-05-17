@@ -21,8 +21,6 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import SunEnergySource from '../../common/model/SunEnergySource.js';
 import Range from '../../../../dot/js/Range.js';
 import merge from '../../../../phet-core/js/merge.js';
-import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';

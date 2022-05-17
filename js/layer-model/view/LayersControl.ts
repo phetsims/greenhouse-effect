@@ -21,8 +21,6 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 import IrAbsorbanceSoundPlayer from './IrAbsorbanceSoundPlayer.js';
@@ -80,16 +78,9 @@ class LayersControl extends Panel {
     const irAbsorbanceSoundPlayer = new IrAbsorbanceSoundPlayer(
       layersModel.layersInfraredAbsorbanceProperty,
       absorbanceRange,
-      { initialOutputLevel: 0.2 }
+      { initialOutputLevel: 0.075 }
     );
     soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
-
-    // sound clip used by slider for sound generation at the min and max values
-    const sliderBoundarySoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
-      initialPlaybackRate: 0.667,
-      initialOutputLevel: 0.075
-    } );
-    soundManager.addSoundGenerator( sliderBoundarySoundClip );
 
     // sound player for the number of layers
     const numberOfLayersSoundPlayer = new NumberOfLayersSoundPlayer(
@@ -150,8 +141,8 @@ class LayersControl extends Panel {
           numberOfMiddleThresholds: 8,
           middleMovingUpSoundPlayer: irAbsorbanceSoundPlayer,
           middleMovingDownSoundPlayer: irAbsorbanceSoundPlayer,
-          minSoundPlayer: sliderBoundarySoundClip,
-          maxSoundPlayer: sliderBoundarySoundClip
+          minSoundPlayer: irAbsorbanceSoundPlayer,
+          maxSoundPlayer: irAbsorbanceSoundPlayer
         },
 
         // phet-io

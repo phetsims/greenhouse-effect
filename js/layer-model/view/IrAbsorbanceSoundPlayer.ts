@@ -11,10 +11,10 @@ import Range from '../../../../dot/js/Range.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import irAbsorbanceLow_mp3 from '../../../sounds/irAbsorbanceLow_mp3.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
-import irAbsorbanceHigh_mp3 from '../../../sounds/irAbsorbanceHigh_mp3.js';
+import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
+import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 
 // types for options
 type IrAbsorbanceSoundPlayerSelfOptions = {};
@@ -22,11 +22,21 @@ type IrAbsorbanceSoundPlayerOptions = IrAbsorbanceSoundPlayerSelfOptions & Sound
 
 class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
-  // sound clip that is at max volume at low IR absorbance values, min volume for high values
-  private readonly lowValueSoundClip: SoundClip;
+  // sound clip played for sounds in the middle, i.e. not at either the min or max
+  // private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
+  private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
+    initialPlaybackRate: 1 / Math.pow( 2, 1 / 6 ) // one musical step below the natural playback rate
+  } );
 
-  // sound clip that is at min volume at low IR absorbance values, max volume for high values
-  private readonly highValueSoundClip: SoundClip;
+  // sound clip played at min and max values
+  private readonly boundarySoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
+      initialPlaybackRate: 0.667
+    }
+  );
+
+  private readonly irAbsorbanceProperty: NumberProperty;
+  private readonly irAbsorbanceRange: Range;
+
 
   constructor( irAbsorbanceProperty: NumberProperty,
                irAbsorbanceRange: Range,
@@ -34,34 +44,53 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
     super( providedOptions );
 
-    // Create and hook up the two sound clips that will act as the two core sounds.
-    this.lowValueSoundClip = new SoundClip( irAbsorbanceLow_mp3 );
-    this.lowValueSoundClip.connect( this.masterGainNode );
-    this.highValueSoundClip = new SoundClip( irAbsorbanceHigh_mp3 );
-    this.highValueSoundClip.connect( this.masterGainNode );
+    // Make the parameters available to the methods.
+    this.irAbsorbanceProperty = irAbsorbanceProperty;
+    this.irAbsorbanceRange = irAbsorbanceRange;
 
-    // Cross-fade between the sound clips based on the IR absorbance value.
-    irAbsorbanceProperty.link( irAbsorbance => {
-      const normalizedIrAbsorbance = ( irAbsorbance - irAbsorbanceRange.min ) / irAbsorbanceRange.getLength();
-      this.lowValueSoundClip.setOutputLevel( 1 - normalizedIrAbsorbance );
-      this.highValueSoundClip.setOutputLevel( normalizedIrAbsorbance );
+    // Create a low-pass filter that will change as the solar intensity changes.
+    const lowPassFilter = new BiquadFilterNode( phetAudioContext );
+    lowPassFilter.type = 'lowpass';
+
+    // Connect the filter to the audio output path.
+    lowPassFilter.connect( this.masterGainNode );
+
+    // Adjust the cutoff frequency of the filter as the solar intensity changes.
+    irAbsorbanceProperty.link( solarIntensity => {
+      const normalizedIrAbsorbance = ( solarIntensity - irAbsorbanceRange.min ) / irAbsorbanceRange.getLength();
+
+      // Map the IR absorbance into a cutoff frequency.  This is a very empirical mapping, and is quite dependent on
+      // the frequency content of the underlying sound, so feel free to adjust as needed.
+      const cutoffFrequency = Math.pow( 1 - 0.75 * normalizedIrAbsorbance, 3 ) * 8000;
+
+      // Set the cutoff frequency.
+      lowPassFilter.frequency.setTargetAtTime( cutoffFrequency, phetAudioContext.currentTime, 0.015 );
     } );
+
+    // Hook up the sound clips to the filter.
+    this.middleSoundClip.connect( lowPassFilter );
+    this.boundarySoundClip.connect( lowPassFilter );
   }
 
   /**
-   * Play the sound.  The volume levels of the sound clip will have been adjusted to do the cross-fade already.
+   * Play the sound.
    */
   public play(): void {
-    this.lowValueSoundClip.play();
-    this.highValueSoundClip.play();
+    const irAbsorbance = this.irAbsorbanceProperty.value;
+    if ( irAbsorbance > this.irAbsorbanceRange.min && irAbsorbance < this.irAbsorbanceRange.max ) {
+      this.middleSoundClip.play();
+    }
+    else {
+      this.boundarySoundClip.play();
+    }
   }
 
   /**
    * Stop the sounds.  This isn't expected to be used much, but is necessary for the ISoundPlayer interface.
    */
   public stop(): void {
-    this.lowValueSoundClip.stop();
-    this.highValueSoundClip.stop();
+    this.middleSoundClip.stop();
+    this.boundarySoundClip.stop();
   }
 }
 
