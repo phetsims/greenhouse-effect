@@ -218,10 +218,10 @@ type StringsType = {
     'qualitativeConcentrationChangeDescriptionPattern': string;
     'higher': string;
     'muchHigher': string;
-    'vastlyHigher': string;
+    'significantlyHigher': string;
     'lower': string;
     'muchLower': string;
-    'vastlyLower': string;
+    'significantlyLower': string;
     'energyBalanceCheckedAlert': string;
     'energyBalanceCheckedPattern': string;
     'energyBalanceUncheckedAlert': string;

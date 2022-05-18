@@ -227,7 +227,7 @@ class ConcentrationDescriber {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchHigher;
       }
       else {
-        qualitativeDescriptionString = greenhouseEffectStrings.a11y.vastlyHigher;
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.significantlyHigher;
       }
     }
     else {
@@ -238,7 +238,7 @@ class ConcentrationDescriber {
         qualitativeDescriptionString = greenhouseEffectStrings.a11y.muchLower;
       }
       else {
-        qualitativeDescriptionString = greenhouseEffectStrings.a11y.vastlyLower;
+        qualitativeDescriptionString = greenhouseEffectStrings.a11y.significantlyLower;
       }
     }
 

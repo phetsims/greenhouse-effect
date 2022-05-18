@@ -497,8 +497,8 @@
     "muchHigher": {
       "value": "much higher"
     },
-    "vastlyHigher": {
-      "value": "vastly higher"
+    "significantlyHigher": {
+      "value": "significantly higher"
     },
     "lower": {
       "value": "lower"
@@ -506,8 +506,8 @@
     "muchLower": {
       "value": "much lower"
     },
-    "vastlyLower": {
-      "value": "vastly lower"
+    "significantlyLower": {
+      "value": "significantly lower"
     },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
