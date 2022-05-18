@@ -232,7 +232,6 @@ type StringsType = {
     'photons': {
       'homeScreenDescription': string;
     };
-    'dateLevelsOfGreenhouseGasesPattern': string;
     'sunlightWavesTravelFromSpace': string;
     'sunlightWavesTravelWithCloudReflectionPattern': string;
     'surfaceTemperatureIsQuantitativePattern': string;
