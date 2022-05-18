@@ -14,6 +14,7 @@ import Property from '../../../../axon/js/Property.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
@@ -92,7 +93,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {
-      concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithDate( date );
+      concentrationDescription = StringUtils.capitalize( ConcentrationDescriber.getFullTimePeriodDescription( date ) );
     }
 
     return concentrationDescription;

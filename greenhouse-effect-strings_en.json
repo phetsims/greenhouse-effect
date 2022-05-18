@@ -535,9 +535,6 @@
         "value": "Explore greenhouse effect with photon representation."
       }
     },
-    "dateLevelsOfGreenhouseGasesPattern": {
-      "value": "{{date}} levels of greenhouse gases in atmosphere."
-    },
     "sunlightWavesTravelFromSpace": {
       "value": "Sunlight waves travel from space to surface."
     },

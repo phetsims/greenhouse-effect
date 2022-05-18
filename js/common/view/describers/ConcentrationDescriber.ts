@@ -15,7 +15,6 @@ import Utils from '../../../../../dot/js/Utils.js';
 // constants
 const greenhouseGasesInAtmospherePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePattern;
 const greenhouseGasesValuePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePattern;
-const dateLevelsOfGreenhouseGasesPatternString = greenhouseEffectStrings.a11y.dateLevelsOfGreenhouseGasesPattern;
 
 // strings used to describe the levels of concentration in the model
 const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
@@ -303,19 +302,6 @@ class ConcentrationDescriber {
     const patternString = includeInAtmosphere ? greenhouseGasesInAtmospherePatternString : greenhouseGasesValuePatternString;
     return StringUtils.fillIn( patternString, {
       valueDescription: valueDescription
-    } );
-  }
-
-  /**
-   * Returns a description of the levels of greenhouse gas concentration in the atmosphere by date. Will return
-   * something like
-   * "Year seventeen fifty levels of greenhouse gases in atmosphere."
-   */
-  public static getConcentrationDescriptionWithDate( date: ConcentrationDate ): string {
-    const dateString = StringUtils.capitalize( ConcentrationDescriber.getTimePeriodString( date ) );
-
-    return StringUtils.fillIn( dateLevelsOfGreenhouseGasesPatternString, {
-      date: dateString
     } );
   }
 }
