@@ -13,6 +13,7 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Property from '../../../../axon/js/Property.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
@@ -45,7 +46,12 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     Property.multilink(
       [ model.surfaceTemperatureKelvinProperty, model.concentrationProperty ],
       ( surfaceTemperature, concentration ) => {
-        const description = RadiationDescriber.getInfraredRadiationIntensityDescription( surfaceTemperature, concentration );
+        const description = RadiationDescriber.getInfraredRadiationIntensityDescription(
+          surfaceTemperature,
+          model.concentrationControlModeProperty.value,
+          model.dateProperty.value,
+          concentration
+        );
         if ( description ) {
           this.infraredWavesItemNode.pdomVisible = true;
           this.infraredWavesItemNode.innerContent = description;
@@ -54,6 +60,23 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
           this.infraredWavesItemNode.pdomVisible = false;
         }
       } );
+
+    Property.multilink( [
+      model.surfaceTemperatureKelvinProperty,
+      model.surfaceThermometerVisibleProperty,
+      model.surfaceTemperatureVisibleProperty,
+      model.temperatureUnitsProperty,
+      model.concentrationControlModeProperty,
+      model.dateProperty
+    ], ( temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits, concentrationControlMode, date ) => {
+      const temperatureDescription = TemperatureDescriber.getSurfaceTemperatureIsString(
+        temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits, concentrationControlMode, date
+      );
+
+      // There will not be a description at all if temperature displays are disabled
+      this.surfaceTemperatureItemNode.pdomVisible = !!temperatureDescription;
+      this.surfaceTemperatureItemNode.innerContent = temperatureDescription;
+    } );
   }
 
   /**

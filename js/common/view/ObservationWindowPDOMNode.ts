@@ -12,8 +12,6 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import Property from '../../../../axon/js/Property.js';
-import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 // constants
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
@@ -23,6 +21,7 @@ class ObservationWindowPDOMNode extends Node {
   protected concentrationItemNode: Node;
   protected sunlightWavesItemNode: Node;
   protected infraredWavesItemNode: Node;
+  protected surfaceTemperatureItemNode: Node;
 
   constructor( model: LayersModel ) {
     super( {
@@ -36,7 +35,7 @@ class ObservationWindowPDOMNode extends Node {
     this.skyItemNode = new Node( ITEM_NODE_OPTIONS );
     this.sunlightWavesItemNode = new Node( ITEM_NODE_OPTIONS );
     this.infraredWavesItemNode = new Node( ITEM_NODE_OPTIONS );
-    const surfaceTemperatureItemNode = new Node( ITEM_NODE_OPTIONS );
+    this.surfaceTemperatureItemNode = new Node( ITEM_NODE_OPTIONS );
 
     this.children = [
       sunlightItemNode,
@@ -44,7 +43,7 @@ class ObservationWindowPDOMNode extends Node {
       this.skyItemNode,
       this.sunlightWavesItemNode,
       this.infraredWavesItemNode,
-      surfaceTemperatureItemNode
+      this.surfaceTemperatureItemNode
     ];
 
     model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
@@ -53,21 +52,6 @@ class ObservationWindowPDOMNode extends Node {
       sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
         sunDescription: descriptionString
       } );
-    } );
-
-    Property.multilink( [
-      model.surfaceTemperatureKelvinProperty,
-      model.surfaceThermometerVisibleProperty,
-      model.surfaceTemperatureVisibleProperty,
-      model.temperatureUnitsProperty
-    ], ( temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits ) => {
-      const temperatureDescription = TemperatureDescriber.getSurfaceTemperatureIsString(
-        temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits
-      );
-
-      // There will not be a description at all if temperature displays are disabled
-      surfaceTemperatureItemNode.pdomVisible = !!temperatureDescription;
-      surfaceTemperatureItemNode.innerContent = temperatureDescription;
     } );
   }
 }

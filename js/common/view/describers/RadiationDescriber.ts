@@ -11,7 +11,7 @@ import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import LayersModel from '../../model/LayersModel.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
-import ConcentrationModel from '../../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 
 const infraredRedirectionNoString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.no;
 const infraredRedirectionVeryLowString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.veryLow;
@@ -122,11 +122,18 @@ class RadiationDescriber {
    * "Infrared waves emit with low intensity from surface and travel to space. Low amount of infrared energy is
    * redirected back to surface."
    */
-  public static getInfraredRadiationIntensityDescription( surfaceTemperature: number, concentration: number ): string | null {
+  public static getInfraredRadiationIntensityDescription( surfaceTemperature: number,
+                                                          concentrationControlMode: ConcentrationControlMode,
+                                                          date: ConcentrationDate,
+                                                          concentration: number ): string | null {
     let radiationIntensityDescription = null;
 
     if ( surfaceTemperature > GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE ) {
-      const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString( surfaceTemperature );
+      const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+        surfaceTemperature,
+        concentrationControlMode,
+        date
+      );
 
       radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternString, {
         value: intensityDescription

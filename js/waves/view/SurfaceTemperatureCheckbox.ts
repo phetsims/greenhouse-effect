@@ -13,12 +13,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 
 class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
-  constructor( property: Property<boolean>, temperatureProperty: NumberProperty, tandem: Tandem ) {
+  constructor( property: Property<boolean>, model: ConcentrationModel, tandem: Tandem ) {
 
     const iconWidth = 15;
 
@@ -31,8 +31,12 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
     } );
 
     const checkedUtterance = new Utterance();
-    temperatureProperty.link( temperatureKelvin => {
-      checkedUtterance.alert = TemperatureDescriber.getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin );
+    model.surfaceTemperatureKelvinProperty.link( temperatureKelvin => {
+      checkedUtterance.alert = TemperatureDescriber.getQualitativeSurfaceTemperatureDescriptionString(
+        temperatureKelvin,
+        model.concentrationControlModeProperty.value,
+        model.dateProperty.value
+        );
     } );
 
     super( greenhouseEffectStrings.showSurfaceTemperature, property, {

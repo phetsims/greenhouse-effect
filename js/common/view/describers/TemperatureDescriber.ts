@@ -13,6 +13,7 @@ import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import LayersModel from '../../model/LayersModel.js';
 import GroundLayer from '../../model/GroundLayer.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 
 // constants
 // determined by inspection, temperature descriptions are evenly distributed across this range of values in Kelvin
@@ -26,6 +27,9 @@ const temperatureModerateString = greenhouseEffectStrings.a11y.temperatureDescri
 const temperatureSomewhatLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatLow;
 const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.low;
 const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
+const temperatureHistoricallyLowString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.low;
+const temperatureHistoricallyModerateString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.moderate;
+const temperatureHistoricallyHighString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.high;
 const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
 const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
 const temperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
@@ -49,6 +53,10 @@ const qualitativeTemperatureDescriptionStrings = [
   temperatureHighString,
   temperatureVeryHighString
 ];
+
+// Range used for categorizing temperature values into historical descriptions.  This was empirically determined based
+// on the emergent behavior of the model, so it may need updating if the model changes.
+const historicallyModerateTemperatureRange = new Range( 286, 287.8 );
 
 // written units of temperature
 const kelvinString = greenhouseEffectStrings.a11y.temperatureUnits.kelvin;
@@ -75,24 +83,45 @@ class TemperatureDescriber {
   }
 
   /**
-   * Returns a qualitative description of the temperature of the ground surface. Will return something like
-   * "very high" or
-   * "moderate" or
-   * "low"
+   * Returns a qualitative description of the temperature of the ground surface. Will return something like "very high"
+   * or "moderate" or "historically high"
    *
-   * @param {number} value - the temperature in kelvin
+   * @param value - the temperature in kelvin
+   * @param concentrationControlMode - the mode for how concentration is controlled, either by value or by date
+   * @param date - the selected date
    */
-  public static getQualitativeTemperatureDescriptionString( value: number ): string {
-    const delta = DESCRIBED_TEMPERATURE_RANGE.getLength() / qualitativeTemperatureDescriptionStrings.length;
+  public static getQualitativeTemperatureDescriptionString( value: number,
+                                                            concentrationControlMode: ConcentrationControlMode,
+                                                            date: ConcentrationDate ): string {
 
-    // qualitativeTemperatureDescriptionStrings are ordered from lowest to highest temperature. If we don't find a
-    // description string it is beyond the max of DESCRIBED_TEMPERATURE_RANGE so we default to a description
-    // for the hottest temperature
-    let descriptionString = qualitativeTemperatureDescriptionStrings[ qualitativeTemperatureDescriptionStrings.length - 1 ];
-    for ( let i = 0; i < qualitativeTemperatureDescriptionStrings.length; i++ ) {
-      if ( value < DESCRIBED_TEMPERATURE_RANGE.min + delta * ( i + 1 ) ) {
-        descriptionString = qualitativeTemperatureDescriptionStrings[ i ];
-        break;
+    let descriptionString;
+
+    if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
+      const delta = DESCRIBED_TEMPERATURE_RANGE.getLength() / qualitativeTemperatureDescriptionStrings.length;
+
+      // Get a string from the list of qualitative description strings.  The strings are ordered from lowest to highest
+      // temperature. If we don't find a description string it is beyond the max value, so we default to a description
+      // for the hottest temperature.
+      descriptionString = qualitativeTemperatureDescriptionStrings[ qualitativeTemperatureDescriptionStrings.length - 1 ];
+      for ( let i = 0; i < qualitativeTemperatureDescriptionStrings.length; i++ ) {
+        if ( value < DESCRIBED_TEMPERATURE_RANGE.min + delta * ( i + 1 ) ) {
+          descriptionString = qualitativeTemperatureDescriptionStrings[ i ];
+          break;
+        }
+      }
+    }
+    else {
+
+      // Get a historical description.
+      assert && assert( concentrationControlMode === ConcentrationControlMode.BY_DATE );
+      if ( value < historicallyModerateTemperatureRange.min ) {
+        descriptionString = temperatureHistoricallyLowString;
+      }
+      else if ( value > historicallyModerateTemperatureRange.max ) {
+        descriptionString = temperatureHistoricallyHighString;
+      }
+      else {
+        descriptionString = temperatureHistoricallyModerateString;
       }
     }
 
@@ -102,11 +131,12 @@ class TemperatureDescriber {
   /**
    * Get a qualitative description of the surface temperature as a full sentence. Returns something like
    * "Surface temperature is somewhat high.
-   * @param temperatureKelvin
    */
-  public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number ): string {
+  public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number,
+                                                                   concentrationControlMode: ConcentrationControlMode,
+                                                                   date: ConcentrationDate ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
-      description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin )
+      description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode, date )
     } );
   }
 
@@ -192,12 +222,18 @@ class TemperatureDescriber {
   static getSurfaceTemperatureStableString( temperature: number,
                                             thermometerVisible: boolean,
                                             surfaceTemperatureIndicationVisible: boolean,
-                                            unitsValue: any ): string {
+                                            unitsValue: any,
+                                            concentrationControlMode: ConcentrationControlMode,
+                                            date: ConcentrationDate ): string {
 
     let stableTemperatureString = '';
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
       stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionAndValue, {
-        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature ),
+        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+          temperature,
+          concentrationControlMode,
+          date
+        ),
         quantitativeDescription: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
       } );
     }
@@ -208,7 +244,11 @@ class TemperatureDescriber {
     }
     else if ( !thermometerVisible && surfaceTemperatureIndicationVisible ) {
       stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescription, {
-        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature )
+        qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+          temperature,
+          concentrationControlMode,
+          date
+        )
       } );
     }
     else if ( !thermometerVisible && !surfaceTemperatureIndicationVisible ) {
@@ -219,9 +259,9 @@ class TemperatureDescriber {
   }
 
   /**
-   * Get a description of what the current surface temperature "is". Similar to other functions in this
-   * class, but with slightly different gramatical structure for different contexts. If the thermometer and
-   * surface temperature indicators are both invisible, null will be returned.
+   * Get a description of what the current surface temperature "is". Similar to other functions in this class, but with
+   * slightly different grammatical structure for different contexts. If the thermometer and surface temperature
+   * indicators are both invisible, null will be returned.
    *
    * Will return something like
    * "The surface temperature is high, 290 Kelvin."
@@ -229,12 +269,18 @@ class TemperatureDescriber {
   static getSurfaceTemperatureIsString( temperature: number,
                                         thermometerVisible: boolean,
                                         surfaceTemperatureIndicationVisible: boolean,
-                                        unitsValue: any ): string | null {
+                                        unitsValue: any,
+                                        concentrationControlMode: ConcentrationControlMode,
+                                        date: ConcentrationDate ): string | null {
 
     let surfaceTemperatureDescriptionString = null;
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
       surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativeAndQualitativePatternString, {
-        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature ),
+        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+          temperature,
+          concentrationControlMode,
+          date
+        ),
         value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
       } );
     }
@@ -245,7 +291,11 @@ class TemperatureDescriber {
     }
     else if ( surfaceTemperatureIndicationVisible ) {
       surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQualitativePatternString, {
-        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperature )
+        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+          temperature,
+          concentrationControlMode,
+          date
+        )
       } );
     }
 

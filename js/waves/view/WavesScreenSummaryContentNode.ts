@@ -138,7 +138,11 @@ class WavesScreenSummaryContentNode extends Node {
       // Portion that generates the temperature description. If the thermometer is visible, it will include a
       // quantitative description of the temperature. If user has elected to view the temperature in another
       // representation we include a qualitative description of the temperature.
-      const qualitativeTemperatureDescriptionString = TemperatureDescriber.getQualitativeTemperatureDescriptionString( surfaceTemperatureKelvin );
+      const qualitativeTemperatureDescriptionString = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+        surfaceTemperatureKelvin,
+        concentrationControlMode,
+        date
+      );
       const quantitativeTemperatureDescriptionString = TemperatureDescriber.getQuantitativeTemperatureDescription( surfaceTemperatureKelvin, temperatureUnits );
 
       let temperatureFragmentString = '';

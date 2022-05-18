@@ -254,6 +254,17 @@
         "value": "very low"
       }
     },
+    "historicalTemperatureDescriptions": {
+      "high": {
+        "value": "historically high"
+      },
+      "moderate": {
+        "value": "historically moderate"
+      },
+      "low": {
+        "value": "historically low"
+      }
+    },
     "temperatureUnits": {
       "kelvin": {
         "value": "Kelvin"

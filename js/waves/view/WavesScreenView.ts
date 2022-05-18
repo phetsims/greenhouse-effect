@@ -37,10 +37,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
 
-  /**
-   * @param {WavesModel} model
-   * @param {tandem} tandem
-   */
   constructor( model: WavesModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
@@ -80,7 +76,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
     const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox(
       model.surfaceTemperatureVisibleProperty,
-      model.surfaceTemperatureKelvinProperty,
+      model,
       tandem.createTandem( 'surfaceTemperatureCheckbox' )
     );
 

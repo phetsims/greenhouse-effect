@@ -125,6 +125,11 @@ type StringsType = {
       'low': string;
       'veryLow': string;
     };
+    'historicalTemperatureDescriptions': {
+      'high': string;
+      'moderate': string;
+      'low': string;
+    };
     'temperatureUnits': {
       'kelvin': string;
       'celsius': string;
