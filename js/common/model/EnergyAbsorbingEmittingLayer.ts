@@ -10,7 +10,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -19,6 +18,8 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumThreshold; // in Watts per square meter, empirically determined
@@ -28,11 +29,30 @@ const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumTh
 // determined.
 const EQUILIBRATION_TIME = GreenhouseEffectQueryParameters.atEquilibriumTime;
 
-// The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
-const Substance = EnumerationDeprecated.byMap( {
-  GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
-} );
+// The various substances that this layer can model.
+class Substance extends EnumerationValue {
+
+  // In kg/m^3
+  density: number;
+
+  // In J/kg°K
+  specificHeatCapacity: number;
+
+  radiationDirections: EnergyDirection[];
+
+  constructor( density: number, specificHeatCapacity: number, radiationDirections: EnergyDirection[] ) {
+    super();
+
+    this.density = density;
+    this.specificHeatCapacity = specificHeatCapacity;
+    this.radiationDirections = radiationDirections;
+  }
+
+  static GLASS = new Substance( 2500, 840, [ EnergyDirection.UP, EnergyDirection.DOWN ] );
+  static EARTH = new Substance( 1250, 1250, [ EnergyDirection.UP ] );
+
+  static enumeration = new Enumeration( Substance );
+}
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
 // The layer is modeled as a 1 meter wide strip that spans the width of the simulated sunlight.  Picture it like a
@@ -49,7 +69,7 @@ const LAYER_THICKNESS = 0.0000003;
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 
 type EnergyAbsorbingEmittingLayerOptions = {
-  substance?: any;
+  substance?: Substance;
   initialEnergyAbsorptionProportion?: number;
   minimumTemperature?: number;
 } & PhetioObjectOptions;
@@ -58,7 +78,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly altitude: number;
   public readonly temperatureProperty: NumberProperty;
   public readonly energyAbsorptionProportionProperty: NumberProperty;
-  private readonly substance: any;
+  private readonly substance: Substance;
   private readonly mass: number;
   private readonly specificHeatCapacity: number;
   public readonly minimumTemperature: number;
@@ -73,12 +93,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     const options = merge( {
 
-      // {Substance} - default to glass
-      // @ts-ignore
+      // default to glass
       substance: Substance.GLASS,
       initiallyActive: true,
 
-      // {number} - initial setting for the absorption proportion, must be from 0 to 1 inclusive
+      // initial setting for the absorption proportion, must be from 0 to 1 inclusive
       initialEnergyAbsorptionProportion: 1,
 
       // {number} - The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the
@@ -219,7 +238,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     // Send out the radiated energy by adding new EM energy packets.
     if ( totalRadiatedEnergyThisStep > 0 ) {
-      // @ts-ignore
       if ( this.substance.radiationDirections.includes( EnergyDirection.DOWN ) ) {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
@@ -228,7 +246,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
           EnergyDirection.DOWN
         ) );
       }
-      // @ts-ignore
       if ( this.substance.radiationDirections.includes( EnergyDirection.UP ) ) {
         emEnergyPackets.push( new EMEnergyPacket(
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,

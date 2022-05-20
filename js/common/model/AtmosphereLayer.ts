@@ -27,7 +27,6 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
 
     const options = optionize<AtmosphereLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
-      // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.GLASS,
       initiallyActive: true,
 

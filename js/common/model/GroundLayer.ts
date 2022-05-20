@@ -38,7 +38,6 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
 
       initialAlbedo: GROUND_ALBEDO,
 
-      // @ts-ignore
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
 
