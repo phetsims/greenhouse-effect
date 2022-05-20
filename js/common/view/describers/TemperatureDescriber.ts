@@ -11,22 +11,17 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
-import GroundLayer from '../../model/GroundLayer.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import TemperatureUnits from '../../model/TemperatureUnits.js';
 
-// constants
-// determined by inspection, temperature descriptions are evenly distributed across this range of values in Kelvin
-const DESCRIBED_TEMPERATURE_RANGE = new Range( GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE, 290 );
-
 // strings used to describe temperature
+const temperatureExtremelyHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.extremelyHigh;
 const temperatureVeryHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryHigh;
 const temperatureHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.high;
-const temperatureSomewhatHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatHigh;
 const temperatureModerateString = greenhouseEffectStrings.a11y.temperatureDescriptions.moderate;
-const temperatureSomewhatLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.somewhatLow;
 const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.low;
 const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
+const temperatureExtremelyLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.extremelyLow;
 const temperatureHistoricallyLowString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.low;
 const temperatureHistoricallyModerateString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.moderate;
 const temperatureHistoricallyHighString = greenhouseEffectStrings.a11y.historicalTemperatureDescriptions.high;
@@ -45,14 +40,23 @@ const surfaceTemperatureIsQuantitativePatternString = greenhouseEffectStrings.a1
 const surfaceTemperatureIsQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
 
 const qualitativeTemperatureDescriptionStrings = [
+  temperatureExtremelyLowString,
   temperatureVeryLowString,
   temperatureLowString,
-  temperatureSomewhatLowString,
   temperatureModerateString,
-  temperatureSomewhatHighString,
   temperatureHighString,
-  temperatureVeryHighString
+  temperatureVeryHighString,
+  temperatureExtremelyHighString
 ];
+
+// The minimum values for temperatures in kelvin each description used in the above array when describing the
+// temperature qualitatively.
+const qualitativeTemperatureDescriptionThresholds = [
+  260, 275, 283, 288, 293, 301
+];
+
+assert && assert( qualitativeTemperatureDescriptionThresholds.length + 1 === qualitativeTemperatureDescriptionStrings.length,
+  'thresholds for finding the description needs to match the length of descriptions to find the qualitative temperature description' );
 
 // Range used for categorizing temperature values into historical descriptions.  This was empirically determined based
 // on the emergent behavior of the model, so it may need updating if the model changes.
@@ -97,16 +101,13 @@ class TemperatureDescriber {
     let descriptionString;
 
     if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
-      const delta = DESCRIBED_TEMPERATURE_RANGE.getLength() / qualitativeTemperatureDescriptionStrings.length;
+      descriptionString = qualitativeTemperatureDescriptionStrings[ 0 ];
 
-      // Get a string from the list of qualitative description strings.  The strings are ordered from lowest to highest
-      // temperature. If we don't find a description string it is beyond the max value, so we default to a description
-      // for the hottest temperature.
-      descriptionString = qualitativeTemperatureDescriptionStrings[ qualitativeTemperatureDescriptionStrings.length - 1 ];
-      for ( let i = 0; i < qualitativeTemperatureDescriptionStrings.length; i++ ) {
-        if ( value < DESCRIBED_TEMPERATURE_RANGE.min + delta * ( i + 1 ) ) {
-          descriptionString = qualitativeTemperatureDescriptionStrings[ i ];
-          break;
+      // Use the minimum values in the "thresholds" array to find the correct qualitative description
+      for ( let i = 0; i < qualitativeTemperatureDescriptionThresholds.length; i++ ) {
+        const thresholdMin = qualitativeTemperatureDescriptionThresholds[ i ];
+        if ( value >= thresholdMin ) {
+          descriptionString = qualitativeTemperatureDescriptionStrings[ i + 1 ];
         }
       }
     }

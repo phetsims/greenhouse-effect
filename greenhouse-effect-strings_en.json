@@ -229,26 +229,26 @@
       }
     },
     "temperatureDescriptions": {
+      "extremelyHigh": {
+        "value": "extremely high"
+      },
       "veryHigh": {
         "value": "very high"
       },
       "high": {
         "value": "high"
       },
-      "somewhatHigh": {
-        "value": "somewhat high"
-      },
       "moderate": {
         "value": "moderate"
-      },
-      "somewhatLow": {
-        "value": "somewhat low"
       },
       "low": {
         "value": "low"
       },
       "veryLow": {
         "value": "very low"
+      },
+      "extremelyLow": {
+        "value": "extremely low"
       }
     },
     "historicalTemperatureDescriptions": {

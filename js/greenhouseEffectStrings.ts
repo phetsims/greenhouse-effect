@@ -116,13 +116,13 @@ type StringsType = {
       'helpText': string;
     };
     'temperatureDescriptions': {
+      'extremelyHigh': string;
       'veryHigh': string;
       'high': string;
-      'somewhatHigh': string;
       'moderate': string;
-      'somewhatLow': string;
       'low': string;
       'veryLow': string;
+      'extremelyLow': string;
     };
     'historicalTemperatureDescriptions': {
       'high': string;
