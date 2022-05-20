@@ -204,6 +204,19 @@ class ConcentrationDescriber {
   }
 
   /**
+   * Get a description of a change in gas concentration level, returns something like "Now higher levels of greenhouse
+   * gases".
+   */
+  public static getConcentrationRelativeChangeDescription( oldConcentration: number, newConcentration: number ): string {
+    const changeString = newConcentration > oldConcentration ? greenhouseEffectStrings.a11y.higher :
+                         newConcentration < oldConcentration ? greenhouseEffectStrings.a11y.lower :
+                         greenhouseEffectStrings.a11y.unchanged;
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.nowRelativeLevelOfConcentrationPattern, {
+      value: changeString
+    } );
+  }
+
+  /**
    * Get a description of the change in the greenhouse gas concentration value from a previous year to a new one,
    * returns something like:
    * "Greenhouse gas levels much lower than twenty twenty."

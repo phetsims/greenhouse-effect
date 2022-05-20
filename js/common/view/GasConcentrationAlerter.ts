@@ -159,12 +159,22 @@ class GasConcentrationAlerter extends Alerter {
     // controlling by date, describe the scene in the observation window.
     model.concentrationControlModeProperty.lazyLink( controlMode => {
 
-      // if controlling by date, include a description of the selected date
       if ( controlMode === ConcentrationControlMode.BY_DATE ) {
-        this.alert( ConcentrationDescriber.getTimePeriodCurrentlyDescription( model.dateProperty.value ) );
-      }
 
-      this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
+        // If controlling by date, include a description of the selected date.
+        this.alert( ConcentrationDescriber.getTimePeriodCurrentlyDescription( model.dateProperty.value ) );
+
+        // Describe the relative change in concentration caused by switching to "date" mode.
+        this.alert( ConcentrationDescriber.getConcentrationRelativeChangeDescription(
+          model.manuallyControlledConcentrationProperty.value,
+          ConcentrationModel.getConcentrationForDate( model.dateProperty.value )
+        ) );
+      }
+      else {
+
+        // In manual mode, describe the relative level of concentration.
+        this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
+      }
     } );
   }
 

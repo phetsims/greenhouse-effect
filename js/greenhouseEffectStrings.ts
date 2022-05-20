@@ -216,6 +216,7 @@ type StringsType = {
     'iceAgeDescription': string;
     'currentlyTimePeriodDescriptionPattern': string;
     'nowLevelsOfConcentrationPattern': string;
+    'nowRelativeLevelOfConcentrationPattern': string;
     'qualitativeConcentrationChangeDescriptionPattern': string;
     'higher': string;
     'muchHigher': string;
@@ -223,6 +224,7 @@ type StringsType = {
     'lower': string;
     'muchLower': string;
     'significantlyLower': string;
+    'unchanged': string;
     'energyBalanceCheckedAlert': string;
     'energyBalanceCheckedPattern': string;
     'energyBalanceUncheckedAlert': string;

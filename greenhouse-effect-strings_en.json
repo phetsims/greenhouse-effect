@@ -491,6 +491,9 @@
     "nowLevelsOfConcentrationPattern": {
       "value": "Now {{value}} greenhouse gases."
     },
+    "nowRelativeLevelOfConcentrationPattern": {
+      "value": "Now {{value}} levels of greenhouse gases."
+    },
     "qualitativeConcentrationChangeDescriptionPattern": {
       "value": "Greenhouse gas levels {{comparativeDescription}} than {{year}}."
     },
@@ -511,6 +514,9 @@
     },
     "significantlyLower": {
       "value": "significantly lower"
+    },
+    "unchanged": {
+      "value": "unchanged"
     },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
