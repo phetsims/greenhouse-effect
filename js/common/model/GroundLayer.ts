@@ -68,7 +68,6 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
   protected override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
-      // @ts-ignore
       if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.direction === EnergyDirection.DOWN ) {
 
         // Only visible light is reflected, IR is fully absorbed.
@@ -81,7 +80,6 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
           // Some of the energy in this packet has been reflected.  Reverse the direction of the packet and set its
           // energy accordingly.
           energyPacket.energy = reflectedEnergy;
-          // @ts-ignore
           energyPacket.direction = EnergyDirection.UP;
         }
         else {

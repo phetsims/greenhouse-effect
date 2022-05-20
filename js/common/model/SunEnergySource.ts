@@ -85,7 +85,6 @@ class SunEnergySource extends PhetioObject {
         GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
         energyToProduce,
         LayersModel.HEIGHT_OF_ATMOSPHERE,
-        // @ts-ignore
         EnergyDirection.DOWN
       ) );
     }

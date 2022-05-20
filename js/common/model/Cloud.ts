@@ -133,7 +133,6 @@ class Cloud extends PhetioObject {
             emEnergyPacket.wavelength,
             reflectedEnergy,
             altitude,
-            // @ts-ignore - once enums are figured out and serializable, this should be replaced
             EnergyDirection.getOpposite( emEnergyPacket.direction )
           ) );
         }

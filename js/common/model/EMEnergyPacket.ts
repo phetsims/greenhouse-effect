@@ -13,14 +13,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
 
-// TODO: The direction should be of type EnergyDirection, but PhET's approach for enums isn't worked out yet, so it's
-//       using the 'any' type.  This will need to be fixed up.
 class EMEnergyPacket {
   readonly wavelength: number;
   energy: number;
   altitude: number;
   previousAltitude: number;
-  direction: any; // TODO: Should be EnergyDirection once TS enums are worked out.
+  direction: EnergyDirection;
 
   /**
    * @param {number} wavelength - in meters
@@ -28,7 +26,7 @@ class EMEnergyPacket {
    * @param {number} initialAltitude - in meters
    * @param {EnergyDirection} direction
    */
-  constructor( wavelength: number, energy: number, initialAltitude: number, direction: any ) {
+  constructor( wavelength: number, energy: number, initialAltitude: number, direction: EnergyDirection ) {
 
     // (read-only) {number}
     this.wavelength = wavelength;

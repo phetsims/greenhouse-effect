@@ -50,7 +50,6 @@ class SpaceEnergySink extends PhetioObject {
 
     emEnergyPackets.forEach( energyPacket => {
 
-      // @ts-ignore
       if ( energyPacket.altitude >= this.altitude && energyPacket.direction === EnergyDirection.UP ) {
         energyEmittedIntoSpace += energyPacket.energy;
         energyPacket.energy = 0; // reduce energy to zero, which will cause this one to be removed from the list

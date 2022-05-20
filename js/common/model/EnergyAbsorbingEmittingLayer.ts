@@ -30,9 +30,7 @@ const EQUILIBRATION_TIME = GreenhouseEffectQueryParameters.atEquilibriumTime;
 
 // The various substances that this layer can model.  Density is in kg/m^3, specific heat capacity is in J/kg°K
 const Substance = EnumerationDeprecated.byMap( {
-  // @ts-ignore
   GLASS: { density: 2500, specificHeatCapacity: 840, radiationDirections: [ EnergyDirection.UP, EnergyDirection.DOWN ] },
-  // @ts-ignore
   EARTH: { density: 1250, specificHeatCapacity: 1250, radiationDirections: [ EnergyDirection.UP ] }
 } );
 
@@ -227,7 +225,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
-          // @ts-ignore
           EnergyDirection.DOWN
         ) );
       }
@@ -237,7 +234,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           totalRadiatedEnergyThisStep / numberOfRadiatingSurfaces,
           this.altitude,
-          // @ts-ignore
           EnergyDirection.UP
         ) );
       }
