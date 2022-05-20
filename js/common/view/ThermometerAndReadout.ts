@@ -30,6 +30,7 @@ import GroundLayer from '../model/GroundLayer.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TemperatureUnits from '../model/TemperatureUnits.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -118,24 +119,21 @@ class ThermometerAndReadout extends Node {
           kelvinUnitsString,
           model.surfaceTemperatureKelvinProperty,
           model.surfaceTemperatureKelvinProperty.range!,
-          // @ts-ignore
-          LayersModel.TemperatureUnits.KELVIN,
+          TemperatureUnits.KELVIN,
           'kelvinItem'
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsString,
           model.surfaceTemperatureCelsiusProperty,
           celsiusRange,
-          // @ts-ignore
-          LayersModel.TemperatureUnits.CELSIUS,
+          TemperatureUnits.CELSIUS,
           'celsiusItem'
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsString,
           model.surfaceTemperatureFahrenheitProperty,
           fahrenheitRange,
-          // @ts-ignore
-          LayersModel.TemperatureUnits.FAHRENHEIT,
+          TemperatureUnits.FAHRENHEIT,
           'fahrenheitItem'
         )
       ];
@@ -188,8 +186,8 @@ class ThermometerAndReadout extends Node {
   private static createComboBoxItem( unitsString: string,
                                      property: IReadOnlyProperty<number>,
                                      propertyRange: Range,
-                                     propertyValue: EnumerationDeprecated,
-                                     tandemName: string ): ComboBoxItem<EnumerationDeprecated> {
+                                     propertyValue: TemperatureUnits,
+                                     tandemName: string ): ComboBoxItem<TemperatureUnits> {
 
     const numberDisplayOptions = {
       backgroundStroke: null,
@@ -203,7 +201,7 @@ class ThermometerAndReadout extends Node {
       } )
     };
 
-    return new ComboBoxItem(
+    return new ComboBoxItem<TemperatureUnits>(
       new NumberDisplay( property, propertyRange, numberDisplayOptions ),
       propertyValue,
       {

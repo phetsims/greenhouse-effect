@@ -14,7 +14,7 @@ import TemperatureDescriber from '../../common/view/describers/TemperatureDescri
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
@@ -105,7 +105,7 @@ class WavesScreenSummaryContentNode extends Node {
                               concentrationControlMode: ConcentrationControlMode,
                               surfaceTemperatureVisible: boolean,
                               surfaceThermometerVisible: boolean,
-                              temperatureUnits: EnumerationDeprecated,
+                              temperatureUnits: TemperatureUnits,
                               cloudEnabled: boolean ): string {
 
     // the final description
@@ -143,7 +143,10 @@ class WavesScreenSummaryContentNode extends Node {
         concentrationControlMode,
         date
       );
-      const quantitativeTemperatureDescriptionString = TemperatureDescriber.getQuantitativeTemperatureDescription( surfaceTemperatureKelvin, temperatureUnits );
+      const quantitativeTemperatureDescriptionString = TemperatureDescriber.getQuantitativeTemperatureDescription(
+        surfaceTemperatureKelvin,
+        temperatureUnits
+      );
 
       let temperatureFragmentString = '';
       if ( surfaceTemperatureVisible && surfaceThermometerVisible ) {

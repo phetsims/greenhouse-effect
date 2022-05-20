@@ -10,10 +10,9 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -30,6 +29,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Cloud from './Cloud.js';
 import merge from '../../../../phet-core/js/merge.js';
 import FluxMeter from './FluxMeter.js';
+import TemperatureUnits from './TemperatureUnits.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
@@ -39,9 +39,6 @@ const DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to giv
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
-
-// units of temperature used by Greenhouse Effect
-const TemperatureUnits = EnumerationDeprecated.byKeys( [ 'KELVIN', 'CELSIUS', 'FAHRENHEIT' ] );
 
 type LayersModelOptions = {
   minimumGroundTemperature?: number;
@@ -55,7 +52,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly surfaceTemperatureKelvinProperty: NumberProperty;
   public readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
   public readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
-  public readonly temperatureUnitsProperty: EnumerationDeprecatedProperty;
+  public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
   public readonly surfaceThermometerVisibleProperty: BooleanProperty;
   public readonly energyBalanceVisibleProperty: BooleanProperty;
   public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
@@ -121,8 +118,7 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     // displayed units of temperature
-    // @ts-ignore
-    this.temperatureUnitsProperty = new EnumerationDeprecatedProperty( TemperatureUnits, TemperatureUnits.KELVIN, {
+    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits.KELVIN, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
@@ -340,7 +336,6 @@ class LayersModel extends GreenhouseEffectModel {
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
   public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
-  public static readonly TemperatureUnits: EnumerationDeprecated = TemperatureUnits;
   public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**

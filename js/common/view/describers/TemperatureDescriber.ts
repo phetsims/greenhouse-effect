@@ -11,9 +11,9 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
-import LayersModel from '../../model/LayersModel.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
+import TemperatureUnits from '../../model/TemperatureUnits.js';
 
 // constants
 // determined by inspection, temperature descriptions are evenly distributed across this range of values in Kelvin
@@ -72,10 +72,10 @@ class TemperatureDescriber {
    * return something like:
    * "245 Kelvin" or "12 Celsius"
    *
-   * @param {number} temperatureKelvin - temperature, in kelvin
-   * @param {LayersModel.TemperatureUnits} unitsValue
+   * @param temperatureKelvin - temperature, in kelvin
+   * @param unitsValue
    */
-  public static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: any ): string {
+  public static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: TemperatureUnits ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
@@ -143,11 +143,9 @@ class TemperatureDescriber {
   /**
    * Get the current temperature in the provided units, formatted for use in interactive description.
    */
-  public static getTemperatureValueString( temperatureKelvin: number, unitsValue: any ): string {
-    // @ts-ignore
-    const convertedValue = unitsValue === LayersModel.TemperatureUnits.KELVIN ? temperatureKelvin :
-      // @ts-ignore
-                           unitsValue === LayersModel.TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
+  public static getTemperatureValueString( temperatureKelvin: number, unitsValue: TemperatureUnits ): string {
+    const convertedValue = unitsValue === TemperatureUnits.KELVIN ? temperatureKelvin :
+                           unitsValue === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperatureKelvin ) :
                            GreenhouseEffectUtils.kelvinToFahrenheit( temperatureKelvin );
 
     return Utils.toFixed( convertedValue, 1 );
@@ -159,13 +157,10 @@ class TemperatureDescriber {
    * "Kelvin" or
    * "degrees Celsius"
    */
-  public static getTemperatureUnitsString( unitsValue: any ): string {
-    // @ts-ignore
-    return unitsValue === LayersModel.TemperatureUnits.KELVIN ? kelvinString :
-      // @ts-ignore
-           unitsValue === LayersModel.TemperatureUnits.CELSIUS ? celsiusString :
+  public static getTemperatureUnitsString( unitsValue: TemperatureUnits ): string {
+    return unitsValue === TemperatureUnits.KELVIN ? kelvinString :
+           unitsValue === TemperatureUnits.CELSIUS ? celsiusString :
            fahrenheitString;
-
   }
 
   /**
@@ -177,7 +172,7 @@ class TemperatureDescriber {
   static getSurfaceTemperatureChangeString( oldTemperature: number,
                                             currentTemperature: number,
                                             thermometerVisible: boolean,
-                                            unitsValue: any,
+                                            unitsValue: TemperatureUnits,
                                             includeSurfaceTemperatureFragment: boolean ): string | null {
     let changeString = null;
     let patternString = null;
@@ -222,7 +217,7 @@ class TemperatureDescriber {
   static getSurfaceTemperatureStableString( temperature: number,
                                             thermometerVisible: boolean,
                                             surfaceTemperatureIndicationVisible: boolean,
-                                            unitsValue: any,
+                                            unitsValue: TemperatureUnits,
                                             concentrationControlMode: ConcentrationControlMode,
                                             date: ConcentrationDate ): string {
 
@@ -269,7 +264,7 @@ class TemperatureDescriber {
   static getSurfaceTemperatureIsString( temperature: number,
                                         thermometerVisible: boolean,
                                         surfaceTemperatureIndicationVisible: boolean,
-                                        unitsValue: any,
+                                        unitsValue: TemperatureUnits,
                                         concentrationControlMode: ConcentrationControlMode,
                                         date: ConcentrationDate ): string | null {
 
