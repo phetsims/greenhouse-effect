@@ -122,6 +122,14 @@ class GasConcentrationAlerter extends Alerter {
       }
     } );
 
+    // Announce the temperature when the user changes the units.
+    model.temperatureUnitsProperty.lazyLink( temperatureUnits => {
+      this.alert( TemperatureDescriber.getQuantitativeTemperatureDescription(
+        model.surfaceTemperatureKelvinProperty.value,
+        temperatureUnits
+      ) );
+    } );
+
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( concentration => {
       this.useVerboseSurfaceTemperatureAlert = true;

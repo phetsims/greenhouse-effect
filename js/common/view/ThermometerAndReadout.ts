@@ -38,7 +38,6 @@ const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditional
 const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
-const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.surfaceTemperaturePattern;
 
 const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
 
@@ -146,22 +145,13 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        helpText: 'Select temperature units.',
+        helpText: greenhouseEffectStrings.a11y.temperatureUnitsHelpText,
+        accessibleName: greenhouseEffectStrings.a11y.temperatureUnitsLabel,
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
       } );
       this.addChild( comboBox );
-
-      // The accessible name updates with the units selection and the value
-      Property.multilink(
-        [ model.temperatureUnitsProperty, model.surfaceTemperatureKelvinProperty ],
-        ( temperatureUnits, surfaceTemperature ) => {
-
-          comboBox.accessibleName = StringUtils.fillIn( surfaceTemperaturePatternString, {
-            value: TemperatureDescriber.getTemperatureValueString( surfaceTemperature, temperatureUnits )
-          } );
-        } );
     }
     else {
 

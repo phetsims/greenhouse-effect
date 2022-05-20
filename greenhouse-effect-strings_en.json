@@ -213,9 +213,6 @@
     "observationWindowLabel": {
       "value": "Observation Window"
     },
-    "surfaceTemperaturePattern": {
-      "value": "Surface Temperature {{value}}"
-    },
     "energyBalance": {
       "helpText": {
         "value": "Measure incoming and outgoing energy at top of atmosphere."
@@ -264,6 +261,12 @@
       "low": {
         "value": "historically low"
       }
+    },
+    "temperatureUnitsLabel": {
+      "value": "Temperature units"
+    },
+    "temperatureUnitsHelpText": {
+      "value": "Select temperature units."
     },
     "temperatureUnits": {
       "kelvin": {

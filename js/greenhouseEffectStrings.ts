@@ -106,7 +106,6 @@ type StringsType = {
   'absorbingLayers': string;
   'a11y': {
     'observationWindowLabel': string;
-    'surfaceTemperaturePattern': string;
     'energyBalance': {
       'helpText': string;
     };
@@ -130,6 +129,8 @@ type StringsType = {
       'moderate': string;
       'low': string;
     };
+    'temperatureUnitsLabel': string;
+    'temperatureUnitsHelpText': string;
     'temperatureUnits': {
       'kelvin': string;
       'celsius': string;
