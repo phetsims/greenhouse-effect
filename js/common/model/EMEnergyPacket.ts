@@ -65,7 +65,6 @@ class EMEnergyPacket {
   public step( dt: number ): void {
     this.previousAltitude = this.altitude;
 
-    // @ts-ignore
     if ( this.direction === EnergyDirection.UP ) {
       this.altitude += dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }

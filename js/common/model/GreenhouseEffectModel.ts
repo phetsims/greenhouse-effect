@@ -73,7 +73,6 @@ class GreenhouseEffectModel extends PhetioObject {
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
-      // @ts-ignore
       const timeStep = this.timeSpeedProperty.value === TimeSpeed.NORMAL ? dt : dt / 2;
       this.stepModel( timeStep );
     }
