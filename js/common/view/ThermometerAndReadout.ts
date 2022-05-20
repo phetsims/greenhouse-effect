@@ -63,7 +63,7 @@ class ThermometerAndReadout extends Node {
     const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>()( {
 
       minTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
-      maxTemperature: 300,
+      maxTemperature: 310,
 
       // readout type that will be shown below the thermometer, either SELECTABLE (i.e. a combo box) or fixed
       // @ts-ignore

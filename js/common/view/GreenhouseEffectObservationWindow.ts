@@ -385,12 +385,14 @@ class GreenhouseEffectObservationWindow extends Node {
       { associatedViewNode: this }
     );
 
+    const expectedTemperatureRange = new Range( model.groundLayer.minimumTemperature, 310 );
+
     // Add the filter-based sound generator.
     soundManager.addSoundGenerator(
       new TemperatureSoundGeneratorFiltered(
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
-        new Range( model.groundLayer.minimumTemperature, 300 ),
+        expectedTemperatureRange,
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
@@ -408,7 +410,7 @@ class GreenhouseEffectObservationWindow extends Node {
       new TemperatureSoundGeneratorSpeed(
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
-        new Range( model.groundLayer.minimumTemperature, 300 ),
+        expectedTemperatureRange,
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
