@@ -54,9 +54,9 @@ class ConcentrationDate extends EnumerationValue {
 // reached in the sim match the values specified in the design doc.
 const DATE_TO_CONCENTRATION_MAP = new Map<ConcentrationDate, number>( [
   [ ConcentrationDate.ICE_AGE, 0.625 ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, 0.720 ],
-  [ ConcentrationDate.NINETEEN_FIFTY, 0.724 ],
-  [ ConcentrationDate.TWENTY_TWENTY, 0.750 ]
+  [ ConcentrationDate.SEVENTEEN_FIFTY, 0.7147 ],
+  [ ConcentrationDate.NINETEEN_FIFTY, 0.7182 ],
+  [ ConcentrationDate.TWENTY_TWENTY, 0.7446 ]
 ] );
 const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
