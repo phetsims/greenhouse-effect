@@ -10,11 +10,9 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationDeprecatedProperty from '../../../../axon/js/EnumerationDeprecatedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, HStrut, Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
@@ -24,6 +22,9 @@ import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const HEADING_1_TEXT_OPTIONS = { font: new PhetFont( { size: 20, weight: 'bold' } ) };
@@ -33,20 +34,20 @@ const SLIDER_LABEL_FONT = new PhetFont( 18 );
 const PANEL_MARGIN = 8;
 const CHECKBOX_WIDTH = 13;
 
-const TemperatureSoundNames = EnumerationDeprecated.byKeys( [
-  'MULTIPLE_LOOPS_WITH_CROSS_FADES',
-  'SINGLE_LOOP_WITH_LOW_PASS',
-  'SINGLE_LOOP_WITH_BAND_PASS',
-  'SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE',
-  'NONE'
-] );
+class TemperatureSoundNames extends EnumerationValue {
+  static MULTIPLE_LOOPS_WITH_CROSS_FADES = new TemperatureSoundNames();
+  static SINGLE_LOOP_WITH_LOW_PASS = new TemperatureSoundNames();
+  static SINGLE_LOOP_WITH_BAND_PASS = new TemperatureSoundNames();
+  static SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE = new TemperatureSoundNames();
+  static NONE = new TemperatureSoundNames();
+
+  static enumeration = new Enumeration( TemperatureSoundNames );
+}
 
 // Define the globals that will be set by this node.  They must be defined during load time.
 
 // global property that specifies which sound generator to use for temperature
-phet.greenhouseEffect.temperatureSoundProperty = new EnumerationDeprecatedProperty(
-  TemperatureSoundNames,
-  // @ts-ignore
+phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
   TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS
 );
 
@@ -74,31 +75,26 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     // items for radio button group for selecting temperature sound
     const items = [
       {
-        // @ts-ignore
         value: TemperatureSoundNames.NONE,
         node: new Text( 'None', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'noneRadioButton'
       },
       {
-        // @ts-ignore
         value: TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES,
         node: new Text( 'Multiple loops with cross-fades', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'multipleLoopsWithCrossFadeRadioButton'
       },
       {
-        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS,
         node: new Text( 'Single loop with low pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithLowPassRadioButton'
       },
       {
-        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS,
         node: new Text( 'Single loop with band pass filter', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithBandPassRadioButton'
       },
       {
-        // @ts-ignore
         value: TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE,
         node: new Text( 'Single loop with playback rate change', SELECTOR_TEXT_OPTIONS ),
         tandemName: 'singleLoopWithRateChangeRadioButton'

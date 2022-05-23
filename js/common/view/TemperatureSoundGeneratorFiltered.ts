@@ -62,7 +62,6 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     // Put the appropriate filter in the signal chain depending on which sound generation is selected for temperature.
     // @ts-ignore
     phet.greenhouseEffect.temperatureSoundProperty.link( temperatureSound => {
-      // @ts-ignore
       if ( temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ) {
         lowPassFilter.connect( this.masterGainNode );
         try {
@@ -72,7 +71,6 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
           // Ignore this if the filter wasn't connected.
         }
       }
-      // @ts-ignore
       else if ( temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS ) {
         bandPassFilter.connect( this.masterGainNode );
         try {

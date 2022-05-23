@@ -348,21 +348,17 @@ class GreenhouseEffectObservationWindow extends Node {
     //       https://github.com/phetsims/greenhouse-effect/issues/36.
     const crossFadeTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
-      // @ts-ignore - for one thing, this is an enum value, for another, it will go away soon
       temperatureSound => temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
     );
     const filteredLoopTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
       temperatureSound =>
-        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ||
-        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS
     );
     const loopSpeedTemperatureSoundGeneratorEnabled = new DerivedProperty(
       [ phet.greenhouseEffect.temperatureSoundProperty ],
       temperatureSound =>
-        // @ts-ignore
         temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE
     );
 
