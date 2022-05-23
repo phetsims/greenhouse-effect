@@ -7,7 +7,8 @@
  * @author Jesse Greenberg
  */
 
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
@@ -20,33 +21,37 @@ const controlPanelOxygenString = greenhouseEffectStrings.ControlPanel.Oxygen;
 const controlPanelOzoneString = greenhouseEffectStrings.ControlPanel.Ozone;
 const controlPanelWaterString = greenhouseEffectStrings.ControlPanel.Water;
 
-const PhotonTarget = EnumerationDeprecated.byKeys( [
-  'SINGLE_CO_MOLECULE',
-  'SINGLE_N2_MOLECULE',
-  'SINGLE_O2_MOLECULE',
-  'SINGLE_CO2_MOLECULE',
-  'SINGLE_CH4_MOLECULE',
-  'SINGLE_H2O_MOLECULE',
-  'SINGLE_NO2_MOLECULE',
-  'SINGLE_O3_MOLECULE'
-], {
-  beforeFreeze: enumeration => {
+class PhotonTarget extends EnumerationValue {
+  static SINGLE_CO_MOLECULE = new PhotonTarget();
+  static SINGLE_N2_MOLECULE = new PhotonTarget();
+  static SINGLE_O2_MOLECULE = new PhotonTarget();
+  static SINGLE_CO2_MOLECULE = new PhotonTarget();
+  static SINGLE_CH4_MOLECULE = new PhotonTarget();
+  static SINGLE_H2O_MOLECULE = new PhotonTarget();
+  static SINGLE_NO2_MOLECULE = new PhotonTarget();
+  static SINGLE_O3_MOLECULE = new PhotonTarget();
 
-    /**
-     * maps photon target to translatable string
-     * @param {PhotonTarget} photonTarget
-     * @returns {string} - the control panel molecule name
-     */
-    enumeration.getMoleculeName = photonTarget => photonTarget === enumeration.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
-                                                  photonTarget === enumeration.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
-                                                  photonTarget === enumeration.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
-                                                  photonTarget === enumeration.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
-                                                  photonTarget === enumeration.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
-                                                  photonTarget === enumeration.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
-                                                  photonTarget === enumeration.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
-                                                  photonTarget === enumeration.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
-                                                  assert && assert( false, 'unknown' );
+  static enumeration = new Enumeration( PhotonTarget );
+
+  /**
+   * maps photon target to translatable string
+   * @param {PhotonTarget} photonTarget
+   * @returns {string} - the control panel molecule name
+   * @public
+   */
+  static getMoleculeName( photonTarget ) {
+    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
+           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
+           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
+           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
+           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
+           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
+           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
+           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
+           assert && assert( false, 'unknown' );
+
   }
-} );
+}
+
 greenhouseEffect.register( 'PhotonTarget', PhotonTarget );
 export default PhotonTarget;
