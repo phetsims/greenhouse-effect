@@ -10,7 +10,8 @@
  * @author Jesse Greenberg
  */
 
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
@@ -43,7 +44,14 @@ const tetrahedralGeometryDescriptionString = greenhouseEffectStrings.a11y.tetrah
 const linearGeometryDescriptionString = greenhouseEffectStrings.a11y.linearGeometryDescription;
 
 // constants
-const Geometry = EnumerationDeprecated.byKeys( [ 'LINEAR', 'BENT', 'TETRAHEDRAL', 'DIATOMIC' ] );
+class Geometry extends EnumerationValue {
+  static LINEAR = new EnumerationValue();
+  static BENT = new EnumerationValue();
+  static TETRAHEDRAL = new EnumerationValue();
+  static DIATOMIC = new EnumerationValue();
+
+  static enumeration = new Enumeration( Geometry );
+}
 
 const MolecularGeometryMap = new Map();
 MolecularGeometryMap.set( CO, Geometry.LINEAR );
@@ -194,7 +202,6 @@ MoleculeUtils.MolecularGeometryMap = MolecularGeometryMap;
 
 // @public
 // @static
-// {EnumerationDeprecated}
 MoleculeUtils.Geometry = Geometry;
 
 greenhouseEffect.register( 'MoleculeUtils', MoleculeUtils );
