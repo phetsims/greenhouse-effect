@@ -8,7 +8,8 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -36,7 +37,12 @@ const LABEL_OPTIONS = {
 };
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
-const EnergyRepresentation = EnumerationDeprecated.byKeys( [ 'PHOTON', 'WAVE' ] );
+class EnergyRepresentation extends EnumerationValue {
+  static PHOTON = new EnergyRepresentation();
+  static WAVE = new EnergyRepresentation();
+
+  static enumeration = new Enumeration( EnergyRepresentation );
+}
 
 type EnergyLegendOptions = {
   energyRepresentation: any;
@@ -46,14 +52,13 @@ class EnergyLegend extends Panel {
 
   /**
    * @param {number} width - width of the legend, it needs to be wider than its contents for layout in screen view
-   * @param {Object} [options]
+   * @param {Object} [providedOptions]
    */
   constructor( width: number, providedOptions: EnergyLegendOptions ) {
 
     const options = merge( {
 
-      // {EnergyRepresentation} the energy icons will either display a photon or wave, depending on this option
-      // @ts-ignore
+      // the energy icons will either display a photon or wave, depending on this option
       energyRepresentation: EnergyRepresentation.PHOTON,
 
       // Panel options
@@ -119,7 +124,6 @@ class EnergyLegend extends Panel {
     // for layout
     let interRowSpacing;
 
-    // @ts-ignore
     if ( options.energyRepresentation === EnergyRepresentation.WAVE ) {
       sunlightIcon = sunlightWaveBox;
       infraredIcon = infraredWaveBox;

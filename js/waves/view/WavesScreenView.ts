@@ -56,7 +56,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     super( model, observationWindow, timeControlNode, {
       energyLegendOptions: {
-        // @ts-ignore
         energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
       },
 
