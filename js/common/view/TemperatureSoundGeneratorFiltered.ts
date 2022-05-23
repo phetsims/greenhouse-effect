@@ -13,7 +13,7 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseEffectTemperatureBaseAmbience4Octaves_mp3 from '../../../sounds/greenhouseEffectTemperatureBaseAmbience4Octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
+import GreenhouseEffectOptionsDialogContent, { TemperatureSoundNames } from './GreenhouseEffectOptionsDialogContent.js';
 import Property from '../../../../axon/js/Property.js';
 
 // constants
@@ -60,8 +60,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     baseSoundLoop.connect( bandPassFilter );
 
     // Put the appropriate filter in the signal chain depending on which sound generation is selected for temperature.
-    // @ts-ignore
-    phet.greenhouseEffect.temperatureSoundProperty.link( temperatureSound => {
+    phet.greenhouseEffect.temperatureSoundProperty.link( ( temperatureSound: TemperatureSoundNames ) => {
       if ( temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ) {
         lowPassFilter.connect( this.masterGainNode );
         try {

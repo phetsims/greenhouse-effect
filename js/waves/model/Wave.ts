@@ -77,7 +77,6 @@ class Wave extends PhetioObject {
 
       // phet-io
       tandem: Tandem.REQUIRED,
-      // @ts-ignore
       phetioType: Wave.WaveIO,
       phetioDynamicElement: true
 

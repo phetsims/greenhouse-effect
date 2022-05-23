@@ -98,7 +98,6 @@ class FluxMeterNode extends Node {
 
     // {Panel} - contains the display showing energy flux, public for positioning in the view
     this.fluxPanel = new Panel( content );
-    // @ts-ignore
     this.addChild( this.fluxPanel );
 
     // listeners
@@ -200,12 +199,10 @@ class EnergyFluxDisplayArrow extends Node {
 
     // redraw arrows when the flux Properties change
     energyInProperty.link( energyIn => {
-      // @ts-ignore
       inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyIn ) );
     } );
 
     energyOutProperty.link( energyOut => {
-      // @ts-ignore
       outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyOut ) );
     } );
 

@@ -67,9 +67,7 @@ class AtmosphereLayerNode extends Node {
       // Map the proportion to an opacity.  We don't want to go 100% opaque or the photons would be obscured when they
       // pass through the layer, so this mapping was empirically determined to look decent.
       const opacity = MINIMUM_OPACITY + ( energyAbsorptionProportion * ( MAXIMUM_OPACITY - MINIMUM_OPACITY ) );
-      // @ts-ignore
       mainBody.fill = LAYER_RECTANGLE_FILL_BASE_COLOR.withAlpha( opacity );
-      // @ts-ignore
       mainBody.stroke = LAYER_RECTANGLE_STROKE_BASE_COLOR.withAlpha( opacity );
     } );
 

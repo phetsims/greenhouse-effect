@@ -63,7 +63,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem: tandem,
 
       // pdom
-      // @ts-ignore - I (jbphet) got stuck on this one and bailed.
       screenSummaryContent: new WavesScreenSummaryContentNode( model )
     } );
 
@@ -126,7 +125,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
-    // @ts-ignore
     this.legendAndControlsVBox.addChild( concentrationControls );
 
     // cloud checkbox
@@ -140,7 +138,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
     const mockup = new Image( wavesScreenMockup_png, {
       center: this.layoutBounds.center,
-      // @ts-ignore TODO: Image doesn't have minWidth
+      // @ts-ignore TODO: Image doesn't have minWidth - Is this option doing anything then?
       minWidth: this.layoutBounds.width,
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value
@@ -159,7 +157,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.addChild( visibilityBox );
-    // @ts-ignore
     this.addChild( mockup );
 
     // sound generation
@@ -312,7 +309,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     model.steppedEmitter.addListener( updateSoundLoopLevels );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
-    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
@@ -321,7 +317,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       observationWindow.instrumentVisibilityControls,
       cloudCheckbox
     ];
-    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       visibilityBox,
       this.timeControlNode,

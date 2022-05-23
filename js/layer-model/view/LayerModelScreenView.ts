@@ -52,7 +52,6 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
-    // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 

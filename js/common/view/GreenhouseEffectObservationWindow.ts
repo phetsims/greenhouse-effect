@@ -188,13 +188,11 @@ class GreenhouseEffectObservationWindow extends Node {
       // the lightest colors.  This was added to support the variable albedo case, and allow the lightest color to look
       // more "snow like".
       if ( baseColor.r === baseColor.g && baseColor.g === baseColor.b ) {
-        // @ts-ignore
         groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
           .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
           .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
       }
       else {
-        // @ts-ignore
         groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
           .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
           .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );

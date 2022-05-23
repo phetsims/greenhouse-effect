@@ -309,10 +309,10 @@ class DateControl extends Node {
     );
 
     topConnectionLine.setPoint1( macroValueBox.rightTop );
-    topConnectionLine.setPoint2( microConcentrationLine.centerTop ); // @ts-ignore
+    topConnectionLine.setPoint2( microConcentrationLine.centerTop );
 
     bottomConnectionLine.setPoint1( macroValueBox.rightBottom );
-    bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom ); // @ts-ignore
+    bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom );
 
     dateRadioButtonGroup.leftTop = microConcentrationLine.rightTop.plusXY( 10, 0 );
 
@@ -354,7 +354,7 @@ class ConcentrationSlider extends Node {
 
     const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range!;
 
-    const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, { // @ts-ignore
+    const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: new Dimension2( 20, 10 ),
 
@@ -442,8 +442,7 @@ class CompositionDataNode extends VBox {
  * An inner class for the control panel that creates a RadioButtonGroup that selects between controlling concentration
  * by date or by value.
  */
-// @ts-ignore improve enumeration pattern
-class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<any> {
+class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<ConcentrationControlMode> {
 
   /**
    * @param {EnumerationProperty} property - Property for the method of controlling concentration
@@ -460,7 +459,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<a
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
     assert && assert( dummyProperty.range );
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range!, { // @ts-ignore
+    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range!, {
       trackSize: new Dimension2( 2, dateIcon.height - 9 ),
       thumbSize: new Dimension2( 18, 9 ),
       trackFillEnabled: 'black',

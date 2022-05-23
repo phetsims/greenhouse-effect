@@ -327,7 +327,6 @@ class PhotonCollection extends PhetioObject {
   }
 
   static PhotonCollectionIO = IOType.fromCoreType( 'PhotonCollectionIO', PhotonCollection, {
-    // @ts-ignore
     defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
   } );
 }

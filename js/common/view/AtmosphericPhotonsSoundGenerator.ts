@@ -36,7 +36,6 @@ class AtmosphericPhotonsSoundGenerator extends SoundClip {
 
     super( emissionOfInfraredPhotonFromAtmosphere_mp3, options );
 
-    // @ts-ignore
     photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
 
       // A new photon has been added to the collection.  Decide whether to play a sound signifying its arrival based on

@@ -67,7 +67,6 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
-    // @ts-ignore
     this.legendAndControlsVBox.addChild( concentrationControlPanel );
 
     const mockup = new Image( photonsScreenMockup_png, {
@@ -77,7 +76,6 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       maxWidth: this.layoutBounds.width,
       opacity: phet.greenhouseEffect.mockupOpacityProperty.value
     } );
-    // @ts-ignore
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 

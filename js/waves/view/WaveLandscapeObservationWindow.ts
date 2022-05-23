@@ -45,7 +45,6 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
     // Update the view when changes occur to the modelled waves.
     model.wavesChangedEmitter.addListener( () => {
-      // @ts-ignore
       wavesCanvasNode.invalidatePaint();
     } );
 

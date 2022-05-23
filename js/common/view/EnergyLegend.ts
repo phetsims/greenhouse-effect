@@ -116,9 +116,7 @@ class EnergyLegend extends Panel {
     const iconAlignGroup = new AlignGroup();
     const sunlightWaveBox = iconAlignGroup.createBox( sunlightWaveIcon );
     const infraredWaveBox = iconAlignGroup.createBox( infraredWaveIcon );
-    // @ts-ignore
     const sunlightPhotonBox = iconAlignGroup.createBox( sunlightPhotonIcon );
-    // @ts-ignore
     const infraredPhotonBox = iconAlignGroup.createBox( infraredPhotonIcon );
 
     // for layout

@@ -203,10 +203,9 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     );
 
     // Add the nodes to the layers provided by the parent class.  The order is important for correct layering.
-    // @ts-ignore
     artworkForDates.forEach( artworkNode => this.backgroundLayer.addChild( artworkNode ) );
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
-    // @ts-ignore
+
     this.controlsLayer.addChild( energyBalancePanel );
     this.controlsLayer.addChild( this.instrumentVisibilityControls );
 

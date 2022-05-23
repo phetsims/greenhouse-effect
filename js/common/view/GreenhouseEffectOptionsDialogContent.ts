@@ -289,4 +289,6 @@ class MockupOpacityControl extends VBox {
 }
 
 greenhouseEffect.register( 'GreenhouseEffectOptionsDialogContent', GreenhouseEffectOptionsDialogContent );
+
+export { TemperatureSoundNames };
 export default GreenhouseEffectOptionsDialogContent;

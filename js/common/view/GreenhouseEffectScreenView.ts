@@ -131,12 +131,10 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // pdom - order and assign components to their sections in the PDOM, for default components but can
     // be overridden by subtypes
-    // @ts-ignore
     this.pdomPlayAreaNode.pdomOrder = [
       this.energyLegend,
       this.observationWindow
     ];
-    // @ts-ignore
     this.pdomControlAreaNode.pdomOrder = [
       this.timeControlNode,
       this.resetAllButton
