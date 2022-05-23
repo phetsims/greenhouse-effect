@@ -267,7 +267,7 @@ class ConcentrationDescriber {
    * "very high levels of" or
    * "no"
    *
-   * @param {number} value - value of concentration in the model
+   * @param value - value of concentration in the model
    */
   public static getConcentrationDescription( value: number ): string {
     let descriptionString = '';

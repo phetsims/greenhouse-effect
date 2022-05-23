@@ -198,9 +198,6 @@ class LayersModel extends GreenhouseEffectModel {
     } );
   }
 
-  /**
-   * @param {number} dt
-   */
   public override stepModel( dt: number ): void {
 
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See

@@ -23,7 +23,7 @@ const NUM_SEGMENTS_PER_SHAPE = 5;
 class RandomIcon extends ScreenIcon {
 
   /**
-   * @param {number} seed - seed value for the random number generator
+   * @param seed - seed value for the random number generator
    */
   constructor( seed: number ) {
 

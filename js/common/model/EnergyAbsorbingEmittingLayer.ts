@@ -85,10 +85,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly atEquilibriumProperty: BooleanProperty;
   private atEquilibriumTime: number;
 
-  /**
-   * @param {number} altitude
-   * @param {EnergyAbsorbingEmittingLayerOptions} [providedOptions]
-   */
   constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
     const options = merge( {
@@ -100,8 +96,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       // initial setting for the absorption proportion, must be from 0 to 1 inclusive
       initialEnergyAbsorptionProportion: 1,
 
-      // {number} - The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the
-      // temperature at which it is originally set to.  When at this temperature, the layer will radiate no energy.
+      // The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the temperature at
+      // which it is originally set to.  When at this temperature, the layer will radiate no energy.
       // TODO: Decide whether this is really worth keeping.  It's tricky, and may not be what we really ultimately want.
       minimumTemperature: 0,
 

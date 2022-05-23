@@ -53,15 +53,20 @@ type EnergyInfoQueueItemStateObject = {
 }
 
 class EnergyRateTracker extends PhetioObject {
-  readonly energyRateProperty: NumberProperty;
-  private readonly energyInfoQueue: EnergyInfoQueueItem[];
+
+  // the period of time over which the recorded values are averaged
   private readonly accumulationPeriod: number;
+
+  // current total energy for the accumulation period
+  readonly energyRateProperty: NumberProperty;
+
+  // a queue containing information about energy packets
+  private readonly energyInfoQueue: EnergyInfoQueueItem[];
 
   constructor( providedOptions?: Partial<EnergyRateTrackerOptions> ) {
 
     const options = merge( {
 
-      // {number} - the period of time over which the recorded values are averaged
       accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD,
 
       // phet-io
@@ -72,23 +77,20 @@ class EnergyRateTracker extends PhetioObject {
 
     super( options );
 
-    // current total for the accumulation period
     this.energyRateProperty = new NumberProperty( 0, {
       units: 'W',
       tandem: options.tandem.createTandem( 'energyRateProperty' ),
       phetioDocumentation: 'Amount of energy being produced or absorbed.'
     } );
 
-    // a queue containing information about energy packets
     this.energyInfoQueue = [];
 
-    // @private {number}
     this.accumulationPeriod = options.accumulationPeriod!;
   }
 
   /**
-   * @param {number} energy - amount of energy to be recorded for this step, in joules
-   * @param {number} dt - delta time, in seconds
+   * @param energy - amount of energy to be recorded for this step, in joules
+   * @param dt - delta time, in seconds
    */
   addEnergyInfo( energy: number, dt: number ): void {
 

@@ -30,16 +30,20 @@ const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
 const OUTPUT_ENERGY_RATE = 343.6;
 
 class SunEnergySource extends PhetioObject {
+
+  // controls whether the sun is shining
   public readonly isShiningProperty: BooleanProperty;
   public readonly outputEnergyRateTracker: EnergyRateTracker;
+
+  // value that controls the output level relative to Earth's sun
   public readonly proportionateOutputRateProperty: NumberProperty;
   private readonly surfaceAreaOfIncidentLight: number;
   private readonly emEnergyPackets: EMEnergyPacket[];
 
   /**
-   * @param {number} surfaceAreaOfIncidentLight - surface area onto which the sun is shining
-   * @param {EMEnergyPacket[]} emEnergyPackets
-   * @param {Tandem} tandem
+   * @param surfaceAreaOfIncidentLight - surface area onto which the sun is shining
+   * @param emEnergyPackets - array of energy packets into which energy from this source will be placed
+   * @param tandem - for phet-io
    */
   constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], tandem: Tandem ) {
 
@@ -48,12 +52,10 @@ class SunEnergySource extends PhetioObject {
       phetioType: SunEnergySource.SunEnergySourceIO
     } );
 
-    // controls whether the sun is shining
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
       tandem: tandem.createTandem( 'isShiningProperty' )
     } );
 
-    // value that controls the output level relative to Earth's sun
     this.proportionateOutputRateProperty = new NumberProperty( 1, {
       range: OUTPUT_PROPORTION_RANGE,
       tandem: tandem.createTandem( 'proportionateOutputRateProperty' )
@@ -74,7 +76,6 @@ class SunEnergySource extends PhetioObject {
   /**
    * Produce an energy packet that represents the sun shining towards the earth for the specified amount of time and
    * ass it to the group of energy packets.
-   * @param {number} dt
    */
   public produceEnergy( dt: number ): void {
     if ( this.isShiningProperty.value ) {

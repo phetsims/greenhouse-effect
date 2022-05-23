@@ -51,8 +51,8 @@ type EnergyLegendOptions = {
 class EnergyLegend extends Panel {
 
   /**
-   * @param {number} width - width of the legend, it needs to be wider than its contents for layout in screen view
-   * @param {Object} [providedOptions]
+   * @param width - width of the legend, it needs to be wider than its contents for layout in screen view
+   * @param [providedOptions]
    */
   constructor( width: number, providedOptions: EnergyLegendOptions ) {
 
@@ -187,8 +187,6 @@ class EnergyLegend extends Panel {
 const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options: PathOptions ) => {
 
   options = merge( {
-
-    // {number}
     lineWidth: 1.5
   }, options );
 

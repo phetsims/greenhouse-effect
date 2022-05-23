@@ -14,34 +14,31 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
 
 class EMEnergyPacket {
+
+  // wavelength of the energy in this packet, in meters
   readonly wavelength: number;
+
+  // energy in this packet, in joules
   energy: number;
+
+  // altitude in meters
   altitude: number;
   previousAltitude: number;
+
+  // direction in which this energy is moving
   direction: EnergyDirection;
 
   /**
-   * @param {number} wavelength - in meters
-   * @param {number} energy - in joules
-   * @param {number} initialAltitude - in meters
-   * @param {EnergyDirection} direction
+   * @param wavelength - in meters
+   * @param energy - in joules
+   * @param initialAltitude - in meters
+   * @param direction
    */
   constructor( wavelength: number, energy: number, initialAltitude: number, direction: EnergyDirection ) {
-
-    // (read-only) {number}
     this.wavelength = wavelength;
-
-    // {number}
     this.energy = energy;
-
-    // (read-only) {number} - altitude in meters
     this.altitude = initialAltitude;
-
-    // (read-only) {number} - the altitude at the previous step, in meters
     this.previousAltitude = initialAltitude;
-
-    // (read-only) {EnergyDirection} - The direction in which this energy packet is moving, constrained to up
-    //                                         or down.
     this.direction = direction;
   }
 
@@ -60,7 +57,7 @@ class EMEnergyPacket {
   }
 
   /**
-   * @param {number} dt - delta time, in seconds
+   * @param dt - delta time, in seconds
    */
   public step( dt: number ): void {
     this.previousAltitude = this.altitude;

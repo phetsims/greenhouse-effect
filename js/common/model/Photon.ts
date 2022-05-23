@@ -81,7 +81,7 @@ class Photon {
 
   /**
    * Step the model in time.
-   * @param {number} dt - delta time, in seconds
+   * @param dt - delta time, in seconds
    */
   public step( dt: number ): void {
 
