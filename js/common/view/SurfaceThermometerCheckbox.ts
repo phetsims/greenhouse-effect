@@ -16,6 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
@@ -23,7 +24,7 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
     const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
 
     const checkedUtterance = new Utterance();
-    Property.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
+    Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
       checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.thermometerShownAlertPattern, {
         value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, units )
       } );

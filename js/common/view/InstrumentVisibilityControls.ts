@@ -16,7 +16,7 @@ import LayersModel from '../model/LayersModel.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type InstrumentVisibilityControlsOptions = {
   vBoxOptions?: VBoxOptions;
@@ -56,7 +56,7 @@ class InstrumentVisibilityControls extends Rectangle {
     );
 
     const checkedUtterance = new Utterance();
-    Property.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy, inRadiativeBalance ) => {
+    Multilink.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy, inRadiativeBalance ) => {
       checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
         checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
         outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )

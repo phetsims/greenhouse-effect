@@ -8,6 +8,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import AxisLine from '../../../../bamboo/js/AxisLine.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
@@ -101,7 +102,7 @@ class EnergyBalancePanel extends Panel {
     } );
 
     // pdom
-    Property.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy, inRadiativeBalance ) => {
+    Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy, inRadiativeBalance ) => {
       this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
     } );
   }
@@ -178,7 +179,7 @@ class EnergyBalancePlot extends Node {
     this.clipArea = Shape.bounds( this.bounds );
 
     // listeners
-    Property.multilink(
+    Multilink.multilink(
       [ netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ],
       ( netIn, netOut, netTotal ) => {
         barPlot.setDataSet( [ new Vector2( 0, netIn ), new Vector2( 1, netOut ), new Vector2( 2, netTotal ) ] );

@@ -8,7 +8,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
@@ -26,6 +25,7 @@ import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } fro
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GasConcentrationAlerter from './GasConcentrationAlerter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type LandscapeObservationWindowOptions = {
   instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
@@ -119,7 +119,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     ];
 
     // Control the visibility of the various date-oriented artwork.
-    Property.multilink(
+    Multilink.multilink(
       [ model.concentrationControlModeProperty, model.dateProperty ],
       ( concentrationControlMode, date ) => {
 

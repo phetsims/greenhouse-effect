@@ -9,7 +9,6 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
@@ -35,6 +34,7 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -325,7 +325,7 @@ class DateControl extends Node {
       microConcentrationLine.top
     );
     valueCircle.centerX = microConcentrationLine.centerX;
-    Property.multilink(
+    Multilink.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
       ( concentration, concentrationControlMode ) => {
         if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {

@@ -7,6 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -101,7 +102,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
     // This saves processor bandwidth on the audio rendering thread, since the parent class turns down the volume but
     // doesn't stop the loops.
     const extraProperties = options.enableControlProperties ? options.enableControlProperties : [];
-    Property.multilinkAny( [ temperatureProperty, ...extraProperties ],
+    Multilink.multilinkAny( [ temperatureProperty, ...extraProperties ],
       () => { this.updateLoopStates(); }
     );
   }

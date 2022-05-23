@@ -11,7 +11,6 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -21,6 +20,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from './GroundLayer.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
@@ -129,7 +129,7 @@ class ConcentrationModel extends LayersModel {
       } );
     } );
 
-    Property.multilink(
+    Multilink.multilink(
       [ this.dateProperty, this.concentrationControlModeProperty ],
       ( date, concentrationControlMode ) => {
         if ( date === ConcentrationDate.ICE_AGE && concentrationControlMode === ConcentrationControlMode.BY_DATE ) {

@@ -30,9 +30,9 @@ import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js'
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
@@ -100,7 +100,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // Set up a multi-link that will turn the cloud on and off in the model.  The cloud is always shown in
     // date-controlled-concentration mode, and can be turned on or off by the user in manually-controlled-concentration
     // mode.
-    Property.multilink(
+    Multilink.multilink(
       [ this.cloudEnabledInManualConcentrationModeProperty, model.concentrationControlModeProperty ],
       ( cloudEnabledInManualConcentrationMode, concentrationControlMode ) => {
         model.cloudEnabledProperty.set(

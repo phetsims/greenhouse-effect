@@ -23,6 +23,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
@@ -45,7 +46,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
     // One utterance with changing content depending on simulation state
     const checkboxUtterance = new Utterance();
 
-    Property.multilink( [ cloudEnabledProperty, isShiningProperty ], ( cloudEnabled, isShining ) => {
+    Multilink.multilink( [ cloudEnabledProperty, isShiningProperty ], ( cloudEnabled, isShining ) => {
       checkboxUtterance.alert = ConcentrationDescriber.getSkyCloudChangeDescription( cloudEnabled, isShining );
     } );
 

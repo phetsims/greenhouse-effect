@@ -5,7 +5,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
@@ -15,6 +14,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
@@ -55,7 +55,7 @@ class WavesScreenSummaryContentNode extends Node {
       startSunlightHintNode
     ];
 
-    Property.multilink( [
+    Multilink.multilink( [
         model.sunEnergySource.isShiningProperty,
         model.concentrationProperty,
         model.dateProperty,

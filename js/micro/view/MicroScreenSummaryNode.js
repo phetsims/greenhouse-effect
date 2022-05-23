@@ -5,7 +5,7 @@
  * @author Jesse Greenberg
  */
 
-import Property from '../../../../axon/js/Property.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -59,7 +59,7 @@ class MicroScreenSummaryNode extends Node {
     this.addChild( dynamicDescription );
 
     const summaryProperties = [ model.photonWavelengthProperty, model.photonEmitterOnProperty, model.photonTargetProperty, model.runningProperty, model.slowMotionProperty, returnMoleculeButtonVisibleProperty ];
-    Property.multilink( summaryProperties, ( photonWavelength, emitterOn, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) => {
+    Multilink.multilink( summaryProperties, ( photonWavelength, emitterOn, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) => {
 
       // TODO: Maybe use accessibleName instead if https://github.com/phetsims/scenery/issues/1026 is fixed
       dynamicDescription.innerContent = this.getSummaryString();

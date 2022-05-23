@@ -10,18 +10,18 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import ObservationWindowPDOMNode from './ObservationWindowPDOMNode.js';
 import WavesModel from '../../waves/model/WavesModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import Property from '../../../../axon/js/Property.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
   constructor( model: WavesModel ) {
     super( model );
 
-    Property.multilink(
+    Multilink.multilink(
       [
         model.concentrationControlModeProperty,
         model.concentrationProperty,
@@ -33,7 +33,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       }
     );
 
-    Property.multilink( [ model.sunEnergySource.isShiningProperty, model.cloudEnabledProperty ], ( isShining, cloudEnabled ) => {
+    Multilink.multilink( [ model.sunEnergySource.isShiningProperty, model.cloudEnabledProperty ], ( isShining, cloudEnabled ) => {
       this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription( cloudEnabled );
 
       // if the sun isn't shining yet, hide this portion of the content
@@ -44,7 +44,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       this.skyItemNode.innerContent = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
     } );
 
-    Property.multilink(
+    Multilink.multilink(
       [ model.surfaceTemperatureKelvinProperty, model.concentrationProperty ],
       ( surfaceTemperature, concentration ) => {
         const description = RadiationDescriber.getInfraredRadiationIntensityDescription(
@@ -62,7 +62,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         }
       } );
 
-    Property.multilink( [
+    Multilink.multilink( [
       model.surfaceTemperatureKelvinProperty,
       model.surfaceThermometerVisibleProperty,
       model.surfaceTemperatureVisibleProperty,
