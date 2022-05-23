@@ -59,7 +59,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         minorTickLength: 4
       },
 
-      // @ts-ignore
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
       left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,

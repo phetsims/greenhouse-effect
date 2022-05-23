@@ -24,13 +24,14 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
 import Property from '../../../../axon/js/Property.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -39,12 +40,17 @@ const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
 const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
-const ReadoutType = EnumerationDeprecated.byKeys( [ 'SELECTABLE', 'FIXED' ] );
+class ReadoutType extends EnumerationValue {
+  static SELECTABLE = new ReadoutType();
+  static FIXED = new ReadoutType();
+
+  static enumeration = new Enumeration( ReadoutType );
+}
 
 type ThermometerAndReadoutSelfOptions = {
   minTemperature?: number;
   maxTemperature?: number;
-  readoutType?: any;
+  readoutType?: ReadoutType;
   listParentNode?: Node | null;
   thermometerNodeOptions?: ThermometerNodeOptions;
   tandem?: Tandem;
@@ -66,7 +72,6 @@ class ThermometerAndReadout extends Node {
       maxTemperature: 310,
 
       // readout type that will be shown below the thermometer, either SELECTABLE (i.e. a combo box) or fixed
-      // @ts-ignore
       readoutType: ReadoutType.SELECTABLE,
 
       // parent node used for the combo box list, only used for SELECTABLE readout
@@ -110,7 +115,6 @@ class ThermometerAndReadout extends Node {
       GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange!.max )
     );
 
-    // @ts-ignore
     if ( options.readoutType === ReadoutType.SELECTABLE ) {
 
       const comboBoxItems = [
