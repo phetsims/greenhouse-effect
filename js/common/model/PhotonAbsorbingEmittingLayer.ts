@@ -11,17 +11,23 @@ import merge from '../../../../phet-core/js/merge.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Photon from './Photon.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
-import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
-const PhotonCrossingTestResult = EnumerationDeprecated.byKeys( [
-  'FULLY_ABOVE', 'FULLY_BELOW', 'CROSSED_BUT_IGNORED', 'CROSSED_AND_ABSORBED' ]
-);
+class PhotonCrossingTestResult extends EnumerationValue {
+  static FULLY_ABOVE = new PhotonCrossingTestResult();
+  static FULLY_BELOW = new PhotonCrossingTestResult();
+  static CROSSED_BUT_IGNORED = new PhotonCrossingTestResult();
+  static CROSSED_AND_ABSORBED = new PhotonCrossingTestResult();
+
+  static enumeration = new Enumeration( PhotonCrossingTestResult );
+}
 
 type PhotonAbsorbingEmittingLayerOptions = {
   thickness?: number;
@@ -94,27 +100,22 @@ class PhotonAbsorbingEmittingLayer {
     // TODO: This is a little hard to read, consider CROSSED_INDETERMINATE in the first portion, then post process, or something.
     if ( previousPhotonAltitude < bottomOfLayerAltitude ) {
       if ( currentPhotonAltitude < bottomOfLayerAltitude ) {
-        // @ts-ignore
         result = PhotonCrossingTestResult.FULLY_BELOW;
       }
       else {
-        // @ts-ignore
         result = PhotonCrossingTestResult.CROSSED_BUT_IGNORED;
       }
     }
     else if ( previousPhotonAltitude > topOfLayerAltitude ) {
       if ( currentPhotonAltitude > topOfLayerAltitude ) {
-        // @ts-ignore
         result = PhotonCrossingTestResult.FULLY_ABOVE;
       }
       else {
-        // @ts-ignore
         result = PhotonCrossingTestResult.CROSSED_BUT_IGNORED;
       }
     }
 
     // If the photon has crossed this layer, check whether it should be absorbed.
-    // @ts-ignore
     if ( this.atmosphereLayer.isActiveProperty.value && result === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ) {
 
       // Decide whether to absorb the photon based on the absorption proportion and a random value.
@@ -126,7 +127,6 @@ class PhotonAbsorbingEmittingLayer {
         this.photons.remove( photon );
         this.photonToAbsorbedTimeMap.set( photon, 0 );
         this.atLeastOnePhotonAbsorbedProperty.set( true );
-        // @ts-ignore
         result = PhotonCrossingTestResult.CROSSED_AND_ABSORBED;
       }
     }

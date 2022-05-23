@@ -192,11 +192,8 @@ class PhotonCollection extends PhetioObject {
 
               // Continue only to the point where the photon has been absorbed, has crossed a layer without being
               // absorbed, or still has a chance of crossing another layer in the direction it's heading.
-              // @ts-ignore
               if ( photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ||
-                   // @ts-ignore
                    photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_AND_ABSORBED ||
-                   // @ts-ignore
                    photonCrossingTestResult === PhotonCrossingTestResult.FULLY_ABOVE ) {
                 break;
               }
@@ -211,11 +208,8 @@ class PhotonCollection extends PhetioObject {
 
               // Continue only to the point where the photon has been absorbed, has crossed a layer without being
               // absorbed, or still has a chance of crossing another layer in the direction it's heading.
-              // @ts-ignore
               if ( photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_BUT_IGNORED ||
-                   // @ts-ignore
                    photonCrossingTestResult === PhotonCrossingTestResult.CROSSED_AND_ABSORBED ||
-                   // @ts-ignore
                    photonCrossingTestResult === PhotonCrossingTestResult.FULLY_BELOW ) {
                 break;
               }
