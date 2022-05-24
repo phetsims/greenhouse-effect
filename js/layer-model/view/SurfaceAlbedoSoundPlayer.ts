@@ -15,7 +15,7 @@ import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderS
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import impulseResponseLargeRoom_mp3 from '../../../../tambo/sounds/impulseResponseLargeRoom_mp3.js';
+import impulseResponseLargeHall_mp3 from '../../../../tambo/sounds/impulseResponseLargeHall_mp3.js';
 
 // types for options
 type SurfaceAlbedoSoundPlayerSelfOptions = {};
@@ -51,7 +51,7 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
     // Add a convolver that will act as a reverb effect.
     const convolver = phetAudioContext.createConvolver();
-    convolver.buffer = impulseResponseLargeRoom_mp3.audioBufferProperty.value;
+    convolver.buffer = impulseResponseLargeHall_mp3.audioBufferProperty.value;
 
     // Add a gain node that will be used for the reverb level.
     const reverbGainNode = phetAudioContext.createGain();
@@ -66,7 +66,7 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
     // surface albedo.
     surfaceAlbedoProperty.link( surfaceAlbedo => {
       const normalizedSurfaceAlbedo = ( surfaceAlbedo - surfaceAlbedoRange.min ) / surfaceAlbedoRange.getLength();
-      const gainMultiplier = 1.5; // empirically determined to get the desired sound.
+      const gainMultiplier = 0.4; // empirically determined to get the desired sound.
       reverbGainNode.gain.setTargetAtTime( normalizedSurfaceAlbedo * gainMultiplier, phetAudioContext.currentTime, 0.015 );
     } );
   }
