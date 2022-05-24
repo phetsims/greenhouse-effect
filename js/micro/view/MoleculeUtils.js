@@ -45,10 +45,10 @@ const linearGeometryDescriptionString = greenhouseEffectStrings.a11y.linearGeome
 
 // constants
 class Geometry extends EnumerationValue {
-  static LINEAR = new EnumerationValue();
-  static BENT = new EnumerationValue();
-  static TETRAHEDRAL = new EnumerationValue();
-  static DIATOMIC = new EnumerationValue();
+  static LINEAR = new Geometry();
+  static BENT = new Geometry();
+  static TETRAHEDRAL = new Geometry();
+  static DIATOMIC = new Geometry();
 
   static enumeration = new Enumeration( Geometry );
 }
