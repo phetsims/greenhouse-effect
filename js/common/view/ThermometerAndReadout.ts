@@ -32,6 +32,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -69,7 +70,7 @@ class ThermometerAndReadout extends Node {
     const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>()( {
 
       minTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
-      maxTemperature: 310,
+      maxTemperature: GreenhouseEffectObservationWindow.EXPECTED_MAX_TEMPERATURE + 3,
 
       // readout type that will be shown below the thermometer, either SELECTABLE (i.e. a combo box) or fixed
       readoutType: ReadoutType.SELECTABLE,

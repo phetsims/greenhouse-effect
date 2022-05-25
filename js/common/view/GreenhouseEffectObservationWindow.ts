@@ -38,6 +38,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
 const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 const DARKNESS_OPACITY = 0.85;
+const EXPECTED_MAX_TEMPERATURE = 309; // in Kelvin
 
 // The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
 // determined and can be adjusted as needed to achieve the desired visual effect.
@@ -379,7 +380,7 @@ class GreenhouseEffectObservationWindow extends Node {
       { associatedViewNode: this }
     );
 
-    const expectedTemperatureRange = new Range( model.groundLayer.minimumTemperature, 310 );
+    const expectedTemperatureRange = new Range( model.groundLayer.minimumTemperature, EXPECTED_MAX_TEMPERATURE );
 
     // Add the filter-based sound generator.
     soundManager.addSoundGenerator(
@@ -425,6 +426,7 @@ class GreenhouseEffectObservationWindow extends Node {
   // static values
   static SIZE: Dimension2 = SIZE;
   static CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;
+  static EXPECTED_MAX_TEMPERATURE = EXPECTED_MAX_TEMPERATURE;
 }
 
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
