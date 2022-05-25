@@ -618,7 +618,7 @@
         "value": "Explore Mode"
       },
       "exploreModeHelpText": {
-        "value": "Directly set the concentration or compare time periods."
+        "value": "Explore a wide range of concentrations from none to lots or zoom in and compare historical time periods."
       },
       "byConcentration": {
         "value": "By concentration"
