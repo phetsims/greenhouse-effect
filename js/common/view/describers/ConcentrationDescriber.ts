@@ -26,6 +26,10 @@ const concentrationHighString = greenhouseEffectStrings.a11y.concentrationDescri
 const concentrationVeryHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryHigh;
 const concentrationExtremelyHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.extremelyHigh;
 const concentrationMaxString = greenhouseEffectStrings.a11y.concentrationDescriptions.max;
+const historicalLevelsOfGreenhouseGassesPatternString = greenhouseEffectStrings.a11y.historicalLevelsOfGreenhouseGassesPattern;
+const historicallyLowString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
+const historicallyModerateString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
+const historicallyHighString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
 
 // A type to assist with determining which concentration description to use
 type ConcentrationDescription = {
@@ -40,6 +44,14 @@ type ConcentrationDescription = {
   includeMin: boolean;
   includeMax: boolean;
 };
+
+// Maps the date to a relative description of the historical concentration.
+const historicalDesciptionMap = new Map( [
+  [ ConcentrationDate.ICE_AGE, historicallyLowString ],
+  [ ConcentrationDate.SEVENTEEN_FIFTY, historicallyModerateString ],
+  [ ConcentrationDate.NINETEEN_FIFTY, historicallyModerateString ],
+  [ ConcentrationDate.TWENTY_TWENTY, historicallyHighString ]
+] );
 
 // Collection of concentration descriptions and their ranges, with fields defining whether the description
 // should be described at the range. The requirement for deciding whether to use the description when the value is
@@ -289,6 +301,20 @@ class ConcentrationDescriber {
 
     assert && assert( descriptionString !== '', `no description for concentration value: ${value}` );
     return descriptionString;
+  }
+
+  /**
+   * Returns a description of the levels of greenhouse gas concentration in the atmosphere for a date. Will return
+   * something like
+   * "Historically high levels of greenhouse gases in atmosphere."
+   */
+  public static getConcentrationDescriptionForDate( date: ConcentrationDate ): string {
+    assert && assert( historicalDesciptionMap.has( date ), 'Provided date is not described.' );
+    const historicalDescription = StringUtils.capitalize( historicalDesciptionMap.get( date )! );
+
+    return StringUtils.fillIn( historicalLevelsOfGreenhouseGassesPatternString, {
+      historical: historicalDescription
+    } );
   }
 
   /**

@@ -13,7 +13,6 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
@@ -93,7 +92,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
     }
     else {
-      concentrationDescription = StringUtils.capitalize( ConcentrationDescriber.getFullTimePeriodDescription( date ) );
+      concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionForDate( date );
     }
 
     return concentrationDescription;

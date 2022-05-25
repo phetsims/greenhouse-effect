@@ -251,7 +251,7 @@
         "value": "extremely low"
       }
     },
-    "historicalTemperatureDescriptions": {
+    "historicalRelativeDescriptions": {
       "high": {
         "value": "historically high"
       },
@@ -261,6 +261,9 @@
       "low": {
         "value": "historically low"
       }
+    },
+    "historicalLevelsOfGreenhouseGassesPattern": {
+      "value": "{{historical}} levels of greenhouse gases in atmosphere."
     },
     "temperatureUnitsLabel": {
       "value": "Temperature units"

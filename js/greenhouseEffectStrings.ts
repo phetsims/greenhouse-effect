@@ -124,11 +124,12 @@ type StringsType = {
       'veryLow': string;
       'extremelyLow': string;
     };
-    'historicalTemperatureDescriptions': {
+    'historicalRelativeDescriptions': {
       'high': string;
       'moderate': string;
       'low': string;
     };
+    'historicalLevelsOfGreenhouseGassesPattern': string;
     'temperatureUnitsLabel': string;
     'temperatureUnitsHelpText': string;
     'temperatureUnits': {
