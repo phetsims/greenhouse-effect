@@ -34,7 +34,7 @@ class PhotonsModel extends ConcentrationModel {
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
       photonAbsorbingEmittingLayerOptions: {
-        photonAbsorptionTime: 0.1,
+        photonAbsorptionTime: 0,
         photonMaxLateralJumpProportion: 0,
         absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
       },
