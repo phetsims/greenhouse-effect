@@ -209,8 +209,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
         soundOptionsPanel,
         mockupOptionPanel
       ],
-      spacing: 30,
-      align: 'left'
+      spacing: 30
     } );
 
     // @private - internal dispose function
