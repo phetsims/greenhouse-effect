@@ -347,7 +347,6 @@ class ConcentrationSlider extends Node {
       concentrationModel.concentrationProperty,
       sliderRange
     );
-    soundManager.addSoundGenerator( sliderSoundGenerator );
 
     const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),

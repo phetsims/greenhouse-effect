@@ -8,7 +8,7 @@
  */
 
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import ValueChangeSoundGenerator from '../../../../tambo/js/sound-generators/ValueChangeSoundGenerator.js';
+import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -18,7 +18,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 
-class ConcentrationSliderSoundGenerator extends ValueChangeSoundGenerator {
+class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 
   constructor( concentrationProperty: IReadOnlyProperty<number>, valueRange: Range ) {
 
