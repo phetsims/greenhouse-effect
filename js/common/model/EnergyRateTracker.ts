@@ -9,7 +9,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
@@ -20,6 +20,11 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 // constants
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
 const DECIMAL_PLACES = 1; // used to round the output value so that there isn't too much "noise" due to floating point error and such
+
+type SelfOptions = {
+  accumulationPeriod?: number;
+};
+export type EnergyRateTrackerOptions = SelfOptions & PhetioObjectOptions;
 
 /**
  * Simple data type used for tracking energy within EnergyRateTracker.
@@ -63,9 +68,9 @@ class EnergyRateTracker extends PhetioObject {
   // a queue containing information about energy packets
   private readonly energyInfoQueue: EnergyInfoQueueItem[];
 
-  constructor( providedOptions?: Partial<EnergyRateTrackerOptions> ) {
+  constructor( providedOptions?: EnergyRateTrackerOptions ) {
 
-    const options = merge( {
+    const options = optionize<EnergyRateTrackerOptions, SelfOptions, PhetioObjectOptions>()( {
 
       accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD,
 
@@ -73,7 +78,7 @@ class EnergyRateTracker extends PhetioObject {
       tandem: Tandem.REQUIRED,
       phetioType: EnergyRateTracker.EnergyRateTrackerIO
 
-    }, providedOptions ) as EnergyRateTrackerOptions;
+    }, providedOptions );
 
     super( options );
 
@@ -143,12 +148,6 @@ class EnergyRateTracker extends PhetioObject {
     defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
   } );
 }
-
-// type definition for options specific to this class
-type EnergyRateTrackerOptions = {
-  accumulationPeriod: number;
-  tandem: Tandem;
-} & PhetioObjectOptions;
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
 export default EnergyRateTracker;

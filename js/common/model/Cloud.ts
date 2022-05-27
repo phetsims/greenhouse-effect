@@ -16,7 +16,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -25,15 +24,25 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 type ReflectivityValues = {
+
+  // proportion of the visible light that hits this cloud from above and is subsequently reflected back up
   topVisibleLightReflectivity: number;
+
+  // proportion of the visible light that hits this cloud from below and is subsequently reflected back down
   bottomVisibleLightReflectivity: number;
+
+  // proportion of the infrared light that hits this cloud from above and is subsequently reflected back up
   topInfraredLightReflectivity: number;
+
+  // proportion of the infrared light that hits this cloud from below and is subsequently reflected back down
   bottomInfraredLightReflectivity: number;
 };
 
-type CloudOptions = Partial<ReflectivityValues> & PhetioObjectOptions;
+type SelfOptions = Partial<ReflectivityValues>;
+export type CloudOptions = SelfOptions & PhetioObjectOptions;
 
 class Cloud extends PhetioObject {
   readonly position: Vector2;
@@ -45,24 +54,16 @@ class Cloud extends PhetioObject {
 
   constructor( position: Vector2, width: number, height: number, providedOptions: CloudOptions ) {
 
-    const options = merge( {
-
-      // proportion of the visible light that hits this cloud from above and is subsequently reflected back up
+    const options = optionize<CloudOptions, SelfOptions, PhetioObjectOptions>()( {
       topVisibleLightReflectivity: 0.08,
-
-      // proportion of the visible light that hits this cloud from below and is subsequently reflected back down
       bottomVisibleLightReflectivity: 0,
-
-      // proportion of the infrared light that hits this cloud from above and is subsequently reflected back up
       topInfraredLightReflectivity: 0,
-
-      // proportion of the infrared light that hits this cloud from below and is subsequently reflected back down
       bottomInfraredLightReflectivity: 0,
 
       // phet-io
       phetioState: false,
       tandem: Tandem.REQUIRED // tandem is required because Cloud is used in a Map that is serialized
-    }, providedOptions ) as Required<CloudOptions>;
+    }, providedOptions );
 
     super( options );
 

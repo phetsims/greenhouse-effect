@@ -10,7 +10,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import merge from '../../../../phet-core/js/merge.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -20,6 +19,7 @@ import EnergyDirection from './EnergyDirection.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumThreshold; // in Watts per square meter, empirically determined
@@ -55,7 +55,7 @@ class Substance extends EnumerationValue {
 }
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
-// The layer is modeled as a 1 meter wide strip that spans the width of the simulated sunlight.  Picture it like a
+// The layer is modeled as a 1-meter wide strip that spans the width of the simulated sunlight.  Picture it like a
 // sidewalk.  The dimensions are in meters.
 const SURFACE_DIMENSIONS = new Dimension2( GreenhouseEffectConstants.SUNLIGHT_SPAN, 1 );
 const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
@@ -68,11 +68,12 @@ const LAYER_THICKNESS = 0.0000003;
 
 const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THICKNESS;
 
-type EnergyAbsorbingEmittingLayerOptions = {
+type SelfOptions = {
   substance?: Substance;
   initialEnergyAbsorptionProportion?: number;
   minimumTemperature?: number;
-} & PhetioObjectOptions;
+};
+export type EnergyAbsorbingEmittingLayerOptions = SelfOptions & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly altitude: number;
@@ -87,11 +88,10 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
   constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
-    const options = merge( {
+    const options = optionize<EnergyAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // default to glass
       substance: Substance.GLASS,
-      initiallyActive: true,
 
       // initial setting for the absorption proportion, must be from 0 to 1 inclusive
       initialEnergyAbsorptionProportion: 1,
@@ -106,7 +106,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true,
       phetioState: false
 
-    }, providedOptions ) as Required<EnergyAbsorbingEmittingLayerOptions>;
+    }, providedOptions );
 
     super( options );
 
@@ -266,8 +266,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   static SURFACE_AREA = SURFACE_AREA;
   static Substance = Substance;
 }
-
-export type { EnergyAbsorbingEmittingLayerOptions };
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );
 export default EnergyAbsorbingEmittingLayer;
