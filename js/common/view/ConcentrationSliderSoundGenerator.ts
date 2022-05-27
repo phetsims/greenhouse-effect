@@ -108,8 +108,6 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPl
     // Calculate the minimum playback rate based on the current concentration.
     const minPlaybackRate = 1 + normalizedValue * 2;
 
-    const x = this.baseSoundClip.getNumberOfPlayingInstances();
-
     let delayAmount = 0;
     _.times( timesToPlay, () => {
 
