@@ -31,7 +31,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
