@@ -13,7 +13,7 @@
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Image, LayoutBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Image, Node, Text } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -45,7 +45,7 @@ const ARROW_COLOR = 'black';
 // Create a layout box which holds a single panel of this control panel.
 const createRadioButtonContent = ( emitterImage, photonNode ) => {
   emitterImage.scale( 0.27 ); // Scale emitter image to fit in the panel, scale factor determined empirically.
-  return new LayoutBox( { orientation: 'horizontal', spacing: 10, children: [ emitterImage, photonNode ] } );
+  return new HBox( { spacing: 10, children: [ emitterImage, photonNode ] } );
 };
 
 class QuadEmissionFrequencyControlPanel extends Node {

@@ -16,7 +16,7 @@ import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
-import { LayoutBox, Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text } from '../../../../scenery/js/imports.js';
+import { Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
@@ -77,7 +77,7 @@ const ARROW_HEAD_HEIGHT = 54;
 const ARROW_HEAD_WIDTH = 54;
 const ARROW_TAIL_WIDTH = 34;
 
-class SpectrumDiagram extends LayoutBox {
+class SpectrumDiagram extends VBox {
   /**
    * Class that contains the diagram of the EM spectrum.  This class includes the arrows, the spectrum strip, the
    * wavelength indicator, etc.  In other words, it is the top level node within which the constituent parts that make
@@ -141,7 +141,6 @@ class SpectrumDiagram extends LayoutBox {
     children.push( decreasingWavelengthNode );
 
     super( {
-      orientation: 'vertical',
       children: children,
       spacing: 20,
 
