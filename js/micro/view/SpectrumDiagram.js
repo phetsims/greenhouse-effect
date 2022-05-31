@@ -466,7 +466,7 @@ const addWavelengthTickMark = ( thisNode, wavelength, top, addLabel ) => {
 };
 
 /**
- * Add a label to a band which sections the spectrum diagram.  Using LayoutBox will format the strings so that new
+ * Add a label to a band which sections the spectrum diagram.  Using VBox will format the strings so that new
  * lines do not need to be coded with HTML.
  *
  * @param {LabeledSpectrumNode} thisNode
