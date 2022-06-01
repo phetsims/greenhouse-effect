@@ -151,18 +151,32 @@ class RadiationDescriber {
   }
 
   /**
-   * Get a description of the sunlight traveling from space, and potentially if clouds reflect
-   * some of that radiation back to space.
+   * Get a description of the sunlight traveling from space, and potentially if clouds reflect some of that radiation
+   * back to space.
    */
-  public static getSunlightTravelDescription( includeCloudReflection: boolean ): string {
-    let descriptionString;
-    if ( includeCloudReflection ) {
-      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightWavesTravelWithCloudReflectionPattern, {
-        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace
+  public static getSunlightTravelDescription( includeCloudReflection: boolean,
+                                              includeGlacierReflection: boolean ): string {
+
+    assert && assert(
+      !( includeGlacierReflection && !includeCloudReflection ),
+      'the permutation where the glacier is present and the cloud is not is not expected to occur'
+    );
+
+    let descriptionString = '';
+    if ( !includeCloudReflection && !includeGlacierReflection ) {
+      descriptionString = greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
+    }
+    else if ( includeCloudReflection && !includeGlacierReflection ) {
+      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
+        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
+        reflectionDescription: greenhouseEffectStrings.a11y.cloudRefection
       } );
     }
     else {
-      descriptionString = greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
+      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
+        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
+        reflectionDescription: greenhouseEffectStrings.a11y.cloudAndGlacierRefection
+      } );
     }
 
     return descriptionString;

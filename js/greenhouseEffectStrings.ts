@@ -237,7 +237,9 @@ type StringsType = {
       'homeScreenDescription': string;
     };
     'sunlightWavesTravelFromSpace': string;
-    'sunlightWavesTravelWithCloudReflectionPattern': string;
+    'sunlightAndReflectionPattern': string;
+    'cloudRefection': string;
+    'cloudAndGlacierRefection': string;
     'surfaceTemperatureIsQuantitativePattern': string;
     'surfaceTemperatureIsQualitativePattern': string;
     'surfaceTemperatureIsQuantitativeAndQualitativePattern': string;

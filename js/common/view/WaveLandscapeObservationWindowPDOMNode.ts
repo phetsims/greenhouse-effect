@@ -32,12 +32,26 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       }
     );
 
-    Multilink.multilink( [ model.sunEnergySource.isShiningProperty, model.cloudEnabledProperty ], ( isShining, cloudEnabled ) => {
-      this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription( cloudEnabled );
+    Multilink.multilink(
+      [
+        model.sunEnergySource.isShiningProperty,
+        model.cloudEnabledProperty,
+        model.concentrationControlModeProperty,
+        model.dateProperty
+      ],
+      ( isShining, cloudEnabled, concentrationControlMode, date ) => {
 
-      // if the sun isn't shining yet, hide this portion of the content
-      this.sunlightWavesItemNode.pdomVisible = isShining;
-    } );
+        const isGlacierPresent = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                 date === ConcentrationDate.ICE_AGE;
+        this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
+          cloudEnabled,
+          isGlacierPresent
+        );
+
+        // if the sun isn't shining yet, hide this portion of the content
+        this.sunlightWavesItemNode.pdomVisible = isShining;
+      }
+    );
 
     model.cloudEnabledProperty.link( cloudEnabled => {
       this.skyItemNode.innerContent = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );

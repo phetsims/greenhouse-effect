@@ -550,8 +550,14 @@
     "sunlightWavesTravelFromSpace": {
       "value": "Sunlight waves travel from space to surface."
     },
-    "sunlightWavesTravelWithCloudReflectionPattern": {
-      "value": "{{sunlightDescription}} Cloud reflects some sunlight back into space."
+    "sunlightAndReflectionPattern": {
+      "value": "{{sunlightDescription}} {{reflectionDescription}}"
+    },
+    "cloudRefection": {
+      "value": "Cloud reflects some sunlight back into space."
+    },
+    "cloudAndGlacierRefection": {
+      "value": "Cloud and glacier reflect some sunlight back into space."
     },
     "surfaceTemperatureIsQuantitativePattern": {
       "value": "The surface temperature is {{value}}."
