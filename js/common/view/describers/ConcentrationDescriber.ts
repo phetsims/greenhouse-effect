@@ -342,12 +342,18 @@ class ConcentrationDescriber {
    * "Historically high levels of greenhouse gases in atmosphere."
    */
   public static getConcentrationDescriptionForDate( date: ConcentrationDate ): string {
-    assert && assert( historicalDescriptionMap.has( date ), 'Provided date is not described.' );
-    const historicalDescription = StringUtils.capitalize( historicalDescriptionMap.get( date )! );
+    const historicalDescription = StringUtils.capitalize(
+      ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date )
+    );
 
     return StringUtils.fillIn( historicalLevelsOfGreenhouseGassesPatternString, {
       historical: historicalDescription
     } );
+  }
+
+  public static getHistoricalQualitativeConcentrationDescription( date: ConcentrationDate ) : string {
+    assert && assert( historicalDescriptionMap.has( date ), 'Provided date is not described.' );
+    return StringUtils.capitalize( historicalDescriptionMap.get( date )! );
   }
 
   /**

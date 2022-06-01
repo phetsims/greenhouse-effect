@@ -70,11 +70,15 @@ class RadiationDescriber {
     return response;
   }
 
-  private static getRedirectedInfraredDescription( concentration: number ): string {
+  private static getRedirectedInfraredDescription( concentration: number,
+                                                   concentrationControlMode: ConcentrationDate,
+                                                   date: ConcentrationDate ): string {
 
     // Get the description from the concentration describer, since the amount of IR that is redirected it completely
     // dependent on the concentration level.
-    const qualitativeDescriptionOfRedirection = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
+    const qualitativeDescriptionOfRedirection = concentrationControlMode === ConcentrationControlMode.BY_VALUE ?
+                                                ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
+                                                ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
 
     return StringUtils.capitalize( StringUtils.fillIn( greenhouseEffectStrings.a11y.amountOfPattern, {
       qualitativeDescription: qualitativeDescriptionOfRedirection
@@ -109,7 +113,7 @@ class RadiationDescriber {
       if ( concentration > 0 ) {
         radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityWithRedirectionPatternString, {
           surfaceEmission: radiationIntensityDescription,
-          value: RadiationDescriber.getRedirectedInfraredDescription( concentration )
+          value: RadiationDescriber.getRedirectedInfraredDescription( concentration, concentrationControlMode, date )
         } );
       }
     }
