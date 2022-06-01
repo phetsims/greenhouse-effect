@@ -15,16 +15,16 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../model/Concent
 import TemperatureUnits from '../../model/TemperatureUnits.js';
 
 // strings used to describe temperature
-const temperatureExtremelyHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.extremelyHigh;
-const temperatureVeryHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryHigh;
-const temperatureHighString = greenhouseEffectStrings.a11y.temperatureDescriptions.high;
-const temperatureModerateString = greenhouseEffectStrings.a11y.temperatureDescriptions.moderate;
-const temperatureLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.low;
-const temperatureVeryLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.veryLow;
-const temperatureExtremelyLowString = greenhouseEffectStrings.a11y.temperatureDescriptions.extremelyLow;
-const temperatureHistoricallyLowString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
-const temperatureHistoricallyModerateString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
-const temperatureHistoricallyHighString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
+const extremelyHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
+const veryHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
+const highString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
+const moderateString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
+const lowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
+const veryLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
+const extremelyLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
+const historicallyLowString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
+const historicallyModerateString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
+const historicallyHighString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
 const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
 const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
 const temperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
@@ -40,13 +40,13 @@ const surfaceTemperatureIsQuantitativePatternString = greenhouseEffectStrings.a1
 const surfaceTemperatureIsQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
 
 const qualitativeTemperatureDescriptionStrings = [
-  temperatureExtremelyLowString,
-  temperatureVeryLowString,
-  temperatureLowString,
-  temperatureModerateString,
-  temperatureHighString,
-  temperatureVeryHighString,
-  temperatureExtremelyHighString
+  extremelyLowString,
+  veryLowString,
+  lowString,
+  moderateString,
+  highString,
+  veryHighString,
+  extremelyHighString
 ];
 
 // The minimum values for temperatures in kelvin each description used in the above array when describing the
@@ -98,16 +98,16 @@ class TemperatureDescriber {
                                                             concentrationControlMode: ConcentrationControlMode,
                                                             date: ConcentrationDate ): string {
 
-    let descriptionString;
+    let qualitativeDescriptionString;
 
     if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
-      descriptionString = qualitativeTemperatureDescriptionStrings[ 0 ];
+      qualitativeDescriptionString = qualitativeTemperatureDescriptionStrings[ 0 ];
 
       // Use the minimum values in the "thresholds" array to find the correct qualitative description
       for ( let i = 0; i < qualitativeTemperatureDescriptionThresholds.length; i++ ) {
         const thresholdMin = qualitativeTemperatureDescriptionThresholds[ i ];
         if ( value >= thresholdMin ) {
-          descriptionString = qualitativeTemperatureDescriptionStrings[ i + 1 ];
+          qualitativeDescriptionString = qualitativeTemperatureDescriptionStrings[ i + 1 ];
         }
       }
     }
@@ -116,17 +116,17 @@ class TemperatureDescriber {
       // Get a historical description.
       assert && assert( concentrationControlMode === ConcentrationControlMode.BY_DATE );
       if ( value < historicallyModerateTemperatureRange.min ) {
-        descriptionString = temperatureHistoricallyLowString;
+        qualitativeDescriptionString = historicallyLowString;
       }
       else if ( value > historicallyModerateTemperatureRange.max ) {
-        descriptionString = temperatureHistoricallyHighString;
+        qualitativeDescriptionString = historicallyHighString;
       }
       else {
-        descriptionString = temperatureHistoricallyModerateString;
+        qualitativeDescriptionString = historicallyModerateString;
       }
     }
 
-    return descriptionString;
+    return qualitativeDescriptionString;
   }
 
   /**

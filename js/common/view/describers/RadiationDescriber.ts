@@ -11,28 +11,11 @@ import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import LayersModel from '../../model/LayersModel.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
-import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
-
-const infraredRedirectionNoString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.no;
-const infraredRedirectionVeryLowString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.veryLow;
-const infraredRedirectionLowString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.low;
-const infraredRedirectionModerateString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.moderate;
-const infraredRedirectionHighString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.high;
-const infraredRedirectionVeryHighString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.veryHigh;
-const infraredRedirectionMaxString = greenhouseEffectStrings.a11y.infraredRedirectionDescriptions.max;
+import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
+import ConcentrationDescriber from './ConcentrationDescriber.js';
 
 const infraredEmissionIntensityPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityPattern;
 const infraredEmissionIntensityWithRedirectionPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPattern;
-
-// Descriptions for the intensity of infrared radiation redirection, excluding the extrema when there is max or no
-// radiation being redirected
-const nonExtremeInfraredRadiationDescriptionStrings = [
-  infraredRedirectionVeryLowString,
-  infraredRedirectionLowString,
-  infraredRedirectionModerateString,
-  infraredRedirectionHighString,
-  infraredRedirectionVeryHighString
-];
 
 class RadiationDescriber {
   private readonly model: LayersModel;
@@ -88,30 +71,14 @@ class RadiationDescriber {
   }
 
   private static getRedirectedInfraredDescription( concentration: number ): string {
-    let descriptionString = '';
 
-    // if at the extreme values (and only at extreme values), unique descriptions are used
-    if ( concentration === ConcentrationModel.CONCENTRATION_RANGE.min ) {
-      descriptionString = infraredRedirectionNoString;
-    }
-    else if ( concentration === ConcentrationModel.CONCENTRATION_RANGE.max ) {
-      descriptionString = infraredRedirectionMaxString;
-    }
-    else {
+    // Get the description from the concentration describer, since the amount of IR that is redirected it completely
+    // dependent on the concentration level.
+    const qualitativeDescriptionOfRedirection = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
 
-      // otherwise, the concentration strings are evenly divided along the range of non-extreme strings
-      const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
-      const delta = concentrationRange.getLength() / nonExtremeInfraredRadiationDescriptionStrings.length;
-      for ( let i = 0; i < nonExtremeInfraredRadiationDescriptionStrings.length; i++ ) {
-        if ( concentration < concentrationRange.min + delta * ( i + 1 ) ) {
-          descriptionString = nonExtremeInfraredRadiationDescriptionStrings[ i ];
-          break;
-        }
-      }
-    }
-
-    assert && assert( descriptionString !== '', `no description for concentration value: ${concentration}` );
-    return descriptionString;
+    return StringUtils.capitalize( StringUtils.fillIn( greenhouseEffectStrings.a11y.amountOfPattern, {
+      qualitativeDescription: qualitativeDescriptionOfRedirection
+    } ) );
   }
 
   /**

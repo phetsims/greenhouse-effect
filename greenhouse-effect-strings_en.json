@@ -228,29 +228,6 @@
         "value": "Surface glows to indicate temperature."
       }
     },
-    "temperatureDescriptions": {
-      "extremelyHigh": {
-        "value": "extremely high"
-      },
-      "veryHigh": {
-        "value": "very high"
-      },
-      "high": {
-        "value": "high"
-      },
-      "moderate": {
-        "value": "moderate"
-      },
-      "low": {
-        "value": "low"
-      },
-      "veryLow": {
-        "value": "very low"
-      },
-      "extremelyLow": {
-        "value": "extremely low"
-      }
-    },
     "historicalRelativeDescriptions": {
       "high": {
         "value": "historically high"
@@ -282,57 +259,40 @@
         "value": "degrees Fahrenheit"
       }
     },
-    "concentrationDescriptions": {
+    "qualitativeAmountDescriptions": {
       "no": {
         "value": "no"
       },
       "extremelyLow": {
-        "value": "extremely low levels of"
+        "value": "extremely low"
       },
       "veryLow": {
-        "value": "very low levels of"
+        "value": "very low"
       },
       "low": {
-        "value": "low levels of"
+        "value": "low"
       },
       "moderate": {
-        "value": "moderate levels of"
+        "value": "moderate"
       },
       "high": {
-        "value": "high levels of"
+        "value": "high"
       },
       "veryHigh": {
-        "value": "very high levels of"
+        "value": "very high"
       },
       "extremelyHigh": {
-        "value": "extremely high levels of"
+        "value": "extremely high"
       },
       "max": {
-        "value": "max levels of"
+        "value": "max"
       }
     },
-    "infraredRedirectionDescriptions": {
-      "no": {
-        "value": "No"
-      },
-      "veryLow": {
-        "value": "Very low amount of"
-      },
-      "low": {
-        "value": "Low amount of"
-      },
-      "moderate": {
-        "value": "Moderate amount of"
-      },
-      "high": {
-        "value": "High amount of"
-      },
-      "veryHigh": {
-        "value": "Very high amount of"
-      },
-      "max": {
-        "value": "Max amount of"
-      }
+    "amountOfPattern":{
+      "value": "{{qualitativeDescription}} amount of"
+    },
+    "levelsOfPattern":{
+      "value": "{{qualitativeDescription}} levels of"
     },
     "timePeriodDescriptions": {
       "iceAge": {

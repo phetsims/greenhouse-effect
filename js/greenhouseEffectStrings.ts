@@ -115,15 +115,6 @@ type StringsType = {
     'showSurfaceTemperature': {
       'helpText': string;
     };
-    'temperatureDescriptions': {
-      'extremelyHigh': string;
-      'veryHigh': string;
-      'high': string;
-      'moderate': string;
-      'low': string;
-      'veryLow': string;
-      'extremelyLow': string;
-    };
     'historicalRelativeDescriptions': {
       'high': string;
       'moderate': string;
@@ -137,7 +128,7 @@ type StringsType = {
       'celsius': string;
       'fahrenheit': string;
     };
-    'concentrationDescriptions': {
+    'qualitativeAmountDescriptions': {
       'no': string;
       'extremelyLow': string;
       'veryLow': string;
@@ -148,15 +139,8 @@ type StringsType = {
       'extremelyHigh': string;
       'max': string;
     };
-    'infraredRedirectionDescriptions': {
-      'no': string;
-      'veryLow': string;
-      'low': string;
-      'moderate': string;
-      'high': string;
-      'veryHigh': string;
-      'max': string;
-    };
+    'amountOfPattern': string;
+    'levelsOfPattern': string;
     'timePeriodDescriptions': {
       'iceAge': string;
       'seventeenFifty': string;

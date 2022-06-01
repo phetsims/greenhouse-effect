@@ -17,15 +17,15 @@ const greenhouseGasesInAtmospherePatternString = greenhouseEffectStrings.a11y.wa
 const greenhouseGasesValuePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePattern;
 
 // strings used to describe the levels of concentration in the model
-const concentrationNoString = greenhouseEffectStrings.a11y.concentrationDescriptions.no;
-const concentrationExtremelyLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.extremelyLow;
-const concentrationVeryLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryLow;
-const concentrationLowString = greenhouseEffectStrings.a11y.concentrationDescriptions.low;
-const concentrationModerateString = greenhouseEffectStrings.a11y.concentrationDescriptions.moderate;
-const concentrationHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.high;
-const concentrationVeryHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.veryHigh;
-const concentrationExtremelyHighString = greenhouseEffectStrings.a11y.concentrationDescriptions.extremelyHigh;
-const concentrationMaxString = greenhouseEffectStrings.a11y.concentrationDescriptions.max;
+const noString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.no;
+const extremelyLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
+const veryLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
+const lowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
+const moderateString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
+const highString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
+const veryHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
+const extremelyHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
+const maxString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.max;
 const historicalLevelsOfGreenhouseGassesPatternString = greenhouseEffectStrings.a11y.historicalLevelsOfGreenhouseGassesPattern;
 const historicallyLowString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
 const historicallyModerateString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
@@ -46,7 +46,7 @@ type ConcentrationDescription = {
 };
 
 // Maps the date to a relative description of the historical concentration.
-const historicalDesciptionMap = new Map( [
+const historicalDescriptionMap = new Map( [
   [ ConcentrationDate.ICE_AGE, historicallyLowString ],
   [ ConcentrationDate.SEVENTEEN_FIFTY, historicallyModerateString ],
   [ ConcentrationDate.NINETEEN_FIFTY, historicallyModerateString ],
@@ -58,16 +58,16 @@ const historicalDesciptionMap = new Map( [
 // at the boundary of the Range is complicated but requested in the design document so that every description is heard
 // as you move through values with the default step size.
 // https://docs.google.com/document/d/1HWVypTlzM5oSUhhcv7gPdx1sSCs0j-xgIF3lbSgzwAQ/edit#
-const concentrationDescriptions: ConcentrationDescription[] = [
-  { range: new Range( 0, 0 ), descriptionString: concentrationNoString, includeMin: true, includeMax: true },
-  { range: new Range( 0, 0.05 ), descriptionString: concentrationExtremelyLowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.05, 0.25 ), descriptionString: concentrationVeryLowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.25, 0.45 ), descriptionString: concentrationLowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.45, 0.65 ), descriptionString: concentrationModerateString, includeMin: false, includeMax: false },
-  { range: new Range( 0.65, 0.80 ), descriptionString: concentrationHighString, includeMin: true, includeMax: false },
-  { range: new Range( 0.80, 0.95 ), descriptionString: concentrationVeryHighString, includeMin: true, includeMax: false },
-  { range: new Range( 0.95, 1 ), descriptionString: concentrationExtremelyHighString, includeMin: true, includeMax: false },
-  { range: new Range( 1, 1 ), descriptionString: concentrationMaxString, includeMin: true, includeMax: true }
+const qualitativeConcentrationDescriptions: ConcentrationDescription[] = [
+  { range: new Range( 0, 0 ), descriptionString: noString, includeMin: true, includeMax: true },
+  { range: new Range( 0, 0.05 ), descriptionString: extremelyLowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.05, 0.25 ), descriptionString: veryLowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.25, 0.45 ), descriptionString: lowString, includeMin: false, includeMax: true },
+  { range: new Range( 0.45, 0.65 ), descriptionString: moderateString, includeMin: false, includeMax: false },
+  { range: new Range( 0.65, 0.80 ), descriptionString: highString, includeMin: true, includeMax: false },
+  { range: new Range( 0.80, 0.95 ), descriptionString: veryHighString, includeMin: true, includeMax: false },
+  { range: new Range( 0.95, 1 ), descriptionString: extremelyHighString, includeMin: true, includeMax: false },
+  { range: new Range( 1, 1 ), descriptionString: maxString, includeMin: true, includeMax: true }
 ];
 
 // strings used to describe the concentration my year
@@ -279,28 +279,61 @@ class ConcentrationDescriber {
    * "very high levels of" or
    * "no"
    *
-   * @param value - value of concentration in the model
+   * @param concentration - value of concentration in the model
    */
-  public static getConcentrationDescription( value: number ): string {
+  public static getConcentrationDescription( concentration: number ): string {
     let descriptionString = '';
 
-    // format the value so that we describe it without js precision issues
-    const formattedValue = Utils.toFixedNumber( value, 2 );
+    // Round the value to a fixed number of digits so that we can compare to the ranges without JS precision issues.
+    const roundedConcentration = Utils.toFixedNumber( concentration, 2 );
 
-    for ( let i = 0; i < concentrationDescriptions.length; i++ ) {
-      const concentrationDescription = concentrationDescriptions[ i ];
-      const concentrationRange = concentrationDescription.range;
-      const minComparator = concentrationDescription.includeMin ? formattedValue >= concentrationRange.min : formattedValue > concentrationRange.min;
-      const maxComparator = concentrationDescription.includeMax ? formattedValue <= concentrationRange.max : formattedValue < concentrationRange.max;
+    if ( roundedConcentration === 0 ) {
+
+      // Special case: Leave out the "levels of" portion of the descriptive phrase.
+      descriptionString = noString;
+    }
+    else {
+
+      const qualitativeDescriptionString = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
+
+      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.levelsOfPattern, {
+        qualitativeDescription: qualitativeDescriptionString
+      } );
+    }
+
+    return descriptionString;
+  }
+
+  /**
+   * Get a single word or short phrase that qualitatively describes the provided concentration value, something like
+   * "low", or "very high".
+   */
+  public static getQualitativeConcentrationDescription( concentration: number ): string {
+
+    let qualitativeDescription = '';
+
+    // Round the value to a fixed number of digits so that we can compare to the ranges without JS precision issues.
+    const roundedConcentration = Utils.toFixedNumber( concentration, 2 );
+
+    for ( let i = 0; i < qualitativeConcentrationDescriptions.length; i++ ) {
+      const qualitativeConcentrationDescription = qualitativeConcentrationDescriptions[ i ];
+      const concentrationRange = qualitativeConcentrationDescription.range;
+      const minComparator = qualitativeConcentrationDescription.includeMin ?
+                            roundedConcentration >= concentrationRange.min :
+                            roundedConcentration > concentrationRange.min;
+      const maxComparator = qualitativeConcentrationDescription.includeMax ?
+                            roundedConcentration <= concentrationRange.max :
+                            roundedConcentration < concentrationRange.max;
 
       if ( minComparator && maxComparator ) {
-        descriptionString = concentrationDescription.descriptionString;
+        qualitativeDescription = qualitativeConcentrationDescription.descriptionString;
         break;
       }
     }
 
-    assert && assert( descriptionString !== '', `no description for concentration value: ${value}` );
-    return descriptionString;
+    assert && assert( qualitativeDescription !== '', `no description for concentration value: ${concentration}` );
+
+    return qualitativeDescription;
   }
 
   /**
@@ -309,8 +342,8 @@ class ConcentrationDescriber {
    * "Historically high levels of greenhouse gases in atmosphere."
    */
   public static getConcentrationDescriptionForDate( date: ConcentrationDate ): string {
-    assert && assert( historicalDesciptionMap.has( date ), 'Provided date is not described.' );
-    const historicalDescription = StringUtils.capitalize( historicalDesciptionMap.get( date )! );
+    assert && assert( historicalDescriptionMap.has( date ), 'Provided date is not described.' );
+    const historicalDescription = StringUtils.capitalize( historicalDescriptionMap.get( date )! );
 
     return StringUtils.fillIn( historicalLevelsOfGreenhouseGassesPatternString, {
       historical: historicalDescription
