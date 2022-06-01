@@ -94,8 +94,13 @@ class PhotonAbsorbingEmittingLayer {
     const previousPhotonAltitude = photon.previousPosition.y;
     const currentPhotonAltitude = photon.positionProperty.value.y;
     const layerAltitude = this.atmosphereLayer.altitude;
-    const bottomOfLayerAltitude = layerAltitude - this.thickness / 2;
-    const topOfLayerAltitude = layerAltitude + this.thickness / 2;
+
+    // TODO: The design team is working on improving how the absorption and re-emission of photons looks.  On 6/1/2022
+    //       the thickness of the layers was adjusted to be quite thin so that the photons didn't appear to jump across
+    //       the layers.  This will need to be refined once the visual portrayal is finalized.  See
+    //       https://github.com/phetsims/greenhouse-effect/issues/167.
+    const bottomOfLayerAltitude = layerAltitude - this.thickness * 0.0001;
+    const topOfLayerAltitude = layerAltitude + this.thickness * 0.0001;
 
     // TODO: This is a little hard to read, consider CROSSED_INDETERMINATE in the first portion, then post process, or something.
     if ( previousPhotonAltitude < bottomOfLayerAltitude ) {
@@ -171,11 +176,7 @@ class PhotonAbsorbingEmittingLayer {
    */
   private createPhotonReleasePosition( photon: Photon ): Vector2 {
     const jump = this.photonMaxJumpDistance * dotRandom.nextDoubleBetween( -1, 1 );
-    const altitude = photon.velocity.y > 0 ?
-                     this.atmosphereLayer.altitude + this.thickness / 2 :
-                     this.atmosphereLayer.altitude - this.thickness / 2;
-
-    return new Vector2( photon.positionProperty.value.x + jump, altitude );
+    return new Vector2( photon.positionProperty.value.x + jump, this.atmosphereLayer.altitude );
   }
 
   /**
