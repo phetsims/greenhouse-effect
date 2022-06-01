@@ -50,9 +50,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem: tandem.createTandem( 'observationWindow' )
     } );
 
-    const x = 5;
-    console.log( x );
-
     const timeControlNode = new LayersModelTimeControlNode( model, {
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
