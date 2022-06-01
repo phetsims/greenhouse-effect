@@ -51,6 +51,13 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
 
     const timeControlNode = new LayersModelTimeControlNode( model, {
+
+      // Requested in https://github.com/phetsims/greenhouse-effect/issues/158 that the TimeControlNode
+      // for this screen does not have speed radio buttons or a step forward button
+      timeSpeedProperty: null,
+      playPauseStepButtonOptions: {
+        includeStepForwardButton: false
+      },
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 
