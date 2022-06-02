@@ -28,10 +28,10 @@ const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
 
 // types and enumerations
 class ShowState extends EnumerationValue {
-  static ALWAYS = new ShowState();
-  static ONLY_IN_MORE_PHOTONS_MODE = new ShowState();
+  public static ALWAYS = new ShowState();
+  public static ONLY_IN_MORE_PHOTONS_MODE = new ShowState();
 
-  static enumeration = new Enumeration( ShowState );
+  public static enumeration = new Enumeration( ShowState );
 }
 
 type PhotonOptions = {
@@ -147,13 +147,13 @@ class Photon {
   }
 
   // static values
-  static IR_WAVELENGTH = IR_WAVELENGTH;
-  static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
-  static SPEED = PHOTON_SPEED;
-  static ShowState = ShowState;
+  public static IR_WAVELENGTH = IR_WAVELENGTH;
+  public static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
+  public static SPEED = PHOTON_SPEED;
+  public static ShowState = ShowState;
 
   // phet-io
-  static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
+  public static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
 }
 
 type SerializedVector2 = {

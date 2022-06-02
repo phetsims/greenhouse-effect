@@ -30,7 +30,7 @@ type GroundLayerOptions = {
 } & EnergyAbsorbingEmittingLayerOptions;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
-  readonly albedoProperty: NumberProperty;
+  public readonly albedoProperty: NumberProperty;
 
   public constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
 
@@ -97,9 +97,9 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     super.reset();
   }
 
-  static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
-  static GREEN_MEADOW_ALBEDO = GROUND_ALBEDO;
-  static PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
+  public static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
+  public static GREEN_MEADOW_ALBEDO = GROUND_ALBEDO;
+  public static PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
 }
 
 greenhouseEffect.register( 'GroundLayer', GroundLayer );

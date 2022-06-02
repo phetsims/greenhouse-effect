@@ -302,7 +302,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * for phet-io
    */
-  toStateObject(): LayersModelStateObject {
+  public toStateObject(): LayersModelStateObject {
     return {
       emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets )
     };

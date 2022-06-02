@@ -30,15 +30,15 @@ export type EnergyRateTrackerOptions = SelfOptions & PhetioObjectOptions;
  * Simple data type used for tracking energy within EnergyRateTracker.
  */
 class EnergyInfoQueueItem {
-  dt: number;
-  energy: number;
+  public readonly dt: number;
+  public readonly energy: number;
 
   public constructor( dt: number, energy: number ) {
     this.dt = dt;
     this.energy = energy;
   }
 
-  static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ): EnergyInfoQueueItem {
+  public static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ): EnergyInfoQueueItem {
     return new EnergyInfoQueueItem( stateObject.dt, stateObject.energy );
   }
 
@@ -49,7 +49,7 @@ class EnergyInfoQueueItem {
     };
   }
 
-  static EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
+  public static EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
 }
 
 type EnergyInfoQueueItemStateObject = {
@@ -63,7 +63,7 @@ class EnergyRateTracker extends PhetioObject {
   private readonly accumulationPeriod: number;
 
   // current total energy for the accumulation period
-  readonly energyRateProperty: NumberProperty;
+  public readonly energyRateProperty: NumberProperty;
 
   // a queue containing information about energy packets
   private readonly energyInfoQueue: EnergyInfoQueueItem[];
@@ -97,7 +97,7 @@ class EnergyRateTracker extends PhetioObject {
    * @param energy - amount of energy to be recorded for this step, in joules
    * @param dt - delta time, in seconds
    */
-  addEnergyInfo( energy: number, dt: number ): void {
+  public addEnergyInfo( energy: number, dt: number ): void {
 
     // Put the new energy information into the queue.
     this.energyInfoQueue.push( new EnergyInfoQueueItem( dt, energy ) );
@@ -133,7 +133,7 @@ class EnergyRateTracker extends PhetioObject {
   /**
    * Reset to initial state.
    */
-  reset(): void {
+  public reset(): void {
     this.energyInfoQueue.length = 0;
     this.energyRateProperty.reset();
   }
@@ -144,7 +144,7 @@ class EnergyRateTracker extends PhetioObject {
     };
   }
 
-  static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
+  public static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
     defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
   } );
 }

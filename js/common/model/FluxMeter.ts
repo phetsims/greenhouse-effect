@@ -17,14 +17,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 class FluxMeter {
-  readonly sunlightInProperty: NumberProperty;
-  readonly sunlightOutProperty: NumberProperty;
-  readonly infraredInProperty: NumberProperty;
-  readonly infraredOutProperty: NumberProperty;
-  readonly sensorBounds: Bounds2;
-  readonly sensorPositionProperty: Vector2Property;
-  readonly wireMeterAttachmentPositionProperty: Vector2Property;
-  readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
+  public readonly sunlightInProperty: NumberProperty;
+  public readonly sunlightOutProperty: NumberProperty;
+  public readonly infraredInProperty: NumberProperty;
+  public readonly infraredOutProperty: NumberProperty;
+  public readonly sensorBounds: Bounds2;
+  public readonly sensorPositionProperty: Vector2Property;
+  public readonly wireMeterAttachmentPositionProperty: Vector2Property;
+  public readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
   public constructor( tandem: Tandem ) {
 
