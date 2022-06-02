@@ -124,7 +124,7 @@ type EMEnergyPacketStateObject = {
   energy: number;
   altitude: number;
   previousAltitude: number;
-  direction: any;
+  direction: EnergyDirection;
 };
 
 greenhouseEffect.register( 'EMEnergyPacket', EMEnergyPacket );

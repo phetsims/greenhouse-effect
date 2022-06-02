@@ -45,7 +45,7 @@ class EnergyRepresentation extends EnumerationValue {
 }
 
 type EnergyLegendOptions = {
-  energyRepresentation: any;
+  energyRepresentation: EnergyRepresentation;
 } & PanelOptions;
 
 class EnergyLegend extends Panel {

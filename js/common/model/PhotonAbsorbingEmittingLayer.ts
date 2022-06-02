@@ -25,6 +25,7 @@ class PhotonCrossingTestResult extends EnumerationValue {
   static FULLY_BELOW = new PhotonCrossingTestResult();
   static CROSSED_BUT_IGNORED = new PhotonCrossingTestResult();
   static CROSSED_AND_ABSORBED = new PhotonCrossingTestResult();
+  static NONE = new PhotonCrossingTestResult();
 
   static enumeration = new Enumeration( PhotonCrossingTestResult );
 }
@@ -88,9 +89,10 @@ class PhotonAbsorbingEmittingLayer {
    * Check a photon for whether it has crossed this layer and, if so, decide based on the layer's absorbance and some
    * random factors whether the photon should be absorbed and, if so, do the absorption.
    * @param photon - the photon to be tested
+   * @returns - an enum value indicating the type of interaction that occurred
    */
-  public checkForPhotonInteraction( photon: Photon ): any {
-    let result;
+  public checkForPhotonInteraction( photon: Photon ): PhotonCrossingTestResult {
+    let result = PhotonCrossingTestResult.NONE;
     const previousPhotonAltitude = photon.previousPosition.y;
     const currentPhotonAltitude = photon.positionProperty.value.y;
     const layerAltitude = this.atmosphereLayer.altitude;
