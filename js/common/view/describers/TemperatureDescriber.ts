@@ -69,7 +69,7 @@ const fahrenheitString = greenhouseEffectStrings.a11y.temperatureUnits.fahrenhei
 
 class TemperatureDescriber {
 
-  constructor() {}
+  public constructor() {}
 
   /**
    * Get formatted description for the current temperature in the provided units, for use in other contexts. Will

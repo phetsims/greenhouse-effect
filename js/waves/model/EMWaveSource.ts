@@ -35,7 +35,7 @@ class WaveCreationSpec {
   readonly propagationDirection: Vector2;
   readonly originX: number;
 
-  constructor( originX: number, propagationDirection: Vector2, timeToCreation: number ) {
+  public constructor( originX: number, propagationDirection: Vector2, timeToCreation: number ) {
     this.countdown = timeToCreation;
     this.propagationDirection = propagationDirection;
     this.originX = originX;
@@ -105,7 +105,7 @@ class EMWaveSource extends PhetioObject {
    * @param waveSourceSpecs - specifications that define where the waves will be created
    * @param [options]
    */
-  constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
                wavelength: number,
                waveStartAltitude: number,

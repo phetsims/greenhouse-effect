@@ -35,7 +35,7 @@ const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
 class LayersControl extends Panel {
 
-  constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
+  public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
 
     const options = {
 

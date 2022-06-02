@@ -40,7 +40,7 @@ class PhotonSprites extends Sprites {
   private readonly visiblePhotonSprite: Sprite;
   private readonly infraredPhotonSprite: Sprite;
 
-  constructor( photonCollection: PhotonCollection, modelViewTransform: ModelViewTransform2 ) {
+  public constructor( photonCollection: PhotonCollection, modelViewTransform: ModelViewTransform2 ) {
 
     // Create the sprites for the types of photons that will be displayed.
     const visiblePhotonSprite = new Sprite( new SpriteImage(

@@ -23,7 +23,7 @@ class ObservationWindowPDOMNode extends Node {
   protected infraredWavesItemNode: Node;
   protected surfaceTemperatureItemNode: Node;
 
-  constructor( model: LayersModel ) {
+  public constructor( model: LayersModel ) {
     super( {
 
       // pdom

@@ -26,7 +26,7 @@ const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is e
 
 class GroundWaveSource extends EMWaveSource {
 
-  constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveStartAltitude: number,
                waveEndAltitude: number,
                groundTemperatureProperty: Property<number>,

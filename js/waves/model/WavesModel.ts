@@ -74,7 +74,7 @@ class WavesModel extends ConcentrationModel {
   private readonly atmosphereLine: Line;
   private readonly waveReflectedSoundGenerator: SoundClip;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
     super( tandem, {
 
       // phet-io
@@ -583,7 +583,7 @@ class WaveAtmosphereInteraction {
   readonly sourceWave: Wave;
   readonly emittedWave: Wave;
 
-  constructor( atmosphereLayer: EnergyAbsorbingEmittingLayer, sourceWave: Wave, emittedWave: Wave ) {
+  public constructor( atmosphereLayer: EnergyAbsorbingEmittingLayer, sourceWave: Wave, emittedWave: Wave ) {
     this.atmosphereLayer = atmosphereLayer;
     this.sourceWave = sourceWave;
     this.emittedWave = emittedWave;

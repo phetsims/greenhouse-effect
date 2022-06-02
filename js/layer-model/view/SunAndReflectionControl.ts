@@ -43,7 +43,7 @@ const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
 class SunAndReflectionControl extends Panel {
 
-  constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
+  public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
 
     const options = {
 

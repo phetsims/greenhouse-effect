@@ -16,17 +16,17 @@ import EnergyDirection from './EnergyDirection.js';
 class EMEnergyPacket {
 
   // wavelength of the energy in this packet, in meters
-  readonly wavelength: number;
+  public readonly wavelength: number;
 
   // energy in this packet, in joules
-  energy: number;
+  public energy: number;
 
   // altitude in meters
-  altitude: number;
-  previousAltitude: number;
+  public altitude: number;
+  public previousAltitude: number;
 
   // direction in which this energy is moving
-  direction: EnergyDirection;
+  public direction: EnergyDirection;
 
   /**
    * @param wavelength - in meters
@@ -34,7 +34,7 @@ class EMEnergyPacket {
    * @param initialAltitude - in meters
    * @param direction
    */
-  constructor( wavelength: number, energy: number, initialAltitude: number, direction: EnergyDirection ) {
+  public constructor( wavelength: number, energy: number, initialAltitude: number, direction: EnergyDirection ) {
     this.wavelength = wavelength;
     this.energy = energy;
     this.altitude = initialAltitude;
@@ -86,7 +86,7 @@ class EMEnergyPacket {
   /**
    * for phet-io
    */
-  static fromStateObject( stateObject: EMEnergyPacketStateObject ): EMEnergyPacket {
+  public static fromStateObject( stateObject: EMEnergyPacketStateObject ): EMEnergyPacket {
     const emEnergyPacket = new EMEnergyPacket(
       NumberIO.fromStateObject( stateObject.wavelength ),
       NumberIO.fromStateObject( stateObject.energy ),
@@ -116,7 +116,7 @@ class EMEnergyPacket {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
+  public static EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
 }
 
 type EMEnergyPacketStateObject = {

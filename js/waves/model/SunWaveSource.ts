@@ -25,7 +25,7 @@ class SunWaveSource extends EMWaveSource {
    * @param waveEndAltitude
    * @param [options]
    */
-  constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveProductionEnabledProperty: Property<boolean>,
                waveStartAltitude: number,
                waveEndAltitude: number,

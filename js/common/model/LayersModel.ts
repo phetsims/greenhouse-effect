@@ -72,7 +72,7 @@ class LayersModel extends GreenhouseEffectModel {
    * @param [tandem]
    * @param [providedOptions]
    */
-  constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
+  public constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
 
     const options = merge( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,

@@ -20,7 +20,7 @@ class WaveSourceSpec {
   readonly maxXPosition: number;
   readonly propagationDirection: Vector2;
 
-  constructor( minXPosition: number, maxXPosition: number, propagationDirection: Vector2 ) {
+  public constructor( minXPosition: number, maxXPosition: number, propagationDirection: Vector2 ) {
     this.minXPosition = minXPosition;
     this.maxXPosition = maxXPosition;
     this.propagationDirection = propagationDirection;

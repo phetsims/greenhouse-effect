@@ -25,7 +25,7 @@ class RandomIcon extends ScreenIcon {
   /**
    * @param seed - seed value for the random number generator
    */
-  constructor( seed: number ) {
+  public constructor( seed: number ) {
 
     const maxX = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.width;
     const maxY = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height;

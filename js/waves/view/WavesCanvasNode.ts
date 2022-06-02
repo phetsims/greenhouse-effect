@@ -38,7 +38,7 @@ class WavesCanvasNode extends CanvasNode {
    * @param modelViewTransform
    * @param [options]
    */
-  constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, options: CanvasNodeOptions ) {
+  public constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, options: CanvasNodeOptions ) {
     super( options );
     this.model = model;
     this.modelViewTransform = modelViewTransform;

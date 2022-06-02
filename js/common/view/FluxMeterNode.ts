@@ -44,7 +44,7 @@ class FluxMeterNode extends Node {
    * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
    * @param tandem
    */
-  constructor( model: FluxMeter,
+  public constructor( model: FluxMeter,
                visibleProperty: Property<boolean>,
                modelViewTransform: ModelViewTransform2,
                observationWindowViewBounds: Bounds2,
@@ -150,7 +150,7 @@ type EnergyFluxDisplayArrowOptions = {
  * An inner class that implements the arrows displaying the amount of energy flux.
  */
 class EnergyFluxDisplayArrow extends Node {
-  constructor( energyInProperty: Property<number>,
+  public constructor( energyInProperty: Property<number>,
                energyOutProperty: Property<number>,
                labelString: string,
                providedOptions: EnergyFluxDisplayArrowOptions ) {

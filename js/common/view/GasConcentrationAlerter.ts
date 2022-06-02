@@ -78,7 +78,7 @@ class GasConcentrationAlerter extends Alerter {
 
   private model: ConcentrationModel;
 
-  constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
+  public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
     const options = optionize<AlerterOptions, {}, AlerterOptions>()( {
 

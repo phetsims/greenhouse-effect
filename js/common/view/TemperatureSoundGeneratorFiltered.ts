@@ -24,7 +24,7 @@ const FILTER_Q = 10; // empirically determined
 class TemperatureSoundGeneratorFiltered extends SoundGenerator {
   private readonly temperatureToFilterFrequency: LinearFunction;
 
-  constructor( temperatureProperty: Property<number>,
+  public constructor( temperatureProperty: Property<number>,
                isSunShiningProperty: Property<boolean>,
                expectedTemperatureRange: Range,
                options: SoundGeneratorOptions ) {

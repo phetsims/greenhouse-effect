@@ -19,7 +19,7 @@ class WaveAttenuator {
    * @param initialAttenuation - amount of attenuation at construction, may be changed later
    * @param distanceFromStart - distance from the start of the wave, in meters
    */
-  constructor( initialAttenuation: number, distanceFromStart: number ) {
+  public constructor( initialAttenuation: number, distanceFromStart: number ) {
 
     // {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
     // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave

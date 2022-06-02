@@ -69,7 +69,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
   // internal dispose function
   private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     // items for radio button group for selecting temperature sound
     const items = [
@@ -235,7 +235,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
 class MockupOpacityControl extends VBox {
   private readonly disposeMockupOpacityControl: () => void;
 
-  constructor( opacityProperty: Property<number>, tandem: Tandem ) {
+  public constructor( opacityProperty: Property<number>, tandem: Tandem ) {
 
     // slider
     const slider = new HSlider(

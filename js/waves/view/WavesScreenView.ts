@@ -37,7 +37,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 class WavesScreenView extends GreenhouseEffectScreenView {
   private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
 
-  constructor( model: WavesModel, tandem: Tandem ) {
+  public constructor( model: WavesModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
     const observationWindow = new WaveLandscapeObservationWindow( model, {

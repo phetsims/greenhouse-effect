@@ -33,7 +33,7 @@ class LayerDebugNode extends Node {
    * @param modelViewTransform
    * @param [options]
    */
-  constructor( layerModel: EnergyAbsorbingEmittingLayer,
+  public constructor( layerModel: EnergyAbsorbingEmittingLayer,
                modelViewTransform: ModelViewTransform2,
                options: LayerDebugNodeOptions ) {
 

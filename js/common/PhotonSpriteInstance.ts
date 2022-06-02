@@ -17,7 +17,7 @@ class PhotonSpriteInstance extends SpriteInstance {
   private photon: Photon;
   private modelViewTransform: ModelViewTransform2;
 
-  constructor( photon: Photon, sprite: Sprite, modelViewTransform: ModelViewTransform2 ) {
+  public constructor( photon: Photon, sprite: Sprite, modelViewTransform: ModelViewTransform2 ) {
     // args are validated by initialize
 
     super();

@@ -20,7 +20,7 @@ import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 
 class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 
-  constructor( concentrationProperty: IReadOnlyProperty<number>, valueRange: Range ) {
+  public constructor( concentrationProperty: IReadOnlyProperty<number>, valueRange: Range ) {
 
     // sound generator for the middle range of the slider's movement
     const sliderMiddleSoundGenerator = new SliderMiddleRangeSoundGenerator( concentrationProperty, valueRange, {
@@ -45,7 +45,7 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPl
   private readonly concentrationProperty: IReadOnlyProperty<number>;
   private readonly concentrationRange: Range;
 
-  constructor( concentrationProperty: IReadOnlyProperty<number>,
+  public constructor( concentrationProperty: IReadOnlyProperty<number>,
                concentrationRange: Range,
                options?: Partial<SoundGeneratorOptions> ) {
 

@@ -16,7 +16,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),

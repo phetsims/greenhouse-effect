@@ -45,14 +45,14 @@ type SelfOptions = Partial<ReflectivityValues>;
 export type CloudOptions = SelfOptions & PhetioObjectOptions;
 
 class Cloud extends PhetioObject {
-  readonly position: Vector2;
-  readonly width: number;
-  readonly height: number;
-  readonly enabledProperty: Property<boolean>;
-  readonly modelShape: Shape;
-  readonly reflectivityValues: ReflectivityValues;
+  public readonly position: Vector2;
+  public readonly width: number;
+  public readonly height: number;
+  public readonly enabledProperty: Property<boolean>;
+  public readonly modelShape: Shape;
+  private readonly reflectivityValues: ReflectivityValues;
 
-  constructor( position: Vector2, width: number, height: number, providedOptions: CloudOptions ) {
+  public constructor( position: Vector2, width: number, height: number, providedOptions: CloudOptions ) {
 
     const options = optionize<CloudOptions, SelfOptions, PhetioObjectOptions>()( {
       topVisibleLightReflectivity: 0.08,

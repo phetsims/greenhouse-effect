@@ -29,7 +29,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 const CLOUD_ICON_WIDTH = 40;
 
 class CloudCheckbox extends GreenhouseEffectCheckbox {
-  constructor( cloudEnabledProperty: Property<boolean>,
+  public constructor( cloudEnabledProperty: Property<boolean>,
                isShiningProperty: BooleanProperty,
                providedOptions: CheckboxOptions ) {
 

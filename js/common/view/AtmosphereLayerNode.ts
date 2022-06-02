@@ -34,7 +34,7 @@ type AtmosphereLayerNodeOptions = {
 
 class AtmosphereLayerNode extends Node {
 
-  constructor( atmosphereLayer: AtmosphereLayer,
+  public constructor( atmosphereLayer: AtmosphereLayer,
                modelViewTransform: ModelViewTransform2,
                options?: AtmosphereLayerNodeOptions ) {
 

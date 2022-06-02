@@ -18,7 +18,7 @@ import TemperatureDescriber from '../../common/view/describers/TemperatureDescri
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 
 class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
-  constructor( property: Property<boolean>, model: ConcentrationModel, tandem: Tandem ) {
+  public constructor( property: Property<boolean>, model: ConcentrationModel, tandem: Tandem ) {
 
     const iconWidth = 15;
 

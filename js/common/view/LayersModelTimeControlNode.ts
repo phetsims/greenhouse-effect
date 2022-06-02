@@ -17,7 +17,7 @@ import LayersModel from '../model/LayersModel.js';
 
 class LayersModelTimeControlNode extends TimeControlNode {
 
-  constructor( model: LayersModel, options?: any ) {
+  public constructor( model: LayersModel, options?: any ) {
 
     options = merge( {
       timeSpeedProperty: model.timeSpeedProperty,

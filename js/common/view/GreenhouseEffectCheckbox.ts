@@ -26,7 +26,7 @@ type GreenhouseEffectCheckboxOptions = {
 } & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
-  constructor( labelString: string, property: Property<boolean>, providedOptions?: GreenhouseEffectCheckboxOptions ) {
+  public constructor( labelString: string, property: Property<boolean>, providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
     const options = merge( {
 

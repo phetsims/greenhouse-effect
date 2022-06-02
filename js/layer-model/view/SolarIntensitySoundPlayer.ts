@@ -35,7 +35,7 @@ class SolarIntensitySoundPlayer extends SoundGenerator implements ISoundPlayer {
   private readonly solarIntensityProperty: NumberProperty;
   private readonly solarIntensityRange: Range;
 
-  constructor( solarIntensityProperty: NumberProperty,
+  public constructor( solarIntensityProperty: NumberProperty,
                solarIntensityRange: Range,
                providedOptions?: SolarIntensitySoundPlayerOptions ) {
 

@@ -24,7 +24,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
 
-  constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
+  public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
     assert && assert( providedOptions.groundBaseColorProperty === undefined, 'LayerModelObservationWindow sets groundBaseColorProperty' );
     const groundBaseColorProperty = new ColorProperty( Color.GRAY );

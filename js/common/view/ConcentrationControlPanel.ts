@@ -82,7 +82,7 @@ class ConcentrationControlPanel extends Panel {
    * @param radiationDescriber
    * @param [options]
    */
-  constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, providedOptions?: ConcentrationControlPanelOptions ) {
+  public constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, providedOptions?: ConcentrationControlPanelOptions ) {
 
     const options = merge( {
 
@@ -177,7 +177,7 @@ class DateControl extends Node {
    * @param concentrationControlModeProperty - setting date will modify concentration
    * @param tandem
    */
-  constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
+  public constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
                concentrationProperty: IReadOnlyProperty<number>,
                concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                tandem: Tandem ) {
@@ -337,7 +337,7 @@ class DateControl extends Node {
  * Inner class that is a labelled VSlider that directly controls greenhouse gas concentration in the sim.
  */
 class ConcentrationSlider extends Node {
-  constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
+  public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
 
     super( { tandem: tandem } );
 
@@ -392,7 +392,7 @@ class CompositionDataNode extends VBox {
   private readonly methaneText: RichText;
   private readonly nitrousOxideText: RichText;
 
-  constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
+  public constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
     super( {
       align: 'left'
     } );
@@ -438,7 +438,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
    * @param property - Property for the method of controlling concentration
    * @param tandem
    */
-  constructor( property: EnumerationProperty<ConcentrationControlMode>, tandem: Tandem ) {
+  public constructor( property: EnumerationProperty<ConcentrationControlMode>, tandem: Tandem ) {
 
     const dateIcon = new Path( calendarAltRegularShape, {
       fill: 'black'

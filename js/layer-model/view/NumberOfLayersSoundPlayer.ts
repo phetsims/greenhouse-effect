@@ -26,7 +26,7 @@ class NumberOfLayersSoundPlayer extends SoundGenerator {
   // number of active layers
   private readonly numberOfLayersProperty: NumberProperty;
 
-  constructor( numberOfLayersProperty: NumberProperty, providedOptions?: NumberOfLayersSoundPlayerOptions ) {
+  public constructor( numberOfLayersProperty: NumberProperty, providedOptions?: NumberOfLayersSoundPlayerOptions ) {
 
     super( providedOptions );
 

@@ -51,7 +51,7 @@ class PhotonCollection extends PhetioObject {
   private visiblePhotonCreationCount: number;
   private infraredPhotonCreationCount: number;
 
-  constructor( sunEnergySource: SunEnergySource,
+  public constructor( sunEnergySource: SunEnergySource,
                groundLayer: GroundLayer,
                atmosphereLayers: AtmosphereLayer[],
                providedOptions?: PhotonCollectionOptions ) {

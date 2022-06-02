@@ -20,7 +20,7 @@ const infraredEmissionIntensityWithRedirectionPatternString = greenhouseEffectSt
 class RadiationDescriber {
   private readonly model: LayersModel;
 
-  constructor( model: LayersModel ) {
+  public constructor( model: LayersModel ) {
     this.model = model;
   }
 

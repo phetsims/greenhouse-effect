@@ -33,7 +33,7 @@ class EnergyInfoQueueItem {
   dt: number;
   energy: number;
 
-  constructor( dt: number, energy: number ) {
+  public constructor( dt: number, energy: number ) {
     this.dt = dt;
     this.energy = energy;
   }
@@ -68,7 +68,7 @@ class EnergyRateTracker extends PhetioObject {
   // a queue containing information about energy packets
   private readonly energyInfoQueue: EnergyInfoQueueItem[];
 
-  constructor( providedOptions?: EnergyRateTrackerOptions ) {
+  public constructor( providedOptions?: EnergyRateTrackerOptions ) {
 
     const options = optionize<EnergyRateTrackerOptions, SelfOptions, PhetioObjectOptions>()( {
 

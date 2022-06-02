@@ -19,7 +19,7 @@ import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
-  constructor( model: PhotonsModel, tandem: Tandem ) {
+  public constructor( model: PhotonsModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, photons, etc.
     const observationWindow = new PhotonLandscapeObservationWindow( model, {

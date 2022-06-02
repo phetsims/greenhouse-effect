@@ -21,7 +21,7 @@ class SpaceEnergySink extends PhetioObject {
   private readonly altitude: number;
   readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
 
-  constructor( altitude: number, tandem: Tandem ) {
+  public constructor( altitude: number, tandem: Tandem ) {
 
     super( {
       tandem: tandem,

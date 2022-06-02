@@ -18,7 +18,7 @@ import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
-  constructor( model: LayerModelModel, tandem: Tandem ) {
+  public constructor( model: LayerModelModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the layers and photons.
     const observationWindow = new LayerModelObservationWindow( model, {

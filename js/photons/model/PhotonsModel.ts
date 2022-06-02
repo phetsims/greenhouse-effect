@@ -25,7 +25,7 @@ class PhotonsModel extends ConcentrationModel {
   private readonly numberOfActiveCloudsProperty: Property<number>;
   readonly photonCollection: PhotonCollection;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
     super( tandem );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere

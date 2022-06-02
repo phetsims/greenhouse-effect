@@ -16,7 +16,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),

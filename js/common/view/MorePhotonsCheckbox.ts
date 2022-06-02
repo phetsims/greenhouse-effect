@@ -15,7 +15,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 
 class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
-  constructor( property: Property<boolean>, tandem: Tandem ) {
+  public constructor( property: Property<boolean>, tandem: Tandem ) {
 
     super( greenhouseEffectStrings.morePhotons, property, {
 

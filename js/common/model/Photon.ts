@@ -49,7 +49,7 @@ class Photon {
   public readonly velocity: Vector2;
   public readonly showState: ShowState;
 
-  constructor( initialPosition: Vector2, wavelength: number, providedOptions?: Partial<PhotonOptions> ) {
+  public constructor( initialPosition: Vector2, wavelength: number, providedOptions?: Partial<PhotonOptions> ) {
 
     const options = merge( {
 

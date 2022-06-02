@@ -18,7 +18,7 @@ import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhoto
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
 
-  constructor( model: PhotonsModel, providedOptions?: LandscapeObservationWindowOptions ) {
+  public constructor( model: PhotonsModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     const options = merge( {
 

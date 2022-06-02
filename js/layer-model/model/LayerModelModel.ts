@@ -28,7 +28,7 @@ class LayerModelModel extends LayersModel {
   readonly layersInfraredAbsorbanceProperty: NumberProperty;
   readonly photonCollection: PhotonCollection;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
     super( tandem, {
       numberOfAtmosphereLayers: 3,
       minimumGroundTemperature: MINIMUM_GROUND_TEMPERATURE,

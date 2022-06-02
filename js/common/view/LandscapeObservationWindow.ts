@@ -45,7 +45,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
 
-  constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
+  public constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );

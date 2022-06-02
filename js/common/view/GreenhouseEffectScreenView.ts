@@ -42,7 +42,7 @@ class GreenhouseEffectScreenView extends ScreenView {
    *                                            instead of providing the component with composition.
    * @param [providedOptions]
    */
-  constructor( model: GreenhouseEffectModel,
+  public constructor( model: GreenhouseEffectModel,
                observationWindow: GreenhouseEffectObservationWindow,
                timeControlNode: TimeControlNode,
                providedOptions: GreenhouseEffectScreenViewOptions ) {

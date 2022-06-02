@@ -28,24 +28,24 @@ const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia ar
 // An enumeration for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date.
 class ConcentrationControlMode extends EnumerationValue {
-  static BY_VALUE = new ConcentrationControlMode();
-  static BY_DATE = new ConcentrationControlMode();
+  public static BY_VALUE = new ConcentrationControlMode();
+  public static BY_DATE = new ConcentrationControlMode();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  static enumeration = new Enumeration( ConcentrationControlMode, {
+  public static enumeration = new Enumeration( ConcentrationControlMode, {
     phetioDocumentation: 'Describes the mode by which concentration is controlled, either by date or by value.'
   } );
 }
 
 // dates with recorded values of greenhouse concentration
 class ConcentrationDate extends EnumerationValue {
-  static ICE_AGE = new ConcentrationDate();
-  static SEVENTEEN_FIFTY = new ConcentrationDate();
-  static NINETEEN_FIFTY = new ConcentrationDate();
-  static TWENTY_TWENTY = new ConcentrationDate();
+  public static ICE_AGE = new ConcentrationDate();
+  public static SEVENTEEN_FIFTY = new ConcentrationDate();
+  public static NINETEEN_FIFTY = new ConcentrationDate();
+  public static TWENTY_TWENTY = new ConcentrationDate();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  static enumeration = new Enumeration( ConcentrationDate, {
+  public static enumeration = new Enumeration( ConcentrationDate, {
     phetioDocumentation: 'Various time periods or years that can be used to define what greenhouse concentration value is ued.'
   } );
 }
@@ -79,7 +79,7 @@ class ConcentrationModel extends LayersModel {
    * @param tandem
    * @param [options]
    */
-  constructor( tandem: Tandem, options?: LayersModelOptions ) {
+  public constructor( tandem: Tandem, options?: LayersModelOptions ) {
     super( tandem, options );
 
     this.dateProperty = new EnumerationProperty( ConcentrationDate.SEVENTEEN_FIFTY, {

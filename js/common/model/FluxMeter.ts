@@ -26,7 +26,7 @@ class FluxMeter {
   readonly wireMeterAttachmentPositionProperty: Vector2Property;
   readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the
     // sensor that will include its position, bounds, and calculate the flux of Photons in the model through the bounds

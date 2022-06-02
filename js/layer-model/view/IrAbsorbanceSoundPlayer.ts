@@ -38,7 +38,7 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
   private readonly irAbsorbanceRange: Range;
 
 
-  constructor( irAbsorbanceProperty: NumberProperty,
+  public constructor( irAbsorbanceProperty: NumberProperty,
                irAbsorbanceRange: Range,
                providedOptions?: IrAbsorbanceSoundPlayerOptions ) {
 

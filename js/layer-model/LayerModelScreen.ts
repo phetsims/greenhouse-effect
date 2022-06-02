@@ -16,7 +16,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),

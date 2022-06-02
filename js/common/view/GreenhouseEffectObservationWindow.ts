@@ -63,7 +63,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly groundNodeHeight: number;
   protected readonly startSunlightButton: TextPushButton;
 
-  constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
+  public constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
     const options: GreenhouseEffectObservationWindowOptions = merge( {
 

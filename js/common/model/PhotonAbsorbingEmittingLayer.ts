@@ -47,7 +47,7 @@ class PhotonAbsorbingEmittingLayer {
   private atmosphereLayer: AtmosphereLayer;
   public atLeastOnePhotonAbsorbedProperty: BooleanProperty;
 
-  constructor( photons: ObservableArray<Photon>,
+  public constructor( photons: ObservableArray<Photon>,
                atmosphereLayer: AtmosphereLayer,
                providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
 

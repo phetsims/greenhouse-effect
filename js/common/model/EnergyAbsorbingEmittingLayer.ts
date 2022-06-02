@@ -33,14 +33,14 @@ const EQUILIBRATION_TIME = GreenhouseEffectQueryParameters.atEquilibriumTime;
 class Substance extends EnumerationValue {
 
   // In kg/m^3
-  density: number;
+  public readonly density: number;
 
   // In J/kg°K
-  specificHeatCapacity: number;
+  public readonly specificHeatCapacity: number;
 
-  radiationDirections: EnergyDirection[];
+  public readonly radiationDirections: EnergyDirection[];
 
-  constructor( density: number, specificHeatCapacity: number, radiationDirections: EnergyDirection[] ) {
+  public constructor( density: number, specificHeatCapacity: number, radiationDirections: EnergyDirection[] ) {
     super();
 
     this.density = density;
@@ -48,10 +48,10 @@ class Substance extends EnumerationValue {
     this.radiationDirections = radiationDirections;
   }
 
-  static GLASS = new Substance( 2500, 840, [ EnergyDirection.UP, EnergyDirection.DOWN ] );
-  static EARTH = new Substance( 1250, 1250, [ EnergyDirection.UP ] );
+  public static GLASS = new Substance( 2500, 840, [ EnergyDirection.UP, EnergyDirection.DOWN ] );
+  public static EARTH = new Substance( 1250, 1250, [ EnergyDirection.UP ] );
 
-  static enumeration = new Enumeration( Substance );
+  public static enumeration = new Enumeration( Substance );
 }
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
@@ -86,7 +86,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly atEquilibriumProperty: BooleanProperty;
   private atEquilibriumTime: number;
 
-  constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
+  public constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
     const options = optionize<EnergyAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -261,9 +261,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   }
 
   // statics
-  static WIDTH = SURFACE_DIMENSIONS.width;
-  static SURFACE_AREA = SURFACE_AREA;
-  static Substance = Substance;
+  public static WIDTH = SURFACE_DIMENSIONS.width;
+  public static SURFACE_AREA = SURFACE_AREA;
+  public static Substance = Substance;
 }
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );

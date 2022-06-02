@@ -22,7 +22,7 @@ type WaveLandscapeObservationWindowOptions = WaveLandscapeObservationWindowSelfO
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
-  constructor( model: WavesModel, providedOptions?: WaveLandscapeObservationWindowOptions ) {
+  public constructor( model: WavesModel, providedOptions?: WaveLandscapeObservationWindowOptions ) {
 
     const options = optionize<WaveLandscapeObservationWindowOptions,
       WaveLandscapeObservationWindowSelfOptions,

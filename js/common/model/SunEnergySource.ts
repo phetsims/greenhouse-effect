@@ -45,7 +45,7 @@ class SunEnergySource extends PhetioObject {
    * @param emEnergyPackets - array of energy packets into which energy from this source will be placed
    * @param tandem - for phet-io
    */
-  constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], tandem: Tandem ) {
+  public constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], tandem: Tandem ) {
 
     super( {
       tandem: tandem,

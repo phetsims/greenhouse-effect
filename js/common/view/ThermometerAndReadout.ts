@@ -65,7 +65,7 @@ class ThermometerAndReadout extends Node {
    * @param model
    * @param [providedOptions]
    */
-  constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
+  public constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
 
     const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>()( {
 

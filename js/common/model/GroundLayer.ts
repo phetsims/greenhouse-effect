@@ -32,7 +32,7 @@ type GroundLayerOptions = {
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   readonly albedoProperty: NumberProperty;
 
-  constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
+  public constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
 
     const options = merge( {
 

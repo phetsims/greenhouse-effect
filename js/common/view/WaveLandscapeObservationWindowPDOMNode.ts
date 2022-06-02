@@ -17,7 +17,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
-  constructor( model: WavesModel ) {
+  public constructor( model: WavesModel ) {
     super( model );
 
     Multilink.multilink(

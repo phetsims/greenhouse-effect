@@ -29,7 +29,7 @@ class InstrumentVisibilityControls extends Rectangle {
    * @param model
    * @param [providedOptions]
    */
-  constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
+  public constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
 
     const options = merge( {
 

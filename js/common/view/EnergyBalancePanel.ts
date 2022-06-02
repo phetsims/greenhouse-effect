@@ -43,7 +43,7 @@ class EnergyBalancePanel extends Panel {
    * @param inRadiativeBalanceProperty
    * @param [options]
    */
-  constructor( energyBalanceVisibleProperty: Property<boolean>,
+  public constructor( energyBalanceVisibleProperty: Property<boolean>,
                netEnergyInProperty: Property<number>,
                netEnergyOutProperty: Property<number>,
                inRadiativeBalanceProperty: Property<boolean>,
@@ -118,7 +118,7 @@ class EnergyBalancePlot extends Node {
    * @param netEnergyOutProperty - Representing net energy out, read-only
    * @param netEnergyProperty - Representing net energy of the system, read-only
    */
-  constructor( netEnergyInProperty: IReadOnlyProperty<number>,
+  public constructor( netEnergyInProperty: IReadOnlyProperty<number>,
                netEnergyOutProperty: Property<number>,
                netEnergyProperty: IReadOnlyProperty<number> ) {
     super();

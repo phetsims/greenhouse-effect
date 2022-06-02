@@ -80,7 +80,7 @@ class TemperatureSoundGenerator extends SoundGenerator {
   private readonly temperatureSoundClipLoops: SoundClip[];
   private readonly temperatureProperty: Property<number>;
 
-  constructor( temperatureProperty: Property<number>, options: SoundGeneratorOptions ) {
+  public constructor( temperatureProperty: Property<number>, options: SoundGeneratorOptions ) {
 
     super( options );
 

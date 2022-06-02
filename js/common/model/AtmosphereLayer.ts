@@ -21,9 +21,9 @@ type SelfOptions = {
 export type AtmosphereLayerOptions = SelfOptions & EnergyAbsorbingEmittingLayerOptions;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
-  readonly isActiveProperty: BooleanProperty;
+  public readonly isActiveProperty: BooleanProperty;
 
-  constructor( altitude: number, tandem: Tandem, providedOptions?: AtmosphereLayerOptions ) {
+  public constructor( altitude: number, tandem: Tandem, providedOptions?: AtmosphereLayerOptions ) {
 
     const options = optionize<AtmosphereLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 

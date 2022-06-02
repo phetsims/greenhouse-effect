@@ -58,7 +58,7 @@ class Wave extends PhetioObject {
    *                                    direction, in meters
    * @param [providedOptions]
    */
-  constructor( wavelength: number,
+  public constructor( wavelength: number,
                origin: Vector2,
                propagationDirection: Vector2,
                propagationLimit: number,

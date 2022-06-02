@@ -28,7 +28,7 @@ const qualitativeAndQuantitativeTemperatureDescriptionPatternString = greenhouse
 
 class WavesScreenSummaryContentNode extends Node {
 
-  constructor( model: WavesModel ) {
+  public constructor( model: WavesModel ) {
     super();
 
     const playAreaDescriptionNode = new Node( {
