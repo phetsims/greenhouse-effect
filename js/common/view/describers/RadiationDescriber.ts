@@ -128,12 +128,7 @@ class RadiationDescriber {
   public static getSunlightTravelDescription( includeCloudReflection: boolean,
                                               includeGlacierReflection: boolean ): string {
 
-    assert && assert(
-      !( includeGlacierReflection && !includeCloudReflection ),
-      'the permutation where the glacier is present and the cloud is not is not expected to occur'
-    );
-
-    let descriptionString = '';
+    let descriptionString;
     if ( !includeCloudReflection && !includeGlacierReflection ) {
       descriptionString = greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
     }
@@ -142,6 +137,12 @@ class RadiationDescriber {
         sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
         reflectionDescription: greenhouseEffectStrings.a11y.cloudRefection
       } );
+    }
+    else if ( !includeCloudReflection && includeGlacierReflection ) {
+
+      // This particular situation should never occur for any length of time because of the way the sim is designed, but
+      // it can come up briefly when switching between date and manual control modes, so it can't be entirely ignored.
+      descriptionString = '';
     }
     else {
       descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
