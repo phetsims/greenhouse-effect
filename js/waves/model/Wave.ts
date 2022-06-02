@@ -36,11 +36,11 @@ export type WaveOptions = {
 
 class Wave extends PhetioObject {
   readonly debugTag: string | null;
-  wavelength: number;
-  origin: Vector2;
-  propagationDirection: Vector2;
-  startPoint: Vector2;
-  propagationLimit: number;
+  readonly wavelength: number;
+  readonly origin: Vector2;
+  readonly propagationDirection: Vector2;
+  readonly startPoint: Vector2;
+  readonly propagationLimit: number;
   length: number;
   existenceTime: number;
   phaseOffsetAtOrigin: number;
@@ -101,17 +101,17 @@ class Wave extends PhetioObject {
     );
     assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
 
-    // (read-only) {number}
+    // (read-only)
     this.wavelength = wavelength;
 
-    // (read-only) {Vector2} - The point from which this wave originates.  This is immutable over the lifetime
-    // of a wave, and it distinct from the start point, since the start point can move as the wave propagates.
+    // The point from which this wave originates.  This is immutable over the lifetime of a wave, and it distinct
+    // from the start point, since the start point can move as the wave propagates.
     this.origin = origin;
 
     // (read-only) {Vector2}
     this.propagationDirection = propagationDirection;
 
-    // @private {number} - the altitude past which this wave should not propagate
+    // the altitude past which this wave should not propagate
     this.propagationLimit = propagationLimit;
 
     // (read-only) {Vector2} - The starting point where the wave currently exists in model space.  This will be
@@ -138,9 +138,9 @@ class Wave extends PhetioObject {
     // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
 
-    // @private {Map.<PhetioObject,WaveAttenuator>} - A Map that maps model objects to the attenuation that they are
-    // currently causing on this wave.  The model objects can be essentially anything, hence the vague "Object" type
-    // spec. Examples of model objects that can cause an attenuation are clouds and atmosphere layers.
+    // A Map that maps model objects to the attenuation that they are currently causing on this wave.  The model
+    // objects can be essentially anything, hence the vague "Object" type spec. Examples of model objects that can
+    // cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
 
     // (read-only) {number} - the wavelength used when rendering the view for this wave
@@ -381,10 +381,15 @@ class Wave extends PhetioObject {
    * @param stateObject
    */
   applyState( stateObject: WaveStateObject ): void {
+    // @ts-ignore - should be readonly except for applyState
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
+    // @ts-ignore - should be readonly except for applyState
     this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
+    // @ts-ignore - should be readonly except for applyState
     this.propagationDirection = Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection );
+    // @ts-ignore - should be readonly except for applyState
     this.propagationLimit = NumberIO.fromStateObject( stateObject.propagationLimit );
+    // @ts-ignore - should be readonly except for applyState
     this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
     this.length = NumberIO.fromStateObject( stateObject.length );
     this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );

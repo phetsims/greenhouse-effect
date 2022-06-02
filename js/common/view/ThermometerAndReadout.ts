@@ -215,7 +215,6 @@ class ThermometerAndReadout extends Node {
    * @param unitsString
    * @param property
    * @param propertyRange
-   * @private
    */
   private static createTemperatureReadout( unitsString: string,
                                            property: Property<number>,

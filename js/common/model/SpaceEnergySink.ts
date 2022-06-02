@@ -28,7 +28,6 @@ class SpaceEnergySink extends PhetioObject {
       phetioType: SpaceEnergySink.SpaceEnergySinkIO
     } );
 
-    // @private
     this.altitude = altitude;
 
     // {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging

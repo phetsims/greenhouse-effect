@@ -65,6 +65,8 @@ phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new Boole
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
 class GreenhouseEffectOptionsDialogContent extends HBox {
+
+  // internal dispose function
   private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
 
   /**
@@ -212,7 +214,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       spacing: 30
     } );
 
-    // @private - internal dispose function
     this.disposeGreenhouseEffectOptionsDialogContent = () => {
       temperatureSoundRadioButtonGroup.dispose();
       irEmissionFromAtmosphereEnabledCheckbox.dispose();
@@ -273,7 +274,6 @@ class MockupOpacityControl extends VBox {
       spacing: 10
     } );
 
-    // @private - dispose function
     this.disposeMockupOpacityControl = () => {
       slider.dispose();
     };

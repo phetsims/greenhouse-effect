@@ -54,7 +54,7 @@ class PhotonsModel extends ConcentrationModel {
       tandem: tandem.createTandem( 'numberOfActiveCloudsProperty' )
     } );
 
-    // @private
+    // TODO: tandem is documented readonly (though not with TypeScript) - is this correct?
     this.tandem = tandem;
   }
 

@@ -186,10 +186,10 @@ class LayersModel extends GreenhouseEffectModel {
     // {Cloud[]} - array of clouds that can be individually turned on or off
     this.clouds = [];
 
-    // (read-only) - the endpoint where energy radiating from the top of the atmosphere goes
+    // the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
-    // @private - used to track how much stepping of the model needs to occur
+    // used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
 
     // Connect up the surface temperature property to that of the ground layer model element.

@@ -80,9 +80,8 @@ class WavesCanvasNode extends CanvasNode {
    * function to draw a sinusoidal wave on a canvas
    * @param {CanvasRenderingContext2D} context
    * @param {Wave} wave
-   * @private
    */
-  drawWave( context: CanvasRenderingContext2D, wave: Wave ): void {
+  private drawWave( context: CanvasRenderingContext2D, wave: Wave ): void {
 
     // convenience variables
     const modelViewTransform = this.modelViewTransform;

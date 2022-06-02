@@ -172,7 +172,6 @@ class PhotonAbsorbingEmittingLayer {
   /**
    * Create a release position that is random and based on the option that specifies the horizontal variation and the
    * altitude of the layer.
-   * @private
    */
   private createPhotonReleasePosition( photon: Photon ): Vector2 {
     const jump = this.photonMaxJumpDistance * dotRandom.nextDoubleBetween( -1, 1 );
@@ -182,7 +181,6 @@ class PhotonAbsorbingEmittingLayer {
   /**
    * Create the release velocity for this photon.  The speed must be the simulation's value for the speed of light,
    * but the direction can be generally up or down and within a "code" of possible directions.
-   * @private
    */
   private static createPhotonReleaseVelocity(): Vector2 {
     const velocity = new Vector2( 0, GreenhouseEffectConstants.SPEED_OF_LIGHT );

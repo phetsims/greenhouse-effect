@@ -107,7 +107,7 @@ class WavesModel extends ConcentrationModel {
     // signals when the waves have changed so that the view can update them
     this.wavesChangedEmitter = new Emitter();
 
-    // @private - the source of the waves of visible light that come from the sun
+    // the source of the waves of visible light that come from the sun
     this.sunWaveSource = new SunWaveSource(
       this.waveGroup,
       this.sunEnergySource.isShiningProperty,
@@ -116,7 +116,7 @@ class WavesModel extends ConcentrationModel {
       { tandem: tandem.createTandem( 'sunWaveSource' ) }
     );
 
-    // @private - the source of the waves of infrared light (i.e. the ones that come from the ground)
+    // the source of the waves of infrared light (i.e. the ones that come from the ground)
     this.groundWaveSource = new GroundWaveSource(
       this.waveGroup,
       0,
@@ -148,14 +148,14 @@ class WavesModel extends ConcentrationModel {
       this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
     } );
 
-    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of clouds
+    // map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map<Wave, Wave>();
 
-    // @private {Map.<Wave,Wave>} - map of waves from the sun to waves reflected off of the glacier
+    // map of waves from the sun to waves reflected off of the glacier
     this.glacierReflectedWavesMap = new Map<Wave, Wave>();
 
-    // @private {Map.<EnergyAbsorbingEmittingLayer,Range>} - A Map containing atmospheric layers and ranges that define
-    // the x coordinate within which IR waves should interact with that layer.
+    // A Map containing atmospheric layers and ranges that define the x coordinate within which IR waves should
+    // interact with that layer.
     this.atmosphereLayerToXRangeMap = new Map(
       [
         // leftmost interaction area
@@ -186,8 +186,8 @@ class WavesModel extends ConcentrationModel {
       phetioDocumentation: 'Interactions between IR waves coming from the ground and the atmosphere'
     } );
 
-    // @private - Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas
-    // of the atmosphere, reused by methods in order to reduce memory allocations.
+    // Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas of the
+    // atmosphere, reused by methods in order to reduce memory allocations.
     this.waveLineStart = new Vector2( 0, 0 );
     this.waveLineEnd = new Vector2( 0, 1 );
     this.waveLine = new Line( this.waveLineStart, this.waveLineEnd );
@@ -441,9 +441,8 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * update the interactions between light waves and the glacier
-   * @private
    */
-  updateWaveGlacierInteractions(): void {
+  private updateWaveGlacierInteractions(): void {
 
     // See if any of the currently reflected waves should stop reflecting.
     this.glacierReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {

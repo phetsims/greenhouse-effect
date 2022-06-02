@@ -66,10 +66,9 @@ class SunEnergySource extends PhetioObject {
       tandem: tandem.createTandem( 'outputEnergyRateTracker' )
     } );
 
-    // @private {number}
     this.surfaceAreaOfIncidentLight = surfaceAreaOfIncidentLight;
 
-    // @private {EMEnergyPacket[]} - EM energy packet group where produced energy will be put.
+    // {EMEnergyPacket[]} - EM energy packet group where produced energy will be put.
     this.emEnergyPackets = emEnergyPackets;
   }
 

@@ -53,7 +53,7 @@ class RandomIcon extends ScreenIcon {
 }
 
 /**
- * @private, function to generate a random color
+ * function to generate a random color
  */
 const generateRandomColor = ( random: Random ): Color => {
   const r = Math.floor( random.nextDouble() * 256 );
@@ -88,11 +88,6 @@ const generateRandomPoint = ( maxX: number, maxY: number, random: Random ): Vect
 
 /**
  * utility function to generate a random shape segment
- * @param shape
- * @param maxX
- * @param maxY
- * @param {Random} random
- * @private
  */
 const addRandomSegment = ( shape: Shape, maxX: number, maxY: number, random: Random ) => {
   const decider = random.nextDouble();
