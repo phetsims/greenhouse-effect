@@ -62,8 +62,8 @@ type ThermometerAndReadoutOptions = ThermometerAndReadoutSelfOptions & NodeOptio
 class ThermometerAndReadout extends Node {
 
   /**
-   * @param {LayersModel} model
-   * @param {ThermometerAndReadoutOptions} [providedOptions]
+   * @param model
+   * @param [providedOptions]
    */
   constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
 
@@ -212,9 +212,6 @@ class ThermometerAndReadout extends Node {
 
   /**
    * Create a readout for a Property that represents a temperature.
-   * @param unitsString
-   * @param property
-   * @param propertyRange
    */
   private static createTemperatureReadout( unitsString: string,
                                            property: Property<number>,

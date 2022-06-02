@@ -23,10 +23,6 @@ class GreenhouseEffectModel extends PhetioObject {
   public readonly isPlayingProperty: BooleanProperty;
   public readonly steppedEmitter: Emitter<[ number ]>;
 
-  /**
-   * @param {Tandem} tandem
-   * @param options
-   */
   constructor( tandem: Tandem, options?: GreenhouseEffectModelOptions ) {
 
     options = merge( {

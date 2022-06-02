@@ -97,13 +97,13 @@ class EMWaveSource extends PhetioObject {
   private waveCreationQueue: WaveCreationSpec[];
 
   /**
-   * @param {PhetioGroup.<Wave>} waveGroup
-   * @param {Property.<boolean>} waveProductionEnabledProperty
-   * @param {number} wavelength - wavelength of waves to produce, in meters
-   * @param {number} waveStartAltitude - altitude from which waves will originate, it meters
-   * @param {number} waveEndAltitude - altitude at which the waves will terminate, it meters
-   * @param {WaveSourceSpec[]} waveSourceSpecs - specifications that define where the waves will be created
-   * @param {Partial<EMWaveSourceOptions>} [options]
+   * @param waveGroup
+   * @param waveProductionEnabledProperty
+   * @param wavelength - wavelength of waves to produce, in meters
+   * @param waveStartAltitude - altitude from which waves will originate, it meters
+   * @param waveEndAltitude - altitude at which the waves will terminate, it meters
+   * @param waveSourceSpecs - specifications that define where the waves will be created
+   * @param [options]
    */
   constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                waveProductionEnabledProperty: IReadOnlyProperty<boolean>,

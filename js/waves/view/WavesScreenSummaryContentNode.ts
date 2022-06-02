@@ -28,9 +28,6 @@ const qualitativeAndQuantitativeTemperatureDescriptionPatternString = greenhouse
 
 class WavesScreenSummaryContentNode extends Node {
 
-  /**
-   * @param {WavesModel} model
-   */
   constructor( model: WavesModel ) {
     super();
 

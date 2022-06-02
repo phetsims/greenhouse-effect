@@ -172,10 +172,10 @@ class ConcentrationControlPanel extends Panel {
 class DateControl extends Node {
 
   /**
-   * @param {EnumerationProperty} dateProperty
-   * @param {Property.<number>} concentrationProperty - setting date will modify concentration
-   * @param {EnumerationProperty} concentrationControlModeProperty - setting date will modify concentration
-   * @param {Tandem} tandem
+   * @param dateProperty
+   * @param concentrationProperty - setting date will modify concentration
+   * @param concentrationControlModeProperty - setting date will modify concentration
+   * @param tandem
    */
   constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
                concentrationProperty: IReadOnlyProperty<number>,
@@ -435,8 +435,8 @@ class CompositionDataNode extends VBox {
 class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<ConcentrationControlMode> {
 
   /**
-   * @param {EnumerationProperty} property - Property for the method of controlling concentration
-   * @param {Tandem} tandem
+   * @param property - Property for the method of controlling concentration
+   * @param tandem
    */
   constructor( property: EnumerationProperty<ConcentrationControlMode>, tandem: Tandem ) {
 

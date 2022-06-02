@@ -50,13 +50,13 @@ class Wave extends PhetioObject {
   isSourced: boolean;
 
   /**
-   * @param {number} wavelength - wavelength of this light wave, in meters
-   * @param {Vector2} origin - the point from which the wave will originate
-   * @param {Vector2} propagationDirection - a normalized vector (i.e. length = 1) that indicates the direction in which
+   * @param wavelength - wavelength of this light wave, in meters
+   * @param origin - the point from which the wave will originate
+   * @param propagationDirection - a normalized vector (i.e. length = 1) that indicates the direction in which
    *                                         this wave is propagating
-   * @param {number} propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
+   * @param propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
    *                                    direction, in meters
-   * @param {WaveOptions} [providedOptions]
+   * @param [providedOptions]
    */
   constructor( wavelength: number,
                origin: Vector2,
@@ -253,9 +253,9 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * @param {number} distanceFromStart
-   * @param {number} attenuationAmount
-   * @param {Object} causalModelElement - the model element that is causing this attenuation to exist
+   * @param distanceFromStart
+   * @param attenuationAmount
+   * @param causalModelElement - the model element that is causing this attenuation to exist
    */
   addAttenuator( distanceFromStart: number,
                  attenuationAmount: number,
@@ -303,8 +303,6 @@ class Wave extends PhetioObject {
 
   /**
    * Set the attenuation value in the attenuator associated with the provided model element.
-   * @param {Object} modelElement
-   * @param {number} attenuation
    */
   setAttenuation( modelElement: PhetioObject, attenuation: number ): void {
 
@@ -377,9 +375,6 @@ class Wave extends PhetioObject {
     };
   }
 
-  /**
-   * @param stateObject
-   */
   applyState( stateObject: WaveStateObject ): void {
     // @ts-ignore - should be readonly except for applyState
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );

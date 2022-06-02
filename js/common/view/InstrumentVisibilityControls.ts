@@ -26,8 +26,8 @@ type InstrumentVisibilityControlsOptions = {
 class InstrumentVisibilityControls extends Rectangle {
 
   /**
-   * @param {LayersModel} model
-   * @param {InstrumentVisibilityControlsOptions} [providedOptions]
+   * @param model
+   * @param [providedOptions]
    */
   constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
 

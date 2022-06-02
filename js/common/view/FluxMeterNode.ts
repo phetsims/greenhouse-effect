@@ -38,11 +38,11 @@ class FluxMeterNode extends Node {
   readonly fluxPanel: Panel;
 
   /**
-   * @param {FluxMeter} model - model component for the FluxMeter
-   * @param {Property.<boolean>} visibleProperty
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Bounds2} observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
-   * @param {Tandem} tandem
+   * @param model - model component for the FluxMeter
+   * @param visibleProperty
+   * @param modelViewTransform
+   * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
+   * @param tandem
    */
   constructor( model: FluxMeter,
                visibleProperty: Property<boolean>,

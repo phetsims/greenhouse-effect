@@ -16,9 +16,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const options = {

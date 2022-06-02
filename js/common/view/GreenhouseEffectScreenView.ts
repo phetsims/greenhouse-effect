@@ -34,13 +34,13 @@ class GreenhouseEffectScreenView extends ScreenView {
   protected readonly resetAllButton: ResetAllButton;
 
   /**
-   * @param {GreenhouseEffectModel} model
-   * @param {Node} observationWindow
-   * @param {TimeControlNode} timeControlNode - The TimeControlNode may have screen specific functionality.
+   * @param model
+   * @param observationWindow
+   * @param timeControlNode - The TimeControlNode may have screen specific functionality.
    *                                            TODO: The first three screens all use the same TimeControlNode as well
    *                                            as other components. Perhaps we need to have a subclass for these
    *                                            instead of providing the component with composition.
-   * @param {GreenhouseEffectScreenViewOptions} [providedOptions]
+   * @param [providedOptions]
    */
   constructor( model: GreenhouseEffectModel,
                observationWindow: GreenhouseEffectObservationWindow,

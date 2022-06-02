@@ -25,9 +25,6 @@ class PhotonsModel extends ConcentrationModel {
   private readonly numberOfActiveCloudsProperty: Property<number>;
   readonly photonCollection: PhotonCollection;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
     super( tandem );
 
@@ -60,8 +57,6 @@ class PhotonsModel extends ConcentrationModel {
 
   /**
    * Step forward in time. Create new photons if it is time to do so, remove old photons, and animate existing ones.
-   *
-   * @param {number} dt
    */
   public override stepModel( dt: number ): void {
     this.photonCollection.step( dt );

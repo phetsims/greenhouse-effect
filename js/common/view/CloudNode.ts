@@ -28,9 +28,9 @@ class CloudNode extends Node {
   private readonly disposeCloudNode: () => void;
 
   /**
-   * @param {Cloud} cloud
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
+   * @param cloud
+   * @param modelViewTransform
+   * @param [options]
    */
   constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, options?: CloudNodeOptions ) {
 

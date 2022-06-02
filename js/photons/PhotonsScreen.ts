@@ -16,9 +16,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const options = {

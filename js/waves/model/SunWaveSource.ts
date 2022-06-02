@@ -19,10 +19,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 class SunWaveSource extends EMWaveSource {
 
   /**
-   * @param {PhetioGroup.<Wave>} wavesInModel
-   * @param {Property.<boolean>} waveProductionEnabledProperty
-   * @param {number} waveStartAltitude
-   * @param {number} waveEndAltitude
+   * @param wavesInModel
+   * @param waveProductionEnabledProperty
+   * @param waveStartAltitude
+   * @param waveEndAltitude
    * @param [options]
    */
   constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,

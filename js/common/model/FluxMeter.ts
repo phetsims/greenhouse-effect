@@ -26,9 +26,6 @@ class FluxMeter {
   readonly wireMeterAttachmentPositionProperty: Vector2Property;
   readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the

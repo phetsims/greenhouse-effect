@@ -69,8 +69,8 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly fluxMeter: FluxMeter;
 
   /**
-   * @param {Tandem} [tandem]
-   * @param {Object} [providedOptions]
+   * @param [tandem]
+   * @param [providedOptions]
    */
   constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
 

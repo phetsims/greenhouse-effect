@@ -16,8 +16,8 @@ class WaveAttenuator {
   distanceFromStart: number;
 
   /**
-   * @param {number} initialAttenuation - amount of attenuation at construction, may be changed later
-   * @param {number} distanceFromStart - distance from the start of the wave, in meters
+   * @param initialAttenuation - amount of attenuation at construction, may be changed later
+   * @param distanceFromStart - distance from the start of the wave, in meters
    */
   constructor( initialAttenuation: number, distanceFromStart: number ) {
 

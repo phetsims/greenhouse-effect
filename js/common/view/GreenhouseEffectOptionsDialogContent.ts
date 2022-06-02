@@ -69,9 +69,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
   // internal dispose function
   private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     // items for radio button group for selecting temperature sound
@@ -238,10 +235,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
 class MockupOpacityControl extends VBox {
   private readonly disposeMockupOpacityControl: () => void;
 
-  /**
-   * @param {Property.<number>} opacityProperty
-   * @param {Tandem} tandem
-   */
   constructor( opacityProperty: Property<number>, tandem: Tandem ) {
 
     // slider

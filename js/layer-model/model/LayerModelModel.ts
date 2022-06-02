@@ -28,9 +28,6 @@ class LayerModelModel extends LayersModel {
   readonly layersInfraredAbsorbanceProperty: NumberProperty;
   readonly photonCollection: PhotonCollection;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
     super( tandem, {
       numberOfAtmosphereLayers: 3,

@@ -74,9 +74,6 @@ class WavesModel extends ConcentrationModel {
   private readonly atmosphereLine: Line;
   private readonly waveReflectedSoundGenerator: SoundClip;
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
     super( tandem, {
 
@@ -205,7 +202,7 @@ class WavesModel extends ConcentrationModel {
 
   /**
    * Step the model forward by the provided time.
-   * @param {number} dt - delta time, in seconds
+   * @param dt - delta time, in seconds
    */
   public override stepModel( dt: number ): void {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
@@ -570,8 +567,6 @@ type WavesModelStateObject = {
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the
  * concentration of greenhouse gases.
- *
- * @param concentration
  */
 const mapGasConcentrationToAttenuation = ( concentration: number ): number => {
 

@@ -16,9 +16,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const options = {

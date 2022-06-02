@@ -76,8 +76,8 @@ class ConcentrationModel extends LayersModel {
   public readonly concentrationProperty: IReadOnlyProperty<number>;
 
   /**
-   * @param {Tandem} tandem
-   * @param {Object} [options]
+   * @param tandem
+   * @param [options]
    */
   constructor( tandem: Tandem, options?: LayersModelOptions ) {
     super( tandem, options );

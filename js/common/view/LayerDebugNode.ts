@@ -29,9 +29,9 @@ type LayerDebugNodeOptions = {
 class LayerDebugNode extends Node {
 
   /**
-   * @param {EnergyAbsorbingEmittingLayer} layerModel
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
+   * @param layerModel
+   * @param modelViewTransform
+   * @param [options]
    */
   constructor( layerModel: EnergyAbsorbingEmittingLayer,
                modelViewTransform: ModelViewTransform2,

@@ -94,8 +94,6 @@ class ConcentrationDescriber {
    * Get a description of the clouds in the sky. Will return something like
    * "The sky is cloudy." or
    * "The sky is clear".
-   *
-   * @param {boolean} cloudEnabled
    */
   public static getSkyCloudDescription( cloudEnabled: boolean ): string {
     const skyPatternString = skyDescriptionPatternString;
@@ -160,7 +158,6 @@ class ConcentrationDescriber {
    * Get a description of the time period, just the isolated fragment. Will return something like
    * "a few homes and factories" or
    * "a large number of homes and factories"
-   * @param timePeriodValue
    */
   public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
     return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeDescriptionString :
@@ -206,8 +203,6 @@ class ConcentrationDescriber {
    * returns something like:
    * "Now very high levels of greenhouse gases." or
    * "Now low levels of greenhouse gases."
-   *
-   * @param concentrationValue
    */
   public static getCurrentConcentrationLevelsDescription( concentrationValue: number ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.nowLevelsOfConcentrationPattern, {

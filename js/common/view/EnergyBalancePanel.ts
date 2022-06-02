@@ -37,11 +37,11 @@ const PLOT_VIEW_HEIGHT = 120; // view coordinates
 class EnergyBalancePanel extends Panel {
 
   /**
-   * @param {Property<boolean>} energyBalanceVisibleProperty - controls whether this Panel is visible in the view
-   * @param {Property<number>} netEnergyInProperty
-   * @param {Property<number>} netEnergyOutProperty
-   * @param {Property<boolean>} inRadiativeBalanceProperty
-   * @param {Object} [options]
+   * @param energyBalanceVisibleProperty - controls whether this Panel is visible in the view
+   * @param netEnergyInProperty
+   * @param netEnergyOutProperty
+   * @param inRadiativeBalanceProperty
+   * @param [options]
    */
   constructor( energyBalanceVisibleProperty: Property<boolean>,
                netEnergyInProperty: Property<number>,
@@ -114,9 +114,9 @@ class EnergyBalancePanel extends Panel {
 class EnergyBalancePlot extends Node {
 
   /**
-   * @param {Property.<number>} netEnergyInProperty - Representing net energy in, read-only
-   * @param {Property.<number>} netEnergyOutProperty - Representing net energy out, read-only
-   * @param {Property.<number>} netEnergyProperty - Representing net energy of the system, read-only
+   * @param netEnergyInProperty - Representing net energy in, read-only
+   * @param netEnergyOutProperty - Representing net energy out, read-only
+   * @param netEnergyProperty - Representing net energy of the system, read-only
    */
   constructor( netEnergyInProperty: IReadOnlyProperty<number>,
                netEnergyOutProperty: Property<number>,
