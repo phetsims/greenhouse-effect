@@ -22,6 +22,7 @@ import Wave, { WaveOptions } from './Wave.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
@@ -85,7 +86,7 @@ type EMWaveSourceOptions = {
 class EMWaveSource extends PhetioObject {
   readonly waveStartAltitude: number;
   private readonly waveIntensityProperty: Property<number>;
-  private readonly waveProductionEnabledProperty: Property<boolean>;
+  private readonly waveProductionEnabledProperty: IReadOnlyProperty<boolean>;
   private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   private readonly wavelength: number;
   private readonly waveEndAltitude: number;
@@ -105,7 +106,7 @@ class EMWaveSource extends PhetioObject {
    * @param {Partial<EMWaveSourceOptions>} [options]
    */
   constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
-               waveProductionEnabledProperty: Property<boolean>,
+               waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
                wavelength: number,
                waveStartAltitude: number,
                waveEndAltitude: number,

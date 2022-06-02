@@ -17,6 +17,7 @@ import WaveSourceSpec from './WaveSourceSpec.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
@@ -61,7 +62,7 @@ class GroundWaveSource extends EMWaveSource {
 
     super(
       wavesInModel,
-      produceIRWavesProperty as Property<boolean>,
+      produceIRWavesProperty as IReadOnlyProperty<boolean>,
       GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       waveStartAltitude,
       waveEndAltitude,
