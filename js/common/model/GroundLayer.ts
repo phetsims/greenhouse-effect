@@ -13,7 +13,7 @@ import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } fro
 import EnergyDirection from './EnergyDirection.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 
@@ -25,16 +25,17 @@ const MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = 245;
 const GROUND_ALBEDO = 0.2;
 const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 
-type GroundLayerOptions = {
+type SelfOptions = {
   initialAlbedo?: number;
-} & EnergyAbsorbingEmittingLayerOptions;
+};
+export type GroundLayerOptions = SelfOptions & EnergyAbsorbingEmittingLayerOptions;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   public readonly albedoProperty: NumberProperty;
 
   public constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
 
-    const options = merge( {
+    const options = optionize<GroundLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
       initialAlbedo: GROUND_ALBEDO,
 
@@ -48,7 +49,8 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
       tandem: tandem,
       phetioReadOnly: true,
       phetioState: false
-    }, providedOptions ) as Required<GroundLayerOptions>;
+
+    }, providedOptions );
 
     super( 0, options );
 

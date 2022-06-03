@@ -9,29 +9,30 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-type GreenhouseEffectModelOptions = PhetioObjectOptions;
+type SelfOptions = {};
+type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
   public readonly steppedEmitter: Emitter<[ number ]>;
 
-  public constructor( tandem: Tandem, options?: GreenhouseEffectModelOptions ) {
+  public constructor( tandem: Tandem, providedOptions?: GreenhouseEffectModelOptions ) {
 
-    options = merge( {
+    const options = optionize<GreenhouseEffectModelOptions, SelfOptions, PhetioObjectOptions>()( {
 
       // By default this is not stateful, but note that some subtypes such as WavesModel override this and specify a
       // phetioType.
       phetioState: false
 
-    }, options );
+    }, providedOptions );
 
     assert && assert( !options.tandem, 'tandem should not be supplied via options' );
     options.tandem = tandem;
