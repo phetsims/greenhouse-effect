@@ -33,7 +33,7 @@ class EnergyDirection extends EnumerationValue {
   }
 
   /**
-   * Get the oposite of the provided direction.
+   * Get the opposite of the provided direction.
    */
   public static getOpposite = ( enumValue: EnergyDirection ) => {
     return enumValue === EnergyDirection.UP ?
