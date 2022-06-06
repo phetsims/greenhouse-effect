@@ -18,8 +18,8 @@ import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 
 // types for options
-type SurfaceAlbedoSoundPlayerSelfOptions = {};
-type SurfaceAlbedoSoundPlayerOptions = SurfaceAlbedoSoundPlayerSelfOptions & SoundGeneratorOptions;
+type SelfOptions = {};
+type SurfaceAlbedoSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
 

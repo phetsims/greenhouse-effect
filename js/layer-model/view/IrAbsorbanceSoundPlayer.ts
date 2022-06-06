@@ -17,8 +17,8 @@ import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderS
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 
 // types for options
-type IrAbsorbanceSoundPlayerSelfOptions = {};
-type IrAbsorbanceSoundPlayerOptions = IrAbsorbanceSoundPlayerSelfOptions & SoundClipOptions;
+type SelfOptions = {};
+type IrAbsorbanceSoundPlayerOptions = SelfOptions & SoundClipOptions;
 
 class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
 

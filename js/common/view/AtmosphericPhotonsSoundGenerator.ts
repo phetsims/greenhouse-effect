@@ -22,14 +22,14 @@ const PLAYBACK_RATE_RANGE = new Range( 0.94387431268, 1.05946309436 ); // playba
 const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions cause sounds
 
 // types for options
-type AtmosphericPhotonsSoundGeneratorSelfOptions = {};
-type AtmosphericPhotonsSoundGeneratorOptions = AtmosphericPhotonsSoundGeneratorSelfOptions & SoundClipOptions;
+type SelfOptions = {};
+type AtmosphericPhotonsSoundGeneratorOptions = SelfOptions & SoundClipOptions;
 
 class AtmosphericPhotonsSoundGenerator extends SoundClip {
 
   public constructor( photonCollection: PhotonCollection, providedOptions?: AtmosphericPhotonsSoundGeneratorOptions ) {
 
-    const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, AtmosphericPhotonsSoundGeneratorSelfOptions, SoundClipOptions>()( {
+    const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
       initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
       rateChangesAffectPlayingSounds: false
     }, providedOptions );

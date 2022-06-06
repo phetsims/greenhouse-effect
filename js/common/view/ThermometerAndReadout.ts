@@ -48,7 +48,7 @@ class ReadoutType extends EnumerationValue {
   static enumeration = new Enumeration( ReadoutType );
 }
 
-type ThermometerAndReadoutSelfOptions = {
+type SelfOptions = {
   minTemperature?: number;
   maxTemperature?: number;
   readoutType?: ReadoutType;
@@ -57,7 +57,7 @@ type ThermometerAndReadoutSelfOptions = {
   tandem?: Tandem;
 }
 
-type ThermometerAndReadoutOptions = ThermometerAndReadoutSelfOptions & NodeOptions;
+type ThermometerAndReadoutOptions = SelfOptions & NodeOptions;
 
 class ThermometerAndReadout extends Node {
 
@@ -67,7 +67,7 @@ class ThermometerAndReadout extends Node {
    */
   public constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
 
-    const options = optionize<ThermometerAndReadoutOptions, ThermometerAndReadoutSelfOptions, NodeOptions>()( {
+    const options = optionize<ThermometerAndReadoutOptions, SelfOptions, NodeOptions>()( {
 
       minTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       maxTemperature: GreenhouseEffectObservationWindow.EXPECTED_MAX_TEMPERATURE + 3,
