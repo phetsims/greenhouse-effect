@@ -399,7 +399,7 @@
       },
       "screenSummary": {
         "playAreaDescription": {
-          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space. It has controls to adjust the greenhouse gas concentration or explore by time period, add clouds, and measure the energy balance."
+          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space. It has controls to adjust the greenhouse gas concentration or explore by historical time period, add clouds, and measure the energy balance."
         },
         "controlAreaDescription": {
           "value": "The Control Area has options for displaying the surface temperature of Earth. You can pause the action that happens in the observation window."
@@ -612,7 +612,7 @@
           "value": "Time Period"
         },
         "helpText": {
-          "value": "Compare greenhouse gas levels at different time periods."
+          "value": "Compare greenhouse gas levels at different historical time periods."
         },
         "yearTwentyTwenty": {
           "value": "Year Twenty Twenty"
