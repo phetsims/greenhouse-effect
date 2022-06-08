@@ -180,12 +180,21 @@ class ConcentrationDescriber {
   /**
    * Get a string that describes the time period in a full context like:
    * "the time period is the year twenty twenty and there are a large number of homes and factories."
+   *
+   * @param timePeriodValue
+   * @param capitalize - If true, the first letter will be capitalized as if there a standalone sentence.
    */
-  public static getFullTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
+  public static getFullTimePeriodDescription( timePeriodValue: ConcentrationDate, capitalize: boolean ): string {
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
-    return StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
+    let fullTimePeriodDescription = StringUtils.fillIn( greenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
       timePeriodDescription: describedTimePeriod
     } );
+
+    if ( capitalize ) {
+      fullTimePeriodDescription = StringUtils.capitalize( fullTimePeriodDescription );
+    }
+
+    return fullTimePeriodDescription;
   }
 
   /**
@@ -194,7 +203,7 @@ class ConcentrationDescriber {
    */
   public static getTimePeriodCurrentlyDescription( timePeriodValue: ConcentrationDate ): string {
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.currentlyTimePeriodDescriptionPattern, {
-      timePeriodDescription: ConcentrationDescriber.getFullTimePeriodDescription( timePeriodValue )
+      timePeriodDescription: ConcentrationDescriber.getFullTimePeriodDescription( timePeriodValue, false )
     } );
   }
 
