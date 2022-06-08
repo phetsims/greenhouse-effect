@@ -127,9 +127,15 @@ class WavesScreenSummaryContentNode extends Node {
     // portion that describes the state of the concentration in the atmosphere
     let concentrationDescriptionString = '';
     if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
-      concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
+
+      // If sun is shining and sim is playing, capitalize because this will be read after "Currently, ", otherwise
+      // the concentration description will start the sentence.
+      const capitalize = !( sunIsShining && isPlaying );
+      concentrationDescriptionString = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration, capitalize );
     }
     else {
+
+      // capitalize because it will be its own sentence in this content
       concentrationDescriptionString = ConcentrationDescriber.getFullTimePeriodDescription( date, true );
     }
 

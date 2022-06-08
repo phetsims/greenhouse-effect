@@ -355,7 +355,7 @@ class ConcentrationDescriber {
     } );
   }
 
-  public static getHistoricalQualitativeConcentrationDescription( date: ConcentrationDate ) : string {
+  public static getHistoricalQualitativeConcentrationDescription( date: ConcentrationDate ): string {
     assert && assert( historicalDescriptionMap.has( date ), 'Provided date is not described.' );
     return StringUtils.capitalize( historicalDescriptionMap.get( date )! );
   }
@@ -373,13 +373,18 @@ class ConcentrationDescriber {
    *
    *
    * @param value - value of concentration in the model
+   * @param capitalize - if true, the description will be capitalized for the beginning of a sentence.
    * @param [includeInAtmosphere] - Whether to include "in atmosphere" at end of description, default is true
    */
-  public static getConcentrationDescriptionWithValue( value: number, includeInAtmosphere = true ): string {
+  public static getConcentrationDescriptionWithValue( value: number, capitalize: boolean, includeInAtmosphere = true ): string {
 
-    // Capitalize so that this statement appears in a sentence. Not friendly for i18n, but PhET decided that this
+    let valueDescription = ConcentrationDescriber.getConcentrationDescription( value );
+
+    // Capitalize if this statement is first in a sentence. Not friendly for i18n, but PhET decided that this
     // simple solution is most appropriate since i18n + a11y overlap is not a funded project at this time.
-    const valueDescription = StringUtils.capitalize( ConcentrationDescriber.getConcentrationDescription( value ) );
+    if ( capitalize ) {
+      valueDescription = StringUtils.capitalize( valueDescription );
+    }
 
     const patternString = includeInAtmosphere ? greenhouseGasesInAtmospherePatternString : greenhouseGasesValuePatternString;
     return StringUtils.fillIn( patternString, {

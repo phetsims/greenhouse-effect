@@ -103,7 +103,7 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     let concentrationDescription;
 
     if ( controlMode === ConcentrationControlMode.BY_VALUE ) {
-      concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration );
+      concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionWithValue( concentration, true );
     }
     else {
       concentrationDescription = ConcentrationDescriber.getConcentrationDescriptionForDate( date );
