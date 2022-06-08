@@ -184,7 +184,9 @@ type StringsType = {
         'playAreaDescription': string;
         'controlAreaDescription': string;
         'currently': string;
+        'currentlySimIsPaused': string;
         'currentlyNoSunlight': string;
+        'currentlySimIsPausedNoSunlight': string;
         'greenhouseGasesInAtmospherePattern': string;
         'greenhouseGasesValuePattern': string;
         'timePeriodPattern': string;

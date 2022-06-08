@@ -407,8 +407,14 @@
         "currently": {
           "value": "Currently,"
         },
+        "currentlySimIsPaused": {
+          "value": "Currently, sim is paused."
+        },
         "currentlyNoSunlight": {
           "value": "Currently, no sunlight in observation window;"
+        },
+        "currentlySimIsPausedNoSunlight": {
+          "value": "Currently, sim is paused. No sunlight in observation window;"
         },
         "greenhouseGasesInAtmospherePattern": {
           "value": "{{valueDescription}} greenhouse gases in atmosphere."

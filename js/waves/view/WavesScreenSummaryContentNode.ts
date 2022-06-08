@@ -18,7 +18,9 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
+const currentlySimIsPausedString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPaused;
 const currentlyNoSunlightString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
+const currentlySimIsPausedNoSunlight = greenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlight;
 
 const summaryWithTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
 const summaryWithoutTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
@@ -54,6 +56,7 @@ class WavesScreenSummaryContentNode extends Node {
 
     Multilink.multilink( [
         model.sunEnergySource.isShiningProperty,
+        model.isPlayingProperty,
         model.concentrationProperty,
         model.dateProperty,
         model.surfaceTemperatureKelvinProperty,
@@ -65,6 +68,7 @@ class WavesScreenSummaryContentNode extends Node {
       ],
       (
         sunIsShining,
+        isPlaying,
         concentration,
         date,
         surfaceTemperatureKelvin,
@@ -76,6 +80,7 @@ class WavesScreenSummaryContentNode extends Node {
       ) => {
         simStateDescriptionNode.innerContent = this.getScreenDescriptionString(
           sunIsShining,
+          isPlaying,
           concentration,
           date,
           surfaceTemperatureKelvin,
@@ -96,6 +101,7 @@ class WavesScreenSummaryContentNode extends Node {
    * Celsius. The sky is cloudy.
    */
   getScreenDescriptionString( sunIsShining: boolean,
+                              isPlaying: boolean,
                               concentration: number,
                               date: ConcentrationDate,
                               surfaceTemperatureKelvin: number,
@@ -108,8 +114,12 @@ class WavesScreenSummaryContentNode extends Node {
     // the final description
     let descriptionString = '';
 
-    // the leading portion of the summary may include an extra hint that sunlight isn't shining yet
-    const currentlyDescriptionString = sunIsShining ? currentlyString : currentlyNoSunlightString;
+    // the leading portion of the summary may include an extra hint that sunlight isn't shining yet or that
+    // the sim is paused
+    const currentlyDescriptionString = ( sunIsShining && isPlaying ) ? currentlyString :
+                                       ( sunIsShining && !isPlaying ) ? currentlySimIsPausedString :
+                                       ( !sunIsShining && isPlaying ) ? currentlyNoSunlightString :
+                                       currentlySimIsPausedNoSunlight;
 
     // portion that describes the state of the sky
     const skyDescriptionString = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
