@@ -154,6 +154,11 @@ class GasConcentrationAlerter extends Alerter {
       this.alert( concentrationChangeUtterance );
     } );
 
+    // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused.
+    model.sunEnergySource.isShiningProperty.lazyLink( isShining => {
+      this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
+    } );
+
     // When the control mode changes, include a description of the new concentration levels and that
     // the system is stabilizing (indicating that it left equilibrium and concentration changed). If
     // controlling by date, describe the scene in the observation window.

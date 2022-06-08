@@ -540,6 +540,12 @@
     "startSunlightButtonHelpText": {
       "value": "Start sunlight to begin observations."
     },
+    "sunlightStarted": {
+      "value": "Sunlight started."
+    },
+    "sunlightStartedSimPaused": {
+      "value": "Sunlight started, sim paused."
+    },
     "cloudCheckboxHelpText": {
       "value": "Experiment with cloudy sky."
     },
@@ -959,7 +965,7 @@
     },
     "timeControls": {
       "simPausedEmitterOnAlert": {
-        "value": "Sim paused. Step forward for detailed exploration."
+        "value": "Sim paused. Play to continue exploration."
       },
       "simPausedEmitterOffAlert": {
         "value": "Sim paused. Light source off."

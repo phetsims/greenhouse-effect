@@ -231,6 +231,8 @@ type StringsType = {
     'infraredEmissionIntensityWithRedirectionPattern': string;
     'startSunlightHint': string;
     'startSunlightButtonHelpText': string;
+    'sunlightStarted': string;
+    'sunlightStartedSimPaused': string;
     'cloudCheckboxHelpText': string;
     'surfaceTemperatureChangeWithValuePattern': string;
     'surfaceTemperatureChangeWithoutValuePattern': string;

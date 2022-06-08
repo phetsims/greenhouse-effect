@@ -16,6 +16,8 @@ import ConcentrationDescriber from './ConcentrationDescriber.js';
 
 const infraredEmissionIntensityPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityPattern;
 const infraredEmissionIntensityWithRedirectionPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPattern;
+const sunlightStartedString = greenhouseEffectStrings.a11y.sunlightStarted;
+const sunlightStartedSimPausedString = greenhouseEffectStrings.a11y.sunlightStartedSimPaused;
 
 class RadiationDescriber {
   private readonly model: LayersModel;
@@ -152,6 +154,18 @@ class RadiationDescriber {
     }
 
     return descriptionString;
+  }
+
+  /**
+   * A description that describes when the sunlight starts in the simulation, with an extra hint
+   * when the sim is paused to describe that nothing will happen until animation starts. Returns
+   * something like
+   *
+   * "Sunlight started." or
+   * "Sunlight started, sim paused."
+   */
+  public static getSunlightStartedDescription( isPlaying: boolean ): string {
+    return isPlaying ? sunlightStartedString : sunlightStartedSimPausedString;
   }
 }
 
