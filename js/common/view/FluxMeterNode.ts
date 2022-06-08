@@ -45,10 +45,10 @@ class FluxMeterNode extends Node {
    * @param tandem
    */
   public constructor( model: FluxMeter,
-               visibleProperty: Property<boolean>,
-               modelViewTransform: ModelViewTransform2,
-               observationWindowViewBounds: Bounds2,
-               tandem: Tandem ) {
+                      visibleProperty: Property<boolean>,
+                      modelViewTransform: ModelViewTransform2,
+                      observationWindowViewBounds: Bounds2,
+                      tandem: Tandem ) {
 
     super();
 
@@ -75,16 +75,26 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    const sunlightDisplayArrow = new EnergyFluxDisplayArrow( model.sunlightInProperty, model.sunlightOutProperty, sunlightString, {
-      arrowNodeOptions: {
-        fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
+    const sunlightDisplayArrow = new EnergyFluxDisplayArrow(
+      model.sunlightInProperty,
+      model.sunlightOutProperty,
+      sunlightString,
+      {
+        arrowNodeOptions: {
+          fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
+        }
       }
-    } );
-    const infraredDisplayArrow = new EnergyFluxDisplayArrow( model.infraredInProperty, model.infraredOutProperty, infraredString, {
-      arrowNodeOptions: {
-        fill: GreenhouseEffectConstants.INFRARED_COLOR
+    );
+    const infraredDisplayArrow = new EnergyFluxDisplayArrow(
+      model.infraredInProperty,
+      model.infraredOutProperty,
+      infraredString,
+      {
+        arrowNodeOptions: {
+          fill: GreenhouseEffectConstants.INFRARED_COLOR
+        }
       }
-    } );
+    );
 
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
@@ -151,9 +161,9 @@ type EnergyFluxDisplayArrowOptions = {
  */
 class EnergyFluxDisplayArrow extends Node {
   public constructor( energyInProperty: Property<number>,
-               energyOutProperty: Property<number>,
-               labelString: string,
-               providedOptions: EnergyFluxDisplayArrowOptions ) {
+                      energyOutProperty: Property<number>,
+                      labelString: string,
+                      providedOptions: EnergyFluxDisplayArrowOptions ) {
 
     const options = <EnergyFluxDisplayArrowOptions>merge( {
       height: 385,

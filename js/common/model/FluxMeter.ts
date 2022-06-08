@@ -40,7 +40,7 @@ class FluxMeter {
     this.sensorBounds = new Bounds2( 0, 0, 20000, 3500 );
 
     // the center of the flux sensor in model coordinates (meters)
-    this.sensorPositionProperty = new Vector2Property( new Vector2( 0, 30000 ), {
+    this.sensorPositionProperty = new Vector2Property( new Vector2( 0, 20000 ), {
       tandem: tandem.createTandem( 'sensorPositionProperty' )
     } );
 
