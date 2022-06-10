@@ -103,7 +103,7 @@ class FluxMeterNode extends Node {
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
 
-    const fluxSensorWidth = -modelViewTransform.modelToViewDeltaY( model.fluxSensor.width );
+    const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( model.fluxSensor.width );
     const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
