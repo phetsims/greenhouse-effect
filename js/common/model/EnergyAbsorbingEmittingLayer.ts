@@ -8,18 +8,17 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
-import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumThreshold; // in Watts per square meter, empirically determined
@@ -57,7 +56,7 @@ class Substance extends EnumerationValue {
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.
 // The layer is modeled as a 1-meter wide strip that spans the width of the simulated sunlight.  Picture it like a
 // sidewalk.  The dimensions are in meters.
-const SURFACE_DIMENSIONS = new Dimension2( GreenhouseEffectConstants.SUNLIGHT_SPAN, 1 );
+const SURFACE_DIMENSIONS = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const SURFACE_AREA = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height;
 
 // The thickness of the layer is primarily used in volume calculations which are then used in the specific heat formula.

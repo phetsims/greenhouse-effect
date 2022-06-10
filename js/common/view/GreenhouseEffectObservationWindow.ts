@@ -98,7 +98,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // Check that the aspect ratio of the model will work when mapped into this window.
     assert && assert(
-      Math.abs( aboveGroundAspectRatio - ( LayersModel.SUNLIGHT_SPAN / LayersModel.HEIGHT_OF_ATMOSPHERE ) ) < 0.1,
+      Math.abs( aboveGroundAspectRatio - ( LayersModel.SUNLIGHT_SPAN.width / LayersModel.HEIGHT_OF_ATMOSPHERE ) ) < 0.1,
       'the aspect ratio of the observation window doesn\'t match that of the model'
     );
 

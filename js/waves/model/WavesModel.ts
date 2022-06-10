@@ -53,7 +53,7 @@ const CLOUD_WIDTH = 18000; // in meters, empirically determined to look good
 // up by 10%.  Note that this DOESN'T mean that we can just use 0.1 as the total target reflectance, because when it is
 // on it reduces the amount of light reaching the ground, so the calculation is more complex than that.  The following
 // calculation assumes that the ground with no clouds reflects 20% of incident light.
-const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * GreenhouseEffectConstants.SUNLIGHT_SPAN / CLOUD_WIDTH;
+const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * LayersModel.SUNLIGHT_SPAN.width / CLOUD_WIDTH;
 assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}` );
 
 class WavesModel extends ConcentrationModel {
@@ -158,19 +158,19 @@ class WavesModel extends ConcentrationModel {
         // leftmost interaction area
         [
           this.atmosphereLayers[ 4 ],
-          new Range( -LayersModel.SUNLIGHT_SPAN / 2, -LayersModel.SUNLIGHT_SPAN / 4 )
+          new Range( -LayersModel.SUNLIGHT_SPAN.width / 2, -LayersModel.SUNLIGHT_SPAN.width / 4 )
         ],
 
         // central interaction area
         [
           this.atmosphereLayers[ 6 ],
-          new Range( -LayersModel.SUNLIGHT_SPAN / 4, LayersModel.SUNLIGHT_SPAN / 4 )
+          new Range( -LayersModel.SUNLIGHT_SPAN.width / 4, LayersModel.SUNLIGHT_SPAN.width / 4 )
         ],
 
         // rightmost interaction area
         [
           this.atmosphereLayers[ 3 ],
-          new Range( LayersModel.SUNLIGHT_SPAN * 0.25, LayersModel.SUNLIGHT_SPAN )
+          new Range( LayersModel.SUNLIGHT_SPAN.width * 0.25, LayersModel.SUNLIGHT_SPAN.width )
         ]
       ]
     );

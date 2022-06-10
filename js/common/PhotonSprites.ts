@@ -22,14 +22,14 @@ import visiblePhoton_png from '../../images/visiblePhoton_png.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhotonCollection from './model/PhotonCollection.js';
 import { ShowState } from './model/Photon.js';
-import GreenhouseEffectConstants from './GreenhouseEffectConstants.js';
 import Range from '../../../dot/js/Range.js';
+import LayersModel from './model/LayersModel.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design
 const HORIZONTAL_RENDERING_SPAN = new Range(
-  -GreenhouseEffectConstants.SUNLIGHT_SPAN / 2,
-  GreenhouseEffectConstants.SUNLIGHT_SPAN / 2
+  -LayersModel.SUNLIGHT_SPAN.width / 2,
+  LayersModel.SUNLIGHT_SPAN.width / 2
 );
 
 class PhotonSprites extends Sprites {

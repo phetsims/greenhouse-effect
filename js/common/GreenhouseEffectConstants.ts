@@ -6,6 +6,7 @@
  * @author John Blanco
  */
 
+import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Color } from '../../../scenery/js/imports.js';
@@ -34,8 +35,9 @@ const GreenhouseEffectConstants = {
   // font used to label supplementary content
   CONTENT_FONT: new PhetFont( { size: 12 } ),
 
-  // horizontal span of the sunlight modeled in the first three screens, in meters
-  SUNLIGHT_SPAN: 85000,
+  // The 2D span of the sunlight, width and depth, modeled in the first three screens.  Units are meters.  Think of this
+  // like a sidewalk that extends from one side of the model to the other.
+  SUNLIGHT_SPAN: new Dimension2( 85000, 1 ),
 
   // wavelengths of light used, in meters
   VISIBLE_WAVELENGTH: 500E-9,

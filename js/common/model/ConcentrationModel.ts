@@ -178,7 +178,6 @@ class ConcentrationModel extends LayersModel {
 
 export { ConcentrationControlMode };
 export { ConcentrationDate };
-export { LayersModel };
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export default ConcentrationModel;

@@ -19,12 +19,12 @@ import { Shape } from '../../../../kite/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import LayersModel from './LayersModel.js';
 
 type ReflectivityValues = {
 
@@ -76,7 +76,7 @@ class Cloud extends PhetioObject {
     };
 
     // parameter checking
-    assert && assert( width <= GreenhouseEffectConstants.SUNLIGHT_SPAN, 'cloud can\'t exceed the sunlight span' );
+    assert && assert( width <= LayersModel.SUNLIGHT_SPAN.width, 'cloud can\'t exceed the sunlight span' );
 
     // position in model space of the center of this cloud
     this.position = position;
@@ -101,7 +101,7 @@ class Cloud extends PhetioObject {
 
     if ( this.enabledProperty.value ) {
 
-      const sunlightSpanProportion = this.width / GreenhouseEffectConstants.SUNLIGHT_SPAN;
+      const sunlightSpanWidthProportion = this.width / LayersModel.SUNLIGHT_SPAN.width;
 
       emEnergyPackets.forEach( emEnergyPacket => {
 
@@ -115,13 +115,13 @@ class Cloud extends PhetioObject {
           const reflectivity = emEnergyPacket.isVisible ?
                                this.reflectivityValues.topVisibleLightReflectivity :
                                this.reflectivityValues.topInfraredLightReflectivity;
-          reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanProportion;
+          reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanWidthProportion;
         }
         else if ( emEnergyPacket.previousAltitude < altitude && emEnergyPacket.altitude >= altitude ) {
           const reflectivity = emEnergyPacket.isVisible ?
                                this.reflectivityValues.bottomVisibleLightReflectivity :
                                this.reflectivityValues.bottomInfraredLightReflectivity;
-          reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanProportion;
+          reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanWidthProportion;
         }
 
         if ( reflectedEnergy > 0 ) {

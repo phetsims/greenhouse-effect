@@ -5,6 +5,7 @@
  * of the sensor. All Property values are in model coordinates.
  *
  * @author Jesse Greenberg
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -13,9 +14,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -31,8 +31,8 @@ type FluxMeterOptions = SelfOptions & PhetioObjectOptions;
 
 // constants
 const FLUX_SENSOR_SIZE = new Dimension2(
-  GreenhouseEffectConstants.SUNLIGHT_SPAN * 0.2,
-  EnergyAbsorbingEmittingLayer.WIDTH
+  GreenhouseEffectConstants.SUNLIGHT_SPAN.width * 0.2,
+  GreenhouseEffectConstants.SUNLIGHT_SPAN.height
 );
 
 // TODO: Questions: How do I require a tandem these days?  How to I prevent a tandem for a model element that is
@@ -57,7 +57,11 @@ class FluxMeter extends PhetioObject {
         // The initial position for the flux sensor, empirically determined to be near the center of the simulated
         // atmosphere and to not initially overlap with anything important in the view.
         initialPosition: new Vector2( 0, LayersModel.HEIGHT_OF_ATMOSPHERE * 0.3 )
-      }
+      },
+
+      // temporarily marking phet-io state to be false until serialization is added
+      phetioState: false
+
     }, providedOptions );
 
     super( options );
@@ -78,7 +82,7 @@ class FluxMeter extends PhetioObject {
     this.wireSensorAttachmentPositionProperty = new DerivedProperty(
       [ this.fluxSensor.positionProperty ],
       sensorPosition => {
-        return sensorPosition.plusXY( this.fluxSensor.width / 2, 0 );
+        return sensorPosition.plusXY( this.fluxSensor.size.width / 2, 0 );
       },
       {
         tandem: options.tandem.createTandem( 'wireSensorAttachmentPositionProperty' ),

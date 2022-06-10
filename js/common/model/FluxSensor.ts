@@ -16,13 +16,12 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import stepTimer from '../../../../axon/js/stepTimer.js';
 import EnergyDirection from './EnergyDirection.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import LayersModel from './LayersModel.js';
 
 // types
 type SelfOptions = {
@@ -30,19 +29,21 @@ type SelfOptions = {
 }
 export type FluxSensorOptions = SelfOptions & PhetioObjectOptions;
 
+// TODO: How do I require a tandem nowadays?
+
 // constants
 const DEFAULT_INITIAL_POSITION = Vector2.ZERO;
 
 class FluxSensor extends PhetioObject {
 
   // sensor width, in meters
-  public readonly width: number;
+  public readonly size: Dimension2;
 
   // The position in the atmosphere where this sensor exists.
   public readonly positionProperty: Property<Vector2>;
 
   // energy rate trackers for the various directions and light frequencies
-  public readonly sunlightDownEnergyRateTracker = new EnergyRateTracker();
+  public readonly sunlightDownEnergyRateTracker: EnergyRateTracker;
 
 
   // The proportion of the energy to be absorbed from the energy packets.  This is based on the size of the flux sensor
@@ -58,16 +59,20 @@ class FluxSensor extends PhetioObject {
   public constructor( size: Dimension2, providedOptions: FluxSensorOptions ) {
 
     // parameter checking
-    assert && assert( size.width <= GreenhouseEffectConstants.SUNLIGHT_SPAN, 'width to too large' );
-    assert && assert( size.height <= EnergyAbsorbingEmittingLayer.WIDTH, 'height to too large' );
+    assert && assert( size.width <= LayersModel.SUNLIGHT_SPAN.width, 'width to too large' );
+    assert && assert( size.height <= LayersModel.SUNLIGHT_SPAN.height, 'height to too large' );
 
     const options = optionize<FluxSensorOptions, SelfOptions, PhetioObjectOptions>()( {
-      initialPosition: DEFAULT_INITIAL_POSITION
+      initialPosition: DEFAULT_INITIAL_POSITION,
+
+      // temporarily marking phet-io state to be false until serialization is added
+      phetioState: false
+
     }, providedOptions );
 
     super( options );
 
-    this.width = size.width;
+    this.size = size;
 
     this.positionProperty = new Vector2Property( options.initialPosition, {
       tandem: options.tandem.createTandem( 'positionProperty' ),
@@ -75,9 +80,13 @@ class FluxSensor extends PhetioObject {
       phetioDocumentation: 'The 2D position of the flux sensor within the atmosphere.'
     } );
 
+    this.sunlightDownEnergyRateTracker = new EnergyRateTracker( {
+      tandem: options.tandem?.createTandem( 'sunlightDownEnergyRateTracker' )
+    } );
+
     // Calculate the proportion of energy to absorb based on the sensor size.
     this.proportionOfEnergyToAbsorb = ( size.width * size.height ) /
-                                      ( GreenhouseEffectConstants.SUNLIGHT_SPAN * EnergyAbsorbingEmittingLayer.WIDTH );
+                                      ( LayersModel.SUNLIGHT_SPAN.width * LayersModel.SUNLIGHT_SPAN.height );
 
     // TODO: This is temporary debugging code, and shouldn't be here long.  @jbphet, June 10 2022.
     let timeAccumulator = 0;

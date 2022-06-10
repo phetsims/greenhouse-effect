@@ -47,15 +47,15 @@ class SunWaveSource extends EMWaveSource {
 
         // leftmost waves
         new WaveSourceSpec(
-          -LayersModel.SUNLIGHT_SPAN * 0.23,
-          -LayersModel.SUNLIGHT_SPAN * 0.15,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.23,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.15,
           GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
         ),
 
         // rightmost waves
         new WaveSourceSpec(
-          LayersModel.SUNLIGHT_SPAN * 0.20,
-          LayersModel.SUNLIGHT_SPAN * 0.25,
+          LayersModel.SUNLIGHT_SPAN.width * 0.20,
+          LayersModel.SUNLIGHT_SPAN.width * 0.25,
           GreenhouseEffectConstants.STRAIGHT_DOWN_NORMALIZED_VECTOR
         )
       ],

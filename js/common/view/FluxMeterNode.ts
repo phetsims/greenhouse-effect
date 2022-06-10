@@ -6,6 +6,7 @@
  * in a panel with large arrows.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -25,6 +26,7 @@ import Property from '../../../../axon/js/Property.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import SunEnergySource from '../model/SunEnergySource.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -39,7 +41,7 @@ const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const SENSOR_VIEW_HEIGHT = 30;
 
 class FluxMeterNode extends Node {
-  readonly fluxPanel: Panel;
+  public readonly fluxPanel: Panel;
 
   /**
    * @param model - model component for the FluxMeter
@@ -79,10 +81,16 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
+    // Calculate the maximum expected flux based on the size of the sensor and some other attributes of the model.  This
+    // was empirically determined and may need to adjust if the model changes.
+    const maxExpectedFlux = SunEnergySource.OUTPUT_ENERGY_RATE * 2.2 *
+                            model.fluxSensor.size.width * model.fluxSensor.size.height;
+
     const sunlightDisplayArrow = new EnergyFluxDisplayArrow(
       model.fluxSensor.sunlightDownEnergyRateTracker.energyRateProperty,
       model.sunlightOutProperty,
       sunlightString,
+      maxExpectedFlux,
       {
         arrowNodeOptions: {
           fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
@@ -93,6 +101,7 @@ class FluxMeterNode extends Node {
       model.infraredInProperty,
       model.infraredOutProperty,
       infraredString,
+      maxExpectedFlux,
       {
         arrowNodeOptions: {
           fill: GreenhouseEffectConstants.INFRARED_COLOR
@@ -103,7 +112,7 @@ class FluxMeterNode extends Node {
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
 
-    const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( model.fluxSensor.width );
+    const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( model.fluxSensor.size.width );
     const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
@@ -169,6 +178,7 @@ class EnergyFluxDisplayArrow extends Node {
   public constructor( energyInProperty: Property<number>,
                       energyOutProperty: Property<number>,
                       labelString: string,
+                      maxExpectedFlux: number,
                       providedOptions: EnergyFluxDisplayArrowOptions ) {
 
     const options = <EnergyFluxDisplayArrowOptions>merge( {
@@ -211,7 +221,13 @@ class EnergyFluxDisplayArrow extends Node {
     boundsRectangle.addChild( outArrow );
 
     // a linear function that maps the number of photons going through the flux meter per second
-    const heightFunction = new LinearFunction( -12000000, 12000000, -options.height / 2, options.height / 2, true );
+    const heightFunction = new LinearFunction(
+      -maxExpectedFlux,
+      maxExpectedFlux,
+      -options.height / 2,
+      options.height / 2,
+      true
+    );
 
     // redraw arrows when the flux Properties change
     energyInProperty.link( energyIn => {

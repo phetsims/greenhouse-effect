@@ -11,27 +11,27 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import merge from '../../../../phet-core/js/merge.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
+import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
+import FluxMeter from './FluxMeter.js';
 import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Cloud from './Cloud.js';
-import merge from '../../../../phet-core/js/merge.js';
-import FluxMeter from './FluxMeter.js';
 import TemperatureUnits from './TemperatureUnits.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -348,8 +348,8 @@ class LayersModel extends GreenhouseEffectModel {
   }
 
   // statics
-  public static readonly HEIGHT_OF_ATMOSPHERE: number = HEIGHT_OF_ATMOSPHERE;
-  public static readonly SUNLIGHT_SPAN: number = SUNLIGHT_SPAN;
+  public static readonly HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
+  public static readonly SUNLIGHT_SPAN = SUNLIGHT_SPAN;
   public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**

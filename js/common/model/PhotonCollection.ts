@@ -128,7 +128,7 @@ class PhotonCollection extends PhetioObject {
       while ( this.photonCreationCountdown <= 0 ) {
         this.photons.push( new Photon(
           new Vector2(
-            -LayersModel.SUNLIGHT_SPAN / 2 + dotRandom.nextDouble() * LayersModel.SUNLIGHT_SPAN,
+            -LayersModel.SUNLIGHT_SPAN.width / 2 + dotRandom.nextDouble() * LayersModel.SUNLIGHT_SPAN.width,
             LayersModel.HEIGHT_OF_ATMOSPHERE
           ),
           Photon.VISIBLE_WAVELENGTH,
@@ -235,7 +235,7 @@ class PhotonCollection extends PhetioObject {
         // Add an IR photon that is radiating from the ground.
         photonsToAdd.push( new Photon(
           new Vector2(
-            dotRandom.nextDoubleBetween( -GreenhouseEffectConstants.SUNLIGHT_SPAN / 2, GreenhouseEffectConstants.SUNLIGHT_SPAN / 2 ),
+            dotRandom.nextDoubleBetween( -LayersModel.SUNLIGHT_SPAN.width / 2, LayersModel.SUNLIGHT_SPAN.width / 2 ),
             0
           ),
           Photon.IR_WAVELENGTH,

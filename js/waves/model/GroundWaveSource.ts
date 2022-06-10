@@ -63,22 +63,22 @@ class GroundWaveSource extends EMWaveSource {
 
         // leftmost waves
         new WaveSourceSpec(
-          -LayersModel.SUNLIGHT_SPAN * 0.32,
-          -LayersModel.SUNLIGHT_SPAN * 0.27,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.32,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.27,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.08 )
         ),
 
         // center-ish waves
         new WaveSourceSpec(
-          -LayersModel.SUNLIGHT_SPAN * 0.1,
-          -LayersModel.SUNLIGHT_SPAN * 0.05,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.1,
+          -LayersModel.SUNLIGHT_SPAN.width * 0.05,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 )
         ),
 
         // rightmost waves
         new WaveSourceSpec(
-          LayersModel.SUNLIGHT_SPAN * 0.46,
-          LayersModel.SUNLIGHT_SPAN * 0.49,
+          LayersModel.SUNLIGHT_SPAN.width * 0.46,
+          LayersModel.SUNLIGHT_SPAN.width * 0.49,
           GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.075 )
         )
       ],
