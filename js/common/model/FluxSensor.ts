@@ -10,17 +10,16 @@
  * @author John Blanco
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EnergyRateTracker from './EnergyRateTracker.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import stepTimer from '../../../../axon/js/stepTimer.js';
-import EnergyDirection from './EnergyDirection.js';
 import Property from '../../../../axon/js/Property.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
+import EnergyDirection from './EnergyDirection.js';
+import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
 
 // types
@@ -87,16 +86,6 @@ class FluxSensor extends PhetioObject {
     // Calculate the proportion of energy to absorb based on the sensor size.
     this.proportionOfEnergyToAbsorb = ( size.width * size.height ) /
                                       ( LayersModel.SUNLIGHT_SPAN.width * LayersModel.SUNLIGHT_SPAN.height );
-
-    // TODO: This is temporary debugging code, and shouldn't be here long.  @jbphet, June 10 2022.
-    let timeAccumulator = 0;
-    stepTimer.addListener( dt => {
-      timeAccumulator += dt;
-      if ( timeAccumulator > 1 ) {
-        console.log( `sunlightDownEnergyRateTracker.energyRateProperty.value = ${this.sunlightDownEnergyRateTracker.energyRateProperty.value}` );
-        timeAccumulator = 0;
-      }
-    } );
   }
 
   /**

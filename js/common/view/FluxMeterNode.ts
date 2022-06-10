@@ -10,22 +10,24 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import merge from '../../../../phet-core/js/merge.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { Color, DragListener, HBox, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import FluxMeter from '../model/FluxMeter.js';
-import Property from '../../../../axon/js/Property.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import LayersModel from '../model/LayersModel.js';
 import SunEnergySource from '../model/SunEnergySource.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
@@ -132,20 +134,21 @@ class FluxMeterNode extends Node {
     // the offset position for the drag pickup, so that the translation doesn't snap to the cursor position
     let startOffset: Vector2 = Vector2.ZERO;
 
-    // the sensor is constrained to the bounds of the observation window - the center is allowed to reach y=0, but
-    // the top of the sensor cannot leave the observation window
-    const dragViewBounds = observationWindowViewBounds.withMinY( observationWindowViewBounds.minY + fluxSensorNode.height );
-
     fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
         startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( fluxSensorNode.center );
       },
       drag: ( event: SceneryEvent ) => {
         const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
-        const constrainedViewPoint = dragViewBounds.closestPointTo( viewPoint );
 
-        // do not let the sensor go below ground (y=0)
-        const modelY = Math.max( 0, modelViewTransform.viewToModelY( constrainedViewPoint.y ) );
+        // Constrain the Y position to the top of the atmosphere or a little above the ground.
+        const modelY = Utils.clamp(
+          modelViewTransform.viewToModelY( viewPoint.y ),
+          500,
+          LayersModel.HEIGHT_OF_ATMOSPHERE
+        );
+
+        // Only allow dragging in the Y direction and not the X direction.
         model.fluxSensor.positionProperty.value = new Vector2( 0, modelY );
       },
       useInputListenerCursor: true,
