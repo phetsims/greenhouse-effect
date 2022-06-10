@@ -22,6 +22,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import LayersModel from './LayersModel.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 
 // types
 type SelfOptions = {
@@ -101,6 +102,13 @@ class FluxMeter extends PhetioObject {
    */
   public reset(): void {
     this.fluxSensor.reset();
+  }
+
+  /**
+   * This method is a pass-through to the sensor, see the documentation there for details.
+   */
+  public measureEnergyPacketFlux( energyPackets: EMEnergyPacket[], dt: number ): void {
+    this.fluxSensor.measureEnergyPacketFlux( energyPackets, dt );
   }
 }
 

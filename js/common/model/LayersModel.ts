@@ -230,6 +230,11 @@ class LayersModel extends GreenhouseEffectModel {
       } );
       this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
+      // If the flux meter is present, have it measure the flux.
+      if ( this.fluxMeter ){
+        this.fluxMeter.measureEnergyPacketFlux( this.emEnergyPackets, MODEL_TIME_STEP );
+      }
+
       // Adjust remaining time for stepping the model.
       this.modelSteppingTime -= MODEL_TIME_STEP;
     }
