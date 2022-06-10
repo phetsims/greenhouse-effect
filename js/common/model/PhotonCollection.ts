@@ -52,9 +52,9 @@ class PhotonCollection extends PhetioObject {
   private infraredPhotonCreationCount: number;
 
   public constructor( sunEnergySource: SunEnergySource,
-               groundLayer: GroundLayer,
-               atmosphereLayers: AtmosphereLayer[],
-               providedOptions?: PhotonCollectionOptions ) {
+                      groundLayer: GroundLayer,
+                      atmosphereLayers: AtmosphereLayer[],
+                      providedOptions?: PhotonCollectionOptions ) {
 
     const options = merge( {
 

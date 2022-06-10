@@ -26,10 +26,10 @@ class SunWaveSource extends EMWaveSource {
    * @param [options]
    */
   public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
-               waveProductionEnabledProperty: Property<boolean>,
-               waveStartAltitude: number,
-               waveEndAltitude: number,
-               options?: Partial<EMWaveSourceOptions> ) {
+                      waveProductionEnabledProperty: Property<boolean>,
+                      waveStartAltitude: number,
+                      waveEndAltitude: number,
+                      options?: Partial<EMWaveSourceOptions> ) {
 
     options = merge( {
 

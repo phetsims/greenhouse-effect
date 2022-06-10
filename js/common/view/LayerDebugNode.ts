@@ -34,8 +34,8 @@ class LayerDebugNode extends Node {
    * @param [options]
    */
   public constructor( layerModel: EnergyAbsorbingEmittingLayer,
-               modelViewTransform: ModelViewTransform2,
-               options: LayerDebugNodeOptions ) {
+                      modelViewTransform: ModelViewTransform2,
+                      options: LayerDebugNodeOptions ) {
 
     options = merge(
       {

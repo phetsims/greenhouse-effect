@@ -33,6 +33,7 @@ import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import FluxMeterNode from './FluxMeterNode.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -341,6 +342,29 @@ class GreenhouseEffectObservationWindow extends Node {
     } );
 
     this.mutate( options );
+
+    // Add the flux meter node if it is present in the model.
+    if ( model.fluxMeter ) {
+
+      const fluxMeterNode = new FluxMeterNode(
+        model.fluxMeter,
+        model.fluxMeterVisibleProperty,
+        this.modelViewTransform,
+        this.windowFrame.bounds,
+        options.tandem.createTandem( 'fluxMeterNode' )
+      );
+      fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
+        GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+        -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+      );
+
+      // set the position of the wire to attach to the flux panel
+      model.fluxMeter.wireMeterAttachmentPositionProperty.set(
+        this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
+      );
+
+      this.foregroundLayer.addChild( fluxMeterNode );
+    }
 
     // Derived properties used for enabling the various flavors of sound generation for temperature.
     // TODO: These are used for prototyping different sound options and should be removed prior to publication, see

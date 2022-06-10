@@ -35,8 +35,8 @@ type AtmosphereLayerNodeOptions = {
 class AtmosphereLayerNode extends Node {
 
   public constructor( atmosphereLayer: AtmosphereLayer,
-               modelViewTransform: ModelViewTransform2,
-               options?: AtmosphereLayerNodeOptions ) {
+                      modelViewTransform: ModelViewTransform2,
+                      options?: AtmosphereLayerNodeOptions ) {
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
     const numberDisplayEnabledProperty = ( options && options.numberDisplayEnabledProperty ) ||

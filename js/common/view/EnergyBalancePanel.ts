@@ -44,10 +44,10 @@ class EnergyBalancePanel extends Panel {
    * @param [options]
    */
   public constructor( energyBalanceVisibleProperty: Property<boolean>,
-               netEnergyInProperty: Property<number>,
-               netEnergyOutProperty: Property<number>,
-               inRadiativeBalanceProperty: Property<boolean>,
-               options?: PanelOptions ) {
+                      netEnergyInProperty: Property<number>,
+                      netEnergyOutProperty: Property<number>,
+                      inRadiativeBalanceProperty: Property<boolean>,
+                      options?: PanelOptions ) {
 
     options = merge( {
 
@@ -119,8 +119,8 @@ class EnergyBalancePlot extends Node {
    * @param netEnergyProperty - Representing net energy of the system, read-only
    */
   public constructor( netEnergyInProperty: IReadOnlyProperty<number>,
-               netEnergyOutProperty: Property<number>,
-               netEnergyProperty: IReadOnlyProperty<number> ) {
+                      netEnergyOutProperty: Property<number>,
+                      netEnergyProperty: IReadOnlyProperty<number> ) {
     super();
 
     // position of each bar, in model coordinates

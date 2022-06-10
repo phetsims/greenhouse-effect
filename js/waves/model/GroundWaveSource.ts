@@ -27,10 +27,10 @@ const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is e
 class GroundWaveSource extends EMWaveSource {
 
   public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
-               waveStartAltitude: number,
-               waveEndAltitude: number,
-               groundTemperatureProperty: Property<number>,
-               options?: Partial<EMWaveSourceOptions> ) {
+                      waveStartAltitude: number,
+                      waveEndAltitude: number,
+                      groundTemperatureProperty: Property<number>,
+                      options?: Partial<EMWaveSourceOptions> ) {
 
     // derived Property that controls when IR waves can be produced
     const produceIRWavesProperty = new DerivedProperty(

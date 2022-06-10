@@ -21,9 +21,9 @@ const PLAYBACK_RATE_RANGE = new Range( 0.5, 1.5 );
 class TemperatureSoundGeneratorSpeed extends SoundGenerator {
 
   public constructor( temperatureProperty: Property<number>,
-               isSunShiningProperty: Property<boolean>,
-               expectedTemperatureRange: Range,
-               options: SoundGeneratorOptions ) {
+                      isSunShiningProperty: Property<boolean>,
+                      expectedTemperatureRange: Range,
+                      options: SoundGeneratorOptions ) {
 
     super( options );
 

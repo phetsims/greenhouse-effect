@@ -45,6 +45,9 @@ type LayersModelOptions = {
   numberOfAtmosphereLayers?: number;
   atmosphereLayersInitiallyActive?: boolean;
   initialAtmosphereLayerAbsorptionProportion?: number;
+
+  // whether a flux meter should be present in this model
+  fluxMeterPresent?: boolean;
 } & PhetioObjectOptions;
 
 class LayersModel extends GreenhouseEffectModel {
@@ -66,7 +69,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly clouds: Cloud[];
   public readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
-  public readonly fluxMeter: FluxMeter;
+  public readonly fluxMeter: FluxMeter | null;
 
   /**
    * @param [tandem]
@@ -78,7 +81,8 @@ class LayersModel extends GreenhouseEffectModel {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
       minimumGroundTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: 0,
-      atmosphereLayersInitiallyActive: true
+      atmosphereLayersInitiallyActive: true,
+      fluxMeterPresent: false
     }, providedOptions ) as Required<LayersModelOptions>;
 
     super( tandem, options );
@@ -143,8 +147,12 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     //  model component for the FluxMeter
-    // TODO: This isn't used in all screens, so we may want to make its creation optional.
-    this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
+    if ( options.fluxMeterPresent ) {
+      this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
+    }
+    else {
+      this.fluxMeter = null;
+    }
 
     // packets of electromagnetic energy that are moving around in the model
     this.emEnergyPackets = [];

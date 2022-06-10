@@ -59,10 +59,10 @@ class Wave extends PhetioObject {
    * @param [providedOptions]
    */
   public constructor( wavelength: number,
-               origin: Vector2,
-               propagationDirection: Vector2,
-               propagationLimit: number,
-               providedOptions: WaveOptions ) {
+                      origin: Vector2,
+                      propagationDirection: Vector2,
+                      propagationLimit: number,
+                      providedOptions: WaveOptions ) {
 
     const options = merge( {
 

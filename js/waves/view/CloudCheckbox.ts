@@ -30,8 +30,8 @@ const CLOUD_ICON_WIDTH = 40;
 
 class CloudCheckbox extends GreenhouseEffectCheckbox {
   public constructor( cloudEnabledProperty: Property<boolean>,
-               isShiningProperty: BooleanProperty,
-               providedOptions: CheckboxOptions ) {
+                      isShiningProperty: BooleanProperty,
+                      providedOptions: CheckboxOptions ) {
 
     // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
     // to height, so change with caution.

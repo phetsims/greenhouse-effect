@@ -36,8 +36,8 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
   private readonly surfaceAlbedoRange: Range;
 
   public constructor( surfaceAlbedoProperty: NumberProperty,
-               surfaceAlbedoRange: Range,
-               providedOptions?: SurfaceAlbedoSoundPlayerOptions ) {
+                      surfaceAlbedoRange: Range,
+                      providedOptions?: SurfaceAlbedoSoundPlayerOptions ) {
 
     super( providedOptions );
 

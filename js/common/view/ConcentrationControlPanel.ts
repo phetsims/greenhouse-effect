@@ -178,9 +178,9 @@ class DateControl extends Node {
    * @param tandem
    */
   public constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
-               concentrationProperty: IReadOnlyProperty<number>,
-               concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
-               tandem: Tandem ) {
+                      concentrationProperty: IReadOnlyProperty<number>,
+                      concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
+                      tandem: Tandem ) {
 
     super();
 

@@ -48,8 +48,8 @@ class PhotonAbsorbingEmittingLayer {
   public atLeastOnePhotonAbsorbedProperty: BooleanProperty;
 
   public constructor( photons: ObservableArray<Photon>,
-               atmosphereLayer: AtmosphereLayer,
-               providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
+                      atmosphereLayer: AtmosphereLayer,
+                      providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
 
     const options = merge( {
 

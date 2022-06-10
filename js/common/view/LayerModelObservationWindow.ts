@@ -9,7 +9,6 @@
 
 import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -92,26 +91,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
       groundBaseColorProperty.set( new Color( colorBaseValue, colorBaseValue, colorBaseValue ) );
     } );
-
-    // flux meter
-    const fluxMeterNode = new FluxMeterNode(
-      model.fluxMeter,
-      model.fluxMeterVisibleProperty,
-      this.modelViewTransform,
-      this.windowFrame.bounds,
-      options.tandem.createTandem( 'fluxMeterNode' )
-    );
-    fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
-
-    // set the position of the wire to attach to the flux panel
-    model.fluxMeter.wireMeterAttachmentPositionProperty.set(
-      this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
-    );
-
-    this.foregroundLayer.addChild( fluxMeterNode );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
     const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {

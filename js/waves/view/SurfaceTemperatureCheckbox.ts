@@ -36,7 +36,7 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
         temperatureKelvin,
         model.concentrationControlModeProperty.value,
         model.dateProperty.value
-        );
+      );
     } );
 
     super( greenhouseEffectStrings.showSurfaceTemperature, property, {

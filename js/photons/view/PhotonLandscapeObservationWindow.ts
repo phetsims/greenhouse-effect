@@ -14,8 +14,6 @@ import PhotonsModel from '../model/PhotonsModel.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
-import FluxMeterNode from '../../common/view/FluxMeterNode.js';
-import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -33,26 +31,6 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // Add the node that will render the photons.
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
-
-    // Add the flux meter.
-    const fluxMeterNode = new FluxMeterNode(
-      model.fluxMeter,
-      model.fluxMeterVisibleProperty,
-      this.modelViewTransform,
-      this.windowFrame.bounds,
-      options.tandem.createTandem( 'fluxMeterNode' )
-    );
-    fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
-
-    // set the position of the wire to attach to the flux panel
-    model.fluxMeter.wireMeterAttachmentPositionProperty.set(
-      this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
-    );
-
-    this.foregroundLayer.addChild( fluxMeterNode );
 
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );

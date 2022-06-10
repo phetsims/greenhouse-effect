@@ -106,12 +106,12 @@ class EMWaveSource extends PhetioObject {
    * @param [options]
    */
   public constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
-               waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
-               wavelength: number,
-               waveStartAltitude: number,
-               waveEndAltitude: number,
-               waveSourceSpecs: WaveSourceSpec[],
-               options?: Partial<EMWaveSourceOptions> ) {
+                      waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
+                      wavelength: number,
+                      waveStartAltitude: number,
+                      waveEndAltitude: number,
+                      waveSourceSpecs: WaveSourceSpec[],
+                      options?: Partial<EMWaveSourceOptions> ) {
 
     options = merge( {
 

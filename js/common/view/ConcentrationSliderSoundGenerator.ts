@@ -46,8 +46,8 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPl
   private readonly concentrationRange: Range;
 
   public constructor( concentrationProperty: IReadOnlyProperty<number>,
-               concentrationRange: Range,
-               options?: Partial<SoundGeneratorOptions> ) {
+                      concentrationRange: Range,
+                      options?: Partial<SoundGeneratorOptions> ) {
 
     super( options );
 

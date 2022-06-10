@@ -4,6 +4,9 @@
  * EnergyRateTracker uses a moving average calculation to track the amount of energy that is moving into or out of a
  * system.
  *
+ * This class has no `step` method, and is expected to be essentially stepped by consistent addition of energy amounts,
+ * even if those amounts are zero.
+ *
  * @author John Blanco (PhET Interactive Simulations)
  */
 
@@ -19,12 +22,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
-const DECIMAL_PLACES = 1; // used to round the output value so that there isn't too much "noise" due to floating point error and such
-
-type SelfOptions = {
-  accumulationPeriod?: number;
-};
-export type EnergyRateTrackerOptions = SelfOptions & PhetioObjectOptions;
+const DECIMAL_PLACES = 1; // used to round the output value so that there isn't too much "noise" due to floating point errors and such
 
 /**
  * Simple data type used for tracking energy within EnergyRateTracker.
@@ -52,10 +50,10 @@ class EnergyInfoQueueItem {
   public static EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
 }
 
-type EnergyInfoQueueItemStateObject = {
-  dt: number;
-  energy: number;
-}
+type SelfOptions = {
+  accumulationPeriod?: number;
+};
+export type EnergyRateTrackerOptions = SelfOptions & PhetioObjectOptions;
 
 class EnergyRateTracker extends PhetioObject {
 
@@ -147,6 +145,14 @@ class EnergyRateTracker extends PhetioObject {
   public static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
     defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
   } );
+}
+
+/**
+ * for phet-io
+ */
+type EnergyInfoQueueItemStateObject = {
+  dt: number;
+  energy: number;
 }
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );

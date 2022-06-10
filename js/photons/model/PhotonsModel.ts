@@ -26,7 +26,7 @@ class PhotonsModel extends ConcentrationModel {
   readonly photonCollection: PhotonCollection;
 
   public constructor( tandem: Tandem ) {
-    super( tandem );
+    super( tandem, { fluxMeterPresent: true } );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {

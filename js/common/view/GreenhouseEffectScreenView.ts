@@ -43,9 +43,9 @@ class GreenhouseEffectScreenView extends ScreenView {
    * @param [providedOptions]
    */
   public constructor( model: GreenhouseEffectModel,
-               observationWindow: GreenhouseEffectObservationWindow,
-               timeControlNode: TimeControlNode,
-               providedOptions: GreenhouseEffectScreenViewOptions ) {
+                      observationWindow: GreenhouseEffectObservationWindow,
+                      timeControlNode: TimeControlNode,
+                      providedOptions: GreenhouseEffectScreenViewOptions ) {
 
     const options: GreenhouseEffectScreenViewOptions = merge( {
 

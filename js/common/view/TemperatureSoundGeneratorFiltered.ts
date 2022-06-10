@@ -25,9 +25,9 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
   private readonly temperatureToFilterFrequency: LinearFunction;
 
   public constructor( temperatureProperty: Property<number>,
-               isSunShiningProperty: Property<boolean>,
-               expectedTemperatureRange: Range,
-               options: SoundGeneratorOptions ) {
+                      isSunShiningProperty: Property<boolean>,
+                      expectedTemperatureRange: Range,
+                      options: SoundGeneratorOptions ) {
 
     super( options );
 
