@@ -231,7 +231,7 @@ class LayersModel extends GreenhouseEffectModel {
       this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
       // If the flux meter is present, have it measure the flux.
-      if ( this.fluxMeter ){
+      if ( this.fluxMeter ) {
         this.fluxMeter.measureEnergyPacketFlux( this.emEnergyPackets, MODEL_TIME_STEP );
       }
 
@@ -311,7 +311,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.groundLayer.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => { atmosphereLayer.reset(); } );
     this.emEnergyPackets.length = 0;
-    if ( this.fluxMeter ){
+    if ( this.fluxMeter ) {
       this.fluxMeter.reset();
     }
   }

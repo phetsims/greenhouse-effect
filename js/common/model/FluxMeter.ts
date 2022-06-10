@@ -9,7 +9,6 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -41,7 +40,6 @@ const FLUX_SENSOR_SIZE = new Dimension2(
 //       something working, but I'm not sure it is what we currently consider to be idiomatic?
 
 class FluxMeter extends PhetioObject {
-  public readonly sunlightInProperty: NumberProperty;
   public readonly sunlightOutProperty: NumberProperty;
   public readonly infraredInProperty: NumberProperty;
   public readonly infraredOutProperty: NumberProperty;
@@ -67,7 +65,6 @@ class FluxMeter extends PhetioObject {
     // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the
     // sensor that will include its position, bounds, and calculate the flux of Photons in the model through the bounds
     // of the sensor to count values for these Properties per unit time.
-    this.sunlightInProperty = new NumberProperty( 70 );
     this.sunlightOutProperty = new NumberProperty( -20 );
     this.infraredInProperty = new NumberProperty( 40 );
     this.infraredOutProperty = new NumberProperty( -60 );

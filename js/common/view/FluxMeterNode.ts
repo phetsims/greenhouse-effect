@@ -80,7 +80,7 @@ class FluxMeterNode extends Node {
     } );
 
     const sunlightDisplayArrow = new EnergyFluxDisplayArrow(
-      model.sunlightInProperty,
+      model.fluxSensor.sunlightDownEnergyRateTracker.energyRateProperty,
       model.sunlightOutProperty,
       sunlightString,
       {
@@ -190,19 +190,19 @@ class EnergyFluxDisplayArrow extends Node {
     } );
     this.addChild( labelText );
 
-    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.4, options.height );
+    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.4, options.height, { fill: 'red' } );
     this.addChild( boundsRectangle );
 
     const inArrow = new ArrowNode(
       boundsRectangle.centerX,
-      boundsRectangle.centerY + 10,
+      boundsRectangle.centerY,
       boundsRectangle.centerX,
       boundsRectangle.centerY,
       options.arrowNodeOptions
     );
     const outArrow = new ArrowNode(
       boundsRectangle.centerX,
-      boundsRectangle.centerY - 10,
+      boundsRectangle.centerY,
       boundsRectangle.centerX,
       boundsRectangle.centerY,
       options.arrowNodeOptions
@@ -211,11 +211,11 @@ class EnergyFluxDisplayArrow extends Node {
     boundsRectangle.addChild( outArrow );
 
     // a linear function that maps the number of photons going through the flux meter per second
-    const heightFunction = new LinearFunction( -100, 100, -options.height / 2, options.height / 2, true );
+    const heightFunction = new LinearFunction( -12000000, 12000000, -options.height / 2, options.height / 2, true );
 
     // redraw arrows when the flux Properties change
     energyInProperty.link( energyIn => {
-      inArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyIn ) );
+      inArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyIn ) );
     } );
 
     energyOutProperty.link( energyOut => {
