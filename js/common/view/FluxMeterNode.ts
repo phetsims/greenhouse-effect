@@ -34,6 +34,10 @@ const METER_SPACING = 8; // spacing used in a few places for layout, in view coo
 const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 
+// The height of the sensor in the view.  This is needed because the sensor model doesn't have any y-dimension height,
+// so we use and arbitrary value that looks decent in the view.
+const SENSOR_VIEW_HEIGHT = 30;
+
 class FluxMeterNode extends Node {
   readonly fluxPanel: Panel;
 
@@ -99,12 +103,13 @@ class FluxMeterNode extends Node {
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
 
-    const fluxSensor = new Rectangle( modelViewTransform.modelToViewBounds( model.sensorBounds ), 10, 10, {
+    const fluxSensorWidth = -modelViewTransform.modelToViewDeltaY( model.fluxSensor.width );
+    const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
-      lineWidth: 5
+      lineWidth: 4
     } );
-    this.addChild( fluxSensor );
+    this.addChild( fluxSensorNode );
 
     // {Panel} - contains the display showing energy flux, public for positioning in the view
     this.fluxPanel = new Panel( content );
@@ -120,19 +125,19 @@ class FluxMeterNode extends Node {
 
     // the sensor is constrained to the bounds of the observation window - the center is allowed to reach y=0, but
     // the top of the sensor cannot leave the observation window
-    const dragViewBounds = observationWindowViewBounds.withMinY( observationWindowViewBounds.minY + fluxSensor.height );
+    const dragViewBounds = observationWindowViewBounds.withMinY( observationWindowViewBounds.minY + fluxSensorNode.height );
 
-    fluxSensor.addInputListener( new DragListener( {
+    fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
-        startOffset = fluxSensor.globalToParentPoint( event.pointer.point! ).subtract( fluxSensor.center );
+        startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( fluxSensorNode.center );
       },
       drag: ( event: SceneryEvent ) => {
-        const viewPoint = fluxSensor.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
+        const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
         const constrainedViewPoint = dragViewBounds.closestPointTo( viewPoint );
 
         // do not let the sensor go below ground (y=0)
         const modelY = Math.max( 0, modelViewTransform.viewToModelY( constrainedViewPoint.y ) );
-        model.sensorPositionProperty.value = new Vector2( 0, modelY );
+        model.fluxSensor.positionProperty.value = new Vector2( 0, modelY );
       },
       useInputListenerCursor: true,
 
@@ -140,8 +145,9 @@ class FluxMeterNode extends Node {
       tandem: tandem.createTandem( 'dragListener' )
     } ) );
 
-    model.sensorPositionProperty.link( sensorPosition => {
-      fluxSensor.center = modelViewTransform.modelToViewPosition( sensorPosition );
+    // never disposed, no need to unlink
+    model.fluxSensor.positionProperty.link( sensorPosition => {
+      fluxSensorNode.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
   }
 }

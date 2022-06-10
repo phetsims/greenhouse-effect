@@ -148,7 +148,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     //  model component for the FluxMeter
     if ( options.fluxMeterPresent ) {
-      this.fluxMeter = new FluxMeter( tandem.createTandem( 'fluxMeter' ) );
+      this.fluxMeter = new FluxMeter( { tandem: tandem.createTandem( 'fluxMeter' ) } );
     }
     else {
       this.fluxMeter = null;
@@ -298,6 +298,7 @@ class LayersModel extends GreenhouseEffectModel {
   public override reset(): void {
     super.reset();
 
+    this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.reset();
@@ -305,6 +306,9 @@ class LayersModel extends GreenhouseEffectModel {
     this.groundLayer.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => { atmosphereLayer.reset(); } );
     this.emEnergyPackets.length = 0;
+    if ( this.fluxMeter ){
+      this.fluxMeter.reset();
+    }
   }
 
   /**
