@@ -69,9 +69,9 @@ class FluxMeter extends PhetioObject {
     // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the
     // sensor that will include its position, bounds, and calculate the flux of Photons in the model through the bounds
     // of the sensor to count values for these Properties per unit time.
-    this.sunlightOutProperty = new NumberProperty( -20 );
-    this.infraredInProperty = new NumberProperty( 40 );
-    this.infraredOutProperty = new NumberProperty( -60 );
+    this.sunlightOutProperty = new NumberProperty( 0 );
+    this.infraredInProperty = new NumberProperty( 0 );
+    this.infraredOutProperty = new NumberProperty( 0 );
 
     // Create the flux sensor, which is the portion that actually senses and measures the flux.
     const fluxSensorOptions = options.fluxSensorOptions as FluxSensorOptions;

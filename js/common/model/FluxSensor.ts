@@ -94,25 +94,25 @@ class FluxSensor extends PhetioObject {
    */
   public measureEnergyPacketFlux( energyPackets: EMEnergyPacket[], dt: number ): void {
 
+    let totalSunEnergyCrossingDownward = 0;
+
     // Go through each energy packet and determine if it has moved through the sensor and, if so, measure it.
     energyPackets.forEach( energyPacket => {
-
-      // Throughout the code below, the amount of energy in each packet is scaled by a multiplier that was calculated
-      // during construction.  This multiplier represents the proportion of the 2D model size that is taken up by this
-      // sensor.  This is necessary because in the Greenhouse Effect model, all energy is modelled with altitude only,
-      // and no X position, so the multiplier is used to determine how much of that total energy is considered to be
-      // passing through the sensor.
-
       if ( this.energyPacketCrossedAltitude( energyPacket ) ) {
         if ( energyPacket.direction === EnergyDirection.DOWN && energyPacket.isVisible ) {
-
-          this.sunlightDownEnergyRateTracker.addEnergyInfo(
-            energyPacket.energy * this.proportionOfEnergyToAbsorb,
-            dt
-          );
+          totalSunEnergyCrossingDownward += energyPacket.energy;
         }
       }
     } );
+
+    // In the code below, the amount of energy that has crossed the flux sensor is scaled by a multiplier that was
+    // calculated during construction.  This multiplier represents the proportion of the 2D model size that is taken up
+    // by this sensor.  This is necessary because in the Greenhouse Effect model, all energy is modelled with altitude
+    // only, and no X position, so the multiplier is used to determine how much of that total energy is considered to
+    // have passed through the sensor.
+    this.sunlightDownEnergyRateTracker.addEnergyInfo(
+      totalSunEnergyCrossingDownward * this.proportionOfEnergyToAbsorb, dt
+    );
   }
 
   /**

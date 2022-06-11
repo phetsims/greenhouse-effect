@@ -20,7 +20,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, DragListener, HBox, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -88,7 +88,7 @@ class FluxMeterNode extends Node {
     const maxExpectedFlux = SunEnergySource.OUTPUT_ENERGY_RATE * 2.2 *
                             model.fluxSensor.size.width * model.fluxSensor.size.height;
 
-    const sunlightDisplayArrow = new EnergyFluxDisplayArrow(
+    const sunlightDisplayArrow = new EnergyFluxDisplayArrows(
       model.fluxSensor.sunlightDownEnergyRateTracker.energyRateProperty,
       model.sunlightOutProperty,
       sunlightString,
@@ -99,7 +99,7 @@ class FluxMeterNode extends Node {
         }
       }
     );
-    const infraredDisplayArrow = new EnergyFluxDisplayArrow(
+    const infraredDisplayArrow = new EnergyFluxDisplayArrows(
       model.infraredInProperty,
       model.infraredOutProperty,
       infraredString,
@@ -177,9 +177,9 @@ type EnergyFluxDisplayArrowOptions = {
 /**
  * An inner class that implements the arrows displaying the amount of energy flux.
  */
-class EnergyFluxDisplayArrow extends Node {
-  public constructor( energyInProperty: Property<number>,
-                      energyOutProperty: Property<number>,
+class EnergyFluxDisplayArrows extends Node {
+  public constructor( energyDownProperty: Property<number>,
+                      energyUpProperty: Property<number>,
                       labelString: string,
                       maxExpectedFlux: number,
                       providedOptions: EnergyFluxDisplayArrowOptions ) {
@@ -203,25 +203,38 @@ class EnergyFluxDisplayArrow extends Node {
     } );
     this.addChild( labelText );
 
-    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.4, options.height, { fill: 'red' } );
+    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.25, options.height, 5, 5, {
+      fill: 'rgba( 0, 0, 100, 0.1 )',
+      stroke: 'rgb( 40, 40, 100 )'
+    } );
     this.addChild( boundsRectangle );
 
-    const inArrow = new ArrowNode(
+    // Create and add the arrows.
+    const downArrow = new ArrowNode(
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
+      options.arrowNodeOptions
+    );
+    const upArrow = new ArrowNode(
       boundsRectangle.centerX,
       boundsRectangle.centerY,
       boundsRectangle.centerX,
       boundsRectangle.centerY,
       options.arrowNodeOptions
     );
-    const outArrow = new ArrowNode(
-      boundsRectangle.centerX,
-      boundsRectangle.centerY,
-      boundsRectangle.centerX,
-      boundsRectangle.centerY,
-      options.arrowNodeOptions
-    );
-    boundsRectangle.addChild( inArrow );
-    boundsRectangle.addChild( outArrow );
+    boundsRectangle.addChild( downArrow );
+    boundsRectangle.addChild( upArrow );
+
+    // Add a horizontal line at the origin of the arrows that can be seen when the arrows have no length.
+    const centerIndicatorLine = new Line( 0, 0, boundsRectangle.width * 0.5, 0, {
+      centerX: boundsRectangle.width / 2,
+      centerY: boundsRectangle.height / 2,
+      stroke: options.arrowNodeOptions.fill,
+      lineWidth: 3
+    } );
+    boundsRectangle.addChild( centerIndicatorLine );
 
     // a linear function that maps the number of photons going through the flux meter per second
     const heightFunction = new LinearFunction(
@@ -233,12 +246,14 @@ class EnergyFluxDisplayArrow extends Node {
     );
 
     // redraw arrows when the flux Properties change
-    energyInProperty.link( energyIn => {
-      inArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyIn ) );
+    energyDownProperty.link( energyDown => {
+      downArrow.visible = Math.abs( energyDown ) > 0;
+      downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyDown ) );
     } );
 
-    energyOutProperty.link( energyOut => {
-      outArrow.setTip( boundsRectangle.centerX, boundsRectangle.centerY + heightFunction.evaluate( energyOut ) );
+    energyUpProperty.link( energyUp => {
+      upArrow.visible = Math.abs( energyUp ) > 0;
+      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyUp ) );
     } );
 
     // layout
