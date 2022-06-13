@@ -89,7 +89,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     // temperature of the ground in Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
-      range: new Range( 0, 500 ),
+      range: new Range( 0, 520 ),
       units: 'K',
       tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
       phetioReadOnly: true,

@@ -83,9 +83,9 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    // Calculate the maximum expected flux based on the size of the sensor and some other attributes of the model.  This
-    // was empirically determined and may need to adjust if the model changes.
-    const maxExpectedFlux = SunEnergySource.OUTPUT_ENERGY_RATE * 2.2 *
+    // Calculate the maximum expected flux based on the size of the sensor and some other attributes of the model.  The
+    // multiplier used in this calculation was empirically determined and may need to adjust if the model changes.
+    const maxExpectedFlux = SunEnergySource.OUTPUT_ENERGY_RATE * 8 *
                             model.fluxSensor.size.width * model.fluxSensor.size.height;
 
     const sunlightDisplayArrow = new EnergyFluxDisplayArrows(
@@ -236,22 +236,26 @@ class EnergyFluxDisplayArrows extends Node {
     } );
     boundsRectangle.addChild( centerIndicatorLine );
 
+    const maxArrowHeight = ( options.height / 2 ) * 0.95;
+
     // a linear function that maps the number of photons going through the flux meter per second
     const heightFunction = new LinearFunction(
-      -maxExpectedFlux,
+      0,
       maxExpectedFlux,
-      -options.height / 2,
-      options.height / 2,
+      0,
+      maxArrowHeight,
       true
     );
 
     // Redraw arrows when the flux Properties change.
     energyDownProperty.link( energyDown => {
+      assert && assert( energyDown <= maxExpectedFlux, `downward flux exceeded expected max, value = ${energyDown}` );
       downArrow.visible = Math.abs( energyDown ) > 0;
       downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyDown ) );
     } );
 
     energyUpProperty.link( energyUp => {
+      assert && assert( energyUp <= maxExpectedFlux, `upward flux exceeded expected max, value = ${energyUp}` );
       upArrow.visible = Math.abs( energyUp ) > 0;
       upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - heightFunction.evaluate( energyUp ) );
     } );
