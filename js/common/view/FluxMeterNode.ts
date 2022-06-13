@@ -89,8 +89,8 @@ class FluxMeterNode extends Node {
                             model.fluxSensor.size.width * model.fluxSensor.size.height;
 
     const sunlightDisplayArrow = new EnergyFluxDisplayArrows(
-      model.fluxSensor.sunlightDownEnergyRateTracker.energyRateProperty,
-      model.sunlightOutProperty,
+      model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
+      model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       sunlightString,
       maxExpectedFlux,
       {
@@ -100,8 +100,8 @@ class FluxMeterNode extends Node {
       }
     );
     const infraredDisplayArrow = new EnergyFluxDisplayArrows(
-      model.infraredInProperty,
-      model.infraredOutProperty,
+      model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
+      model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       infraredString,
       maxExpectedFlux,
       {
@@ -218,10 +218,10 @@ class EnergyFluxDisplayArrows extends Node {
       options.arrowNodeOptions
     );
     const upArrow = new ArrowNode(
-      boundsRectangle.centerX,
-      boundsRectangle.centerY,
-      boundsRectangle.centerX,
-      boundsRectangle.centerY,
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
       options.arrowNodeOptions
     );
     boundsRectangle.addChild( downArrow );
@@ -245,7 +245,7 @@ class EnergyFluxDisplayArrows extends Node {
       true
     );
 
-    // redraw arrows when the flux Properties change
+    // Redraw arrows when the flux Properties change.
     energyDownProperty.link( energyDown => {
       downArrow.visible = Math.abs( energyDown ) > 0;
       downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyDown ) );
@@ -253,7 +253,7 @@ class EnergyFluxDisplayArrows extends Node {
 
     energyUpProperty.link( energyUp => {
       upArrow.visible = Math.abs( energyUp ) > 0;
-      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyUp ) );
+      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - heightFunction.evaluate( energyUp ) );
     } );
 
     // layout

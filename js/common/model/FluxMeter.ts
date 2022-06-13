@@ -9,19 +9,18 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import LayersModel from './LayersModel.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
+import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
+import LayersModel from './LayersModel.js';
 
 // types
 type SelfOptions = {
@@ -40,14 +39,13 @@ const FLUX_SENSOR_SIZE = new Dimension2(
 //       something working, but I'm not sure it is what we currently consider to be idiomatic?
 
 class FluxMeter extends PhetioObject {
-  public readonly sunlightOutProperty: NumberProperty;
-  public readonly infraredInProperty: NumberProperty;
-  public readonly infraredOutProperty: NumberProperty;
-  public readonly wireMeterAttachmentPositionProperty: Vector2Property;
-  public readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
   // the model element that senses the flux, must have energy added to it by the model
   public readonly fluxSensor: FluxSensor;
+
+  // variables that indicate where the wire should be that attaches the flux sensor to the body of the meter
+  public readonly wireMeterAttachmentPositionProperty: Vector2Property;
+  public readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
   public constructor( providedOptions?: FluxMeterOptions ) {
 
@@ -65,13 +63,6 @@ class FluxMeter extends PhetioObject {
     }, providedOptions );
 
     super( options );
-
-    // These are dummy Properties for now. I am guessing that the real way to do this will be to have a Model for the
-    // sensor that will include its position, bounds, and calculate the flux of Photons in the model through the bounds
-    // of the sensor to count values for these Properties per unit time.
-    this.sunlightOutProperty = new NumberProperty( 0 );
-    this.infraredInProperty = new NumberProperty( 0 );
-    this.infraredOutProperty = new NumberProperty( 0 );
 
     // Create the flux sensor, which is the portion that actually senses and measures the flux.
     const fluxSensorOptions = options.fluxSensorOptions as FluxSensorOptions;

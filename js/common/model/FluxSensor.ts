@@ -42,8 +42,10 @@ class FluxSensor extends PhetioObject {
   public readonly positionProperty: Property<Vector2>;
 
   // energy rate trackers for the various directions and light frequencies
-  public readonly sunlightDownEnergyRateTracker: EnergyRateTracker;
-
+  public readonly visibleLightDownEnergyRateTracker: EnergyRateTracker;
+  public readonly visibleLightUpEnergyRateTracker: EnergyRateTracker;
+  public readonly infraredLightDownEnergyRateTracker: EnergyRateTracker;
+  public readonly infraredLightUpEnergyRateTracker: EnergyRateTracker;
 
   // The proportion of the energy to be absorbed from the energy packets.  This is based on the size of the flux sensor
   // relative to the total simulated area in the model.
@@ -79,8 +81,18 @@ class FluxSensor extends PhetioObject {
       phetioDocumentation: 'The 2D position of the flux sensor within the atmosphere.'
     } );
 
-    this.sunlightDownEnergyRateTracker = new EnergyRateTracker( {
-      tandem: options.tandem?.createTandem( 'sunlightDownEnergyRateTracker' )
+    // Create the energy rate trackers.
+    this.visibleLightDownEnergyRateTracker = new EnergyRateTracker( {
+      tandem: options.tandem?.createTandem( 'visibleLightDownEnergyRateTracker' )
+    } );
+    this.visibleLightUpEnergyRateTracker = new EnergyRateTracker( {
+      tandem: options.tandem?.createTandem( 'visibleLightUpEnergyRateTracker' )
+    } );
+    this.infraredLightDownEnergyRateTracker = new EnergyRateTracker( {
+      tandem: options.tandem?.createTandem( 'infraredLightDownEnergyRateTracker' )
+    } );
+    this.infraredLightUpEnergyRateTracker = new EnergyRateTracker( {
+      tandem: options.tandem?.createTandem( 'infraredLightUpEnergyRateTracker' )
     } );
 
     // Calculate the proportion of energy to absorb based on the sensor size.
@@ -94,13 +106,31 @@ class FluxSensor extends PhetioObject {
    */
   public measureEnergyPacketFlux( energyPackets: EMEnergyPacket[], dt: number ): void {
 
-    let totalSunEnergyCrossingDownward = 0;
+    let totalVisibleLightEnergyCrossingDownward = 0;
+    let totalVisibleLightEnergyCrossingUpward = 0;
+    let totalInfraredLightEnergyCrossingDownward = 0;
+    let totalInfraredLightEnergyCrossingUpward = 0;
 
     // Go through each energy packet and determine if it has moved through the sensor and, if so, measure it.
     energyPackets.forEach( energyPacket => {
       if ( this.energyPacketCrossedAltitude( energyPacket ) ) {
-        if ( energyPacket.direction === EnergyDirection.DOWN && energyPacket.isVisible ) {
-          totalSunEnergyCrossingDownward += energyPacket.energy;
+        if ( energyPacket.direction === EnergyDirection.DOWN ) {
+          assert && assert( energyPacket.isVisible || energyPacket.isInfrared, 'energy packet must be visible or IR' );
+          if ( energyPacket.isVisible ) {
+            totalVisibleLightEnergyCrossingDownward += energyPacket.energy;
+          }
+          else {
+            totalInfraredLightEnergyCrossingDownward += energyPacket.energy;
+          }
+        }
+        else {
+          assert && assert( energyPacket.direction === EnergyDirection.UP, 'unexpected energy direction' );
+          if ( energyPacket.isVisible ) {
+            totalVisibleLightEnergyCrossingUpward += energyPacket.energy;
+          }
+          else {
+            totalInfraredLightEnergyCrossingUpward += energyPacket.energy;
+          }
         }
       }
     } );
@@ -110,8 +140,17 @@ class FluxSensor extends PhetioObject {
     // by this sensor.  This is necessary because in the Greenhouse Effect model, all energy is modelled with altitude
     // only, and no X position, so the multiplier is used to determine how much of that total energy is considered to
     // have passed through the sensor.
-    this.sunlightDownEnergyRateTracker.addEnergyInfo(
-      totalSunEnergyCrossingDownward * this.proportionOfEnergyToAbsorb, dt
+    this.visibleLightDownEnergyRateTracker.addEnergyInfo(
+      totalVisibleLightEnergyCrossingDownward * this.proportionOfEnergyToAbsorb, dt
+    );
+    this.visibleLightUpEnergyRateTracker.addEnergyInfo(
+      totalVisibleLightEnergyCrossingUpward * this.proportionOfEnergyToAbsorb, dt
+    );
+    this.infraredLightDownEnergyRateTracker.addEnergyInfo(
+      totalInfraredLightEnergyCrossingDownward * this.proportionOfEnergyToAbsorb, dt
+    );
+    this.infraredLightUpEnergyRateTracker.addEnergyInfo(
+      totalInfraredLightEnergyCrossingUpward * this.proportionOfEnergyToAbsorb, dt
     );
   }
 
@@ -119,7 +158,7 @@ class FluxSensor extends PhetioObject {
    * Restore initial state.
    */
   public reset(): void {
-    this.sunlightDownEnergyRateTracker.reset();
+    this.visibleLightDownEnergyRateTracker.reset();
     this.positionProperty.reset();
   }
 
