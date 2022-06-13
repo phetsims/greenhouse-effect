@@ -12,15 +12,15 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import merge from '../../../../phet-core/js/merge.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import { DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -28,7 +28,6 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import FluxMeter from '../model/FluxMeter.js';
 import LayersModel from '../model/LayersModel.js';
-import SunEnergySource from '../model/SunEnergySource.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -83,16 +82,10 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    // Calculate the maximum expected flux based on the size of the sensor and some other attributes of the model.  The
-    // multiplier used in this calculation was empirically determined and may need to adjust if the model changes.
-    const maxExpectedFlux = SunEnergySource.OUTPUT_ENERGY_RATE * 8 *
-                            model.fluxSensor.size.width * model.fluxSensor.size.height;
-
     const sunlightDisplayArrow = new EnergyFluxDisplayArrows(
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       sunlightString,
-      maxExpectedFlux,
       {
         arrowNodeOptions: {
           fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
@@ -103,7 +96,6 @@ class FluxMeterNode extends Node {
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       infraredString,
-      maxExpectedFlux,
       {
         arrowNodeOptions: {
           fill: GreenhouseEffectConstants.INFRARED_COLOR
@@ -164,15 +156,20 @@ class FluxMeterNode extends Node {
   }
 }
 
-type EnergyFluxDisplayArrowOptions = {
+type EnergyFluxDisplayArrowSelfOptions = {
+
+  // height of the background in screen coordinates
   height?: number;
-  arrowNodeOptions: {
-    headHeight?: number;
-    headWidth?: number;
-    tailWidth?: number;
-    fill?: Color;
-  };
-} & NodeOptions;
+
+
+  // multiplier used to map the flux values from the meter to the arrow lengths
+  fluxToArrowLengthMultiplier?: number;
+
+  // options that are passed through to the arrow nodes
+  arrowNodeOptions?: ArrowNodeOptions;
+};
+
+type EnergyFluxDisplayArrowsOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
 
 /**
  * An inner class that implements the arrows displaying the amount of energy flux.
@@ -181,19 +178,17 @@ class EnergyFluxDisplayArrows extends Node {
   public constructor( energyDownProperty: Property<number>,
                       energyUpProperty: Property<number>,
                       labelString: string,
-                      maxExpectedFlux: number,
-                      providedOptions: EnergyFluxDisplayArrowOptions ) {
+                      providedOptions: EnergyFluxDisplayArrowsOptions ) {
 
-    const options = <EnergyFluxDisplayArrowOptions>merge( {
+    const options = optionize<EnergyFluxDisplayArrowsOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
       height: 385,
-
-      // {Object} - passed directly to the ArrowNodes
+      fluxToArrowLengthMultiplier: 1.5E-5,
       arrowNodeOptions: {
         headHeight: 16,
         headWidth: 16,
         tailWidth: 8
       }
-    }, providedOptions ) as Required<EnergyFluxDisplayArrowOptions>;
+    }, providedOptions );
 
     super();
 
@@ -208,6 +203,9 @@ class EnergyFluxDisplayArrows extends Node {
       stroke: 'rgb( 40, 40, 100 )'
     } );
     this.addChild( boundsRectangle );
+
+    // Set a clip area so that the arrows don't go outside of the background.
+    boundsRectangle.clipArea = Shape.bounds( boundsRectangle.getRectBounds() );
 
     // Create and add the arrows.
     const downArrow = new ArrowNode(
@@ -236,28 +234,18 @@ class EnergyFluxDisplayArrows extends Node {
     } );
     boundsRectangle.addChild( centerIndicatorLine );
 
-    const maxArrowHeight = ( options.height / 2 ) * 0.95;
-
     // a linear function that maps the number of photons going through the flux meter per second
-    const heightFunction = new LinearFunction(
-      0,
-      maxExpectedFlux,
-      0,
-      maxArrowHeight,
-      true
-    );
+    const getArrowHeightFromFlux = ( flux: number ) => flux * options.fluxToArrowLengthMultiplier;
 
     // Redraw arrows when the flux Properties change.
     energyDownProperty.link( energyDown => {
-      assert && assert( energyDown <= maxExpectedFlux, `downward flux exceeded expected max, value = ${energyDown}` );
       downArrow.visible = Math.abs( energyDown ) > 0;
-      downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + heightFunction.evaluate( energyDown ) );
+      downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + getArrowHeightFromFlux( energyDown ) );
     } );
 
     energyUpProperty.link( energyUp => {
-      assert && assert( energyUp <= maxExpectedFlux, `upward flux exceeded expected max, value = ${energyUp}` );
       upArrow.visible = Math.abs( energyUp ) > 0;
-      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - heightFunction.evaluate( energyUp ) );
+      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - getArrowHeightFromFlux( energyUp ) );
     } );
 
     // layout
