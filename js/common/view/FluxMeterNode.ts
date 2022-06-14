@@ -20,7 +20,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -82,25 +82,17 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    const sunlightDisplayArrow = new EnergyFluxDisplayArrows(
+    const sunlightDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       sunlightString,
-      {
-        arrowNodeOptions: {
-          fill: GreenhouseEffectConstants.SUNLIGHT_COLOR
-        }
-      }
+      GreenhouseEffectConstants.SUNLIGHT_COLOR
     );
-    const infraredDisplayArrow = new EnergyFluxDisplayArrows(
+    const infraredDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       infraredString,
-      {
-        arrowNodeOptions: {
-          fill: GreenhouseEffectConstants.INFRARED_COLOR
-        }
-      }
+      GreenhouseEffectConstants.INFRARED_COLOR
     );
 
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
@@ -169,24 +161,27 @@ type EnergyFluxDisplayArrowSelfOptions = {
   arrowNodeOptions?: ArrowNodeOptions;
 };
 
-type EnergyFluxDisplayArrowsOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
+type EnergyFluxDisplayOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
 
 /**
- * An inner class that implements the arrows displaying the amount of energy flux.
+ * An inner class that implements a display for energy flux in the up and down directions.  The display consists of a
+ * background with two arrows, one that grows upwards and another that grows down.
  */
-class EnergyFluxDisplayArrows extends Node {
+class EnergyFluxDisplay extends Node {
   public constructor( energyDownProperty: Property<number>,
                       energyUpProperty: Property<number>,
                       labelString: string,
-                      providedOptions: EnergyFluxDisplayArrowsOptions ) {
+                      baseColor: Color,
+                      providedOptions?: EnergyFluxDisplayOptions ) {
 
-    const options = optionize<EnergyFluxDisplayArrowsOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
+    const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
       height: 385,
       fluxToArrowLengthMultiplier: 1.5E-5,
       arrowNodeOptions: {
         headHeight: 16,
         headWidth: 16,
-        tailWidth: 8
+        tailWidth: 8,
+        fill: baseColor
       }
     }, providedOptions );
 
@@ -199,7 +194,7 @@ class EnergyFluxDisplayArrows extends Node {
     this.addChild( labelText );
 
     const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.25, options.height, 5, 5, {
-      fill: 'rgba( 0, 0, 100, 0.1 )',
+      fill: 'rgb( 225, 225, 235 )',
       stroke: 'rgb( 40, 40, 100 )'
     } );
     this.addChild( boundsRectangle );
@@ -229,7 +224,7 @@ class EnergyFluxDisplayArrows extends Node {
     const centerIndicatorLine = new Line( 0, 0, boundsRectangle.width * 0.5, 0, {
       centerX: boundsRectangle.width / 2,
       centerY: boundsRectangle.height / 2,
-      stroke: options.arrowNodeOptions.fill,
+      stroke: baseColor.colorUtilsDarker( 0.25 ),
       lineWidth: 3
     } );
     boundsRectangle.addChild( centerIndicatorLine );
