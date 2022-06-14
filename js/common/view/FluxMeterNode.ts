@@ -129,7 +129,7 @@ class FluxMeterNode extends Node {
         const modelY = Utils.clamp(
           modelViewTransform.viewToModelY( viewPoint.y ),
           500,
-          LayersModel.HEIGHT_OF_ATMOSPHERE
+          LayersModel.HEIGHT_OF_ATMOSPHERE - 500
         );
 
         // Only allow dragging in the Y direction and not the X direction.
