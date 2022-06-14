@@ -14,11 +14,12 @@ import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
 import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 
 type SelfOptions = {};
 export type NumberOfLayersSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
-class NumberOfLayersSoundPlayer extends SoundGenerator {
+class NumberOfLayersSoundPlayer extends SoundGenerator implements ISoundPlayer {
 
   // array of sound clips where the index corresponds to the number of layers
   private readonly layerSoundClips: SoundClip[];
@@ -51,6 +52,10 @@ class NumberOfLayersSoundPlayer extends SoundGenerator {
 
     assert && assert( numberOfLayers < this.layerSoundClips.length, `unexpected number of layers: ${numberOfLayers}` );
     this.layerSoundClips[ numberOfLayers ].play();
+  }
+
+  public stop(): void {
+    // Nothing to do in this case.
   }
 }
 
