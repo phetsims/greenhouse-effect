@@ -15,8 +15,9 @@ import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 export type NumberOfLayersSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements ISoundPlayer {

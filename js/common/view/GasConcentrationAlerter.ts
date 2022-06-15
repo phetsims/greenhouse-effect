@@ -26,6 +26,7 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // number of decimal places to pay attention to in the temperature values
@@ -80,7 +81,7 @@ class GasConcentrationAlerter extends Alerter {
 
   public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
-    const options = optionize<AlerterOptions, {}, AlerterOptions>()( {
+    const options = optionize<AlerterOptions, EmptyObjectType, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
       alertToVoicing: false

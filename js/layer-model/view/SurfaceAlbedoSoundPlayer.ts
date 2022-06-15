@@ -16,9 +16,10 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // types for options
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 type SurfaceAlbedoSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
