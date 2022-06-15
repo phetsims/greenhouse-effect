@@ -13,6 +13,7 @@ import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
 class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
@@ -24,7 +25,8 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: greenhouseEffectStrings.screen.waves,
-      descriptionContent: greenhouseEffectStrings.a11y.waves.homeScreenDescription
+      descriptionContent: greenhouseEffectStrings.a11y.waves.homeScreenDescription,
+      keyboardHelpNode: new BasicActionsKeyboardHelpSection()
     };
 
     super(

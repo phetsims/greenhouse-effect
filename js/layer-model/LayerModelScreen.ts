@@ -13,6 +13,7 @@ import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
 class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
@@ -23,7 +24,8 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       homeScreenIcon: new RandomIcon( 544 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.layerModel
+      name: greenhouseEffectStrings.screen.layerModel,
+      keyboardHelpNode: new BasicActionsKeyboardHelpSection()
     };
 
     super(

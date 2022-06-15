@@ -13,6 +13,7 @@ import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
 class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
@@ -24,7 +25,8 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: greenhouseEffectStrings.screen.photons,
-      descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription
+      descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription,
+      keyboardHelpNode: new BasicActionsKeyboardHelpSection()
     };
 
     super(
