@@ -6,14 +6,14 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 
 class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
@@ -26,7 +26,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       tandem: tandem,
       name: greenhouseEffectStrings.screen.photons,
       descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription,
-      keyboardHelpNode: new BasicActionsKeyboardHelpSection()
+      keyboardHelpNode: new SliderControlsAndBasicActionsKeyboardHelpContent()
     };
 
     super(

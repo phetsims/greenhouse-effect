@@ -6,7 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import BasicActionsKeyboardHelpSection from '../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
+import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
@@ -25,7 +25,7 @@ class MicroScreen extends Screen {
       homeScreenIcon: new RandomIcon( 549 ),
       tandem: tandem,
       name: greenhouseEffectStrings.screen.micro,
-      keyboardHelpNode: new BasicActionsKeyboardHelpSection()
+      keyboardHelpNode: new SliderControlsAndBasicActionsKeyboardHelpContent()
     };
 
     super(
