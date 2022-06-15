@@ -52,9 +52,9 @@ class FluxMeter extends PhetioObject {
     const options = optionize<FluxMeterOptions, SelfOptions, PhetioObjectOptions>()( {
       fluxSensorOptions: {
 
-        // The initial position for the flux sensor, empirically determined to be near the center of the simulated
-        // atmosphere and to not initially overlap with anything important in the view.
-        initialPosition: new Vector2( 0, LayersModel.HEIGHT_OF_ATMOSPHERE * 0.3 )
+        // The initial position for the flux sensor, empirically determined to be near the horizon in the observation
+        // window and not initially overlapping with anything important.
+        initialPosition: new Vector2( 0, LayersModel.HEIGHT_OF_ATMOSPHERE * 0.15 )
       },
 
       // temporarily marking phet-io state to be false until serialization is added
