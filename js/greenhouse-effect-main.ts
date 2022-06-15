@@ -9,6 +9,7 @@
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
+import GreenhouseEffectQueryParameters from './common/GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectOptionsDialogContent from './common/view/GreenhouseEffectOptionsDialogContent.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
@@ -31,13 +32,15 @@ const simOptions: SimOptions = {
     graphicArts: '',
     soundDesign: 'Ashton Morris',
     thanks: 'Dedicated to the memory of Ron LeMaster.'
-  },
-
-  // TODO: This should be removed before publication, see
-  //       https://github.com/phetsims/greenhouse-effect/issues/16 and
-  //       https://github.com/phetsims/greenhouse-effect/issues/36
-  createOptionsDialogContent: ( tandem: Tandem ) => new GreenhouseEffectOptionsDialogContent( tandem )
+  }
 };
+
+// If the appropriate query parameter is set, add an "Options" dialog that designers can use to try out different
+// design choices.
+// TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/168.
+if ( GreenhouseEffectQueryParameters.optionsDialog ) {
+  simOptions.createOptionsDialogContent = ( tandem: Tandem ) => new GreenhouseEffectOptionsDialogContent( tandem );
+}
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
