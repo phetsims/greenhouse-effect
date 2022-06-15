@@ -18,7 +18,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 type SelfOptions = EmptyObjectType;
-type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
+export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
@@ -29,7 +29,7 @@ class GreenhouseEffectModel extends PhetioObject {
 
     const options = optionize<GreenhouseEffectModelOptions, SelfOptions, PhetioObjectOptions>()( {
 
-      // By default this is not stateful, but note that some subtypes such as WavesModel override this and specify a
+      // By default, this is not stateful, but note that some subtypes such as WavesModel override this and specify a
       // phetioType.
       phetioState: false
 

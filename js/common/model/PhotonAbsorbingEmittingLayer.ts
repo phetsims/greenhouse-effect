@@ -7,17 +7,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import Photon from './Photon.js';
-import AtmosphereLayer from './AtmosphereLayer.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import AtmosphereLayer from './AtmosphereLayer.js';
+import Photon from './Photon.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {
@@ -31,9 +31,21 @@ class PhotonCrossingTestResult extends EnumerationValue {
 }
 
 type PhotonAbsorbingEmittingLayerOptions = {
+
+  // thickness of the layer, in meters
   thickness?: number;
+
+  // This value represents the maximum lateral distance, expressed in proportion of the total layer width, between
+  // where a photon is absorbed in a layer to where it is re-emitted.
   photonMaxLateralJumpProportion?: number;
+
+  // the time that a photon is absorbed into a layer before being re-emitted
   photonAbsorptionTime?: number;
+
+  // A multiplier that is used on the layer's absorbance value when deciding whether to absorb a photon.  This can be
+  // used to increase or decrease the amount of photons absorbed beyond what happens "naturally", i.e. based on the
+  // absorbance of the corresponding AtmosphereLayer.  Note that this does *not* change the energy absorbance behavior,
+  // and thus would have no impact on the temperature values.
   absorbanceMultiplier?: number;
 };
 
@@ -51,25 +63,12 @@ class PhotonAbsorbingEmittingLayer {
                       atmosphereLayer: AtmosphereLayer,
                       providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
 
-    const options = merge( {
-
-      // thickness of the layer, in meters
+    const options = optionize<PhotonAbsorbingEmittingLayerOptions>()( {
       thickness: 0,
-
-      // This value represents the maximum lateral distance, expressed in proportion of the total layer width, between
-      // where a photon is absorbed in a layer to where it is re-emitted.
       photonMaxLateralJumpProportion: 0.01,
-
-      // the time that a photon is absorbed into a layer before being re-emitted
       photonAbsorptionTime: 0.1,
-
-      // A multiplier that is used on the layer's absorbance value when deciding whether to absorb a photon.  This can
-      // be used to increase or decrease the amount of photons absorbed beyond what happens "naturally", i.e. based on
-      // the absorbance of the corresponding AtmosphereLayer.  Note that this does *not* change the energy absorbance
-      // behavior, and thus would have no impact on the temperature values.
       absorbanceMultiplier: 1
-
-    }, providedOptions ) as Required<PhotonAbsorbingEmittingLayerOptions>;
+    }, providedOptions );
 
     this.photons = photons;
     this.atmosphereLayer = atmosphereLayer;

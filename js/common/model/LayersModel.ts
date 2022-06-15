@@ -14,8 +14,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -27,11 +26,11 @@ import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import FluxMeter from './FluxMeter.js';
-import GreenhouseEffectModel from './GreenhouseEffectModel.js';
 import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
+import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -40,15 +39,24 @@ const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
 
-type LayersModelOptions = {
+type SelfOptions = {
+
+  // min temperature that the ground is allowed to reach, in Kelvin
   minimumGroundTemperature?: number;
+
+  // the number of energy absorbing and emitting layers in the atmosphere
   numberOfAtmosphereLayers?: number;
+
+  // indicates whether the layers in the atmosphere are initially active or inactive
   atmosphereLayersInitiallyActive?: boolean;
+
+  // proportion of energy that crosses an atmosphere layer that is absorbed, 0 for none, 1 for 100%
   initialAtmosphereLayerAbsorptionProportion?: number;
 
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
-} & PhetioObjectOptions;
+};
+export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
 
 class LayersModel extends GreenhouseEffectModel {
 
@@ -77,13 +85,13 @@ class LayersModel extends GreenhouseEffectModel {
    */
   public constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
 
-    const options = merge( {
+    const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
       minimumGroundTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true,
       fluxMeterPresent: false
-    }, providedOptions ) as Required<LayersModelOptions>;
+    }, providedOptions );
 
     super( tandem, options );
 
@@ -367,7 +375,6 @@ type LayersModelStateObject = {
 }
 
 export type { LayersModelStateObject };
-export type { LayersModelOptions };
 
 greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

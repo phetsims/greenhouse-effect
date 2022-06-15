@@ -8,15 +8,15 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import merge from '../../../../phet-core/js/merge.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
-import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -34,7 +34,7 @@ class ShowState extends EnumerationValue {
   public static enumeration = new Enumeration( ShowState );
 }
 
-type PhotonOptions = {
+export type PhotonOptions = {
   initialVelocity?: Vector2 | null;
   showState?: ShowState;
 }
@@ -43,15 +43,26 @@ type PhotonOptions = {
 //       photons should always be moving at the speed of light.
 
 class Photon {
+
+  // position in model space in meters
   public readonly positionProperty: Vector2Property;
+
+  // previous position, used for checking when the photon has crossed some threshold
   public readonly previousPosition: Vector2;
-  public readonly wavelength: number;
+
+  // velocity vector in m/s
   public readonly velocity: Vector2;
+
+  // wavelength in meters
+  public readonly wavelength: number;
+
+  // This flag determines whether this photon should always be shown in the view or only shown when the "more photons"
+  // mode has been set.
   public readonly showState: ShowState;
 
-  public constructor( initialPosition: Vector2, wavelength: number, providedOptions?: Partial<PhotonOptions> ) {
+  public constructor( initialPosition: Vector2, wavelength: number, providedOptions?: PhotonOptions ) {
 
-    const options = merge( {
+    const options = optionize<PhotonOptions>()( {
 
       // {Vector2|null} - will be created if not supplied
       initialVelocity: null,
@@ -64,18 +75,9 @@ class Photon {
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
 
     this.wavelength = wavelength;
-
-    // position in model space
     this.positionProperty = new Vector2Property( initialPosition );
-
-    // previous position, used for checking when the photon has crossed some threshold
     this.previousPosition = new Vector2( initialPosition.x, initialPosition.y );
-
-    // velocity vector, in meters/s
     this.velocity = options.initialVelocity || new Vector2( 0, PHOTON_SPEED );
-
-    // This flag determines whether this photon should always be shown in the view or only shown when the "more photons"
-    // mode has been set.
     this.showState = options.showState;
   }
 
