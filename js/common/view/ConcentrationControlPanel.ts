@@ -8,12 +8,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
-import merge from '../../../../phet-core/js/merge.js';
 import Utils from '../../../../dot/js/Utils.js';
+import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -24,13 +29,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
+import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
 
 // constants
 const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
@@ -70,9 +71,13 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   selectedLineWidth: 2
 };
 
-type ConcentrationControlPanelOptions = {
+type SelfOptions = {
+
+  // If true, the panel will include a readout of the composition of greenhouse gases when selecting concentrations by
+  // date.
   includeCompositionData?: boolean;
-} & PanelOptions;
+};
+type ConcentrationControlPanelOptions = SelfOptions & PanelOptions;
 
 class ConcentrationControlPanel extends Panel {
 
@@ -80,18 +85,18 @@ class ConcentrationControlPanel extends Panel {
    * @param width - width the panel contents are limited to, for i18n and layout with other screen components
    * @param concentrationModel
    * @param radiationDescriber
-   * @param [options]
+   * @param [providedOptions]
    */
-  public constructor( width: number, concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, providedOptions?: ConcentrationControlPanelOptions ) {
+  public constructor( width: number,
+                      concentrationModel: ConcentrationModel,
+                      radiationDescriber: RadiationDescriber,
+                      providedOptions?: ConcentrationControlPanelOptions ) {
 
-    const options = merge( {
+    const options = optionize<ConcentrationControlPanelOptions, SelfOptions, PanelOptions>()( {
 
+      includeCompositionData: false,
       xMargin: PANEL_MARGINS,
       yMargin: PANEL_MARGINS,
-
-      // {boolean} - if true, the panel will include a readout of the composition of greenhouse gases when selecting
-      // concentrations by date
-      includeCompositionData: false,
 
       // pdom
       tagName: 'div',
@@ -100,7 +105,7 @@ class ConcentrationControlPanel extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as ConcentrationControlPanelOptions & { tandem: Tandem };
+    }, providedOptions );
 
     // Title for the whole panel
     const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
@@ -325,8 +330,7 @@ class DateControl extends Node {
       [ concentrationProperty, concentrationControlModeProperty ],
       ( concentration, concentrationControlMode ) => {
         if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
-          const centerY = concentrationHeightFunction.evaluate( concentration );
-          valueCircle.centerY = centerY;
+          valueCircle.centerY = concentrationHeightFunction.evaluate( concentration );
         }
       }
     );

@@ -7,13 +7,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import Property from '../../../../axon/js/Property.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Property from '../../../../axon/js/Property.js';
 
 // constants
 const LABEL_ICON_SPACING = 10;
@@ -21,16 +21,17 @@ const LABEL_FONT = new PhetFont( {
   size: 14
 } );
 
-type GreenhouseEffectCheckboxOptions = {
-  iconNode?: Node;
-} & CheckboxOptions;
+type SelfOptions = {
+
+  // if provided, will be included in the icon for the checkbox
+  iconNode?: Node | null;
+};
+type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
   public constructor( labelString: string, property: Property<boolean>, providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
-    const options = merge( {
-
-      // {Node} - if provided, will be included in the icon for the checkbox
+    const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,
 
       // i18n
@@ -41,7 +42,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
 
       // pdom
       accessibleName: labelString
-    }, providedOptions ) as Required<GreenhouseEffectCheckboxOptions>;
+    }, providedOptions );
 
     const labelText = new Text( labelString, {
       font: LABEL_FONT,

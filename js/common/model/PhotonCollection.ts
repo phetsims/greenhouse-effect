@@ -9,23 +9,23 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import SunEnergySource from './SunEnergySource.js';
-import GroundLayer from './GroundLayer.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
-import Photon from './Photon.js';
-import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import GroundLayer from './GroundLayer.js';
 import LayersModel from './LayersModel.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
+import Photon from './Photon.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import SunEnergySource from './SunEnergySource.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -33,10 +33,15 @@ const DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS = 5; // ratio of invisible to visi
 
 assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), 'value must be an integer' );
 
-type PhotonCollectionOptions = {
+type SelfOptions = {
+
+  // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions;
+
+  // phet-io
   tandem: Tandem;
-} & PhetioObjectOptions
+};
+type PhotonCollectionOptions = SelfOptions & PhetioObjectOptions;
 
 class PhotonCollection extends PhetioObject {
 
@@ -56,16 +61,13 @@ class PhotonCollection extends PhetioObject {
                       atmosphereLayers: AtmosphereLayer[],
                       providedOptions?: PhotonCollectionOptions ) {
 
-    const options = merge( {
-
+    const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObject>()( {
       phetioType: PhotonCollection.PhotonCollectionIO,
-
-      // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
       photonAbsorbingEmittingLayerOptions: {
         photonMaxLateralJumpProportion: 0.1,
         photonAbsorptionTime: 1.0
       }
-    }, providedOptions ) as PhotonCollectionOptions;
+    }, providedOptions );
 
     super( options );
 

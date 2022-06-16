@@ -54,7 +54,7 @@ class EnergyLegend extends Panel {
    * @param width - width of the legend, it needs to be wider than its contents for layout in screen view
    * @param [providedOptions]
    */
-  public constructor( width: number, providedOptions: EnergyLegendOptions ) {
+  public constructor( width: number, providedOptions?: EnergyLegendOptions ) {
 
     const options = merge( {
 

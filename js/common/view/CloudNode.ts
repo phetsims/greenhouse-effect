@@ -8,38 +8,33 @@
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Color, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
 const CLOUD_BACKGROUND_STROKE = Color.BLACK;
 
-type CloudNodeOptions = {
-  showReferenceEllipse: boolean;
-} & NodeOptions;
+type SelfOptions = {
+
+  // useful for debugging
+  showReferenceEllipse?: boolean;
+};
+type CloudNodeOptions = SelfOptions & NodeOptions;
 
 class CloudNode extends Node {
   private readonly disposeCloudNode: () => void;
 
-  /**
-   * @param cloud
-   * @param modelViewTransform
-   * @param [options]
-   */
-  public constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, options?: CloudNodeOptions ) {
+  public constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, providedOptions?: CloudNodeOptions ) {
 
-    options = merge( {
-
-      // {boolean} - useful for debugging
+    const options = optionize<CloudNodeOptions, SelfOptions, NodeOptions>()( {
       showReferenceEllipse: false
-
-    }, options ) as CloudNodeOptions;
+    }, providedOptions );
 
     super( options );
 

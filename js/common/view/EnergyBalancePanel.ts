@@ -20,6 +20,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -34,22 +35,26 @@ const BAR_STROKE = 'grey';
 const PLOT_VIEW_WIDTH = 100; // view coordinates
 const PLOT_VIEW_HEIGHT = 120; // view coordinates
 
+// types
+type SelfOptions = EmptyObjectType;
+export type EnergyBalancePanelOptions = SelfOptions & PanelOptions;
+
 class EnergyBalancePanel extends Panel {
 
   /**
-   * @param energyBalanceVisibleProperty - controls whether this Panel is visible in the view
+   * @param energyBalanceVisibleProperty - a Property that controls whether this Panel is visible in the view
    * @param netEnergyInProperty
    * @param netEnergyOutProperty
    * @param inRadiativeBalanceProperty
-   * @param [options]
+   * @param [providedOptions]
    */
   public constructor( energyBalanceVisibleProperty: Property<boolean>,
                       netEnergyInProperty: Property<number>,
                       netEnergyOutProperty: Property<number>,
                       inRadiativeBalanceProperty: Property<boolean>,
-                      options?: PanelOptions ) {
+                      providedOptions?: EnergyBalancePanelOptions ) {
 
-    options = merge( {
+    const options = merge( {
 
       // panel options
       cornerRadius: 5,
@@ -60,7 +65,7 @@ class EnergyBalancePanel extends Panel {
       tagName: 'div',
       labelTagName: 'h4',
       labelContent: greenhouseEffectStrings.energyBalancePanel.title
-    }, options ) as PanelOptions;
+    }, providedOptions );
 
     // title
     const titleText = new Text( greenhouseEffectStrings.energyBalancePanel.title, {
@@ -141,7 +146,7 @@ class EnergyBalancePlot extends Node {
 
     // the dataSet for the barPlot gets set in a multilink of the provided energy Properties
     const barPlot = new UpDownArrowPlot( chartTransform, [], {
-      pointToPaintableFields: ( point: Vector2 ) => {
+      pointToPaintableFields: () => {
         return { fill: BAR_COLOR, stroke: BAR_STROKE };
       }
     } );
