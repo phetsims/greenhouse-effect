@@ -23,8 +23,6 @@ const outgoingEnergyAtAtmosphereEqualString = greenhouseEffectStrings.a11y.outgo
 
 class EnergyDescriber {
 
-  public constructor() {}
-
   /**
    * Returns a string that describes the change in outgoing energy in the system. Will return
    * something like

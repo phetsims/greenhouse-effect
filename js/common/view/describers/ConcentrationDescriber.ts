@@ -88,8 +88,6 @@ const clearString = greenhouseEffectStrings.a11y.sky.clear;
 
 class ConcentrationDescriber {
 
-  public constructor() {}
-
   /**
    * Get a description of the clouds in the sky. Will return something like
    * "The sky is cloudy." or
