@@ -38,7 +38,7 @@ import FluxMeterNode from './FluxMeterNode.js';
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
 const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
-const DARKNESS_OPACITY = 0.85;
+const DARKNESS_OPACITY = 0.7;
 const EXPECTED_MAX_TEMPERATURE = 309; // in Kelvin
 
 // The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
