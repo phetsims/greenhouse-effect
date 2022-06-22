@@ -8,8 +8,10 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
 import glacier_png from '../../../images/glacier_png.js';
 import nineteenFiftyBackground_png from '../../../images/nineteenFiftyBackground_png.js';
@@ -18,14 +20,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
-import LayerDebugNode from './LayerDebugNode.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
+import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } from './InstrumentVisibilityControls.js';
+import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import GasConcentrationAlerter from './GasConcentrationAlerter.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 type LandscapeObservationWindowOptions = {
   instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
@@ -210,7 +210,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     this.controlsLayer.addChild( this.instrumentVisibilityControls );
 
     // add clouds
-    if ( model.cloud ){
+    if ( model.cloud ) {
       this.backgroundLayer.addChild( new CloudNode( model.cloud, this.modelViewTransform ) );
     }
 
