@@ -18,15 +18,25 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import AtmosphereLayer from './AtmosphereLayer.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import LayersModel from './LayersModel.js';
 
+// constants
+const MIN_LAYER_TO_SENSOR_DISTANCE = 3500; // in meters
+
 // types
 type SelfOptions = {
+
+  // A boolean flag that controls whether the flux sensor should be moved off of a layer when it is released on or very
+  // near one.
+  moveSensorOffLayers?: boolean;
+
+  // options passed through to the flux sensor
   fluxSensorOptions?: StrictOmit<FluxSensorOptions, 'tandem'>;
 };
-type FluxMeterOptions = SelfOptions & PhetioObjectOptions;
+export type FluxMeterOptions = SelfOptions & PhetioObjectOptions;
 
 // constants
 const FLUX_SENSOR_SIZE = new Dimension2(
@@ -40,6 +50,8 @@ const FLUX_SENSOR_SIZE = new Dimension2(
 
 class FluxMeter extends PhetioObject {
 
+  private readonly atmosphereLayers: AtmosphereLayer[];
+
   // the model element that senses the flux, must have energy added to it by the model
   public readonly fluxSensor: FluxSensor;
 
@@ -47,9 +59,10 @@ class FluxMeter extends PhetioObject {
   public readonly wireMeterAttachmentPositionProperty: Vector2Property;
   public readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
 
-  public constructor( providedOptions?: FluxMeterOptions ) {
+  public constructor( atmosphereLayers: AtmosphereLayer[], providedOptions?: FluxMeterOptions ) {
 
     const options = optionize<FluxMeterOptions, SelfOptions, PhetioObjectOptions>()( {
+      moveSensorOffLayers: false,
       fluxSensorOptions: {
 
         // The initial position for the flux sensor, empirically determined to be near the horizon in the observation
@@ -63,6 +76,8 @@ class FluxMeter extends PhetioObject {
     }, providedOptions );
 
     super( options );
+
+    this.atmosphereLayers = atmosphereLayers;
 
     // Create the flux sensor, which is the portion that actually senses and measures the flux.
     const fluxSensorOptions = options.fluxSensorOptions as FluxSensorOptions;
@@ -87,6 +102,22 @@ class FluxMeter extends PhetioObject {
     this.wireMeterAttachmentPositionProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: options.tandem.createTandem( 'wireMeterAttachmentPositionProperty' )
     } );
+
+    const checkAndUpdateSensorPosition = () => {
+      if ( options.moveSensorOffLayers ) {
+        this.checkAndUpdateSensorPosition();
+      }
+    };
+
+    this.fluxSensor.isDraggingProperty.lazyLink( isDragging => {
+      if ( !isDragging ) {
+        checkAndUpdateSensorPosition();
+      }
+    } );
+
+    this.atmosphereLayers.forEach( atmosphereLayer => {
+      atmosphereLayer.isActiveProperty.lazyLink( checkAndUpdateSensorPosition );
+    } );
   }
 
   /**
@@ -101,6 +132,25 @@ class FluxMeter extends PhetioObject {
    */
   public measureEnergyPacketFlux( energyPackets: EMEnergyPacket[], dt: number ): void {
     this.fluxSensor.measureEnergyPacketFlux( energyPackets, dt );
+  }
+
+  /**
+   * Check the sensor position and, if it is too close to any layers, move it away.
+   */
+  private checkAndUpdateSensorPosition(): void {
+    const activeAtmosphereLayers = this.atmosphereLayers.filter( layer => layer.isActiveProperty.value );
+    activeAtmosphereLayers.forEach( atmosphereLayer => {
+      const sensorToLayerYDistance = Math.abs( atmosphereLayer.altitude - this.fluxSensor.positionProperty.value.y );
+      if ( sensorToLayerYDistance < MIN_LAYER_TO_SENSOR_DISTANCE ) {
+        const currentSensorPosition = this.fluxSensor.positionProperty.value;
+        const deltaFromAltitude = currentSensorPosition.y >= atmosphereLayer.altitude ?
+                                  MIN_LAYER_TO_SENSOR_DISTANCE :
+                                  -MIN_LAYER_TO_SENSOR_DISTANCE;
+        this.fluxSensor.positionProperty.set(
+          new Vector2( currentSensorPosition.x, atmosphereLayer.altitude + deltaFromAltitude )
+        );
+      }
+    } );
   }
 }
 

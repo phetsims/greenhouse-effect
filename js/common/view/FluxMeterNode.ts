@@ -121,6 +121,7 @@ class FluxMeterNode extends Node {
     fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
         startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( fluxSensorNode.center );
+        model.fluxSensor.isDraggingProperty.set( true );
       },
       drag: ( event: SceneryEvent ) => {
         const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
@@ -134,6 +135,9 @@ class FluxMeterNode extends Node {
 
         // Only allow dragging in the Y direction and not the X direction.
         model.fluxSensor.positionProperty.value = new Vector2( 0, modelY );
+      },
+      end: () => {
+        model.fluxSensor.isDraggingProperty.set( false );
       },
       useInputListenerCursor: true,
 

@@ -34,7 +34,10 @@ class LayerModelModel extends LayersModel {
       minimumGroundTemperature: MINIMUM_GROUND_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false,
-      fluxMeterPresent: true
+      fluxMeterPresent: true,
+      fluxMeterOptions: {
+        moveSensorOffLayers: true
+      }
     } );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere

@@ -14,7 +14,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -25,7 +25,7 @@ import AtmosphereLayer from './AtmosphereLayer.js';
 import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
-import FluxMeter from './FluxMeter.js';
+import FluxMeter, { FluxMeterOptions } from './FluxMeter.js';
 import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
 import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
@@ -55,6 +55,9 @@ type SelfOptions = {
 
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
+
+  // options that are pass through to the flux meter if present
+  fluxMeterOptions?: FluxMeterOptions;
 };
 export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
 
@@ -90,7 +93,8 @@ class LayersModel extends GreenhouseEffectModel {
       minimumGroundTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true,
-      fluxMeterPresent: false
+      fluxMeterPresent: false,
+      fluxMeterOptions: {}
     }, providedOptions );
 
     super( tandem, options );
@@ -154,14 +158,6 @@ class LayersModel extends GreenhouseEffectModel {
       tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
     } );
 
-    //  model component for the FluxMeter
-    if ( options.fluxMeterPresent ) {
-      this.fluxMeter = new FluxMeter( { tandem: tandem.createTandem( 'fluxMeter' ) } );
-    }
-    else {
-      this.fluxMeter = null;
-    }
-
     // packets of electromagnetic energy that are moving around in the model
     this.emEnergyPackets = [];
 
@@ -201,6 +197,19 @@ class LayersModel extends GreenhouseEffectModel {
 
     // the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
+
+    //  Create the model component for the FluxMeter if the options indicate that it should be present.
+    if ( options.fluxMeterPresent ) {
+
+      const fluxMeterOptions = combineOptions<FluxMeterOptions>( {
+        tandem: tandem.createTandem( 'fluxMeter' )
+      }, options.fluxMeterOptions );
+
+      this.fluxMeter = new FluxMeter( this.atmosphereLayers, fluxMeterOptions );
+    }
+    else {
+      this.fluxMeter = null;
+    }
 
     // used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;

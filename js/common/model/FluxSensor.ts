@@ -10,6 +10,7 @@
  * @author John Blanco
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -50,6 +51,9 @@ class FluxSensor extends PhetioObject {
   // The proportion of the energy to be absorbed from the energy packets.  This is based on the size of the flux sensor
   // relative to the total simulated area in the model.
   private readonly proportionOfEnergyToAbsorb: number;
+
+  // tracks whether this sensor is being dragged in the view
+  public readonly isDraggingProperty: BooleanProperty = new BooleanProperty( false );
 
   /**
    * @param size - The 2D size of this sensor, in meters.  The width dimension is the same as the X direction in the
