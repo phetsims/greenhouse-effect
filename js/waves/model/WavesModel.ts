@@ -9,7 +9,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import Range from '../../../../dot/js/Range.js';
@@ -19,22 +18,21 @@ import merge from '../../../../phet-core/js/merge.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseWaveReflectionVibrato_mp3 from '../../../sounds/greenhouseWaveReflectionVibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import Cloud from '../../common/model/Cloud.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
-import GroundWaveSource from './GroundWaveSource.js';
-import LayersModel, { LayersModelStateObject } from '../../common/model/LayersModel.js';
-import SunWaveSource from './SunWaveSource.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource from './EMWaveSource.js';
-import Wave, { WaveOptions } from './Wave.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
+import LayersModel, { LayersModelStateObject } from '../../common/model/LayersModel.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import EMWaveSource from './EMWaveSource.js';
+import GroundWaveSource from './GroundWaveSource.js';
+import SunWaveSource from './SunWaveSource.js';
+import Wave, { WaveOptions } from './Wave.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -47,17 +45,8 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 ] );
 
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
-const CLOUD_WIDTH = 18000; // in meters, empirically determined to look good
-
-// In the 1/19/2022 design meeting, we decided that when the cloud is on, the total amount of reflected light should go
-// up by 10%.  Note that this DOESN'T mean that we can just use 0.1 as the total target reflectance, because when it is
-// on it reduces the amount of light reaching the ground, so the calculation is more complex than that.  The following
-// calculation assumes that the ground with no clouds reflects 20% of incident light.
-const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * LayersModel.SUNLIGHT_SPAN.width / CLOUD_WIDTH;
-assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}` );
 
 class WavesModel extends ConcentrationModel {
-  readonly cloudEnabledProperty: BooleanProperty;
   readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   readonly wavesChangedEmitter: Emitter<[]>;
   private readonly sunWaveSource: SunWaveSource;
@@ -121,29 +110,6 @@ class WavesModel extends ConcentrationModel {
       this.surfaceTemperatureKelvinProperty,
       { tandem: tandem.createTandem( 'groundWaveSource' ) }
     );
-
-    // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
-    // and can be adjusted as needed.
-    this.clouds.push(
-      new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, {
-
-        topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
-
-        // phetio
-        tandem: tandem.createTandem( 'cloud' )
-      } )
-    );
-
-    // {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
-    this.cloudEnabledProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'cloudEnabledProperty' )
-    } );
-
-    // Update the enabled state of the cloud.
-    this.cloudEnabledProperty.link( cloudEnabled => {
-      assert && assert( this.clouds.length === 1 );
-      this.clouds[ 0 ].enabledProperty.set( cloudEnabled );
-    } );
 
     // map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map<Wave, Wave>();
@@ -230,84 +196,85 @@ class WavesModel extends ConcentrationModel {
    */
   private updateWaveCloudInteractions(): void {
 
-    assert && assert( this.clouds.length === 1, 'this subclass assumes only one cloud in the model' );
+    if ( this.cloud ) {
 
-    const cloud = this.clouds[ 0 ];
+      const cloud = this.cloud; // convenience var
 
-    // The reflectivity value used visually is NOT the actual value used in the cloud model.  This is because the actual
-    // value didn't produce enough of a visible wave.  In other words, this value is "Hollywooded" to get the look we
-    // wanted.  See https://github.com/phetsims/greenhouse-effect/issues/82.
-    const visualCloudReflectivity = 0.5;
+      // The reflectivity value used visually is NOT the actual value used in the cloud model.  This is because the actual
+      // value didn't produce enough of a visible wave.  In other words, this value is "Hollywooded" to get the look we
+      // wanted.  See https://github.com/phetsims/greenhouse-effect/issues/82.
+      const visualCloudReflectivity = 0.5;
 
-    // See if any of the currently reflected waves should stop reflecting.
-    this.cloudReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
-      if ( !cloud.enabledProperty.value || sourceWave.startPoint.y < cloud.position.y ) {
+      // See if any of the currently reflected waves should stop reflecting.
+      this.cloudReflectedWavesMap.forEach( ( reflectedWave, sourceWave ) => {
+        if ( !cloud.enabledProperty.value || sourceWave.startPoint.y < cloud.position.y ) {
 
-        // Either the cloud has disappeared or the wave from the sun that was being reflected has gone all the way
-        // through the cloud.  In either case, it's time to stop reflecting the wave.
-        reflectedWave.isSourced = false;
-        this.cloudReflectedWavesMap.delete( sourceWave );
+          // Either the cloud has disappeared or the wave from the sun that was being reflected has gone all the way
+          // through the cloud.  In either case, it's time to stop reflecting the wave.
+          reflectedWave.isSourced = false;
+          this.cloudReflectedWavesMap.delete( sourceWave );
+        }
+      } );
+
+      if ( cloud.enabledProperty.value ) {
+
+        // Make a list of waves that originated from the sun and are currently passing through the cloud.
+        const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
+          wave.isVisible &&
+          wave.origin.y === this.sunWaveSource.waveStartAltitude &&
+          wave.propagationDirection.y < 0 &&
+          wave.startPoint.y > cloud.position.y &&
+          wave.startPoint.y - wave.length < cloud.position.y &&
+          wave.startPoint.x > cloud.position.x - cloud.width / 2 &&
+          wave.startPoint.x < cloud.position.x + cloud.width / 2
+        );
+
+        // Check if reflected waves and attenuators are in place for this cloud and, if not, add them.
+        wavesCrossingTheCloud.forEach( incidentWave => {
+
+          // If there is no reflected wave for this incident wave, create one.
+          if ( !this.cloudReflectedWavesMap.has( incidentWave ) ) {
+            const direction = incidentWave.origin.x > cloud.position.x ?
+                              GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 ) :
+                              GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.1 );
+            const reflectedWave = this.waveGroup.createNextElement(
+              incidentWave.wavelength,
+              new Vector2( incidentWave.origin.x, cloud.position.y ),
+              direction,
+              LayersModel.HEIGHT_OF_ATMOSPHERE,
+              {
+                intensityAtStart: incidentWave.intensityAtStart * visualCloudReflectivity,
+                initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
+                                    ( 2 * Math.PI )
+              }
+            );
+            this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
+
+            // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
+            //       see https://github.com/phetsims/greenhouse-effect/issues/36.
+            this.waveReflectedSoundGenerator.play();
+          }
+
+          // If there is no attenuation of this wave as it passes through the cloud, create it.
+          if ( !incidentWave.hasAttenuator( cloud ) ) {
+            incidentWave.addAttenuator(
+              incidentWave.startPoint.y - cloud.position.y,
+              visualCloudReflectivity,
+              cloud
+            );
+          }
+        } );
       }
-    } );
+      else {
 
-    if ( cloud.enabledProperty.value ) {
-
-      // Make a list of waves that originated from the sun and are currently passing through the cloud.
-      const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
-        wave.isVisible &&
-        wave.origin.y === this.sunWaveSource.waveStartAltitude &&
-        wave.propagationDirection.y < 0 &&
-        wave.startPoint.y > cloud.position.y &&
-        wave.startPoint.y - wave.length < cloud.position.y &&
-        wave.startPoint.x > cloud.position.x - cloud.width / 2 &&
-        wave.startPoint.x < cloud.position.x + cloud.width / 2
-      );
-
-      // Check if reflected waves and attenuators are in place for this cloud and, if not, add them.
-      wavesCrossingTheCloud.forEach( incidentWave => {
-
-        // If there is no reflected wave for this incident wave, create one.
-        if ( !this.cloudReflectedWavesMap.has( incidentWave ) ) {
-          const direction = incidentWave.origin.x > cloud.position.x ?
-                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( -Math.PI * 0.1 ) :
-                            GreenhouseEffectConstants.STRAIGHT_UP_NORMALIZED_VECTOR.rotated( Math.PI * 0.1 );
-          const reflectedWave = this.waveGroup.createNextElement(
-            incidentWave.wavelength,
-            new Vector2( incidentWave.origin.x, cloud.position.y ),
-            direction,
-            LayersModel.HEIGHT_OF_ATMOSPHERE,
-            {
-              intensityAtStart: incidentWave.intensityAtStart * visualCloudReflectivity,
-              initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
-                                  ( 2 * Math.PI )
-            }
-          );
-          this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
-
-          // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
-          //       see https://github.com/phetsims/greenhouse-effect/issues/36.
-          this.waveReflectedSoundGenerator.play();
-        }
-
-        // If there is no attenuation of this wave as it passes through the cloud, create it.
-        if ( !incidentWave.hasAttenuator( cloud ) ) {
-          incidentWave.addAttenuator(
-            incidentWave.startPoint.y - cloud.position.y,
-            visualCloudReflectivity,
-            cloud
-          );
-        }
-      } );
-    }
-    else {
-
-      // The cloud is not enabled, so if there are any waves that were being attenuated because of the cloud, stop that
-      // from happening.
-      this.waveGroup.forEach( wave => {
-        if ( wave.hasAttenuator( cloud ) ) {
-          wave.removeAttenuator( cloud );
-        }
-      } );
+        // The cloud is not enabled, so if there are any waves that were being attenuated because of the cloud, stop that
+        // from happening.
+        this.waveGroup.forEach( wave => {
+          if ( wave.hasAttenuator( cloud ) ) {
+            wave.removeAttenuator( cloud );
+          }
+        } );
+      }
     }
   }
 
@@ -494,7 +461,6 @@ class WavesModel extends ConcentrationModel {
   public override reset(): void {
     const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
-    this.cloudEnabledProperty.reset();
     this.waveGroup.clear();
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();

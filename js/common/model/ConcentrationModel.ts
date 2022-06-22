@@ -8,22 +8,33 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayersModel, { LayersModelOptions } from './LayersModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Cloud from './Cloud.js';
 import GroundLayer from './GroundLayer.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import LayersModel, { LayersModelOptions } from './LayersModel.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
+const CLOUD_WIDTH = 18000; // in meters, empirically determined to look good
+
+// In the 1/19/2022 design meeting, we decided that when the cloud is on, the total amount of reflected light should go
+// up by 10%.  Note that this DOESN'T mean that we can just use 0.1 as the total target reflectance, because when it is
+// on it reduces the amount of light reaching the ground, so the calculation is more complex than that.  The following
+// calculation assumes that the ground with no clouds reflects 20% of incident light.
+const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * LayersModel.SUNLIGHT_SPAN.width / CLOUD_WIDTH;
+assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}` );
 
 // An enumeration for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date.
@@ -74,6 +85,9 @@ class ConcentrationModel extends LayersModel {
 
   // The actual value of concentration for the model, depending on how the concentration is to be controlled.
   public readonly concentrationProperty: IReadOnlyProperty<number>;
+
+  // A property that determines whether the reflective cloud is enabled.
+  public readonly cloudEnabledProperty: BooleanProperty;
 
   /**
    * @param tandem
@@ -144,6 +158,25 @@ class ConcentrationModel extends LayersModel {
         }
       }
     );
+
+    // {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
+    this.cloudEnabledProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'cloudEnabledProperty' )
+    } );
+
+    // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
+    // and can be adjusted as needed.
+    this.cloud = new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, {
+      topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
+
+      // phetio
+      tandem: tandem.createTandem( 'cloud' )
+    } );
+
+    // Update the enabled state of the cloud.
+    this.cloudEnabledProperty.link( cloudEnabled => {
+      this.cloud && this.cloud.enabledProperty.set( cloudEnabled );
+    } );
   }
 
   /**
@@ -153,6 +186,7 @@ class ConcentrationModel extends LayersModel {
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();
+    this.cloudEnabledProperty.reset();
     super.reset();
   }
 

@@ -210,9 +210,9 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     this.controlsLayer.addChild( this.instrumentVisibilityControls );
 
     // add clouds
-    model.clouds.forEach( cloud => {
-      this.backgroundLayer.addChild( new CloudNode( cloud, this.modelViewTransform ) );
-    } );
+    if ( model.cloud ){
+      this.backgroundLayer.addChild( new CloudNode( model.cloud, this.modelViewTransform ) );
+    }
 
     // pdom - responsive descriptions
     this.gasConcentrationAlerter = new GasConcentrationAlerter( model, {

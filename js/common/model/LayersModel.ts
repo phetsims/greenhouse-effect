@@ -26,11 +26,11 @@ import Cloud from './Cloud.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import FluxMeter from './FluxMeter.js';
+import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
 import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
-import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -73,8 +73,8 @@ class LayersModel extends GreenhouseEffectModel {
   private readonly emEnergyPackets: EMEnergyPacket[];
   public readonly sunEnergySource: SunEnergySource;
   public readonly atmosphereLayers: AtmosphereLayer[];
+  public cloud: Cloud | null = null;
   public readonly groundLayer: GroundLayer;
-  public readonly clouds: Cloud[];
   public readonly outerSpace: SpaceEnergySink;
   private modelSteppingTime: number;
   public readonly fluxMeter: FluxMeter | null;
@@ -199,9 +199,6 @@ class LayersModel extends GreenhouseEffectModel {
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
-    // {Cloud[]} - array of clouds that can be individually turned on or off
-    this.clouds = [];
-
     // the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
@@ -233,9 +230,9 @@ class LayersModel extends GreenhouseEffectModel {
       this.atmosphereLayers.forEach( atmosphereLayer => {
         atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
       } );
-      this.clouds.forEach( cloud => {
-        cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
-      } );
+      if ( this.cloud ) {
+        this.cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+      }
       this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 
       // If the flux meter is present, have it measure the flux.
