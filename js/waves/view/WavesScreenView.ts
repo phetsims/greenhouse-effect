@@ -7,35 +7,32 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Image, VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import wavesScreenMockup_png from '../../../images/wavesScreenMockup_png.js';
 import greenhouseEffectWavesIrLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrLoop_mp3.js';
 import greenhouseEffectWavesIrReemissionLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionLoop_mp3.js';
 import greenhouseEffectWavesIrReemissionStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionStartingSound_mp3.js';
 import greenhouseEffectWavesIrStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrStartingSound_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
-import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
-import WavesModel from '../model/WavesModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
-import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
-import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
-  private readonly cloudEnabledInManualConcentrationModeProperty: BooleanProperty;
 
   public constructor( model: WavesModel, tandem: Tandem ) {
 
@@ -85,15 +82,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'surfaceTemperatureCheckbox' )
     );
 
-    // Create a property that keeps track of whether the cloud is enabled in manually-controlled-concentration mode.
-    // Note that the cloud is always enabled in date-controlled-concentration mode.
-    this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' )
-    } );
-
     // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
     const cloudCheckbox = new CloudCheckbox(
-      this.cloudEnabledInManualConcentrationModeProperty,
+      model.cloudEnabledProperty,
       model.sunEnergySource.isShiningProperty,
       {
         visibleProperty: new DerivedProperty(
@@ -101,19 +92,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
           mode => mode === ConcentrationControlMode.BY_VALUE
         ),
         tandem: tandem.createTandem( 'cloudCheckbox' )
-      }
-    );
-
-    // Set up a multi-link that will turn the cloud on and off in the model.  The cloud is always shown in
-    // date-controlled-concentration mode, and can be turned on or off by the user in manually-controlled-concentration
-    // mode.
-    Multilink.multilink(
-      [ this.cloudEnabledInManualConcentrationModeProperty, model.concentrationControlModeProperty ],
-      ( cloudEnabledInManualConcentrationMode, concentrationControlMode ) => {
-        model.cloudEnabledProperty.set(
-          concentrationControlMode === ConcentrationControlMode.BY_DATE ||
-          cloudEnabledInManualConcentrationMode
-        );
       }
     );
 
@@ -332,7 +310,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
   }
 
   public override reset(): void {
-    this.cloudEnabledInManualConcentrationModeProperty.reset();
     super.reset();
   }
 }

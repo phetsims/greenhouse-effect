@@ -13,21 +13,21 @@
  *                  https://github.com/phetsims/greenhouse-effect/issues/129.
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import TemperatureDescriber from './describers/TemperatureDescriber.js';
-import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
-import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import EnergyDescriber from './describers/EnergyDescriber.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import LayersModel from '../model/LayersModel.js';
-import RadiationDescriber from './describers/RadiationDescriber.js';
-import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
+import LayersModel from '../model/LayersModel.js';
+import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
+import EnergyDescriber from './describers/EnergyDescriber.js';
+import RadiationDescriber from './describers/RadiationDescriber.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -181,6 +181,14 @@ class GasConcentrationAlerter extends Alerter {
         // In manual mode, describe the relative level of concentration.
         this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
       }
+    } );
+
+    // When the enabled state of the cloud changes, alert the user of the change and describe the effect.
+    model.cloudEnabledProperty.lazyLink( cloudEnabled => {
+      this.alert( ConcentrationDescriber.getSkyCloudChangeDescription(
+        cloudEnabled,
+        model.sunEnergySource.isShiningProperty.value
+      ) );
     } );
   }
 

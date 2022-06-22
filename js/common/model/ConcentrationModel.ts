@@ -164,6 +164,20 @@ class ConcentrationModel extends LayersModel {
       tandem: tandem.createTandem( 'cloudEnabledProperty' )
     } );
 
+    // When switching from manual concentration control mode to date-based concentration mode, the cloud must be turned
+    // on if it isn't already.  Then, when switching back to manual concentration mode, the cloud must be restored to
+    // whatever the state was when the user switched away.  That's what the following code does.
+    let cloudEnabledInManualConcentrationMode = this.cloudEnabledProperty.value;
+    this.concentrationControlModeProperty.lazyLink( concentrationControlMode => {
+      if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
+        cloudEnabledInManualConcentrationMode = this.cloudEnabledProperty.value;
+        this.cloudEnabledProperty.set( true );
+      }
+      else if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
+        this.cloudEnabledProperty.set( cloudEnabledInManualConcentrationMode );
+      }
+    } );
+
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
     this.cloud = new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, {

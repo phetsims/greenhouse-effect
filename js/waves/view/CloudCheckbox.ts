@@ -8,22 +8,19 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import merge from '../../../../phet-core/js/merge.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
+import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import { Shape } from '../../../../kite/js/imports.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
@@ -43,20 +40,10 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
-    // One utterance with changing content depending on simulation state
-    const checkboxUtterance = new Utterance();
-
-    Multilink.multilink( [ cloudEnabledProperty, isShiningProperty ], ( cloudEnabled, isShining ) => {
-      checkboxUtterance.alert = ConcentrationDescriber.getSkyCloudChangeDescription( cloudEnabled, isShining );
-    } );
-
     const options = merge(
       {
         iconNode: iconNode,
         helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
-
-        checkedContextResponse: checkboxUtterance,
-        uncheckedContextResponse: checkboxUtterance,
 
         // phet-io
         tandem: Tandem.REQUIRED
