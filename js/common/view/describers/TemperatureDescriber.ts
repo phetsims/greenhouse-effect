@@ -168,7 +168,7 @@ class TemperatureDescriber {
    * "Surface temperature warming, now 277 Kelvin." or
    * "Cooling, now 266.1 Kelvin."
    */
-  static getSurfaceTemperatureChangeString( oldTemperature: number,
+  public static getSurfaceTemperatureChangeString( oldTemperature: number,
                                             currentTemperature: number,
                                             thermometerVisible: boolean,
                                             unitsValue: TemperatureUnits,
@@ -213,7 +213,7 @@ class TemperatureDescriber {
    *
    * Please note that this does not actually check that the temperature *is* stable, so use wisely.
    */
-  static getSurfaceTemperatureStableString( temperature: number,
+  public static getSurfaceTemperatureStableString( temperature: number,
                                             thermometerVisible: boolean,
                                             surfaceTemperatureIndicationVisible: boolean,
                                             unitsValue: TemperatureUnits,
@@ -260,7 +260,7 @@ class TemperatureDescriber {
    * Will return something like
    * "The surface temperature is high, 290 Kelvin."
    */
-  static getSurfaceTemperatureIsString( temperature: number,
+  public static getSurfaceTemperatureIsString( temperature: number,
                                         thermometerVisible: boolean,
                                         surfaceTemperatureIndicationVisible: boolean,
                                         unitsValue: TemperatureUnits,

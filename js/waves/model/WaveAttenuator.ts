@@ -12,8 +12,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  */
 
 class WaveAttenuator {
-  attenuation: number;
-  distanceFromStart: number;
+  public attenuation: number;
+  public distanceFromStart: number;
 
   /**
    * @param initialAttenuation - amount of attenuation at construction, may be changed later
@@ -33,7 +33,7 @@ class WaveAttenuator {
   /**
    * Serializes this WaveAttenuator instance.
    */
-  toStateObject(): WaveAttenuatorStateObject {
+  public toStateObject(): WaveAttenuatorStateObject {
     return {
       attenuation: NumberIO.toStateObject( this.attenuation ),
       distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
@@ -58,7 +58,7 @@ class WaveAttenuator {
   }
 
   // phet-io
-  static WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
+  public static WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
 }
 
 type WaveAttenuatorStateObject = {

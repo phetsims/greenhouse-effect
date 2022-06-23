@@ -31,9 +31,9 @@ const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
  * simple inner class for amalgamating the information needed to space out the waves
  */
 class WaveCreationSpec {
-  countdown: number;
-  readonly propagationDirection: Vector2;
-  readonly originX: number;
+  public countdown: number;
+  public readonly propagationDirection: Vector2;
+  public readonly originX: number;
 
   public constructor( originX: number, propagationDirection: Vector2, timeToCreation: number ) {
     this.countdown = timeToCreation;
@@ -68,7 +68,7 @@ class WaveCreationSpec {
     };
   }
 
-  static WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
+  public static WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
 }
 
 type WaveCreationSpecStateObject = {
@@ -84,7 +84,7 @@ type EMWaveSourceOptions = {
 } & PhetioObjectOptions
 
 class EMWaveSource extends PhetioObject {
-  readonly waveStartAltitude: number;
+  public readonly waveStartAltitude: number;
   private readonly waveIntensityProperty: Property<number>;
   private readonly waveProductionEnabledProperty: IReadOnlyProperty<boolean>;
   private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
@@ -303,7 +303,7 @@ class EMWaveSource extends PhetioObject {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource );
+  public static EMWaveSourceIO = IOType.fromCoreType( 'EMWaveSourceIO', EMWaveSource );
 }
 
 type EMWaveSourceStateObject = {

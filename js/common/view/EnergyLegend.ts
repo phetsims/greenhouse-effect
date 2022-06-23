@@ -38,10 +38,10 @@ const LABEL_OPTIONS = {
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
 class EnergyRepresentation extends EnumerationValue {
-  static PHOTON = new EnergyRepresentation();
-  static WAVE = new EnergyRepresentation();
+  public static PHOTON = new EnergyRepresentation();
+  public static WAVE = new EnergyRepresentation();
 
-  static enumeration = new Enumeration( EnergyRepresentation );
+  public static enumeration = new Enumeration( EnergyRepresentation );
 }
 
 type EnergyLegendOptions = {
@@ -175,7 +175,7 @@ class EnergyLegend extends Panel {
   }
 
   // static values
-  static EnergyRepresentation = EnergyRepresentation;
+  public static EnergyRepresentation = EnergyRepresentation;
 }
 
 /**

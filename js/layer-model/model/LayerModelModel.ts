@@ -24,9 +24,9 @@ const MINIMUM_GROUND_TEMPERATURE = 125;
  * @constructor
  */
 class LayerModelModel extends LayersModel {
-  readonly numberOfActiveAtmosphereLayersProperty: NumberProperty;
-  readonly layersInfraredAbsorbanceProperty: NumberProperty;
-  readonly photonCollection: PhotonCollection;
+  public readonly numberOfActiveAtmosphereLayersProperty: NumberProperty;
+  public readonly layersInfraredAbsorbanceProperty: NumberProperty;
+  public readonly photonCollection: PhotonCollection;
 
   public constructor( tandem: Tandem ) {
     super( tandem, {

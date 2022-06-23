@@ -35,19 +35,19 @@ export type WaveOptions = {
 } & PhetioObjectOptions;
 
 class Wave extends PhetioObject {
-  readonly debugTag: string | null;
-  readonly wavelength: number;
-  readonly origin: Vector2;
-  readonly propagationDirection: Vector2;
-  readonly startPoint: Vector2;
-  readonly propagationLimit: number;
-  length: number;
-  existenceTime: number;
-  phaseOffsetAtOrigin: number;
-  intensityAtStart: number;
-  renderingWavelength: number;
+  private readonly debugTag: string | null;
+  public readonly wavelength: number;
+  public readonly origin: Vector2;
+  public readonly propagationDirection: Vector2;
+  public readonly startPoint: Vector2;
+  private readonly propagationLimit: number;
+  public length: number;
+  public existenceTime: number;
+  public phaseOffsetAtOrigin: number;
+  public intensityAtStart: number;
+  private readonly renderingWavelength: number;
   private modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
-  isSourced: boolean;
+  public isSourced: boolean;
 
   /**
    * @param wavelength - wavelength of this light wave, in meters
@@ -233,7 +233,7 @@ class Wave extends PhetioObject {
    * Get the intensity of the wave at the specified distance from the starting point.
    * @param distanceFromStart - in meters
    */
-  getIntensityAt( distanceFromStart: number ): number {
+  public getIntensityAt( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
     this.getSortedAttenuators().forEach( attenuator => {
       if ( attenuator.distanceFromStart < distanceFromStart ) {
@@ -257,7 +257,7 @@ class Wave extends PhetioObject {
    * @param attenuationAmount
    * @param causalModelElement - the model element that is causing this attenuation to exist
    */
-  addAttenuator( distanceFromStart: number,
+  public addAttenuator( distanceFromStart: number,
                  attenuationAmount: number,
                  causalModelElement: PhetioObject ): void {
 
@@ -304,7 +304,7 @@ class Wave extends PhetioObject {
   /**
    * Set the attenuation value in the attenuator associated with the provided model element.
    */
-  setAttenuation( modelElement: PhetioObject, attenuation: number ): void {
+  public setAttenuation( modelElement: PhetioObject, attenuation: number ): void {
 
     // state and parameter checking
     assert && assert( this.hasAttenuator( modelElement ), 'no attenuator is on this wave for this model element' );
@@ -317,21 +317,21 @@ class Wave extends PhetioObject {
   /**
    * true if the wave has completely propagated and has nothing else to do
    */
-  get isCompletelyPropagated(): boolean {
+  public get isCompletelyPropagated(): boolean {
     return this.startPoint.y === this.propagationLimit;
   }
 
   /**
    * convenience method for determining whether this is a visible photon
    */
-  get isVisible() {
+  public get isVisible() {
     return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
   }
 
   /**
    * convenience method for determining whether this is an infrared photon
    */
-  get isInfrared() {
+  public get isInfrared() {
     return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
   }
 
@@ -339,14 +339,14 @@ class Wave extends PhetioObject {
    * Get the wave's phase at the specified distance from the origin.
    * @param distanceFromOrigin - in meters
    */
-  getPhaseAt( distanceFromOrigin: number ): number {
+  public getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
   }
 
   /**
    * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
    */
-  getSortedAttenuators(): WaveAttenuator[] {
+  public getSortedAttenuators(): WaveAttenuator[] {
     return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
       attenuator1.distanceFromStart - attenuator2.distanceFromStart
     );
@@ -355,7 +355,7 @@ class Wave extends PhetioObject {
   /**
    * Serializes this Wave instance.
    */
-  toStateObject(): { wavelength: any; origin: any; propagationDirection: any; propagationLimit: any; startPoint: any; length: any; isSourced: any; existenceTime: any; phaseOffsetAtOrigin: any; intensityAtStart: any; modelObjectToAttenuatorMap: any; renderingWavelength: any } {
+  public toStateObject(): { wavelength: any; origin: any; propagationDirection: any; propagationLimit: any; startPoint: any; length: any; isSourced: any; existenceTime: any; phaseOffsetAtOrigin: any; intensityAtStart: any; modelObjectToAttenuatorMap: any; renderingWavelength: any } {
     return {
       wavelength: NumberIO.toStateObject( this.wavelength ),
       origin: Vector2.Vector2IO.toStateObject( this.origin ),
@@ -375,7 +375,7 @@ class Wave extends PhetioObject {
     };
   }
 
-  applyState( stateObject: WaveStateObject ): void {
+  public applyState( stateObject: WaveStateObject ): void {
     // @ts-ignore - should be readonly except for applyState
     this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
     // @ts-ignore - should be readonly except for applyState
@@ -395,13 +395,15 @@ class Wave extends PhetioObject {
       ReferenceIO( IOType.ObjectIO ),
       WaveAttenuator.WaveAttenuatorIO
     ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
+
+    // @ts-ignore - should be readonly except for applyState
     this.renderingWavelength = NumberIO.fromStateObject( stateObject.renderingWavelength );
   }
 
   /**
    * Creates the args that WaveGroup uses to instantiate a Wave.
    */
-  static stateToArgsForConstructor( state: WaveStateObject ): any[] {
+  public static stateToArgsForConstructor( state: WaveStateObject ): any[] {
     return [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),
@@ -440,7 +442,7 @@ class Wave extends PhetioObject {
    * as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
+  public static WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
 }
 
 type WaveStateObject = {

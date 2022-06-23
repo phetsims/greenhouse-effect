@@ -17,7 +17,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  */
 class PhotonsModel extends ConcentrationModel {
 
-  readonly photonCollection: PhotonCollection;
+  public readonly photonCollection: PhotonCollection;
 
   public constructor( tandem: Tandem ) {
     super( tandem, { fluxMeterPresent: true } );

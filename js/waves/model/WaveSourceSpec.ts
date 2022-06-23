@@ -16,9 +16,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  * and forth between them in order to create some variation.
  */
 class WaveSourceSpec {
-  readonly minXPosition: number;
-  readonly maxXPosition: number;
-  readonly propagationDirection: Vector2;
+  public readonly minXPosition: number;
+  public readonly maxXPosition: number;
+  public readonly propagationDirection: Vector2;
 
   public constructor( minXPosition: number, maxXPosition: number, propagationDirection: Vector2 ) {
     this.minXPosition = minXPosition;

@@ -21,13 +21,13 @@ import Photon from './Photon.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {
-  static FULLY_ABOVE = new PhotonCrossingTestResult();
-  static FULLY_BELOW = new PhotonCrossingTestResult();
-  static CROSSED_BUT_IGNORED = new PhotonCrossingTestResult();
-  static CROSSED_AND_ABSORBED = new PhotonCrossingTestResult();
-  static NONE = new PhotonCrossingTestResult();
+  public static FULLY_ABOVE = new PhotonCrossingTestResult();
+  public static FULLY_BELOW = new PhotonCrossingTestResult();
+  public static CROSSED_BUT_IGNORED = new PhotonCrossingTestResult();
+  public static CROSSED_AND_ABSORBED = new PhotonCrossingTestResult();
+  public static NONE = new PhotonCrossingTestResult();
 
-  static enumeration = new Enumeration( PhotonCrossingTestResult );
+  public static enumeration = new Enumeration( PhotonCrossingTestResult );
 }
 
 type PhotonAbsorbingEmittingLayerOptions = {

@@ -448,9 +448,9 @@ class GreenhouseEffectObservationWindow extends Node {
   }
 
   // static values
-  static SIZE: Dimension2 = SIZE;
-  static CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;
-  static EXPECTED_MAX_TEMPERATURE = EXPECTED_MAX_TEMPERATURE;
+  public static SIZE: Dimension2 = SIZE;
+  public static CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;
+  public static EXPECTED_MAX_TEMPERATURE = EXPECTED_MAX_TEMPERATURE;
 }
 
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );

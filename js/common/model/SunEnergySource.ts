@@ -120,11 +120,11 @@ class SunEnergySource extends PhetioObject {
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
+  public static SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
 
   // static values
-  static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
-  static OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
+  public static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
+  public static OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
 }
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );

@@ -47,14 +47,14 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
 class WavesModel extends ConcentrationModel {
-  readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
-  readonly wavesChangedEmitter: Emitter<[]>;
+  public readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
+  public readonly wavesChangedEmitter: Emitter<[]>;
   private readonly sunWaveSource: SunWaveSource;
   private readonly groundWaveSource: GroundWaveSource;
   private cloudReflectedWavesMap: Map<Wave, Wave>;
   private glacierReflectedWavesMap: Map<Wave, Wave>;
   private readonly atmosphereLayerToXRangeMap: Map<EnergyAbsorbingEmittingLayer, Range>;
-  readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
+  public readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
   private readonly waveLineStart: Vector2;
   private readonly waveLineEnd: Vector2;
   private readonly waveLine: Line;
@@ -516,11 +516,11 @@ class WavesModel extends ConcentrationModel {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
+  public static WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
 
   // other static values
-  static REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
-  static WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
+  public static REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
+  public static WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 }
 
 type WavesModelStateObject = {
@@ -545,9 +545,9 @@ const mapGasConcentrationToAttenuation = ( concentration: number ): number => {
  * A simple inner class for tracking interactions between the IR waves and the atmosphere.
  */
 class WaveAtmosphereInteraction {
-  readonly atmosphereLayer: EnergyAbsorbingEmittingLayer;
-  readonly sourceWave: Wave;
-  readonly emittedWave: Wave;
+  public readonly atmosphereLayer: EnergyAbsorbingEmittingLayer;
+  public readonly sourceWave: Wave;
+  public readonly emittedWave: Wave;
 
   public constructor( atmosphereLayer: EnergyAbsorbingEmittingLayer, sourceWave: Wave, emittedWave: Wave ) {
     this.atmosphereLayer = atmosphereLayer;
@@ -555,7 +555,7 @@ class WaveAtmosphereInteraction {
     this.emittedWave = emittedWave;
   }
 
-  toStateObject(): WaveAtmosphereInteractionStateObject {
+  public toStateObject(): WaveAtmosphereInteractionStateObject {
     return {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
       sourceWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.sourceWave ),
@@ -563,7 +563,7 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ): WaveAtmosphereInteraction {
+  public static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ): WaveAtmosphereInteraction {
     return new WaveAtmosphereInteraction(
       ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
       ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
@@ -581,7 +581,7 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  static WaveAtmosphereInteractionIO = IOType.fromCoreType(
+  public static WaveAtmosphereInteractionIO = IOType.fromCoreType(
     'WaveAtmosphereInteractionIO',
     WaveAtmosphereInteraction
   );

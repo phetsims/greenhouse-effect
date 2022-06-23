@@ -42,10 +42,10 @@ const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
 const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
 
 class ReadoutType extends EnumerationValue {
-  static SELECTABLE = new ReadoutType();
-  static FIXED = new ReadoutType();
+  public static SELECTABLE = new ReadoutType();
+  public static FIXED = new ReadoutType();
 
-  static enumeration = new Enumeration( ReadoutType );
+  public static enumeration = new Enumeration( ReadoutType );
 }
 
 type SelfOptions = {
@@ -235,7 +235,7 @@ class ThermometerAndReadout extends Node {
   }
 
   // static values
-  static ReadoutType = ReadoutType;
+  public static ReadoutType = ReadoutType;
 }
 
 greenhouseEffect.register( 'ThermometerAndReadout', ThermometerAndReadout );

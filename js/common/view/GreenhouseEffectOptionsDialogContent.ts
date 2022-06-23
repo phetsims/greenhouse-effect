@@ -35,13 +35,13 @@ const PANEL_MARGIN = 8;
 const CHECKBOX_WIDTH = 13;
 
 class TemperatureSoundNames extends EnumerationValue {
-  static MULTIPLE_LOOPS_WITH_CROSS_FADES = new TemperatureSoundNames();
-  static SINGLE_LOOP_WITH_LOW_PASS = new TemperatureSoundNames();
-  static SINGLE_LOOP_WITH_BAND_PASS = new TemperatureSoundNames();
-  static SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE = new TemperatureSoundNames();
-  static NONE = new TemperatureSoundNames();
+  public static MULTIPLE_LOOPS_WITH_CROSS_FADES = new TemperatureSoundNames();
+  public static SINGLE_LOOP_WITH_LOW_PASS = new TemperatureSoundNames();
+  public static SINGLE_LOOP_WITH_BAND_PASS = new TemperatureSoundNames();
+  public static SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE = new TemperatureSoundNames();
+  public static NONE = new TemperatureSoundNames();
 
-  static enumeration = new Enumeration( TemperatureSoundNames );
+  public static enumeration = new Enumeration( TemperatureSoundNames );
 }
 
 // Define the globals that will be set by this node.  They must be defined during load time.
@@ -226,7 +226,8 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
   }
 
   // static values
-  static TemperatureSoundNames = TemperatureSoundNames;
+  // TODO: This is exported can it be removed now?
+  public static TemperatureSoundNames = TemperatureSoundNames;
 }
 
 /**

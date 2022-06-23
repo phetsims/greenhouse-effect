@@ -100,7 +100,7 @@ class WavesScreenSummaryContentNode extends Node {
    * "Currently, max levels of greenhouse gases in atmosphere. Earth’s surface temperature is very high, 22 degrees
    * Celsius. The sky is cloudy.
    */
-  getScreenDescriptionString( sunIsShining: boolean,
+  private getScreenDescriptionString( sunIsShining: boolean,
                               isPlaying: boolean,
                               concentration: number,
                               date: ConcentrationDate,

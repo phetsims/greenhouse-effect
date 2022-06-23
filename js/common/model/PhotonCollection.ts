@@ -268,7 +268,7 @@ class PhotonCollection extends PhetioObject {
   /**
    * Serialize this instance to a state object, used for phet-io.
    */
-  toStateObject(): PhotonCollectionStateObject {
+  public toStateObject(): PhotonCollectionStateObject {
     return {
       photonStateObjects: ArrayIO( Photon.PhotonIO ).toStateObject( this.photons )
     };
@@ -328,7 +328,7 @@ class PhotonCollection extends PhetioObject {
     return photonProductionRate;
   }
 
-  static PhotonCollectionIO = IOType.fromCoreType( 'PhotonCollectionIO', PhotonCollection, {
+  public static PhotonCollectionIO = IOType.fromCoreType( 'PhotonCollectionIO', PhotonCollection, {
     defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
   } );
 }

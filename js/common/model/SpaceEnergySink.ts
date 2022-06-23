@@ -19,7 +19,7 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 
 class SpaceEnergySink extends PhetioObject {
   private readonly altitude: number;
-  readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
+  public readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
 
   public constructor( altitude: number, tandem: Tandem ) {
 
@@ -73,7 +73,7 @@ class SpaceEnergySink extends PhetioObject {
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  static SpaceEnergySinkIO = IOType.fromCoreType( 'SpaceEnergySinkIO', SpaceEnergySink );
+  public static SpaceEnergySinkIO = IOType.fromCoreType( 'SpaceEnergySinkIO', SpaceEnergySink );
 }
 
 greenhouseEffect.register( 'SpaceEnergySink', SpaceEnergySink );

@@ -9,12 +9,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  */
 
 class TemperatureUnits extends EnumerationValue {
-  static KELVIN = new TemperatureUnits();
-  static CELSIUS = new TemperatureUnits();
-  static FAHRENHEIT = new TemperatureUnits();
+  public static KELVIN = new TemperatureUnits();
+  public static CELSIUS = new TemperatureUnits();
+  public static FAHRENHEIT = new TemperatureUnits();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  static enumeration = new Enumeration( TemperatureUnits, {
+  public static enumeration = new Enumeration( TemperatureUnits, {
     phetioDocumentation: 'Describes the type of the mammal.'
   } );
 }
