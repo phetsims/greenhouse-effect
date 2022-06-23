@@ -21,7 +21,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
   public constructor( property: Property<boolean>, temperatureProperty: NumberProperty, temperatureUnitsProperty: Property<any>, tandem: Tandem ) {
-    const iconNode = new ThermometerNode( 0, 5, new NumberProperty( 2 ), { scale: 0.2 } );
+    const iconNode = new ThermometerNode( new NumberProperty( 2 ), 0, 5, { scale: 0.2 } );
 
     const checkedUtterance = new Utterance();
     Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
