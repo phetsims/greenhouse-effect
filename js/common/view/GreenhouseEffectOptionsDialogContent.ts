@@ -108,46 +108,26 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     } );
 
     // checkbox for enabling/disabling IR re-emission sound
-    const irEmissionFromGroundSoundEnabledCheckbox = new Checkbox(
-      new Text( 'IR emission from ground discrete', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty,
-      {
-        boxWidth: CHECKBOX_WIDTH,
-        tandem: Tandem.OPT_OUT
-      }
-    );
-    const irWaveFromGroundExistsSoundEnabledCheckbox = new Checkbox(
-      new Text( 'IR from ground loop', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty,
-      {
-        boxWidth: CHECKBOX_WIDTH,
-        tandem: Tandem.OPT_OUT
-      }
-    );
-    const irEmissionFromAtmosphereEnabledCheckbox = new Checkbox(
-      new Text( 'IR emission from atmosphere discrete', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty,
-      {
-        boxWidth: CHECKBOX_WIDTH,
-        tandem: Tandem.OPT_OUT
-      }
-    );
-    const irWaveFromAtmosphereExistsSoundEnabledCheckbox = new Checkbox(
-      new Text( 'IR from atmosphere loop', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty,
-      {
-        boxWidth: CHECKBOX_WIDTH,
-        tandem: Tandem.OPT_OUT
-      }
-    );
-    const mapIrWaveLoopOutputLevelsToIntensitiesCheckbox = new Checkbox(
-      new Text( 'Map IR loop volumes to wave intensities', SELECTOR_TEXT_OPTIONS ),
-      phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty,
-      {
-        boxWidth: CHECKBOX_WIDTH,
-        tandem: Tandem.OPT_OUT
-      }
-    );
+    const irEmissionFromGroundSoundEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty, new Text( 'IR emission from ground discrete', SELECTOR_TEXT_OPTIONS ), {
+      boxWidth: CHECKBOX_WIDTH,
+      tandem: Tandem.OPT_OUT
+    } );
+    const irWaveFromGroundExistsSoundEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irWaveFromGroundExistsSoundEnabledProperty, new Text( 'IR from ground loop', SELECTOR_TEXT_OPTIONS ), {
+      boxWidth: CHECKBOX_WIDTH,
+      tandem: Tandem.OPT_OUT
+    } );
+    const irEmissionFromAtmosphereEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irEmissionFromAtmosphereSoundEnabledProperty, new Text( 'IR emission from atmosphere discrete', SELECTOR_TEXT_OPTIONS ), {
+      boxWidth: CHECKBOX_WIDTH,
+      tandem: Tandem.OPT_OUT
+    } );
+    const irWaveFromAtmosphereExistsSoundEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty, new Text( 'IR from atmosphere loop', SELECTOR_TEXT_OPTIONS ), {
+      boxWidth: CHECKBOX_WIDTH,
+      tandem: Tandem.OPT_OUT
+    } );
+    const mapIrWaveLoopOutputLevelsToIntensitiesCheckbox = new Checkbox( phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty, new Text( 'Map IR loop volumes to wave intensities', SELECTOR_TEXT_OPTIONS ), {
+      boxWidth: CHECKBOX_WIDTH,
+      tandem: Tandem.OPT_OUT
+    } );
     const irWaveControls = new VBox( {
       children: [
         irEmissionFromGroundSoundEnabledCheckbox,

@@ -17,7 +17,7 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
   public constructor( property: Property<boolean>, tandem: Tandem ) {
 
-    super( greenhouseEffectStrings.morePhotons, property, {
+    super( property, greenhouseEffectStrings.morePhotons, {
 
       // pdom
       helpText: 'help text not yet implemented',

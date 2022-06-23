@@ -29,7 +29,7 @@ type SelfOptions = {
 type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
-  public constructor( labelString: string, property: Property<boolean>, providedOptions?: GreenhouseEffectCheckboxOptions ) {
+  public constructor( property: Property<boolean>, labelString: string, providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
     const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,
@@ -55,7 +55,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
       spacing: LABEL_ICON_SPACING
     } );
 
-    super( checkboxContent, property, options );
+    super( property, checkboxContent, options );
   }
 }
 

@@ -66,29 +66,21 @@ class InstrumentVisibilityControls extends Rectangle {
     // add controls to children
     const children = [];
     if ( model.energyBalanceVisibleProperty ) {
-      children.push( new GreenhouseEffectCheckbox(
-        greenhouseEffectStrings.energyBalance,
-        model.energyBalanceVisibleProperty,
-        {
-          // phet-io
-          tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
+      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, greenhouseEffectStrings.energyBalance, {
+        // phet-io
+        tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
-          // pdom
-          helpText: greenhouseEffectStrings.a11y.energyBalance.helpText,
-          checkedContextResponse: checkedUtterance,
-          uncheckedContextResponse: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
-        }
-      ) );
+        // pdom
+        helpText: greenhouseEffectStrings.a11y.energyBalance.helpText,
+        checkedContextResponse: checkedUtterance,
+        uncheckedContextResponse: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
+      } ) );
     }
     if ( options.includeFluxMeterCheckbox ) {
-      children.push( new GreenhouseEffectCheckbox(
-        greenhouseEffectStrings.fluxMeter.title,
-        model.fluxMeterVisibleProperty,
-        {
-          // phet-io
-          tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
-        }
-      ) );
+      children.push( new GreenhouseEffectCheckbox( model.fluxMeterVisibleProperty, greenhouseEffectStrings.fluxMeter.title, {
+        // phet-io
+        tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
+      } ) );
     }
 
     // layout

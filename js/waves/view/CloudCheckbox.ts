@@ -51,7 +51,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       providedOptions
     );
 
-    super( greenhouseEffectStrings.cloud, cloudEnabledProperty, options );
+    super( cloudEnabledProperty, greenhouseEffectStrings.cloud, options );
   }
 }
 

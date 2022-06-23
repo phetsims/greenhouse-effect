@@ -39,7 +39,7 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       );
     } );
 
-    super( greenhouseEffectStrings.showSurfaceTemperature, property, {
+    super( property, greenhouseEffectStrings.showSurfaceTemperature, {
       iconNode: iconNode,
 
       // pdom
