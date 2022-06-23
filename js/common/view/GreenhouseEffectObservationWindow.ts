@@ -28,7 +28,9 @@ import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
+import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
+import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } from './InstrumentVisibilityControls.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
@@ -51,6 +53,7 @@ const CONTROL_AND_INSTRUMENT_INSET = 10;
 type GreenhouseEffectObservationWindowOptions = {
   groundBaseColorProperty?: Property<Color> | null;
   showTemperatureGlow?: boolean;
+  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
   tandem: Tandem;
 } & NodeOptions;
 
@@ -63,6 +66,9 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly controlsLayer: Node;
   protected readonly groundNodeHeight: number;
   protected readonly startSunlightButton: TextPushButton;
+
+  // Observation window UI component visibility controls, public for pdomOrder.
+  public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
 
   public constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -77,6 +83,9 @@ class GreenhouseEffectObservationWindow extends Node {
 
       // {boolean} - whether the ground and sky should appear to glow when warm
       showTemperatureGlow: false,
+
+      // passed along to the InstrumentVisibilityControls
+      instrumentVisibilityControlsOptions: {},
 
       // phet-io
       tandem: Tandem.REQUIRED,
@@ -247,6 +256,29 @@ class GreenhouseEffectObservationWindow extends Node {
     else {
       this.backgroundLayer.addChild( groundNode );
     }
+
+
+    // energy balance
+    const energyBalancePanel = new EnergyBalancePanel(
+      model.energyBalanceVisibleProperty,
+      model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
+      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
+      model.inRadiativeBalanceProperty
+    );
+    energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
+
+    // controls for the energy balance indicator and the flux meter, if used in this model
+    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
+    this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
+    );
+
+    this.controlsLayer.addChild( energyBalancePanel );
+    this.controlsLayer.addChild( this.instrumentVisibilityControls );
 
     // Create a node that will make everything behind it look darkened.  This will be used to make the scene of the
     // ground and sky appear as though it's night, and then will fade away once the sun is shining, allowing the

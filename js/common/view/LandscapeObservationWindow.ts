@@ -10,6 +10,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import merge from '../../../../phet-core/js/merge.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
@@ -20,16 +21,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
-import EnergyBalancePanel from './EnergyBalancePanel.js';
 import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
-import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } from './InstrumentVisibilityControls.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 
-type LandscapeObservationWindowOptions = {
-  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
-} & GreenhouseEffectObservationWindowOptions;
+type LandscapeObservationWindowOptions = EmptyObjectType & GreenhouseEffectObservationWindowOptions;
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -38,9 +35,6 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
-
-  // Observation window UI component visibility controls, public for pdomOrder.
-  public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
 
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
@@ -53,17 +47,11 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const options = merge( {
       groundBaseColorProperty: groundColorBaseProperty,
 
-      // passed along to the InstrumentVisibilityControls
-      instrumentVisibilityControlsOptions: {},
-
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions ) as Required<LandscapeObservationWindowOptions>;
 
     assert && assert( options.groundBaseColorProperty === groundColorBaseProperty, 'LandscapeObservationWindow sets groundBaseColorProperty' );
-
-    assert && assert( options.instrumentVisibilityControlsOptions.tandem === undefined, 'LandscapeObservationWindow sets tandem on InstrumentVisibilityControls' );
-    options.instrumentVisibilityControlsOptions.tandem = options.tandem.createTandem( 'instrumentVisibilityControls' );
 
     super( model, options );
 
@@ -183,33 +171,12 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       } );
     }
 
-    // energy balance
-    const energyBalancePanel = new EnergyBalancePanel(
-      model.energyBalanceVisibleProperty,
-      model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
-      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
-      model.inRadiativeBalanceProperty
-    );
-    energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
-
-    // controls for the energy balance indicator and the flux meter, if used in this model
-    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
-    this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
 
     // Add the nodes to the layers provided by the parent class.  The order is important for correct layering.
     artworkForDates.forEach( artworkNode => this.backgroundLayer.addChild( artworkNode ) );
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
 
-    this.controlsLayer.addChild( energyBalancePanel );
-    this.controlsLayer.addChild( this.instrumentVisibilityControls );
-
-    // add clouds
+    // Add the cloud, if present.
     if ( model.cloud ) {
       this.backgroundLayer.addChild( new CloudNode( model.cloud, this.modelViewTransform ) );
     }
