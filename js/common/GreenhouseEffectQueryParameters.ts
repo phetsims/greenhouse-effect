@@ -30,6 +30,14 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // TODO: Prior to initial publication, this query parameter should be removed and the value incorporated directly into the code, see https://github.com/phetsims/greenhouse-effect/issues/137
   atEquilibriumTime: { type: 'number', defaultValue: 1.5 },
 
+  // The default temperature units to use, meaning the units that all thermometers will be set to on startup and after a
+  // reset.  The valid values represent Kelvin, degrees Celsius, and degrees Fahrenheit.
+  defaultTemperatureUnits: {
+    type: 'string',
+    validValues: [ 'K', 'C', 'F' ],
+    defaultValue: 'K'
+  },
+
   // a flag that starts the launches the sim with the sunlight initially started, for ease of development
   initiallyStarted: { type: 'boolean', defaultValue: false },
 

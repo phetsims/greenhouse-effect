@@ -20,6 +20,7 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Cloud from './Cloud.js';
@@ -38,6 +39,14 @@ const DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to giv
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
+
+// map used to set the default temperature units based on the value of a query parameter
+const mapLetterToTemperatureUnits: Map<string, TemperatureUnits> = new Map( [
+  [ 'K', TemperatureUnits.KELVIN ],
+  [ 'C', TemperatureUnits.CELSIUS ],
+  [ 'F', TemperatureUnits.FAHRENHEIT ]
+] );
+const DEFAULT_TEMPERATURE_UNITS = mapLetterToTemperatureUnits.get( GreenhouseEffectQueryParameters.defaultTemperatureUnits );
 
 type SelfOptions = {
 
@@ -134,7 +143,8 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     // displayed units of temperature
-    this.temperatureUnitsProperty = new EnumerationProperty( TemperatureUnits.KELVIN, {
+    assert && assert( DEFAULT_TEMPERATURE_UNITS, 'something is wrong with the default temperature units' );
+    this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS!, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
