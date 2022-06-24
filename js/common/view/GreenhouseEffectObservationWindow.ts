@@ -22,6 +22,7 @@ import { Color, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../..
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
@@ -29,13 +30,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
+import FluxMeterNode from './FluxMeterNode.js';
 import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
-import InstrumentVisibilityControls, { InstrumentVisibilityControlsOptions } from './InstrumentVisibilityControls.js';
+import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import FluxMeterNode from './FluxMeterNode.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -53,7 +53,6 @@ const CONTROL_AND_INSTRUMENT_INSET = 10;
 type GreenhouseEffectObservationWindowOptions = {
   groundBaseColorProperty?: Property<Color> | null;
   showTemperatureGlow?: boolean;
-  instrumentVisibilityControlsOptions?: InstrumentVisibilityControlsOptions;
   tandem: Tandem;
 } & NodeOptions;
 
@@ -271,7 +270,10 @@ class GreenhouseEffectObservationWindow extends Node {
     );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
-    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
+    // this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
+    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
+      includeFluxMeterCheckbox: model.fluxMeter !== null
+    } );
     this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
