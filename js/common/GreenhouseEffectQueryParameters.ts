@@ -28,7 +28,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // energy must be less than the threshold for the at-equilibrium time.  This value is in seconds.  See
   // https://github.com/phetsims/greenhouse-effect/issues/137 for more information.
   // TODO: Prior to initial publication, this query parameter should be removed and the value incorporated directly into the code, see https://github.com/phetsims/greenhouse-effect/issues/137
-  atEquilibriumTime: { type: 'number', defaultValue: 1.5 },
+  atEquilibriumTime: { type: 'number', defaultValue: 2.0 },
 
   // The default temperature units to use, meaning the units that all thermometers will be set to on startup and after a
   // reset.  The valid values represent Kelvin, degrees Celsius, and degrees Fahrenheit.
