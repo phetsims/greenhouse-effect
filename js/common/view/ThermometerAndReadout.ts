@@ -137,7 +137,7 @@ class ThermometerAndReadout extends Node {
         )
       ];
 
-      const comboBox = new ComboBox( comboBoxItems, model.temperatureUnitsProperty, options.listParentNode || this, {
+      const comboBox = new ComboBox( model.temperatureUnitsProperty, comboBoxItems, options.listParentNode || this, {
         align: 'right',
         listPosition: 'above',
         yMargin: 4,
