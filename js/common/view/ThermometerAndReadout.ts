@@ -15,8 +15,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
-import ComboBox from '../../../../sun/js/ComboBox.js';
-import ComboBoxItem from '../../../../sun/js/ComboBoxItem.js';
+import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -119,21 +118,21 @@ class ThermometerAndReadout extends Node {
           model.surfaceTemperatureKelvinProperty,
           model.surfaceTemperatureKelvinProperty.range!,
           TemperatureUnits.KELVIN,
-          'kelvinItem'
+          `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsString,
           model.surfaceTemperatureCelsiusProperty,
           celsiusRange,
           TemperatureUnits.CELSIUS,
-          'celsiusItem'
+          `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsString,
           model.surfaceTemperatureFahrenheitProperty,
           fahrenheitRange,
           TemperatureUnits.FAHRENHEIT,
-          'fahrenheitItem'
+          `fahrenheit${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         )
       ];
 
@@ -191,18 +190,12 @@ class ThermometerAndReadout extends Node {
       } )
     };
 
-    return new ComboBoxItem<TemperatureUnits>(
-      new NumberDisplay( property, propertyRange, numberDisplayOptions ),
-      propertyValue,
-      {
-
-        // phet-io
-        tandemName: tandemName,
-
-        // pdom
-        a11yLabel: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
-      }
-    );
+    return {
+      value: propertyValue,
+      node: new NumberDisplay( property, propertyRange, numberDisplayOptions ),
+      tandemName: tandemName,
+      a11yLabel: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
+    };
   }
 
   /**
