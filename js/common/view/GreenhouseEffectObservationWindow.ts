@@ -270,9 +270,9 @@ class GreenhouseEffectObservationWindow extends Node {
     );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
-    // this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, options.instrumentVisibilityControlsOptions );
     this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
-      includeFluxMeterCheckbox: model.fluxMeter !== null
+      includeFluxMeterCheckbox: model.fluxMeter !== null,
+      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
     } );
     this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,

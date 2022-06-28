@@ -7,18 +7,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
-import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ThermometerAndReadout from './ThermometerAndReadout.js';
-import AtmosphereLayerNode from './AtmosphereLayerNode.js';
-import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import merge from '../../../../phet-core/js/merge.js';
-import PhotonSprites from '../PhotonSprites.js';
-import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
+import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
+import PhotonSprites from '../PhotonSprites.js';
+import AtmosphereLayerNode from './AtmosphereLayerNode.js';
+import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
+import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
+import ThermometerAndReadout from './ThermometerAndReadout.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -91,18 +90,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
       groundBaseColorProperty.set( new Color( colorBaseValue, colorBaseValue, colorBaseValue ) );
     } );
-
-    // controls for the energy balance indicator and the flux meter, if used in this model
-    const instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
-      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
-    } );
-    instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
-
-    // Add the nodes to the layers provided by the parent class.
-    this.controlsLayer.addChild( instrumentVisibilityControls );
 
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
