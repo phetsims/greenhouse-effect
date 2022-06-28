@@ -15,7 +15,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
-import NumberPicker from '../../../../scenery-phet/js/NumberPicker.js';
+import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import HSlider from '../../../../sun/js/HSlider.js';
