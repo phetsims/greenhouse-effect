@@ -459,6 +459,9 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
       trackFillEnabled: 'black',
       pickable: false,
 
+      // slider icon should not have representation in the PDOM, accessibility is managed by the checkbox
+      tagName: null,
+
       // phet-io - opting out of the Tandem for the icon
       tandem: Tandem.OPT_OUT
     } );
