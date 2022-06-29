@@ -94,7 +94,7 @@ class SunEnergySource extends PhetioObject {
    * Get the current output energy in watts per square meter.
    */
   public getOutputEnergyRate(): number {
-    return OUTPUT_ENERGY_RATE * this.proportionateOutputRateProperty.value;
+    return this.isShiningProperty.value ? OUTPUT_ENERGY_RATE * this.proportionateOutputRateProperty.value : 0;
   }
 
   /**
