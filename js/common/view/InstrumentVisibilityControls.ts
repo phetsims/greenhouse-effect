@@ -6,17 +6,17 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import merge from '../../../../phet-core/js/merge.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { PathOptions, Rectangle, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
-import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import LayersModel from '../model/LayersModel.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
 type InstrumentVisibilityControlsOptions = {
   vBoxOptions?: VBoxOptions;
@@ -56,12 +56,28 @@ class InstrumentVisibilityControls extends Rectangle {
     );
 
     const checkedUtterance = new Utterance();
-    Multilink.multilink( [ model.netInflowOfEnergyProperty, model.inRadiativeBalanceProperty ], ( netInflowOfEnergy, inRadiativeBalance ) => {
-      checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
-        checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
-        outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )
-      } );
-    } );
+    Multilink.multilink(
+      [
+        model.netInflowOfEnergyProperty,
+        model.inRadiativeBalanceProperty,
+        model.sunEnergySource.isShiningProperty
+      ],
+      ( netInflowOfEnergy, inRadiativeBalance, sunIsShining ) => {
+
+        if ( sunIsShining ) {
+          checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
+            checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
+            outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )
+          } );
+        }
+        else {
+
+          // If the sun isn't shining, don't include a description of the energy balance.  See
+          // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
+          checkedUtterance.alert = greenhouseEffectStrings.a11y.energyBalanceCheckedAlert;
+        }
+      }
+    );
 
     // add controls to children
     const children = [];

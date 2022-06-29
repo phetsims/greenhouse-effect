@@ -129,8 +129,9 @@ class LayersModel extends GreenhouseEffectModel {
       GreenhouseEffectUtils.kelvinToFahrenheit
     );
 
-    // Net inflow of energy into the Earth.  When this is positive, more energy is coming into the Earth than is
-    // leaving, so it should be heating up.  When negative, the Earth is releasing energy and thus cooling down.
+    // Net inflow of energy into the Earth at the top of the atmosphere.  When this is positive, more energy is coming
+    // into the Earth than is leaving, so it should be heating up.  When negative, the Earth is releasing energy and
+    // thus cooling down.
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true
