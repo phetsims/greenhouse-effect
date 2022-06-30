@@ -288,10 +288,10 @@
         "value": "max"
       }
     },
-    "amountOfPattern":{
+    "amountOfPattern": {
       "value": "{{qualitativeDescription}} amount of"
     },
-    "levelsOfPattern":{
+    "levelsOfPattern": {
       "value": "{{qualitativeDescription}} levels of"
     },
     "timePeriodDescriptions": {
@@ -979,6 +979,12 @@
       "simPlayingHintAlert": {
         "value": "Turn light source on to play sim."
       },
+      "playPauseButtonPlayingWithSpeedDescription": {
+        "value": "Pause sim to step forward little by little, or keep playing sim at chosen sim speed."
+      },
+      "playPauseButtonPausedWithSpeedDescription": {
+        "value": "Step forward little by little, or play sim at chosen sim speed."
+      },
       "stepHintAlert": {
         "value": "Turn light source on to use Step Forward."
       },
@@ -987,6 +993,12 @@
       },
       "simPlayingSunlightOffAlert": {
         "value": "Turn sunlight on to play sim."
+      },
+      "playPauseButtonPlayingDescription": {
+        "value": "Pause action in observation window."
+      },
+      "playPauseButtonPausedDescription": {
+        "value": "Resume action in observation window."
       }
     }
   }

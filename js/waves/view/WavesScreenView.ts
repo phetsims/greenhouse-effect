@@ -31,6 +31,7 @@ import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
+import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
@@ -50,7 +51,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       // for this screen does not have speed radio buttons or a step forward button
       timeSpeedProperty: null,
       playPauseStepButtonOptions: {
-        includeStepForwardButton: false
+        includeStepForwardButton: false,
+
+        // unique description about the observation window since there are no speed or step buttons in this case
+        playingDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingDescription,
+        pausedDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedDescription
       },
       tandem: tandem.createTandem( 'timeControlNode' )
     } );

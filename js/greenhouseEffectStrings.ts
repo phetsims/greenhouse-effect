@@ -386,9 +386,13 @@ type StringsType = {
       'simPausedEmitterOnAlert': string;
       'simPausedEmitterOffAlert': string;
       'simPlayingHintAlert': string;
+      'playPauseButtonPlayingWithSpeedDescription': string;
+      'playPauseButtonPausedWithSpeedDescription': string;
       'stepHintAlert': string;
       'simPausedSunlightOffAlert': string;
       'simPlayingSunlightOffAlert': string;
+      'playPauseButtonPlayingDescription': string;
+      'playPauseButtonPausedDescription': string;
     }
   }
 };

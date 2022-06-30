@@ -139,6 +139,11 @@ class MicroScreenView extends ScreenView {
       timeSpeedProperty: photonAbsorptionModel.timeSpeedProperty,
       speedRadioButtonGroupOnLeft: true,
       playPauseStepButtonOptions: {
+
+        // pdom
+        playingDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingWithSpeedDescription,
+        pausedDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedWithSpeedDescription,
+
         playPauseButtonOptions: {
           radius: 23
         },
