@@ -145,7 +145,10 @@ class GreenhouseEffectScreenView extends ScreenView {
    * Resets view components.
    */
   protected reset(): void {
+
+    // The order here is important - the model must be reset before the observation window.
     this.model.reset();
+    this.observationWindow.reset();
   }
 }
 

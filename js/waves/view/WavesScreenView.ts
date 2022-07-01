@@ -313,7 +313,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
   public override reset(): void {
     super.reset();
-    this.observationWindow.reset();
   }
 }
 
