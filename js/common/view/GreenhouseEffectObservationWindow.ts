@@ -18,7 +18,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, FocusableHeadingNode, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -64,7 +64,11 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
   protected readonly groundNodeHeight: number;
+
+  // protected so that they can be placed in the pdomOrder in subclasses
   protected readonly startSunlightButton: TextPushButton;
+  protected readonly focusableHeadingNode: FocusableHeadingNode;
+  protected readonly energyBalancePanel: EnergyBalancePanel;
 
   // Observation window UI component visibility controls, public for pdomOrder.
   public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
@@ -87,12 +91,7 @@ class GreenhouseEffectObservationWindow extends Node {
       instrumentVisibilityControlsOptions: {},
 
       // phet-io
-      tandem: Tandem.REQUIRED,
-
-      // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.observationWindowLabel
+      tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // TODO: Can the call to super be at the bottom instead of here?
@@ -153,6 +152,12 @@ class GreenhouseEffectObservationWindow extends Node {
     // The ground node will extend above and below the level of the ground in order to lend
     // perspective to the view.
     this.groundNodeHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
+
+    this.focusableHeadingNode = new FocusableHeadingNode( {
+      headingLevel: 3,
+      innerContent: greenhouseEffectStrings.a11y.observationWindowLabel
+    } );
+    this.foregroundLayer.addChild( this.focusableHeadingNode );
 
     // Create the node that will represent the sky.
     const skyNode = new Rectangle( 0, 0, SIZE.width, SIZE.height, {
@@ -258,13 +263,13 @@ class GreenhouseEffectObservationWindow extends Node {
 
 
     // energy balance
-    const energyBalancePanel = new EnergyBalancePanel(
+    this.energyBalancePanel = new EnergyBalancePanel(
       model.energyBalanceVisibleProperty,
       model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
       model.inRadiativeBalanceProperty
     );
-    energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
+    this.energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
     );
@@ -279,7 +284,7 @@ class GreenhouseEffectObservationWindow extends Node {
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
     );
 
-    this.controlsLayer.addChild( energyBalancePanel );
+    this.controlsLayer.addChild( this.energyBalancePanel );
     this.controlsLayer.addChild( this.instrumentVisibilityControls );
 
     // Create a node that will make everything behind it look darkened.  This will be used to make the scene of the
@@ -321,6 +326,10 @@ class GreenhouseEffectObservationWindow extends Node {
 
         // Start the sun shining.
         model.sunEnergySource.isShiningProperty.set( true );
+
+        // Move focus to the top of the observation window - otherwise focus goes to the top of the
+        // document when the button disappears, see https://github.com/phetsims/greenhouse-effect/issues/182
+        this.focusableHeadingNode.focus();
       },
 
       // sound generation
