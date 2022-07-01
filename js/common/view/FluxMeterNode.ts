@@ -40,7 +40,7 @@ const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 
 // The height of the sensor in the view.  This is needed because the sensor model doesn't have any y-dimension height,
 // so we use and arbitrary value that looks decent in the view.
-const SENSOR_VIEW_HEIGHT = 30;
+const SENSOR_VIEW_HEIGHT = 10;
 
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
@@ -106,7 +106,7 @@ class FluxMeterNode extends Node {
     const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
-      lineWidth: 4
+      lineWidth: 2
     } );
     this.addChild( fluxSensorNode );
 
@@ -147,7 +147,7 @@ class FluxMeterNode extends Node {
         );
 
         // Only allow dragging in the Y direction and not the X direction.
-        model.fluxSensor.positionProperty.value = new Vector2( 0, modelY );
+        model.fluxSensor.positionProperty.value = new Vector2( model.fluxSensor.positionProperty.value.x, modelY );
       },
       end: () => {
         model.fluxSensor.isDraggingProperty.set( false );
@@ -193,7 +193,7 @@ class EnergyFluxDisplay extends Node {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
       height: 385,
-      fluxToArrowLengthMultiplier: 1.5E-5,
+      fluxToArrowLengthMultiplier: 5E-6,
       arrowNodeOptions: {
         headHeight: 16,
         headWidth: 16,
