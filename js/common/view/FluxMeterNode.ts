@@ -10,6 +10,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -46,13 +47,16 @@ class FluxMeterNode extends Node {
 
   /**
    * @param model - model component for the FluxMeter
-   * @param visibleProperty
+   * @param isPlayingProperty - a boolean Property that indicates whether the model in which the flux meter resides is
+   *                            running
+   * @param visibleProperty - a boolean Property that controls whether this node is visible
    * @param modelViewTransform
    * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
    * @param tandem
    */
   public constructor( model: FluxMeter,
-                      visibleProperty: Property<boolean>,
+                      isPlayingProperty: IReadOnlyProperty<boolean>,
+                      visibleProperty: IReadOnlyProperty<boolean>,
                       modelViewTransform: ModelViewTransform2,
                       observationWindowViewBounds: Bounds2,
                       tandem: Tandem ) {
@@ -124,9 +128,18 @@ class FluxMeterNode extends Node {
         model.fluxSensor.isDraggingProperty.set( true );
       },
       drag: ( event: SceneryEvent ) => {
+
+        // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
+        // readings that are incorrect for the altitude at which the sensor is positioned.
+        if ( !isPlayingProperty.value ) {
+          model.fluxSensor.clearEnergyTrackers();
+        }
+
+        // Get the view position of the sensor.
         const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
 
-        // Constrain the Y position to the top of the atmosphere or a little above the ground.
+        // Constrain the Y position in model space to just below the top of the atmosphere at the high end and just
+        // above the ground at the low end.
         const modelY = Utils.clamp(
           modelViewTransform.viewToModelY( viewPoint.y ),
           500,

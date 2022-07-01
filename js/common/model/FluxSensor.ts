@@ -159,10 +159,20 @@ class FluxSensor extends PhetioObject {
   }
 
   /**
+   * Clear the values in all energy trackers.
+   */
+  public clearEnergyTrackers(): void {
+    this.visibleLightDownEnergyRateTracker.reset();
+    this.visibleLightUpEnergyRateTracker.reset();
+    this.infraredLightDownEnergyRateTracker.reset();
+    this.infraredLightUpEnergyRateTracker.reset();
+  }
+
+  /**
    * Restore initial state.
    */
   public reset(): void {
-    this.visibleLightDownEnergyRateTracker.reset();
+    this.clearEnergyTrackers();
     this.positionProperty.reset();
   }
 

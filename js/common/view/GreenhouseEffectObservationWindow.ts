@@ -391,6 +391,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
       const fluxMeterNode = new FluxMeterNode(
         model.fluxMeter,
+        model.isPlayingProperty,
         model.fluxMeterVisibleProperty,
         this.modelViewTransform,
         this.windowFrame.bounds,
