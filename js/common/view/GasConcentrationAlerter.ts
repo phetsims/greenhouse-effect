@@ -50,6 +50,9 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
 
 class GasConcentrationAlerter extends Alerter {
 
+  // reference to the model, used in the methods
+  private readonly model: ConcentrationModel;
+
   // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
   private timeSinceLastAlert: number;
 
@@ -77,8 +80,6 @@ class GasConcentrationAlerter extends Alerter {
   private netEnergyProperty: IReadOnlyProperty<number>;
   private previousNetInflowOfEnergy: number;
 
-  private model: ConcentrationModel;
-
   public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
     const options = optionize<AlerterOptions, EmptyObjectType, AlerterOptions>()( {
@@ -89,6 +90,7 @@ class GasConcentrationAlerter extends Alerter {
 
     super( options );
 
+    this.model = model;
     this.useVerboseSurfaceTemperatureAlert = true;
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
@@ -275,6 +277,16 @@ class GasConcentrationAlerter extends Alerter {
       this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
       this.timeSinceLastAlert = 0;
     }
+  }
+
+  /**
+   * Reset this to its initial state.  For this to work properly, the model must be reset prior to calling this method.
+   */
+  public reset(): void {
+    this.temperatureChangeAlertCount = 0;
+    this.timeSinceLastAlert = 0;
+    this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+    this.previousConcentration = this.model.concentrationProperty.value;
   }
 }
 
