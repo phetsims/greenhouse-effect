@@ -4,11 +4,14 @@
  * EMWaveSource produces simulated waves of electromagnetic energy.
  */
 
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
@@ -19,10 +22,7 @@ import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveOptions } from './Wave.js';
-import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
-import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
@@ -77,11 +77,19 @@ type WaveCreationSpecStateObject = {
   originX: typeof NumberIO;
 }
 
-type EMWaveSourceOptions = {
-  waveIntensityProperty: null | Property<number>;
-  interWaveTime: number;
-  waveLifetimeRange: Range;
-} & PhetioObjectOptions
+type SelfOptions = {
+
+  // A property that indicates what the produced wave intensity should be.  A Property for this will be created if none
+  // is provided.
+  waveIntensityProperty?: null | Property<number>;
+
+  // time between waves, in seconds
+  interWaveTime?: number;
+
+  // range of lifetimes for this wave, in seconds
+  waveLifetimeRange?: Range;
+};
+export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions;
 
 class EMWaveSource extends PhetioObject {
   public readonly waveStartAltitude: number;
@@ -103,7 +111,7 @@ class EMWaveSource extends PhetioObject {
    * @param waveStartAltitude - altitude from which waves will originate, it meters
    * @param waveEndAltitude - altitude at which the waves will terminate, it meters
    * @param waveSourceSpecs - specifications that define where the waves will be created
-   * @param [options]
+   * @param [providedOptions]
    */
   public constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                       waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
@@ -111,24 +119,15 @@ class EMWaveSource extends PhetioObject {
                       waveStartAltitude: number,
                       waveEndAltitude: number,
                       waveSourceSpecs: WaveSourceSpec[],
-                      options?: Partial<EMWaveSourceOptions> ) {
+                      providedOptions?: EMWaveSourceOptions ) {
 
-    options = merge( {
-
-      // {Property.<number> - A property that indicates what the produced wave intensity should be.  A Property for this
-      // will be created if none is provided.
+    const options = optionize<EMWaveSourceOptions, SelfOptions, PhetioObjectOptions>()( {
       waveIntensityProperty: null,
-
-      // {number} - time between waves, in seconds
       interWaveTime: 0.75,
-
-      // {Range.<number>} - range of lifetimes for this wave, in seconds
       waveLifetimeRange: new Range( 10, 15 ),
-
       tandem: Tandem.REQUIRED,
       phetioType: EMWaveSource.EMWaveSourceIO
-
-    }, options ) as EMWaveSourceOptions;
+    }, providedOptions );
 
     super( options );
 
@@ -314,5 +313,4 @@ type EMWaveSourceStateObject = {
 }
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );
-export type { EMWaveSourceOptions };
 export default EMWaveSource;
