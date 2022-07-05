@@ -328,6 +328,7 @@ class LayersModel extends GreenhouseEffectModel {
   public override reset(): void {
     super.reset();
 
+    this.netInflowOfEnergyProperty.reset();
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();

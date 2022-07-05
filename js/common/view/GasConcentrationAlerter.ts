@@ -59,7 +59,7 @@ class GasConcentrationAlerter extends Alerter {
   // Temperature for the last description, saved so that we know how temperature changes from alert to alert.
   private previousTemperature: number;
 
-  // Outgoing energy value for the last description, saved so we know how energy changes from alert to alert.
+  // Outgoing energy value for the last description, saved so that we know how energy changes from alert to alert.
   private previousOutgoingEnergy: number;
 
   // Value for concentration the last time a description was generated
@@ -67,8 +67,8 @@ class GasConcentrationAlerter extends Alerter {
 
   // The number of times that the temperature change alert has been announced. Whenever the concentration value changes
   // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
-  // verbose temperature description is used. Otherwise a very terse alert is used. This is an attempt to reduce the
-  // how much is spoken every ALERT_INTERVAL
+  // verbose temperature description is used. Otherwise, a very terse alert is used. This is an attempt to reduce how
+  // much is spoken every ALERT_INTERVAL
   private temperatureChangeAlertCount: number;
 
   // When true, an extra verbose fragment about the surface temperature will be included. This will be true whenever
@@ -134,7 +134,7 @@ class GasConcentrationAlerter extends Alerter {
     } );
 
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
-    model.concentrationProperty.link( concentration => {
+    model.concentrationProperty.link( () => {
       this.useVerboseSurfaceTemperatureAlert = true;
       this.temperatureChangeAlertCount = 0;
 
@@ -158,7 +158,7 @@ class GasConcentrationAlerter extends Alerter {
     } );
 
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused.
-    model.sunEnergySource.isShiningProperty.lazyLink( isShining => {
+    model.sunEnergySource.isShiningProperty.lazyLink( () => {
       this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
     } );
 
@@ -287,6 +287,11 @@ class GasConcentrationAlerter extends Alerter {
     this.timeSinceLastAlert = 0;
     this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
     this.previousConcentration = this.model.concentrationProperty.value;
+    this.previousTemperature = Utils.toFixedNumber(
+      this.model.surfaceTemperatureKelvinProperty.value,
+      TEMPERATURE_DECIMAL_PLACES
+    );
+    this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
   }
 }
 
