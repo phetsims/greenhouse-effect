@@ -129,7 +129,7 @@ class FluxMeterNode extends Node {
         new ArrowNode( 0, 0, 0, -CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS ),
         new ArrowNode( 0, 0, 0, CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS )
       ],
-      centerX: modelViewTransform.modelToViewX( 0 )
+      centerX: fluxSensorNode.rectBounds.maxX
     } );
     this.addChild( cueArrowsNode );
 
