@@ -9,6 +9,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
@@ -37,6 +38,14 @@ const energyFluxString = greenhouseEffectStrings.fluxMeter.energyFlux;
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
 const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
+const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
+const CUE_ARROW_OPTIONS = {
+  fill: SENSOR_STROKE_COLOR,
+  lineWidth: 0.5,
+  headWidth: 20,
+  headHeight: 16,
+  tailWidth: 7
+};
 
 // The height of the sensor in the view.  This is needed because the sensor model doesn't have any y-dimension height,
 // so we use and arbitrary value that looks decent in the view.
@@ -44,6 +53,7 @@ const SENSOR_VIEW_HEIGHT = 10;
 
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
+  private readonly showFluxSensorCueArrowProperty: BooleanProperty
 
   /**
    * @param model - model component for the FluxMeter
@@ -106,9 +116,34 @@ class FluxMeterNode extends Node {
     const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
-      lineWidth: 2
+      lineWidth: 2,
+      cursor: 'ns-resize'
     } );
     this.addChild( fluxSensorNode );
+
+    // green arrows around the flux sensor flag, cues the user to drag it
+    const cueArrowsNode = new VBox( {
+      cursor: 'pointer',
+      spacing: 15,
+      children: [
+        new ArrowNode( 0, 0, 0, -CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS ),
+        new ArrowNode( 0, 0, 0, CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS )
+      ],
+      centerX: fluxSensorNode.rectBounds.maxX
+    } );
+    this.addChild( cueArrowsNode );
+
+    // Reposition the cue arrows as the flux sensor moves.
+    model.fluxSensor.positionProperty.link( fluxSensorPosition => {
+      cueArrowsNode.centerY = modelViewTransform.modelToViewY( fluxSensorPosition.y );
+    } );
+
+    // The flux arrows are shown initially, then hidden after the first drag.  This is where the visibility is
+    // controlled.
+    this.showFluxSensorCueArrowProperty = new BooleanProperty( true );
+    this.showFluxSensorCueArrowProperty.link( showFluxSensorCueArrows => {
+      cueArrowsNode.visible = showFluxSensorCueArrows;
+    } );
 
     // {Panel} - contains the display showing energy flux, public for positioning in the view
     this.fluxPanel = new Panel( content );
@@ -128,6 +163,9 @@ class FluxMeterNode extends Node {
         model.fluxSensor.isDraggingProperty.set( true );
       },
       drag: ( event: SceneryEvent ) => {
+
+        // Hide the cue arrows if they are visible.
+        this.showFluxSensorCueArrowProperty.set( false );
 
         // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
         // readings that are incorrect for the altitude at which the sensor is positioned.
@@ -162,6 +200,10 @@ class FluxMeterNode extends Node {
     model.fluxSensor.positionProperty.link( sensorPosition => {
       fluxSensorNode.center = modelViewTransform.modelToViewPosition( sensorPosition );
     } );
+  }
+
+  public reset(): void {
+    this.showFluxSensorCueArrowProperty.reset();
   }
 }
 

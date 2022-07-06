@@ -176,6 +176,7 @@ type StringsType = {
     'outgoingEnergyPattern': string;
     'outgoingEnergyAtAtmospherePattern': string;
     'outgoingEnergyAtAtmosphereEqual': string;
+    'noFlowOfEnergyHintDescription': string;
     'lessThan': string;
     'greaterThan': string;
     'waves': {

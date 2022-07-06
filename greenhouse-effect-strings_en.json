@@ -387,6 +387,9 @@
     "outgoingEnergyAtAtmosphereEqual": {
       "value": "Outgoing energy is equal to incoming energy at top of atmosphere."
     },
+    "noFlowOfEnergyHintDescription": {
+      "value": "No flow of energy. Start sunlight to explore energy balance."
+    },
     "lessThan": {
       "value": "less than"
     },

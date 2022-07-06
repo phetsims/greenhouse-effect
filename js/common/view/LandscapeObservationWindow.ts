@@ -193,6 +193,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
   public override reset(): void {
     this.gasConcentrationAlerter.reset();
+    super.reset();
   }
 }
 

@@ -63,6 +63,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly backgroundLayer: Node;
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
+  protected readonly fluxMeterNode: FluxMeterNode | null;
   protected readonly groundNodeHeight: number;
 
   // protected so that they can be placed in the pdomOrder in subclasses
@@ -267,7 +268,8 @@ class GreenhouseEffectObservationWindow extends Node {
       model.energyBalanceVisibleProperty,
       model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
-      model.inRadiativeBalanceProperty
+      model.inRadiativeBalanceProperty,
+      model.sunEnergySource.isShiningProperty
     );
     this.energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -389,7 +391,7 @@ class GreenhouseEffectObservationWindow extends Node {
     // Add the flux meter node if it is present in the model.
     if ( model.fluxMeter ) {
 
-      const fluxMeterNode = new FluxMeterNode(
+      this.fluxMeterNode = new FluxMeterNode(
         model.fluxMeter,
         model.isPlayingProperty,
         model.fluxMeterVisibleProperty,
@@ -397,17 +399,20 @@ class GreenhouseEffectObservationWindow extends Node {
         this.windowFrame.bounds,
         options.tandem.createTandem( 'fluxMeterNode' )
       );
-      fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
+      this.fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
         GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
         -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
       );
 
       // set the position of the wire to attach to the flux panel
       model.fluxMeter.wireMeterAttachmentPositionProperty.set(
-        this.modelViewTransform.viewToModelPosition( fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
+        this.modelViewTransform.viewToModelPosition( this.fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
       );
 
-      this.foregroundLayer.addChild( fluxMeterNode );
+      this.foregroundLayer.addChild( this.fluxMeterNode );
+    }
+    else {
+      this.fluxMeterNode = null;
     }
 
     // Derived properties used for enabling the various flavors of sound generation for temperature.
@@ -492,7 +497,7 @@ class GreenhouseEffectObservationWindow extends Node {
   }
 
   public reset(): void {
-    // Does nothing in the base class, override as necessary in subclasses.
+    this.fluxMeterNode?.reset();
   }
 
   // static values
