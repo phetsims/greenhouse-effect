@@ -268,7 +268,8 @@ class GreenhouseEffectObservationWindow extends Node {
       model.energyBalanceVisibleProperty,
       model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
-      model.inRadiativeBalanceProperty
+      model.inRadiativeBalanceProperty,
+      model.sunEnergySource.isShiningProperty
     );
     this.energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,

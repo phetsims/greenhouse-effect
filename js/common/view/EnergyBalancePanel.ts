@@ -46,12 +46,14 @@ class EnergyBalancePanel extends Panel {
    * @param netEnergyInProperty
    * @param netEnergyOutProperty
    * @param inRadiativeBalanceProperty
+   * @param sunIsShiningProperty
    * @param [providedOptions]
    */
   public constructor( energyBalanceVisibleProperty: Property<boolean>,
                       netEnergyInProperty: Property<number>,
                       netEnergyOutProperty: Property<number>,
                       inRadiativeBalanceProperty: Property<boolean>,
+                      sunIsShiningProperty: Property<boolean>,
                       providedOptions?: EnergyBalancePanelOptions ) {
 
     const options = merge( {
@@ -107,8 +109,16 @@ class EnergyBalancePanel extends Panel {
     } );
 
     // pdom
-    Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty ], ( netEnergy, inRadiativeBalance ) => {
-      this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
+    Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty, sunIsShiningProperty ], ( netEnergy, inRadiativeBalance, sunIsShining ) => {
+
+      if ( !sunIsShining ) {
+
+        // describe no flow of energy and a hint to start sunlight to make use of the energy balance panel
+        this.descriptionContent = greenhouseEffectStrings.a11y.noFlowOfEnergyHintDescription;
+      }
+      else {
+        this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
+      }
     } );
   }
 }
