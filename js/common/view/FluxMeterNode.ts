@@ -40,7 +40,7 @@ const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
 const CUE_ARROW_OPTIONS = {
-  fill: 'rgb( 33, 190, 156 )',
+  fill: SENSOR_STROKE_COLOR,
   lineWidth: 0.5,
   headWidth: 20,
   headHeight: 16,
