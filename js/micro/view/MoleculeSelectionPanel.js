@@ -138,15 +138,17 @@ class MoleculeSelectionPanel extends Panel {
 
     const radioButtonGroup = new RectangularRadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
       spacing: 1.75,
-      baseColor: 'black',
-      buttonContentXMargin: 0,
-      buttonContentYMargin: 1.85,
-      selectedStroke: 'white',
-      deselectedStroke: 'black',
-      deselectedLineWidth: 0,
-      cornerRadius: 7,
       touchAreaXDilation: 0,
       touchAreaYDilation: 0,
+      radioButtonOptions: {
+        baseColor: 'black',
+        xMargin: 0,
+        yMargin: 1.85,
+        selectedStroke: 'white',
+        deselectedStroke: 'black',
+        deselectedLineWidth: 0,
+        cornerRadius: 7
+      },
       tandem: tandem.createTandem( 'radioButtonGroup' ),
 
       // pdom

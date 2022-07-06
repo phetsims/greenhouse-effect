@@ -164,13 +164,15 @@ class QuadEmissionFrequencyControlPanel extends Node {
     const radioButtonGroup = new RectangularRadioButtonGroup( photonAbsorptionModel.photonWavelengthProperty, radioButtonContent, {
       orientation: 'horizontal',
       spacing: 15,
-      baseColor: 'black',
-      selectedStroke: 'rgb(47, 101,209)',
-      deselectedLineWidth: 0,
-      buttonContentXMargin: 5,
-      buttonContentYMargin: 8,
-      selectedLineWidth: 3,
-      cornerRadius: 7,
+      radioButtonOptions: {
+        baseColor: 'black',
+        cornerRadius: 7,
+        selectedStroke: 'rgb(47, 101,209)',
+        selectedLineWidth: 3,
+        deselectedLineWidth: 0,
+        xMargin: 5,
+        yMargin: 8
+      },
       soundPlayers: radioButtonSoundPlayers,
       tandem: radioButtonGroupTandem
     } );
