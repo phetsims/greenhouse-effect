@@ -436,6 +436,15 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // sound generation
 
+    // Create a derived property that is true when either of the surface temperature indicators are turned on.
+    const surfaceTemperatureIndicatorEnabled = new DerivedProperty(
+      [
+        model.surfaceThermometerVisibleProperty,
+        model.surfaceTemperatureVisibleProperty
+      ],
+      ( thermometerVisible, temperatureVisible ) => thermometerVisible || temperatureVisible
+    );
+
     // Add the cross-fade-based sound generator.
     soundManager.addSoundGenerator(
       new TemperatureSoundGenerator(
@@ -444,8 +453,8 @@ class GreenhouseEffectObservationWindow extends Node {
           initialOutputLevel: 0.045,
           enableControlProperties: [
             model.sunEnergySource.isShiningProperty,
-            model.surfaceThermometerVisibleProperty,
             model.isPlayingProperty,
+            surfaceTemperatureIndicatorEnabled,
             crossFadeTemperatureSoundGeneratorEnabled
           ]
         }
@@ -464,7 +473,7 @@ class GreenhouseEffectObservationWindow extends Node {
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
-            model.surfaceThermometerVisibleProperty,
+            surfaceTemperatureIndicatorEnabled,
             model.isPlayingProperty,
             filteredLoopTemperatureSoundGeneratorEnabled
           ]
@@ -482,7 +491,7 @@ class GreenhouseEffectObservationWindow extends Node {
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
-            model.surfaceThermometerVisibleProperty,
+            surfaceTemperatureIndicatorEnabled,
             model.isPlayingProperty,
             loopSpeedTemperatureSoundGeneratorEnabled
           ]
