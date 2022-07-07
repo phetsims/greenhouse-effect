@@ -409,7 +409,7 @@ class GreenhouseEffectObservationWindow extends Node {
         this.modelViewTransform.viewToModelPosition( this.fluxMeterNode.fluxPanel.leftTop.plusXY( 0, 50 ) )
       );
 
-      this.foregroundLayer.addChild( this.fluxMeterNode );
+      this.controlsLayer.addChild( this.fluxMeterNode );
     }
     else {
       this.fluxMeterNode = null;
