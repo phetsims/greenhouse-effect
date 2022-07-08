@@ -18,7 +18,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, globalKeyStateTracker, KeyboardUtils, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, globalKeyStateTracker, KeyboardUtils, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
@@ -173,7 +173,9 @@ class MicroScreenView extends ScreenView {
     const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
 
     const lightSpectrumDialogCapsule = new PhetioCapsule( tandem => {
-      return new LightSpectrumDialog( spectrumButtonLabel, tandem );
+
+      // Wrap in a node to prevent DAG problems if archetypes are also created
+      return new LightSpectrumDialog( new Node( { children: [ spectrumButtonLabel ] } ), tandem );
     }, [], {
       tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
