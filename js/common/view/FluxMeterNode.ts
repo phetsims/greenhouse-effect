@@ -28,6 +28,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import LayersModel from '../model/LayersModel.js';
 
@@ -53,7 +54,7 @@ const SENSOR_VIEW_HEIGHT = 10;
 
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
-  private readonly showFluxSensorCueArrowProperty: BooleanProperty
+  private readonly wasDraggedProperty: BooleanProperty
 
   /**
    * @param model - model component for the FluxMeter
@@ -73,7 +74,7 @@ class FluxMeterNode extends Node {
 
     super();
 
-    // wire connecting panel and sensor, beneath both so it appears like the wire is solidly connected to both
+    // Create the node that represents the wire connecting the panel and the sensor.
     const wireNode = new WireNode(
       new DerivedProperty(
         [ model.wireSensorAttachmentPositionProperty ],
@@ -121,28 +122,29 @@ class FluxMeterNode extends Node {
     } );
     this.addChild( fluxSensorNode );
 
+    // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
+    this.wasDraggedProperty = new BooleanProperty( false );
+    const cueingArrowsShownProperty = new DerivedProperty(
+      [ this.wasDraggedProperty, GreenhouseEffectOptions.cueingArrowsEnabledProperty ],
+      ( wasDragged, cueingArrowsEnabled ) => !wasDragged && cueingArrowsEnabled
+    );
+
     // green arrows around the flux sensor flag, cues the user to drag it
-    const cueArrowsNode = new VBox( {
+    const cuingArrowsNode = new VBox( {
       cursor: 'pointer',
       spacing: 15,
       children: [
         new ArrowNode( 0, 0, 0, -CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS ),
         new ArrowNode( 0, 0, 0, CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS )
       ],
-      centerX: fluxSensorNode.rectBounds.maxX
+      centerX: fluxSensorNode.rectBounds.maxX,
+      visibleProperty: cueingArrowsShownProperty
     } );
-    this.addChild( cueArrowsNode );
+    this.addChild( cuingArrowsNode );
 
     // Reposition the cue arrows as the flux sensor moves.
     model.fluxSensor.positionProperty.link( fluxSensorPosition => {
-      cueArrowsNode.centerY = modelViewTransform.modelToViewY( fluxSensorPosition.y );
-    } );
-
-    // The flux arrows are shown initially, then hidden after the first drag.  This is where the visibility is
-    // controlled.
-    this.showFluxSensorCueArrowProperty = new BooleanProperty( true );
-    this.showFluxSensorCueArrowProperty.link( showFluxSensorCueArrows => {
-      cueArrowsNode.visible = showFluxSensorCueArrows;
+      cuingArrowsNode.centerY = modelViewTransform.modelToViewY( fluxSensorPosition.y );
     } );
 
     // {Panel} - contains the display showing energy flux, public for positioning in the view
@@ -165,7 +167,7 @@ class FluxMeterNode extends Node {
       drag: ( event: SceneryEvent ) => {
 
         // Hide the cue arrows if they are visible.
-        this.showFluxSensorCueArrowProperty.set( false );
+        this.wasDraggedProperty.set( true );
 
         // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
         // readings that are incorrect for the altitude at which the sensor is positioned.
@@ -203,7 +205,7 @@ class FluxMeterNode extends Node {
   }
 
   public reset(): void {
-    this.showFluxSensorCueArrowProperty.reset();
+    this.wasDraggedProperty.reset();
   }
 }
 
@@ -258,7 +260,7 @@ class EnergyFluxDisplay extends Node {
     } );
     this.addChild( boundsRectangle );
 
-    // Set a clip area so that the arrows don't go outside of the background.
+    // Set a clip area so that the arrows don't go outside the background.
     boundsRectangle.clipArea = Shape.bounds( boundsRectangle.getRectBounds() );
 
     // Create and add the arrows.

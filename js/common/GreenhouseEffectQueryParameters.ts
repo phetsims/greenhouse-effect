@@ -38,6 +38,14 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
     defaultValue: 'K'
   },
 
+  // Enables the feature that shows cueing arrows on the flux sensor.  This sets the initial value of
+  // GreenhouseEffectOptions.cueingArrowsEnabledProperty.
+  cueingArrowsEnabled: {
+    type: 'boolean',
+    defaultValue: true,
+    public: true
+  },
+
   // a flag that starts the launches the sim with the sunlight initially started, for ease of development
   initiallyStarted: { type: 'boolean', defaultValue: false },
 
