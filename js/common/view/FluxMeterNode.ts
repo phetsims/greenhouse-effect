@@ -54,7 +54,7 @@ const SENSOR_VIEW_HEIGHT = 10;
 
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
-  private readonly wasDraggedProperty: BooleanProperty
+  private readonly wasDraggedProperty: BooleanProperty;
 
   /**
    * @param model - model component for the FluxMeter

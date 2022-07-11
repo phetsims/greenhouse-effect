@@ -30,7 +30,7 @@ class EnergyDirection extends EnumerationValue {
     }
 
     return assert && assert( false, 'unsupported enumValue' );
-  }
+  };
 
   /**
    * Get the opposite of the provided direction.
@@ -39,7 +39,7 @@ class EnergyDirection extends EnumerationValue {
     return enumValue === EnergyDirection.UP ?
            EnergyDirection.DOWN :
            EnergyDirection.UP;
-  }
+  };
 
   public static enumeration = new Enumeration( EnergyDirection );
 }
