@@ -37,7 +37,7 @@ class ShowState extends EnumerationValue {
 export type PhotonOptions = {
   initialVelocity?: Vector2 | null;
   showState?: ShowState;
-}
+};
 
 // TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
 //       photons should always be moving at the speed of light.
@@ -161,7 +161,7 @@ class Photon {
 type SerializedVector2 = {
   x: number;
   y: number;
-}
+};
 
 type PhotonStateObject = {
   position: SerializedVector2;
@@ -169,7 +169,7 @@ type PhotonStateObject = {
   wavelength: number;
   velocity: SerializedVector2;
   showState: string;
-}
+};
 
 greenhouseEffect.register( 'Photon', Photon );
 export { ShowState };

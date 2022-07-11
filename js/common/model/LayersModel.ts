@@ -390,7 +390,7 @@ class LayersModel extends GreenhouseEffectModel {
 type LayersModelStateObject = {
   // TODO: I (jbphet) will need some help sorting out how this should work with phet-io.
   emEnergyPackets: Array<any>;
-}
+};
 
 export type { LayersModelStateObject };
 

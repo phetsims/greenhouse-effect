@@ -54,7 +54,7 @@ type SelfOptions = {
   listParentNode?: Node | null;
   thermometerNodeOptions?: ThermometerNodeOptions;
   tandem?: Tandem;
-}
+};
 
 type ThermometerAndReadoutOptions = SelfOptions & NodeOptions;
 

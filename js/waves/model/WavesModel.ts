@@ -591,7 +591,7 @@ type WaveAtmosphereInteractionStateObject = {
   atmosphereLayer: any;
   sourceWave: any;
   emittedWave: any;
-}
+};
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
 export default WavesModel;

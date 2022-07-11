@@ -75,7 +75,7 @@ type WaveCreationSpecStateObject = {
   countdown: typeof NumberIO;
   propagationDirection: typeof Vector2.Vector2IO;
   originX: typeof NumberIO;
-}
+};
 
 type SelfOptions = {
 
@@ -310,7 +310,7 @@ type EMWaveSourceStateObject = {
 
   wavesToLifetimesMap: any;
   waveCreationQueue: any;
-}
+};
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );
 export default EMWaveSource;

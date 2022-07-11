@@ -153,7 +153,7 @@ class EnergyRateTracker extends PhetioObject {
 type EnergyInfoQueueItemStateObject = {
   dt: number;
   energy: number;
-}
+};
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
 export default EnergyRateTracker;

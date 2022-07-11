@@ -64,7 +64,7 @@ class WaveAttenuator {
 type WaveAttenuatorStateObject = {
   attenuation: number;
   distanceFromStart: number;
-}
+};
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );
 export default WaveAttenuator;

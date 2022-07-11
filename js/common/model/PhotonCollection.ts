@@ -338,7 +338,7 @@ type PhotonCollectionStateObject = {
   // TODO phetio: I feel like I should be using something like ArrayIO( Vector2 ) here, but it doesn't as a TypeScript
   //  type, which isn't surprising I suppose, but I'm not sure what it SHOULD be.
   photonStateObjects: any[];
-}
+};
 
 greenhouseEffect.register( 'PhotonCollection', PhotonCollection );
 export default PhotonCollection;

@@ -26,7 +26,7 @@ import LayersModel from './LayersModel.js';
 // types
 type SelfOptions = {
   initialPosition?: Vector2;
-}
+};
 export type FluxSensorOptions = SelfOptions & PhetioObjectOptions;
 
 // TODO: How do I require a tandem nowadays?

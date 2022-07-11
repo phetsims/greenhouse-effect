@@ -458,7 +458,7 @@ type WaveStateObject = {
   intensityAtStart: number;
   modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
   renderingWavelength: number;
-}
+};
 
 greenhouseEffect.register( 'Wave', Wave );
 export default Wave;

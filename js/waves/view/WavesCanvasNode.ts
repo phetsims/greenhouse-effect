@@ -26,7 +26,7 @@ type RenderingParameters = {
   baseColor: Color;
   amplitude: number;
   wavelength: number;
-}
+};
 
 class WavesCanvasNode extends CanvasNode {
   private readonly model: WavesModel;
