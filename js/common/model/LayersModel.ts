@@ -41,7 +41,7 @@ const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most 
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
 
 // map used to set the default temperature units based on the value of a query parameter
-const mapLetterToTemperatureUnits: Map<string, TemperatureUnits> = new Map( [
+const mapLetterToTemperatureUnits = new Map<string, TemperatureUnits>( [
   [ 'K', TemperatureUnits.KELVIN ],
   [ 'C', TemperatureUnits.CELSIUS ],
   [ 'F', TemperatureUnits.FAHRENHEIT ]
