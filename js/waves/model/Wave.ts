@@ -258,8 +258,8 @@ class Wave extends PhetioObject {
    * @param causalModelElement - the model element that is causing this attenuation to exist
    */
   public addAttenuator( distanceFromStart: number,
-                 attenuationAmount: number,
-                 causalModelElement: PhetioObject ): void {
+                        attenuationAmount: number,
+                        causalModelElement: PhetioObject ): void {
 
     // parameter checking
     assert && assert(
@@ -419,7 +419,7 @@ class Wave extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static get STATE_SCHEMA(): Record<string, IOType> {
     return {
       wavelength: NumberIO,
       origin: Vector2.Vector2IO,

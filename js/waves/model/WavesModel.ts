@@ -499,7 +499,7 @@ class WavesModel extends ConcentrationModel {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static override get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static override get STATE_SCHEMA(): Record<string, IOType> {
     const superclassStateSchema = ConcentrationModel.STATE_SCHEMA;
     const subclassStateSchema = {
       sunWaveSource: EMWaveSource.EMWaveSourceIO,
@@ -573,7 +573,7 @@ class WaveAtmosphereInteraction {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static get STATE_SCHEMA(): Record<string, IOType> {
     return {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
       sourceWave: ReferenceIO( Wave.WaveIO ),

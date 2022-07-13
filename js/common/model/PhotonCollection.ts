@@ -284,7 +284,7 @@ class PhotonCollection extends PhetioObject {
     );
   }
 
-  public static STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static STATE_SCHEMA(): Record<string, IOType> {
     return {
       photonStateObjects: ArrayIO( Photon.PhotonIO )
     };

@@ -138,7 +138,7 @@ class Photon {
     );
   }
 
-  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static get STATE_SCHEMA(): Record<string, IOType> {
     return {
       position: Vector2.Vector2IO,
       previousPosition: Vector2.Vector2IO,

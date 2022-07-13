@@ -60,7 +60,7 @@ class WaveCreationSpec {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static get STATE_SCHEMA(): Record<string, IOType> {
     return {
       countdown: NumberIO,
       propagationDirection: Vector2.Vector2IO,
@@ -289,7 +289,7 @@ class EMWaveSource extends PhetioObject {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static get STATE_SCHEMA(): { [ key: string ]: IOType } {
+  public static get STATE_SCHEMA(): Record<string, IOType> {
     return {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
