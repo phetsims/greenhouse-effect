@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
@@ -62,8 +62,8 @@ class WaveAttenuator {
 }
 
 type WaveAttenuatorStateObject = {
-  attenuation: number;
-  distanceFromStart: number;
+  attenuation: NumberStateObject;
+  distanceFromStart: NumberStateObject;
 };
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );

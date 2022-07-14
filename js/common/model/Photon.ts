@@ -6,14 +6,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -130,7 +130,7 @@ class Photon {
   public static fromStateObject( stateObject: PhotonStateObject ): Photon {
     return new Photon(
       Vector2.fromStateObject( stateObject.position ),
-      stateObject.wavelength,
+      NumberIO.fromStateObject( stateObject.wavelength ),
       {
         initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
         showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
@@ -158,16 +158,11 @@ class Photon {
   public static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
 }
 
-type SerializedVector2 = {
-  x: number;
-  y: number;
-};
-
 type PhotonStateObject = {
-  position: SerializedVector2;
-  previousPosition: SerializedVector2;
-  wavelength: number;
-  velocity: SerializedVector2;
+  position: Vector2StateObject;
+  previousPosition: Vector2StateObject;
+  wavelength: NumberStateObject;
+  velocity: Vector2StateObject;
   showState: string;
 };
 

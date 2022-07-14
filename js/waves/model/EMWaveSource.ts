@@ -9,7 +9,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -17,7 +17,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO from '../../../../tandem/js/types/MapIO.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -72,9 +72,9 @@ class WaveCreationSpec {
 }
 
 type WaveCreationSpecStateObject = {
-  countdown: typeof NumberIO;
-  propagationDirection: typeof Vector2.Vector2IO;
-  originX: typeof NumberIO;
+  countdown: NumberStateObject;
+  propagationDirection: Vector2StateObject;
+  originX: NumberStateObject;
 };
 
 type SelfOptions = {

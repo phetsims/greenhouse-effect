@@ -8,7 +8,7 @@
 
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -120,10 +120,10 @@ class EMEnergyPacket {
 }
 
 type EMEnergyPacketStateObject = {
-  wavelength: number;
-  energy: number;
-  altitude: number;
-  previousAltitude: number;
+  wavelength: NumberStateObject;
+  energy: NumberStateObject;
+  altitude: NumberStateObject;
+  previousAltitude: NumberStateObject;
   direction: EnergyDirection;
 };
 
