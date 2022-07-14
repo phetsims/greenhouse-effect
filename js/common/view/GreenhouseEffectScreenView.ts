@@ -77,7 +77,7 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     // energy legend, accessible in subtypes for layout purposes
     this.energyLegend = new EnergyLegend( rightWidth, merge( {
-      tandem: options.tandem!.createTandem( 'energyLegend' )
+      tandem: options.tandem.createTandem( 'energyLegend' )
     }, options.energyLegendOptions ) as EnergyLegendOptions );
 
     // The parent node on the right side of the view where legends and controls are placed.  A VBox
@@ -99,7 +99,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       },
       right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
       bottom: this.layoutBounds.maxY - GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-      tandem: options.tandem!.createTandem( 'resetAllButton' )
+      tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( this.resetAllButton );
 

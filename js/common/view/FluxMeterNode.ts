@@ -161,7 +161,7 @@ class FluxMeterNode extends Node {
 
     fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
-        startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( fluxSensorNode.center );
+        startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( fluxSensorNode.center );
         model.fluxSensor.isDraggingProperty.set( true );
       },
       drag: ( event: SceneryEvent ) => {
@@ -176,7 +176,7 @@ class FluxMeterNode extends Node {
         }
 
         // Get the view position of the sensor.
-        const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point! ).subtract( startOffset );
+        const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( startOffset );
 
         // Constrain the Y position in model space to just below the top of the atmosphere at the high end and just
         // above the ground at the low end.

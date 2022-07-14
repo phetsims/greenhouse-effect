@@ -124,7 +124,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     // The proportion of energy coming into this layer that is absorbed and thus contributes to an increase in
     // temperature.  Non-absorbed energy is simply passed from the input to the output.
-    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion!, {
+    this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
       phetioReadOnly: true,
