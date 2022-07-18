@@ -12,40 +12,39 @@
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
-type LayerDebugNodeOptions = {
+type SelfOptions = {
   lineOptions?: {
     stroke?: Color;
     lineWidth?: number;
   };
-} & NodeOptions;
+};
+export type LayerDebugNodeOptions = SelfOptions & NodeOptions;
 
 class LayerDebugNode extends Node {
 
   /**
    * @param layerModel
    * @param modelViewTransform
-   * @param [options]
+   * @param [providedOptions]
    */
   public constructor( layerModel: EnergyAbsorbingEmittingLayer,
                       modelViewTransform: ModelViewTransform2,
-                      options: LayerDebugNodeOptions ) {
+                      providedOptions?: LayerDebugNodeOptions ) {
 
-    options = merge(
-      {
-        lineOptions: {
-          stroke: Color.BLACK,
-          lineWidth: 4
-        }
-      },
-      options
-    );
+    const options = optionize<LayerDebugNodeOptions, SelfOptions, NodeOptions>()( {
+      lineOptions: {
+        stroke: Color.BLACK,
+        lineWidth: 4
+      }
+    }, providedOptions );
 
     const centerY = modelViewTransform.modelToViewY( layerModel.altitude );
     const widthInView = modelViewTransform.modelToViewDeltaX( EnergyAbsorbingEmittingLayer.WIDTH );
