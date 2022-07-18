@@ -11,7 +11,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -28,11 +28,18 @@ import WavesModel from './WavesModel.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
-export type WaveOptions = {
+type SelfOptions = {
+
+  // the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
   intensityAtStart?: number;
+
+  // initial phase offset, in radians
   initialPhaseOffset?: number;
+
+  // a string that can be stuck on the object, useful for debugging, see usage
   debugTag?: string | null;
-} & PhetioObjectOptions;
+};
+export type WaveOptions = SelfOptions & PhetioObjectOptions;
 
 class Wave extends PhetioObject {
   private readonly debugTag: string | null;
@@ -62,25 +69,18 @@ class Wave extends PhetioObject {
                       origin: Vector2,
                       propagationDirection: Vector2,
                       propagationLimit: number,
-                      providedOptions: WaveOptions ) {
+                      providedOptions?: WaveOptions ) {
 
-    const options = merge( {
-
-      // {number} - the intensity of this wave from its start point, range is 0 (no intensity) to 1 (max intensity)
+    const options = optionize<WaveOptions, SelfOptions, PhetioObjectOptions>()( {
       intensityAtStart: 1,
-
-      // {number} - initial phase offset, in radians
       initialPhaseOffset: 0,
-
-      // {string} - a string that can be stuck on the object, useful for debugging
       debugTag: null,
 
       // phet-io
       tandem: Tandem.REQUIRED,
       phetioType: Wave.WaveIO,
       phetioDynamicElement: true
-
-    }, providedOptions ) as Required<WaveOptions>;
+    }, providedOptions );
 
     // options checking
     assert && assert(
@@ -104,7 +104,7 @@ class Wave extends PhetioObject {
     // (read-only)
     this.wavelength = wavelength;
 
-    // The point from which this wave originates.  This is immutable over the lifetime of a wave, and it distinct
+    // The point from which this wave originates.  This is immutable over the lifetime of a wave, and is distinct
     // from the start point, since the start point can move as the wave propagates.
     this.origin = origin;
 
@@ -178,7 +178,7 @@ class Wave extends PhetioObject {
       } );
     }
 
-    // Check if the current change causes this wave to extend beyond it's propagation limit and, if so, limit the length.
+    // Check if the current change causes this wave to extend beyond its propagation limit and, if so, limit the length.
     this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y );
 
     // Remove attenuators that are no longer on the wave.
@@ -375,17 +375,10 @@ class Wave extends PhetioObject {
     };
   }
 
+  /**
+   * Apply the dynamic (non-immutable) portion of the wave state to this instance.
+   */
   public applyState( stateObject: WaveStateObject ): void {
-    // @ts-ignore - should be readonly except for applyState
-    this.wavelength = NumberIO.fromStateObject( stateObject.wavelength );
-    // @ts-ignore - should be readonly except for applyState
-    this.origin = Vector2.Vector2IO.fromStateObject( stateObject.origin );
-    // @ts-ignore - should be readonly except for applyState
-    this.propagationDirection = Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection );
-    // @ts-ignore - should be readonly except for applyState
-    this.propagationLimit = NumberIO.fromStateObject( stateObject.propagationLimit );
-    // @ts-ignore - should be readonly except for applyState
-    this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
     this.length = NumberIO.fromStateObject( stateObject.length );
     this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
     this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
@@ -395,9 +388,6 @@ class Wave extends PhetioObject {
       ReferenceIO( IOType.ObjectIO ),
       WaveAttenuator.WaveAttenuatorIO
     ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
-
-    // @ts-ignore - should be readonly except for applyState
-    this.renderingWavelength = NumberIO.fromStateObject( stateObject.renderingWavelength );
   }
 
   /**
