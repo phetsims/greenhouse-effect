@@ -6,7 +6,6 @@
 
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
@@ -81,7 +80,7 @@ type SelfOptions = {
 
   // A property that indicates what the produced wave intensity should be.  A Property for this will be created if none
   // is provided.
-  waveIntensityProperty?: null | Property<number>;
+  waveIntensityProperty?: null | IReadOnlyProperty<number>;
 
   // time between waves, in seconds
   interWaveTime?: number;
@@ -93,7 +92,7 @@ export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions;
 
 class EMWaveSource extends PhetioObject {
   public readonly waveStartAltitude: number;
-  private readonly waveIntensityProperty: Property<number>;
+  private readonly waveIntensityProperty: IReadOnlyProperty<number>;
   private readonly waveProductionEnabledProperty: IReadOnlyProperty<boolean>;
   private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   private readonly wavelength: number;
@@ -134,8 +133,8 @@ class EMWaveSource extends PhetioObject {
     // (read-only) {number} - altitude from which waves originate
     this.waveStartAltitude = waveStartAltitude;
 
-    // {Property.<number>} - Controls whether waves should be produced.  If no wave intensity Property was
-    // provided, create one, and assume max intensity.
+    // Controls whether waves should be produced.  If no wave intensity Property was provided,
+    // create one, and assume max intensity.
     this.waveIntensityProperty = options.waveIntensityProperty || new NumberProperty( 1 );
 
     // information necessary for the methods to do their thing

@@ -5,38 +5,36 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import LayersModel from '../../common/model/LayersModel.js';
-import Wave, { WaveOptions } from '../../waves/model/Wave.js';
-import Property from '../../../../axon/js/Property.js';
-import WaveSourceSpec from './WaveSourceSpec.js';
-import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
-import GroundLayer from '../../common/model/GroundLayer.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GroundLayer from '../../common/model/GroundLayer.js';
+import LayersModel from '../../common/model/LayersModel.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import Wave, { WaveOptions } from '../../waves/model/Wave.js';
+import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
+import WaveSourceSpec from './WaveSourceSpec.js';
 
 // constants
 const MINIMUM_WAVE_INTENSITY = 0.01;
 const MIN_WAVE_PRODUCTION_TEMPERATURE = GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE; // min temperature at which the ground will produce IR waves
 const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
+type SelfOptions = EmptyObjectType;
+export type GroundWaveSourceOptions = SelfOptions & EMWaveSourceOptions;
+
 class GroundWaveSource extends EMWaveSource {
 
   public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                       waveStartAltitude: number,
                       waveEndAltitude: number,
-                      groundTemperatureProperty: Property<number>,
-                      options?: Partial<EMWaveSourceOptions> ) {
-
-    // derived Property that controls when IR waves can be produced
-    const produceIRWavesProperty = new DerivedProperty(
-      [ groundTemperatureProperty ],
-      temperature => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
-    );
+                      groundTemperatureProperty: IProperty<number>,
+                      providedOptions?: GroundWaveSourceOptions ) {
 
     // derived Property that maps temperature to the intensity of the IR waves
     const waveIntensityProperty = new DerivedProperty(
@@ -49,9 +47,15 @@ class GroundWaveSource extends EMWaveSource {
       )
     );
 
-    options = merge( {
+    const options = optionize<GroundWaveSourceOptions, SelfOptions, EMWaveSourceOptions>()( {
       waveIntensityProperty: waveIntensityProperty
-    }, options );
+    }, providedOptions );
+
+    // derived Property that controls when IR waves can be produced
+    const produceIRWavesProperty = new DerivedProperty(
+      [ groundTemperatureProperty ],
+      temperature => temperature > MIN_WAVE_PRODUCTION_TEMPERATURE + 1 // just higher than the minimum
+    );
 
     super(
       wavesInModel,
