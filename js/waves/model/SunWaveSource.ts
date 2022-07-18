@@ -5,37 +5,35 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource, { EMWaveSourceOptions } from '../../waves/model/EMWaveSource.js';
+import Property from '../../../../axon/js/Property.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import EMWaveSource, { EMWaveSourceOptions } from '../../waves/model/EMWaveSource.js';
 import Wave, { WaveOptions } from './Wave.js';
-import Property from '../../../../axon/js/Property.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
+
+type SelfOptions = EmptyObjectType;
+export type SunWaveSourceOptions = SelfOptions & EMWaveSourceOptions;
 
 class SunWaveSource extends EMWaveSource {
 
-  /**
-   * @param wavesInModel
-   * @param waveProductionEnabledProperty
-   * @param waveStartAltitude
-   * @param waveEndAltitude
-   * @param [options]
-   */
   public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                       waveProductionEnabledProperty: Property<boolean>,
                       waveStartAltitude: number,
                       waveEndAltitude: number,
-                      options?: Partial<EMWaveSourceOptions> ) {
+                      providedOptions?: SunWaveSourceOptions ) {
 
-    options = merge( {
+    const options = optionize<SunWaveSourceOptions, SelfOptions, EMWaveSourceOptions>()( {
 
       // The sun generally just shines with a fixed intensity.
       waveIntensityProperty: new NumberProperty( 0.5 )
-    }, options );
+
+    }, providedOptions );
 
     super(
       wavesInModel,
