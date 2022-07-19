@@ -46,7 +46,7 @@ const mapLetterToTemperatureUnits = new Map<string, TemperatureUnits>( [
   [ 'C', TemperatureUnits.CELSIUS ],
   [ 'F', TemperatureUnits.FAHRENHEIT ]
 ] );
-const DEFAULT_TEMPERATURE_UNITS = mapLetterToTemperatureUnits.get( GreenhouseEffectQueryParameters.defaultTemperatureUnits );
+const DEFAULT_TEMPERATURE_UNITS = mapLetterToTemperatureUnits.get( GreenhouseEffectQueryParameters.defaultTemperatureUnits! );
 
 type SelfOptions = {
 
