@@ -13,7 +13,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
 import PhotonCollection from '../model/PhotonCollection.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Photon from '../model/Photon.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
@@ -23,7 +23,7 @@ const PLAYBACK_RATE_RANGE = new Range( 0.94387431268, 1.05946309436 ); // playba
 const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions cause sounds
 
 // types for options
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type AtmosphericPhotonsSoundGeneratorOptions = SelfOptions & SoundClipOptions;
 
 class AtmosphericPhotonsSoundGenerator extends SoundClip {

@@ -10,7 +10,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
@@ -25,7 +25,7 @@ const MINIMUM_WAVE_INTENSITY = 0.01;
 const MIN_WAVE_PRODUCTION_TEMPERATURE = GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE; // min temperature at which the ground will produce IR waves
 const MAX_EXPECTED_TEMPERATURE = 295; // the max temperature that the model is expected to reach, in Kelvin
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type GroundWaveSourceOptions = SelfOptions & EMWaveSourceOptions;
 
 class GroundWaveSource extends EMWaveSource {

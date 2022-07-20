@@ -10,7 +10,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import merge from '../../../../phet-core/js/merge.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
@@ -26,7 +26,8 @@ import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOpt
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 
-type LandscapeObservationWindowOptions = EmptyObjectType & GreenhouseEffectObservationWindowOptions;
+type SelfOptions = EmptySelfOptions;
+type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;

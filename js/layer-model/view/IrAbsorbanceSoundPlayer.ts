@@ -15,10 +15,10 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // types for options
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type IrAbsorbanceSoundPlayerOptions = SelfOptions & SoundClipOptions;
 
 class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {

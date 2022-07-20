@@ -20,7 +20,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -36,7 +36,7 @@ const PLOT_VIEW_WIDTH = 100; // view coordinates
 const PLOT_VIEW_HEIGHT = 120; // view coordinates
 
 // types
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type EnergyBalancePanelOptions = SelfOptions & PanelOptions;
 
 class EnergyBalancePanel extends Panel {

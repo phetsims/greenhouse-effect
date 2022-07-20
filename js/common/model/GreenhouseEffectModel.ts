@@ -15,10 +15,10 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IEmitter from '../../../../axon/js/IEmitter.js';
 
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
 
 class GreenhouseEffectModel extends PhetioObject {

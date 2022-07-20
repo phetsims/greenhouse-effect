@@ -11,7 +11,7 @@ import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
@@ -19,7 +19,7 @@ import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 
 // types for options
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 type SolarIntensitySoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class SolarIntensitySoundPlayer extends SoundGenerator implements ISoundPlayer {

@@ -18,7 +18,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -82,7 +82,7 @@ class GasConcentrationAlerter extends Alerter {
 
   public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
-    const options = optionize<AlerterOptions, EmptyObjectType, AlerterOptions>()( {
+    const options = optionize<AlerterOptions, EmptySelfOptions, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
       alertToVoicing: false
