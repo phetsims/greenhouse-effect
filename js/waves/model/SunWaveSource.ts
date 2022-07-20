@@ -7,8 +7,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';

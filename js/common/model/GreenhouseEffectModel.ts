@@ -14,8 +14,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IEmitter from '../../../../axon/js/IEmitter.js';
 
 type SelfOptions = EmptySelfOptions;

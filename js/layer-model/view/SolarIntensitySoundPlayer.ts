@@ -10,8 +10,7 @@
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';

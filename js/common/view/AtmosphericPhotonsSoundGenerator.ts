@@ -12,8 +12,7 @@ import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generato
 import greenhouseEffect from '../../greenhouseEffect.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
 import PhotonCollection from '../model/PhotonCollection.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Photon from '../model/Photon.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
