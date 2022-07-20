@@ -16,6 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 
 type SelfOptions = EmptyObjectType;
 export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
@@ -23,7 +24,7 @@ export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
 class GreenhouseEffectModel extends PhetioObject {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
-  public readonly steppedEmitter: Emitter<[ number ]>;
+  public readonly steppedEmitter: IEmitter<[ number ]>;
 
   public constructor( tandem: Tandem, providedOptions?: GreenhouseEffectModelOptions ) {
 

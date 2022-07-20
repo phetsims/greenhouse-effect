@@ -11,6 +11,7 @@
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line } from '../../../../kite/js/imports.js';
@@ -48,7 +49,7 @@ const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
 class WavesModel extends ConcentrationModel {
   public readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
-  public readonly wavesChangedEmitter: Emitter<[]>;
+  public readonly wavesChangedEmitter: IEmitter;
   private readonly sunWaveSource: SunWaveSource;
   private readonly groundWaveSource: GroundWaveSource;
   private cloudReflectedWavesMap: Map<Wave, Wave>;
