@@ -167,11 +167,13 @@ class QuadEmissionFrequencyControlPanel extends Node {
       radioButtonOptions: {
         baseColor: 'black',
         cornerRadius: 7,
-        selectedStroke: 'rgb(47, 101,209)',
-        selectedLineWidth: 3,
-        deselectedLineWidth: 0,
         xMargin: 5,
-        yMargin: 8
+        yMargin: 8,
+        buttonAppearanceStrategyOptions: {
+          selectedStroke: 'rgb(47,101,209)',
+          selectedLineWidth: 3,
+          deselectedLineWidth: 0
+        }
       },
       soundPlayers: radioButtonSoundPlayers,
       tandem: radioButtonGroupTandem

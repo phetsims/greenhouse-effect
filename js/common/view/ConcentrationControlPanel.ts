@@ -68,8 +68,10 @@ const CONCENTRATION_CONTROLS_STROKE = 'black';
 const RADIO_BUTTON_GROUP_OPTIONS = {
   radioButtonOptions: {
     baseColor: 'white',
-    selectedStroke: 'rgb(0,173,221)',
-    selectedLineWidth: 2
+    buttonAppearanceStrategyOptions: {
+      selectedStroke: 'rgb(0,173,221)',
+      selectedLineWidth: 2
+    }
   }
 };
 
