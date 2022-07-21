@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -19,6 +19,9 @@ import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 
+type SelfOptions = EmptySelfOptions;
+export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
+
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
 
@@ -27,10 +30,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     assert && assert( providedOptions.groundBaseColorProperty === undefined, 'LayerModelObservationWindow sets groundBaseColorProperty' );
     const groundBaseColorProperty = new ColorProperty( Color.GRAY );
 
-    const options = merge( {
-
-      // pass on to the InstrumentVisibilityControls
-      instrumentVisibilityControls: null,
+    const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
 
       groundBaseColorProperty: groundBaseColorProperty,
 

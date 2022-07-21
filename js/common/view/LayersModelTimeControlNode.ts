@@ -9,24 +9,27 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 
+type SelfOptions = EmptySelfOptions;
+export type LayersModelTimeControlNodeOptions = SelfOptions & TimeControlNodeOptions;
+
 class LayersModelTimeControlNode extends TimeControlNode {
 
-  public constructor( model: LayersModel, options?: any ) {
+  public constructor( model: LayersModel, providedOptions?: LayersModelTimeControlNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<LayersModelTimeControlNodeOptions, SelfOptions, TimeControlNodeOptions>()( {
       timeSpeedProperty: model.timeSpeedProperty,
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
           listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
         }
       }
-    }, options );
+    }, providedOptions );
 
     super( model.isPlayingProperty, options );
 

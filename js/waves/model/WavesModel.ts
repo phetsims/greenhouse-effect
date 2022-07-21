@@ -15,7 +15,7 @@ import IEmitter from '../../../../axon/js/IEmitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
@@ -75,7 +75,7 @@ class WavesModel extends ConcentrationModel {
     // (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
-        options = merge( { tandem: tandem }, options );
+        options = combineOptions<WaveOptions>( { tandem: tandem }, options );
         return new Wave( wavelength, origin, propagationDirection, propagationLimit, options );
       },
       [
@@ -478,14 +478,14 @@ class WavesModel extends ConcentrationModel {
    * for phet-io
    */
   public override toStateObject(): WavesModelStateObject {
-    return merge( super.toStateObject(), {
+    return combineOptions<WavesModelStateObject>( super.toStateObject(), {
 
       // MK: I believe these need type casting because IOType doesn't currently support subtype serialization well.
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource as unknown as typeof EMWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource as unknown as typeof EMWaveSource ),
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
       glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.glacierReflectedWavesMap )
-    } ) as WavesModelStateObject;
+    } );
   }
 
   /**

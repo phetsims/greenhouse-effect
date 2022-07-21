@@ -9,8 +9,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
@@ -45,14 +44,12 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Create a color property that can be used to change the color of the ground.
     const groundColorBaseProperty = new ColorProperty( Color.GREEN );
 
-    const options = merge( {
+    const options = optionize<LandscapeObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
       groundBaseColorProperty: groundColorBaseProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as Required<LandscapeObservationWindowOptions>;
-
-    assert && assert( options.groundBaseColorProperty === groundColorBaseProperty, 'LandscapeObservationWindow sets groundBaseColorProperty' );
+    }, providedOptions );
 
     super( model, options );
 

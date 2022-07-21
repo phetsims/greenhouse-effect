@@ -10,8 +10,8 @@
 import { Shape } from '../../../../kite/js/imports.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { AlignGroup, HBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { AlignGroup, HBox, Image, Path, PathOptions, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
@@ -44,9 +44,10 @@ class EnergyRepresentation extends EnumerationValue {
   public static enumeration = new Enumeration( EnergyRepresentation );
 }
 
-type EnergyLegendOptions = {
-  energyRepresentation: EnergyRepresentation;
-} & PanelOptions;
+type SelfOptions = {
+  energyRepresentation?: EnergyRepresentation;
+};
+export type EnergyLegendOptions = SelfOptions & PanelOptions;
 
 class EnergyLegend extends Panel {
 
@@ -56,7 +57,7 @@ class EnergyLegend extends Panel {
    */
   public constructor( width: number, providedOptions?: EnergyLegendOptions ) {
 
-    const options = merge( {
+    const options = optionize<EnergyLegendOptions, SelfOptions, PanelOptions>()( {
 
       // the energy icons will either display a photon or wave, depending on this option
       energyRepresentation: EnergyRepresentation.PHOTON,
@@ -74,7 +75,7 @@ class EnergyLegend extends Panel {
 
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as EnergyLegendOptions & { tandem: Tandem };
+    }, providedOptions );
 
     // title
     const titleNode = new Text( greenhouseEffectStrings.energyLegend.title, {
@@ -87,11 +88,11 @@ class EnergyLegend extends Panel {
     // labels
     const sunlightLabel = new Text(
       greenhouseEffectStrings.sunlight,
-      merge( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabel' ) } )
+      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabel' ) } )
     );
     const infraredLabel = new Text(
       greenhouseEffectStrings.infrared,
-      merge( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabel' ) } )
+      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabel' ) } )
     );
 
     // icons
@@ -184,9 +185,9 @@ class EnergyLegend extends Panel {
  * @param wavelengthsToDraw - how many wavelengths to draw for the icon
  * @param [options] - options for the wave Path
  */
-const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options: PathOptions ) => {
+const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options?: PathOptions ) => {
 
-  options = merge( {
+  options = combineOptions<PathOptions>( {
     lineWidth: 1.5
   }, options );
 
@@ -202,8 +203,6 @@ const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options:
 
   return new Path( waveShape, options );
 };
-
-export type { EnergyLegendOptions };
 
 greenhouseEffect.register( 'EnergyLegend', EnergyLegend );
 export default EnergyLegend;

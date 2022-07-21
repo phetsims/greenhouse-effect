@@ -13,14 +13,16 @@ import Property from '../../../../axon/js/Property.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
-import { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CloudNode from '../../common/view/CloudNode.js';
-import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
+import GreenhouseEffectCheckbox, { GreenhouseEffectCheckboxOptions } from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+
+type SelfOptions = EmptySelfOptions;
+export type CloudCheckboxOptions = SelfOptions & GreenhouseEffectCheckboxOptions;
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
@@ -28,7 +30,7 @@ const CLOUD_ICON_WIDTH = 40;
 class CloudCheckbox extends GreenhouseEffectCheckbox {
   public constructor( cloudEnabledProperty: Property<boolean>,
                       isShiningProperty: BooleanProperty,
-                      providedOptions: CheckboxOptions ) {
+                      providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
     // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
     // to height, so change with caution.
@@ -40,16 +42,13 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
-    const options = merge(
-      {
-        iconNode: iconNode,
-        helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
+    const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
+      iconNode: iconNode,
+      helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
 
-        // phet-io
-        tandem: Tandem.REQUIRED
-      },
-      providedOptions
-    );
+      // phet-io
+      tandem: Tandem.REQUIRED
+    }, providedOptions );
 
     super( cloudEnabledProperty, greenhouseEffectStrings.cloud, options );
   }

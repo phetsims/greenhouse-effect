@@ -9,21 +9,26 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
+import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 
-type GreenhouseEffectScreenViewOptions = {
+type SelfOptions = {
+
+  // passed along to the EnergyLegend
   energyLegendOptions?: EnergyLegendOptions;
+
+  // options passed to the GreenhouseEffectObservationWindow
   observationWindowOptions?: GreenhouseEffectObservationWindowOptions;
-} & ScreenViewOptions;
+};
+export type GreenhouseEffectScreenViewOptions = SelfOptions & ScreenViewOptions;
 
 class GreenhouseEffectScreenView extends ScreenView {
   protected readonly model: GreenhouseEffectModel;
@@ -45,18 +50,13 @@ class GreenhouseEffectScreenView extends ScreenView {
   public constructor( model: GreenhouseEffectModel,
                       observationWindow: GreenhouseEffectObservationWindow,
                       timeControlNode: TimeControlNode,
-                      providedOptions: GreenhouseEffectScreenViewOptions ) {
+                      providedOptions?: GreenhouseEffectScreenViewOptions ) {
 
-    const options: GreenhouseEffectScreenViewOptions = merge( {
-
-      // passed along to the EnergyLegend
-      energyLegendOptions: null,
-
-      // {Object|null} - options passed to the GreenhouseEffectObservationWindow
-      observationWindowOptions: null,
-
+    const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+      energyLegendOptions: {},
+      observationWindowOptions: {},
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as GreenhouseEffectScreenViewOptions & { tandem: Tandem };
+    }, providedOptions );
 
     if ( options.energyLegendOptions ) {
       assert && assert( !options.energyLegendOptions.tandem, 'EnergyLegend Tandem is set by GreenhouseEffectScreenView' );
@@ -76,9 +76,9 @@ class GreenhouseEffectScreenView extends ScreenView {
                        this.observationWindow.right - GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING;
 
     // energy legend, accessible in subtypes for layout purposes
-    this.energyLegend = new EnergyLegend( rightWidth, merge( {
+    this.energyLegend = new EnergyLegend( rightWidth, combineOptions<EnergyLegendOptions>( {
       tandem: options.tandem.createTandem( 'energyLegend' )
-    }, options.energyLegendOptions ) as EnergyLegendOptions );
+    }, options.energyLegendOptions ) );
 
     // The parent node on the right side of the view where legends and controls are placed.  A VBox
     // is used to support dynamic layout in conjunction with phet-io.

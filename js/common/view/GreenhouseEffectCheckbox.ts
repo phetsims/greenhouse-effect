@@ -26,7 +26,7 @@ type SelfOptions = {
   // if provided, will be included in the icon for the checkbox
   iconNode?: Node | null;
 };
-type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
+export type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
   public constructor( property: Property<boolean>, labelString: string, providedOptions?: GreenhouseEffectCheckboxOptions ) {

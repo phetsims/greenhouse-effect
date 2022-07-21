@@ -7,7 +7,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { PathOptions, Rectangle, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -18,10 +18,15 @@ import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
-type InstrumentVisibilityControlsOptions = {
+type SelfOptions = {
+
+  // options passed along to the VBox containing the controls
   vBoxOptions?: VBoxOptions;
+
+  // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
-} & PathOptions;
+};
+export type InstrumentVisibilityControlsOptions = SelfOptions & PathOptions;
 
 class InstrumentVisibilityControls extends Rectangle {
 
@@ -31,24 +36,23 @@ class InstrumentVisibilityControls extends Rectangle {
    */
   public constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
 
-    const options = merge( {
+    const options = optionize<InstrumentVisibilityControlsOptions, SelfOptions, PathOptions>()( {
+
+      // SelfOptions
+      vBoxOptions: {
+        align: 'left',
+        spacing: 5
+      },
+      includeFluxMeterCheckbox: true,
 
       // fill for the rectangle surrounding controls, so controls are easier to see against
       // background artwork of the ObservationWindow
       fill: 'rgba(255,255,255,0.5)',
 
-      // {Object} - Options passed along to the VBox containing the controls
-      vBoxOptions: {
-        align: 'left',
-        spacing: 5
-      },
-
-      // If true, a checkbox for the flux meter will be included in the controls
-      includeFluxMeterCheckbox: true,
-
       // phet-io
       tandem: Tandem.REQUIRED
-    }, providedOptions ) as Required<InstrumentVisibilityControlsOptions>;
+
+    }, providedOptions );
 
     assert && assert(
       options.vBoxOptions.children === undefined,
@@ -112,5 +116,4 @@ class InstrumentVisibilityControls extends Rectangle {
 
 greenhouseEffect.register( 'InstrumentVisibilityControls', InstrumentVisibilityControls );
 
-export type { InstrumentVisibilityControlsOptions };
 export default InstrumentVisibilityControls;

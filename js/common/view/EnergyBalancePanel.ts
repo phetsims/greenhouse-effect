@@ -18,9 +18,8 @@ import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
@@ -56,7 +55,7 @@ class EnergyBalancePanel extends Panel {
                       sunIsShiningProperty: Property<boolean>,
                       providedOptions?: EnergyBalancePanelOptions ) {
 
-    const options = merge( {
+    const options = optionize<EnergyBalancePanelOptions, SelfOptions, PanelOptions>()( {
 
       // panel options
       cornerRadius: 5,

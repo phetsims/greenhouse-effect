@@ -14,7 +14,7 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -50,11 +50,15 @@ const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 // Standard inset for controls and instruments that exist inside the observation window.
 const CONTROL_AND_INSTRUMENT_INSET = 10;
 
-type GreenhouseEffectObservationWindowOptions = {
+type SelfOptions = {
+
+  // a Property that encloses the base color of the ground, from which a gradient is created
   groundBaseColorProperty?: Property<Color> | null;
+
+  // {boolean} - whether the ground and sky should appear to glow when warm
   showTemperatureGlow?: boolean;
-  tandem: Tandem;
-} & NodeOptions;
+};
+export type GreenhouseEffectObservationWindowOptions = SelfOptions & NodeOptions;
 
 class GreenhouseEffectObservationWindow extends Node {
   protected readonly modelViewTransform: ModelViewTransform2;
@@ -74,29 +78,23 @@ class GreenhouseEffectObservationWindow extends Node {
   // Observation window UI component visibility controls, public for pdomOrder.
   public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
 
-  public constructor( model: LayersModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
+  public constructor( model: LayersModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
-    const options: GreenhouseEffectObservationWindowOptions = merge( {
+    super();
+
+    const options = optionize<GreenhouseEffectObservationWindowOptions, SelfOptions, NodeOptions>()( {
+
+      // SelfOptions
+      groundBaseColorProperty: null,
+      showTemperatureGlow: false,
 
       // default position in the GreenhouseEffect sim
       left: 5,
       top: 10,
 
-      // {Property.<Color>|null} - A Property that encloses the base color of the ground, from which a gradient is created.
-      groundBaseColorProperty: null,
-
-      // {boolean} - whether the ground and sky should appear to glow when warm
-      showTemperatureGlow: false,
-
-      // passed along to the InstrumentVisibilityControls
-      instrumentVisibilityControlsOptions: {},
-
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
-
-    // TODO: Can the call to super be at the bottom instead of here?
-    super();
 
     // Calculate where we want the ground in the model, which corresponds to y=0, to appear in the view.
     const groundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION / 2;
@@ -517,5 +515,4 @@ class GreenhouseEffectObservationWindow extends Node {
 
 greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
 
-export type { GreenhouseEffectObservationWindowOptions };
 export default GreenhouseEffectObservationWindow;

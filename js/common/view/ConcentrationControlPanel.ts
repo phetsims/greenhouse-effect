@@ -16,12 +16,11 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -229,19 +228,16 @@ class DateControl extends Node {
     const dateRadioButtonGroup = new RectangularRadioButtonGroup(
       dateProperty,
       items,
-      merge(
-        {
+      combineOptions<RectangularRadioButtonGroupOptions>( {
 
-          // pdom
-          labelTagName: 'h4',
-          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
-          helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText,
+        // pdom
+        labelTagName: 'h4',
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
+        helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText,
 
-          // phet-io
-          tandem: tandem.createTandem( 'dateRadioButtonGroup' )
-        },
-        RADIO_BUTTON_GROUP_OPTIONS
-      )
+        // phet-io
+        tandem: tandem.createTandem( 'dateRadioButtonGroup' )
+      }, RADIO_BUTTON_GROUP_OPTIONS )
     );
 
     // relative concentration graphic
@@ -488,21 +484,17 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
     super(
       property,
       items,
-      merge(
-        {
-          orientation: 'horizontal' as const,
+      combineOptions<RectangularRadioButtonGroupOptions>( {
+        orientation: 'horizontal' as const,
 
-          // pdom
-          labelTagName: 'h4',
-          labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
-          helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
+        // pdom
+        labelTagName: 'h4',
+        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
+        helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
 
-          // phet-io
-          tandem: tandem
-        },
-        RADIO_BUTTON_GROUP_OPTIONS
-      )
-    );
+        // phet-io
+        tandem: tandem
+      }, RADIO_BUTTON_GROUP_OPTIONS ) );
   }
 }
 

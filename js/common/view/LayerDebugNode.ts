@@ -11,8 +11,7 @@
 
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import merge from '../../../../phet-core/js/merge.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
@@ -57,7 +56,7 @@ class LayerDebugNode extends Node {
     } );
 
     // supertype constructor
-    super( merge( { children: [ line, numberDisplay ] }, options ) );
+    super( combineOptions<LayerDebugNodeOptions>( { children: [ line, numberDisplay ] }, options ) );
   }
 }
 

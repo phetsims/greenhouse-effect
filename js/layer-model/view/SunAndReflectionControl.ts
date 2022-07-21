@@ -6,31 +6,32 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
+import { SliderOptions } from '../../../../sun/js/Slider.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import SunEnergySource from '../../common/model/SunEnergySource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import SunEnergySource from '../../common/model/SunEnergySource.js';
-import Range from '../../../../dot/js/Range.js';
-import merge from '../../../../phet-core/js/merge.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
-import Utils from '../../../../dot/js/Utils.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
 const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
 const PANEL_MARGIN = 5;
-const COMMON_SLIDER_OPTIONS = {
+const COMMON_SLIDER_OPTIONS: SliderOptions = {
   thumbSize: new Dimension2( 10, 20 ),
   thumbTouchAreaXDilation: 8,
   thumbTouchAreaYDilation: 8,
@@ -102,7 +103,7 @@ class SunAndReflectionControl extends Panel {
     const solarIntensitySlider = new HSlider(
       layersModel.sunEnergySource.proportionateOutputRateProperty,
       solarIntensityProportionRange,
-      merge( {}, COMMON_SLIDER_OPTIONS, {
+      combineOptions<SliderOptions>( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SOLAR_INTENSITY_SLIDER_STEP_SIZE ),
         keyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
@@ -165,7 +166,7 @@ class SunAndReflectionControl extends Panel {
     const surfaceAlbedoSlider = new HSlider(
       layersModel.groundLayer.albedoProperty,
       surfaceAlbedoRange,
-      merge( {}, COMMON_SLIDER_OPTIONS, {
+      combineOptions<SliderOptions>( {}, COMMON_SLIDER_OPTIONS, {
         trackSize: sliderTrackSize,
         constrainValue: ( value: number ) => Utils.roundToInterval( value, SURFACE_ALBEDO_SLIDER_STEP_SIZE ),
         keyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
