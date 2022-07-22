@@ -158,7 +158,7 @@ class Photon {
   public static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
 }
 
-type PhotonStateObject = {
+export type PhotonStateObject = {
   position: Vector2StateObject;
   previousPosition: Vector2StateObject;
   wavelength: NumberStateObject;

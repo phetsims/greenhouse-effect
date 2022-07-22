@@ -24,7 +24,7 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Cloud from './Cloud.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
+import EMEnergyPacket, { EMEnergyPacketStateObject } from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import FluxMeter, { FluxMeterOptions } from './FluxMeter.js';
 import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
@@ -388,8 +388,7 @@ class LayersModel extends GreenhouseEffectModel {
 }
 
 type LayersModelStateObject = {
-  // TODO: I (jbphet) will need some help sorting out how this should work with phet-io.
-  emEnergyPackets: Array<any>;
+  emEnergyPackets: EMEnergyPacketStateObject[];
 };
 
 export type { LayersModelStateObject };

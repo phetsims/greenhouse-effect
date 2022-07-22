@@ -21,8 +21,8 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import MapIO from '../../../../tandem/js/types/MapIO.js';
-import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
+import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseWaveReflectionVibrato_mp3 from '../../../sounds/greenhouseWaveReflectionVibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
@@ -30,7 +30,7 @@ import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmit
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel, { LayersModelStateObject } from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource from './EMWaveSource.js';
+import EMWaveSource, { EMWaveSourceStateObject } from './EMWaveSource.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveOptions } from './Wave.js';
@@ -481,6 +481,7 @@ class WavesModel extends ConcentrationModel {
     return combineOptions<WavesModelStateObject>( super.toStateObject(), {
 
       // MK: I believe these need type casting because IOType doesn't currently support subtype serialization well.
+      // TODO: SR said he would take a look at this later (than now, which is 7/22/2022).
       sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource as unknown as typeof EMWaveSource ),
       groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource as unknown as typeof EMWaveSource ),
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
@@ -527,10 +528,10 @@ class WavesModel extends ConcentrationModel {
 }
 
 type WavesModelStateObject = {
-  sunWaveSource: any;
-  groundWaveSource: any;
-  cloudReflectedWavesMap: any;
-  glacierReflectedWavesMap: any;
+  sunWaveSource: EMWaveSourceStateObject;
+  groundWaveSource: EMWaveSourceStateObject;
+  cloudReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
+  glacierReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
 } & LayersModelStateObject;
 
 /**
@@ -591,9 +592,9 @@ class WaveAtmosphereInteraction {
 }
 
 type WaveAtmosphereInteractionStateObject = {
-  atmosphereLayer: any;
-  sourceWave: any;
-  emittedWave: any;
+  atmosphereLayer: ReferenceIOState;
+  sourceWave: ReferenceIOState;
+  emittedWave: ReferenceIOState;
 };
 
 greenhouseEffect.register( 'WavesModel', WavesModel );

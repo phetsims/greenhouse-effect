@@ -15,9 +15,9 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import MapIO from '../../../../tandem/js/types/MapIO.js';
+import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
-import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveOptions } from './Wave.js';
@@ -304,11 +304,9 @@ class EMWaveSource extends PhetioObject {
   public static EMWaveSourceIO = IOType.fromCoreType<typeof EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', EMWaveSource );
 }
 
-type EMWaveSourceStateObject = {
-  // TODO: I (jbphet) need to talk with the phet-io guys to figure out how to spec this better.
-
-  wavesToLifetimesMap: any;
-  waveCreationQueue: any;
+export type EMWaveSourceStateObject = {
+  wavesToLifetimesMap: MapStateObject<ReferenceIOState, number>;
+  waveCreationQueue: WaveCreationSpecStateObject[];
 };
 
 greenhouseEffect.register( 'EMWaveSource', EMWaveSource );

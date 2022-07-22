@@ -23,7 +23,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import GroundLayer from './GroundLayer.js';
 import LayersModel from './LayersModel.js';
-import Photon from './Photon.js';
+import Photon, { PhotonStateObject } from './Photon.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 import SunEnergySource from './SunEnergySource.js';
 
@@ -334,10 +334,7 @@ class PhotonCollection extends PhetioObject {
 }
 
 type PhotonCollectionStateObject = {
-
-  // TODO phetio: I feel like I should be using something like ArrayIO( Vector2 ) here, but it doesn't as a TypeScript
-  //  type, which isn't surprising I suppose, but I'm not sure what it SHOULD be.
-  photonStateObjects: any[];
+  photonStateObjects: PhotonStateObject[];
 };
 
 greenhouseEffect.register( 'PhotonCollection', PhotonCollection );

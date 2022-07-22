@@ -119,7 +119,7 @@ class EMEnergyPacket {
   public static EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
 }
 
-type EMEnergyPacketStateObject = {
+export type EMEnergyPacketStateObject = {
   wavelength: NumberStateObject;
   energy: NumberStateObject;
   altitude: NumberStateObject;

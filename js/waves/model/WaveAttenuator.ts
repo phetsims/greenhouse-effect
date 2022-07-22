@@ -61,7 +61,7 @@ class WaveAttenuator {
   public static WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
 }
 
-type WaveAttenuatorStateObject = {
+export type WaveAttenuatorStateObject = {
   attenuation: NumberStateObject;
   distanceFromStart: NumberStateObject;
 };

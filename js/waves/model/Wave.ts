@@ -10,18 +10,18 @@
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-import Vector2 from '../../../../dot/js/Vector2.js';
+import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import MapIO from '../../../../tandem/js/types/MapIO.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ReferenceIO from '../../../../tandem/js/types/ReferenceIO.js';
+import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
+import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import WaveAttenuator from './WaveAttenuator.js';
+import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WavesModel from './WavesModel.js';
 
 // constants
@@ -355,7 +355,7 @@ class Wave extends PhetioObject {
   /**
    * Serializes this Wave instance.
    */
-  public toStateObject(): { wavelength: any; origin: any; propagationDirection: any; propagationLimit: any; startPoint: any; length: any; isSourced: any; existenceTime: any; phaseOffsetAtOrigin: any; intensityAtStart: any; modelObjectToAttenuatorMap: any; renderingWavelength: any } {
+  public toStateObject(): WaveStateObject {
     return {
       wavelength: NumberIO.toStateObject( this.wavelength ),
       origin: Vector2.Vector2IO.toStateObject( this.origin ),
@@ -393,7 +393,10 @@ class Wave extends PhetioObject {
   /**
    * Creates the args that WaveGroup uses to instantiate a Wave.
    */
-  public static stateToArgsForConstructor( state: WaveStateObject ): any[] {
+  public static stateToArgsForConstructor( state: WaveStateObject ):
+    [ NumberStateObject, Vector2StateObject, Vector2StateObject, NumberStateObject,
+      { intensityAtStart: NumberStateObject; initialPhaseOffset: NumberStateObject } ] {
+
     return [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),
@@ -436,18 +439,18 @@ class Wave extends PhetioObject {
 }
 
 type WaveStateObject = {
-  wavelength: number;
-  origin: Vector2;
-  propagationDirection: Vector2;
-  propagationLimit: number;
-  startPoint: Vector2;
-  length: number;
+  wavelength: NumberStateObject;
+  origin: Vector2StateObject;
+  propagationDirection: Vector2StateObject;
+  propagationLimit: NumberStateObject;
+  startPoint: Vector2StateObject;
+  length: NumberStateObject;
   isSourced: boolean;
-  existenceTime: number;
-  phaseOffsetAtOrigin: number;
-  intensityAtStart: number;
-  modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
-  renderingWavelength: number;
+  existenceTime: NumberStateObject;
+  phaseOffsetAtOrigin: NumberStateObject;
+  intensityAtStart: NumberStateObject;
+  modelObjectToAttenuatorMap: MapStateObject<ReferenceIOState, WaveAttenuatorStateObject>;
+  renderingWavelength: NumberStateObject;
 };
 
 greenhouseEffect.register( 'Wave', Wave );
