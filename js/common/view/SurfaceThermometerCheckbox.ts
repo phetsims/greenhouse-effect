@@ -10,6 +10,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import TemperatureUnits from '../model/TemperatureUnits.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -20,7 +21,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
-  public constructor( property: Property<boolean>, temperatureProperty: NumberProperty, temperatureUnitsProperty: Property<any>, tandem: Tandem ) {
+  public constructor( property: Property<boolean>,
+                      temperatureProperty: NumberProperty,
+                      temperatureUnitsProperty: Property<TemperatureUnits>,
+                      tandem: Tandem ) {
+
     const iconNode = new ThermometerNode( new NumberProperty( 2 ), 0, 5, { scale: 0.2 } );
 
     const checkedUtterance = new Utterance();
