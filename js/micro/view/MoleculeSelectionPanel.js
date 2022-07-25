@@ -118,7 +118,7 @@ class MoleculeSelectionPanel extends Panel {
     const ozoneElement = createElement( PhotonTarget.SINGLE_O3_MOLECULE, MolecularFormulaStrings.O3_FORMULA_STRING, new O3( moleculeOptions ), 'singleO3MoleculeRadioButton' );
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
-    let radioButtonContent = [];
+    let radioButtonContent;
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
 
       // the specific molecules requested by Open Science Ed
@@ -144,9 +144,11 @@ class MoleculeSelectionPanel extends Panel {
         baseColor: 'black',
         xMargin: 0,
         yMargin: 1.85,
-        selectedStroke: 'white',
-        deselectedStroke: 'black',
-        deselectedLineWidth: 0,
+        buttonAppearanceStrategyOptions: {
+          selectedStroke: 'white',
+          deselectedStroke: 'black',
+          deselectedLineWidth: 0
+        },
         cornerRadius: 7
       },
       tandem: tandem.createTandem( 'radioButtonGroup' ),
