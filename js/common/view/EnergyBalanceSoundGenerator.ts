@@ -19,6 +19,9 @@ import SunEnergySource from '../model/SunEnergySource.js';
 const DEFAULT_OUTPUT_LEVEL = 0.5;
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
+const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 1.25;
+const MAX_BLIPS_PER_SECOND = 8;
+const MIN_ENERGY_FOR_BLIPS = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.05;
 
 // types for options
 type SelfOptions = EmptySelfOptions;
@@ -45,6 +48,7 @@ class EnergyBalanceSoundGenerator extends SoundClip {
 
     super( energyBalanceBlip_mp3, options );
 
+    // Define the listener that will monitor the net energy balance and adjust the rate at which blips are played.
     const energyBalanceListener = ( netEnergyBalance: number ) => {
 
       // Adjust the playback rate of the blip to be higher when the net energy is positive, lower when negative.
@@ -55,20 +59,24 @@ class EnergyBalanceSoundGenerator extends SoundClip {
         this.setPlaybackRate( 1 );
       }
 
-      const threshold = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.2;
-      if ( Math.abs( netEnergyBalance ) > threshold ) {
+      // Adjust the blip rate.
+      const netEnergyMagnitude = Math.abs( netEnergyBalance );
+      if ( netEnergyMagnitude < MIN_ENERGY_FOR_BLIPS ) {
 
-        // TODO: Can I simplify this?
-        if ( this.interBlipTime === Number.POSITIVE_INFINITY ) {
-          this.interBlipTime = 0.25;
-        }
-        if ( this.interBlipCountdown > this.interBlipTime ) {
-          this.interBlipCountdown = this.interBlipTime;
-        }
-      }
-      else {
+        // The energy is too low for blips, so make sure they are not playing.
         this.interBlipTime = Number.POSITIVE_INFINITY;
         this.interBlipCountdown = this.interBlipTime;
+      }
+      else {
+
+        // Calculate the desired blip rate.
+        const blipRate = MIN_BLIPS_PER_SECOND_WHEN_PLAYING +
+                         ( MAX_BLIPS_PER_SECOND - MIN_BLIPS_PER_SECOND_WHEN_PLAYING ) *
+                         netEnergyMagnitude / MAX_EXPECTED_ENERGY_MAGNITUDE;
+        this.interBlipTime = 1 / blipRate;
+        if ( this.interBlipTime < this.interBlipCountdown ) {
+          this.interBlipCountdown = this.interBlipTime;
+        }
       }
     };
 
