@@ -1,9 +1,11 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * A panel with the Energy Balance plot, representing the net energy in and out of the model system.
+ * EnergyBalancePanel is a panel that portrays a plot of the energy balance at a point in the atmosphere, showing the
+ * energy in, energy out, and the net energy.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
@@ -22,11 +24,13 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import SunEnergySource from '../model/SunEnergySource.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
+import EnergyBalanceSoundGenerator from './EnergyBalanceSoundGenerator.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';
@@ -106,6 +110,12 @@ class EnergyBalancePanel extends Panel {
     energyBalanceVisibleProperty.link( visible => {
       this.visible = visible;
     } );
+
+    // sound generation
+    const energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, {
+      enableControlProperties: [ energyBalanceVisibleProperty ]
+    } );
+    soundManager.addSoundGenerator( energyBalanceSoundGenerator );
 
     // pdom
     Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty, sunIsShiningProperty ], ( netEnergy, inRadiativeBalance, sunIsShining ) => {
