@@ -26,6 +26,10 @@ type EnergyBalanceSoundGeneratorOptions = SelfOptions & SoundClipOptions;
 
 class EnergyBalanceSoundGenerator extends SoundClip {
 
+  private readonly disposeEnergyBalanceSoundGenerator: () => void;
+  private interBlipTime: number = Number.POSITIVE_INFINITY;
+  private interBlipCountdown: number = Number.POSITIVE_INFINITY;
+
   public constructor( netEnergyBalanceProperty: IReadOnlyProperty<number>,
                       providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
 
@@ -41,7 +45,7 @@ class EnergyBalanceSoundGenerator extends SoundClip {
 
     super( energyBalanceBlip_mp3, options );
 
-    netEnergyBalanceProperty.lazyLink( ( netEnergyBalance, previousNetEnergyBalance ) => {
+    const energyBalanceListener = ( netEnergyBalance: number ) => {
 
       // Adjust the playback rate of the blip to be higher when the net energy is positive, lower when negative.
       if ( netEnergyBalance > 0 && this.playbackRate === 1 ) {
@@ -51,12 +55,45 @@ class EnergyBalanceSoundGenerator extends SoundClip {
         this.setPlaybackRate( 1 );
       }
 
-      const threshold = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.1;
-      if ( Math.abs( netEnergyBalance ) > threshold &&
-           Math.abs( previousNetEnergyBalance ) < threshold ) {
-        this.play();
+      const threshold = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.2;
+      if ( Math.abs( netEnergyBalance ) > threshold ) {
+
+        // TODO: Can I simplify this?
+        if ( this.interBlipTime === Number.POSITIVE_INFINITY ) {
+          this.interBlipTime = 0.25;
+        }
+        if ( this.interBlipCountdown > this.interBlipTime ) {
+          this.interBlipCountdown = this.interBlipTime;
+        }
       }
-    } );
+      else {
+        this.interBlipTime = Number.POSITIVE_INFINITY;
+        this.interBlipCountdown = this.interBlipTime;
+      }
+    };
+
+    netEnergyBalanceProperty.lazyLink( energyBalanceListener );
+
+    this.disposeEnergyBalanceSoundGenerator = () => {
+      netEnergyBalanceProperty.unlink( energyBalanceListener );
+    };
+  }
+
+  public step( dt: number ): void {
+
+    // See if it is time to play a blip sound and, if so, do it and reset the countdown.
+    if ( this.interBlipCountdown !== Number.POSITIVE_INFINITY ) {
+      this.interBlipCountdown = Math.max( this.interBlipCountdown - dt, 0 );
+      if ( this.interBlipCountdown === 0 ) {
+        this.play();
+        this.interBlipCountdown = this.interBlipTime;
+      }
+    }
+  }
+
+  public override dispose(): void {
+    this.disposeEnergyBalanceSoundGenerator();
+    super.dispose();
   }
 }
 

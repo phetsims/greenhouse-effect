@@ -500,7 +500,7 @@ class GreenhouseEffectObservationWindow extends Node {
   }
 
   public step( dt: number ): void {
-    // Does nothing in the base class, override as necessary in subclasses.
+    this.energyBalancePanel.step( dt );
   }
 
   public reset(): void {

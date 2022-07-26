@@ -44,6 +44,8 @@ export type EnergyBalancePanelOptions = SelfOptions & PanelOptions;
 
 class EnergyBalancePanel extends Panel {
 
+  private readonly energyBalanceSoundGenerator: EnergyBalanceSoundGenerator;
+
   /**
    * @param energyBalanceVisibleProperty - a Property that controls whether this Panel is visible in the view
    * @param netEnergyInProperty
@@ -112,10 +114,10 @@ class EnergyBalancePanel extends Panel {
     } );
 
     // sound generation
-    const energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, {
+    this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, {
       enableControlProperties: [ energyBalanceVisibleProperty ]
     } );
-    soundManager.addSoundGenerator( energyBalanceSoundGenerator );
+    soundManager.addSoundGenerator( this.energyBalanceSoundGenerator );
 
     // pdom
     Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty, sunIsShiningProperty ], ( netEnergy, inRadiativeBalance, sunIsShining ) => {
@@ -129,6 +131,14 @@ class EnergyBalancePanel extends Panel {
         this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
       }
     } );
+  }
+
+  /**
+   * time-based behavior
+   * @param dt - delta time, in seconds
+   */
+  public step( dt: number ): void {
+    this.energyBalanceSoundGenerator.step( dt );
   }
 }
 
