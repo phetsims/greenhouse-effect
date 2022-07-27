@@ -15,10 +15,12 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
@@ -31,9 +33,8 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
-import LayersModel from '../model/LayersModel.js';
 import FluxSensor from '../model/FluxSensor.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import LayersModel from '../model/LayersModel.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -336,7 +337,8 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
     const options = optionize<FluxSensorNodeOptions, SelfOptions, ParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE ),
-      keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30
+      keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30,
+      a11yCreateAriaValueText: ( value ) => `${Utils.roundSymmetric(value )} m`
     }, providedOptions );
 
     super( options );
