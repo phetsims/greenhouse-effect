@@ -335,7 +335,8 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
 
     const options = optionize<FluxSensorNodeOptions, SelfOptions, ParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
-      enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE )
+      enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE ),
+      keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30
     }, providedOptions );
 
     super( options );

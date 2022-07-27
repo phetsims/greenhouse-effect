@@ -24,7 +24,7 @@ import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import LayersModel from './LayersModel.js';
 
 // constants
-const MIN_LAYER_TO_SENSOR_DISTANCE = 3500; // in meters
+const MIN_LAYER_TO_SENSOR_DISTANCE = 2200; // in meters, empirically determined
 
 // types
 type SelfOptions = {
@@ -142,10 +142,14 @@ class FluxMeter extends PhetioObject {
     activeAtmosphereLayers.forEach( atmosphereLayer => {
       const sensorToLayerYDistance = Math.abs( atmosphereLayer.altitude - this.fluxSensor.altitudeProperty.value );
       if ( sensorToLayerYDistance < MIN_LAYER_TO_SENSOR_DISTANCE ) {
-        const deltaFromAltitude = this.fluxSensor.altitudeProperty.value >= atmosphereLayer.altitude ?
-                                  MIN_LAYER_TO_SENSOR_DISTANCE :
-                                  -MIN_LAYER_TO_SENSOR_DISTANCE;
-        this.fluxSensor.altitudeProperty.set( atmosphereLayer.altitude + deltaFromAltitude );
+
+        // Jump to the other side of the layer rather than the same side.  This works better for keyboard nav.
+        if ( this.fluxSensor.altitudeProperty.value < atmosphereLayer.altitude ) {
+          this.fluxSensor.altitudeProperty.set( atmosphereLayer.altitude + MIN_LAYER_TO_SENSOR_DISTANCE );
+        }
+        else {
+          this.fluxSensor.altitudeProperty.set( atmosphereLayer.altitude - MIN_LAYER_TO_SENSOR_DISTANCE );
+        }
       }
     } );
   }
