@@ -68,6 +68,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
     this.backgroundLayer.addChild( surfaceThermometer );
 
+    // Add the node that will render the photons.
+    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
+    this.presentationLayer.addChild( this.photonsNode );
+
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
@@ -75,15 +79,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
         layerThickness: correspondingPhotonAbsorbingLayer.thickness
       } );
-      this.foregroundLayer.addChild( atmosphereNode );
-
-      // Move these to the back of the foregroundNode so that they are behind the darkness node.
-      atmosphereNode.moveToBack();
+      this.presentationLayer.addChild( atmosphereNode );
     } );
-
-    // Add the node that will render the photons.
-    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
-    this.presentationLayer.addChild( this.photonsNode );
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {
