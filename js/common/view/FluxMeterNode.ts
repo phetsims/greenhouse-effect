@@ -338,7 +338,7 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE ),
       keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30,
-      a11yCreateAriaValueText: ( value ) => `${Utils.roundSymmetric(value )} m`
+      a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`
     }, providedOptions );
 
     super( options );
