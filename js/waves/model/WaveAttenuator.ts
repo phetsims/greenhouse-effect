@@ -6,7 +6,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
  * WaveAttenuator is a simple class that is used to keep track of points along a wave where attenuation (reduction in
- * intensity) should occur.
+ * intensity) exist.  These are generally caused by something splitting off some portion of the energy earlier in the
+ * wave's propagation, such as a cloud or a part of the atmosphere.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
