@@ -118,7 +118,8 @@ class FluxMeterNode extends Node {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
       lineWidth: 2,
-      cursor: 'ns-resize'
+      cursor: 'ns-resize',
+      center: modelViewTransform.modelToViewXY( model.fluxSensor.xPosition, model.fluxSensor.altitudeProperty.value )
     } );
     this.addChild( fluxSensorNode );
 
@@ -143,8 +144,8 @@ class FluxMeterNode extends Node {
     this.addChild( cuingArrowsNode );
 
     // Reposition the cue arrows as the flux sensor moves.
-    model.fluxSensor.positionProperty.link( fluxSensorPosition => {
-      cuingArrowsNode.centerY = modelViewTransform.modelToViewY( fluxSensorPosition.y );
+    model.fluxSensor.altitudeProperty.link( altitude => {
+      cuingArrowsNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
 
     // {Panel} - contains the display showing energy flux, public for positioning in the view
@@ -186,8 +187,8 @@ class FluxMeterNode extends Node {
           LayersModel.HEIGHT_OF_ATMOSPHERE - 500
         );
 
-        // Only allow dragging in the Y direction and not the X direction.
-        model.fluxSensor.positionProperty.value = new Vector2( model.fluxSensor.positionProperty.value.x, modelY );
+        // Set the altitude of the flux sensor based on the drag action.
+        model.fluxSensor.altitudeProperty.set( modelY );
       },
       end: () => {
         model.fluxSensor.isDraggingProperty.set( false );
@@ -199,8 +200,8 @@ class FluxMeterNode extends Node {
     } ) );
 
     // never disposed, no need to unlink
-    model.fluxSensor.positionProperty.link( sensorPosition => {
-      fluxSensorNode.center = modelViewTransform.modelToViewPosition( sensorPosition );
+    model.fluxSensor.altitudeProperty.link( altitude => {
+      fluxSensorNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
   }
 

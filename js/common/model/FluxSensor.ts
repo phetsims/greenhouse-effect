@@ -11,10 +11,9 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -39,8 +38,11 @@ class FluxSensor extends PhetioObject {
   // sensor width, in meters
   public readonly size: Dimension2;
 
-  // The position in the atmosphere where this sensor exists.
-  public readonly positionProperty: Property<Vector2>;
+  // The altitude of the sensor in the atmosphere, in meters.
+  public readonly altitudeProperty: NumberProperty;
+
+  // The X position of the sensor, which never changes.
+  public readonly xPosition: number;
 
   // energy rate trackers for the various directions and light frequencies
   public readonly visibleLightDownEnergyRateTracker: EnergyRateTracker;
@@ -79,10 +81,11 @@ class FluxSensor extends PhetioObject {
 
     this.size = size;
 
-    this.positionProperty = new Vector2Property( options.initialPosition, {
-      tandem: options.tandem.createTandem( 'positionProperty' ),
+    this.xPosition = options.initialPosition.x;
+    this.altitudeProperty = new NumberProperty( options.initialPosition.y, {
+      tandem: options.tandem.createTandem( 'altitudeProperty' ),
       units: 'm',
-      phetioDocumentation: 'The 2D position of the flux sensor within the atmosphere.'
+      phetioDocumentation: 'The altitude of the flux sensor in the atmosphere.'
     } );
 
     // Create the energy rate trackers.
@@ -173,14 +176,14 @@ class FluxSensor extends PhetioObject {
    */
   public reset(): void {
     this.clearEnergyTrackers();
-    this.positionProperty.reset();
+    this.altitudeProperty.reset();
   }
 
   /**
    * Returns true if the provided energy packet passed through the altitude at which this sensor resides.
    */
   private energyPacketCrossedAltitude( energyPacket: EMEnergyPacket ): boolean {
-    const altitude = this.positionProperty.value.y;
+    const altitude = this.altitudeProperty.value;
     return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
            ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
   }

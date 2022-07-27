@@ -86,9 +86,9 @@ class FluxMeter extends PhetioObject {
 
     // the position in model coordinates where the flux meter wire connects to the sensor, in meters
     this.wireSensorAttachmentPositionProperty = new DerivedProperty(
-      [ this.fluxSensor.positionProperty ],
-      sensorPosition => {
-        return sensorPosition.plusXY( this.fluxSensor.size.width / 2, 0 );
+      [ this.fluxSensor.altitudeProperty ],
+      altitude => {
+        return new Vector2( this.fluxSensor.xPosition + this.fluxSensor.size.width / 2, altitude );
       },
       {
         tandem: options.tandem.createTandem( 'wireSensorAttachmentPositionProperty' ),
@@ -140,15 +140,12 @@ class FluxMeter extends PhetioObject {
   private checkAndUpdateSensorPosition(): void {
     const activeAtmosphereLayers = this.atmosphereLayers.filter( layer => layer.isActiveProperty.value );
     activeAtmosphereLayers.forEach( atmosphereLayer => {
-      const sensorToLayerYDistance = Math.abs( atmosphereLayer.altitude - this.fluxSensor.positionProperty.value.y );
+      const sensorToLayerYDistance = Math.abs( atmosphereLayer.altitude - this.fluxSensor.altitudeProperty.value );
       if ( sensorToLayerYDistance < MIN_LAYER_TO_SENSOR_DISTANCE ) {
-        const currentSensorPosition = this.fluxSensor.positionProperty.value;
-        const deltaFromAltitude = currentSensorPosition.y >= atmosphereLayer.altitude ?
+        const deltaFromAltitude = this.fluxSensor.altitudeProperty.value >= atmosphereLayer.altitude ?
                                   MIN_LAYER_TO_SENSOR_DISTANCE :
                                   -MIN_LAYER_TO_SENSOR_DISTANCE;
-        this.fluxSensor.positionProperty.set(
-          new Vector2( currentSensorPosition.x, atmosphereLayer.altitude + deltaFromAltitude )
-        );
+        this.fluxSensor.altitudeProperty.set( atmosphereLayer.altitude + deltaFromAltitude );
       }
     } );
   }
