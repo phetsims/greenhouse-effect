@@ -6,7 +6,6 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
-import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
@@ -14,6 +13,7 @@ import greenhouseEffect from '../greenhouseEffect.js';
 import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
 import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
+import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 
 class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
@@ -25,7 +25,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: greenhouseEffectStrings.screen.layerModel,
-      keyboardHelpNode: new SliderControlsAndBasicActionsKeyboardHelpContent()
+      keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
 
     super(

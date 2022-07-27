@@ -25,6 +25,9 @@ class MicroScreen extends Screen {
       homeScreenIcon: new RandomIcon( 549 ),
       tandem: tandem,
       name: greenhouseEffectStrings.screen.micro,
+
+      // TODO: This should use the same content as molecules-and-light,
+      // MoleculesAndLightKeyboardHelpContent should be moved to this repo.
       keyboardHelpNode: new SliderControlsAndBasicActionsKeyboardHelpContent()
     };
 

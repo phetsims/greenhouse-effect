@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * The contents of the
+ * The contents of the keyboard help dialog for this sim, used for all screens.
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
