@@ -16,12 +16,14 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import SunEnergySource from '../model/SunEnergySource.js';
 
 // constants
-const DEFAULT_OUTPUT_LEVEL = 0.5;
+const DEFAULT_OUTPUT_LEVEL = 0.2;
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
 const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 1.25;
 const MAX_BLIPS_PER_SECOND = 8;
-const MIN_ENERGY_FOR_BLIPS = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.05;
+const MIN_ENERGY_FOR_BLIPS = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.02;
+const VOLUME_UP_ENERGY_RATE = 10000; // threshold for turning up and maintaining volume, empirically determined
+const VOLUME_FADE_OUT_TIME = 4; // in seconds
 
 // types for options
 type SelfOptions = EmptySelfOptions;
@@ -32,6 +34,10 @@ class EnergyBalanceSoundGenerator extends SoundClip {
   private readonly disposeEnergyBalanceSoundGenerator: () => void;
   private interBlipTime: number = Number.POSITIVE_INFINITY;
   private interBlipCountdown: number = Number.POSITIVE_INFINITY;
+  private readonly fullVolumeLevel: number;
+  private volumeFadeCountdown = 0;
+  private previousEnergyRate: number;
+  private readonly netEnergyBalanceProperty: IReadOnlyProperty<number>;
 
   public constructor( netEnergyBalanceProperty: IReadOnlyProperty<number>,
                       providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
@@ -47,6 +53,10 @@ class EnergyBalanceSoundGenerator extends SoundClip {
     }, providedOptions );
 
     super( energyBalanceBlip_mp3, options );
+
+    this.netEnergyBalanceProperty = netEnergyBalanceProperty;
+    this.fullVolumeLevel = options.initialOutputLevel;
+    this.previousEnergyRate = netEnergyBalanceProperty.value;
 
     // Define the listener that will monitor the net energy balance and adjust the rate at which blips are played.
     const energyBalanceListener = ( netEnergyBalance: number ) => {
@@ -97,6 +107,20 @@ class EnergyBalanceSoundGenerator extends SoundClip {
         this.interBlipCountdown = this.interBlipTime;
       }
     }
+
+    // If the energy has changed significantly during this step, turn up the volume.
+    const energyChangeMagnitude = Math.abs( this.netEnergyBalanceProperty.value - this.previousEnergyRate );
+    if ( energyChangeMagnitude > VOLUME_UP_ENERGY_RATE ) {
+      this.volumeFadeCountdown = VOLUME_FADE_OUT_TIME;
+      this.setOutputLevel( this.fullVolumeLevel );
+    }
+    else {
+      this.volumeFadeCountdown = Math.max( this.volumeFadeCountdown - dt, 0 );
+      this.setOutputLevel( this.fullVolumeLevel * ( this.volumeFadeCountdown / VOLUME_FADE_OUT_TIME ) );
+    }
+
+    // Save the current energy rate for the next step.
+    this.previousEnergyRate = this.netEnergyBalanceProperty.value;
   }
 
   public override dispose(): void {
