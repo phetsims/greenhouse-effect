@@ -14,15 +14,16 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Utils from '../../../../dot/js/Utils.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -31,6 +32,8 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import LayersModel from '../model/LayersModel.js';
+import FluxSensor from '../model/FluxSensor.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -51,6 +54,8 @@ const CUE_ARROW_OPTIONS = {
 // The height of the sensor in the view.  This is needed because the sensor model doesn't have any y-dimension height,
 // so we use and arbitrary value that looks decent in the view.
 const SENSOR_VIEW_HEIGHT = 10;
+
+const FLUX_SENSOR_VERTICAL_RANGE = new Range( 500, LayersModel.HEIGHT_OF_ATMOSPHERE - 500 );
 
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
@@ -113,13 +118,24 @@ class FluxMeterNode extends Node {
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
     const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
 
-    const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( model.fluxSensor.size.width );
-    const fluxSensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
-      stroke: SENSOR_STROKE_COLOR,
-      fill: SENSOR_FILL_COLOR,
-      lineWidth: 2,
-      cursor: 'ns-resize',
-      center: modelViewTransform.modelToViewXY( model.fluxSensor.xPosition, model.fluxSensor.altitudeProperty.value )
+    const fluxSensorNode = new FluxSensorNode( model.fluxSensor, modelViewTransform, {
+      startDrag: () => {
+        model.fluxSensor.isDraggingProperty.set( true );
+      },
+      drag: () => {
+
+        // Hide the cue arrows if they are visible.
+        this.wasDraggedProperty.set( true );
+
+        // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
+        // readings that are incorrect for the altitude at which the sensor is positioned.
+        if ( !isPlayingProperty.value ) {
+          model.fluxSensor.clearEnergyTrackers();
+        }
+      },
+      endDrag: () => {
+        model.fluxSensor.isDraggingProperty.set( false );
+      }
     } );
     this.addChild( fluxSensorNode );
 
@@ -138,7 +154,7 @@ class FluxMeterNode extends Node {
         new ArrowNode( 0, 0, 0, -CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS ),
         new ArrowNode( 0, 0, 0, CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS )
       ],
-      centerX: fluxSensorNode.rectBounds.maxX,
+      centerX: fluxSensorNode.bounds.maxX,
       visibleProperty: cueingArrowsShownProperty
     } );
     this.addChild( cuingArrowsNode );
@@ -181,11 +197,7 @@ class FluxMeterNode extends Node {
 
         // Constrain the Y position in model space to just below the top of the atmosphere at the high end and just
         // above the ground at the low end.
-        const modelY = Utils.clamp(
-          modelViewTransform.viewToModelY( viewPoint.y ),
-          500,
-          LayersModel.HEIGHT_OF_ATMOSPHERE - 500
-        );
+        const modelY = FLUX_SENSOR_VERTICAL_RANGE.constrainValue( modelViewTransform.viewToModelY( viewPoint.y ) );
 
         // Set the altitude of the flux sensor based on the drag action.
         model.fluxSensor.altitudeProperty.set( modelY );
@@ -307,6 +319,36 @@ class EnergyFluxDisplay extends Node {
 
     // layout
     boundsRectangle.centerTop = labelText.centerBottom;
+  }
+}
+
+/**
+ * An inner class to support alternative input for the flux sensor with AccessibleSlider so that arrow keys
+ * change the altitude.
+ */
+type SelfOptions = EmptySelfOptions;
+type ParentOptions = AccessibleSliderOptions & NodeOptions;
+type FluxSensorNodeOptions = NodeOptions & StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
+
+class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
+  public constructor( fluxSensor: FluxSensor, modelViewTransform: ModelViewTransform2, providedOptions?: FluxSensorNodeOptions ) {
+
+    const options = optionize<FluxSensorNodeOptions, SelfOptions, ParentOptions>()( {
+      valueProperty: fluxSensor.altitudeProperty,
+      enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE )
+    }, providedOptions );
+
+    super( options );
+
+    const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( fluxSensor.size.width );
+    const rectangleNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
+      stroke: SENSOR_STROKE_COLOR,
+      fill: SENSOR_FILL_COLOR,
+      lineWidth: 2,
+      cursor: 'ns-resize',
+      center: modelViewTransform.modelToViewXY( fluxSensor.xPosition, fluxSensor.altitudeProperty.value )
+    } );
+    this.addChild( rectangleNode );
   }
 }
 
