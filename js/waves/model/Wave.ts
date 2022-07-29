@@ -435,7 +435,7 @@ class Wave extends PhetioObject {
    * as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static WaveIO = IOType.fromCoreType( 'WaveIO', Wave );
+  public static WaveIO = IOType.fromCoreType<Wave, WaveStateObject>( 'WaveIO', Wave );
 }
 
 type WaveStateObject = {

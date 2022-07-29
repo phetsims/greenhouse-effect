@@ -301,7 +301,7 @@ class EMWaveSource extends PhetioObject {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static EMWaveSourceIO = IOType.fromCoreType<typeof EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', EMWaveSource );
+  public static EMWaveSourceIO = IOType.fromCoreType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', EMWaveSource );
 }
 
 export type EMWaveSourceStateObject = {

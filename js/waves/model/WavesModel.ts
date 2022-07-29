@@ -479,11 +479,8 @@ class WavesModel extends ConcentrationModel {
    */
   public override toStateObject(): WavesModelStateObject {
     return combineOptions<WavesModelStateObject>( super.toStateObject(), {
-
-      // MK: I believe these need type casting because IOType doesn't currently support subtype serialization well.
-      // TODO: SR said he would take a look at this later (than now, which is 7/22/2022).
-      sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource as unknown as typeof EMWaveSource ),
-      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource as unknown as typeof EMWaveSource ),
+      sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
+      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
       glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.glacierReflectedWavesMap )
     } );
