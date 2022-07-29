@@ -67,7 +67,7 @@ class WaveCreationSpec {
     };
   }
 
-  public static WaveCreationSpecIO = IOType.fromCoreType( 'WaveCreationSpecIO', WaveCreationSpec );
+  public static WaveCreationSpecIO = IOType.fromCoreType<WaveCreationSpec, WaveCreationSpecStateObject>( 'WaveCreationSpecIO', WaveCreationSpec );
 }
 
 type WaveCreationSpecStateObject = {

@@ -116,7 +116,7 @@ class EMEnergyPacket {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static EMEnergyPacketIO = IOType.fromCoreType( 'EMEnergyPacketIO', EMEnergyPacket );
+  public static EMEnergyPacketIO = IOType.fromCoreType<EMEnergyPacket, EMEnergyPacketStateObject>( 'EMEnergyPacketIO', EMEnergyPacket );
 }
 
 export type EMEnergyPacketStateObject = {

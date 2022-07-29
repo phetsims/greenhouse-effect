@@ -155,7 +155,7 @@ class Photon {
   public static ShowState = ShowState;
 
   // phet-io
-  public static PhotonIO = IOType.fromCoreType( 'PhotonIO', Photon );
+  public static PhotonIO = IOType.fromCoreType<Photon, PhotonStateObject>( 'PhotonIO', Photon );
 }
 
 export type PhotonStateObject = {
