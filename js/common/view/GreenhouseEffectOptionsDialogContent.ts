@@ -11,20 +11,16 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, HStrut, Text, VBox } from '../../../../scenery/js/imports.js';
-import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const HEADING_1_TEXT_OPTIONS = { font: new PhetFont( { size: 20, weight: 'bold' } ) };
@@ -34,22 +30,7 @@ const SLIDER_LABEL_FONT = new PhetFont( 18 );
 const PANEL_MARGIN = 8;
 const CHECKBOX_WIDTH = 13;
 
-class TemperatureSoundNames extends EnumerationValue {
-  public static MULTIPLE_LOOPS_WITH_CROSS_FADES = new TemperatureSoundNames();
-  public static SINGLE_LOOP_WITH_LOW_PASS = new TemperatureSoundNames();
-  public static SINGLE_LOOP_WITH_BAND_PASS = new TemperatureSoundNames();
-  public static SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE = new TemperatureSoundNames();
-  public static NONE = new TemperatureSoundNames();
-
-  public static enumeration = new Enumeration( TemperatureSoundNames );
-}
-
 // Define the globals that will be set by this node.  They must be defined during load time.
-
-// global property that specifies which sound generator to use for temperature
-phet.greenhouseEffect.temperatureSoundProperty = new EnumerationProperty(
-  TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS
-);
 
 // global property that specifies whether to play a sound when IR is re-emitted in the atmosphere
 phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty = new BooleanProperty( false );
@@ -70,42 +51,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
   private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
 
   public constructor( tandem: Tandem ) {
-
-    // items for radio button group for selecting temperature sound
-    const items = [
-      {
-        value: TemperatureSoundNames.NONE,
-        node: new Text( 'None', SELECTOR_TEXT_OPTIONS ),
-        tandemName: 'noneRadioButton'
-      },
-      {
-        value: TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES,
-        node: new Text( 'Multiple loops with cross-fades', SELECTOR_TEXT_OPTIONS ),
-        tandemName: 'multipleLoopsWithCrossFadeRadioButton'
-      },
-      {
-        value: TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS,
-        node: new Text( 'Single loop with low pass filter', SELECTOR_TEXT_OPTIONS ),
-        tandemName: 'singleLoopWithLowPassRadioButton'
-      },
-      {
-        value: TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS,
-        node: new Text( 'Single loop with band pass filter', SELECTOR_TEXT_OPTIONS ),
-        tandemName: 'singleLoopWithBandPassRadioButton'
-      },
-      {
-        value: TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE,
-        node: new Text( 'Single loop with playback rate change', SELECTOR_TEXT_OPTIONS ),
-        tandemName: 'singleLoopWithRateChangeRadioButton'
-      }
-    ];
-
-    // radio button group for selecting temperature sound
-    const temperatureSoundRadioButtonGroup = new AquaRadioButtonGroup( phet.greenhouseEffect.temperatureSoundProperty, items, {
-      orientation: 'vertical',
-      align: 'left',
-      tandem: Tandem.OPT_OUT
-    } );
 
     // checkbox for enabling/disabling IR re-emission sound
     const irEmissionFromGroundSoundEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty, new Text( 'IR emission from ground discrete', SELECTOR_TEXT_OPTIONS ), {
@@ -145,8 +90,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       new VBox( {
         children: [
           new Text( 'Sounds', HEADING_1_TEXT_OPTIONS ),
-          new Text( 'Temperature:', HEADING_2_TEXT_OPTIONS ),
-          new HBox( { children: [ new HStrut( 20 ), temperatureSoundRadioButtonGroup ] } ),
           new Text( 'IR Emission & Waves:', HEADING_2_TEXT_OPTIONS ),
           new HBox( { children: [ new HStrut( 20 ), irWaveControls ] } )
         ],
@@ -192,7 +135,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     } );
 
     this.disposeGreenhouseEffectOptionsDialogContent = () => {
-      temperatureSoundRadioButtonGroup.dispose();
       irEmissionFromAtmosphereEnabledCheckbox.dispose();
       mockupOpacityControl.dispose();
     };
@@ -204,10 +146,6 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
     this.disposeGreenhouseEffectOptionsDialogContent();
     super.dispose();
   }
-
-  // static values
-  // TODO: This is exported can it be removed now?
-  public static TemperatureSoundNames = TemperatureSoundNames;
 }
 
 /**
@@ -263,5 +201,4 @@ class MockupOpacityControl extends VBox {
 
 greenhouseEffect.register( 'GreenhouseEffectOptionsDialogContent', GreenhouseEffectOptionsDialogContent );
 
-export { TemperatureSoundNames };
 export default GreenhouseEffectOptionsDialogContent;

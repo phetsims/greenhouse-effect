@@ -31,11 +31,8 @@ import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode from './FluxMeterNode.js';
-import GreenhouseEffectOptionsDialogContent from './GreenhouseEffectOptionsDialogContent.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
-import TemperatureSoundGenerator from './TemperatureSoundGenerator.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
-import TemperatureSoundGeneratorSpeed from './TemperatureSoundGeneratorSpeed.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -413,28 +410,9 @@ class GreenhouseEffectObservationWindow extends Node {
       this.fluxMeterNode = null;
     }
 
-    // Derived properties used for enabling the various flavors of sound generation for temperature.
-    // TODO: These are used for prototyping different sound options and should be removed prior to publication, see
-    //       https://github.com/phetsims/greenhouse-effect/issues/36.
-    const crossFadeTemperatureSoundGeneratorEnabled = new DerivedProperty(
-      [ phet.greenhouseEffect.temperatureSoundProperty ],
-      temperatureSound => temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.MULTIPLE_LOOPS_WITH_CROSS_FADES
-    );
-    const filteredLoopTemperatureSoundGeneratorEnabled = new DerivedProperty(
-      [ phet.greenhouseEffect.temperatureSoundProperty ],
-      temperatureSound =>
-        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_LOW_PASS ||
-        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_BAND_PASS
-    );
-    const loopSpeedTemperatureSoundGeneratorEnabled = new DerivedProperty(
-      [ phet.greenhouseEffect.temperatureSoundProperty ],
-      temperatureSound =>
-        temperatureSound === GreenhouseEffectOptionsDialogContent.TemperatureSoundNames.SINGLE_LOOP_WITH_PLAYBACK_RATE_CHANGE
-    );
-
     // sound generation
 
-    // Create a derived property that is true when either of the surface temperature indicators are turned on.
+    // Create a derived property that is true when either of the visual surface temperature indicators are enabled.
     const surfaceTemperatureIndicatorEnabled = new DerivedProperty(
       [
         model.surfaceThermometerVisibleProperty,
@@ -443,55 +421,17 @@ class GreenhouseEffectObservationWindow extends Node {
       ( thermometerVisible, temperatureVisible ) => thermometerVisible || temperatureVisible
     );
 
-    // Add the cross-fade-based sound generator.
-    soundManager.addSoundGenerator(
-      new TemperatureSoundGenerator(
-        model.surfaceTemperatureKelvinProperty,
-        {
-          initialOutputLevel: 0.045,
-          enableControlProperties: [
-            model.sunEnergySource.isShiningProperty,
-            model.isPlayingProperty,
-            surfaceTemperatureIndicatorEnabled,
-            crossFadeTemperatureSoundGeneratorEnabled
-          ]
-        }
-      ),
-      { associatedViewNode: this }
-    );
-
-    const expectedTemperatureRange = new Range( model.groundLayer.minimumTemperature, EXPECTED_MAX_TEMPERATURE );
-
     // Add the filter-based sound generator.
     soundManager.addSoundGenerator(
       new TemperatureSoundGeneratorFiltered(
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
-        expectedTemperatureRange,
+        new Range( model.groundLayer.minimumTemperature, EXPECTED_MAX_TEMPERATURE ),
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
             surfaceTemperatureIndicatorEnabled,
-            model.isPlayingProperty,
-            filteredLoopTemperatureSoundGeneratorEnabled
-          ]
-        }
-      ),
-      { associatedViewNode: this }
-    );
-
-    // Add the playback-speed-based sound generator.
-    soundManager.addSoundGenerator(
-      new TemperatureSoundGeneratorSpeed(
-        model.surfaceTemperatureKelvinProperty,
-        model.sunEnergySource.isShiningProperty,
-        expectedTemperatureRange,
-        {
-          initialOutputLevel: 0.045,
-          enableControlProperties: [
-            surfaceTemperatureIndicatorEnabled,
-            model.isPlayingProperty,
-            loopSpeedTemperatureSoundGeneratorEnabled
+            model.isPlayingProperty
           ]
         }
       ),
