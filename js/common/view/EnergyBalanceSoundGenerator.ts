@@ -19,11 +19,11 @@ import SunEnergySource from '../model/SunEnergySource.js';
 const DEFAULT_OUTPUT_LEVEL = 0.2;
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
-const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 1.25;
-const MAX_BLIPS_PER_SECOND = 8;
+const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 2;
+const MAX_BLIPS_PER_SECOND = 10;
 const MIN_ENERGY_FOR_BLIPS = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.02;
 const VOLUME_UP_ENERGY_RATE = 10000; // threshold for turning up and maintaining volume, empirically determined
-const VOLUME_FADE_OUT_TIME = 4; // in seconds
+const VOLUME_FADE_OUT_TIME = 40000; // in seconds
 
 // types for options
 type SelfOptions = EmptySelfOptions;
