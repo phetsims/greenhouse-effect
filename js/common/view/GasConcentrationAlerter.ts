@@ -19,6 +19,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
+import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
@@ -78,6 +79,12 @@ class GasConcentrationAlerter extends Alerter {
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: IReadOnlyProperty<number>;
   private previousNetInflowOfEnergy: number;
+
+  private readonly radiationRedirectionUtterance = new Utterance( {
+    announcerOptions: {
+      ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
+    }
+  } );
 
   public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
@@ -216,7 +223,8 @@ class GasConcentrationAlerter extends Alerter {
         // happen if there was some change to the concentration
         if ( this.model.isInfraredPresent() && currentConcentration !== this.previousConcentration ) {
           const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousConcentration );
-          radiationRedirectingAlert && this.alert( radiationRedirectingAlert );
+          this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
+          radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
         }
 
         // Then, a description of the changing temperature - this should get described at interval even if there
