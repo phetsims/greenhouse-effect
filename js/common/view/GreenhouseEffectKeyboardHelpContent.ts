@@ -10,6 +10,7 @@ import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keybo
 import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import TimingControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimingControlsKeyboardHelpSection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 
 class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
@@ -17,6 +18,9 @@ class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection();
 
     const timingControlsHelpSection = new TimingControlsKeyboardHelpSection();
+
+    // vertically align the left sections
+    KeyboardHelpSection.alignHelpSectionIcons( [ sliderHelpSection, timingControlsHelpSection ] );
 
     super( [ sliderHelpSection, timingControlsHelpSection ], [ basicActionsHelpSection ] );
   }
