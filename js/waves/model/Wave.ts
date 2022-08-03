@@ -42,19 +42,51 @@ type SelfOptions = {
 export type WaveOptions = SelfOptions & PhetioObjectOptions;
 
 class Wave extends PhetioObject {
-  private readonly debugTag: string | null;
+
+  // wavelength of this wave, in meters
   public readonly wavelength: number;
+
+  // The point from which this wave originates.  This is immutable over the lifetime of a wave, and is distinct from the
+  // start point, since the start point can move as the wave propagates.
   public readonly origin: Vector2;
+
+  // a normalized vector the defines the direction in which this wave is traveling
   public readonly propagationDirection: Vector2;
+
+  // The starting point where the wave currently exists in model space.  This will be the same as the origin if the wave
+  // is being sourced, or will move if the wave is propagating without being sourced.
   public readonly startPoint: Vector2;
+
+  // the altitude past which this wave should not propagate
   private readonly propagationLimit: number;
+
+  // the length of this wave from the start point to where it ends
   public length: number;
+
+  // the length of time that this wave has existed, in seconds
   public existenceTime: number;
+
+  // Angle of phase offset, in radians.  This is here primarily in support of the view, but it has to be available in
+  // the model in order to coordinate the appearance of reflected and stimulated waves.
   public phaseOffsetAtOrigin: number;
+
+  // The intensity value for this wave at its starting point.  This is a normalized value which goes from anything just
+  // above 0 (and intensity of 0 is meaningless, so is not allowed by the code) to a max value of 1.
   public intensityAtStart: number;
+
+  // the wavelength used when rendering the view for this wave
   private readonly renderingWavelength: number;
+
+  // A Map that maps model objects to the attenuation that they are currently causing on this wave.  The model objects
+  // can be essentially anything, hence the vague "PhetioObject" type spec. Examples of model objects that can cause an
+  // attenuation are clouds and atmosphere layers.
   private modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
+
+  // indicates whether this wave is coming from a sourced point (e.g. the ground) or just propagating on its own
   public isSourced: boolean;
+
+  // a string that can be attached to this wave and is used for debugging
+  private readonly debugTag: string | null;
 
   /**
    * @param wavelength - wavelength of this light wave, in meters
@@ -101,49 +133,18 @@ class Wave extends PhetioObject {
     );
     assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
 
-    // (read-only)
+    // set initial state
     this.wavelength = wavelength;
-
-    // The point from which this wave originates.  This is immutable over the lifetime of a wave, and is distinct
-    // from the start point, since the start point can move as the wave propagates.
     this.origin = origin;
-
-    // (read-only) {Vector2}
     this.propagationDirection = propagationDirection;
-
-    // the altitude past which this wave should not propagate
     this.propagationLimit = propagationLimit;
-
-    // (read-only) {Vector2} - The starting point where the wave currently exists in model space.  This will be
-    // the same as the origin if the wave is being sourced, or will move if the wave is propagating without being
-    // sourced.
     this.startPoint = origin.copy();
-
-    // (read-only) {number} - the length of this wave from the start point to where it ends
     this.length = 0;
-
-    // (read-only) {boolean} - indicates whether this wave is coming from a sourced point or just moving through
-    //                                 space
     this.isSourced = true;
-
-    // (read-only) {number} - the length of time that this wave has existed
     this.existenceTime = 0;
-
-    // (read-only) {number} - Angle of phase offset, in radians.  This is here primarily in support of the view,
-    // but it has to be available in the model in order to coordinate the appearance of reflected and stimulated waves.
     this.phaseOffsetAtOrigin = options.initialPhaseOffset;
-
-    // (read-only) {number} - The intensity value for this wave at its starting point.  This is a normalized
-    // value which goes from anything just above 0 (and intensity of 0 is meaningless, so is not allowed by the code)
-    // to a max value of 1.
     this.intensityAtStart = options.intensityAtStart;
-
-    // A Map that maps model objects to the attenuation that they are currently causing on this wave.  The model
-    // objects can be essentially anything, hence the vague "PhetioObject" type spec. Examples of model objects that can
-    // cause an attenuation are clouds and atmosphere layers.
     this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
-
-    // (read-only) {number} - the wavelength used when rendering the view for this wave
     this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength )!;
   }
 
