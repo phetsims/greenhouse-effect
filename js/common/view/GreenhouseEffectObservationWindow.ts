@@ -14,7 +14,8 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -30,7 +31,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
-import FluxMeterNode from './FluxMeterNode.js';
+import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 
@@ -54,6 +55,9 @@ type SelfOptions = {
 
   // {boolean} - whether the ground and sky should appear to glow when warm
   showTemperatureGlow?: boolean;
+
+  // Passed to the FluxMeterNode, but the tandem for the FluxMeterNode is added by this component.
+  fluxMeterNodeOptions?: StrictOmit<FluxMeterNodeOptions, 'tandem'>;
 };
 export type GreenhouseEffectObservationWindowOptions = SelfOptions & NodeOptions;
 
@@ -79,7 +83,9 @@ class GreenhouseEffectObservationWindow extends Node {
 
     super();
 
-    const options = optionize<GreenhouseEffectObservationWindowOptions, SelfOptions, NodeOptions>()( {
+    // StrictOmit for nested options is required when you don't provide defaults for them, see
+    // https://github.com/phetsims/chipper/issues/1128
+    const options = optionize<GreenhouseEffectObservationWindowOptions, StrictOmit<SelfOptions, 'fluxMeterNodeOptions'>, NodeOptions>()( {
 
       // SelfOptions
       groundBaseColorProperty: null,
@@ -391,8 +397,9 @@ class GreenhouseEffectObservationWindow extends Node {
         model.isPlayingProperty,
         model.fluxMeterVisibleProperty,
         this.modelViewTransform,
-        this.windowFrame.bounds,
-        options.tandem.createTandem( 'fluxMeterNode' )
+        this.windowFrame.bounds, combineOptions<FluxMeterNodeOptions>( {
+          tandem: options.tandem.createTandem( 'fluxMeterNode' )
+        }, options.fluxMeterNodeOptions )
       );
       this.fluxMeterNode.fluxPanel.rightTop = this.windowFrame.rightTop.minusXY(
         GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,

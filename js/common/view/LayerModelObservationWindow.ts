@@ -31,8 +31,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     const groundBaseColorProperty = new ColorProperty( Color.GRAY );
 
     const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
-
       groundBaseColorProperty: groundBaseColorProperty,
+      fluxMeterNodeOptions: {
+        includeZoomButtons: true
+      },
 
       // phet-io
       tandem: Tandem.REQUIRED

@@ -24,10 +24,10 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
+import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -35,6 +35,10 @@ import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -44,6 +48,11 @@ const METER_SPACING = 8; // spacing used in a few places for layout, in view coo
 const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
+
+// Model to view scalars that turn flux values into arrow lengths for the flux meter display will be in intervals
+// of this value as the scalar value changes to support zoom buttons.
+const FLUX_ARROW_ZOOM_DELTA = 1E-6;
+
 const CUE_ARROW_OPTIONS = {
   fill: SENSOR_STROKE_COLOR,
   lineWidth: 0.5,
@@ -58,6 +67,15 @@ const SENSOR_VIEW_HEIGHT = 10;
 
 const FLUX_SENSOR_VERTICAL_RANGE = new Range( 500, LayersModel.HEIGHT_OF_ATMOSPHERE - 500 );
 
+type SelfOptions = {
+
+  // Whether to include a ZoomButtonGroup on this FluxMeterNode. Buttons allow "zooming" into the meter by scaling
+  // the display arrows.
+  includeZoomButtons?: boolean;
+};
+type ParentOptions = NodeOptions;
+export type FluxMeterNodeOptions = SelfOptions & PickRequired<ParentOptions, 'tandem'>;
+
 class FluxMeterNode extends Node {
   public readonly fluxPanel: Panel;
   private readonly wasDraggedProperty: BooleanProperty;
@@ -69,14 +87,18 @@ class FluxMeterNode extends Node {
    * @param visibleProperty - a boolean Property that controls whether this node is visible
    * @param modelViewTransform
    * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
-   * @param tandem
+   * @param providedOptions
    */
   public constructor( model: FluxMeter,
                       isPlayingProperty: IReadOnlyProperty<boolean>,
                       visibleProperty: IReadOnlyProperty<boolean>,
                       modelViewTransform: ModelViewTransform2,
                       observationWindowViewBounds: Bounds2,
-                      tandem: Tandem ) {
+                      providedOptions?: FluxMeterNodeOptions ) {
+
+    const options = optionize<FluxMeterNodeOptions, SelfOptions, ParentOptions>()( {
+      includeZoomButtons: false
+    }, providedOptions );
 
     super();
 
@@ -103,21 +125,45 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
+    // Property for the zoom buttons and flux display arrows so that we can zoom in and out of the display by
+    // scaling the arrow lengths
+    const zoomLevelProperty = new NumberProperty( 5 * FLUX_ARROW_ZOOM_DELTA, {
+      range: new Range( 4 * FLUX_ARROW_ZOOM_DELTA, 6 * FLUX_ARROW_ZOOM_DELTA )
+    } ).asRanged();
+
     const sunlightDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
+      zoomLevelProperty,
       sunlightString,
       GreenhouseEffectConstants.SUNLIGHT_COLOR
     );
     const infraredDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
+      zoomLevelProperty,
       infraredString,
       GreenhouseEffectConstants.INFRARED_COLOR
     );
-
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
-    const content = new VBox( { children: [ titleText, arrows ], spacing: METER_SPACING } );
+
+    const zoomButtons = new MagnifyingGlassZoomButtonGroup( zoomLevelProperty, {
+      spacing: 5,
+      applyZoomIn: ( currentZoom: number ) => currentZoom + FLUX_ARROW_ZOOM_DELTA,
+      applyZoomOut: ( currentZoom: number ) => currentZoom - FLUX_ARROW_ZOOM_DELTA,
+      magnifyingGlassNodeOptions: {
+        glassRadius: 6
+      },
+      buttonOptions: {
+        baseColor: PhetColorScheme.PHET_LOGO_BLUE
+      },
+      tandem: options.tandem.createTandem( 'zoomButtons' )
+    } );
+
+    // zoom buttons conditionally added to the view, but always created because I think that is required for PhET-iO
+    const contentChildren = [ titleText, arrows ];
+    options.includeZoomButtons && contentChildren.push( zoomButtons );
+    const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
     const fluxSensorNode = new FluxSensorNode( model.fluxSensor, modelViewTransform, {
       startDrag: () => {
@@ -209,7 +255,7 @@ class FluxMeterNode extends Node {
       useInputListenerCursor: true,
 
       // phet-io
-      tandem: tandem.createTandem( 'dragListener' )
+      tandem: options.tandem.createTandem( 'dragListener' )
     } ) );
 
     // never disposed, no need to unlink
@@ -228,10 +274,6 @@ type EnergyFluxDisplayArrowSelfOptions = {
   // height of the background in screen coordinates
   height?: number;
 
-
-  // multiplier used to map the flux values from the meter to the arrow lengths
-  fluxToArrowLengthMultiplier?: number;
-
   // options that are passed through to the arrow nodes
   arrowNodeOptions?: ArrowNodeOptions;
 };
@@ -241,17 +283,24 @@ type EnergyFluxDisplayOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
 /**
  * An inner class that implements a display for energy flux in the up and down directions.  The display consists of a
  * background with two arrows, one that grows upwards and another that grows down.
+ *
+ * @param energyDownProperty
+ * @param energyUpProperty
+ * @param fluxToArrowLengthMultiplierProperty -  multiplier maps the flux values from the meter to the arrow lengths
+ * @param labelString
+ * @param baseColor
+ * @param providedOptions
  */
 class EnergyFluxDisplay extends Node {
   public constructor( energyDownProperty: Property<number>,
                       energyUpProperty: Property<number>,
+                      fluxToArrowLengthMultiplierProperty: IReadOnlyProperty<number>,
                       labelString: string,
                       baseColor: Color,
                       providedOptions?: EnergyFluxDisplayOptions ) {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
-      height: 385,
-      fluxToArrowLengthMultiplier: 5E-6,
+      height: 355,
       arrowNodeOptions: {
         headHeight: 16,
         headWidth: 16,
@@ -305,18 +354,20 @@ class EnergyFluxDisplay extends Node {
     boundsRectangle.addChild( centerIndicatorLine );
 
     // a linear function that maps the number of photons going through the flux meter per second
-    const getArrowHeightFromFlux = ( flux: number ) => flux * options.fluxToArrowLengthMultiplier;
+    const getArrowHeightFromFlux = ( flux: number, fluxToArrowLengthMultiplier: number ) => flux * fluxToArrowLengthMultiplier;
 
     // Redraw arrows when the flux Properties change.
-    energyDownProperty.link( energyDown => {
-      downArrow.visible = Math.abs( energyDown ) > 0;
-      downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + getArrowHeightFromFlux( energyDown ) );
-    } );
+    Multilink.multilink( [ energyDownProperty, fluxToArrowLengthMultiplierProperty ],
+      ( energyDown, fluxToArrowLengthMultiplier ) => {
+        downArrow.visible = Math.abs( energyDown ) > 0;
+        downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + getArrowHeightFromFlux( energyDown, fluxToArrowLengthMultiplier ) );
+      } );
 
-    energyUpProperty.link( energyUp => {
-      upArrow.visible = Math.abs( energyUp ) > 0;
-      upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - getArrowHeightFromFlux( energyUp ) );
-    } );
+    Multilink.multilink( [ energyUpProperty, fluxToArrowLengthMultiplierProperty ],
+      ( energyUp, fluxToArrowLengthMultiplier ) => {
+        upArrow.visible = Math.abs( energyUp ) > 0;
+        upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - getArrowHeightFromFlux( energyUp, fluxToArrowLengthMultiplier ) );
+      } );
 
     // layout
     boundsRectangle.centerTop = labelText.centerBottom;
@@ -327,14 +378,14 @@ class EnergyFluxDisplay extends Node {
  * An inner class to support alternative input for the flux sensor with AccessibleSlider so that arrow keys
  * change the altitude.
  */
-type SelfOptions = EmptySelfOptions;
-type ParentOptions = AccessibleSliderOptions & NodeOptions;
+type FluxSensorNodeSelfOptions = EmptySelfOptions;
+type FluxSensorNodeParentOptions = AccessibleSliderOptions & NodeOptions;
 type FluxSensorNodeOptions = NodeOptions & StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
 
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
   public constructor( fluxSensor: FluxSensor, modelViewTransform: ModelViewTransform2, providedOptions?: FluxSensorNodeOptions ) {
 
-    const options = optionize<FluxSensorNodeOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE ),
       keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30,
