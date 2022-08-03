@@ -80,6 +80,9 @@ class GasConcentrationAlerter extends Alerter {
   private netEnergyProperty: IReadOnlyProperty<number>;
   private previousNetInflowOfEnergy: number;
 
+  // An Utterance for the alert that describes radiation redirection from sky back to earth. It is announced after
+  // a change in concentration. It is assertive because we want this initial change to interrupt any stale alerts
+  // after the change in concentration.
   private readonly radiationRedirectionUtterance = new Utterance( {
     announcerOptions: {
       ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
