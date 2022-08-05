@@ -35,7 +35,11 @@ class ShowState extends EnumerationValue {
 }
 
 export type PhotonOptions = {
+
+  // initial velocity of the photon, will be created if not supplied
   initialVelocity?: Vector2 | null;
+
+  // whether this photon should always be shown in the view or only in "more photons" mode
   showState?: ShowState;
 };
 
@@ -63,13 +67,8 @@ class Photon {
   public constructor( initialPosition: Vector2, wavelength: number, providedOptions?: PhotonOptions ) {
 
     const options = optionize<PhotonOptions>()( {
-
-      // {Vector2|null} - will be created if not supplied
       initialVelocity: null,
-
-      // {ShowState} - whether this photon should always be shown in the view or only in "more photons" mode
       showState: ShowState.ALWAYS
-
     }, providedOptions );
 
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );

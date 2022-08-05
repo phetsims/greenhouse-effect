@@ -91,8 +91,20 @@ type SelfOptions = {
 export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions;
 
 class EMWaveSource extends PhetioObject {
+
+  // altitude from which waves originate
   public readonly waveStartAltitude: number;
+
+  // controls whether waves should be produced
   private readonly waveIntensityProperty: IReadOnlyProperty<number>;
+
+  // map of waves produced by this wave source to their lifetimes
+  private wavesToLifetimesMap: Map<Wave, number>;
+
+  // queue of waves that are queued for creation
+  private waveCreationQueue: WaveCreationSpec[];
+
+  // other information necessary for the methods to do their thing
   private readonly waveProductionEnabledProperty: IReadOnlyProperty<boolean>;
   private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   private readonly wavelength: number;
@@ -100,8 +112,6 @@ class EMWaveSource extends PhetioObject {
   private readonly waveSourceSpecs: WaveSourceSpec[];
   private readonly interWaveTime: number;
   private readonly waveLifetimeRange: Range;
-  private wavesToLifetimesMap: Map<Wave, number>;
-  private waveCreationQueue: WaveCreationSpec[];
 
   /**
    * @param waveGroup
@@ -130,14 +140,11 @@ class EMWaveSource extends PhetioObject {
 
     super( options );
 
-    // (read-only) {number} - altitude from which waves originate
-    this.waveStartAltitude = waveStartAltitude;
-
-    // Controls whether waves should be produced.  If no wave intensity Property was provided,
-    // create one, and assume max intensity.
+    // If no wave intensity Property was provided, create one, and assume max intensity.
     this.waveIntensityProperty = options.waveIntensityProperty || new NumberProperty( 1 );
 
-    // information necessary for the methods to do their thing
+    // Initialize other attributes of this wave source.
+    this.waveStartAltitude = waveStartAltitude;
     this.waveProductionEnabledProperty = waveProductionEnabledProperty;
     this.waveGroup = waveGroup;
     this.wavelength = wavelength;
@@ -145,11 +152,7 @@ class EMWaveSource extends PhetioObject {
     this.waveSourceSpecs = waveSourceSpecs;
     this.interWaveTime = options.interWaveTime!;
     this.waveLifetimeRange = options.waveLifetimeRange!;
-
-    // map of waves produced by this wave source to their lifetimes
     this.wavesToLifetimesMap = new Map();
-
-    // queue of waves that are queued for creation
     this.waveCreationQueue = [];
   }
 

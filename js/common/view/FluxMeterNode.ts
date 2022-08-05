@@ -77,7 +77,11 @@ type ParentOptions = NodeOptions;
 export type FluxMeterNodeOptions = SelfOptions & PickRequired<ParentOptions, 'tandem'>;
 
 class FluxMeterNode extends Node {
+
+  // the panel that contains the display showing energy flux, public for positioning in the view
   public readonly fluxPanel: Panel;
+
+  // a Property that tracks whether the sensor was dragged since startup or last reset, used to hide the queuing errors
   private readonly wasDraggedProperty: BooleanProperty;
 
   /**
@@ -211,7 +215,7 @@ class FluxMeterNode extends Node {
       cuingArrowsNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
 
-    // {Panel} - contains the display showing energy flux, public for positioning in the view
+    // create the panel
     this.fluxPanel = new Panel( content );
     this.addChild( this.fluxPanel );
 

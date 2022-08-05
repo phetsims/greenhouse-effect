@@ -159,7 +159,6 @@ class ConcentrationModel extends LayersModel {
       }
     );
 
-    // {BooleanProperty} - controls whether the cloud is visible and interacting with the waves
     this.cloudEnabledProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'cloudEnabledProperty' )
     } );

@@ -53,7 +53,7 @@ type SelfOptions = {
   // a Property that encloses the base color of the ground, from which a gradient is created
   groundBaseColorProperty?: Property<Color> | null;
 
-  // {boolean} - whether the ground and sky should appear to glow when warm
+  // whether the ground and sky should appear to glow when warm
   showTemperatureGlow?: boolean;
 
   // Passed to the FluxMeterNode, but the tandem for the FluxMeterNode is added by this component.

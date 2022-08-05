@@ -13,7 +13,13 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  */
 
 class WaveAttenuator {
+
+  // Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation (i.e. the wave's
+  // intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave passing through will
+  // have its intensity reduced to zero).
   public attenuation: number;
+
+  // This distance from the start of the wave where this attenuator exists.
   public distanceFromStart: number;
 
   /**
@@ -21,13 +27,7 @@ class WaveAttenuator {
    * @param distanceFromStart - distance from the start of the wave, in meters
    */
   public constructor( initialAttenuation: number, distanceFromStart: number ) {
-
-    // {number} - Amount of attenuation.  This is a normalized value from 0 to 1 where 0 means no attenuation
-    // (i.e. the wave's intensity will remain unchanged when passing through it) and 1 means 100% attenuation (a wave
-    // passing through will have its intensity reduced to zero).
     this.attenuation = initialAttenuation;
-
-    // {number}
     this.distanceFromStart = distanceFromStart;
   }
 
