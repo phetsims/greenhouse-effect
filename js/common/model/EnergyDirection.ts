@@ -21,21 +21,20 @@ class EnergyDirection extends EnumerationValue {
   /**
    * Get a vector corresponding to the provided enum value.
    */
-  public static toVector = ( enumValue: EnergyDirection ) => {
+  public static toVector = ( enumValue: EnergyDirection ): Vector2 => {
     if ( enumValue === EnergyDirection.UP ) {
       return UP_VECTOR;
     }
-    else if ( enumValue === EnergyDirection.DOWN ) {
+    else {
+      assert && assert( enumValue === EnergyDirection.DOWN, 'illegal direction' );
       return DOWN_VECTOR;
     }
-
-    return assert && assert( false, 'unsupported enumValue' );
   };
 
   /**
    * Get the opposite of the provided direction.
    */
-  public static getOpposite = ( enumValue: EnergyDirection ) => {
+  public static getOpposite = ( enumValue: EnergyDirection ): EnergyDirection => {
     return enumValue === EnergyDirection.UP ?
            EnergyDirection.DOWN :
            EnergyDirection.UP;
