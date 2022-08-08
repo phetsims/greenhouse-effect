@@ -100,14 +100,19 @@ class WavesCanvasNode extends CanvasNode {
     const unitVector = new Vector2( wave.propagationDirection.x, -wave.propagationDirection.y );
     const unitNormal = unitVector.perpendicular;
 
-    let moved = false;
+    let startingNewSegment = true;
     const totalLengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
     const phaseOffsetAtStart = ( wave.phaseOffsetAtOrigin +
                                  ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) /
                                  wavelength * TWO_PI ) % TWO_PI;
-    const waveAttenuators = wave.getSortedAttenuators();
-    let nextAttenuatorIndex = 0;
-    let nextAttenuatorPosition = this.getAttenuatorXPosition( nextAttenuatorIndex, wave, amplitude, wavelength );
+    const intensityChanges = wave.intensityChanges;
+    let nextIntensityChangeIndex = 0;
+    let nextIntensityChangePosition = this.getIntensityChangeXPosition(
+      nextIntensityChangeIndex,
+      wave,
+      amplitude,
+      wavelength
+    );
 
     // Get the amount of compensation needed in the x direction so that the wave will appear to originate from a
     // horizontal region.
@@ -131,26 +136,31 @@ class WavesCanvasNode extends CanvasNode {
       const ptY = traversePointY + y * unitNormal.y;
 
       // Draw the next segment of the waveform.
-      if ( !moved ) {
+      if ( startingNewSegment ) {
         context.moveTo( ptX, ptY );
-        moved = true;
+        startingNewSegment = false;
       }
       else {
         context.lineTo( ptX, ptY );
       }
 
-      if ( x >= nextAttenuatorPosition ) {
+      if ( x >= nextIntensityChangePosition ) {
 
-        // The rendering has reached the point of the next attenuator.  Adjust the wave's thickness and set up the
-        // attenuator that comes after this one, if it exists.
+        // The rendering has reached the point of the next intensity change.  Adjust the wave's thickness to represent
+        // this change and set up the next intensity change if there is one.
         context.stroke();
         context.beginPath();
-        moved = false;
-        waveIntensity = waveIntensity * ( 1 - waveAttenuators[ nextAttenuatorIndex ].attenuation );
+        startingNewSegment = true;
+        waveIntensity = intensityChanges[ nextIntensityChangeIndex ].postChangeIntensity;
         context.lineWidth = waveIntensityToLineWidth( waveIntensity );
-        context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
-        nextAttenuatorIndex++;
-        nextAttenuatorPosition = this.getAttenuatorXPosition( nextAttenuatorIndex, wave, amplitude, wavelength );
+        // context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
+        nextIntensityChangeIndex++;
+        nextIntensityChangePosition = this.getIntensityChangeXPosition(
+          nextIntensityChangeIndex,
+          wave,
+          amplitude,
+          wavelength
+        );
       }
     }
 
@@ -158,23 +168,23 @@ class WavesCanvasNode extends CanvasNode {
   }
 
   /**
-   * Get the X value in scaled view coordinates at which this attenuator should be rendered when drawing the provided
-   * wave.  This value is compensated so as to look like it is occurring along a horizontal line, see
-   * https://github.com/phetsims/greenhouse-effect/issues/66.
-   * @param index - index of the attenuator of interest
-   * @param wave - wave on which the attenuator exists
+   * Get the X value in scaled view coordinates at which this intensity change should be rendered when drawing the
+   * provided wave.  If this intensity change is anchored to an attenuator, it is compensated to look like it is
+   * occurring along a horizontal line, see https://github.com/phetsims/greenhouse-effect/issues/66.
+   * @param index - index of the intensity change of interest
+   * @param wave - wave on which the intensity change may exist
    * @param amplitudeInView
    * @param wavelengthInView
    */
-  private getAttenuatorXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ): number {
-    const sortedAttenuators = wave.getSortedAttenuators();
-    const attenuatorDistanceFromStart = sortedAttenuators[ index ] ?
-                                        sortedAttenuators[ index ].distanceFromStart :
-                                        Number.POSITIVE_INFINITY;
-    let xPosition = this.modelViewTransform.modelToViewDeltaX( attenuatorDistanceFromStart );
-    if ( xPosition !== Number.POSITIVE_INFINITY ) {
+  private getIntensityChangeXPosition( index: number, wave: Wave, amplitudeInView: number, wavelengthInView: number ): number {
+    const intensityChange = wave.intensityChanges[ index ];
+    const intensityChangeDistanceFromStart = intensityChange ?
+                                             intensityChange.distanceFromStart :
+                                             Number.POSITIVE_INFINITY;
+    let xPosition = this.modelViewTransform.modelToViewDeltaX( intensityChangeDistanceFromStart );
+    if ( xPosition !== Number.POSITIVE_INFINITY && intensityChange.anchoredTo ) {
       const phaseAtNominalXPosition = wave.getPhaseAt(
-        attenuatorDistanceFromStart + wave.origin.distance( wave.startPoint )
+        intensityChangeDistanceFromStart + wave.origin.distance( wave.startPoint )
       );
       xPosition += WavesCanvasNode.getXCompensationForTilt(
         amplitudeInView,
