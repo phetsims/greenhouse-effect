@@ -325,14 +325,14 @@ class Wave extends PhetioObject {
   /**
    * convenience method for determining whether this is a visible photon
    */
-  public get isVisible() {
+  public get isVisible(): boolean {
     return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
   }
 
   /**
    * convenience method for determining whether this is an infrared photon
    */
-  public get isInfrared() {
+  public get isInfrared(): boolean {
     return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
   }
 
