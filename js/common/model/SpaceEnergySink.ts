@@ -32,6 +32,7 @@ class SpaceEnergySink extends PhetioObject {
 
     // {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
     this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker( {
+      accumulationPeriod: 0.25,
       tandem: tandem.createTandem( 'incomingUpwardMovingEnergyRateTracker' )
     } );
   }
