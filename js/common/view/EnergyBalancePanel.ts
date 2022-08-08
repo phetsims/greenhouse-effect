@@ -24,6 +24,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -117,7 +118,7 @@ class EnergyBalancePanel extends Panel {
     this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, {
       enableControlProperties: [ energyBalanceVisibleProperty ]
     } );
-    soundManager.addSoundGenerator( this.energyBalanceSoundGenerator );
+    soundManager.addSoundGenerator( this.energyBalanceSoundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
 
     // pdom
     Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty, sunIsShiningProperty ], ( netEnergy, inRadiativeBalance, sunIsShining ) => {

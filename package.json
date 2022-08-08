@@ -24,6 +24,7 @@
     ],
     "simFeatures": {
       "supportsSound": true,
+      "supportsExtraSound": true,
       "supportsInteractiveDescription": true
     },
     "supportsOutputJS": true
