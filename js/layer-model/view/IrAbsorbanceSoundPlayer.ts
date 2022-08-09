@@ -12,7 +12,7 @@ import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generato
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -21,7 +21,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 type SelfOptions = EmptySelfOptions;
 type IrAbsorbanceSoundPlayerOptions = SelfOptions & SoundClipOptions;
 
-class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
+class IrAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   // sound clip played for sounds in the middle, i.e. not at either the min or max
   // private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
@@ -87,7 +87,7 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements ISoundPlayer {
   }
 
   /**
-   * Stop the sounds.  This isn't expected to be used much, but is necessary for the ISoundPlayer interface.
+   * Stop the sounds.  This isn't expected to be used much, but is necessary for the TSoundPlayer interface.
    */
   public stop(): void {
     this.middleSoundClip.stop();

@@ -13,7 +13,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -22,7 +22,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 type SelfOptions = EmptySelfOptions;
 type SurfaceAlbedoSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
-class SurfaceAlbedoSoundPlayer extends SoundGenerator implements ISoundPlayer {
+class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   // sound clip that will be played when activity occurs
   private readonly primarySoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );

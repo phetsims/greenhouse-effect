@@ -14,14 +14,14 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 
 // types for options
 type SelfOptions = EmptySelfOptions;
 type SolarIntensitySoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
-class SolarIntensitySoundPlayer extends SoundGenerator implements ISoundPlayer {
+class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   // sound clip played for sounds in the middle, i.e. not at either the min or max
   private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
@@ -86,7 +86,7 @@ class SolarIntensitySoundPlayer extends SoundGenerator implements ISoundPlayer {
 
   /**
    * Stop the sounds.  This isn't expected to be used much in this context, it's here primarily to complete the
-   * ISoundPlayer interface.
+   * TSoundPlayer interface.
    */
   public stop(): void {
     this.middleSoundClip.stop();

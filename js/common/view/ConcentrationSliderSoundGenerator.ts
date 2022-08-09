@@ -16,7 +16,7 @@ import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 
 class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 
@@ -40,7 +40,7 @@ class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 /**
  * Sound generator to be used for the middle portion of the concentration slider range.
  */
-class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPlayer {
+class SliderMiddleRangeSoundGenerator extends SoundGenerator implements TSoundPlayer {
   private readonly baseSoundClip: SoundClip;
   private readonly concentrationProperty: TReadOnlyProperty<number>;
   private readonly concentrationRange: Range;
@@ -123,7 +123,7 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPl
   }
 
   public stop(): void {
-    // does nothing in this class, but is needed for the ISoundPlayer interface
+    // does nothing in this class, but is needed for the TSoundPlayer interface
   }
 }
 
