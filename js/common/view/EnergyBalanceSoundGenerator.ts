@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
@@ -40,10 +40,10 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
   private readonly fullVolumeLevel: number;
   private volumeFadeCountdown = 0;
   private previousEnergyRate: number;
-  private readonly netEnergyBalanceProperty: IReadOnlyProperty<number>;
   private readonly soundClip: SoundClip;
+  private readonly netEnergyBalanceProperty: TReadOnlyProperty<number>;
 
-  public constructor( netEnergyBalanceProperty: IReadOnlyProperty<number>,
+  public constructor( netEnergyBalanceProperty: TReadOnlyProperty<number>,
                       providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
 
     const options = optionize<EnergyBalanceSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {

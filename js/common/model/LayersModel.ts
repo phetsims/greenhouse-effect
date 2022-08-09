@@ -11,7 +11,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -73,8 +73,8 @@ export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
 class LayersModel extends GreenhouseEffectModel {
 
   public readonly surfaceTemperatureKelvinProperty: NumberProperty;
-  public readonly surfaceTemperatureCelsiusProperty: IReadOnlyProperty<number>;
-  public readonly surfaceTemperatureFahrenheitProperty: IReadOnlyProperty<number>;
+  public readonly surfaceTemperatureCelsiusProperty: TReadOnlyProperty<number>;
+  public readonly surfaceTemperatureFahrenheitProperty: TReadOnlyProperty<number>;
   public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
   public readonly surfaceThermometerVisibleProperty: BooleanProperty;
   public readonly energyBalanceVisibleProperty: BooleanProperty;

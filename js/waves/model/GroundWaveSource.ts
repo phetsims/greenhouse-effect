@@ -6,7 +6,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IProperty from '../../../../axon/js/IProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -58,7 +58,7 @@ class GroundWaveSource extends EMWaveSource {
 
     super(
       wavesInModel,
-      produceIRWavesProperty as IReadOnlyProperty<boolean>,
+      produceIRWavesProperty as TReadOnlyProperty<boolean>,
       GreenhouseEffectConstants.INFRARED_WAVELENGTH,
       waveStartAltitude,
       waveEndAltitude,

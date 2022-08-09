@@ -15,12 +15,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
 
 class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 
-  public constructor( concentrationProperty: IReadOnlyProperty<number>, valueRange: Range ) {
+  public constructor( concentrationProperty: TReadOnlyProperty<number>, valueRange: Range ) {
 
     // sound generator for the middle range of the slider's movement
     const sliderMiddleSoundGenerator = new SliderMiddleRangeSoundGenerator( concentrationProperty, valueRange, {
@@ -42,10 +42,10 @@ class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
  */
 class SliderMiddleRangeSoundGenerator extends SoundGenerator implements ISoundPlayer {
   private readonly baseSoundClip: SoundClip;
-  private readonly concentrationProperty: IReadOnlyProperty<number>;
+  private readonly concentrationProperty: TReadOnlyProperty<number>;
   private readonly concentrationRange: Range;
 
-  public constructor( concentrationProperty: IReadOnlyProperty<number>,
+  public constructor( concentrationProperty: TReadOnlyProperty<number>,
                       concentrationRange: Range,
                       options?: Partial<SoundGeneratorOptions> ) {
 

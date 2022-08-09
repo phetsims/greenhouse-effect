@@ -23,7 +23,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
 import Property from '../../../../axon/js/Property.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import GroundLayer from '../model/GroundLayer.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -173,7 +173,7 @@ class ThermometerAndReadout extends Node {
    * current value of temperature in those units.
    */
   private static createComboBoxItem( unitsString: string,
-                                     property: IReadOnlyProperty<number>,
+                                     property: TReadOnlyProperty<number>,
                                      propertyRange: Range,
                                      propertyValue: TemperatureUnits,
                                      tandemName: string ): ComboBoxItem<TemperatureUnits> {

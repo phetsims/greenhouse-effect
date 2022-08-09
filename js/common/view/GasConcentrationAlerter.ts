@@ -14,7 +14,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -77,7 +77,7 @@ class GasConcentrationAlerter extends Alerter {
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
-  private netEnergyProperty: IReadOnlyProperty<number>;
+  private netEnergyProperty: TReadOnlyProperty<number>;
   private previousNetInflowOfEnergy: number;
 
   // An Utterance for the alert that describes radiation redirection from sky back to earth. It is announced after
