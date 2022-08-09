@@ -9,7 +9,10 @@
 
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
@@ -27,9 +30,9 @@ const VOLUME_FADE_OUT_TIME = 40000; // in seconds
 
 // types for options
 type SelfOptions = EmptySelfOptions;
-type EnergyBalanceSoundGeneratorOptions = SelfOptions & SoundClipOptions;
+type EnergyBalanceSoundGeneratorOptions = SelfOptions & SoundGeneratorOptions;
 
-class EnergyBalanceSoundGenerator extends SoundClip {
+class EnergyBalanceSoundGenerator extends SoundGenerator {
 
   private readonly disposeEnergyBalanceSoundGenerator: () => void;
   private interBlipTime: number = Number.POSITIVE_INFINITY;
@@ -38,21 +41,33 @@ class EnergyBalanceSoundGenerator extends SoundClip {
   private volumeFadeCountdown = 0;
   private previousEnergyRate: number;
   private readonly netEnergyBalanceProperty: IReadOnlyProperty<number>;
+  private readonly soundClip: SoundClip;
 
   public constructor( netEnergyBalanceProperty: IReadOnlyProperty<number>,
                       providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
 
-    assert && assert(
-      providedOptions === undefined || providedOptions.rateChangesAffectPlayingSounds === undefined,
-      'rateChangesAffectPlayingSounds should not be set by client'
-    );
-
     const options = optionize<EnergyBalanceSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-      initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
-      rateChangesAffectPlayingSounds: false
+      initialOutputLevel: DEFAULT_OUTPUT_LEVEL
     }, providedOptions );
 
-    super( energyBalanceBlip_mp3, options );
+    super( options );
+
+    // Create the source sound clip.
+    this.soundClip = new SoundClip( energyBalanceBlip_mp3, { rateChangesAffectPlayingSounds: false } );
+    this.soundClip.connect( this.masterGainNode );
+
+    // Create a convolver node that will be used for a reverb effect.
+    const convolver = phetAudioContext.createConvolver();
+    convolver.buffer = emptyApartmentBedroom06Resampled_mp3.audioBufferProperty.value;
+
+    // Create a gain node for the reverb.
+    // Add a gain node that will be used for the reverb level.
+    const reverbGainNode = phetAudioContext.createGain();
+
+    // Hook up the signal path for the reverb.
+    this.soundClip.connect( convolver );
+    convolver.connect( reverbGainNode );
+    reverbGainNode.connect( this.masterGainNode );
 
     this.netEnergyBalanceProperty = netEnergyBalanceProperty;
     this.fullVolumeLevel = options.initialOutputLevel;
@@ -62,11 +77,11 @@ class EnergyBalanceSoundGenerator extends SoundClip {
     const energyBalanceListener = ( netEnergyBalance: number ) => {
 
       // Adjust the playback rate of the blip to be higher when the net energy is positive, lower when negative.
-      if ( netEnergyBalance > 0 && this.playbackRate === 1 ) {
-        this.setPlaybackRate( HIGHER_SOUND_PLAYBACK_RATE );
+      if ( netEnergyBalance > 0 && this.soundClip.playbackRate === 1 ) {
+        this.soundClip.setPlaybackRate( HIGHER_SOUND_PLAYBACK_RATE );
       }
-      else if ( netEnergyBalance < 0 && this.playbackRate === HIGHER_SOUND_PLAYBACK_RATE ) {
-        this.setPlaybackRate( 1 );
+      else if ( netEnergyBalance < 0 && this.soundClip.playbackRate === HIGHER_SOUND_PLAYBACK_RATE ) {
+        this.soundClip.setPlaybackRate( 1 );
       }
 
       // Adjust the blip rate.
@@ -103,7 +118,7 @@ class EnergyBalanceSoundGenerator extends SoundClip {
     if ( this.interBlipCountdown !== Number.POSITIVE_INFINITY ) {
       this.interBlipCountdown = Math.max( this.interBlipCountdown - dt, 0 );
       if ( this.interBlipCountdown === 0 ) {
-        this.play();
+        this.soundClip.play();
         this.interBlipCountdown = this.interBlipTime;
       }
     }
