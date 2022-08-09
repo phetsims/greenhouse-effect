@@ -9,7 +9,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -57,7 +57,7 @@ class FluxMeter extends PhetioObject {
 
   // variables that indicate where the wire should be that attaches the flux sensor to the body of the meter
   public readonly wireMeterAttachmentPositionProperty: Vector2Property;
-  public readonly wireSensorAttachmentPositionProperty: IReadOnlyProperty<Vector2>;
+  public readonly wireSensorAttachmentPositionProperty: TReadOnlyProperty<Vector2>;
 
   public constructor( atmosphereLayers: AtmosphereLayer[], providedOptions?: FluxMeterOptions ) {
 

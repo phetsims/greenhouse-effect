@@ -11,7 +11,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
@@ -94,8 +94,8 @@ class FluxMeterNode extends Node {
    * @param providedOptions
    */
   public constructor( model: FluxMeter,
-                      isPlayingProperty: IReadOnlyProperty<boolean>,
-                      visibleProperty: IReadOnlyProperty<boolean>,
+                      isPlayingProperty: TReadOnlyProperty<boolean>,
+                      visibleProperty: TReadOnlyProperty<boolean>,
                       modelViewTransform: ModelViewTransform2,
                       observationWindowViewBounds: Bounds2,
                       providedOptions?: FluxMeterNodeOptions ) {
@@ -298,7 +298,7 @@ type EnergyFluxDisplayOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
 class EnergyFluxDisplay extends Node {
   public constructor( energyDownProperty: Property<number>,
                       energyUpProperty: Property<number>,
-                      fluxToArrowLengthMultiplierProperty: IReadOnlyProperty<number>,
+                      fluxToArrowLengthMultiplierProperty: TReadOnlyProperty<number>,
                       labelString: string,
                       baseColor: Color,
                       providedOptions?: EnergyFluxDisplayOptions ) {

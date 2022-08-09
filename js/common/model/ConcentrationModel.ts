@@ -11,7 +11,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -84,7 +84,7 @@ class ConcentrationModel extends LayersModel {
   public readonly manuallyControlledConcentrationProperty: NumberProperty;
 
   // The actual value of concentration for the model, depending on how the concentration is to be controlled.
-  public readonly concentrationProperty: IReadOnlyProperty<number>;
+  public readonly concentrationProperty: TReadOnlyProperty<number>;
 
   // A property that determines whether the reflective cloud is enabled.
   public readonly cloudEnabledProperty: BooleanProperty;

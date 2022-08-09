@@ -4,7 +4,7 @@
  * EMWaveSource produces simulated waves of electromagnetic energy.
  */
 
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
@@ -80,7 +80,7 @@ type SelfOptions = {
 
   // A property that indicates what the produced wave intensity should be.  A Property for this will be created if none
   // is provided.
-  waveIntensityProperty?: null | IReadOnlyProperty<number>;
+  waveIntensityProperty?: null | TReadOnlyProperty<number>;
 
   // time between waves, in seconds
   interWaveTime?: number;
@@ -96,7 +96,7 @@ class EMWaveSource extends PhetioObject {
   public readonly waveStartAltitude: number;
 
   // controls whether waves should be produced
-  private readonly waveIntensityProperty: IReadOnlyProperty<number>;
+  private readonly waveIntensityProperty: TReadOnlyProperty<number>;
 
   // map of waves produced by this wave source to their lifetimes
   private wavesToLifetimesMap: Map<Wave, number>;
@@ -105,7 +105,7 @@ class EMWaveSource extends PhetioObject {
   private waveCreationQueue: WaveCreationSpec[];
 
   // other information necessary for the methods to do their thing
-  private readonly waveProductionEnabledProperty: IReadOnlyProperty<boolean>;
+  private readonly waveProductionEnabledProperty: TReadOnlyProperty<boolean>;
   private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
   private readonly wavelength: number;
   private readonly waveEndAltitude: number;
@@ -123,7 +123,7 @@ class EMWaveSource extends PhetioObject {
    * @param [providedOptions]
    */
   public constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
-                      waveProductionEnabledProperty: IReadOnlyProperty<boolean>,
+                      waveProductionEnabledProperty: TReadOnlyProperty<boolean>,
                       wavelength: number,
                       waveStartAltitude: number,
                       waveEndAltitude: number,

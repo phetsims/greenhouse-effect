@@ -9,7 +9,7 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -186,7 +186,7 @@ class DateControl extends Node {
    * @param tandem
    */
   public constructor( dateProperty: EnumerationProperty<ConcentrationDate>,
-                      concentrationProperty: IReadOnlyProperty<number>,
+                      concentrationProperty: TReadOnlyProperty<number>,
                       concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                       tandem: Tandem ) {
 
