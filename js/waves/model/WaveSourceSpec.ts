@@ -11,18 +11,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
- * A simple class that specifies a minimum and maximum X value for where waves will be produced and a direction of
- * travel.  This exists because the wave production occurs in pairs of X value locations, and the source shifts back
- * and forth between them in order to create some variation.
+ * A simple class that specifies the X value for where waves will be produced and a direction of travel.
  */
 class WaveSourceSpec {
-  public readonly minXPosition: number;
-  public readonly maxXPosition: number;
+  public readonly xPosition: number;
   public readonly propagationDirection: Vector2;
 
-  public constructor( minXPosition: number, maxXPosition: number, propagationDirection: Vector2 ) {
-    this.minXPosition = minXPosition;
-    this.maxXPosition = maxXPosition;
+  public constructor( xPosition: number, propagationDirection: Vector2 ) {
+    this.xPosition = xPosition;
     this.propagationDirection = propagationDirection;
   }
 }

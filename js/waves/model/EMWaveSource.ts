@@ -168,23 +168,20 @@ class EMWaveSource extends PhetioObject {
       // Look for a wave that matches these parameters in the set of all waves in the model.
       const matchingWave = this.waveGroup.find( ( wave: Wave ) =>
         wave.wavelength === this.wavelength &&
-        wave.isSourced &&
-        ( waveSourceSpec.minXPosition === wave.origin.x || waveSourceSpec.maxXPosition === wave.origin.x ) &&
+        wave.isSourced && waveSourceSpec.xPosition === wave.origin.x &&
         wave.origin.y === this.waveStartAltitude
       );
 
       // See whether there is a wave that is queued for creation that matches these parameters.
       const waveIsQueued = this.waveCreationQueue.reduce( ( previousValue, queuedWaveSpec ) =>
           previousValue || queuedWaveSpec.propagationDirection.equals( waveSourceSpec.propagationDirection ) &&
-          ( queuedWaveSpec.originX === waveSourceSpec.minXPosition ||
-          queuedWaveSpec.originX === waveSourceSpec.maxXPosition ),
+          queuedWaveSpec.originX === waveSourceSpec.xPosition,
         false
       );
 
       // If the wave doesn't exist yet and isn't queued for creation, but SHOULD exist, create it.
       if ( !matchingWave && !waveIsQueued && this.waveProductionEnabledProperty.value ) {
-        const xPosition = dotRandom.nextBoolean() ? waveSourceSpec.minXPosition : waveSourceSpec.maxXPosition;
-        this.addWaveToModel( xPosition, waveSourceSpec.propagationDirection );
+        this.addWaveToModel( waveSourceSpec.xPosition, waveSourceSpec.propagationDirection );
       }
 
       // If the wave already exists, update it.
@@ -200,24 +197,9 @@ class EMWaveSource extends PhetioObject {
           // If wave production is enabled, queue up a new wave to replace the one that just ended.
           if ( this.waveProductionEnabledProperty.value ) {
 
-            // Which wave source spec was the wave that just ended associated with?
-            const waveSourceSpecs = this.waveSourceSpecs.filter( waveSourceSpec =>
-              waveSourceSpec.minXPosition === matchingWave.origin.x ||
-              waveSourceSpec.maxXPosition === matchingWave.origin.x
-            );
-
-            // Make sure only one spec matches this.  Otherwise, it means that the specifications had overlap, which this
-            // class isn't designed to deal with.
-            assert && assert( waveSourceSpecs.length === 1, 'there is a problem with the provided wave source specs' );
-            const waveSourceSpec = waveSourceSpecs[ 0 ];
-
-            const nextWaveOrigin = matchingWave.origin.x === waveSourceSpec.minXPosition ?
-                                   waveSourceSpec.maxXPosition :
-                                   waveSourceSpec.minXPosition;
-
             // Queue up a wave for creation after the spacing time.
             this.waveCreationQueue.push( new WaveCreationSpec(
-              nextWaveOrigin,
+              waveSourceSpec.xPosition,
               waveSourceSpec.propagationDirection,
               this.interWaveTime
             ) );
