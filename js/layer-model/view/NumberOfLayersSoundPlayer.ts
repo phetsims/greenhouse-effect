@@ -14,13 +14,13 @@ import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
 import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import ISoundPlayer from '../../../../tambo/js/ISoundPlayer.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 export type NumberOfLayersSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
-class NumberOfLayersSoundPlayer extends SoundGenerator implements ISoundPlayer {
+class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   // array of sound clips where the index corresponds to the number of layers
   private readonly layerSoundClips: SoundClip[];
