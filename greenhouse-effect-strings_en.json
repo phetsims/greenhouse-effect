@@ -448,17 +448,29 @@
     "timePeriodDescriptionPattern": {
       "value": "{{timePeriod}} and {{description}}"
     },
-    "twentyTwentyDescription": {
+    "thereAreManyHomesAndFactories": {
       "value": "there are many homes and factories"
     },
-    "nineteenFiftyDescription": {
+    "thereAreAFewHomesAndFactories": {
       "value": "there are a few homes and factories"
     },
-    "seventeenFiftyDescription": {
+    "thereIsAFarm": {
       "value": "there is a farm"
     },
-    "iceAgeDescription": {
+    "thereIsALargeGlacier": {
       "value": "there is a large glacier"
+    },
+    "manyHomesAndFactories": {
+      "value": "many homes and factories"
+    },
+    "aFewHomesAndFactories": {
+      "value": "a few homes and factories"
+    },
+    "aFarm": {
+      "value": "a farm"
+    },
+    "aLargeGlacier": {
+      "value": "a large glacier"
     },
     "currentlyTimePeriodDescriptionPattern": {
       "value": "Currently, {{timePeriodDescription}}"
@@ -512,7 +524,7 @@
       "value": "Surface temperature is {{description}}."
     },
     "observationWindowTimePeriodPattern": {
-      "value": "Now {{timePeriodDescription}} in observation window."
+      "value": "Now {{timePeriodDescription}}."
     },
     "photons": {
       "homeScreenDescription": {

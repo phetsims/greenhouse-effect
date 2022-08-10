@@ -199,10 +199,14 @@ type StringsType = {
       }
     };
     'timePeriodDescriptionPattern': string;
-    'twentyTwentyDescription': string;
-    'nineteenFiftyDescription': string;
-    'seventeenFiftyDescription': string;
-    'iceAgeDescription': string;
+    'thereAreManyHomesAndFactories': string;
+    'thereAreAFewHomesAndFactories': string;
+    'thereIsAFarm': string;
+    'thereIsALargeGlacier': string;
+    'manyHomesAndFactories': string;
+    'aFewHomesAndFactories': string;
+    'aFarm': string;
+    'aLargeGlacier': string;
     'currentlyTimePeriodDescriptionPattern': string;
     'nowLevelsOfConcentrationPattern': string;
     'nowRelativeLevelOfConcentrationPattern': string;
