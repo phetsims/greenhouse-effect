@@ -22,7 +22,7 @@ import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibili
 import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import ConcentrationModel, { ConcentrationControlMode } from '../model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import LayersModel from '../model/LayersModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
@@ -60,6 +60,7 @@ type PreviousPeriodicNotificationModelState = {
 type PreviousImmediateNotificationModelState = {
   concentrationControlMode: ConcentrationControlMode;
   cloudEnabled: boolean;
+  concentrationDate: ConcentrationDate;
 };
 
 class GasConcentrationAlerter extends Alerter {
@@ -98,6 +99,12 @@ class GasConcentrationAlerter extends Alerter {
       ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
     }
   } );
+
+  // Utterances that describe the changing scene and concentration when controlling by date. Using
+  // reusable Utterances allows this information to "collapse" in the queue and only the most
+  // recent change is heard when rapid updates happen.
+  private readonly observationWindowSceneUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
+  private readonly concentrationChangeUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
 
   public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
 
@@ -156,20 +163,6 @@ class GasConcentrationAlerter extends Alerter {
       assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
     } );
 
-    // When the date changes, describe the new scene in the observation window and how the concentration levels
-    // have changed
-    const observationWindowSceneUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
-    const concentrationChangeUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
-    model.dateProperty.lazyLink( ( date, previousDate ) => {
-      observationWindowSceneUtterance.alert = ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( date );
-      concentrationChangeUtterance.alert = ConcentrationDescriber.getQualitativeConcentrationChangeDescription(
-        ConcentrationModel.getConcentrationForDate( previousDate ),
-        previousDate, ConcentrationModel.getConcentrationForDate( date )
-      );
-      this.alert( observationWindowSceneUtterance );
-      this.alert( concentrationChangeUtterance );
-    } );
-
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused.
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
       this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
@@ -198,11 +191,13 @@ class GasConcentrationAlerter extends Alerter {
   private saveImmediateNotificationModelState(): PreviousImmediateNotificationModelState {
     this.previousImmediateNotificationModelState = this.previousImmediateNotificationModelState || {
       cloudEnabled: this.model.cloudEnabledProperty.value,
-      concentrationControlMode: this.model.concentrationControlModeProperty.value
+      concentrationControlMode: this.model.concentrationControlModeProperty.value,
+      concentrationDate: this.model.dateProperty.value
     };
 
     this.previousImmediateNotificationModelState.cloudEnabled = this.model.cloudEnabledProperty.value;
     this.previousImmediateNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
+    this.previousImmediateNotificationModelState.concentrationDate = this.model.dateProperty.value;
 
     return this.previousImmediateNotificationModelState;
   }
@@ -237,6 +232,18 @@ class GasConcentrationAlerter extends Alerter {
         // In manual mode, describe the relative level of concentration.
         this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( this.model.concentrationProperty.value ) );
       }
+    }
+
+    const currentDate = this.model.dateProperty.value;
+    const previousDate = this.previousImmediateNotificationModelState.concentrationDate;
+    if ( previousDate !== currentDate ) {
+      this.observationWindowSceneUtterance.alert = ConcentrationDescriber.getObservationWindowNowTimePeriodDescription( currentDate );
+      this.concentrationChangeUtterance.alert = ConcentrationDescriber.getQualitativeConcentrationChangeDescription(
+        ConcentrationModel.getConcentrationForDate( previousDate ),
+        previousDate, ConcentrationModel.getConcentrationForDate( currentDate )
+      );
+      this.alert( this.observationWindowSceneUtterance );
+      this.alert( this.concentrationChangeUtterance );
     }
 
     const cloudEnabled = this.model.cloudEnabledProperty.value;
@@ -332,6 +339,7 @@ class GasConcentrationAlerter extends Alerter {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
     this.savePeriodicNotificationModelState();
+    this.saveImmediateNotificationModelState();
   }
 }
 
