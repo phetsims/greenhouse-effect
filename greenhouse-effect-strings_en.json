@@ -322,13 +322,13 @@
         "value": "Cloud added to sky."
       },
       "someSunlightReflectedAlert": {
-        "value": "Some sunlight reflected back to space."
+        "value": "Some sunlight reflecting back to space."
       },
       "cloudRemovedAlert": {
         "value": "Cloud removed from sky."
       },
       "allSunlightReachesSurfaceAlert": {
-        "value": "All sunlight reaches surface."
+        "value": "All sunlight reaching surface."
       },
       "cloudAlertPattern": {
         "value": "{{addedOrRemoved}} {{receivedOrReflected}}"
@@ -595,7 +595,7 @@
       "value": "Surface temperature stable at {{quantitativeDescription}}."
     },
     "surfaceTemperatureStableWithDescriptionAndValue": {
-      "value": "Surface temperature stable and {{qualitativeDescription}}, at {{quantitativeDescription}}."
+      "value": "Surface temperature stable and {{qualitativeDescription}} at {{quantitativeDescription}}."
     },
     "warming": {
       "value": "warming"
