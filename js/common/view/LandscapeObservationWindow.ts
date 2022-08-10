@@ -185,9 +185,19 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     } );
   }
 
+  /**
+   * Redraw components of the observation window. Does not get called if sim is paused for performance reasons.
+   */
   public override step( dt: number ): void {
-    this.gasConcentrationAlerter.step( dt );
     super.step( dt );
+  }
+
+  /**
+   * Step alerters of this ObservationWindow (mostly to support polling descriptions). This is separate from
+   * step() because this needs to be stepped even while the sim is paused.
+   */
+  public override stepAlerters( dt: number ): void {
+    this.gasConcentrationAlerter.step( dt );
   }
 
   public override reset(): void {

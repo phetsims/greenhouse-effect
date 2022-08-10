@@ -450,6 +450,13 @@ class GreenhouseEffectObservationWindow extends Node {
     this.energyBalancePanel.step( dt );
   }
 
+  /**
+   * Stub for subclasses to step alerters for Interactive Description.
+   */
+  public stepAlerters( dt: number ): void {
+    // Does nothing in the base class.
+  }
+
   public reset(): void {
     this.fluxMeterNode?.reset();
   }
