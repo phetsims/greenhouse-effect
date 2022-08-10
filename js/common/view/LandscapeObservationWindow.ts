@@ -9,6 +9,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -35,6 +36,7 @@ const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
 
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
+  private readonly isPlayingProperty: TReadOnlyProperty<boolean>;
 
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
@@ -52,6 +54,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     }, providedOptions );
 
     super( model, options );
+    this.isPlayingProperty = model.isPlayingProperty;
 
     // thermometer
     const listParentNode = new Node();

@@ -252,6 +252,7 @@ type StringsType = {
     'surfaceTemperatureStableWithDescriptionAndValue': string;
     'warming': string;
     'cooling': string;
+    'stabilizing': string;
     'warmingStatement': string;
     'coolingStatement': string;
     'concentrationPanel': {

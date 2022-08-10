@@ -54,6 +54,10 @@ type PreviousPeriodicNotificationModelState = {
   concentration: number;
   outgoingEnergy: number;
   netInflowOfEnergy: number;
+
+  // This is in moth periodic and immediate state - when this changes we need to notify some information immediately
+  // and some information at the next ALERT_INTERVAL related to this change.
+  concentrationControlMode: ConcentrationControlMode;
 };
 
 // The model state that should be described as soon as possible every time it changes,
@@ -81,9 +85,10 @@ class GasConcentrationAlerter extends Alerter {
   // the concentration changes.
   private useVerboseSurfaceTemperatureAlert: boolean;
 
-  // After a change in concentration we are going to delay temperature alerts to prevent soo much information
-  // going to the user at once time. Temperature alerts will be delayed for one ALERT_INTERVAL cycle in the polling.
-  private delayTemperatureAlerts = false;
+  // After a change in concentration control mode we are going to describe temperatures as 'stabilizing' to give a more
+  // generic description of changes and prevent overwhelming the user with too much information. See
+  // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+  private describeTemperatureAsStabilizing = false;
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
@@ -164,13 +169,23 @@ class GasConcentrationAlerter extends Alerter {
 
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( () => {
-      this.delayTemperatureAlerts = true;
       this.useVerboseSurfaceTemperatureAlert = true;
       this.temperatureChangeAlertCount = 0;
 
       // after changing concentration, we should quickly hear content instead of waiting the full ALERT_INTERVAL
       this.timeSinceLastAlert = ALERT_INTERVAL - ALERT_DELAY_AFTER_CHANGING_CONCENTRATION;
       assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
+    } );
+
+    model.concentrationControlModeProperty.lazyLink( () => {
+
+      // After changing the concentration control mode, reset the `timeSinceLastAlert` so we have a full delay
+      // before describing the new scene
+      this.timeSinceLastAlert = 0;
+
+      // After a change in concentration control mode, temperature changes are described as 'stabilizing', see
+      // declaration for more information.
+      this.describeTemperatureAsStabilizing = true;
     } );
 
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
@@ -190,13 +205,15 @@ class GasConcentrationAlerter extends Alerter {
       temperature: 0,
       concentration: 0,
       outgoingEnergy: 0,
-      netInflowOfEnergy: 0
+      netInflowOfEnergy: 0,
+      concentrationControlMode: this.model.concentrationControlModeProperty.value
     };
 
     this.previousPeriodicNotificationModelState.temperature = this.getCurrentTemperature();
     this.previousPeriodicNotificationModelState.concentration = this.model.concentrationProperty.value;
     this.previousPeriodicNotificationModelState.outgoingEnergy = this.outgoingEnergyProperty.value;
     this.previousPeriodicNotificationModelState.netInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+    this.previousPeriodicNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
 
     return this.previousPeriodicNotificationModelState;
   }
@@ -226,11 +243,14 @@ class GasConcentrationAlerter extends Alerter {
   }
 
   /**
-   * Create new alerts, if it has been long enough since the last alert and the temperature is changing.
+   * Create new alerts if the state of the simulation has changed and timing variables indicate it is time. This step
+   * function should be called every view step, regardless of whether the model is playing because certain alerts
+   * describe updates that are unrelated to the changing concentration model (see
+   * "previousImmediateNotificationModelState").
+   *
+   * @param dt - in seconds
    */
   public step( dt: number ): void {
-
-    this.timeSinceLastAlert += dt;
 
     // Start by alerting "immediate" model changes. These are updates that need to be described as soon as they change.
     const currentControlMode = this.model.concentrationControlModeProperty.value;
@@ -268,82 +288,94 @@ class GasConcentrationAlerter extends Alerter {
     }
 
     // Now alert "periodic" changes. These are update that are only described every ALERT_INTERVAL.
-    const currentTemperature = this.getCurrentTemperature();
-    const currentConcentration = this.model.concentrationProperty.value;
+    // "periodic" alerts will only progress if the model is currently stepping as well
+    if ( this.model.isPlayingProperty.value ) {
+      this.timeSinceLastAlert += dt;
+    }
 
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
+      const previousControlModeFromPeriodState = this.previousPeriodicNotificationModelState.concentrationControlMode;
+      const currentTemperature = this.getCurrentTemperature();
+      const currentConcentration = this.model.concentrationProperty.value;
 
       if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
 
-        // First, a description of the changing radiation redirecting back to the surface - this should only happen if
-        // there was some change to the concentration.
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
-          const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
-          this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
-          radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
+        // Infrared radiation descriptions are only present if concentration changed while the concentration control
+        // mode stayed the same
+        if ( previousControlModeFromPeriodState === currentControlMode ) {
+
+          // First, a description of the changing radiation redirecting back to the surface - this should only happen if
+          // there was some change to the concentration.
+          if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+            const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
+            this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
+            radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
+          }
+
+          // Then, description of the changing surface temperature - again, only if there is some change in the
+          // concentration.
+          if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+            const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
+              this.model.concentrationProperty.value,
+              this.previousPeriodicNotificationModelState.concentration
+            );
+            surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
+          }
         }
 
-        // Then, description of the changing surface temperature - again, only if there is some change in the
-        // concentration.
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
-          const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
-            this.model.concentrationProperty.value,
-            this.previousPeriodicNotificationModelState.concentration
-          );
-          surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
-        }
+        // Then, a description of the changing temperature - this should get described at interval even if there
+        // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
+        // too much information after concentration changes. Depending on how many times it has been spoken a terse
+        // form of it may be used (handled in getSurfaceTemperatureChangeString).
 
-        // Wait until next iteration if a concentration just happened to prevent spamming user with too much info,
-        // see https://github.com/phetsims/greenhouse-effect/issues/193
-        if ( !this.delayTemperatureAlerts ) {
+        // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
+        // this response is created. Temperature must also be visible in the view.
+        const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
 
-          // Then, a description of the changing temperature - this should get described at interval even if there
-          // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
-          // too much information after concentration changes. Depending on how many times it has been spoken a terse
-          // form of it may be used (handled in getSurfaceTemperatureChangeString).
+        const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+          this.previousPeriodicNotificationModelState.temperature,
+          currentTemperature,
+          includeTemperatureValue,
+          this.model.temperatureUnitsProperty.value,
+          this.useVerboseSurfaceTemperatureAlert,
 
-          // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
-          // this response is created. Temperature must also be visible in the view.
-          const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
+          // when the control mode changes, it was requested that the temperature be described as 'stabilizing'
+          // instead of 'warming' or 'cooling',
+          // see https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+          this.describeTemperatureAsStabilizing
+        );
+        temperatureAlertString && this.alert( temperatureAlertString );
 
-          const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-            this.previousPeriodicNotificationModelState.temperature,
-            currentTemperature,
-            includeTemperatureValue,
-            this.model.temperatureUnitsProperty.value,
-            this.useVerboseSurfaceTemperatureAlert
-          );
-          temperatureAlertString && this.alert( temperatureAlertString );
+        // reset counter if we have spoken the terse form of the temperature change alert enough times
+        this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
 
-          // reset counter if we have spoken the terse form of the temperature change alert enough times
-          this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+        // not verbose until concentration changes again
+        this.useVerboseSurfaceTemperatureAlert = false;
 
-          // not verbose until concentration changes again
-          this.useVerboseSurfaceTemperatureAlert = false;
-        }
-
-        // Describe temperature alerts next iteration.
-        this.delayTemperatureAlerts = false;
+        // Accurately describe temperature alerts next iteration.
+        this.describeTemperatureAsStabilizing = false;
       }
 
-      if ( this.model.energyBalanceVisibleProperty.value ) {
+      if ( previousControlModeFromPeriodState === currentControlMode ) {
+        if ( this.model.energyBalanceVisibleProperty.value ) {
 
-        // Did the energy balance change in such a way that we need to describe it?
-        const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
-        const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
-        if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
+          // Did the energy balance change in such a way that we need to describe it?
+          const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+          const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
+          if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+               ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+               ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
 
-          // Yep.
-          const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
-            currentNetInflowOfEnergy,
-            this.model.inRadiativeBalanceProperty.value
-          );
-          outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+            // Yep.
+            const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
+              currentNetInflowOfEnergy,
+              this.model.inRadiativeBalanceProperty.value
+            );
+            outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+          }
         }
       }
 
@@ -360,6 +392,7 @@ class GasConcentrationAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
+    this.describeTemperatureAsStabilizing = false;
     this.savePeriodicNotificationModelState();
     this.saveImmediateNotificationModelState();
   }
