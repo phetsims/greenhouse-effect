@@ -213,12 +213,14 @@ class ConcentrationDescriber {
   }
 
   /**
-   * Get a string that describes the time period in a full context, proceeded by "currently". Will return something like
-   * "Currently, the time period is the year twenty-twenty and there are a large number of homes and factories."
+   * Get a string that describes the new time period after changing control mode to "by date" from "by value". Will
+   * return something like
+   * "Time period is the year seventeen fifty" or
+   * "Time period is the year twenty twenty".
    */
-  public static getTimePeriodCurrentlyDescription( timePeriodValue: ConcentrationDate ): string {
-    return StringUtils.fillIn( greenhouseEffectStrings.a11y.currentlyTimePeriodDescriptionPattern, {
-      timePeriodDescription: ConcentrationDescriber.getFullTimePeriodDescription( timePeriodValue, false )
+  public static getTimePeriodChangeDescription( timePeriodValue: ConcentrationDate ): string {
+    return StringUtils.fillIn( greenhouseEffectStrings.a11y.timePeriodChangeDescriptionPattern, {
+      timePeriodDescription: ConcentrationDescriber.getTimePeriodString( timePeriodValue )
     } );
   }
 

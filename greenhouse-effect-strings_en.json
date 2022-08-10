@@ -472,8 +472,8 @@
     "aLargeGlacier": {
       "value": "a large glacier"
     },
-    "currentlyTimePeriodDescriptionPattern": {
-      "value": "Currently, {{timePeriodDescription}}"
+    "timePeriodChangeDescriptionPattern": {
+      "value": "Time period is the {{timePeriodDescription}}."
     },
     "nowLevelsOfConcentrationPattern": {
       "value": "Now {{value}} greenhouse gases."
