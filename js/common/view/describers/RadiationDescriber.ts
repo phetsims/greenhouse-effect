@@ -36,7 +36,8 @@ class RadiationDescriber {
     return RadiationDescriber.getRadiationChangeDescription(
       greenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
       newConcentration,
-      oldConcentration
+      oldConcentration,
+      true // describe when no concentration is redirected from atmosphere
     );
   }
 
@@ -58,14 +59,26 @@ class RadiationDescriber {
    * something like:
    * "More infrared radiation emitting from surface." or
    * "Less infrared radiation redirecting back to surface."
+   *
+   * @param patternString - Must have a 'change' param to fill in
+   * @param newConcentration
+   * @param oldConcentration
+   * @param describeNoConcentration - If true, 'no' concentration case will be described. Otherwise, reaching zero
+   *                                  concentration will be described as 'less'.
    */
-  private static getRadiationChangeDescription( patternString: string, newConcentration: number, oldConcentration: number ): string | null {
+  private static getRadiationChangeDescription( patternString: string, newConcentration: number, oldConcentration: number, describeNoConcentration?: boolean ): string | null {
     let response = null;
 
     if ( newConcentration !== oldConcentration ) {
-      const moreOrLessString = newConcentration > oldConcentration ? greenhouseEffectStrings.a11y.more : greenhouseEffectStrings.a11y.less;
+      let changeString: string;
+      if ( describeNoConcentration && newConcentration === 0 ) {
+        changeString = greenhouseEffectStrings.a11y.no;
+      }
+      else {
+        changeString = newConcentration > oldConcentration ? greenhouseEffectStrings.a11y.more : greenhouseEffectStrings.a11y.less;
+      }
       response = StringUtils.fillIn( patternString, {
-        moreOrLess: moreOrLessString
+        moreOrLess: changeString
       } );
     }
 
