@@ -76,10 +76,14 @@ const seventeenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions
 const nineteenFiftyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.nineteenFifty;
 const twentyTwentyString = greenhouseEffectStrings.a11y.timePeriodDescriptions.twentyTwenty;
 
-const iceAgeDescriptionString = greenhouseEffectStrings.a11y.iceAgeDescription;
-const seventeenFiftyDescriptionString = greenhouseEffectStrings.a11y.seventeenFiftyDescription;
-const nineteenFiftyDescriptionString = greenhouseEffectStrings.a11y.nineteenFiftyDescription;
-const twentyTwentyDescriptionString = greenhouseEffectStrings.a11y.twentyTwentyDescription;
+const thereIsALargeGlacierString = greenhouseEffectStrings.a11y.thereIsALargeGlacier;
+const thereIsAFarmString = greenhouseEffectStrings.a11y.thereIsAFarm;
+const thereAreAFewHomesAndFactoriesString = greenhouseEffectStrings.a11y.thereAreAFewHomesAndFactories;
+const thereAreManyHomesAndFactoriesString = greenhouseEffectStrings.a11y.thereAreManyHomesAndFactories;
+const aLargeGlacierString = greenhouseEffectStrings.a11y.aLargeGlacier;
+const aFarmString = greenhouseEffectStrings.a11y.aFarm;
+const aFewHomesAndFactoriesString = greenhouseEffectStrings.a11y.aFewHomesAndFactories;
+const manyHomesAndFactoriesString = greenhouseEffectStrings.a11y.manyHomesAndFactories;
 
 // strings used to describe the sky
 const skyDescriptionPatternString = greenhouseEffectStrings.a11y.sky.skyDescriptionPattern;
@@ -139,12 +143,12 @@ class ConcentrationDescriber {
 
   /**
    * Get a description of a particular time period, including the date. Returns something like
-   * "year twenty twenty and there are lots of homes and factories" or
+   * "year twenty twenty and there are many homes and factories" or
    * "ice age and there is a large glacier"
    */
   public static getDescribedTimePeriodString( timePeriodValue: ConcentrationDate ): string {
     const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
-    const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodDescription( timePeriodValue );
+    const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodWithExistenceFragmentDescription( timePeriodValue );
 
     return StringUtils.fillIn( greenhouseEffectStrings.a11y.timePeriodDescriptionPattern, {
       timePeriod: timePeriodString,
@@ -153,19 +157,32 @@ class ConcentrationDescriber {
   }
 
   /**
-   * Get a description of the time period, just the isolated fragment. Will return something like
-   * "a few homes and factories" or
-   * "a large number of homes and factories"
+   * Get a description of the time period with a prefix fragment like "there is". Will return something like
+   * "there is a farm" or
+   * "there are many homes and factories"
    */
-  public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
-    return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeDescriptionString :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyDescriptionString :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyDescriptionString :
-           twentyTwentyDescriptionString;
+  public static getTimePeriodWithExistenceFragmentDescription( timePeriodValue: ConcentrationDate ): string {
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? thereIsALargeGlacierString :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? thereIsAFarmString :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? thereAreAFewHomesAndFactoriesString :
+           thereAreManyHomesAndFactoriesString;
   }
 
   /**
-   * Returns a string that describes the current time period in the observation window, will return something like
+   * Get a short description of the current time period, just including graphical contents like
+   * "a farm" or
+   * "many homes and factories"
+   */
+  public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? aLargeGlacierString :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? aFarmString :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? aFewHomesAndFactoriesString :
+           manyHomesAndFactoriesString;
+  }
+
+  /**
+   * Returns a string that describes the current time period in the observation window. This is a shorter
+   * statement to be used when the time period will return something like
    * "Now a few homes and houses in observation window." or
    * "Now a large number of homes and factories in observation window."
    */
