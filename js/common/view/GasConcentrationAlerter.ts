@@ -243,11 +243,21 @@ class GasConcentrationAlerter extends Alerter {
   }
 
   /**
-   * Create new alerts, if it has been long enough since the last alert and the temperature is changing.
+   * Create new alerts, if it has been long enough since the last alert and the temperature is changing. This step
+   * function should be called every view step, regardless of whether the model is playing because certain alerts
+   * describe updates that are unrelated to the changing concentration model (see
+   * "previousImmediateNotificationModelState").
+   *
+   * @param dt - in seconds
+   * @param isPlaying - Is the model playing? Some alerts generated in the polling should only trigger when the
+   *                    model is stepping forward in time.
    */
-  public step( dt: number ): void {
+  public step( dt: number, isPlaying: boolean ): void {
 
-    this.timeSinceLastAlert += dt;
+    // "periodic" alerts will only progress if the model is currently stepping as well
+    if ( isPlaying ) {
+      this.timeSinceLastAlert += dt;
+    }
 
     // Start by alerting "immediate" model changes. These are updates that need to be described as soon as they change.
     const currentControlMode = this.model.concentrationControlModeProperty.value;
