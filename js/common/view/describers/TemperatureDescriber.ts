@@ -35,6 +35,7 @@ const surfaceTemperatureStableWithValue = greenhouseEffectStrings.a11y.surfaceTe
 const surfaceTemperatureStableWithDescriptionAndValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
 const warmingString = greenhouseEffectStrings.a11y.warming;
 const coolingString = greenhouseEffectStrings.a11y.cooling;
+const stabilizingString = greenhouseEffectStrings.a11y.stabilizing;
 const surfaceTemperatureIsQuantitativeAndQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePattern;
 const surfaceTemperatureIsQuantitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePattern;
 const surfaceTemperatureIsQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
@@ -165,19 +166,30 @@ class TemperatureDescriber {
   /**
    * Get a description of the change in surface temperature, with more or less information depending on whether
    * the thermometer is visible. Will return something like:
+   *
    * "Surface temperature warming, now 277 Kelvin." or
-   * "Cooling, now 266.1 Kelvin."
+   * "Cooling, now 266.1 Kelvin." or
+   * "Surface temperature stabilizing, now 255 Kelvin."
+   *
+   * @param oldTemperature
+   * @param currentTemperature
+   * @param thermometerVisible - Are we displaying surface temperature values?
+   * @param unitsValue - What are the displayed units?
+   * @param includeSurfaceTemperatureFragment - Include the "Surface temperature..." prefix fragment?
+   * @param describeAsStabilizing - Instead of 'warming' or 'cooling', describe the temperature as 'stabilizing'.
    */
   public static getSurfaceTemperatureChangeString( oldTemperature: number,
-                                            currentTemperature: number,
-                                            thermometerVisible: boolean,
-                                            unitsValue: TemperatureUnits,
-                                            includeSurfaceTemperatureFragment: boolean ): string | null {
+                                                   currentTemperature: number,
+                                                   thermometerVisible: boolean,
+                                                   unitsValue: TemperatureUnits,
+                                                   includeSurfaceTemperatureFragment: boolean,
+                                                   describeAsStabilizing: boolean ): string | null {
     let changeString = null;
     let patternString = null;
 
     if ( oldTemperature !== currentTemperature ) {
-      let qualitativeDescriptionString = currentTemperature > oldTemperature ? warmingString : coolingString;
+      let qualitativeDescriptionString = describeAsStabilizing ? stabilizingString :
+                                         ( currentTemperature > oldTemperature ? warmingString : coolingString );
 
       // If we are not including the surface temperature fragment, the qualitative description is the first word.
       // This is NOT i18n friendly, but PhET's policy is that is OK for now.
@@ -214,11 +226,11 @@ class TemperatureDescriber {
    * Please note that this does not actually check that the temperature *is* stable, so use wisely.
    */
   public static getSurfaceTemperatureStableString( temperature: number,
-                                            thermometerVisible: boolean,
-                                            surfaceTemperatureIndicationVisible: boolean,
-                                            unitsValue: TemperatureUnits,
-                                            concentrationControlMode: ConcentrationControlMode,
-                                            date: ConcentrationDate ): string {
+                                                   thermometerVisible: boolean,
+                                                   surfaceTemperatureIndicationVisible: boolean,
+                                                   unitsValue: TemperatureUnits,
+                                                   concentrationControlMode: ConcentrationControlMode,
+                                                   date: ConcentrationDate ): string {
 
     let stableTemperatureString = '';
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
@@ -261,11 +273,11 @@ class TemperatureDescriber {
    * "The surface temperature is high, 290 Kelvin."
    */
   public static getSurfaceTemperatureIsString( temperature: number,
-                                        thermometerVisible: boolean,
-                                        surfaceTemperatureIndicationVisible: boolean,
-                                        unitsValue: TemperatureUnits,
-                                        concentrationControlMode: ConcentrationControlMode,
-                                        date: ConcentrationDate ): string | null {
+                                               thermometerVisible: boolean,
+                                               surfaceTemperatureIndicationVisible: boolean,
+                                               unitsValue: TemperatureUnits,
+                                               concentrationControlMode: ConcentrationControlMode,
+                                               date: ConcentrationDate ): string | null {
 
     let surfaceTemperatureDescriptionString = null;
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
