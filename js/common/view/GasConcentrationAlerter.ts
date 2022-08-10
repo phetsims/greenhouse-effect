@@ -173,6 +173,12 @@ class GasConcentrationAlerter extends Alerter {
       assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
     } );
 
+    // After changing the concentration control mode, reset the `timeSinceLastAlert` so we have a full delay
+    // before describing the new scene
+    model.concentrationControlModeProperty.link( () => {
+      this.timeSinceLastAlert = 0;
+    } );
+
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
     // alert is unrelated to concentration and temperature alerts that happen in the polling so it can stay in a
     // linked listener. But it could move to the polling implementation in "immediate state model" if that is more
