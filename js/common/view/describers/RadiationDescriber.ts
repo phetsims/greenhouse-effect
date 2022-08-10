@@ -30,7 +30,8 @@ class RadiationDescriber {
    * Generates a description of the changing radiation as it is redirected with changing concentrations. Will return
    * something like
    * "More infrared radiation redirecting back to surface." or
-   * "Less infrared radiation redirecting back to surface."
+   * "Less infrared radiation redirecting back to surface." or
+   * "No infrared radiation redirecting back to surface."
    */
   public static getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
     return RadiationDescriber.getRadiationChangeDescription(
@@ -58,7 +59,8 @@ class RadiationDescriber {
    * Generates a description for the changing radiation. Depending on the provided string patterns, will return
    * something like:
    * "More infrared radiation emitting from surface." or
-   * "Less infrared radiation redirecting back to surface."
+   * "Less infrared radiation redirecting back to surface." or
+   * "No infrared radiation redirecting back to surface".
    *
    * @param patternString - Must have a 'change' param to fill in
    * @param newConcentration
