@@ -132,6 +132,9 @@ class GasConcentrationAlerter extends Alerter {
     this.previousPeriodicNotificationModelState = this.savePeriodicNotificationModelState();
     this.previousImmediateNotificationModelState = this.saveImmediateNotificationModelState();
 
+    // When we reach equilibrium at the ground layer, announce that state immediately. This doesn't need to be
+    // ordered in with the other alerts so it doesn't need to be in the polling solution. But it could be moved
+    // to "immediate" state model if that is more clear in the future.
     model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
       if ( atEquilibrium ) {
         this.alert( TemperatureDescriber.getSurfaceTemperatureStableString(
@@ -145,7 +148,9 @@ class GasConcentrationAlerter extends Alerter {
       }
     } );
 
-    // Announce the temperature when the user changes the units.
+    // Announce the temperature when the user changes the units. This is unrelated to the concentration and temperature
+    // change alerts that happen in the polling implementation so it can stay in a linked listener. But this could
+    // move to "immediate" state model someday if that is more clear.
     model.temperatureUnitsProperty.lazyLink( temperatureUnits => {
       this.alert( TemperatureDescriber.getQuantitativeTemperatureDescription(
         model.surfaceTemperatureKelvinProperty.value,
@@ -163,7 +168,10 @@ class GasConcentrationAlerter extends Alerter {
       assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
     } );
 
-    // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused.
+    // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
+    // alert is unrelated to concentration and temperature alerts that happen in the polling so it can stay in a
+    // linked listener. But it could move to the polling implementation in "immediate state model" if that is more
+    // clear.
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
       this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
     } );
