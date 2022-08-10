@@ -169,6 +169,7 @@ type StringsType = {
     'infraredRadiationEmittedFromSurfaceWithTemperaturePattern': string;
     'more': string;
     'less': string;
+    'no': string;
     'increases': string;
     'decreases': string;
     'inflowToEarth': string;
