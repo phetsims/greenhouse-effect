@@ -81,6 +81,10 @@ class GasConcentrationAlerter extends Alerter {
   // the concentration changes.
   private useVerboseSurfaceTemperatureAlert: boolean;
 
+  // After a change in concentration we are going to delay temperature alerts to prevent soo much information
+  // going to the user at once time. Temperature alerts will be delayed for one ALERT_INTERVAL cycle in the polling.
+  private delayTemperatureAlerts = false;
+
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: TReadOnlyProperty<number>;
@@ -160,6 +164,7 @@ class GasConcentrationAlerter extends Alerter {
 
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( () => {
+      this.delayTemperatureAlerts = true;
       this.useVerboseSurfaceTemperatureAlert = true;
       this.temperatureChangeAlertCount = 0;
 
@@ -270,39 +275,16 @@ class GasConcentrationAlerter extends Alerter {
 
       if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
 
-        // First, a description of the changing radiation redirecting back to the surface - this should only
-        // happen if there was some change to the concentration
+        // First, a description of the changing radiation redirecting back to the surface - this should only happen if
+        // there was some change to the concentration.
         if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
           const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
           this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
           radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
         }
 
-        // Then, a description of the changing temperature - this should get described at interval even if there
-        // is no change in concentration, though depending on how many times it has been spoken a terse form of it
-        // may be used.
-
-        // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS
-        // that this response is created. Temperature must also be visible in the view.
-        const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
-
-        const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-          this.previousPeriodicNotificationModelState.temperature,
-          currentTemperature,
-          includeTemperatureValue,
-          this.model.temperatureUnitsProperty.value,
-          this.useVerboseSurfaceTemperatureAlert
-        );
-        temperatureAlertString && this.alert( temperatureAlertString );
-
-        // reset counter if we have spoken the terse form of the temperature change alert enough times
-        this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
-
-        // not verbose until concentration changes again
-        this.useVerboseSurfaceTemperatureAlert = false;
-
-        // Finally, a description of the changing surface temperature - again, only if there is some change in the
-        // concentration
+        // Then, description of the changing surface temperature - again, only if there is some change in the
+        // concentration.
         if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
           const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
             this.model.concentrationProperty.value,
@@ -310,6 +292,38 @@ class GasConcentrationAlerter extends Alerter {
           );
           surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
         }
+
+        // Wait until next iteration if a concentration just happened to prevent spamming user with too much info,
+        // see https://github.com/phetsims/greenhouse-effect/issues/193
+        if ( !this.delayTemperatureAlerts ) {
+
+          // Then, a description of the changing temperature - this should get described at interval even if there
+          // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
+          // too much information after concentration changes. Depending on how many times it has been spoken a terse
+          // form of it may be used (handled in getSurfaceTemperatureChangeString).
+
+          // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
+          // this response is created. Temperature must also be visible in the view.
+          const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
+
+          const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+            this.previousPeriodicNotificationModelState.temperature,
+            currentTemperature,
+            includeTemperatureValue,
+            this.model.temperatureUnitsProperty.value,
+            this.useVerboseSurfaceTemperatureAlert
+          );
+          temperatureAlertString && this.alert( temperatureAlertString );
+
+          // reset counter if we have spoken the terse form of the temperature change alert enough times
+          this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+
+          // not verbose until concentration changes again
+          this.useVerboseSurfaceTemperatureAlert = false;
+        }
+
+        // Describe temperature alerts next iteration.
+        this.delayTemperatureAlerts = false;
       }
 
       if ( this.model.energyBalanceVisibleProperty.value ) {
