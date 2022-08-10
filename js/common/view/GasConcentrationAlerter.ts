@@ -231,12 +231,6 @@ class GasConcentrationAlerter extends Alerter {
 
         // If controlling by date, include a description of the selected date.
         this.alert( ConcentrationDescriber.getTimePeriodChangeDescription( this.model.dateProperty.value ) );
-
-        // Describe the relative change in concentration caused by switching to "date" mode.
-        this.alert( ConcentrationDescriber.getConcentrationRelativeChangeDescription(
-          this.model.manuallyControlledConcentrationProperty.value,
-          ConcentrationModel.getConcentrationForDate( this.model.dateProperty.value )
-        ) );
       }
       else {
 
