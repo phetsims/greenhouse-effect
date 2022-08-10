@@ -85,9 +85,10 @@ class GasConcentrationAlerter extends Alerter {
   // the concentration changes.
   private useVerboseSurfaceTemperatureAlert: boolean;
 
-  // After a change in concentration we are going to delay temperature alerts to prevent soo much information
-  // going to the user at once time. Temperature alerts will be delayed for one ALERT_INTERVAL cycle in the polling.
-  private delayTemperatureAlerts = false;
+  // After a change in concentration control mode we are going to describe temperatures as 'stabilizing' to give a more
+  // generic description of changes and prevent overwhelming the user with too much information. See
+  // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+  private describeTemperatureAsStabilizing = false;
 
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
@@ -168,7 +169,6 @@ class GasConcentrationAlerter extends Alerter {
 
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( () => {
-      this.delayTemperatureAlerts = true;
       this.useVerboseSurfaceTemperatureAlert = true;
       this.temperatureChangeAlertCount = 0;
 
@@ -177,10 +177,15 @@ class GasConcentrationAlerter extends Alerter {
       assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
     } );
 
-    // After changing the concentration control mode, reset the `timeSinceLastAlert` so we have a full delay
-    // before describing the new scene
-    model.concentrationControlModeProperty.link( () => {
+    model.concentrationControlModeProperty.lazyLink( () => {
+
+      // After changing the concentration control mode, reset the `timeSinceLastAlert` so we have a full delay
+      // before describing the new scene
       this.timeSinceLastAlert = 0;
+
+      // After a change in concentration control mode, temperature changes are described as 'stabilizing', see
+      // declaration for more information.
+      this.describeTemperatureAsStabilizing = true;
     } );
 
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
@@ -311,44 +316,37 @@ class GasConcentrationAlerter extends Alerter {
           }
         }
 
-        // Wait until next iteration if a concentration just happened to prevent spamming user with too much info,
-        // see https://github.com/phetsims/greenhouse-effect/issues/193
-        if ( !this.delayTemperatureAlerts ) {
+        // Then, a description of the changing temperature - this should get described at interval even if there
+        // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
+        // too much information after concentration changes. Depending on how many times it has been spoken a terse
+        // form of it may be used (handled in getSurfaceTemperatureChangeString).
 
-          // Then, a description of the changing temperature - this should get described at interval even if there
-          // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
-          // too much information after concentration changes. Depending on how many times it has been spoken a terse
-          // form of it may be used (handled in getSurfaceTemperatureChangeString).
+        // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
+        // this response is created. Temperature must also be visible in the view.
+        const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
 
-          // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
-          // this response is created. Temperature must also be visible in the view.
-          const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
+        const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+          this.previousPeriodicNotificationModelState.temperature,
+          currentTemperature,
+          includeTemperatureValue,
+          this.model.temperatureUnitsProperty.value,
+          this.useVerboseSurfaceTemperatureAlert,
 
-          const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-            this.previousPeriodicNotificationModelState.temperature,
-            currentTemperature,
-            includeTemperatureValue,
-            this.model.temperatureUnitsProperty.value,
-            this.useVerboseSurfaceTemperatureAlert,
+          // when the control mode changes, it was requested that the temperature be described as 'stabilizing'
+          // instead of 'warming' or 'cooling',
+          // see https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+          this.describeTemperatureAsStabilizing
+        );
+        temperatureAlertString && this.alert( temperatureAlertString );
 
-            // when the control mode changes, it was requested that the temperature be described as 'stabilizing'
-            // instead of 'warming' or 'cooling',
-            // see https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
-            // TODO: This isn't working because of delayTemperatureAlerts. These will always be equal this iteration.
-            // currentControlMode !== this.previousPeriodicNotificationModelState.concentrationControlMode
-            false
-          );
-          temperatureAlertString && this.alert( temperatureAlertString );
+        // reset counter if we have spoken the terse form of the temperature change alert enough times
+        this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
 
-          // reset counter if we have spoken the terse form of the temperature change alert enough times
-          this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+        // not verbose until concentration changes again
+        this.useVerboseSurfaceTemperatureAlert = false;
 
-          // not verbose until concentration changes again
-          this.useVerboseSurfaceTemperatureAlert = false;
-        }
-
-        // Describe temperature alerts next iteration.
-        this.delayTemperatureAlerts = false;
+        // Accurately describe temperature alerts next iteration.
+        this.describeTemperatureAsStabilizing = false;
       }
 
       if ( previousControlModeFromPeriodState === currentControlMode ) {
@@ -387,6 +385,7 @@ class GasConcentrationAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
+    this.describeTemperatureAsStabilizing = false;
     this.savePeriodicNotificationModelState();
     this.saveImmediateNotificationModelState();
   }
