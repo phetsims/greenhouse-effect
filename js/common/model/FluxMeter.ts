@@ -92,7 +92,7 @@ class FluxMeter extends PhetioObject {
       },
       {
         tandem: options.tandem.createTandem( 'wireSensorAttachmentPositionProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( Vector2.Vector2IO )
+        phetioValueType: Vector2.Vector2IO
       }
     );
 

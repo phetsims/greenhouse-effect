@@ -117,7 +117,7 @@ class ConcentrationModel extends LayersModel {
       },
       {
         tandem: tandem.createTandem( 'concentrationProperty' ),
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO ),
+        phetioValueType: NumberIO,
         phetioDocumentation: 'The concentration value being used in the model, set via the slider or the date control.'
       }
     );

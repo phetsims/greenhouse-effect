@@ -103,7 +103,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     // {Property.<PhotonTarget>}
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
-      phetioType: Property.PropertyIO( EnumerationIO( PhotonTarget ) ),
+      phetioValueType: EnumerationIO( PhotonTarget ),
       validValues: PhotonTarget.VALUES
     } );
 
