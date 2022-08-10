@@ -48,6 +48,20 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
   alertStableDelay: 500
 };
 
+// The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL.
+type PreviousPeriodicNotificationModelState = {
+  temperature: number;
+  concentration: number;
+  outgoingEnergy: number;
+  netInflowOfEnergy: number;
+};
+
+// The model state that should be described as soon as possible every time it changes,
+type PreviousImmediateNotificationModelState = {
+  concentrationControlMode: ConcentrationControlMode;
+  cloudEnabled: boolean;
+};
+
 class GasConcentrationAlerter extends Alerter {
 
   // reference to the model, used in the methods
@@ -55,15 +69,6 @@ class GasConcentrationAlerter extends Alerter {
 
   // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
   private timeSinceLastAlert: number;
-
-  // Temperature for the last description, saved so that we know how temperature changes from alert to alert.
-  private previousTemperature: number;
-
-  // Outgoing energy value for the last description, saved so that we know how energy changes from alert to alert.
-  private previousOutgoingEnergy: number;
-
-  // Value for concentration the last time a description was generated
-  private previousConcentration: number;
 
   // The number of times that the temperature change alert has been announced. Whenever the concentration value changes
   // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
@@ -78,7 +83,12 @@ class GasConcentrationAlerter extends Alerter {
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: TReadOnlyProperty<number>;
-  private previousNetInflowOfEnergy: number;
+
+  // Snapshot of the important described model Properties that are used every time we generate a description. Actual
+  // initial values are populated on construction.
+  private previousPeriodicNotificationModelState: PreviousPeriodicNotificationModelState;
+
+  private previousImmediateNotificationModelState: PreviousImmediateNotificationModelState;
 
   // An Utterance for the alert that describes radiation redirection from sky back to earth. It is announced after
   // a change in concentration. It is assertive because we want this initial change to interrupt any stale alerts
@@ -106,20 +116,14 @@ class GasConcentrationAlerter extends Alerter {
 
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
-    this.previousNetInflowOfEnergy = model.netInflowOfEnergyProperty.value;
-    this.previousConcentration = model.concentrationProperty.value;
 
     this.netEnergyProperty = new DerivedProperty( [ this.incomingEnergyProperty, this.outgoingEnergyProperty ],
       ( inEnergy, outEnergy ) => {
         return inEnergy - outEnergy;
       } );
 
-    this.previousTemperature = Utils.toFixedNumber(
-      model.surfaceTemperatureKelvinProperty.value,
-      TEMPERATURE_DECIMAL_PLACES
-    );
-    this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
-    this.model = model;
+    this.previousPeriodicNotificationModelState = this.savePeriodicNotificationModelState();
+    this.previousImmediateNotificationModelState = this.saveImmediateNotificationModelState();
 
     model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
       if ( atEquilibrium ) {
@@ -170,37 +174,47 @@ class GasConcentrationAlerter extends Alerter {
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
       this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
     } );
+  }
 
-    // When the control mode changes, include a description of the new concentration levels and that
-    // the system is stabilizing (indicating that it left equilibrium and concentration changed). If
-    // controlling by date, describe the scene in the observation window.
-    model.concentrationControlModeProperty.lazyLink( controlMode => {
+  /**
+   * Save the model state that is used for descriptions that occur periodically at every ALERT_INTERVAL.
+   */
+  private savePeriodicNotificationModelState(): PreviousPeriodicNotificationModelState {
+    this.previousPeriodicNotificationModelState = this.previousPeriodicNotificationModelState || {
+      temperature: 0,
+      concentration: 0,
+      outgoingEnergy: 0,
+      netInflowOfEnergy: 0
+    };
 
-      if ( controlMode === ConcentrationControlMode.BY_DATE ) {
+    this.previousPeriodicNotificationModelState.temperature = this.getCurrentTemperature();
+    this.previousPeriodicNotificationModelState.concentration = this.model.concentrationProperty.value;
+    this.previousPeriodicNotificationModelState.outgoingEnergy = this.outgoingEnergyProperty.value;
+    this.previousPeriodicNotificationModelState.netInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
 
-        // If controlling by date, include a description of the selected date.
-        this.alert( ConcentrationDescriber.getTimePeriodChangeDescription( model.dateProperty.value ) );
+    return this.previousPeriodicNotificationModelState;
+  }
 
-        // Describe the relative change in concentration caused by switching to "date" mode.
-        this.alert( ConcentrationDescriber.getConcentrationRelativeChangeDescription(
-          model.manuallyControlledConcentrationProperty.value,
-          ConcentrationModel.getConcentrationForDate( model.dateProperty.value )
-        ) );
-      }
-      else {
+  private saveImmediateNotificationModelState(): PreviousImmediateNotificationModelState {
+    this.previousImmediateNotificationModelState = this.previousImmediateNotificationModelState || {
+      cloudEnabled: this.model.cloudEnabledProperty.value,
+      concentrationControlMode: this.model.concentrationControlModeProperty.value
+    };
 
-        // In manual mode, describe the relative level of concentration.
-        this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( model.concentrationProperty.value ) );
-      }
-    } );
+    this.previousImmediateNotificationModelState.cloudEnabled = this.model.cloudEnabledProperty.value;
+    this.previousImmediateNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
 
-    // When the enabled state of the cloud changes, alert the user of the change and describe the effect.
-    model.cloudEnabledProperty.lazyLink( cloudEnabled => {
-      this.alert( ConcentrationDescriber.getSkyCloudChangeDescription(
-        cloudEnabled,
-        model.sunEnergySource.isShiningProperty.value
-      ) );
-    } );
+    return this.previousImmediateNotificationModelState;
+  }
+
+  /**
+   * Do some rounding on the current temperature so that we don't alert when the changes are too small.
+   */
+  private getCurrentTemperature(): number {
+    return Utils.toFixedNumber(
+      this.model.surfaceTemperatureKelvinProperty.value,
+      TEMPERATURE_DECIMAL_PLACES
+    );
   }
 
   /**
@@ -210,12 +224,37 @@ class GasConcentrationAlerter extends Alerter {
 
     this.timeSinceLastAlert += dt;
 
-    // Do some rounding on the current temperature so that we don't alert when the changes are too small.
-    const currentTemperature = Utils.toFixedNumber(
-      this.model.surfaceTemperatureKelvinProperty.value,
-      TEMPERATURE_DECIMAL_PLACES
-    );
+    // Start by alerting "immediate" model changes. These are updates that need to be described as soon as they change.
+    const currentControlMode = this.model.concentrationControlModeProperty.value;
+    if ( this.previousImmediateNotificationModelState.concentrationControlMode !== currentControlMode ) {
+      if ( currentControlMode === ConcentrationControlMode.BY_DATE ) {
 
+        // If controlling by date, include a description of the selected date.
+        this.alert( ConcentrationDescriber.getTimePeriodChangeDescription( this.model.dateProperty.value ) );
+
+        // Describe the relative change in concentration caused by switching to "date" mode.
+        this.alert( ConcentrationDescriber.getConcentrationRelativeChangeDescription(
+          this.model.manuallyControlledConcentrationProperty.value,
+          ConcentrationModel.getConcentrationForDate( this.model.dateProperty.value )
+        ) );
+      }
+      else {
+
+        // In manual mode, describe the relative level of concentration.
+        this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( this.model.concentrationProperty.value ) );
+      }
+    }
+
+    const cloudEnabled = this.model.cloudEnabledProperty.value;
+    if ( this.previousImmediateNotificationModelState.cloudEnabled !== cloudEnabled ) {
+      this.alert( ConcentrationDescriber.getSkyCloudChangeDescription(
+        cloudEnabled,
+        this.model.sunEnergySource.isShiningProperty.value
+      ) );
+    }
+
+    // Now alert "periodic" changes. These are update that are only described every ALERT_INTERVAL.
+    const currentTemperature = this.getCurrentTemperature();
     const currentConcentration = this.model.concentrationProperty.value;
 
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
@@ -224,8 +263,8 @@ class GasConcentrationAlerter extends Alerter {
 
         // First, a description of the changing radiation redirecting back to the surface - this should only
         // happen if there was some change to the concentration
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousConcentration ) {
-          const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousConcentration );
+        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+          const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
           this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
           radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
         }
@@ -239,7 +278,7 @@ class GasConcentrationAlerter extends Alerter {
         const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value && this.temperatureChangeAlertCount === 0;
 
         const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-          this.previousTemperature,
+          this.previousPeriodicNotificationModelState.temperature,
           currentTemperature,
           includeTemperatureValue,
           this.model.temperatureUnitsProperty.value,
@@ -255,8 +294,11 @@ class GasConcentrationAlerter extends Alerter {
 
         // Finally, a description of the changing surface temperature - again, only if there is some change in the
         // concentration
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousConcentration ) {
-          const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription( this.model.concentrationProperty.value, this.previousConcentration );
+        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+          const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
+            this.model.concentrationProperty.value,
+            this.previousPeriodicNotificationModelState.concentration
+          );
           surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
         }
       }
@@ -265,11 +307,12 @@ class GasConcentrationAlerter extends Alerter {
 
         // Did the energy balance change in such a way that we need to describe it?
         const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
-        if ( ( this.previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+        const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
+        if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
                currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( this.previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+             ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
                currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( Math.abs( this.previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+             ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
                Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
 
           // Yep.
@@ -281,12 +324,11 @@ class GasConcentrationAlerter extends Alerter {
         }
       }
 
-      this.previousTemperature = currentTemperature;
-      this.previousConcentration = currentConcentration;
-      this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
-      this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+      this.savePeriodicNotificationModelState();
       this.timeSinceLastAlert = 0;
     }
+
+    this.saveImmediateNotificationModelState();
   }
 
   /**
@@ -295,13 +337,7 @@ class GasConcentrationAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
-    this.previousNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
-    this.previousConcentration = this.model.concentrationProperty.value;
-    this.previousTemperature = Utils.toFixedNumber(
-      this.model.surfaceTemperatureKelvinProperty.value,
-      TEMPERATURE_DECIMAL_PLACES
-    );
-    this.previousOutgoingEnergy = this.outgoingEnergyProperty.value;
+    this.savePeriodicNotificationModelState();
   }
 }
 

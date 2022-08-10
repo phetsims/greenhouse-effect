@@ -141,6 +141,10 @@ class GreenhouseEffectScreenView extends ScreenView {
     ];
   }
 
+  public override step( dt: number ): void {
+    this.observationWindow.stepAlerters( dt );
+  }
+
   /**
    * Resets view components.
    */
