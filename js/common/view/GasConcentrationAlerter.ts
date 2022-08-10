@@ -54,6 +54,10 @@ type PreviousPeriodicNotificationModelState = {
   concentration: number;
   outgoingEnergy: number;
   netInflowOfEnergy: number;
+
+  // This is in moth periodic and immediate state - when this changes we need to notify some information immediately
+  // and some information at the next ALERT_INTERVAL related to this change.
+  concentrationControlMode: ConcentrationControlMode;
 };
 
 // The model state that should be described as soon as possible every time it changes,
@@ -196,13 +200,15 @@ class GasConcentrationAlerter extends Alerter {
       temperature: 0,
       concentration: 0,
       outgoingEnergy: 0,
-      netInflowOfEnergy: 0
+      netInflowOfEnergy: 0,
+      concentrationControlMode: this.model.concentrationControlModeProperty.value
     };
 
     this.previousPeriodicNotificationModelState.temperature = this.getCurrentTemperature();
     this.previousPeriodicNotificationModelState.concentration = this.model.concentrationProperty.value;
     this.previousPeriodicNotificationModelState.outgoingEnergy = this.outgoingEnergyProperty.value;
     this.previousPeriodicNotificationModelState.netInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+    this.previousPeriodicNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
 
     return this.previousPeriodicNotificationModelState;
   }
@@ -278,25 +284,31 @@ class GasConcentrationAlerter extends Alerter {
     const currentConcentration = this.model.concentrationProperty.value;
 
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
+      const previousControlModeFromPeriodState = this.previousPeriodicNotificationModelState.concentrationControlMode;
 
       if ( !this.model.groundLayer.atEquilibriumProperty.value ) {
 
-        // First, a description of the changing radiation redirecting back to the surface - this should only happen if
-        // there was some change to the concentration.
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
-          const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
-          this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
-          radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
-        }
+        // Infrared radiation descriptions are only present if concentration changed while the concentration control
+        // mode stayed the same
+        if ( previousControlModeFromPeriodState === currentControlMode ) {
 
-        // Then, description of the changing surface temperature - again, only if there is some change in the
-        // concentration.
-        if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
-          const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
-            this.model.concentrationProperty.value,
-            this.previousPeriodicNotificationModelState.concentration
-          );
-          surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
+          // First, a description of the changing radiation redirecting back to the surface - this should only happen if
+          // there was some change to the concentration.
+          if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+            const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
+            this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
+            radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
+          }
+
+          // Then, description of the changing surface temperature - again, only if there is some change in the
+          // concentration.
+          if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
+            const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
+              this.model.concentrationProperty.value,
+              this.previousPeriodicNotificationModelState.concentration
+            );
+            surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
+          }
         }
 
         // Wait until next iteration if a concentration just happened to prevent spamming user with too much info,
@@ -317,7 +329,14 @@ class GasConcentrationAlerter extends Alerter {
             currentTemperature,
             includeTemperatureValue,
             this.model.temperatureUnitsProperty.value,
-            this.useVerboseSurfaceTemperatureAlert
+            this.useVerboseSurfaceTemperatureAlert,
+
+            // when the control mode changes, it was requested that the temperature be described as 'stabilizing'
+            // instead of 'warming' or 'cooling',
+            // see https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+            // TODO: This isn't working because of delayTemperatureAlerts. These will always be equal this iteration.
+            // currentControlMode !== this.previousPeriodicNotificationModelState.concentrationControlMode
+            false
           );
           temperatureAlertString && this.alert( temperatureAlertString );
 
@@ -332,24 +351,26 @@ class GasConcentrationAlerter extends Alerter {
         this.delayTemperatureAlerts = false;
       }
 
-      if ( this.model.energyBalanceVisibleProperty.value ) {
+      if ( previousControlModeFromPeriodState === currentControlMode ) {
+        if ( this.model.energyBalanceVisibleProperty.value ) {
 
-        // Did the energy balance change in such a way that we need to describe it?
-        const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
-        const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
-        if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
-             ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
-               Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
+          // Did the energy balance change in such a way that we need to describe it?
+          const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+          const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
+          if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+               ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+               ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+                 Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
 
-          // Yep.
-          const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
-            currentNetInflowOfEnergy,
-            this.model.inRadiativeBalanceProperty.value
-          );
-          outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+            // Yep.
+            const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
+              currentNetInflowOfEnergy,
+              this.model.inRadiativeBalanceProperty.value
+            );
+            outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+          }
         }
       }
 
