@@ -207,7 +207,7 @@ type StringsType = {
     'aFewHomesAndFactories': string;
     'aFarm': string;
     'aLargeGlacier': string;
-    'currentlyTimePeriodDescriptionPattern': string;
+    'timePeriodChangeDescriptionPattern': string;
     'nowLevelsOfConcentrationPattern': string;
     'nowRelativeLevelOfConcentrationPattern': string;
     'qualitativeConcentrationChangeDescriptionPattern': string;
