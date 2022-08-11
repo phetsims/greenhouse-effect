@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.1.0-dev.11 Wed Aug 10 2022 17:26:24 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# greenhouse-effect 1.1.0-dev.12 Thu Aug 11 2022 11:55:23 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -25,7 +25,7 @@
     "branch": "master"
   },
   "greenhouse-effect": {
-    "sha": "291fdb63392500406bf8c84a8d6e382cff083b52",
+    "sha": "9bfb8c787c2f754a0ce58bf55192b0bc5edce385",
     "branch": "master"
   },
   "joist": {
@@ -53,7 +53,7 @@
     "branch": "master"
   },
   "phet-io-sim-specific": {
-    "sha": "f3667f46f23b91fa67eebf6e0557d65c51df76e0",
+    "sha": "97ee4080c132286291529a41e84d88b4946b2f04",
     "branch": "master"
   },
   "phet-io-wrappers": {
