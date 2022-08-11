@@ -19,7 +19,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import AriaLiveAnnouncer from '../../../../utterance-queue/js/AriaLiveAnnouncer.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
@@ -99,15 +98,6 @@ class GasConcentrationAlerter extends Alerter {
   private previousPeriodicNotificationModelState: PreviousPeriodicNotificationModelState;
 
   private previousImmediateNotificationModelState: PreviousImmediateNotificationModelState;
-
-  // An Utterance for the alert that describes radiation redirection from sky back to earth. It is announced after
-  // a change in concentration. It is assertive because we want this initial change to interrupt any stale alerts
-  // after the change in concentration.
-  private readonly radiationRedirectionUtterance = new Utterance( {
-    announcerOptions: {
-      ariaLivePriority: AriaLiveAnnouncer.AriaLive.ASSERTIVE
-    }
-  } );
 
   // Utterances that describe the changing scene and concentration when controlling by date. Using
   // reusable Utterances allows this information to "collapse" in the queue and only the most
@@ -308,8 +298,7 @@ class GasConcentrationAlerter extends Alerter {
           // there was some change to the concentration.
           if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
             const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
-            this.radiationRedirectionUtterance.alert = radiationRedirectingAlert;
-            radiationRedirectingAlert && this.alert( this.radiationRedirectionUtterance );
+            radiationRedirectingAlert && this.alert( radiationRedirectingAlert );
           }
 
           // Then, description of the changing surface temperature - again, only if there is some change in the
