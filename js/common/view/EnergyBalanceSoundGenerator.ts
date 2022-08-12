@@ -19,7 +19,7 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import SunEnergySource from '../model/SunEnergySource.js';
 
 // constants
-const DEFAULT_OUTPUT_LEVEL = 0.2;
+const DEFAULT_OUTPUT_LEVEL = 0;
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
 const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 2;
