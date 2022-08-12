@@ -42,9 +42,15 @@ const ALERT_DELAY_AFTER_CHANGING_CONCENTRATION = 2;
 const NUMBER_OF_TERSE_TEMPERATURE_ALERTS = 2;
 
 // A higher delay before waiting for the Utterance to stabilize so that we don't hear information about the new
-// scene in the observation window when rapidly changing dates.
+// scene in the observation window when rapidly changing dates. This value is longer than the default press and
+// hold delay for most operating systems so that we don't get an initial change response when you first press down and
+// hold. This delay needs to be shorter than ALERT_DELAY_AFTER_CHANGING_CONCENTRATION or else the alerts could come
+// through in the wrong order.
+const delayAfterChangingDate = 1.5; // in seconds
+assert && assert( delayAfterChangingDate < ALERT_DELAY_AFTER_CHANGING_CONCENTRATION,
+  'delay will cause alerts to be out of order' );
 const DATE_CHANGE_UTTERANCE_OPTIONS = {
-  alertStableDelay: 500
+  alertStableDelay: delayAfterChangingDate * 1000 // UtteranceQueue uses ms
 };
 
 // The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL.
