@@ -19,7 +19,7 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import SunEnergySource from '../model/SunEnergySource.js';
 
 // constants
-const DEFAULT_OUTPUT_LEVEL = 0;
+const DEFAULT_OUTPUT_LEVEL = 0.2;
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
 const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 2;
@@ -60,7 +60,6 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     const convolver = phetAudioContext.createConvolver();
     convolver.buffer = emptyApartmentBedroom06Resampled_mp3.audioBufferProperty.value;
 
-    // Create a gain node for the reverb.
     // Add a gain node that will be used for the reverb level.
     const reverbGainNode = phetAudioContext.createGain();
 
@@ -127,11 +126,11 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     const energyChangeMagnitude = Math.abs( this.netEnergyBalanceProperty.value - this.previousEnergyRate );
     if ( energyChangeMagnitude > VOLUME_UP_ENERGY_RATE ) {
       this.volumeFadeCountdown = VOLUME_FADE_OUT_TIME;
-      this.setOutputLevel( this.fullVolumeLevel );
+      this.soundClip.setOutputLevel( this.fullVolumeLevel );
     }
     else {
       this.volumeFadeCountdown = Math.max( this.volumeFadeCountdown - dt, 0 );
-      this.setOutputLevel( this.fullVolumeLevel * ( this.volumeFadeCountdown / VOLUME_FADE_OUT_TIME ) );
+      this.soundClip.setOutputLevel( this.fullVolumeLevel * ( this.volumeFadeCountdown / VOLUME_FADE_OUT_TIME ) );
     }
 
     // Save the current energy rate for the next step.
