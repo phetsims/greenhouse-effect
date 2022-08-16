@@ -11,8 +11,10 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -20,12 +22,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
-import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
-import { Color, DragListener, HBox, Line, Node, NodeOptions, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import WireNode from '../../../../scenery-phet/js/WireNode.js';
+import { Color, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -35,10 +39,6 @@ import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const sunlightString = greenhouseEffectStrings.sunlight;
 const infraredString = greenhouseEffectStrings.infrared;
@@ -49,9 +49,15 @@ const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
 
-// Model to view scalars that turn flux values into arrow lengths for the flux meter display will be in intervals
-// of this value as the scalar value changes to support zoom buttons.
-const FLUX_ARROW_ZOOM_DELTA = 1E-6;
+// multiplier used to map energy flux values to arrow lengths in nominal (un-zoomed) case, empirically determined
+const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
+
+// Zoom factor for zooming in and out in the flux meter, only used if zoom is enabled.  This value was empirically
+// determined in conjunction with others to make sure that the max outgoing IR will fix in the flux meter.
+const FLUX_ARROW_ZOOM_FACTOR = 2.2;
+
+// the number of zoom levels in each direction
+const NUMBER_OF_ZOOM_LEVELS = 2;
 
 const CUE_ARROW_OPTIONS = {
   fill: SENSOR_STROKE_COLOR,
@@ -83,6 +89,9 @@ class FluxMeterNode extends Node {
 
   // a Property that tracks whether the sensor was dragged since startup or last reset, used to hide the queuing errors
   private readonly wasDraggedProperty: BooleanProperty;
+
+  // zoom factor, only used if the zoom feature is enabled
+  private readonly zoomFactor: RangedProperty;
 
   /**
    * @param model - model component for the FluxMeter
@@ -129,32 +138,34 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    // Property for the zoom buttons and flux display arrows so that we can zoom in and out of the display by
-    // scaling the arrow lengths
-    const zoomLevelProperty = new NumberProperty( 5 * FLUX_ARROW_ZOOM_DELTA, {
-      range: new Range( 4 * FLUX_ARROW_ZOOM_DELTA, 6 * FLUX_ARROW_ZOOM_DELTA )
+    this.zoomFactor = new NumberProperty( 0, {
+      range: new Range( -NUMBER_OF_ZOOM_LEVELS, NUMBER_OF_ZOOM_LEVELS )
     } ).asRanged();
+
+    const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactor ], zoomFactor =>
+      NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER * Math.pow( FLUX_ARROW_ZOOM_FACTOR, zoomFactor )
+    );
 
     const sunlightDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
-      zoomLevelProperty,
+      fluxToIndicatorLengthProperty,
       sunlightString,
       GreenhouseEffectConstants.SUNLIGHT_COLOR
     );
     const infraredDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
-      zoomLevelProperty,
+      fluxToIndicatorLengthProperty,
       infraredString,
       GreenhouseEffectConstants.INFRARED_COLOR
     );
     const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
 
-    const zoomButtons = new MagnifyingGlassZoomButtonGroup( zoomLevelProperty, {
+    const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactor, {
       spacing: 5,
-      applyZoomIn: ( currentZoom: number ) => currentZoom + FLUX_ARROW_ZOOM_DELTA,
-      applyZoomOut: ( currentZoom: number ) => currentZoom - FLUX_ARROW_ZOOM_DELTA,
+      applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
+      applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
       magnifyingGlassNodeOptions: {
         glassRadius: 6
       },
@@ -270,6 +281,7 @@ class FluxMeterNode extends Node {
 
   public reset(): void {
     this.wasDraggedProperty.reset();
+    this.zoomFactor.reset();
   }
 }
 
@@ -327,6 +339,13 @@ class EnergyFluxDisplay extends Node {
     } );
     this.addChild( boundsRectangle );
 
+    // Add the Path that will display reference lines behind the arrows.
+    const referenceLinesNode = new Path( null, {
+      stroke: Color.GRAY.withAlpha( 0.3 ),
+      lineWidth: 2
+    } );
+    boundsRectangle.addChild( referenceLinesNode );
+
     // Set a clip area so that the arrows don't go outside the background.
     boundsRectangle.clipArea = Shape.bounds( boundsRectangle.getRectBounds() );
 
@@ -360,18 +379,51 @@ class EnergyFluxDisplay extends Node {
     // a linear function that maps the number of photons going through the flux meter per second
     const getArrowHeightFromFlux = ( flux: number, fluxToArrowLengthMultiplier: number ) => flux * fluxToArrowLengthMultiplier;
 
-    // Redraw arrows when the flux Properties change.
-    Multilink.multilink( [ energyDownProperty, fluxToArrowLengthMultiplierProperty ],
+    // Redraw arrows when the flux Properties or the display scale change.
+    Multilink.multilink(
+      [ energyDownProperty, fluxToArrowLengthMultiplierProperty ],
       ( energyDown, fluxToArrowLengthMultiplier ) => {
         downArrow.visible = Math.abs( energyDown ) > 0;
         downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + getArrowHeightFromFlux( energyDown, fluxToArrowLengthMultiplier ) );
-      } );
+      }
+    );
 
-    Multilink.multilink( [ energyUpProperty, fluxToArrowLengthMultiplierProperty ],
+    Multilink.multilink(
+      [ energyUpProperty, fluxToArrowLengthMultiplierProperty ],
       ( energyUp, fluxToArrowLengthMultiplier ) => {
         upArrow.visible = Math.abs( energyUp ) > 0;
         upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - getArrowHeightFromFlux( energyUp, fluxToArrowLengthMultiplier ) );
-      } );
+      }
+    );
+
+    // Define a reference flux value that will be used to define the spacing between the reference marks.  This value
+    // was empirically determined to provide the desired look, and is based on the flux values that naturally occur in
+    // the model.
+    const referenceFlux = 5E6;
+
+    // Update the background reference marks when the zoom level changes.
+    fluxToArrowLengthMultiplierProperty.link( fluxToArrowLengthMultiplier => {
+      const referenceLinesShape = new Shape();
+      const interReferenceLineDistance = fluxToArrowLengthMultiplier * referenceFlux;
+      const referenceLineWidth = boundsRectangle.width * 0.5; // empirically determined
+
+      // Loop, creating the shape that will represent the reference lines.
+      for ( let distanceFromCenter = interReferenceLineDistance;
+            distanceFromCenter < boundsRectangle.height / 2;
+            distanceFromCenter += interReferenceLineDistance ) {
+
+        // Add lines in both the upward and downward directions.
+        referenceLinesShape.moveTo( 0, distanceFromCenter );
+        referenceLinesShape.lineTo( referenceLineWidth, distanceFromCenter );
+        referenceLinesShape.moveTo( 0, -distanceFromCenter );
+        referenceLinesShape.lineTo( referenceLineWidth, -distanceFromCenter );
+      }
+
+      // Set the shape and its position.
+      referenceLinesNode.setShape( referenceLinesShape );
+      referenceLinesNode.centerX = boundsRectangle.width / 2;
+      referenceLinesNode.centerY = boundsRectangle.height / 2;
+    } );
 
     // layout
     boundsRectangle.centerTop = labelText.centerBottom;
