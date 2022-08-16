@@ -5,7 +5,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -32,7 +32,7 @@ class GroundWaveSource extends EMWaveSource {
   public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
                       waveStartAltitude: number,
                       waveEndAltitude: number,
-                      groundTemperatureProperty: IProperty<number>,
+                      groundTemperatureProperty: TProperty<number>,
                       providedOptions?: GroundWaveSourceOptions ) {
 
     // derived Property that maps temperature to the intensity of the IR waves
