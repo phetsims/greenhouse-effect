@@ -134,7 +134,7 @@ class FluxMeterNode extends Node {
     this.addChild( wireNode );
 
     const titleText = new Text( energyFluxString, {
-      font: GreenhouseEffectConstants.LABEL_FONT,
+      font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: 120
     } );
 
@@ -333,10 +333,9 @@ class EnergyFluxDisplay extends Node {
     } );
     this.addChild( labelText );
 
-    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.25, options.height, 5, 5, {
-      fill: 'rgb( 225, 225, 235 )',
-      stroke: 'rgb( 40, 40, 100 )'
-    } );
+    // The rectangle is invisible but acts as a container for the energy arrows and reference lines. Its shape is used
+    // as a clip area for the display so that arrows and reference lines don't go beyond the height of this display.
+    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.25, options.height, 5, 5 );
     this.addChild( boundsRectangle );
 
     // Add the Path that will display reference lines behind the arrows.
