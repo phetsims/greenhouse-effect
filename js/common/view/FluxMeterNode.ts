@@ -57,7 +57,8 @@ const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
 const FLUX_ARROW_ZOOM_FACTOR = 2.2;
 
 // the number of zoom levels in each direction
-const NUMBER_OF_ZOOM_LEVELS = 2;
+const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
+const NUMBER_OF_ZOOM_IN_LEVELS = 1;
 
 const CUE_ARROW_OPTIONS = {
   fill: SENSOR_STROKE_COLOR,
@@ -139,7 +140,7 @@ class FluxMeterNode extends Node {
     } );
 
     this.zoomFactor = new NumberProperty( 0, {
-      range: new Range( -NUMBER_OF_ZOOM_LEVELS, NUMBER_OF_ZOOM_LEVELS )
+      range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS )
     } ).asRanged();
 
     const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactor ], zoomFactor =>
