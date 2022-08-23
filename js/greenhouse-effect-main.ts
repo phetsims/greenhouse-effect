@@ -10,7 +10,7 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from './common/GreenhouseEffectQueryParameters.js';
-import GreenhouseEffectOptionsDialogContent from './common/view/GreenhouseEffectOptionsDialogContent.js';
+import GreenhouseEffectPreferencesContent from './common/view/GreenhouseEffectPreferencesContent.js';
 import greenhouseEffectStrings from './greenhouseEffectStrings.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import MicroScreen from './micro/MicroScreen.js';
@@ -40,11 +40,11 @@ const simOptions: SimOptions = {
 // If the appropriate query parameter is set, add an "Options" dialog that designers can use to try out different
 // design choices.
 // TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/168.
-if ( GreenhouseEffectQueryParameters.optionsDialog ) {
+if ( GreenhouseEffectQueryParameters.customPreferences ) {
   simOptions.preferencesModel = new PreferencesModel( {
     generalOptions: {
       customPreferences: [ {
-        createContent: tandem => new GreenhouseEffectOptionsDialogContent( tandem )
+        createContent: tandem => new GreenhouseEffectPreferencesContent( tandem )
       } ]
     }
   } );
