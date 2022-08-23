@@ -14,7 +14,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // designers to test drive some alternative sounds, see mockups and so forth.
   // TODO: This query parameter and the associated dialog should be completely removed prior to publication, see
   //       https://github.com/phetsims/greenhouse-effect/issues/168.
-  optionsDialog: { type: 'flag' },
+  customPreferences: { type: 'flag' },
 
   // This threshold value is used to decide when an EnergyAbsorbingEmittingLayer is considered to be in equilibrium,
   // meaning that the amount of incoming energy is close to the amount of outgoing energy.  There is another query

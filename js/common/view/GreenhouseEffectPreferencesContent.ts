@@ -45,10 +45,10 @@ phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new Boole
 // global property that defines the opacity of the mockups for all screens
 phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
 
-class GreenhouseEffectOptionsDialogContent extends HBox {
+class GreenhouseEffectPreferencesContent extends HBox {
 
   // internal dispose function
-  private readonly disposeGreenhouseEffectOptionsDialogContent: () => void;
+  private readonly disposeGreenhouseEffectPreferencesContent: () => void;
 
   public constructor( tandem: Tandem ) {
 
@@ -134,7 +134,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
       spacing: 30
     } );
 
-    this.disposeGreenhouseEffectOptionsDialogContent = () => {
+    this.disposeGreenhouseEffectPreferencesContent = () => {
       irEmissionFromAtmosphereEnabledCheckbox.dispose();
       mockupOpacityControl.dispose();
     };
@@ -143,7 +143,7 @@ class GreenhouseEffectOptionsDialogContent extends HBox {
   /**
    */
   public override dispose(): void {
-    this.disposeGreenhouseEffectOptionsDialogContent();
+    this.disposeGreenhouseEffectPreferencesContent();
     super.dispose();
   }
 }
@@ -199,6 +199,6 @@ class MockupOpacityControl extends VBox {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectOptionsDialogContent', GreenhouseEffectOptionsDialogContent );
+greenhouseEffect.register( 'GreenhouseEffectPreferencesContent', GreenhouseEffectPreferencesContent );
 
-export default GreenhouseEffectOptionsDialogContent;
+export default GreenhouseEffectPreferencesContent;
