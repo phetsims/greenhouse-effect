@@ -16,6 +16,7 @@ import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import MicroScreen from './micro/MicroScreen.js';
 import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 
 const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
 
@@ -40,7 +41,13 @@ const simOptions: SimOptions = {
 // design choices.
 // TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/168.
 if ( GreenhouseEffectQueryParameters.optionsDialog ) {
-  simOptions.createOptionsDialogContent = ( tandem: Tandem ) => new GreenhouseEffectOptionsDialogContent( tandem );
+  simOptions.preferencesModel = new PreferencesModel( {
+    generalOptions: {
+      customPreferences: [ {
+        createContent: tandem => new GreenhouseEffectOptionsDialogContent( tandem )
+      } ]
+    }
+  } );
 }
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
