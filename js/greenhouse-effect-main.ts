@@ -44,7 +44,7 @@ if ( GreenhouseEffectQueryParameters.customPreferences ) {
   simOptions.preferencesModel = new PreferencesModel( {
     generalOptions: {
       customPreferences: [ {
-        createContent: tandem => new GreenhouseEffectPreferencesContent( tandem )
+        createContent: tandem => new GreenhouseEffectPreferencesContent( tandem.createTandem( 'simPreferences' ) )
       } ]
     }
   } );
