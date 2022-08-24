@@ -108,7 +108,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
         // there are not multiple copies of the loops, and there would need to be in order to support more molecules.
         assert && assert( activeMolecules.length <= 1, 'sound generation can only be handled for one molecule' );
 
-        // play a sound based on the direction of rotation and the currently selected sound from the options dialog
+        // play a sound based on the direction of rotation and the currently selected sound from the Preferences dialog
         const molecule = activeMolecules.get( 0 );
         if ( molecule.rotationDirectionClockwiseProperty.value ) {
           if ( isSlowMotionProperty.value ) {
