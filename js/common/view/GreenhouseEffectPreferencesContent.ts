@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * Options dialog for testing out sound design options.
+ * Preferences content for testing out sound design options.
  *
  * TODO: This is temporary and should be removed once the sound design is finalized, see
  *       https://github.com/phetsims/greenhouse-effect/issues/147.
