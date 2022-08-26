@@ -59,10 +59,11 @@ class CloudNode extends Node {
     }
 
     // Control the visibility of the cloud.
-    const cloudEnabledObserver = cloud.enabledProperty.linkAttribute( this, 'visible' );
+    const cloudEnabledObserver = ( enabled: boolean ) => { this.visible = enabled;};
+    cloud.enabledProperty.link( cloudEnabledObserver );
 
     this.disposeCloudNode = () => {
-      cloud.enabledProperty.unlinkAttribute( cloudEnabledObserver );
+      cloud.enabledProperty.unlink( cloudEnabledObserver );
     };
   }
 
