@@ -173,7 +173,7 @@ class FluxMeterNode extends Node {
       buttonOptions: {
         baseColor: PhetColorScheme.PHET_LOGO_BLUE
       },
-      tandem: options.tandem.createTandem( 'zoomButtons' )
+      tandem: options.tandem.createTandem( 'zoomButtonGroup' )
     } );
 
     // zoom buttons conditionally added to the view, but always created because I think that is required for PhET-iO

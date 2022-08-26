@@ -101,7 +101,7 @@ class LayersControl extends Panel {
         boundarySoundPlayer: numberOfLayersSoundPlayer,
 
         // phet-io
-        tandem: tandem.createTandem( 'numberOfLayersControl' )
+        tandem: tandem.createTandem( 'numberOfLayersPicker' )
       }
     );
 
