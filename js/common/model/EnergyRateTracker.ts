@@ -143,7 +143,7 @@ class EnergyRateTracker extends PhetioObject {
   }
 
   public static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
-    defaultDeserializationMethod: IOType.DeserializationMethod.APPLY_STATE // deserialize with applyState, not fromStateObject
+    defaultDeserializationMethod: 'applyState'
   } );
 }
 
