@@ -72,24 +72,53 @@ export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
 
 class LayersModel extends GreenhouseEffectModel {
 
+  // whether the amount of energy coming in from the sun matches that going back out to space, within a threshold
+  public readonly inRadiativeBalanceProperty: BooleanProperty;
+
+  // Net inflow of energy into the Earth at the top of the atmosphere.  When this is positive, more energy is coming
+  // into the Earth than is leaving, so it should be heating up.  When negative, the Earth is releasing energy and
+  // thus cooling down.
+  public readonly netInflowOfEnergyProperty: NumberProperty;
+
+  // packets of electromagnetic energy that are moving up and down in the model
+  private readonly emEnergyPackets: EMEnergyPacket[];
+
+  // main energy source coming into the system
+  public readonly sunEnergySource: SunEnergySource;
+
+  // the energy-absorbing-and-emitting layers for the atmosphere
+  public readonly atmosphereLayers: AtmosphereLayer[];
+
+  // a cloud that may or may not be present, and that reflects sunlight if it is
+  public cloud: Cloud | null = null;
+
+  // model of the ground that absorbs energy, heats up, and radiates infrared energy
+  public readonly groundLayer: GroundLayer;
+
+  // the endpoint where energy radiating from the top of the atmosphere goes
+  public readonly outerSpace: SpaceEnergySink;
+
+  // used to track how much stepping of the model needs to occur
+  private modelSteppingTime: number;
+
+  // model of a meter that can measure the energy flux moving through the atmosphere
+  public readonly fluxMeter: FluxMeter | null;
+
+  // whether the thermometer measuring surface temperature is visible
+  public readonly surfaceThermometerVisibleProperty: BooleanProperty;
+
+  // whether the "Energy Balance" display is visible
+  public readonly energyBalanceVisibleProperty: BooleanProperty;
+
+  // whether the glowing representation of surface temperature is visible
+  public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
+
+  // fields with self-explanatory names
   public readonly surfaceTemperatureKelvinProperty: NumberProperty;
   public readonly surfaceTemperatureCelsiusProperty: TReadOnlyProperty<number>;
   public readonly surfaceTemperatureFahrenheitProperty: TReadOnlyProperty<number>;
   public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
-  public readonly surfaceThermometerVisibleProperty: BooleanProperty;
-  public readonly energyBalanceVisibleProperty: BooleanProperty;
-  public readonly surfaceTemperatureVisibleProperty: BooleanProperty;
   public readonly fluxMeterVisibleProperty: BooleanProperty;
-  public readonly netInflowOfEnergyProperty: NumberProperty;
-  public readonly inRadiativeBalanceProperty: BooleanProperty;
-  private readonly emEnergyPackets: EMEnergyPacket[];
-  public readonly sunEnergySource: SunEnergySource;
-  public readonly atmosphereLayers: AtmosphereLayer[];
-  public cloud: Cloud | null = null;
-  public readonly groundLayer: GroundLayer;
-  public readonly outerSpace: SpaceEnergySink;
-  private modelSteppingTime: number;
-  public readonly fluxMeter: FluxMeter | null;
 
   /**
    * @param [tandem]
@@ -108,7 +137,6 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( tandem, options );
 
-    // temperature of the ground in Kelvin
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 520 ),
       units: 'K',
@@ -117,74 +145,59 @@ class LayersModel extends GreenhouseEffectModel {
       phetioHighFrequency: true
     } );
 
-    // temperature of the ground in Celsius
     this.surfaceTemperatureCelsiusProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
       GreenhouseEffectUtils.kelvinToCelsius
     );
 
-    // temperature of the ground in Fahrenheit
     this.surfaceTemperatureFahrenheitProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
       GreenhouseEffectUtils.kelvinToFahrenheit
     );
 
-    // Net inflow of energy into the Earth at the top of the atmosphere.  When this is positive, more energy is coming
-    // into the Earth than is leaving, so it should be heating up.  When negative, the Earth is releasing energy and
-    // thus cooling down.
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
       tandem: tandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true
     } );
 
-    // whether the amount of energy coming in from the sun matches that going back out to space, within a threshold
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'inRadiativeBalanceProperty' ),
       phetioReadOnly: true
     } );
 
-    // displayed units of temperature
     assert && assert( DEFAULT_TEMPERATURE_UNITS, 'something is wrong with the default temperature units' );
     this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS!, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
-    // whether the thermometer measuring surface temperature is visible
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
     } );
 
-    // whether the "Energy Balance" display is visible
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
     } );
 
-    // whether the glowing representation of surface temperature is visible
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
 
-    // whether the flux meter is visible
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
     } );
 
-    // packets of electromagnetic energy that are moving around in the model
     this.emEnergyPackets = [];
 
-    // main energy source coming into the system
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
       this.emEnergyPackets,
       tandem.createTandem( 'sunEnergySource' )
     );
 
-    // model of the ground that absorbs energy, heats up, and radiates
     this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ), {
       minimumTemperature: options.minimumGroundTemperature
     } );
 
-    // the energy-absorbing-and-emitting layers for the atmosphere
     this.atmosphereLayers = [];
 
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
@@ -192,8 +205,8 @@ class LayersModel extends GreenhouseEffectModel {
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.
     const distanceBetweenAtmosphereLayers = HEIGHT_OF_ATMOSPHERE / ( options.numberOfAtmosphereLayers + 1 );
 
-    // Add the atmosphere layers.  These MUST be added in order of increasing altitude, since some of the other code
-    // assumes that this is the case.
+    // Add the atmosphere layers.  These MUST be added in order of increasing altitude, since other code assumes that
+    // this is the case.
     _.times( options.numberOfAtmosphereLayers, index => {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
@@ -206,7 +219,6 @@ class LayersModel extends GreenhouseEffectModel {
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
-    // the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
@@ -222,7 +234,6 @@ class LayersModel extends GreenhouseEffectModel {
       this.fluxMeter = null;
     }
 
-    // used to track how much stepping of the model needs to occur
     this.modelSteppingTime = 0;
 
     // Connect up the surface temperature property to that of the ground layer model element.
