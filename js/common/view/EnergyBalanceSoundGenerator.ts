@@ -24,7 +24,6 @@ const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * Energ
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
 const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 2;
 const MAX_BLIPS_PER_SECOND = 10;
-const MIN_ENERGY_FOR_BLIPS = MAX_EXPECTED_ENERGY_MAGNITUDE * 0.02;
 const VOLUME_UP_ENERGY_RATE = 10000; // threshold for turning up and maintaining volume, empirically determined
 const VOLUME_FADE_OUT_TIME = 40000; // in seconds
 
@@ -44,6 +43,7 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
   private readonly netEnergyBalanceProperty: TReadOnlyProperty<number>;
 
   public constructor( netEnergyBalanceProperty: TReadOnlyProperty<number>,
+                      inRadiativeBalanceProperty: TReadOnlyProperty<boolean>,
                       providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
 
     const options = optionize<EnergyBalanceSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
@@ -72,28 +72,30 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     this.fullVolumeLevel = options.initialOutputLevel;
     this.previousEnergyRate = netEnergyBalanceProperty.value;
 
-    // Define the listener that will monitor the net energy balance and adjust the rate at which blips are played.
-    const energyBalanceListener = ( netEnergyBalance: number ) => {
+    // Define the listener that will update the state of sound generation based on the model state.
+    const updateSoundGeneration = () => {
 
-      // Adjust the playback rate of the blip to be higher when the net energy is positive, lower when negative.
-      if ( netEnergyBalance > 0 && this.soundClip.playbackRate === 1 ) {
-        this.soundClip.setPlaybackRate( HIGHER_SOUND_PLAYBACK_RATE );
-      }
-      else if ( netEnergyBalance < 0 && this.soundClip.playbackRate === HIGHER_SOUND_PLAYBACK_RATE ) {
-        this.soundClip.setPlaybackRate( 1 );
-      }
+      if ( inRadiativeBalanceProperty.value ) {
 
-      // Adjust the blip rate.
-      const netEnergyMagnitude = Math.abs( netEnergyBalance );
-      if ( netEnergyMagnitude < MIN_ENERGY_FOR_BLIPS ) {
-
-        // The energy is too low for blips, so make sure they are not playing.
+        // If the model is in radiative balance, it should not produce sounds.  Set the internal state to turn off the
+        // production of blips.  This will have no effect if blips are already off.
         this.interBlipTime = Number.POSITIVE_INFINITY;
         this.interBlipCountdown = this.interBlipTime;
       }
       else {
 
-        // Calculate the desired blip rate.
+        const netEnergyBalance = netEnergyBalanceProperty.value;
+
+        // Adjust the playback rate of the blip to be a higher pitch when the net energy is positive, lower when negative.
+        if ( netEnergyBalance > 0 && this.soundClip.playbackRate === 1 ) {
+          this.soundClip.setPlaybackRate( HIGHER_SOUND_PLAYBACK_RATE );
+        }
+        else if ( netEnergyBalance < 0 && this.soundClip.playbackRate === HIGHER_SOUND_PLAYBACK_RATE ) {
+          this.soundClip.setPlaybackRate( 1 );
+        }
+
+        // Adjust the blip rate.  They occur more quickly when the net energy is higher, slower when it's lower.
+        const netEnergyMagnitude = Math.abs( netEnergyBalance );
         const blipRate = MIN_BLIPS_PER_SECOND_WHEN_PLAYING +
                          ( MAX_BLIPS_PER_SECOND - MIN_BLIPS_PER_SECOND_WHEN_PLAYING ) *
                          netEnergyMagnitude / MAX_EXPECTED_ENERGY_MAGNITUDE;
@@ -104,10 +106,11 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
       }
     };
 
-    netEnergyBalanceProperty.lazyLink( energyBalanceListener );
+    netEnergyBalanceProperty.lazyLink( updateSoundGeneration );
+    inRadiativeBalanceProperty.lazyLink( updateSoundGeneration );
 
     this.disposeEnergyBalanceSoundGenerator = () => {
-      netEnergyBalanceProperty.unlink( energyBalanceListener );
+      netEnergyBalanceProperty.unlink( updateSoundGeneration );
     };
   }
 
