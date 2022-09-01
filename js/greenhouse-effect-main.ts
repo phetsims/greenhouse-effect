@@ -42,7 +42,7 @@ const simOptions: SimOptions = {
 // TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/168.
 if ( GreenhouseEffectQueryParameters.customPreferences ) {
   simOptions.preferencesModel = new PreferencesModel( {
-    generalOptions: {
+    simulationOptions: {
       customPreferences: [ {
         createContent: tandem => new GreenhouseEffectPreferencesContent( tandem.createTandem( 'simPreferences' ) )
       } ]
