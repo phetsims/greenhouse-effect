@@ -6,9 +6,12 @@
 
 import { Image, VBox } from '../../../../scenery/js/imports.js';
 import photonsScreenMockup_png from '../../../images/photonsScreenMockup_png.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import CloudCheckbox from '../../waves/view/CloudCheckbox.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
@@ -16,6 +19,7 @@ import RadiationDescriber from '../../common/view/describers/RadiationDescriber.
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -75,6 +79,19 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     this.addChild( mockup );
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
+    // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
+    const cloudCheckbox = new CloudCheckbox(
+      model.cloudEnabledProperty,
+      model.sunEnergySource.isShiningProperty,
+      {
+        visibleProperty: new DerivedProperty(
+          [ model.concentrationControlModeProperty ],
+          mode => mode === ConcentrationControlMode.BY_VALUE
+        ),
+        tandem: tandem.createTandem( 'cloudCheckbox' )
+      }
+    );
+
     // layout code
     const visibilityBox = new VBox( {
       children: [ surfaceThermometerCheckbox, morePhotonsCheckbox ],
@@ -84,6 +101,12 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     visibilityBox.left = this.observationWindow.left + 5;
     visibilityBox.centerY = this.timeControlNode.centerY;
     this.addChild( visibilityBox );
+
+    cloudCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY(
+      GreenhouseEffectConstants.OBSERVATION_WINDOW_RIGHT_SPACING,
+      0
+    );
+    this.addChild( cloudCheckbox );
 
     concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
   }
