@@ -18,7 +18,7 @@ import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 
-const greenhouseEffectTitleString = greenhouseEffectStrings[ 'greenhouse-effect' ].title;
+const greenhouseEffectTitleStringProperty = greenhouseEffectStrings[ 'greenhouse-effect' ].titleStringProperty;
 
 const simOptions: SimOptions = {
 
@@ -53,7 +53,7 @@ if ( GreenhouseEffectQueryParameters.customPreferences ) {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( greenhouseEffectTitleString, [
+  const sim = new Sim( greenhouseEffectTitleStringProperty, [
     new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) ),
     new PhotonsScreen( Tandem.ROOT.createTandem( 'photonsScreen' ) ),
     new LayerModelScreen( Tandem.ROOT.createTandem( 'LayerModelScreen' ) ),
