@@ -25,6 +25,15 @@ const simOptions: SimOptions = {
   // Enabled for high-performance Sprites
   webgl: true,
 
+  preferencesModel: new PreferencesModel( {
+      visualOptions: {
+
+        // Improves accessibility for interactive components (particularly with zoom).
+        supportsInteractiveHighlights: true
+      }
+    }
+  ),
+
   credits: {
     leadDesign: 'Kathy Perkins, Amy Rouinfar',
     softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',
