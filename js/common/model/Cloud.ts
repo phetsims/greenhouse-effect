@@ -8,7 +8,8 @@
  * directions for each frequency of light.
  *
  * For the purposes of the view, the shape of the cloud is modelled as an ellipse that is created from the provided
- * width, height and center position.
+ * width, height and center position.  This shape is used when doing things like reflecting waves or bouncing photons,
+ * but that sort of behavior is generally handled by the model that contains the cloud, and not the Cloud instances.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
