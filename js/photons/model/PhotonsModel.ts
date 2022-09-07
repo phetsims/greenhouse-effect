@@ -7,6 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
@@ -15,8 +16,8 @@ import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
-const MAX_BOUNCE_DEFLECTION = Math.PI * 0.25; // empirically determined by what looked good
-const MIN_BOUNCE_DEFLECTION = MAX_BOUNCE_DEFLECTION * 0.2; // empirically determined by what looked good
+const MAX_REFLECTION_ADJUSTMENT = Math.PI * 0.25; // empirically determined by what looked good
+const MIN_REFLECTION_ADJUSTMENT = MAX_REFLECTION_ADJUSTMENT * 0.2; // empirically determined by what looked good
 
 /**
  * @constructor
@@ -28,6 +29,9 @@ class PhotonsModel extends ConcentrationModel {
 
   // set of photons that are passing through the cloud
   private photonsPassingThroughCloud: Photon[] = [];
+
+  // bounds of the cloud, calculated during construction to save time later
+  private readonly cloudBounds: Bounds2;
 
   public constructor( tandem: Tandem ) {
     super( tandem, { fluxMeterPresent: true } );
@@ -41,6 +45,9 @@ class PhotonsModel extends ConcentrationModel {
       tandem: tandem.createTandem( 'photonCollection' )
     } );
 
+    assert && assert( this.cloud, 'The cloud should always be turned on in the PhotonsModel' );
+    this.cloudBounds = this.cloud!.modelShape.bounds;
+
     // TODO: tandem is documented readonly (though not with TypeScript) - is this correct?
     this.tandem = tandem;
   }
@@ -52,7 +59,7 @@ class PhotonsModel extends ConcentrationModel {
   public override stepModel( dt: number ): void {
     this.photonCollection.step( dt );
 
-    // Check for interaction between the photons and the cloud.  This will cause some photons to bounce off the cloud.
+    // Check for interaction between the photons and the cloud.  This will cause some photons to reflect off the cloud.
     if ( this.cloudEnabledProperty.value ) {
 
       assert && assert(
@@ -60,52 +67,80 @@ class PhotonsModel extends ConcentrationModel {
         'The model should never be in a state where the cloud is enabled but there is no cloud model'
       );
 
-      // Get a list of all photons that have entered the cloud, are moving down, and are not on the pass-through list.
-      const visiblePhotonsInEllipse = this.photonCollection.photons.filter(
-        photon => photon.isVisible &&
-                  photon.velocity.y < 0 &&
-                  !this.photonsPassingThroughCloud.includes( photon ) &&
-                  this.cloud?.modelShape.containsPoint( photon.positionProperty.value )
-      );
-
-      // For each of these photons, bounce it or add it to the pass-through list.    The albedo value used for the cloud
-      // is taken from "The impact of clouds on the brightness of the night sky" by Tomasz Ściężor, then tweaked a
-      // little based on designer input.
-      visiblePhotonsInEllipse.forEach( photon => {
-        if ( dotRandom.nextDouble() < 0.65 ) {
-
-          // Bounce the photon by reversing the vertical component of its velocity.
-          photon.velocity.y = -photon.velocity.y;
-
-          // Make the bounce look a little more natural by changing the angle.  This rotates the velocity vector of the
-          // bounced photon a little to the right if it bounces on the right side of the cloud and a little to the left
-          // if bouncing on the left side.
-          const normalizedSignedDistanceFromCenter = ( photon.positionProperty.value.x - this.cloud!.position.x ) * 2 /
-                                                     this.cloud!.modelShape.bounds.width;
-          const bounceDeflection = -Math.sign( normalizedSignedDistanceFromCenter ) * MIN_BOUNCE_DEFLECTION +
-                                   -normalizedSignedDistanceFromCenter * ( MAX_BOUNCE_DEFLECTION - MIN_BOUNCE_DEFLECTION );
-          photon.velocity.rotate( bounceDeflection );
-        }
-        else {
-
-          // Add this photon to the pass-through list so that it can go all the way through the cloud without bouncing.
-          this.photonsPassingThroughCloud.push( photon );
-        }
-      } );
-
-      // Remove any photons from the pass-through list that have fully transited the cloud.
-      const cloudBottom = this.cloud?.modelShape.bounds.minY;
-      this.photonsPassingThroughCloud = this.photonsPassingThroughCloud.filter(
-        photon => photon.positionProperty.value.y >= cloudBottom!
-      );
+      // Check if any photons are hitting the cloud and either reflect them or let them pass through.
+      this.checkForCloudPhotonInteractions();
     }
 
     super.stepModel( dt );
   }
 
+  /**
+   * Restore initial state.
+   */
   public override reset(): void {
     this.photonCollection.reset();
     super.reset();
+  }
+
+  /**
+   * Check for photon-cloud interactions and reflect photons off the cloud when appropriate.
+   */
+  private checkForCloudPhotonInteractions(): void {
+
+    // Get a list of all photons that could potentially reflect off of the cloud.
+    const photonsThatCouldReflect = this.photonCollection.photons.filter(
+      photon => photon.isVisible &&
+                photon.velocity.y < 0 &&
+                !this.photonsPassingThroughCloud.includes( photon ) &&
+                this.cloud!.modelShape.containsPoint( photon.positionProperty.value )
+    );
+
+    // For each of these photons, decide whether to reflect it or add it to the pass-through list.  This is done
+    // randomly based on the albedo of the cloud.  The albedo value is taken from "The impact of clouds on the
+    // brightness of the night sky" by Tomasz Ściężor, then tweaked a little based on designer input.
+    photonsThatCouldReflect.forEach( photon => {
+      if ( dotRandom.nextDouble() < 0.65 ) {
+
+        // Reflect the photon by reversing the vertical component of its velocity.
+        photon.velocity.y = -photon.velocity.y;
+
+        // Make the reflection look a little more natural by changing the angle.  This rotates the velocity vector of
+        // the reflected photon a little to the right if it reflected off the right side of the cloud and a little to
+        // the left if reflected off the left side.
+        const normalizedSignedDistanceFromCenter = ( photon.positionProperty.value.x - this.cloud!.position.x ) * 2 /
+                                                   this.cloud!.modelShape.bounds.width;
+        const reflectionAngleAdjustment = -Math.sign( normalizedSignedDistanceFromCenter ) * MIN_REFLECTION_ADJUSTMENT +
+                                          -normalizedSignedDistanceFromCenter *
+                                          ( MAX_REFLECTION_ADJUSTMENT - MIN_REFLECTION_ADJUSTMENT );
+        photon.velocity.rotate( reflectionAngleAdjustment );
+      }
+      else {
+
+        // Add this photon to the pass-through list so that it can go all the way through the cloud without reflecting.
+        this.photonsPassingThroughCloud.push( photon );
+      }
+    } );
+
+    // Remove any photons from the pass-through list that have fully transited the cloud.
+    this.filterOutTransitedPhotons();
+  }
+
+  /**
+   * Go through the list of photons that are transiting the cloud and remove any that have gone all the way through.
+   * This exists as a performance optimization so that the array of transiting photons doesn't have to be re-allocated
+   * at every step, thus reducing memory allocations.
+   */
+  private filterOutTransitedPhotons(): void {
+    let i = 0;
+    let j = 0;
+    while ( i < this.photonsPassingThroughCloud.length ) {
+      const photon = this.photonsPassingThroughCloud[ i ];
+      if ( photon.positionProperty.value.y >= this.cloudBounds.minY ) {
+        this.photonsPassingThroughCloud[ j++ ] = photon;
+      }
+      i++;
+    }
+    this.photonsPassingThroughCloud.length = j;
   }
 }
 
