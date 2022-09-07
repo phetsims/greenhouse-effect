@@ -28,7 +28,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
@@ -157,7 +157,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
     this.focusableHeadingNode = new FocusableHeadingNode( {
       headingLevel: 3,
-      innerContent: greenhouseEffectStrings.a11y.observationWindowLabel
+      innerContent: GreenhouseEffectStrings.a11y.observationWindowLabel
     } );
     this.foregroundLayer.addChild( this.focusableHeadingNode );
 
@@ -308,7 +308,7 @@ class GreenhouseEffectObservationWindow extends Node {
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 
     // button used to start and restart sunlight
-    this.startSunlightButton = new TextPushButton( greenhouseEffectStrings.startSunlight, {
+    this.startSunlightButton = new TextPushButton( GreenhouseEffectStrings.startSunlight, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
@@ -339,7 +339,7 @@ class GreenhouseEffectObservationWindow extends Node {
       soundPlayer: sunlightStartingSoundClip,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.startSunlightButtonHelpText,
+      helpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpText,
 
       // phet-io
       tandem: options.tandem.createTandem( 'startSunlightButton' ),

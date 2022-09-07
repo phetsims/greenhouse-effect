@@ -9,7 +9,7 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
@@ -30,18 +30,18 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
     const checkedUtterance = new Utterance();
     Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
-      checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.thermometerShownAlertPattern, {
+      checkedUtterance.alert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.thermometerShownAlertPattern, {
         value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, units )
       } );
     } );
 
-    super( property, greenhouseEffectStrings.surfaceThermometer, {
+    super( property, GreenhouseEffectStrings.surfaceThermometer, {
       iconNode: iconNode,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.surfaceThermometer.helpText,
+      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpText,
       checkedContextResponse: checkedUtterance,
-      uncheckedContextResponse: greenhouseEffectStrings.a11y.thermometerRemovedAlert,
+      uncheckedContextResponse: GreenhouseEffectStrings.a11y.thermometerRemovedAlert,
 
       // phet-io
       tandem: tandem

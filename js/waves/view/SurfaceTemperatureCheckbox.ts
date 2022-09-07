@@ -10,7 +10,7 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { LinearGradient, Rectangle } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -39,11 +39,11 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       );
     } );
 
-    super( property, greenhouseEffectStrings.showSurfaceTemperature, {
+    super( property, GreenhouseEffectStrings.showSurfaceTemperature, {
       iconNode: iconNode,
 
       // pdom
-      helpText: greenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
+      helpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
       checkedContextResponse: checkedUtterance,
       uncheckedContextResponse: 'Surface glow hidden.',
 

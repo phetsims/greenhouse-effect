@@ -22,18 +22,18 @@ import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 
-const quadWavelengthSelectorHigherEnergyString = greenhouseEffectStrings.QuadWavelengthSelector.HigherEnergy;
-const quadWavelengthSelectorInfraredString = greenhouseEffectStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = greenhouseEffectStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = greenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = greenhouseEffectStrings.QuadWavelengthSelector.Visible;
-const lightSourcesString = greenhouseEffectStrings.a11y.lightSources;
-const lightSourceRadioButtonHelpTextString = greenhouseEffectStrings.a11y.lightSourceRadioButtonHelpText;
+const quadWavelengthSelectorHigherEnergyString = GreenhouseEffectStrings.QuadWavelengthSelector.HigherEnergy;
+const quadWavelengthSelectorInfraredString = GreenhouseEffectStrings.QuadWavelengthSelector.Infrared;
+const quadWavelengthSelectorMicrowaveString = GreenhouseEffectStrings.QuadWavelengthSelector.Microwave;
+const quadWavelengthSelectorUltravioletString = GreenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
+const quadWavelengthSelectorVisibleString = GreenhouseEffectStrings.QuadWavelengthSelector.Visible;
+const lightSourcesString = GreenhouseEffectStrings.a11y.lightSources;
+const lightSourceRadioButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSourceRadioButtonHelpText;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;

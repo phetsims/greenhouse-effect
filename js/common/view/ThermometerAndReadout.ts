@@ -18,7 +18,7 @@ import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import LayersModel from '../model/LayersModel.js';
@@ -36,9 +36,9 @@ import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWind
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
 const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditionalTemperatureDigits ? 3 : 1;
-const kelvinUnitsString = greenhouseEffectStrings.temperature.units.kelvin;
-const celsiusUnitsString = greenhouseEffectStrings.temperature.units.celsius;
-const fahrenheitUnitsString = greenhouseEffectStrings.temperature.units.fahrenheit;
+const kelvinUnitsString = GreenhouseEffectStrings.temperature.units.kelvin;
+const celsiusUnitsString = GreenhouseEffectStrings.temperature.units.celsius;
+const fahrenheitUnitsString = GreenhouseEffectStrings.temperature.units.fahrenheit;
 
 class ReadoutType extends EnumerationValue {
   public static SELECTABLE = new ReadoutType();
@@ -144,8 +144,8 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        helpText: greenhouseEffectStrings.a11y.temperatureUnitsHelpText,
-        accessibleName: greenhouseEffectStrings.a11y.temperatureUnitsLabel,
+        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpText,
+        accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabel,
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
@@ -185,7 +185,7 @@ class ThermometerAndReadout extends Node {
         font: GreenhouseEffectConstants.CONTENT_FONT,
         maxWidth: 120
       },
-      valuePattern: StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+      valuePattern: StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
         units: unitsString
       } )
     };
@@ -211,7 +211,7 @@ class ThermometerAndReadout extends Node {
         font: GreenhouseEffectConstants.CONTENT_FONT,
         maxWidth: 120
       },
-      valuePattern: StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+      valuePattern: StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
         units: unitsString
       } ),
       xMargin: 12,

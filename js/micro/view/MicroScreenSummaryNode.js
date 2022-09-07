@@ -9,23 +9,23 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const playAreaSummaryString = greenhouseEffectStrings.a11y.playAreaSummary;
-const controlAreaSummaryString = greenhouseEffectStrings.a11y.controlAreaSummary;
-const interactionHintString = greenhouseEffectStrings.a11y.interactionHint;
-const simIsPausedString = greenhouseEffectStrings.a11y.simIsPaused;
-const simIsPausedOnSlowSpeedString = greenhouseEffectStrings.a11y.simIsPausedOnSlowSpeed;
-const dynamicPlayingScreenSummaryPatternString = greenhouseEffectStrings.a11y.dynamicPlayingScreenSummaryPattern;
-const dynamicPausedScreenSummaryPatternString = greenhouseEffectStrings.a11y.dynamicPausedScreenSummaryPattern;
-const targetMoleculePatternString = greenhouseEffectStrings.a11y.targetMoleculePattern;
-const screenSummaryWithHintPatternString = greenhouseEffectStrings.a11y.screenSummaryWithHintPattern;
-const emitsPhotonsString = greenhouseEffectStrings.a11y.emitsPhotons;
-const emitsPhotonsOnSlowSpeedString = greenhouseEffectStrings.a11y.emitsPhotonsOnSlowSpeed;
-const isOffAndPointsString = greenhouseEffectStrings.a11y.isOffAndPoints;
-const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;
+const playAreaSummaryString = GreenhouseEffectStrings.a11y.playAreaSummary;
+const controlAreaSummaryString = GreenhouseEffectStrings.a11y.controlAreaSummary;
+const interactionHintString = GreenhouseEffectStrings.a11y.interactionHint;
+const simIsPausedString = GreenhouseEffectStrings.a11y.simIsPaused;
+const simIsPausedOnSlowSpeedString = GreenhouseEffectStrings.a11y.simIsPausedOnSlowSpeed;
+const dynamicPlayingScreenSummaryPatternString = GreenhouseEffectStrings.a11y.dynamicPlayingScreenSummaryPattern;
+const dynamicPausedScreenSummaryPatternString = GreenhouseEffectStrings.a11y.dynamicPausedScreenSummaryPattern;
+const targetMoleculePatternString = GreenhouseEffectStrings.a11y.targetMoleculePattern;
+const screenSummaryWithHintPatternString = GreenhouseEffectStrings.a11y.screenSummaryWithHintPattern;
+const emitsPhotonsString = GreenhouseEffectStrings.a11y.emitsPhotons;
+const emitsPhotonsOnSlowSpeedString = GreenhouseEffectStrings.a11y.emitsPhotonsOnSlowSpeed;
+const isOffAndPointsString = GreenhouseEffectStrings.a11y.isOffAndPoints;
+const emptySpaceString = GreenhouseEffectStrings.a11y.emptySpace;
 
 class MicroScreenSummaryNode extends Node {
 

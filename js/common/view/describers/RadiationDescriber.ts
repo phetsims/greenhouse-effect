@@ -7,17 +7,17 @@
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import LayersModel from '../../model/LayersModel.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import ConcentrationDescriber from './ConcentrationDescriber.js';
 
-const infraredEmissionIntensityPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityPattern;
-const infraredEmissionIntensityWithRedirectionPatternString = greenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPattern;
-const sunlightStartedString = greenhouseEffectStrings.a11y.sunlightStarted;
-const sunlightStartedSimPausedString = greenhouseEffectStrings.a11y.sunlightStartedSimPaused;
+const infraredEmissionIntensityPatternString = GreenhouseEffectStrings.a11y.infraredEmissionIntensityPattern;
+const infraredEmissionIntensityWithRedirectionPatternString = GreenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPattern;
+const sunlightStartedString = GreenhouseEffectStrings.a11y.sunlightStarted;
+const sunlightStartedSimPausedString = GreenhouseEffectStrings.a11y.sunlightStartedSimPaused;
 
 class RadiationDescriber {
   private readonly model: LayersModel;
@@ -35,7 +35,7 @@ class RadiationDescriber {
    */
   public static getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
     return RadiationDescriber.getRadiationChangeDescription(
-      greenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
+      GreenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
       newConcentration,
       oldConcentration,
       true // describe when no concentration is redirected from atmosphere
@@ -49,7 +49,7 @@ class RadiationDescriber {
    */
   public static getRadiationFromSurfaceChangeDescription( newConcentration: number, oldConcentration: number ): string | null {
     return RadiationDescriber.getRadiationChangeDescription(
-      greenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePattern,
+      GreenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePattern,
       newConcentration,
       oldConcentration
     );
@@ -74,10 +74,10 @@ class RadiationDescriber {
     if ( newConcentration !== oldConcentration ) {
       let changeString: string;
       if ( describeNoConcentration && newConcentration === 0 ) {
-        changeString = greenhouseEffectStrings.a11y.no;
+        changeString = GreenhouseEffectStrings.a11y.no;
       }
       else {
-        changeString = newConcentration > oldConcentration ? greenhouseEffectStrings.a11y.more : greenhouseEffectStrings.a11y.less;
+        changeString = newConcentration > oldConcentration ? GreenhouseEffectStrings.a11y.more : GreenhouseEffectStrings.a11y.less;
       }
       response = StringUtils.fillIn( patternString, {
         moreOrLess: changeString
@@ -97,7 +97,7 @@ class RadiationDescriber {
                                                 ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
                                                 ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
 
-    return StringUtils.capitalize( StringUtils.fillIn( greenhouseEffectStrings.a11y.amountOfPattern, {
+    return StringUtils.capitalize( StringUtils.fillIn( GreenhouseEffectStrings.a11y.amountOfPattern, {
       qualitativeDescription: qualitativeDescriptionOfRedirection
     } ) );
   }
@@ -147,12 +147,12 @@ class RadiationDescriber {
 
     let descriptionString;
     if ( !includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
+      descriptionString = GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
     }
     else if ( includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
-        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
-        reflectionDescription: greenhouseEffectStrings.a11y.cloudRefection
+      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
+        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
+        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefection
       } );
     }
     else if ( !includeCloudReflection && includeGlacierReflection ) {
@@ -162,9 +162,9 @@ class RadiationDescriber {
       descriptionString = '';
     }
     else {
-      descriptionString = StringUtils.fillIn( greenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
-        sunlightDescription: greenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
-        reflectionDescription: greenhouseEffectStrings.a11y.cloudAndGlacierRefection
+      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
+        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
+        reflectionDescription: GreenhouseEffectStrings.a11y.cloudAndGlacierRefection
       } );
     }
 

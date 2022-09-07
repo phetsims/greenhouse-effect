@@ -13,7 +13,7 @@ import { PathOptions, Rectangle, VBox, VBoxOptions } from '../../../../scenery/j
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
@@ -69,8 +69,8 @@ class InstrumentVisibilityControls extends Rectangle {
       ( netInflowOfEnergy, inRadiativeBalance, sunIsShining ) => {
 
         if ( sunIsShining ) {
-          checkedUtterance.alert = StringUtils.fillIn( greenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
-            checkedResponse: greenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
+          checkedUtterance.alert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
+            checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
             outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )
           } );
         }
@@ -78,7 +78,7 @@ class InstrumentVisibilityControls extends Rectangle {
 
           // If the sun isn't shining, don't include a description of the energy balance.  See
           // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-          checkedUtterance.alert = greenhouseEffectStrings.a11y.energyBalanceCheckedAlert;
+          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlert;
         }
       }
     );
@@ -86,18 +86,18 @@ class InstrumentVisibilityControls extends Rectangle {
     // add controls to children
     const children = [];
     if ( model.energyBalanceVisibleProperty ) {
-      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, greenhouseEffectStrings.energyBalance, {
+      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, GreenhouseEffectStrings.energyBalance, {
         // phet-io
         tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
         // pdom
-        helpText: greenhouseEffectStrings.a11y.energyBalance.helpText,
+        helpText: GreenhouseEffectStrings.a11y.energyBalance.helpText,
         checkedContextResponse: checkedUtterance,
-        uncheckedContextResponse: greenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
+        uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
       } ) );
     }
     if ( options.includeFluxMeterCheckbox ) {
-      children.push( new GreenhouseEffectCheckbox( model.fluxMeterVisibleProperty, greenhouseEffectStrings.fluxMeter.title, {
+      children.push( new GreenhouseEffectCheckbox( model.fluxMeterVisibleProperty, GreenhouseEffectStrings.fluxMeter.title, {
         // phet-io
         tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
       } ) );

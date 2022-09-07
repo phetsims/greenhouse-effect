@@ -10,7 +10,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
@@ -24,7 +24,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       homeScreenIcon: new RandomIcon( 544 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.layerModel,
+      name: GreenhouseEffectStrings.screen.layerModel,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
 

@@ -17,7 +17,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants that define shape of wave icon, in view coordinates
@@ -69,16 +69,16 @@ class EnergyLegend extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.energyLegend.title,
+      labelContent: GreenhouseEffectStrings.a11y.energyLegend.title,
       descriptionTagName: 'p',
-      descriptionContent: greenhouseEffectStrings.a11y.energyLegend.inObservationWindow,
+      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindow,
 
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // title
-    const titleNode = new Text( greenhouseEffectStrings.energyLegend.title, {
+    const titleNode = new Text( GreenhouseEffectStrings.energyLegend.title, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       fill: 'white',
       maxWidth: 130,
@@ -87,11 +87,11 @@ class EnergyLegend extends Panel {
 
     // labels
     const sunlightLabel = new Text(
-      greenhouseEffectStrings.sunlight,
+      GreenhouseEffectStrings.sunlight,
       combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabel' ) } )
     );
     const infraredLabel = new Text(
-      greenhouseEffectStrings.infrared,
+      GreenhouseEffectStrings.infrared,
       combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabel' ) } )
     );
 
@@ -140,7 +140,7 @@ class EnergyLegend extends Panel {
 
       // pdom
       tagName: 'li',
-      innerContent: greenhouseEffectStrings.a11y.energyLegend.sunlightRadiation
+      innerContent: GreenhouseEffectStrings.a11y.energyLegend.sunlightRadiation
     } );
     const infraredRow = new HBox( {
       children: [ infraredLabel, infraredIcon ],
@@ -148,7 +148,7 @@ class EnergyLegend extends Panel {
 
       // pdom
       tagName: 'li',
-      innerContent: greenhouseEffectStrings.a11y.energyLegend.infraredRadiation
+      innerContent: GreenhouseEffectStrings.a11y.energyLegend.infraredRadiation
     } );
 
     // determine how much to extend width of contents so legend takes up desired width in the view

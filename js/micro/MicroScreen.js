@@ -9,7 +9,7 @@ import Screen from '../../../joist/js/Screen.js';
 import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import MicroModel from './model/MicroModel.js';
 import MicroScreenView from './view/MicroScreenView.js';
 
@@ -24,7 +24,7 @@ class MicroScreen extends Screen {
       backgroundColorProperty: new Property( '#C5D6E8' ),
       homeScreenIcon: new RandomIcon( 549 ),
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.micro,
+      name: GreenhouseEffectStrings.screen.micro,
 
       // TODO: This should use the same content as molecules-and-light,
       // MoleculesAndLightKeyboardHelpContent should be moved to this repo.

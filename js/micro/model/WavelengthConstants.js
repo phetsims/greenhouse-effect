@@ -8,12 +8,12 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
-const quadWavelengthSelectorInfraredString = greenhouseEffectStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = greenhouseEffectStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = greenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = greenhouseEffectStrings.QuadWavelengthSelector.Visible;
+const quadWavelengthSelectorInfraredString = GreenhouseEffectStrings.QuadWavelengthSelector.Infrared;
+const quadWavelengthSelectorMicrowaveString = GreenhouseEffectStrings.QuadWavelengthSelector.Microwave;
+const quadWavelengthSelectorUltravioletString = GreenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
+const quadWavelengthSelectorVisibleString = GreenhouseEffectStrings.QuadWavelengthSelector.Visible;
 
 const WavelengthConstants = {
 

@@ -27,7 +27,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
@@ -40,9 +40,9 @@ import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPan
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
-const spectrumWindowButtonCaptionString = greenhouseEffectStrings.SpectrumWindow.buttonCaption;
-const spectrumButtonLabelString = greenhouseEffectStrings.a11y.spectrumButtonLabel;
-const spectrumButtonDescriptionString = greenhouseEffectStrings.a11y.spectrumButtonDescription;
+const spectrumWindowButtonCaptionString = GreenhouseEffectStrings.SpectrumWindow.buttonCaption;
+const spectrumButtonLabelString = GreenhouseEffectStrings.a11y.spectrumButtonLabel;
+const spectrumButtonDescriptionString = GreenhouseEffectStrings.a11y.spectrumButtonDescription;
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -141,8 +141,8 @@ class MicroScreenView extends ScreenView {
       playPauseStepButtonOptions: {
 
         // pdom
-        playingDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingWithSpeedDescription,
-        pausedDescription: greenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedWithSpeedDescription,
+        playingDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingWithSpeedDescription,
+        pausedDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedWithSpeedDescription,
 
         playPauseButtonOptions: {
           radius: 23

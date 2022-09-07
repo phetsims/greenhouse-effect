@@ -20,19 +20,19 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
-const emptySpaceString = greenhouseEffectStrings.a11y.emptySpace;
-const photonEmitterOffDescriptionPatternString = greenhouseEffectStrings.a11y.photonEmitterOffDescriptionPattern;
-const targetMoleculePatternString = greenhouseEffectStrings.a11y.targetMoleculePattern;
-const inactiveAndPassesPhaseDescriptionPatternString = greenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
-const emissionPhaseDescriptionPatternString = greenhouseEffectStrings.a11y.emissionPhaseDescriptionPattern;
-const moleculePiecesGoneString = greenhouseEffectStrings.a11y.moleculePiecesGone;
-const breakApartDescriptionWithFloatPatternString = greenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPattern;
+const emptySpaceString = GreenhouseEffectStrings.a11y.emptySpace;
+const photonEmitterOffDescriptionPatternString = GreenhouseEffectStrings.a11y.photonEmitterOffDescriptionPattern;
+const targetMoleculePatternString = GreenhouseEffectStrings.a11y.targetMoleculePattern;
+const inactiveAndPassesPhaseDescriptionPatternString = GreenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
+const emissionPhaseDescriptionPatternString = GreenhouseEffectStrings.a11y.emissionPhaseDescriptionPattern;
+const moleculePiecesGoneString = GreenhouseEffectStrings.a11y.moleculePiecesGone;
+const breakApartDescriptionWithFloatPatternString = GreenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPattern;
 
 class ObservationWindowDescriber {
 

@@ -17,7 +17,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -31,10 +31,10 @@ import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
-const molecularNamePatternString = greenhouseEffectStrings.molecularNamePattern;
-const moleculesString = greenhouseEffectStrings.a11y.molecules;
-const moleculesRadioButtonHelpTextString = greenhouseEffectStrings.a11y.moleculesRadioButtonHelpText;
-const moleculeButtonLabelPatternString = greenhouseEffectStrings.a11y.moleculeButtonLabelPattern;
+const molecularNamePatternString = GreenhouseEffectStrings.molecularNamePattern;
+const moleculesString = GreenhouseEffectStrings.a11y.molecules;
+const moleculesRadioButtonHelpTextString = GreenhouseEffectStrings.a11y.moleculesRadioButtonHelpText;
+const moleculeButtonLabelPatternString = GreenhouseEffectStrings.a11y.moleculeButtonLabelPattern;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except

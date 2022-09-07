@@ -13,7 +13,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -26,22 +26,22 @@ import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
-const carbonDioxideString = greenhouseEffectStrings.a11y.carbonDioxide;
-const carbonMonoxideString = greenhouseEffectStrings.a11y.carbonMonoxide;
-const diatomicOxygenString = greenhouseEffectStrings.a11y.diatomicOxygen;
-const methaneString = greenhouseEffectStrings.a11y.methane;
-const nitrogenDioxideString = greenhouseEffectStrings.a11y.nitrogenDioxide;
-const nitrogenString = greenhouseEffectStrings.a11y.nitrogen;
-const oxygenString = greenhouseEffectStrings.a11y.oxygen;
-const ozoneString = greenhouseEffectStrings.a11y.ozone;
-const waterString = greenhouseEffectStrings.a11y.water;
-const linearString = greenhouseEffectStrings.a11y.linear;
-const bentString = greenhouseEffectStrings.a11y.bent;
-const tetrahedralString = greenhouseEffectStrings.a11y.tetrahedral;
-const diatomicString = greenhouseEffectStrings.a11y.diatomic;
-const bentGeometryDescriptionString = greenhouseEffectStrings.a11y.bentGeometryDescription;
-const tetrahedralGeometryDescriptionString = greenhouseEffectStrings.a11y.tetrahedralGeometryDescription;
-const linearGeometryDescriptionString = greenhouseEffectStrings.a11y.linearGeometryDescription;
+const carbonDioxideString = GreenhouseEffectStrings.a11y.carbonDioxide;
+const carbonMonoxideString = GreenhouseEffectStrings.a11y.carbonMonoxide;
+const diatomicOxygenString = GreenhouseEffectStrings.a11y.diatomicOxygen;
+const methaneString = GreenhouseEffectStrings.a11y.methane;
+const nitrogenDioxideString = GreenhouseEffectStrings.a11y.nitrogenDioxide;
+const nitrogenString = GreenhouseEffectStrings.a11y.nitrogen;
+const oxygenString = GreenhouseEffectStrings.a11y.oxygen;
+const ozoneString = GreenhouseEffectStrings.a11y.ozone;
+const waterString = GreenhouseEffectStrings.a11y.water;
+const linearString = GreenhouseEffectStrings.a11y.linear;
+const bentString = GreenhouseEffectStrings.a11y.bent;
+const tetrahedralString = GreenhouseEffectStrings.a11y.tetrahedral;
+const diatomicString = GreenhouseEffectStrings.a11y.diatomic;
+const bentGeometryDescriptionString = GreenhouseEffectStrings.a11y.bentGeometryDescription;
+const tetrahedralGeometryDescriptionString = GreenhouseEffectStrings.a11y.tetrahedralGeometryDescription;
+const linearGeometryDescriptionString = GreenhouseEffectStrings.a11y.linearGeometryDescription;
 
 // constants
 class Geometry extends EnumerationValue {

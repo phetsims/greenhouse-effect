@@ -25,7 +25,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
@@ -33,12 +33,12 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 
 // constants
-const lotsString = greenhouseEffectStrings.concentrationPanel.lots;
-const noneString = greenhouseEffectStrings.concentrationPanel.none;
-const waterConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
-const carbonDioxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
-const methaneConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
-const nitrousOxideConcentrationPatternString = greenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPattern;
+const lotsString = GreenhouseEffectStrings.concentrationPanel.lots;
+const noneString = GreenhouseEffectStrings.concentrationPanel.none;
+const waterConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
+const carbonDioxideConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
+const methaneConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
+const nitrousOxideConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPattern;
 
 // Height in view coordinates of the concentration slider track (when controlling concentration by value) and the
 // concentration meter graphic (when controlling by date). These are the same height so that the positions of values
@@ -104,14 +104,14 @@ class ConcentrationControlPanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.title,
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.title,
 
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // Title for the whole panel
-    const titleNode = new Text( greenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
+    const titleNode = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2,
       tandem: options.tandem.createTandem( 'titleNode' )
@@ -196,32 +196,32 @@ class DateControl extends Node {
     const twentyTwentyLabel = '2020';
     const nineteenFiftyLabel = '1950';
     const seventeenFiftyLabel = '1750';
-    const iceAgeLabel = greenhouseEffectStrings.concentrationPanel.iceAge;
+    const iceAgeLabel = GreenhouseEffectStrings.concentrationPanel.iceAge;
 
     // the radio buttons for the date control
     const items = [
       {
         node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.TWENTY_TWENTY,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.NINETEEN_FIFTY,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.SEVENTEEN_FIFTY,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
         node: new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
         tandemName: 'iceAgeRadioButton'
       }
     ];
@@ -232,8 +232,8 @@ class DateControl extends Node {
 
         // pdom
         labelTagName: 'h4',
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
-        helpText: greenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.label,
+        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpText,
 
         // phet-io
         tandem: tandem.createTandem( 'dateRadioButtonGroup' )
@@ -362,9 +362,9 @@ class ConcentrationSlider extends Node {
       soundGenerator: sliderSoundGenerator,
 
       // pdom
-      labelContent: greenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentration,
       labelTagName: 'label',
-      helpText: greenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
+      helpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpText,
       keyboardStep: 0.05,
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
@@ -470,13 +470,13 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
       {
         node: sliderIcon,
         value: ConcentrationControlMode.BY_VALUE,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
         tandemName: 'byConcentrationRadioButton'
       },
       {
         node: dateIcon,
         value: ConcentrationControlMode.BY_DATE,
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
         tandemName: 'byTimePeriodRadioButton'
       }
     ];
@@ -489,8 +489,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
         // pdom
         labelTagName: 'h4',
-        labelContent: greenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
-        helpText: greenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
+        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
 
         // phet-io
         tandem: tandem

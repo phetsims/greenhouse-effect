@@ -17,16 +17,16 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
 
-const buttonNodeReturnMoleculeString = greenhouseEffectStrings.ButtonNode.ReturnMolecule;
-const observationWindowLabelString = greenhouseEffectStrings.a11y.observationWindowLabel;
-const geometryLabelPatternString = greenhouseEffectStrings.a11y.geometryLabelPattern;
+const buttonNodeReturnMoleculeString = GreenhouseEffectStrings.ButtonNode.ReturnMolecule;
+const observationWindowLabelString = GreenhouseEffectStrings.a11y.observationWindowLabel;
+const geometryLabelPatternString = GreenhouseEffectStrings.a11y.geometryLabelPattern;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;
