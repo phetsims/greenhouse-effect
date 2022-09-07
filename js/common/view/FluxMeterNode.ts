@@ -33,16 +33,16 @@ import { Color, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, Sc
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
 
-const sunlightString = greenhouseEffectStrings.sunlight;
-const infraredString = greenhouseEffectStrings.infrared;
-const energyFluxString = greenhouseEffectStrings.fluxMeter.energyFlux;
+const sunlightString = GreenhouseEffectStrings.sunlight;
+const infraredString = GreenhouseEffectStrings.infrared;
+const energyFluxString = GreenhouseEffectStrings.fluxMeter.energyFlux;
 
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
 const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';

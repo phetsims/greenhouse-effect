@@ -9,7 +9,7 @@ import Screen from '../../../joist/js/Screen.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -24,8 +24,8 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
       homeScreenIcon: new RandomIcon( 552 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.waves,
-      descriptionContent: greenhouseEffectStrings.a11y.waves.homeScreenDescription,
+      name: GreenhouseEffectStrings.screen.waves,
+      descriptionContent: GreenhouseEffectStrings.a11y.waves.homeScreenDescription,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
 

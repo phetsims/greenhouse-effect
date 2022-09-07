@@ -10,7 +10,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import RandomIcon from '../common/view/RandomIcon.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import greenhouseEffectStrings from '../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
@@ -24,8 +24,8 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       homeScreenIcon: new RandomIcon( 1 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: greenhouseEffectStrings.screen.photons,
-      descriptionContent: greenhouseEffectStrings.a11y.photons.homeScreenDescription,
+      name: GreenhouseEffectStrings.screen.photons,
+      descriptionContent: GreenhouseEffectStrings.a11y.photons.homeScreenDescription,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
 

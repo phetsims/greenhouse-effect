@@ -8,7 +8,7 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -17,7 +17,7 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
   public constructor( property: Property<boolean>, tandem: Tandem ) {
 
-    super( property, greenhouseEffectStrings.morePhotons, {
+    super( property, GreenhouseEffectStrings.morePhotons, {
 
       // pdom
       helpText: 'help text not yet implemented',

@@ -11,27 +11,27 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
-const moleculesFloatingAwayPatternString = greenhouseEffectStrings.a11y.moleculesFloatingAwayPattern;
-const photonsOnString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOn;
-const photonsOffString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOff;
-const photonsOnSlowSpeedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
-const photonsOnSimPausedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
-const photonsOnSlowSpeedSimPausedString = greenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
-const simPausedEmitterOnAlertString = greenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlert;
-const simPausedEmitterOffAlertString = greenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlert;
-const simPlayingHintAlertString = greenhouseEffectStrings.a11y.timeControls.simPlayingHintAlert;
-const stepHintAlertString = greenhouseEffectStrings.a11y.timeControls.stepHintAlert;
-const pausedPhotonEmittedPatternString = greenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
-const shortRotatingAlertString = greenhouseEffectStrings.a11y.shortRotatingAlert;
-const shortStretchingAlertString = greenhouseEffectStrings.a11y.shortStretchingAlert;
-const shortBendingAlertString = greenhouseEffectStrings.a11y.shortBendingAlert;
-const shortGlowingAlertString = greenhouseEffectStrings.a11y.shortGlowingAlert;
-const moleculePiecesGoneString = greenhouseEffectStrings.a11y.moleculePiecesGone;
-const resetOrChangeMoleculeString = greenhouseEffectStrings.a11y.resetOrChangeMolecule;
+const moleculesFloatingAwayPatternString = GreenhouseEffectStrings.a11y.moleculesFloatingAwayPattern;
+const photonsOnString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOn;
+const photonsOffString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOff;
+const photonsOnSlowSpeedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
+const photonsOnSimPausedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
+const photonsOnSlowSpeedSimPausedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
+const simPausedEmitterOnAlertString = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlert;
+const simPausedEmitterOffAlertString = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlert;
+const simPlayingHintAlertString = GreenhouseEffectStrings.a11y.timeControls.simPlayingHintAlert;
+const stepHintAlertString = GreenhouseEffectStrings.a11y.timeControls.stepHintAlert;
+const pausedPhotonEmittedPatternString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
+const shortRotatingAlertString = GreenhouseEffectStrings.a11y.shortRotatingAlert;
+const shortStretchingAlertString = GreenhouseEffectStrings.a11y.shortStretchingAlert;
+const shortBendingAlertString = GreenhouseEffectStrings.a11y.shortBendingAlert;
+const shortGlowingAlertString = GreenhouseEffectStrings.a11y.shortGlowingAlert;
+const moleculePiecesGoneString = GreenhouseEffectStrings.a11y.moleculePiecesGone;
+const resetOrChangeMoleculeString = GreenhouseEffectStrings.a11y.resetOrChangeMolecule;
 
 class ObservationWindowAlertManager extends Alerter {
 

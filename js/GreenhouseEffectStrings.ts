@@ -733,8 +733,8 @@ type StringsType = {
   }
 };
 
-const greenhouseEffectStrings = getStringModule( 'GREENHOUSE_EFFECT' ) as StringsType;
+const GreenhouseEffectStrings = getStringModule( 'GREENHOUSE_EFFECT' ) as StringsType;
 
-greenhouseEffect.register( 'greenhouseEffectStrings', greenhouseEffectStrings );
+greenhouseEffect.register( 'GreenhouseEffectStrings', GreenhouseEffectStrings );
 
-export default greenhouseEffectStrings;
+export default GreenhouseEffectStrings;

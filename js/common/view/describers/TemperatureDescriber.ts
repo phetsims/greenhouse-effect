@@ -9,36 +9,36 @@ import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import TemperatureUnits from '../../model/TemperatureUnits.js';
 
 // strings used to describe temperature
-const extremelyHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
-const veryHighString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
-const highString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
-const moderateString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
-const lowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
-const veryLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
-const extremelyLowString = greenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
-const historicallyLowString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
-const historicallyModerateString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
-const historicallyHighString = greenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
-const surfaceTemperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
-const surfaceTemperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
-const temperatureChangeWithValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
-const temperatureChangeWithoutValuePatternString = greenhouseEffectStrings.a11y.temperatureChangeWithoutValuePattern;
-const surfaceTemperatureStable = greenhouseEffectStrings.a11y.surfaceTemperatureStable;
-const surfaceTemperatureStableWithDescription = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescription;
-const surfaceTemperatureStableWithValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithValue;
-const surfaceTemperatureStableWithDescriptionAndValue = greenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
-const warmingString = greenhouseEffectStrings.a11y.warming;
-const coolingString = greenhouseEffectStrings.a11y.cooling;
-const stabilizingString = greenhouseEffectStrings.a11y.stabilizing;
-const surfaceTemperatureIsQuantitativeAndQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePattern;
-const surfaceTemperatureIsQuantitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePattern;
-const surfaceTemperatureIsQualitativePatternString = greenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
+const extremelyHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
+const veryHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
+const highString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
+const moderateString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
+const lowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
+const veryLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
+const extremelyLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
+const historicallyLowString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
+const historicallyModerateString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
+const historicallyHighString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
+const surfaceTemperatureChangeWithValuePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
+const surfaceTemperatureChangeWithoutValuePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
+const temperatureChangeWithValuePatternString = GreenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
+const temperatureChangeWithoutValuePatternString = GreenhouseEffectStrings.a11y.temperatureChangeWithoutValuePattern;
+const surfaceTemperatureStable = GreenhouseEffectStrings.a11y.surfaceTemperatureStable;
+const surfaceTemperatureStableWithDescription = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescription;
+const surfaceTemperatureStableWithValue = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithValue;
+const surfaceTemperatureStableWithDescriptionAndValue = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
+const warmingString = GreenhouseEffectStrings.a11y.warming;
+const coolingString = GreenhouseEffectStrings.a11y.cooling;
+const stabilizingString = GreenhouseEffectStrings.a11y.stabilizing;
+const surfaceTemperatureIsQuantitativeAndQualitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePattern;
+const surfaceTemperatureIsQuantitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePattern;
+const surfaceTemperatureIsQualitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
 
 const qualitativeTemperatureDescriptionStrings = [
   extremelyLowString,
@@ -64,9 +64,9 @@ assert && assert( qualitativeTemperatureDescriptionThresholds.length + 1 === qua
 const historicallyModerateTemperatureRange = new Range( 286, 287.8 );
 
 // written units of temperature
-const kelvinString = greenhouseEffectStrings.a11y.temperatureUnits.kelvin;
-const celsiusString = greenhouseEffectStrings.a11y.temperatureUnits.celsius;
-const fahrenheitString = greenhouseEffectStrings.a11y.temperatureUnits.fahrenheit;
+const kelvinString = GreenhouseEffectStrings.a11y.temperatureUnits.kelvin;
+const celsiusString = GreenhouseEffectStrings.a11y.temperatureUnits.celsius;
+const fahrenheitString = GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheit;
 
 class TemperatureDescriber {
 
@@ -79,7 +79,7 @@ class TemperatureDescriber {
    * @param unitsValue
    */
   public static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: TemperatureUnits ): string {
-    return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
     } );
@@ -135,7 +135,7 @@ class TemperatureDescriber {
   public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number,
                                                                    concentrationControlMode: ConcentrationControlMode,
                                                                    date: ConcentrationDate ): string {
-    return StringUtils.fillIn( greenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
       description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode, date )
     } );
   }

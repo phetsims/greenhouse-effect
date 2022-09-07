@@ -24,13 +24,13 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const lightSourceButtonLabelPatternString = greenhouseEffectStrings.a11y.lightSource.buttonLabelPattern;
-const lightSourcePressedButtonHelpTextString = greenhouseEffectStrings.a11y.lightSource.buttonPressedHelpText;
-const lightSourceUnpressedButtonHelpTextString = greenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpText;
-const openSciEdEnergySourceString = greenhouseEffectStrings.openSciEd.energySource;
+const lightSourceButtonLabelPatternString = GreenhouseEffectStrings.a11y.lightSource.buttonLabelPattern;
+const lightSourcePressedButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSource.buttonPressedHelpText;
+const lightSourceUnpressedButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpText;
+const openSciEdEnergySourceString = GreenhouseEffectStrings.openSciEd.energySource;
 
 class PhotonEmitterNode extends Node {
 

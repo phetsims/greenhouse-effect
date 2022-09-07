@@ -11,22 +11,22 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/
 import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
-const currentlyString = greenhouseEffectStrings.a11y.waves.screenSummary.currently;
-const currentlySimIsPausedString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPaused;
-const currentlyNoSunlightString = greenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
-const currentlySimIsPausedNoSunlight = greenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlight;
+const currentlyString = GreenhouseEffectStrings.a11y.waves.screenSummary.currently;
+const currentlySimIsPausedString = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPaused;
+const currentlyNoSunlightString = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
+const currentlySimIsPausedNoSunlight = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlight;
 
-const summaryWithTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
-const summaryWithoutTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
+const summaryWithTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
+const summaryWithoutTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
 
-const surfaceTemperaturePatternString = greenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePattern;
-const qualitativeAndQuantitativeTemperatureDescriptionPatternString = greenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPattern;
+const surfaceTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePattern;
+const qualitativeAndQuantitativeTemperatureDescriptionPatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPattern;
 
 class WavesScreenSummaryContentNode extends Node {
 
@@ -35,16 +35,16 @@ class WavesScreenSummaryContentNode extends Node {
 
     const playAreaDescriptionNode = new Node( {
       tagName: 'p',
-      innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription
+      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription
     } );
     const controlAreaDescriptionNode = new Node( {
       tagName: 'p',
-      innerContent: greenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription
+      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription
     } );
     const simStateDescriptionNode = new Node( { tagName: 'p' } ); // content set with the changing model
     const startSunlightHintNode = new Node( {
       tagName: 'p',
-      innerContent: greenhouseEffectStrings.a11y.startSunlightHint
+      innerContent: GreenhouseEffectStrings.a11y.startSunlightHint
     } );
 
     this.children = [

@@ -19,7 +19,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox, { GreenhouseEffectCheckboxOptions } from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 export type CloudCheckboxOptions = SelfOptions & GreenhouseEffectCheckboxOptions;
@@ -44,13 +44,13 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
       iconNode: iconNode,
-      helpText: greenhouseEffectStrings.a11y.cloudCheckboxHelpText,
+      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpText,
 
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    super( cloudEnabledProperty, greenhouseEffectStrings.cloud, options );
+    super( cloudEnabledProperty, GreenhouseEffectStrings.cloud, options );
   }
 }
 

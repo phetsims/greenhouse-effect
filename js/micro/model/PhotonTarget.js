@@ -10,16 +10,16 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
-const controlPanelCarbonDioxideString = greenhouseEffectStrings.ControlPanel.CarbonDioxide;
-const controlPanelCarbonMonoxideString = greenhouseEffectStrings.ControlPanel.CarbonMonoxide;
-const controlPanelMethaneString = greenhouseEffectStrings.ControlPanel.Methane;
-const controlPanelNitrogenDioxideString = greenhouseEffectStrings.ControlPanel.NitrogenDioxide;
-const controlPanelNitrogenString = greenhouseEffectStrings.ControlPanel.Nitrogen;
-const controlPanelOxygenString = greenhouseEffectStrings.ControlPanel.Oxygen;
-const controlPanelOzoneString = greenhouseEffectStrings.ControlPanel.Ozone;
-const controlPanelWaterString = greenhouseEffectStrings.ControlPanel.Water;
+const controlPanelCarbonDioxideString = GreenhouseEffectStrings.ControlPanel.CarbonDioxide;
+const controlPanelCarbonMonoxideString = GreenhouseEffectStrings.ControlPanel.CarbonMonoxide;
+const controlPanelMethaneString = GreenhouseEffectStrings.ControlPanel.Methane;
+const controlPanelNitrogenDioxideString = GreenhouseEffectStrings.ControlPanel.NitrogenDioxide;
+const controlPanelNitrogenString = GreenhouseEffectStrings.ControlPanel.Nitrogen;
+const controlPanelOxygenString = GreenhouseEffectStrings.ControlPanel.Oxygen;
+const controlPanelOzoneString = GreenhouseEffectStrings.ControlPanel.Ozone;
+const controlPanelWaterString = GreenhouseEffectStrings.ControlPanel.Water;
 
 class PhotonTarget extends EnumerationValue {
   static SINGLE_CO_MOLECULE = new PhotonTarget();

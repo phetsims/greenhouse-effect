@@ -15,7 +15,7 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -84,9 +84,9 @@ class AtmosphereLayerNode extends Node {
       cornerRadius: 3,
       noValueAlign: 'center',
       numberFormatter: ( temperature: number ) => {
-        return StringUtils.fillIn( greenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+        return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
           value: Utils.toFixed( temperature, 1 ),
-          units: greenhouseEffectStrings.temperature.units.kelvin
+          units: GreenhouseEffectStrings.temperature.units.kelvin
         } );
       },
       textOptions: {

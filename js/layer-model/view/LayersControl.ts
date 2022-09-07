@@ -12,7 +12,7 @@ import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import greenhouseEffectStrings from '../../greenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
@@ -48,14 +48,14 @@ class LayersControl extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: greenhouseEffectStrings.infrared,
+      labelContent: GreenhouseEffectStrings.infrared,
 
       // phet-io
       tandem: tandem
     };
 
     // title text for the panel
-    const titleTextNode = new Text( greenhouseEffectStrings.infrared, {
+    const titleTextNode = new Text( GreenhouseEffectStrings.infrared, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleTextNode' )
@@ -106,7 +106,7 @@ class LayersControl extends Panel {
     );
 
     // label for picker that controls the number of layers
-    const layerNumberControlLabel = new Text( greenhouseEffectStrings.absorbingLayers, {
+    const layerNumberControlLabel = new Text( GreenhouseEffectStrings.absorbingLayers, {
       font: HEADING_FONT
     } );
 
@@ -117,7 +117,7 @@ class LayersControl extends Panel {
     } );
 
     // label for the slider that controls IR absorbance
-    const irAbsorbanceSliderLabel = new Text( greenhouseEffectStrings.infraredAbsorbance, {
+    const irAbsorbanceSliderLabel = new Text( GreenhouseEffectStrings.infraredAbsorbance, {
       font: HEADING_FONT
     } );
 
@@ -151,13 +151,13 @@ class LayersControl extends Panel {
     );
     irAbsorbanceSlider.addMajorTick(
       absorbanceRange.min,
-      new Text( StringUtils.fillIn( greenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.min * 100 } ), {
+      new Text( StringUtils.fillIn( GreenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.min * 100 } ), {
         font: TICK_MARK_LABEL_FONT
       } )
     );
     irAbsorbanceSlider.addMajorTick(
       absorbanceRange.max,
-      new Text( StringUtils.fillIn( greenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.max * 100 } ), {
+      new Text( StringUtils.fillIn( GreenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.max * 100 } ), {
         font: TICK_MARK_LABEL_FONT
       } )
     );
