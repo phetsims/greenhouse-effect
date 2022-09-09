@@ -161,7 +161,7 @@ class FluxMeterNode extends Node {
       infraredString,
       GreenhouseEffectConstants.INFRARED_COLOR
     );
-    const arrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
+    const fluxArrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
 
     const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactor, {
       spacing: 5,
@@ -177,7 +177,7 @@ class FluxMeterNode extends Node {
     } );
 
     // zoom buttons conditionally added to the view, but always created because I think that is required for PhET-iO
-    const contentChildren = [ titleText, arrows ];
+    const contentChildren = [ titleText, fluxArrows ];
     options.includeZoomButtons && contentChildren.push( zoomButtons );
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
@@ -317,7 +317,7 @@ class EnergyFluxDisplay extends Node {
                       providedOptions?: EnergyFluxDisplayOptions ) {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
-      height: 355,
+      height: 340,
       arrowNodeOptions: {
         headHeight: 16,
         headWidth: 16,
@@ -426,7 +426,8 @@ class EnergyFluxDisplay extends Node {
     } );
 
     // layout
-    boundsRectangle.centerTop = labelText.centerBottom;
+    boundsRectangle.centerX = labelText.centerX;
+    boundsRectangle.top = labelText.bottom + 15;
   }
 }
 
