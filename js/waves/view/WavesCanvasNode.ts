@@ -93,14 +93,18 @@ class WavesCanvasNode extends CanvasNode {
     let waveIntensity = wave.intensityAtStart;
     context.lineCap = 'round';
     context.lineWidth = waveIntensityToLineWidth( waveIntensity );
-    context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
+
+    // TODO: The transparency was removed when working on https://github.com/phetsims/greenhouse-effect/issues/84.  Is
+    //       this okay, or do we need to work it in somehow?
+    // context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
+    context.strokeStyle = baseColor.toCSS();
     context.beginPath();
 
     // vectors used in the calculation process
     const unitVector = new Vector2( wave.propagationDirection.x, -wave.propagationDirection.y );
     const unitNormal = unitVector.perpendicular;
 
-    let startingNewSegment = true;
+    let firstSegment = true;
     const totalLengthInView = modelViewTransform.modelToViewDeltaX( wave.length );
     const phaseOffsetAtStart = ( wave.phaseOffsetAtOrigin +
                                  ( modelViewTransform.modelToViewDeltaX( wave.startPoint.distance( wave.origin ) ) ) /
@@ -116,7 +120,7 @@ class WavesCanvasNode extends CanvasNode {
 
     // Get the amount of compensation needed in the x direction so that the wave will appear to originate from a
     // horizontal region.
-    const compensatedXValue = WavesCanvasNode.getXCompensationForTilt(
+    const compensatedStartingXValue = WavesCanvasNode.getXCompensationForTilt(
       amplitude,
       wavelength,
       phaseOffsetAtStart,
@@ -124,7 +128,7 @@ class WavesCanvasNode extends CanvasNode {
     );
 
     // Render the wave, changing the thickness if and when the intensity of the wave changes.
-    for ( let x = compensatedXValue; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
+    for ( let x = compensatedStartingXValue; x <= totalLengthInView; x += WAVE_SEGMENT_INCREMENT ) {
 
       const y = amplitude * Math.sin( x / wavelength * TWO_PI + phaseOffsetAtStart );
 
@@ -136,9 +140,9 @@ class WavesCanvasNode extends CanvasNode {
       const ptY = traversePointY + y * unitNormal.y;
 
       // Draw the next segment of the waveform.
-      if ( startingNewSegment ) {
+      if ( firstSegment ) {
         context.moveTo( ptX, ptY );
-        startingNewSegment = false;
+        firstSegment = false;
       }
       else {
         context.lineTo( ptX, ptY );
@@ -146,14 +150,20 @@ class WavesCanvasNode extends CanvasNode {
 
       if ( x >= nextIntensityChangePosition ) {
 
-        // The rendering has reached the point of the next intensity change.  Adjust the wave's thickness to represent
-        // this change and set up the next intensity change if there is one.
+        // The rendering has reached the point of the next intensity change.  Draw what we've got so far, and then
+        // adjust the line width to represent this change.
         context.stroke();
         context.beginPath();
-        startingNewSegment = true;
+        context.moveTo( ptX, ptY );
         waveIntensity = intensityChanges[ nextIntensityChangeIndex ].postChangeIntensity;
         context.lineWidth = waveIntensityToLineWidth( waveIntensity );
+
+        // TODO: As noted above, the transparency was removed when working on
+        //       https://github.com/phetsims/greenhouse-effect/issues/84, but we may want to adjust the color or
+        //       something.
         // context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
+
+        // Set up the next intensity change if there is one.
         nextIntensityChangeIndex++;
         nextIntensityChangePosition = this.getIntensityChangeXPosition(
           nextIntensityChangeIndex,
@@ -234,13 +244,16 @@ greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 const waveIntensityToLineWidth = ( waveIntensity: number ): number => {
 
   // TODO: Are there performance costs for using non-integer line widths?  We need to make this determination and decide
-  //       whether to use integer or floating point values.
+  //       whether to use integer or floating point values.  See https://github.com/phetsims/greenhouse-effect/issues/84.
   // return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
   return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.5, WAVE_MAX_LINE_WIDTH );
 };
 
-const waveIntensityToAlpha = ( waveIntensity: number ): number => {
-  return Math.min( waveIntensity + 0.25, 1 );
-};
+// TODO: As noted above, the transparency was removed when working on
+//       https://github.com/phetsims/greenhouse-effect/issues/84, but we may want to adjust the color or
+//       something.  Keep this function - commented out to avoid lint errors - until we figure it out.
+// const waveIntensityToAlpha = ( waveIntensity: number ): number => {
+//   return Math.min( waveIntensity + 0.25, 1 );
+// };
 
 export default WavesCanvasNode;
