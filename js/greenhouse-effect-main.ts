@@ -46,9 +46,9 @@ const simOptions: SimOptions = {
   hasKeyboardHelpContent: true
 };
 
-// If the appropriate query parameter is set, add an "Options" dialog that designers can use to try out different
-// design choices.
-// TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/168.
+// If the appropriate query parameter is set, add controls to the Preferences dialog that designers can use to try out
+// different design choices.
+// TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/179.
 if ( GreenhouseEffectQueryParameters.customPreferences ) {
   simOptions.preferencesModel = new PreferencesModel( {
     simulationOptions: {

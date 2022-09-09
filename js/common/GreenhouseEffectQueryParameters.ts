@@ -10,10 +10,10 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
-  // This flag can be used to enable an "Options" dialog that is available from the PhET menu.  This is used to enable
-  // designers to test drive some alternative sounds, see mockups and so forth.
+  // This flag can be used to enable custom sim-specific options in the Preferences dialog.  This is used to enable
+  // designers to test drive some alternative sounds, see mockups, and so forth.
   // TODO: This query parameter and the associated dialog should be completely removed prior to publication, see
-  //       https://github.com/phetsims/greenhouse-effect/issues/168.
+  //       https://github.com/phetsims/greenhouse-effect/issues/179.
   customPreferences: { type: 'flag' },
 
   // This threshold value is used to decide when an EnergyAbsorbingEmittingLayer is considered to be in equilibrium,
