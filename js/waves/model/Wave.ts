@@ -168,17 +168,18 @@ class Wave extends PhetioObject {
 
     const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
 
-    // If there is a source producing this wave it should get longer and will continue to emanate from the same point.
-    // If not, it stays at the same length and propagates through space.
-    if ( this.isSourced ) {
+    // Update the length, while checking if the current change causes this wave to extend beyond its propagation
+    // limit.  If so, limit the length of the wave.  Note that the propagation limit is not itself a length - it is an
+    // altitude, i.e. a Y value, beyond which a wave should not travel.  This works for waves moving up or down.
+    this.length = Math.min(
+      this.length + propagationDistance,
+      ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
+    );
 
-      // Update the length, while checking if the current change causes this wave to extend beyond its propagation
-      // limit.  If so, limit the length.  Note that the propagation limit is not itself a length - it is a max Y value.
-      // This is so that waves essentially end at the top of the atmosphere.
-      this.length = Math.min(
-        this.length + propagationDistance,
-        ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
-      );
+    // If there is a source producing this wave it will continue to emanate from the same origin and will get longer
+    // until it reaches an endpoint. If it is not sourced, it will travel through space until it reaches an endpoint,
+    // where it will shorten until it disappears.
+    if ( this.isSourced ) {
 
       // Move the un-anchored intensity changes with the wave.
       this.intensityChanges.forEach( intensityChange => {
