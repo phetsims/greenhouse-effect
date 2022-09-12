@@ -19,13 +19,14 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, FocusableHeadingNode, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, FocusableHeadingNode, Image, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -40,6 +41,9 @@ const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
 const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 const DARKNESS_OPACITY = 0.7;
 const EXPECTED_MAX_TEMPERATURE = 309; // in Kelvin
+
+// TODO: Flag to make it easy to switch between computer-generated ground and full artwork for the ground.
+const USE_ARTWORK_FOR_GROUND = false;
 
 // The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
 // determined and can be adjusted as needed to achieve the desired visual effect.
@@ -171,57 +175,97 @@ class GreenhouseEffectObservationWindow extends Node {
     } );
     this.backgroundLayer.addChild( skyNode );
 
-    // control points used for the shape of the ground
+    // TODO: There is code below to handle two different ways of generating the ground, one by creating a shape and
+    //       filling it with a gradient, and one that uses artwork.  Once the artwork and the general approach are
+    //       finalized, this code will need to be cleaned up to remove the unused portions.  See
+    //       https://github.com/phetsims/greenhouse-effect/issues/49.
+    let groundNode: Node;
+    let groundShape: Shape;
     const nominalGroundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
-    const oneEighthWidth = SIZE.width / 8;
-    const leftHillStartPoint = Vector2.ZERO;
-    const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.15 );
-    const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
-    const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
-    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
-    const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
-    const rightHillEndPoint = new Vector2( SIZE.width, 0 );
+    if ( USE_ARTWORK_FOR_GROUND ) {
+      groundNode = new Image( agriculturalLandscape1_png, {
+        maxWidth: this.width,
+        bottom: SIZE.height
+      } );
 
-    // ground shape and node
-    const groundShape = new Shape()
-      .moveToPoint( leftHillStartPoint )
-      .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
-      .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
-      .lineTo( SIZE.width, this.groundNodeHeight )
-      .lineTo( 0, this.groundNodeHeight )
-      .lineTo( 0, 0 )
-      .close();
-    const groundNode = new Path( groundShape, {
-      bottom: SIZE.height
-    } );
+      // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
+      // and was made to do so manually, and will need to be updated if the artwork changes.
+      const lowerLeftCorner = Vector2.ZERO;
+      const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
+      const controlPoint1 = new Vector2( SIZE.width * 0.22, leftSideGroundSurface.y - SIZE.height * 0.13 );
+      const midwayPoint = new Vector2( SIZE.width * 0.6, -SIZE.height * 0.2 );
+      const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.19 );
+      const controlPoint2 = new Vector2( SIZE.width * 0.75, rightSideGroundSurface.y + SIZE.height * 0.02 );
+      const lowerRightCorner = new Vector2( SIZE.width, 0 );
 
-    // Obtain the base color for the ground from the options or create a default.
-    const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
+      // ground shape
+      groundShape = new Shape()
+        .moveToPoint( lowerLeftCorner )
+        .lineToPoint( leftSideGroundSurface )
+        .quadraticCurveToPoint( controlPoint1, midwayPoint )
+        .quadraticCurveToPoint( controlPoint2, rightSideGroundSurface )
+        .lineToPoint( lowerRightCorner )
+        .lineToPoint( lowerLeftCorner )
+        .close();
+    }
+    else {
 
-    // Update the ground as the base color changes.
-    groundBaseColorProperty.link( ( baseColor: Color ) => {
+      // control points used for the shape of the ground
+      const oneEighthWidth = SIZE.width / 8;
+      const leftHillStartPoint = Vector2.ZERO;
+      const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.15 );
+      const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
+      const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
+      const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
+      const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
+      const rightHillEndPoint = new Vector2( SIZE.width, 0 );
 
-      // Handle a gradient with equal values for R, G, and B as a special case with less variation from the darkest to
-      // the lightest colors.  This was added to support the variable albedo case, and allow the lightest color to look
-      // more "snow like".
-      if ( baseColor.r === baseColor.g && baseColor.g === baseColor.b ) {
-        groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-          .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
-          .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
-      }
-      else {
-        groundNode.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-          .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
-          .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
-      }
-    } );
+      // ground shape
+      groundShape = new Shape()
+        .moveToPoint( leftHillStartPoint )
+        .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
+        .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
+        .lineTo( SIZE.width, this.groundNodeHeight )
+        .lineTo( 0, this.groundNodeHeight )
+        .lineTo( 0, 0 )
+        .close();
+
+      // Create a node to represent the ground based on the created shape.
+      const groundNodePath = new Path( groundShape, {
+        bottom: SIZE.height
+      } );
+
+      // Obtain the base color for the ground from the options or create a default.
+      const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
+
+      // Update the ground as the base color changes.
+      groundBaseColorProperty.link( ( baseColor: Color ) => {
+
+        // Handle a gradient with equal values for R, G, and B as a special case with less variation from the darkest to
+        // the lightest colors.  This was added to support the variable albedo case, and allows the lightest color to
+        // look more "snow like".
+        if ( baseColor.r === baseColor.g && baseColor.g === baseColor.b ) {
+          groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+            .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
+            .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+        }
+        else {
+          groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+            .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
+            .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+        }
+      } );
+
+      groundNode = groundNodePath;
+    }
 
     // Add the temperature glow nodes if so configured.
     if ( options.showTemperatureGlow ) {
 
       // surface temperature node, which is meant to look like a glow on the surface
+      const groundShapeBounds = groundShape.getBounds();
       const surfaceTemperatureNode = new Path( groundShape, {
-        fill: new LinearGradient( 0, 0, 0, nominalGroundHeight )
+        fill: new LinearGradient( 0, groundShapeBounds.minY, 0, groundShapeBounds.maxY )
           .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
           .addColorStop( 0.55, 'rgba( 255, 0, 0, 0 )' ),
         bottom: SIZE.height
@@ -262,7 +306,6 @@ class GreenhouseEffectObservationWindow extends Node {
     else {
       this.backgroundLayer.addChild( groundNode );
     }
-
 
     // energy balance
     this.energyBalancePanel = new EnergyBalancePanel(
