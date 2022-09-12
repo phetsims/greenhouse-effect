@@ -170,12 +170,12 @@ class MicroScreenView extends ScreenView {
     // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
     // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     // @private
-    const spectrumButtonLabel = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabel' ) );
+    const spectrumButtonLabelText = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabelText' ) );
 
     const lightSpectrumDialogCapsule = new PhetioCapsule( tandem => {
 
       // Wrap in a node to prevent DAG problems if archetypes are also created
-      return new LightSpectrumDialog( new Node( { children: [ spectrumButtonLabel ] } ), tandem );
+      return new LightSpectrumDialog( new Node( { children: [ spectrumButtonLabelText ] } ), tandem );
     }, [], {
       tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
       phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )

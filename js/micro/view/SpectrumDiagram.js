@@ -270,21 +270,21 @@ class LabeledSpectrumNode extends Node {
       spectrumWindowLabelledSpectrumRadioLabelString,
       spectrumWindowLabelledSpectrumRadioFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumRadioWavelengthDescriptionString,
-      tandem.createTandem( 'radioBandLabel' )
+      tandem.createTandem( 'radioBandLabelText' )
     );
     addBandDivider( this, 1E9 );
     addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString,
       spectrumWindowLabelledSpectrumMicrowaveLabelString,
       spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionString,
-      tandem.createTandem( 'microwaveBandLabel' )
+      tandem.createTandem( 'microwaveBandLabelText' )
     );
     addBandDivider( this, 3E11 );
     addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelString,
       spectrumWindowLabelledSpectrumInfraredLabelString,
       spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionString,
-      tandem.createTandem( 'infraredBandLabel' )
+      tandem.createTandem( 'infraredBandLabelText' )
     );
 
     // Add the visible spectrum, in order for PDOM descriptions
@@ -298,21 +298,21 @@ class LabeledSpectrumNode extends Node {
       spectrumWindowLabelledSpectrumUltravioletLabelString,
       spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionString,
-      tandem.createTandem( 'ultravioletBandLabel' )
+      tandem.createTandem( 'ultravioletBandLabelText' )
     );
     addBandDivider( this, 1E16 );
     addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelString,
       spectrumWindowLabelledSpectrumXRayLabelString,
       spectrumWindowLabelledSpectrumXRayFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumXRayWavelengthDescriptionString,
-      tandem.createTandem( 'xrayBandLabel' )
+      tandem.createTandem( 'xrayBandLabelText' )
     );
     addBandDivider( this, 1E19 );
     addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelString,
       spectrumWindowLabelledSpectrumGammaRayLabelString,
       spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString,
       spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString,
-      tandem.createTandem( 'gammaRayBandLabel' )
+      tandem.createTandem( 'gammaRayBandLabelText' )
     );
 
     addFrequencyAndLabelDescriptions(

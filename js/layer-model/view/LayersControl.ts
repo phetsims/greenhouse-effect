@@ -55,10 +55,10 @@ class LayersControl extends Panel {
     };
 
     // title text for the panel
-    const titleTextNode = new Text( GreenhouseEffectStrings.infrared, {
+    const titleText = new Text( GreenhouseEffectStrings.infrared, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
-      tandem: options.tandem.createTandem( 'titleTextNode' )
+      tandem: options.tandem.createTandem( 'titleText' )
     } );
 
     // image of a photon that will be combined with the title text to form the overall title for the panel
@@ -67,7 +67,7 @@ class LayersControl extends Panel {
     } );
 
     const titleNode = new HBox( {
-      children: [ titleTextNode, infraredPhotonIcon ],
+      children: [ titleText, infraredPhotonIcon ],
       spacing: 10
     } );
 
