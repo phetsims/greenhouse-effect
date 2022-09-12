@@ -100,7 +100,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabelText' )
       } ),
       tandemName: microwaveTandemName,
       labelContent: quadWavelengthSelectorMicrowaveString
@@ -109,7 +109,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       value: WavelengthConstants.IR_WAVELENGTH,
       label: new Text( quadWavelengthSelectorInfraredString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabelText' )
       } ),
       tandemName: infraredTandemName,
       labelContent: quadWavelengthSelectorInfraredString
@@ -118,7 +118,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new Text( quadWavelengthSelectorVisibleString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabelText' )
       } ),
       tandemName: visibleTandemName,
       labelContent: quadWavelengthSelectorVisibleString
@@ -127,7 +127,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       value: WavelengthConstants.UV_WAVELENGTH,
       label: new Text( quadWavelengthSelectorUltravioletString, {
         font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabel' )
+        tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabelText' )
       } ),
       tandemName: ultravioletTandemName,
       labelContent: quadWavelengthSelectorUltravioletString

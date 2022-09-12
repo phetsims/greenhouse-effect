@@ -111,10 +111,10 @@ class ConcentrationControlPanel extends Panel {
     }, providedOptions );
 
     // Title for the whole panel
-    const titleNode = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
+    const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2,
-      tandem: options.tandem.createTandem( 'titleNode' )
+      tandem: options.tandem.createTandem( 'titleText' )
     } );
 
     // controls the concentration directly by value
@@ -144,7 +144,7 @@ class ConcentrationControlPanel extends Panel {
     } );
     concentrationSlider.center = dateControl.center;
 
-    const contentChildren = [ titleNode, controlsParentNode, controlRadioButtonGroup ];
+    const contentChildren = [ titleText, controlsParentNode, controlRadioButtonGroup ];
 
     let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {

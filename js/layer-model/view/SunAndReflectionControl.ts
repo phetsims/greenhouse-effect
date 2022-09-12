@@ -64,10 +64,10 @@ class SunAndReflectionControl extends Panel {
     };
 
     // Title text for the panel.
-    const titleTextNode = new Text( GreenhouseEffectStrings.sunlight, {
+    const titleText = new Text( GreenhouseEffectStrings.sunlight, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
-      tandem: options.tandem.createTandem( 'titleTextNode' )
+      tandem: options.tandem.createTandem( 'titleText' )
     } );
 
     // Image of a photon that will be combined with the title text to form the overall title for the panel.
@@ -76,7 +76,7 @@ class SunAndReflectionControl extends Panel {
     } );
 
     const titleNode = new HBox( {
-      children: [ titleTextNode, visiblePhotonIcon ],
+      children: [ titleText, visiblePhotonIcon ],
       spacing: 10
     } );
 

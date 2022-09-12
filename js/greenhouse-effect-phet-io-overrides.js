@@ -136,19 +136,19 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.titleNode.textProperty": {
+    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.titleText.textProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.infraredLabel.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.infraredLabelText.textProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.sunlightLabel.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.sunlightLabelText.textProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.titleNode.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.titleText.textProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.labelText.textProperty": {
@@ -160,7 +160,7 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.textNode.textProperty": {
+    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.text.textProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.visibleProperty": {

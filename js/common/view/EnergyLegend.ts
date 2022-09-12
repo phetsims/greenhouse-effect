@@ -78,21 +78,21 @@ class EnergyLegend extends Panel {
     }, providedOptions );
 
     // title
-    const titleNode = new Text( GreenhouseEffectStrings.energyLegend.title, {
+    const titleText = new Text( GreenhouseEffectStrings.energyLegend.title, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       fill: 'white',
       maxWidth: 130,
-      tandem: options.tandem.createTandem( 'titleNode' )
+      tandem: options.tandem.createTandem( 'titleText' )
     } );
 
     // labels
-    const sunlightLabel = new Text(
+    const sunlightLabelText = new Text(
       GreenhouseEffectStrings.sunlight,
-      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabel' ) } )
+      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabelText' ) } )
     );
-    const infraredLabel = new Text(
+    const infraredLabelText = new Text(
       GreenhouseEffectStrings.infrared,
-      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabel' ) } )
+      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabelText' ) } )
     );
 
     // icons
@@ -135,16 +135,16 @@ class EnergyLegend extends Panel {
     }
 
     const sunlightRow = new HBox( {
-      children: [ sunlightLabel, sunlightIcon ],
-      spacing: MIN_HORIZONTAL_SPACING + Math.max( infraredLabel.bounds.width - sunlightLabel.bounds.width, 0 ),
+      children: [ sunlightLabelText, sunlightIcon ],
+      spacing: MIN_HORIZONTAL_SPACING + Math.max( infraredLabelText.bounds.width - sunlightLabelText.bounds.width, 0 ),
 
       // pdom
       tagName: 'li',
       innerContent: GreenhouseEffectStrings.a11y.energyLegend.sunlightRadiation
     } );
     const infraredRow = new HBox( {
-      children: [ infraredLabel, infraredIcon ],
-      spacing: MIN_HORIZONTAL_SPACING + Math.max( sunlightLabel.bounds.width - infraredLabel.bounds.width, 0 ),
+      children: [ infraredLabelText, infraredIcon ],
+      spacing: MIN_HORIZONTAL_SPACING + Math.max( sunlightLabelText.bounds.width - infraredLabelText.bounds.width, 0 ),
 
       // pdom
       tagName: 'li',
@@ -152,7 +152,7 @@ class EnergyLegend extends Panel {
     } );
 
     // determine how much to extend width of contents so legend takes up desired width in the view
-    const maxItemWidth = _.maxBy( [ titleNode, sunlightRow, infraredRow ], item => item.width )!.width;
+    const maxItemWidth = _.maxBy( [ titleText, sunlightRow, infraredRow ], item => item.width )!.width;
     const marginWidth = width - maxItemWidth - PANEL_X_MARGIN * 2;
     assert && assert(
       marginWidth >= 0,
@@ -160,7 +160,7 @@ class EnergyLegend extends Panel {
     );
 
     const legendAlignGroup = new AlignGroup( { matchVertical: false } );
-    const titleBox = legendAlignGroup.createBox( titleNode, { xMargin: marginWidth / 2 } );
+    const titleBox = legendAlignGroup.createBox( titleText, { xMargin: marginWidth / 2 } );
     const sunlightBox = legendAlignGroup.createBox( sunlightRow, { xAlign: 'left', rightMargin: marginWidth } );
     const infraredBox = legendAlignGroup.createBox( infraredRow, { xAlign: 'left', rightMargin: marginWidth } );
 
