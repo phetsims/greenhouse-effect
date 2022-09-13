@@ -52,7 +52,9 @@ const GreenhouseEffectConstants = {
   STRAIGHT_UP_NORMALIZED_VECTOR: new Vector2( 0, 1 ),
 
   // miscellaneous shared constants
-  MAX_DT: 0.1 // in seconds
+  MAX_DT: 0.1, // in seconds
+  VERTICAL_SLIDER_THUMB_SIZE: new Dimension2( 26, 13 ),
+  HORIZONTAL_SLIDER_THUMB_SIZE: new Dimension2( 13, 26 )
 };
 
 greenhouseEffect.register( 'GreenhouseEffectConstants', GreenhouseEffectConstants );
