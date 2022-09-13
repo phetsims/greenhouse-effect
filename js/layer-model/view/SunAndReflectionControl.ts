@@ -32,11 +32,11 @@ const HEADING_FONT = new PhetFont( 14 );
 const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
 const PANEL_MARGIN = 5;
 const COMMON_SLIDER_OPTIONS: SliderOptions = {
-  thumbSize: new Dimension2( 10, 20 ),
+  thumbSize: GreenhouseEffectConstants.HORIZONTAL_SLIDER_THUMB_SIZE,
   thumbTouchAreaXDilation: 8,
   thumbTouchAreaYDilation: 8,
-  majorTickLength: 12,
-  minorTickLength: 6,
+  majorTickLength: GreenhouseEffectConstants.HORIZONTAL_SLIDER_THUMB_SIZE.height * 0.6,
+  minorTickLength: GreenhouseEffectConstants.HORIZONTAL_SLIDER_THUMB_SIZE.height * 0.25,
   tickLabelSpacing: 2
 };
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;

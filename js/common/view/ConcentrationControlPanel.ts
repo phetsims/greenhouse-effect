@@ -353,7 +353,7 @@ class ConcentrationSlider extends Node {
 
     const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
-      thumbSize: new Dimension2( 26, 13 ),
+      thumbSize: GreenhouseEffectConstants.VERTICAL_SLIDER_THUMB_SIZE,
 
       // constrain the value a bit to avoid some oddities with floating point math
       constrainValue: n => Utils.toFixedNumber( n, 6 ),
