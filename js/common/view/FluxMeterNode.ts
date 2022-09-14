@@ -427,7 +427,7 @@ class EnergyFluxDisplay extends Node {
 
     // layout
     boundsRectangle.centerX = labelText.centerX;
-    boundsRectangle.top = labelText.bottom + 15;
+    boundsRectangle.top = labelText.bottom + 8;
   }
 }
 
