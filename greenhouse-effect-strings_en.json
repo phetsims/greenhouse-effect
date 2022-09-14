@@ -209,6 +209,9 @@
   "absorbingLayers": {
     "value": "Absorbing Layers"
   },
+  "temperatureUnits": {
+    "value": "Temperature Units"
+  },
   "a11y": {
     "observationWindowLabel": {
       "value": "Observation Window"

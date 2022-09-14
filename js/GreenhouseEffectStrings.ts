@@ -175,6 +175,8 @@ type StringsType = {
   'energyBalanceStringProperty': TReadOnlyProperty<string>;
   'absorbingLayers': string;
   'absorbingLayersStringProperty': TReadOnlyProperty<string>;
+  'temperatureUnits': string;
+  'temperatureUnitsStringProperty': TReadOnlyProperty<string>;
   'a11y': {
     'observationWindowLabel': string;
     'observationWindowLabelStringProperty': TReadOnlyProperty<string>;

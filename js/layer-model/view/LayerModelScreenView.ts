@@ -1,6 +1,8 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * ScreenView (root view class) for the Layer Model screen.
+ *
  * @author John Blanco
  */
 
@@ -15,6 +17,7 @@ import LayersControl from './LayersControl.js';
 import SunAndReflectionControl from './SunAndReflectionControl.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
+import TemperatureUnitsSelector from './TemperatureUnitsSelector.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -35,6 +38,9 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
+    const temperatureUnitsSelector = new TemperatureUnitsSelector( model.temperatureUnitsProperty );
+    this.addChild( temperatureUnitsSelector );
+
     const morePhotonsCheckbox = new MorePhotonsCheckbox(
       model.photonCollection.showAllSimulatedPhotonsInViewProperty,
       tandem.createTandem( 'morePhotonsCheckbox' )
@@ -52,8 +58,10 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     // layout
-    morePhotonsCheckbox.left = this.observationWindow.left + 5;
-    morePhotonsCheckbox.centerY = this.timeControlNode.centerY;
+    temperatureUnitsSelector.left = this.observationWindow.left;
+    temperatureUnitsSelector.top = this.observationWindow.bottom + 3;
+    morePhotonsCheckbox.left = this.observationWindow.left;
+    morePhotonsCheckbox.top = temperatureUnitsSelector.bottom + 12;
 
     // controls on the side
     const sunAndReflectionControl = new SunAndReflectionControl(
