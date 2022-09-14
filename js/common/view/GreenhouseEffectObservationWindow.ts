@@ -259,7 +259,7 @@ class GreenhouseEffectObservationWindow extends Node {
       groundNode = groundNodePath;
     }
 
-    // Add the temperature glow nodes if so configured.
+    // Add the temperature glow node if so configured.
     if ( options.showTemperatureGlow ) {
 
       // surface temperature node, which is meant to look like a glow on the surface
@@ -267,39 +267,21 @@ class GreenhouseEffectObservationWindow extends Node {
       const surfaceTemperatureNode = new Path( groundShape, {
         fill: new LinearGradient( 0, groundShapeBounds.minY, 0, groundShapeBounds.maxY )
           .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
-          .addColorStop( 0.55, 'rgba( 255, 0, 0, 0 )' ),
+          .addColorStop( 1, 'rgba( 255, 0, 0, 0 )' ),
         bottom: SIZE.height
       } );
 
-      // glow in the sky that happens when the temperature gets high
-      const glowInTheSkyNode = new Rectangle(
-        0,
-        0,
-        SIZE.width,
-        -this.modelViewTransform.modelToViewDeltaY( LayersModel.HEIGHT_OF_ATMOSPHERE ) * 0.2,
-        {
-          fill: new LinearGradient( 0, 0, 0, nominalGroundHeight )
-            .addColorStop( 0, 'rgba( 255, 0, 0, 0 )' )
-            .addColorStop( 1, Color.RED ),
-          bottom: SIZE.height - ( nominalGroundHeight * 0.9 )
-        }
-      );
-
       model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
-      model.surfaceTemperatureVisibleProperty.linkAttribute( glowInTheSkyNode, 'visible' );
 
       model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
-        const opacityOfTemperatureIndicationNodes = Utils.clamp(
+        surfaceTemperatureNode.opacity = Utils.clamp(
           ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
           0,
           1
         );
-        surfaceTemperatureNode.opacity = opacityOfTemperatureIndicationNodes;
-        glowInTheSkyNode.opacity = opacityOfTemperatureIndicationNodes;
       } );
 
       // Layer the glow in the sky above the sky but behind the ground in the z-order.
-      this.backgroundLayer.addChild( glowInTheSkyNode );
       this.backgroundLayer.addChild( groundNode );
       this.backgroundLayer.addChild( surfaceTemperatureNode );
     }
