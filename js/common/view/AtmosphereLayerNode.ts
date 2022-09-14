@@ -9,8 +9,9 @@
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -77,7 +78,11 @@ class AtmosphereLayerNode extends Node {
       ( temperature, numberDisplayEnabled ) => numberDisplayEnabled ? temperature : null
     );
 
-    const numberDisplay = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
+    const showTemperatureProperty = new BooleanProperty( true );
+    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty );
+
+    const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
+      visibleProperty: showTemperatureProperty,
       centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
@@ -94,8 +99,15 @@ class AtmosphereLayerNode extends Node {
       }
     } );
 
+    const temperatureDisplay = new HBox( {
+      children: [ showTemperatureCheckbox, temperatureReadout ],
+      spacing: 15,
+      centerY: mainBody.centerY,
+      left: 20
+    } );
+
     // supertype constructor
-    super( { children: [ mainBody, numberDisplay ] } );
+    super( { children: [ mainBody, temperatureDisplay ] } );
 
     // This node should only be visible when the atmosphere layer is active.
     atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );
