@@ -24,7 +24,7 @@ class MicroScreen extends Screen {
       backgroundColorProperty: new Property( '#C5D6E8' ),
       homeScreenIcon: new RandomIcon( 549 ),
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.micro,
+      name: GreenhouseEffectStrings.screen.microStringProperty,
 
       // TODO: This should use the same content as molecules-and-light,
       // MoleculesAndLightKeyboardHelpContent should be moved to this repo.

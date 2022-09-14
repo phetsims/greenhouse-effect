@@ -24,7 +24,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       homeScreenIcon: new RandomIcon( 1 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.photons,
+      name: GreenhouseEffectStrings.screen.photonsStringProperty,
       descriptionContent: GreenhouseEffectStrings.a11y.photons.homeScreenDescription,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };

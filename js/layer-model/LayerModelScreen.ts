@@ -24,7 +24,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       homeScreenIcon: new RandomIcon( 544 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.layerModel,
+      name: GreenhouseEffectStrings.screen.layerModelStringProperty,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
 

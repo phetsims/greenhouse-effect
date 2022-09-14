@@ -24,7 +24,7 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
       homeScreenIcon: new RandomIcon( 552 ),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.waves,
+      name: GreenhouseEffectStrings.screen.wavesStringProperty,
       descriptionContent: GreenhouseEffectStrings.a11y.waves.homeScreenDescription,
       keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
     };
