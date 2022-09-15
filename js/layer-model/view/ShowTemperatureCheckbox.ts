@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * ShowTemperatureCheckbox is a specialized checkbox with a thermometer icon and no label.
