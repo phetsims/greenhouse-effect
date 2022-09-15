@@ -38,7 +38,10 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
-    const temperatureUnitsSelector = new TemperatureUnitsSelector( model.temperatureUnitsProperty );
+    const temperatureUnitsSelector = new TemperatureUnitsSelector(
+      model.temperatureUnitsProperty,
+      tandem.createTandem( 'temperatureUnitsSelector' )
+    );
     this.addChild( temperatureUnitsSelector );
 
     const morePhotonsCheckbox = new MorePhotonsCheckbox(

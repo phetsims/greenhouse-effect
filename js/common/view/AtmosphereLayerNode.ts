@@ -9,7 +9,7 @@
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Color, HBox, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
@@ -20,6 +20,7 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -28,19 +29,25 @@ const LAYER_RECTANGLE_FILL_BASE_COLOR = Color.LIGHT_GRAY;
 const MINIMUM_OPACITY = 0.4;
 const MAXIMUM_OPACITY = 0.85;
 
-type AtmosphereLayerNodeOptions = {
-  numberDisplayEnabledProperty?: BooleanProperty;
+type SelfOptions = {
+  numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
 };
+export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 
 class AtmosphereLayerNode extends Node {
 
   public constructor( atmosphereLayer: AtmosphereLayer,
                       modelViewTransform: ModelViewTransform2,
-                      options?: AtmosphereLayerNodeOptions ) {
+                      providedOptions?: AtmosphereLayerNodeOptions ) {
+
+    const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
+      layerThickness: DEFAULT_LAYER_THICKNESS,
+      numberDisplayEnabledProperty: null
+    }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
-    const numberDisplayEnabledProperty = ( options && options.numberDisplayEnabledProperty ) ||
+    const numberDisplayEnabledProperty = ( options.numberDisplayEnabledProperty ) ||
                                          new BooleanProperty( true );
 
     // If a thickness value is provided, use the model-view transform to convert it to view coordinates, otherwise use
@@ -79,7 +86,9 @@ class AtmosphereLayerNode extends Node {
     );
 
     const showTemperatureProperty = new BooleanProperty( true );
-    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty );
+    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, {
+      tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
+    } );
 
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,

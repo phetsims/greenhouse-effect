@@ -4,6 +4,7 @@ import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -17,10 +18,13 @@ const LABEL_FONT = new PhetFont( 14 );
  */
 
 class TemperatureUnitsSelector extends VBox {
-  public constructor( temperatureUnitsProperty: Property<TemperatureUnits> ) {
+  public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     // Create the label that sits above the radio button selectors.
-    const label = new Text( GreenhouseEffectStrings.temperatureUnits, { font: LABEL_FONT } );
+    const label = new Text( GreenhouseEffectStrings.temperatureUnits, {
+      font: LABEL_FONT,
+      tandem: tandem.createTandem( 'labelText' )
+    } );
 
     // Create the radio button items.
     const temperatureSelectionRadioButtonItems = [
@@ -39,7 +43,7 @@ class TemperatureUnitsSelector extends VBox {
     ];
 
     // Create the radio buttons.
-    const soundIndexSelector = new AquaRadioButtonGroup(
+    const temperatureUnitsRadioButtonGroup = new AquaRadioButtonGroup(
       temperatureUnitsProperty,
       temperatureSelectionRadioButtonItems,
       {
@@ -47,18 +51,15 @@ class TemperatureUnitsSelector extends VBox {
         spacing: 15,
         radioButtonOptions: {
           radius: 6
-        }
+        },
+        tandem: tandem.createTandem( 'temperatureUnitsRadioButtonGroup' )
       }
     );
 
-    // TODO: Temporary, for debug.
-    temperatureUnitsProperty.lazyLink( units => {
-      console.log( `units = ${units}` );
-    } );
-
     // Put the label and radio buttons together in the VBox.
     super( {
-      children: [ label, soundIndexSelector ],
+      tandem: tandem,
+      children: [ label, temperatureUnitsRadioButtonGroup ],
       align: 'left',
       spacing: 3
     } );
