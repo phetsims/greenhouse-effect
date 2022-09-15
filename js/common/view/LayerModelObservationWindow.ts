@@ -79,7 +79,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
       const atmosphereNode = new AtmosphereLayerNode( atmosphereLayer, this.modelViewTransform, {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
-        layerThickness: correspondingPhotonAbsorbingLayer.thickness
+        layerThickness: correspondingPhotonAbsorbingLayer.thickness,
+        tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
       } );
       this.presentationLayer.addChild( atmosphereNode );
     } );
