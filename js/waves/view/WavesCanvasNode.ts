@@ -12,6 +12,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -21,6 +22,7 @@ import Wave from '../model/Wave.js';
 const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
+const USE_OPACITY = GreenhouseEffectQueryParameters.useOpacityForWaveRendering;
 
 type RenderingParameters = {
   baseColor: Color;
@@ -94,10 +96,14 @@ class WavesCanvasNode extends CanvasNode {
     context.lineCap = 'round';
     context.lineWidth = waveIntensityToLineWidth( waveIntensity );
 
-    // TODO: The transparency was removed when working on https://github.com/phetsims/greenhouse-effect/issues/84.  Is
-    //       this okay, or do we need to work it in somehow?
-    // context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
-    context.strokeStyle = baseColor.toCSS();
+    // TODO: The design team is working to decide whether to use opacity when rendering the waves with different
+    //       thicknesses, since it can cause some odd-looking artifacts.
+    if ( USE_OPACITY ) {
+      context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( wave.intensityAtStart ) ).toCSS();
+    }
+    else {
+      context.strokeStyle = baseColor.toCSS();
+    }
     context.beginPath();
 
     // vectors used in the calculation process
@@ -158,10 +164,11 @@ class WavesCanvasNode extends CanvasNode {
         waveIntensity = intensityChanges[ nextIntensityChangeIndex ].postChangeIntensity;
         context.lineWidth = waveIntensityToLineWidth( waveIntensity );
 
-        // TODO: As noted above, the transparency was removed when working on
-        //       https://github.com/phetsims/greenhouse-effect/issues/84, but we may want to adjust the color or
-        //       something.
-        // context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
+        // TODO: As noted above, the transparency behavior is in question, see
+        //       https://github.com/phetsims/greenhouse-effect/issues/84.
+        if ( USE_OPACITY ) {
+          context.strokeStyle = baseColor.withAlpha( waveIntensityToAlpha( waveIntensity ) ).toCSS();
+        }
 
         // Set up the next intensity change if there is one.
         nextIntensityChangeIndex++;
@@ -249,11 +256,9 @@ const waveIntensityToLineWidth = ( waveIntensity: number ): number => {
   return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.5, WAVE_MAX_LINE_WIDTH );
 };
 
-// TODO: As noted above, the transparency was removed when working on
-//       https://github.com/phetsims/greenhouse-effect/issues/84, but we may want to adjust the color or
-//       something.  Keep this function - commented out to avoid lint errors - until we figure it out.
-// const waveIntensityToAlpha = ( waveIntensity: number ): number => {
-//   return Math.min( waveIntensity + 0.25, 1 );
-// };
+// helper function for setting the opacity as a function of the intensity
+const waveIntensityToAlpha = ( waveIntensity: number ): number => {
+  return Math.min( waveIntensity + 0.25, 1 );
+};
 
 export default WavesCanvasNode;
