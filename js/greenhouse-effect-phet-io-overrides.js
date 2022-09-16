@@ -127,7 +127,7 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.waveGroup.countProperty": {
       "phetioFeatured": false
     },
-    "greenhouseEffect.wavesScreen.view.cloudCheckbox.labelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.cloudCheckbox.labelText.stringProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.slider.visibleProperty": {
@@ -136,22 +136,22 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.titleText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.titleText.stringProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.infraredLabelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.infraredLabelText.stringProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.sunlightLabelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.sunlightLabelText.stringProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.titleText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.energyLegend.titleText.stringProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.labelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.labelText.stringProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.visibleProperty": {
@@ -160,7 +160,7 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.text.textProperty": {
+    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.text.stringProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.visibleProperty": {
@@ -169,10 +169,10 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.observationWindow.wavesCanvasNode.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.surfaceTemperatureCheckbox.labelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.surfaceTemperatureCheckbox.labelText.stringProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.surfaceThermometerCheckbox.labelText.textProperty": {
+    "greenhouseEffect.wavesScreen.view.surfaceThermometerCheckbox.labelText.stringProperty": {
       "phetioFeatured": true
     }
   };
