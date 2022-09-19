@@ -26,26 +26,35 @@ class TemperatureUnitsSelector extends VBox {
       tandem: tandem.createTandem( 'labelText' )
     } );
 
-    // Create the radio button items.
-    const temperatureSelectionRadioButtonItems = [
-      {
-        node: new Text( GreenhouseEffectStrings.temperature.units.kelvin, { font: LABEL_FONT } ),
-        value: TemperatureUnits.KELVIN
-      },
-      {
-        node: new Text( GreenhouseEffectStrings.temperature.units.celsius, { font: LABEL_FONT } ),
-        value: TemperatureUnits.CELSIUS
-      },
-      {
-        node: new Text( GreenhouseEffectStrings.temperature.units.fahrenheit, { font: LABEL_FONT } ),
-        value: TemperatureUnits.FAHRENHEIT
-      }
-    ];
-
     // Create the radio buttons.
     const temperatureUnitsRadioButtonGroup = new AquaRadioButtonGroup(
       temperatureUnitsProperty,
-      temperatureSelectionRadioButtonItems,
+      [
+        {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.kelvin, {
+            font: LABEL_FONT,
+            tandem: tandem.createTandem( 'text' )
+          } ),
+          value: TemperatureUnits.KELVIN,
+          tandemName: 'kelvinRadioButton'
+        },
+        {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.celsius, {
+            font: LABEL_FONT,
+            tandem: tandem.createTandem( 'text' )
+          } ),
+          value: TemperatureUnits.CELSIUS,
+          tandemName: 'celciusRadioButton'
+        },
+        {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.fahrenheit, {
+            font: LABEL_FONT,
+            tandem: tandem.createTandem( 'text' )
+          } ),
+          value: TemperatureUnits.FAHRENHEIT,
+          tandemName: 'fahrenheitRadioButton'
+        }
+      ],
       {
         orientation: 'horizontal',
         spacing: 15,
