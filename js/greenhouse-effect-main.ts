@@ -65,7 +65,7 @@ simLauncher.launch( () => {
   const sim = new Sim( greenhouseEffectTitleStringProperty, [
     new WavesScreen( Tandem.ROOT.createTandem( 'wavesScreen' ) ),
     new PhotonsScreen( Tandem.ROOT.createTandem( 'photonsScreen' ) ),
-    new LayerModelScreen( Tandem.ROOT.createTandem( 'LayerModelScreen' ) ),
+    new LayerModelScreen( Tandem.ROOT.createTandem( 'layerModelScreen' ) ),
     new MicroScreen( Tandem.ROOT.createTandem( 'microScreen' ) ) ], simOptions );
   sim.start();
 } );
