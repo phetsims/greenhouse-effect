@@ -75,9 +75,20 @@ type SelfOptions = {
 export type EnergyAbsorbingEmittingLayerOptions = SelfOptions & PhetioObjectOptions;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
+
+  // The altitude in meters where this layer exists,
   public readonly altitude: number;
+
+  // The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default so that it isn't
+  // radiating anything, and produce a compensated temperature that produces values more reasonable to the surface of
+  // the Earth and its atmosphere.
   public readonly temperatureProperty: NumberProperty;
+
+  // The proportion of energy coming into this layer that is absorbed and thus contributes to an increase in
+  // temperature.  Non-absorbed energy is simply passed from the input to the output.
   public readonly energyAbsorptionProportionProperty: NumberProperty;
+
+  // Other fields whose meaning should be reasonably obvious.
   private readonly substance: Substance;
   private readonly mass: number;
   private readonly specificHeatCapacity: number;
@@ -109,12 +120,8 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
     super( options );
 
-    // altitude in meters where this layer exists
     this.altitude = altitude;
 
-    // The temperature of this layer in degrees Kelvin.  We model it at absolute zero by default so that it isn't
-    // radiating anything, and produce a compensated temperature that produces values more reasonable to the surface of
-    // the Earth and its atmosphere.
     this.temperatureProperty = new NumberProperty( options.minimumTemperature, {
       units: 'K',
       tandem: options.tandem.createTandem( 'temperatureProperty' ),
@@ -122,8 +129,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioHighFrequency: true
     } );
 
-    // The proportion of energy coming into this layer that is absorbed and thus contributes to an increase in
-    // temperature.  Non-absorbed energy is simply passed from the input to the output.
     this.energyAbsorptionProportionProperty = new NumberProperty( options.initialEnergyAbsorptionProportion, {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
