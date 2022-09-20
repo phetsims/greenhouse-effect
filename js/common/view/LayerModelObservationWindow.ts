@@ -7,12 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
+import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
 import PhotonSprites from '../PhotonSprites.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
@@ -25,6 +27,7 @@ export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectO
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   private readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
+  private readonly showSurfaceThermometerProperty: BooleanProperty;
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -44,6 +47,14 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     super( model, options );
 
+    // checkbox for thermometer visibility
+    this.showSurfaceThermometerProperty = new BooleanProperty( true );
+    const showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
+      left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      centerY: this.height * 0.85
+    } );
+    this.backgroundLayer.addChild( showThermometerCheckbox );
+
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
@@ -62,7 +73,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
-      left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      visibleProperty: this.showSurfaceThermometerProperty,
+      left: showThermometerCheckbox.right + 10,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
@@ -109,6 +121,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   public override reset(): void {
     this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
+    this.showSurfaceThermometerProperty.reset();
   }
 }
 
