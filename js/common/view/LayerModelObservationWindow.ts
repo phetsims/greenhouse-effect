@@ -24,6 +24,7 @@ export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectO
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
+  private readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -77,7 +78,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
-      const atmosphereNode = new AtmosphereLayerNode(
+      const atmosphereLayerNode = new AtmosphereLayerNode(
         atmosphereLayer,
         model.temperatureUnitsProperty,
         this.modelViewTransform,
@@ -87,7 +88,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
           tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
         }
       );
-      this.presentationLayer.addChild( atmosphereNode );
+      this.presentationLayer.addChild( atmosphereLayerNode );
+      this.atmosphereLayerNodes.push( atmosphereLayerNode );
     } );
 
     // Adjust the color of the ground as the albedo changes.
@@ -103,6 +105,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   public override step( dt: number ): void {
     this.photonsNode.update();
     super.step( dt );
+  }
+
+  public override reset(): void {
+    this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
   }
 }
 

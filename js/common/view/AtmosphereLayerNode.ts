@@ -40,6 +40,8 @@ export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 
 class AtmosphereLayerNode extends Node {
 
+  private readonly showTemperatureProperty: BooleanProperty;
+
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
                       modelViewTransform: ModelViewTransform2,
@@ -142,6 +144,16 @@ class AtmosphereLayerNode extends Node {
 
     // This node should only be visible when the atmosphere layer is active.
     atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );
+
+    // Make the temperature property available for reset.
+    this.showTemperatureProperty = showTemperatureProperty;
+  }
+
+  /**
+   * Restore initial state.
+   */
+  public reset(): void {
+    this.showTemperatureProperty.reset();
   }
 }
 
