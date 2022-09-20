@@ -12,6 +12,7 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
+import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -21,6 +22,8 @@ import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TemperatureUnits from '../model/TemperatureUnits.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -38,6 +41,7 @@ export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 class AtmosphereLayerNode extends Node {
 
   public constructor( atmosphereLayer: AtmosphereLayer,
+                      temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
                       modelViewTransform: ModelViewTransform2,
                       providedOptions?: AtmosphereLayerNodeOptions ) {
 
@@ -69,7 +73,7 @@ class AtmosphereLayerNode extends Node {
       }
     );
 
-    // Adjust the opacity of the stroke and fill of the layer based on the absorbance.
+    // Adjust the opacity of the stroke and fill based on the absorbance.
     atmosphereLayer.energyAbsorptionProportionProperty.link( energyAbsorptionProportion => {
 
       // Map the proportion to an opacity.  We don't want to go 100% opaque or the photons would be obscured when they
@@ -79,17 +83,35 @@ class AtmosphereLayerNode extends Node {
       mainBody.stroke = LAYER_RECTANGLE_STROKE_BASE_COLOR.withAlpha( opacity );
     } );
 
-    // Create a derived property for the value that will be displayed as the temperature.
-    const temperatureValueProperty = new DerivedProperty(
-      [ atmosphereLayer.temperatureProperty, numberDisplayEnabledProperty ],
-      ( temperature, numberDisplayEnabled ) => numberDisplayEnabled ? temperature : null
-    );
-
+    // Create the property and associated checkbox that will control whether the temperature readout is visible.
     const showTemperatureProperty = new BooleanProperty( true );
     const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, {
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
     } );
 
+    // Create a derived property for the value that will be displayed as the temperature.
+    const temperatureValueProperty = new DerivedProperty(
+      [ atmosphereLayer.temperatureProperty, temperatureUnitsProperty, numberDisplayEnabledProperty ],
+      ( temperature, temperatureUnits, numberDisplayEnabled ) => {
+        let temperatureValue = null;
+        if ( numberDisplayEnabled ) {
+          temperatureValue = temperatureUnits === TemperatureUnits.KELVIN ? temperature :
+                             temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperature ) :
+                             GreenhouseEffectUtils.kelvinToFahrenheit( temperature );
+        }
+        return temperatureValue;
+      }
+    );
+
+    // Create a closure that can be used to get the appropriate units string when the temperature is rendered.
+    const getUnits = () => {
+      const temperatureUnits = temperatureUnitsProperty.value;
+      return temperatureUnits === TemperatureUnits.KELVIN ? GreenhouseEffectStrings.temperature.units.kelvin :
+             temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectStrings.temperature.units.celsius :
+             GreenhouseEffectStrings.temperature.units.fahrenheit;
+    };
+
+    // Create the temperature readout.
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,
       centerY: mainBody.centerY,
@@ -100,7 +122,7 @@ class AtmosphereLayerNode extends Node {
       numberFormatter: ( temperature: number ) => {
         return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
           value: Utils.toFixed( temperature, 1 ),
-          units: GreenhouseEffectStrings.temperature.units.kelvin
+          units: getUnits()
         } );
       },
       textOptions: {
