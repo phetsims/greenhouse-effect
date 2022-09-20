@@ -10,27 +10,29 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import LayersModel from '../model/LayersModel.js';
-import Property from '../../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import GroundLayer from '../model/GroundLayer.js';
-import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
+import GroundLayer from '../model/GroundLayer.js';
+import LayersModel from '../model/LayersModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 
 // constants
@@ -154,14 +156,41 @@ class ThermometerAndReadout extends Node {
     }
     else {
 
-      const temperatureInKelvinReadout = ThermometerAndReadout.createTemperatureReadout(
-        kelvinUnitsString,
-        model.surfaceTemperatureKelvinProperty,
-        model.surfaceTemperatureKelvinProperty.range!
+      // Create a derived property for the value that will be displayed as the temperature.
+      const temperatureValueProperty = new DerivedProperty(
+        [ model.surfaceTemperatureKelvinProperty, model.temperatureUnitsProperty ],
+        ( temperature, temperatureUnits ) =>
+          temperatureUnits === TemperatureUnits.KELVIN ? temperature :
+          temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperature ) :
+          GreenhouseEffectUtils.kelvinToFahrenheit( temperature )
       );
-      temperatureInKelvinReadout.centerTop = thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE );
 
-      this.addChild( temperatureInKelvinReadout );
+      // Create a closure that can be used to get the appropriate units string when the temperature is rendered.
+      const getUnits = () => {
+        const temperatureUnits = model.temperatureUnitsProperty.value;
+        return temperatureUnits === TemperatureUnits.KELVIN ? GreenhouseEffectStrings.temperature.units.kelvin :
+               temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectStrings.temperature.units.celsius :
+               GreenhouseEffectStrings.temperature.units.fahrenheit;
+      };
+
+      // Create the temperature readout.
+      const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
+        centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
+        backgroundStroke: Color.BLACK,
+        cornerRadius: 3,
+        noValueAlign: 'center',
+        numberFormatter: ( temperature: number ) => {
+          return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+            value: Utils.toFixed( temperature, 1 ),
+            units: getUnits()
+          } );
+        },
+        textOptions: {
+          font: new PhetFont( 14 )
+        }
+      } );
+
+      this.addChild( temperatureReadout );
     }
 
     // mutate with layout options after the Node has been assembled
@@ -198,33 +227,10 @@ class ThermometerAndReadout extends Node {
     };
   }
 
-  /**
-   * Create a readout for a Property that represents a temperature.
-   */
-  private static createTemperatureReadout( unitsString: string,
-                                           property: Property<number>,
-                                           propertyRange: Range ): NumberDisplay {
-
-    const numberDisplayOptions = {
-      decimalPlaces: DECIMAL_PLACES_IN_READOUT,
-      textOptions: {
-        font: GreenhouseEffectConstants.CONTENT_FONT,
-        maxWidth: 120
-      },
-      valuePattern: StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-        units: unitsString
-      } ),
-      xMargin: 12,
-      yMargin: 5,
-      cornerRadius: 4
-    };
-
-    return new NumberDisplay( property, propertyRange, numberDisplayOptions );
-  }
-
   // static values
   public static ReadoutType = ReadoutType;
 }
 
 greenhouseEffect.register( 'ThermometerAndReadout', ThermometerAndReadout );
+
 export default ThermometerAndReadout;
