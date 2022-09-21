@@ -7,7 +7,6 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -16,11 +15,11 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -105,28 +104,27 @@ class AtmosphereLayerNode extends Node {
       }
     );
 
-    // Create a closure that can be used to get the appropriate units string when the temperature is rendered.
-    const getUnits = () => {
-      const temperatureUnits = temperatureUnitsProperty.value;
-      return temperatureUnits === TemperatureUnits.KELVIN ? GreenhouseEffectStrings.temperature.units.kelvin :
-             temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectStrings.temperature.units.celsius :
-             GreenhouseEffectStrings.temperature.units.fahrenheit;
-    };
-
     // Create the temperature readout.
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,
       centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
+      valuePattern: new PatternStringProperty( GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
+        units: new DerivedProperty( [
+          temperatureUnitsProperty,
+          GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
+          GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
+          GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
+        ], ( temperatureUnits, kelvinString, celsiusString, farenheitString ) => {
+          return temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
+                 temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
+                 farenheitString;
+        } )
+      } ),
+      decimalPlaces: 1,
       cornerRadius: 3,
       noValueAlign: 'center',
-      numberFormatter: ( temperature: number ) => {
-        return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-          value: Utils.toFixed( temperature, 1 ),
-          units: getUnits()
-        } );
-      },
       textOptions: {
         font: new PhetFont( 14 )
       }
