@@ -110,18 +110,26 @@ class AtmosphereLayerNode extends Node {
       centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
-      valuePattern: new PatternStringProperty( GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
-        units: new DerivedProperty( [
-          temperatureUnitsProperty,
-          GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
-          GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
-          GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
-        ], ( temperatureUnits, kelvinString, celsiusString, farenheitString ) => {
-          return temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
-                 temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
-                 farenheitString;
-        } )
-      } ),
+      valuePattern: new PatternStringProperty(
+        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+        {
+          units: new DerivedProperty(
+            [
+              temperatureUnitsProperty,
+              numberDisplayEnabledProperty,
+              GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
+              GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
+              GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
+            ],
+            ( temperatureUnits, numberDisplayEnabled, kelvinString, celsiusString, fahrenheitString ) => {
+              return !numberDisplayEnabled ? '' :
+                     temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
+                     temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
+                     fahrenheitString;
+            }
+          )
+        }
+      ),
       decimalPlaces: 1,
       cornerRadius: 3,
       noValueAlign: 'center',
