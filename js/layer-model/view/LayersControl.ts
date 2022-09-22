@@ -96,7 +96,8 @@ class LayersControl extends Panel {
       {
         cornerRadius: 3,
         xMargin: 5,
-        font: new PhetFont( 16 ),
+        font: new PhetFont( 22 ),
+        arrowHeight: 8,
         valueChangedSoundPlayer: numberOfLayersSoundPlayer,
         boundarySoundPlayer: numberOfLayersSoundPlayer,
 
