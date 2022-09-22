@@ -31,7 +31,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
-    assert && assert( providedOptions.groundBaseColorProperty === undefined, 'LayerModelObservationWindow sets groundBaseColorProperty' );
+    assert && assert(
+      providedOptions.groundBaseColorProperty === undefined,
+      'LayerModelObservationWindow sets groundBaseColorProperty'
+    );
     const groundBaseColorProperty = new ColorProperty( Color.GRAY );
 
     const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
@@ -51,7 +54,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     this.showSurfaceThermometerProperty = new BooleanProperty( true );
     const showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
       left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      centerY: this.height * 0.85
+      centerY: this.height * 0.85,
+      tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
     } );
     this.backgroundLayer.addChild( showThermometerCheckbox );
 
