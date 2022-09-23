@@ -23,6 +23,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import optionize from '../../../../phet-core/js/optionize.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -40,6 +41,12 @@ export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 class AtmosphereLayerNode extends Node {
 
   private readonly showTemperatureProperty: BooleanProperty;
+
+  // Center of the temperature readout in the local coordinate frame, used for layout in the parent.
+  public readonly temperatureReadoutCenter: Vector2;
+
+  // Left side of the temperature checkbox in the local coordinate frame, used for layout in the parent.
+  public readonly showTemperatureCheckboxLeft: number;
 
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
@@ -107,8 +114,6 @@ class AtmosphereLayerNode extends Node {
     // Create the temperature readout.
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,
-      centerY: mainBody.centerY,
-      right: 100,
       backgroundStroke: Color.BLACK,
       minBackgroundWidth: 70, // empirically determined to fit largest number
       valuePattern: new PatternStringProperty(
@@ -154,6 +159,10 @@ class AtmosphereLayerNode extends Node {
 
     // Make the temperature property available for reset.
     this.showTemperatureProperty = showTemperatureProperty;
+
+    // Make some positioning information available that other nodes can use for layout purposes.
+    this.temperatureReadoutCenter = temperatureDisplay.localToParentPoint( temperatureReadout.center );
+    this.showTemperatureCheckboxLeft = temperatureDisplay.localToParentBounds( showTemperatureCheckbox.bounds ).minX;
   }
 
   /**
