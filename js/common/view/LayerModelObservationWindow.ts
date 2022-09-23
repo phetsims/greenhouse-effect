@@ -79,7 +79,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
     } );
-    this.backgroundLayer.addChild( showThermometerCheckbox );
+    this.controlsLayer.addChild( showThermometerCheckbox );
 
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
@@ -107,7 +107,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       // phet-io
       tandem: options.tandem.createTandem( 'surfaceThermometer' )
     } );
-    this.backgroundLayer.addChild( surfaceThermometer );
+    this.controlsLayer.addChild( surfaceThermometer );
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {
