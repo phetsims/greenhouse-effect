@@ -110,6 +110,7 @@ class AtmosphereLayerNode extends Node {
       centerY: mainBody.centerY,
       right: 100,
       backgroundStroke: Color.BLACK,
+      minBackgroundWidth: 70, // empirically determined to fit largest number
       valuePattern: new PatternStringProperty(
         GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
         {
