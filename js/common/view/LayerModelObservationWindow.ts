@@ -50,11 +50,33 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     super( model, options );
 
+    // Add the node that will render the photons.
+    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
+    this.presentationLayer.addChild( this.photonsNode );
+
+    // Add the visual representations of the atmosphere layers.
+    model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
+      const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
+      const atmosphereLayerNode = new AtmosphereLayerNode(
+        atmosphereLayer,
+        model.temperatureUnitsProperty,
+        this.modelViewTransform,
+        {
+          numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
+          layerThickness: correspondingPhotonAbsorbingLayer.thickness,
+          tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
+        }
+      );
+      this.presentationLayer.addChild( atmosphereLayerNode );
+      this.atmosphereLayerNodes.push( atmosphereLayerNode );
+    } );
+
     // checkbox for thermometer visibility
     this.showSurfaceThermometerProperty = new BooleanProperty( true );
     const showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
-      left: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      centerY: this.height * 0.85,
+      left: this.atmosphereLayerNodes[ 0 ].showTemperatureCheckboxLeft,
+      bottom: GreenhouseEffectObservationWindow.SIZE.height -
+              GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
     } );
     this.backgroundLayer.addChild( showThermometerCheckbox );
@@ -78,7 +100,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
       visibleProperty: this.showSurfaceThermometerProperty,
-      left: showThermometerCheckbox.right + 10,
+      centerX: this.atmosphereLayerNodes[ 0 ].temperatureReadoutCenter.x,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
@@ -86,27 +108,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       tandem: options.tandem.createTandem( 'surfaceThermometer' )
     } );
     this.backgroundLayer.addChild( surfaceThermometer );
-
-    // Add the node that will render the photons.
-    this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
-    this.presentationLayer.addChild( this.photonsNode );
-
-    // Add the visual representations of the atmosphere layers.
-    model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
-      const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
-      const atmosphereLayerNode = new AtmosphereLayerNode(
-        atmosphereLayer,
-        model.temperatureUnitsProperty,
-        this.modelViewTransform,
-        {
-          numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
-          layerThickness: correspondingPhotonAbsorbingLayer.thickness,
-          tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
-        }
-      );
-      this.presentationLayer.addChild( atmosphereLayerNode );
-      this.atmosphereLayerNodes.push( atmosphereLayerNode );
-    } );
 
     // Adjust the color of the ground as the albedo changes.
     model.groundLayer.albedoProperty.link( albedo => {
