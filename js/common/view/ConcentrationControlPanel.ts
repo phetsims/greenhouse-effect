@@ -489,8 +489,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
         // pdom
         labelTagName: 'h4',
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.exploreMode,
-        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.exploreModeHelpText,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.experimentMode,
+        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpText,
 
         // phet-io
         tandem: tandem

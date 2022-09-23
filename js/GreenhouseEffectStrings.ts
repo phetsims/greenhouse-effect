@@ -457,10 +457,10 @@ type StringsType = {
     'concentrationPanel': {
       'title': string;
       'titleStringProperty': TReadOnlyProperty<string>;
-      'exploreMode': string;
-      'exploreModeStringProperty': TReadOnlyProperty<string>;
-      'exploreModeHelpText': string;
-      'exploreModeHelpTextStringProperty': TReadOnlyProperty<string>;
+      'experimentMode': string;
+      'experimentModeStringProperty': TReadOnlyProperty<string>;
+      'experimentModeHelpText': string;
+      'experimentModeHelpTextStringProperty': TReadOnlyProperty<string>;
       'byConcentration': string;
       'byConcentrationStringProperty': TReadOnlyProperty<string>;
       'byTimePeriod': string;
