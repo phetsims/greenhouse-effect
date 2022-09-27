@@ -114,6 +114,10 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     };
   }
 
+  /**
+   * Step forward in time by the provided amount.  This updates the counters used to play sounds and control the volume.
+   * @param dt - delta time, in seconds
+   */
   public step( dt: number ): void {
 
     // See if it is time to play a blip sound and, if so, do it and reset the countdown.
