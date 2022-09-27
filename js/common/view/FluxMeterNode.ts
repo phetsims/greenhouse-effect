@@ -32,6 +32,8 @@ import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { Color, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -39,6 +41,7 @@ import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
+import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 
 const sunlightString = GreenhouseEffectStrings.sunlight;
 const infraredString = GreenhouseEffectStrings.infrared;
@@ -93,6 +96,11 @@ class FluxMeterNode extends Node {
 
   // zoom factor, only used if the zoom feature is enabled
   private readonly zoomFactor: RangedProperty;
+
+  // sound generator for this node
+  private readonly soundGenerator: FluxMeterSoundGenerator;
+
+  private readonly isModelPlayingProperty: TReadOnlyProperty<boolean>;
 
   /**
    * @param model - model component for the FluxMeter
@@ -274,10 +282,29 @@ class FluxMeterNode extends Node {
       tandem: options.tandem.createTandem( 'dragListener' )
     } ) );
 
+    // Add sound generation.
+    this.soundGenerator = new FluxMeterSoundGenerator(
+      model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
+      model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
+      model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
+      model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
+      {
+        enableControlProperties: [ isPlayingProperty, visibleProperty ]
+      }
+    );
+    soundManager.addSoundGenerator( this.soundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
+
+    // Make some things available to the methods.
+    this.isModelPlayingProperty = isPlayingProperty;
+
     // never disposed, no need to unlink
     model.fluxSensor.altitudeProperty.link( altitude => {
       fluxSensorNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
+  }
+
+  public step( dt: number ): void {
+    this.soundGenerator.step( dt );
   }
 
   public reset(): void {
