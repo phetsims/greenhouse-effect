@@ -473,6 +473,9 @@ class GreenhouseEffectObservationWindow extends Node {
 
   public step( dt: number ): void {
     this.energyBalancePanel.step( dt );
+    if ( this.fluxMeterNode ) {
+      this.fluxMeterNode.step( dt );
+    }
   }
 
   /**
