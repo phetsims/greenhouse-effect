@@ -2,7 +2,9 @@
 
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
@@ -43,40 +45,26 @@ class WaveIntensityChange {
     return `{ postChangeIntensity: ${this.postChangeIntensity}, distanceFromStart: ${this.distanceFromStart}, anchoredTo: ${this.anchoredTo ? 'something' : 'nothing'}`;
   }
 
-  /**
-   * Serializes this WaveIntensityChange instance.
-   */
-  public toStateObject(): WaveIntensityChangeStateObject {
-    return {
-      postChangeIntensity: NumberIO.toStateObject( this.postChangeIntensity ),
-      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
-    };
-  }
-
-  public static fromStateObject( stateObject: WaveIntensityChangeStateObject ): WaveIntensityChange {
-    return new WaveIntensityChange(
+  // phet-io
+  public static WaveIntensityChangeIO = new IOType( 'WaveIntensityChangeIO', {
+    valueType: WaveIntensityChange,
+    stateSchema: {
+      postChangeIntensity: NumberIO,
+      distanceFromStart: NumberIO,
+      anchoredTo: NullableIO( ReferenceIO( IOType.ObjectIO ) )
+    },
+    fromStateObject: ( stateObject: WaveIntensityChangeStateObject ) => new WaveIntensityChange(
       NumberIO.fromStateObject( stateObject.postChangeIntensity ),
       NumberIO.fromStateObject( stateObject.distanceFromStart )
-    );
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      postChangeIntensity: NumberIO,
-      distanceFromStart: NumberIO
-    };
-  }
-
-  // phet-io
-  public static WaveIntensityChangeIO = IOType.fromCoreType( 'WaveIntensityChangeIO', WaveIntensityChange );
+    )
+  } );
 }
 
+// for phet-io
 export type WaveIntensityChangeStateObject = {
   postChangeIntensity: NumberStateObject;
   distanceFromStart: NumberStateObject;
+  anchoredTo: null | ReferenceIOState;
 };
 
 greenhouseEffect.register( 'WaveIntensityChange', WaveIntensityChange );
