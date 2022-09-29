@@ -203,7 +203,7 @@ class LayersModel extends GreenhouseEffectModel {
     const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
 
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.
-    const distanceBetweenAtmosphereLayers = HEIGHT_OF_ATMOSPHERE / ( options.numberOfAtmosphereLayers + 1 );
+    const distanceBetweenAtmosphereLayers = ( HEIGHT_OF_ATMOSPHERE * 0.85 ) / ( options.numberOfAtmosphereLayers + 1 );
 
     // Add the atmosphere layers.  These MUST be added in order of increasing altitude, since other code assumes that
     // this is the case.
@@ -219,7 +219,8 @@ class LayersModel extends GreenhouseEffectModel {
       this.atmosphereLayers.push( atmosphereLayer );
     } );
 
-    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
+    // the endpoint where energy radiating from the top of the atmosphere goes
+    this.outerSpace = new SpaceEnergySink( ( HEIGHT_OF_ATMOSPHERE * 0.85 ), tandem.createTandem( 'outerSpace' ) );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
     if ( options.fluxMeterPresent ) {

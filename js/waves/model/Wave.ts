@@ -1,11 +1,8 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
- * The Wave class represents a wave of light in the model.
- *
- * TODO: The code is written to support multiple points along the wave where its intensity can be attenuated.  However,
- *       this code is basically untested, since it hasn't been needed yet.  It will need to be tested and debugged if
- *       and when it is ever needed. See https://github.com/phetsims/greenhouse-effect/issues/52 for more information.
+ * The Wave class represents a wave of light in the model.  Light waves are modeled as single lines with a start point
+ * and information about the direction of travel.  They propagate through model space over time.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -22,11 +19,22 @@ import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/Refer
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
+import WaveIntensityChange from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
+
+// This value establishes the minimum distance between two intensity changes on the wave.  This is used to prevent
+// having too many too close together, which was found to cause rendering issues.  The value was determined through
+// trial and error.
+const MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE = 4000;
+
+// This value is used when creating or updating intensity changes in a way that could cause them to end up on top of one
+// another.  We generally don't want that to happen, so we "bump" one of them down the wave.  This value is in meters
+// and is intended to be small enough to be unnoticeable when rendering.
+const INTENSITY_CHANGE_DISTANCE_BUMP = 2;
 
 type SelfOptions = {
 
@@ -74,6 +82,13 @@ class Wave extends PhetioObject {
   // above 0 (and intensity of 0 is meaningless, so is not allowed by the code) to a max value of 1.
   public intensityAtStart: number;
 
+  // Changes in this wave's intensity that can exist at various locations along its length.  This list must remain
+  // sorted in order of increasing distance from the start of the wave that it can be correctly rendered by the view.
+  public intensityChanges: WaveIntensityChange[];
+
+  // indicates whether this wave is coming from a sourced point (e.g. the ground) or just propagating on its own
+  public isSourced: boolean;
+
   // the wavelength used when rendering the view for this wave
   private readonly renderingWavelength: number;
 
@@ -81,9 +96,6 @@ class Wave extends PhetioObject {
   // can be essentially anything, hence the vague "PhetioObject" type spec. Examples of model objects that can cause an
   // attenuation are clouds and atmosphere layers.
   private modelObjectToAttenuatorMap: Map<PhetioObject, WaveAttenuator>;
-
-  // indicates whether this wave is coming from a sourced point (e.g. the ground) or just propagating on its own
-  public isSourced: boolean;
 
   // a string that can be attached to this wave and is used for debugging
   private readonly debugTag: string | null;
@@ -144,6 +156,7 @@ class Wave extends PhetioObject {
     this.existenceTime = 0;
     this.phaseOffsetAtOrigin = options.initialPhaseOffset;
     this.intensityAtStart = options.intensityAtStart;
+    this.intensityChanges = [];
     this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
     this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength )!;
   }
@@ -155,10 +168,25 @@ class Wave extends PhetioObject {
 
     const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
 
-    // If there is a source producing this wave it should get longer and will continue to emanate from the same point.
-    // If not, it stays at the same length and propagates through space.
+    // Update the length, while checking if the current change causes this wave to extend beyond its propagation
+    // limit.  If so, limit the length of the wave.  Note that the propagation limit is not itself a length - it is an
+    // altitude, i.e. a Y value, beyond which a wave should not travel.  This works for waves moving up or down.
+    this.length = Math.min(
+      this.length + propagationDistance,
+      ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
+    );
+
+    // If there is a source producing this wave it will continue to emanate from the same origin and will get longer
+    // until it reaches an endpoint. If it is not sourced, it will travel through space until it reaches an endpoint,
+    // where it will shorten until it disappears.
     if ( this.isSourced ) {
-      this.length += propagationDistance;
+
+      // Move the un-anchored intensity changes with the wave.
+      this.intensityChanges.forEach( intensityChange => {
+        if ( !intensityChange.anchoredTo ) {
+          intensityChange.distanceFromStart += propagationDistance;
+        }
+      } );
     }
     else {
 
@@ -172,17 +200,20 @@ class Wave extends PhetioObject {
         dy
       );
 
-      // If there are attenuators on this wave, decrease their distance from the start point, since the wave's start
-      // point has moved forward and the attenuators don't move with it.
+      // If there are attenuators and anchored intensity changes on this wave, decrease their distance from the start
+      // point, since the wave's start point has moved forward and the attenuators don't move with it.
       this.modelObjectToAttenuatorMap.forEach( attenuator => {
         attenuator.distanceFromStart -= propagationDistance;
       } );
+      this.intensityChanges.forEach( intensityChange => {
+        if ( intensityChange.anchoredTo ) {
+          intensityChange.distanceFromStart -= propagationDistance;
+        }
+      } );
     }
 
-    // Check if the current change causes this wave to extend beyond its propagation limit and, if so, limit the length.
-    this.length = Math.min( this.length, ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y );
-
-    // Remove attenuators that are no longer on the wave.
+    // Remove attenuators and associated intensity changes that are no longer on the wave because the wave has passed
+    // entirely through them.
     this.modelObjectToAttenuatorMap.forEach( ( attenuator, modelElement ) => {
 
         if ( attenuator.distanceFromStart <= 0 ) {
@@ -195,6 +226,54 @@ class Wave extends PhetioObject {
         }
       }
     );
+
+    // Adjust the intensity changes based on their relationships with the attenuators.
+    this.intensityChanges.forEach( intensityChange => {
+
+      if ( intensityChange.anchoredTo ) {
+        const attenuator = this.modelObjectToAttenuatorMap.get( intensityChange.anchoredTo );
+
+        // state checking
+        assert && assert( attenuator, 'There should always be an attenuator for an anchored intensity change.' );
+
+        const intensityAtInputToAttenuator = this.getIntensityAt( attenuator!.distanceFromStart );
+        intensityChange.postChangeIntensity = intensityAtInputToAttenuator * ( 1 - attenuator!.attenuation );
+      }
+      else {
+
+        // If this intensity change crossed an attenuator, its output intensity needs to be adjusted.
+        const crossedAttenuator = Array.from( this.modelObjectToAttenuatorMap.values() ).find( attenuator =>
+          intensityChange.distanceFromStart > attenuator.distanceFromStart &&
+          intensityChange.distanceFromStart - propagationDistance < attenuator.distanceFromStart
+        );
+
+        if ( crossedAttenuator ) {
+          intensityChange.postChangeIntensity = intensityChange.postChangeIntensity *
+                                                ( 1 - crossedAttenuator.attenuation );
+        }
+      }
+
+    } );
+
+    // Adjust each of the intensity changes that is associated with an attenuator based on the attenuation value and
+    // the intensity of the incoming wave, which could have changed since the last step.
+    this.intensityChanges.filter( intensityChange => intensityChange.anchoredTo ).forEach( anchoredIntensityChange => {
+      const attenuator = this.modelObjectToAttenuatorMap.get( anchoredIntensityChange.anchoredTo! );
+
+      // state checking
+      assert && assert( attenuator, 'There should always be an attenuator for an anchored intensity change.' );
+
+      const intensityAtInputToAttenuator = this.getIntensityAt( attenuator!.distanceFromStart );
+      anchoredIntensityChange.postChangeIntensity = intensityAtInputToAttenuator * ( 1 - attenuator!.attenuation );
+    } );
+
+    // Remove any intensity changes that are now off of the wave.
+    this.intensityChanges = this.intensityChanges.filter(
+      intensityChange => intensityChange.distanceFromStart < this.length
+    );
+
+    // Sort the intensity changes.  This is necessary for correct rendering in the view.
+    this.sortIntensityChanges();
 
     // Update other aspects of the wave that evolve over time.
     this.phaseOffsetAtOrigin = this.phaseOffsetAtOrigin + PHASE_RATE * dt;
@@ -236,11 +315,23 @@ class Wave extends PhetioObject {
    */
   public getIntensityAt( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
-    this.getSortedAttenuators().forEach( attenuator => {
-      if ( attenuator.distanceFromStart < distanceFromStart ) {
-        intensity = intensity * ( 1 - attenuator.attenuation );
+
+    // Move through the intensity changes and find the last one before the specified distance.  This will provide the
+    // intensity value needed.  This is set up to NOT include any intensity changes at the exact provided distance.
+    // In other words, intensity changes only take effect AFTER their position, not exactly AT their position.  Also
+    // note that this algorithm assumes the intensity changes are ordered by their distance from the waves starting
+    // point.
+    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
+      const intensityChange = this.intensityChanges[ i ];
+      if ( intensityChange.distanceFromStart < distanceFromStart ) {
+        intensity = intensityChange.postChangeIntensity;
       }
-    } );
+      else {
+
+        // We're done.
+        break;
+      }
+    }
     return intensity;
   }
 
@@ -249,7 +340,25 @@ class Wave extends PhetioObject {
    * @param intensity - a normalized intensity value
    */
   public setIntensityAtStart( intensity: number ): void {
+
+    // parameter checking
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
+
+    // See if there is an intensity change within the max distance for consolidation.
+    const firstIntensityChange = this.intensityChanges[ 0 ];
+    if ( firstIntensityChange && firstIntensityChange.distanceFromStart < MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE ) {
+
+      // Use this intensity change instead of creating a new one.  This helps to prevent there from being too many
+      // intensity changes on the wave, which can cause rendering issues.
+      firstIntensityChange.postChangeIntensity = this.intensityAtStart;
+    }
+    else {
+
+      // Create a new intensity wave to depict the change in intensity traveling with the wave.
+      this.intensityChanges.push( new WaveIntensityChange( this.intensityAtStart, INTENSITY_CHANGE_DISTANCE_BUMP ) );
+    }
+
+    // Set the new intensity value at the start.
     this.intensityAtStart = intensity;
   }
 
@@ -271,7 +380,7 @@ class Wave extends PhetioObject {
     // state checking
     assert && assert(
       !this.modelObjectToAttenuatorMap.has( causalModelElement ),
-      'this model object already has an attenuator'
+      'this wave already has this attenuator'
     );
 
     // Create and add the new attenuator.
@@ -279,6 +388,25 @@ class Wave extends PhetioObject {
       causalModelElement,
       new WaveAttenuator( attenuationAmount, distanceFromStart )
     );
+
+    // Create the intensity change on the wave that is caused by this new attenuator.  This will be anchored to the
+    // model object that is causing the attenuation and will not propagate with the wave.
+    this.intensityChanges.push( new WaveIntensityChange(
+      this.getIntensityAt( distanceFromStart ) * ( 1 - attenuationAmount ),
+      distanceFromStart,
+      causalModelElement
+    ) );
+
+    // Create and add the intensity change that represents this wave's intensity beyond the new attenuator.  This one
+    // will propagate with the wave.  We don't want this to be at the exact same distance as the intensity change that
+    // will be caused by the attenuator, to put it a few meters beyond this current distance.
+    this.intensityChanges.push( new WaveIntensityChange(
+      this.getIntensityAt( distanceFromStart ),
+      distanceFromStart + INTENSITY_CHANGE_DISTANCE_BUMP
+    ) );
+
+    // Sort the intensity changes.  This is necessary for correct rendering in the view.
+    this.sortIntensityChanges();
   }
 
   /**
@@ -291,8 +419,35 @@ class Wave extends PhetioObject {
       'no attenuator exists for the provided model element'
     );
 
+    const attenuator = this.modelObjectToAttenuatorMap.get( causalModelElement );
+
     // Remove the attenuator from the map.
     this.modelObjectToAttenuatorMap.delete( causalModelElement );
+
+    // Get the intensity change object associated with this attenuator.
+    const associatedIntensityChange = this.intensityChanges.find(
+      intensityChange => intensityChange.anchoredTo === causalModelElement
+    );
+    assert && assert( associatedIntensityChange, 'no intensity change found for this model element' );
+
+    // If the intensity change is still on the wave, free it to propagate along the wave.  If not, simply remove it.
+    if ( associatedIntensityChange!.distanceFromStart > 0 && associatedIntensityChange!.distanceFromStart < this.length ) {
+
+      // Before freeing this intensity change, make sure it is at the right value.
+      associatedIntensityChange!.postChangeIntensity = this.getIntensityAt( attenuator!.distanceFromStart ) *
+                                                       ( 1 - attenuator!.attenuation );
+
+      // Fly! Be free!
+      associatedIntensityChange!.anchoredTo = null;
+    }
+    else {
+
+      // Remove this intensity change.
+      const index = this.intensityChanges.indexOf( associatedIntensityChange! );
+      if ( index > -1 ) {
+        this.intensityChanges.splice( index, 1 );
+      }
+    }
   }
 
   /**
@@ -311,8 +466,56 @@ class Wave extends PhetioObject {
     assert && assert( this.hasAttenuator( modelElement ), 'no attenuator is on this wave for this model element' );
     assert && assert( attenuation >= 0 && attenuation <= 1, 'invalid attenuation value' );
 
-    // Update the attenuation value and the corresponding intensity change.
-    this.modelObjectToAttenuatorMap.get( modelElement )!.attenuation = attenuation;
+    // Get the attenuator.
+    const attenuator = this.modelObjectToAttenuatorMap.get( modelElement );
+
+    // Only make changes to the wave if the attenuation value has actually changed.
+    if ( attenuator && attenuator.attenuation !== attenuation ) {
+
+      // Update the attenuation value.
+      attenuator.attenuation = attenuation;
+
+      // Get the intensity change currently associated with this attenuator.
+      const associatedIntensityChange = this.intensityChanges.find(
+        intensityChange => intensityChange.anchoredTo === modelElement
+      );
+      assert && assert( associatedIntensityChange, 'no intensity change found for this model element' );
+
+      // Find the first intensity change that is on the wave after this attenuator.
+      const nextIntensityChange = this.intensityChanges.find(
+        intensityChange => intensityChange.distanceFromStart > attenuator.distanceFromStart
+      );
+
+      // If the next intensity change is close enough, don't bother adding another one.  This will help to prevent there
+      // from being too many on the wave, since having too many can cause rendering challenges.
+      if ( !nextIntensityChange ||
+           nextIntensityChange.distanceFromStart - associatedIntensityChange!.distanceFromStart > MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE ) {
+
+        // A new intensity change will be need to represent this change to the attenuation. Free the intensity change
+        // currently associated with this attenuator to propagate with the wave, since it already has the correct
+        // intensity at its output.
+        associatedIntensityChange!.anchoredTo = null;
+
+        // Bump this intensity change down the wave a bit so that it won't be on top of the one that is about to be created.
+        associatedIntensityChange!.distanceFromStart += INTENSITY_CHANGE_DISTANCE_BUMP;
+
+        // Add a new intensity change that is anchored to the model element and is based on the new attenuation value.
+        this.intensityChanges.push( new WaveIntensityChange(
+          this.getIntensityAt( attenuator.distanceFromStart ) * ( 1 - attenuator.attenuation ),
+          attenuator.distanceFromStart,
+          modelElement
+        ) );
+      }
+      else {
+
+        // Update the existing intensity change based on the new attenuation value.
+        associatedIntensityChange!.postChangeIntensity = this.getIntensityAt( attenuator.distanceFromStart ) *
+                                                         ( 1 - attenuator.attenuation );
+      }
+
+      // Make sure the intensity changes are in the required order.
+      this.sortIntensityChanges();
+    }
   }
 
   /**
@@ -389,6 +592,15 @@ class Wave extends PhetioObject {
       ReferenceIO( IOType.ObjectIO ),
       WaveAttenuator.WaveAttenuatorIO
     ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
+  }
+
+  /**
+   * Make sure the intensity changes are ordered from closest to furthest from the start point of the wave.
+   */
+  private sortIntensityChanges(): void {
+    if ( this.intensityChanges.length > 1 ) {
+      this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+    }
   }
 
   /**

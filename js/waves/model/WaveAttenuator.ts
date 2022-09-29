@@ -19,7 +19,7 @@ class WaveAttenuator {
   // have its intensity reduced to zero).
   public attenuation: number;
 
-  // This distance from the start of the wave where this attenuator exists.
+  // the distance from the start of the wave where this attenuator exists
   public distanceFromStart: number;
 
   /**
