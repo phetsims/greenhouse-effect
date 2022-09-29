@@ -48,26 +48,20 @@ class WaveCreationSpec {
     };
   }
 
-  public static fromStateObject( stateObject: WaveCreationSpecStateObject ): WaveCreationSpec {
-    return new WaveCreationSpec(
-      NumberIO.fromStateObject( stateObject.originX ),
-      Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
-      NumberIO.fromStateObject( stateObject.countdown )
-    );
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  public static WaveCreationSpecIO = new IOType<WaveCreationSpec, WaveCreationSpecStateObject>( 'WaveCreationSpecIO', {
+    valueType: WaveCreationSpec,
+    stateSchema: {
       countdown: NumberIO,
       propagationDirection: Vector2.Vector2IO,
       originX: NumberIO
-    };
-  }
-
-  public static WaveCreationSpecIO = IOType.fromCoreType<WaveCreationSpec, WaveCreationSpecStateObject>( 'WaveCreationSpecIO', WaveCreationSpec );
+    },
+    toStateObject: ( t: WaveCreationSpec ) => t.toStateObject(),
+    fromStateObject: ( stateObject: WaveCreationSpecStateObject ) => new WaveCreationSpec(
+      NumberIO.fromStateObject( stateObject.originX ),
+      Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
+      NumberIO.fromStateObject( stateObject.countdown )
+    )
+  } );
 }
 
 type WaveCreationSpecStateObject = {
@@ -271,22 +265,20 @@ class EMWaveSource extends PhetioObject {
   }
 
   /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
-      waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
-    };
-  }
-
-  /**
    * EMWaveSourceIO handles PhET-iO serialization of the EMWaveSource. Because serialization involves accessing private
    * members, it delegates to EMWaveSource. The methods that EMWaveSourceIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static EMWaveSourceIO = IOType.fromCoreType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', EMWaveSource );
+  public static EMWaveSourceIO = new IOType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', {
+    valueType: EMWaveSource,
+    stateSchema: {
+      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
+      waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
+    },
+    applyState: ( t: EMWaveSource, state: EMWaveSourceStateObject ) => t.applyState( state ),
+    toStateObject: ( t: EMWaveSource ) => t.toStateObject()
+  } );
 }
 
 export type EMWaveSourceStateObject = {

@@ -84,39 +84,32 @@ class EMEnergyPacket {
   }
 
   /**
-   * for phet-io
-   */
-  public static fromStateObject( stateObject: EMEnergyPacketStateObject ): EMEnergyPacket {
-    const emEnergyPacket = new EMEnergyPacket(
-      NumberIO.fromStateObject( stateObject.wavelength ),
-      NumberIO.fromStateObject( stateObject.energy ),
-      NumberIO.fromStateObject( stateObject.altitude ),
-      EnumerationIO( EnergyDirection ).fromStateObject( stateObject.direction )
-    );
-    emEnergyPacket.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
-    return emEnergyPacket;
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      wavelength: NumberIO,
-      energy: NumberIO,
-      altitude: NumberIO,
-      previousAltitude: NumberIO,
-      direction: EnumerationIO( EnergyDirection )
-    };
-  }
-
-  /**
    * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
    * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static EMEnergyPacketIO = IOType.fromCoreType<EMEnergyPacket, EMEnergyPacketStateObject>( 'EMEnergyPacketIO', EMEnergyPacket );
+  public static EMEnergyPacketIO = new IOType<EMEnergyPacket, EMEnergyPacketStateObject>( 'EMEnergyPacketIO', {
+    valueType: EMEnergyPacket,
+    stateSchema: {
+      wavelength: NumberIO,
+      energy: NumberIO,
+      altitude: NumberIO,
+      previousAltitude: NumberIO,
+      direction: EnumerationIO( EnergyDirection )
+    },
+    fromStateObject: ( stateObject: EMEnergyPacketStateObject ) => {
+      const emEnergyPacket = new EMEnergyPacket(
+        NumberIO.fromStateObject( stateObject.wavelength ),
+        NumberIO.fromStateObject( stateObject.energy ),
+        NumberIO.fromStateObject( stateObject.altitude ),
+        EnumerationIO( EnergyDirection ).fromStateObject( stateObject.direction )
+      );
+      emEnergyPacket.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
+      return emEnergyPacket;
+    },
+    toStateObject: ( coreObject: EMEnergyPacket ) => coreObject.toStateObject()
+  } );
 }
 
 export type EMEnergyPacketStateObject = {

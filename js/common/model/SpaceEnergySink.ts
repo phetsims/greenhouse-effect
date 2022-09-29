@@ -60,21 +60,17 @@ class SpaceEnergySink extends PhetioObject {
   }
 
   /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      incomingUpwardMovingEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
-    };
-  }
-
-  /**
    * SpaceEnergySinkIO handles PhET-iO serialization of the SpaceEnergySink. Because serialization involves accessing
    * private members, it delegates to SpaceEnergySink. The methods that SpaceEnergySinkIO overrides are typical of
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static SpaceEnergySinkIO = IOType.fromCoreType( 'SpaceEnergySinkIO', SpaceEnergySink );
+  public static SpaceEnergySinkIO = new IOType( 'SpaceEnergySinkIO', {
+    valueType: SpaceEnergySink,
+    stateSchema: {
+      incomingUpwardMovingEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
+    }
+  } );
 }
 
 greenhouseEffect.register( 'SpaceEnergySink', SpaceEnergySink );

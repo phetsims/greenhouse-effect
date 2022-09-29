@@ -41,25 +41,19 @@ class WaveAttenuator {
     };
   }
 
-  public static fromStateObject( stateObject: WaveAttenuatorStateObject ): WaveAttenuator {
-    return new WaveAttenuator(
-      NumberIO.fromStateObject( stateObject.attenuation ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart )
-    );
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  // phet-io
+  public static WaveAttenuatorIO = new IOType( 'WaveAttenuatorIO', {
+    valueType: WaveAttenuator,
+    stateSchema: {
       attenuation: NumberIO,
       distanceFromStart: NumberIO
-    };
-  }
-
-  // phet-io
-  public static WaveAttenuatorIO = IOType.fromCoreType( 'WaveAttenuatorIO', WaveAttenuator );
+    },
+    toStateObject: ( t: WaveAttenuator ) => t.toStateObject(),
+    fromStateObject: ( stateObject: WaveAttenuatorStateObject ) => new WaveAttenuator(
+      NumberIO.fromStateObject( stateObject.attenuation ),
+      NumberIO.fromStateObject( stateObject.distanceFromStart )
+    )
+  } );
 }
 
 export type WaveAttenuatorStateObject = {

@@ -378,11 +378,9 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
    */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
-    };
-  }
+  public static STATE_SCHEMA: Record<string, IOType> = {
+    emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
+  };
 
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
@@ -395,7 +393,12 @@ class LayersModel extends GreenhouseEffectModel {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static readonly LayersModelIO: IOType = IOType.fromCoreType( 'LayersModelIO', LayersModel );
+  public static readonly LayersModelIO: IOType = new IOType( 'LayersModelIO', {
+    valueType: LayersModel,
+    stateSchema: LayersModel.STATE_SCHEMA,
+    toStateObject: ( a: LayersModel ) => a.toStateObject(),
+    applyState: ( a: LayersModel, b: LayersModelStateObject ) => a.applyState( b )
+  } );
 }
 
 type LayersModelStateObject = {

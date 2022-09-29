@@ -36,18 +36,14 @@ class EnergyInfoQueueItem {
     this.energy = energy;
   }
 
-  public static fromStateObject( stateObject: EnergyInfoQueueItemStateObject ): EnergyInfoQueueItem {
-    return new EnergyInfoQueueItem( stateObject.dt, stateObject.energy );
-  }
-
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  public static EnergyInfoQueueItemIO = new IOType( 'EnergyInfoQueueItemIO', {
+    valueType: EnergyInfoQueueItem,
+    stateSchema: {
       dt: NumberIO,
       energy: NumberIO
-    };
-  }
-
-  public static EnergyInfoQueueItemIO = IOType.fromCoreType( 'EnergyInfoQueueItemIO', EnergyInfoQueueItem );
+    },
+    fromStateObject: ( s: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem( s.dt, s.energy )
+  } );
 }
 
 type SelfOptions = {
@@ -136,13 +132,11 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty.reset();
   }
 
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  public static EnergyRateTrackerIO = new IOType( 'EnergyRateTrackerIO', {
+    valueType: EnergyRateTracker,
+    stateSchema: {
       energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )
-    };
-  }
-
-  public static EnergyRateTrackerIO = IOType.fromCoreType( 'EnergyRateTrackerIO', EnergyRateTracker, {
+    },
     defaultDeserializationMethod: 'applyState'
   } );
 }

@@ -126,27 +126,6 @@ class Photon {
     };
   }
 
-  public static fromStateObject( stateObject: PhotonStateObject ): Photon {
-    return new Photon(
-      Vector2.fromStateObject( stateObject.position ),
-      NumberIO.fromStateObject( stateObject.wavelength ),
-      {
-        initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
-        showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
-      }
-    );
-  }
-
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      position: Vector2.Vector2IO,
-      previousPosition: Vector2.Vector2IO,
-      wavelength: NumberIO,
-      velocity: Vector2.Vector2IO,
-      showState: StringIO
-    };
-  }
-
   // static values
   public static IR_WAVELENGTH = IR_WAVELENGTH;
   public static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
@@ -154,7 +133,24 @@ class Photon {
   public static ShowState = ShowState;
 
   // phet-io
-  public static PhotonIO = IOType.fromCoreType<Photon, PhotonStateObject>( 'PhotonIO', Photon );
+  public static PhotonIO = new IOType<Photon, PhotonStateObject>( 'PhotonIO', {
+    valueType: Photon,
+    stateSchema: {
+      position: Vector2.Vector2IO,
+      previousPosition: Vector2.Vector2IO,
+      wavelength: NumberIO,
+      velocity: Vector2.Vector2IO,
+      showState: StringIO
+    },
+    toStateObject: ( t: Photon ) => t.toStateObject(),
+    fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
+      Vector2.fromStateObject( stateObject.position ),
+      NumberIO.fromStateObject( stateObject.wavelength ), {
+        initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
+        showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
+      }
+    )
+  } );
 }
 
 export type PhotonStateObject = {

@@ -284,12 +284,6 @@ class PhotonCollection extends PhetioObject {
     );
   }
 
-  public static STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      photonStateObjects: ArrayIO( Photon.PhotonIO )
-    };
-  }
-
   /**
    * Restore initial state.
    */
@@ -329,7 +323,13 @@ class PhotonCollection extends PhetioObject {
   }
 
   // @ts-ignore see https://github.com/phetsims/tandem/issues/263
-  public static PhotonCollectionIO = IOType.fromCoreType( 'PhotonCollectionIO', PhotonCollection, {
+  public static PhotonCollectionIO = new IOType( 'PhotonCollectionIO', {
+    valueType: PhotonCollection,
+    stateSchema: {
+      photonStateObjects: ArrayIO( Photon.PhotonIO )
+    },
+    toStateObject: ( t: PhotonCollection ) => t.toStateObject(),
+    applyState: ( t: PhotonCollection, s: PhotonCollectionStateObject ) => t.applyState( s ),
     defaultDeserializationMethod: 'applyState'
   } );
 }

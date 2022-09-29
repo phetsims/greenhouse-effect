@@ -106,21 +106,17 @@ class SunEnergySource extends PhetioObject {
   }
 
   /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
-      outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
-    };
-  }
-
-  /**
    * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
    * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static SunEnergySourceIO = IOType.fromCoreType( 'SunEnergySourceIO', SunEnergySource );
+  public static SunEnergySourceIO = new IOType( 'SunEnergySourceIO', {
+    valueType: SunEnergySource,
+    stateSchema: {
+      outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
+    }
+  } );
 
   // static values
   public static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;

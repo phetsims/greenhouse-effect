@@ -498,26 +498,24 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static override get STATE_SCHEMA(): Record<string, IOType> {
-    const superclassStateSchema = ConcentrationModel.STATE_SCHEMA;
-    const subclassStateSchema = {
-      sunWaveSource: EMWaveSource.EMWaveSourceIO,
-      groundWaveSource: EMWaveSource.EMWaveSourceIO,
-      cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
-      glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
-    };
-    return { ...superclassStateSchema, ...subclassStateSchema };
-  }
-
-  /**
    * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
    * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static WavesModelIO = IOType.fromCoreType( 'WavesModelIO', WavesModel );
+  public static WavesModelIO = new IOType( 'WavesModelIO', {
+      valueType: WavesModel,
+      toStateObject: ( t: WavesModel ) => t.toStateObject(),
+      applyState: ( t: WavesModel, s: WavesModelStateObject ) => t.applyState( s ),
+      stateSchema: {
+        sunWaveSource: EMWaveSource.EMWaveSourceIO,
+        groundWaveSource: EMWaveSource.EMWaveSourceIO,
+        cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
+        glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
+        ...LayersModel.STATE_SCHEMA
+      }
+    }
+  );
 
   // other static values
   public static REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
@@ -564,28 +562,19 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  public static fromStateObject( stateObject: WaveAtmosphereInteractionStateObject ): WaveAtmosphereInteraction {
-    return new WaveAtmosphereInteraction(
-      ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
-      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
-      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) );
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  public static WaveAtmosphereInteractionIO = new IOType( 'WaveAtmosphereInteractionIO', {
+    valueType: WaveAtmosphereInteraction,
+    stateSchema: {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
       sourceWave: ReferenceIO( Wave.WaveIO ),
       emittedWave: ReferenceIO( Wave.WaveIO )
-    };
-  }
-
-  public static WaveAtmosphereInteractionIO = IOType.fromCoreType(
-    'WaveAtmosphereInteractionIO',
-    WaveAtmosphereInteraction
-  );
+    },
+    toStateObject: ( t: WaveAtmosphereInteraction ) => t.toStateObject(),
+    fromStateObject: ( stateObject: WaveAtmosphereInteractionStateObject ) => new WaveAtmosphereInteraction(
+      ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
+      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) )
+  } );
 }
 
 type WaveAtmosphereInteractionStateObject = {

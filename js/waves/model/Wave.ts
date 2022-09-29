@@ -392,29 +392,14 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * Creates the args that WaveGroup uses to instantiate a Wave.
+   * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
+   * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
+   * as described in the Serialization section of
+   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static stateToArgsForConstructor( state: WaveStateObject ):
-    [ NumberStateObject, Vector2StateObject, Vector2StateObject, NumberStateObject,
-      { intensityAtStart: NumberStateObject; initialPhaseOffset: NumberStateObject } ] {
-
-    return [
-      NumberIO.fromStateObject( state.wavelength ),
-      Vector2.Vector2IO.fromStateObject( state.origin ),
-      Vector2.Vector2IO.fromStateObject( state.propagationDirection ),
-      NumberIO.fromStateObject( state.propagationLimit ),
-      {
-        intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
-        initialPhaseOffset: NumberIO.fromStateObject( state.phaseOffsetAtOrigin )
-      }
-    ];
-  }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType.fromCoreType for details.
-   */
-  public static get STATE_SCHEMA(): Record<string, IOType> {
-    return {
+  public static WaveIO = new IOType<Wave, WaveStateObject>( 'WaveIO', {
+    valueType: Wave,
+    stateSchema: {
       wavelength: NumberIO,
       origin: Vector2.Vector2IO,
       propagationDirection: Vector2.Vector2IO,
@@ -427,16 +412,20 @@ class Wave extends PhetioObject {
       intensityAtStart: NumberIO,
       renderingWavelength: NumberIO,
       modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
-    };
-  }
-
-  /**
-   * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
-   * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
-   * as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
-   */
-  public static WaveIO = IOType.fromCoreType<Wave, WaveStateObject>( 'WaveIO', Wave );
+    },
+    toStateObject: ( t: Wave ) => t.toStateObject(),
+    applyState: ( t: Wave, s: WaveStateObject ) => t.applyState( s ),
+    stateToArgsForConstructor: ( state: WaveStateObject ) => [
+      NumberIO.fromStateObject( state.wavelength ),
+      Vector2.Vector2IO.fromStateObject( state.origin ),
+      Vector2.Vector2IO.fromStateObject( state.propagationDirection ),
+      NumberIO.fromStateObject( state.propagationLimit ),
+      {
+        intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
+        initialPhaseOffset: NumberIO.fromStateObject( state.phaseOffsetAtOrigin )
+      }
+    ]
+  } );
 }
 
 type WaveStateObject = {
