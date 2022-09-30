@@ -27,10 +27,12 @@ import WavesModel from './WavesModel.js';
 const TWO_PI = 2 * Math.PI;
 const PHASE_RATE = -Math.PI; // in radians per second
 
-// This value establishes the minimum distance between two intensity changes on the wave.  This is used to prevent
-// having too many too close together, which was found to cause rendering issues.  The value was determined through
-// trial and error.
-const MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE = 4000;
+// The minimum distance between two intensity changes on the wave.  This is used to prevent having too many too close
+// together, which was found to cause rendering issues.  The value was determined through trial and error.
+const MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE = 500;
+
+// The minimum change necessary to warrant adding an intensity change to the wave at its source or at an attenuator.
+const MINIMUM_INTENSITY_CHANGE = 0.05;
 
 // This value is used when creating or updating intensity changes in a way that could cause them to end up on top of one
 // another.  We generally don't want that to happen, so we "bump" one of them down the wave.  This value is in meters
@@ -345,22 +347,28 @@ class Wave extends PhetioObject {
     // parameter checking
     assert && assert( intensity > 0 && intensity <= 1, 'illegal intensity value' );
 
-    // See if there is an intensity change within the max distance for consolidation.
-    const firstIntensityChange = this.intensityChanges[ 0 ];
-    if ( firstIntensityChange && firstIntensityChange.distanceFromStart < MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE ) {
+    // Only pay attention to this request to set the intensity if it is a significant enough change.  This helps to
+    // prevent having an excess of intensity changes on the wave, which was found to cause rendering problems, both in
+    // appearance and performance.  Small changes are quietly ignored.
+    if ( Math.abs( this.intensityAtStart - intensity ) >= MINIMUM_INTENSITY_CHANGE ) {
 
-      // Use this intensity change instead of creating a new one.  This helps to prevent there from being too many
-      // intensity changes on the wave, which can cause rendering issues.
-      firstIntensityChange.postChangeIntensity = this.intensityAtStart;
+      // See if there is an intensity change within the max distance for consolidation.
+      const firstIntensityChange = this.intensityChanges[ 0 ];
+      if ( firstIntensityChange && firstIntensityChange.distanceFromStart < MINIMUM_INTER_INTENSITY_CHANGE_DISTANCE ) {
+
+        // Use this intensity change instead of creating a new one.  This helps to prevent there from being too many
+        // intensity changes on the wave, which can cause rendering issues.
+        firstIntensityChange.postChangeIntensity = this.intensityAtStart;
+      }
+      else {
+
+        // Create a new intensity wave to depict the change in intensity traveling with the wave.
+        this.intensityChanges.push( new WaveIntensityChange( this.intensityAtStart, INTENSITY_CHANGE_DISTANCE_BUMP ) );
+      }
+
+      // Set the new intensity value at the start.
+      this.intensityAtStart = intensity;
     }
-    else {
-
-      // Create a new intensity wave to depict the change in intensity traveling with the wave.
-      this.intensityChanges.push( new WaveIntensityChange( this.intensityAtStart, INTENSITY_CHANGE_DISTANCE_BUMP ) );
-    }
-
-    // Set the new intensity value at the start.
-    this.intensityAtStart = intensity;
   }
 
   /**
@@ -400,7 +408,7 @@ class Wave extends PhetioObject {
 
     // Create and add the intensity change that represents this wave's intensity beyond the new attenuator.  This one
     // will propagate with the wave.  We don't want this to be at the exact same distance as the intensity change that
-    // will be caused by the attenuator, to put it a few meters beyond this current distance.
+    // will be caused by the attenuator, so put it a few meters beyond this current distance.
     this.intensityChanges.push( new WaveIntensityChange(
       this.getIntensityAt( distanceFromStart ),
       distanceFromStart + INTENSITY_CHANGE_DISTANCE_BUMP
@@ -470,8 +478,10 @@ class Wave extends PhetioObject {
     // Get the attenuator.
     const attenuator = this.modelObjectToAttenuatorMap.get( modelElement );
 
-    // Only make changes to the wave if the attenuation value has actually changed.
-    if ( attenuator && attenuator.attenuation !== attenuation ) {
+    // Only make changes to the wave if the attenuation value is above a threshold.  This helps to prevent too many
+    // intensity changes from being on the wave, which can cause issues with the rendering, both in terms of appearance
+    // and performance.
+    if ( attenuator && Math.abs( attenuator.attenuation - attenuation ) >= MINIMUM_INTENSITY_CHANGE ) {
 
       // Update the attenuation value.
       attenuator.attenuation = attenuation;
