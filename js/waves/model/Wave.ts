@@ -11,6 +11,7 @@ import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
@@ -19,7 +20,7 @@ import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/Refer
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
-import WaveIntensityChange from './WaveIntensityChange.js';
+import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
 
 // constants
@@ -571,6 +572,7 @@ class Wave extends PhetioObject {
       existenceTime: NumberIO.toStateObject( this.existenceTime ),
       phaseOffsetAtOrigin: NumberIO.toStateObject( this.phaseOffsetAtOrigin ),
       intensityAtStart: NumberIO.toStateObject( this.intensityAtStart ),
+      intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).toStateObject( this.intensityChanges ),
       modelObjectToAttenuatorMap: MapIO(
         ReferenceIO( IOType.ObjectIO ),
         WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap
@@ -588,6 +590,7 @@ class Wave extends PhetioObject {
     this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
     this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
     this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
+    this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject( stateObject.intensityChanges );
     this.modelObjectToAttenuatorMap = MapIO(
       ReferenceIO( IOType.ObjectIO ),
       WaveAttenuator.WaveAttenuatorIO
@@ -622,6 +625,7 @@ class Wave extends PhetioObject {
       existenceTime: NumberIO,
       phaseOffsetAtOrigin: NumberIO,
       intensityAtStart: NumberIO,
+      intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ),
       renderingWavelength: NumberIO,
       modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
     },
@@ -651,6 +655,7 @@ type WaveStateObject = {
   existenceTime: NumberStateObject;
   phaseOffsetAtOrigin: NumberStateObject;
   intensityAtStart: NumberStateObject;
+  intensityChanges: WaveIntensityChangeStateObject[];
   modelObjectToAttenuatorMap: MapStateObject<ReferenceIOState, WaveAttenuatorStateObject>;
   renderingWavelength: NumberStateObject;
 };
