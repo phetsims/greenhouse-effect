@@ -64,7 +64,7 @@ class Wave extends PhetioObject {
 
   // The starting point where the wave currently exists in model space.  This will be the same as the origin if the wave
   // is being sourced, or will move if the wave is propagating without being sourced.
-  public readonly startPoint: Vector2;
+  public startPoint: Vector2;
 
   // the altitude past which this wave should not propagate
   private readonly propagationLimit: number;
@@ -587,6 +587,7 @@ class Wave extends PhetioObject {
   public applyState( stateObject: WaveStateObject ): void {
     this.length = NumberIO.fromStateObject( stateObject.length );
     this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
+    this.startPoint = Vector2.Vector2IO.fromStateObject( stateObject.startPoint );
     this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
     this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
     this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
