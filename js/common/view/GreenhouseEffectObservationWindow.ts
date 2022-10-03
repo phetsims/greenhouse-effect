@@ -27,6 +27,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
+import fiftiesLandscape_png from '../../../images/fiftiesLandscape_png.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -44,6 +45,7 @@ const EXPECTED_MAX_TEMPERATURE = 309; // in Kelvin
 
 // TODO: Flag to make it easy to switch between computer-generated ground and full artwork for the ground.
 const USE_ARTWORK_FOR_GROUND = false;
+const AGRICULTURAL = false;
 
 // The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
 // determined and can be adjusted as needed to achieve the desired visual effect.
@@ -182,8 +184,9 @@ class GreenhouseEffectObservationWindow extends Node {
     let groundNode: Node;
     let groundShape: Shape;
     const nominalGroundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
+    const imageSource = AGRICULTURAL ? agriculturalLandscape1_png : fiftiesLandscape_png;
     if ( USE_ARTWORK_FOR_GROUND ) {
-      groundNode = new Image( agriculturalLandscape1_png, {
+      groundNode = new Image( imageSource, {
         maxWidth: this.width,
         bottom: SIZE.height
       } );
