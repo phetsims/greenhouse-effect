@@ -310,6 +310,7 @@ class FluxMeterNode extends Node {
   public reset(): void {
     this.wasDraggedProperty.reset();
     this.zoomFactor.reset();
+    this.soundGenerator.reset();
   }
 }
 
