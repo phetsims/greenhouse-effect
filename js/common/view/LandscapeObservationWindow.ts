@@ -10,13 +10,17 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { Color, ColorProperty, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import barnAndSheep_png from '../../../images/barnAndSheep_png.js';
-import glacier_png from '../../../images/glacier_png.js';
-import nineteenFiftyBackground_png from '../../../images/nineteenFiftyBackground_png.js';
-import twentyTwentyBackground_png from '../../../images/twentyTwentyBackground_png.js';
+import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
+import fiftiesLandscape_png from '../../../images/fiftiesLandscape_png.js';
+import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
@@ -31,8 +35,10 @@ type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservati
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
-const GREEN_GRASS_BASE_COLOR = Color.GREEN;
-const ICE_AGE_GROUND_BASE_COLOR = new Color( '#746C66' );
+
+// The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
+// determined and can be adjusted as needed to achieve the desired visual effect.
+const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: GasConcentrationAlerter;
@@ -43,11 +49,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
   public constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
 
-    // Create a color property that can be used to change the color of the ground.
-    const groundColorBaseProperty = new ColorProperty( Color.GREEN );
-
     const options = optionize<LandscapeObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
-      groundBaseColorProperty: groundColorBaseProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -72,65 +74,6 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     listParentNode.leftBottom = this.surfaceThermometer.leftBottom;
     this.controlsLayer.addChild( this.surfaceThermometer );
     this.controlsLayer.addChild( listParentNode );
-
-    // artwork for the various dates
-    const glacierImageNode = new Image( glacier_png, {
-
-      // size and position empirically determined
-      maxWidth: SIZE.width * 0.5,
-      bottom: SIZE.height,
-      right: SIZE.width
-    } );
-    const barnAndSheepImageNode = new Image( barnAndSheep_png, {
-
-      // size and position empirically determined
-      maxWidth: 80,
-      centerX: SIZE.width * 0.52,
-      centerY: SIZE.height - this.groundNodeHeight * 0.5
-    } );
-    const nineteenFiftyBackgroundImageNode = new Image( nineteenFiftyBackground_png, {
-
-      // size and position empirically determined
-      maxWidth: SIZE.width,
-      centerY: SIZE.height - this.groundNodeHeight * 0.5
-    } );
-    const twentyTwentyBackgroundImageNode = new Image( twentyTwentyBackground_png, {
-
-      // size and position empirically determined
-      maxWidth: SIZE.width,
-      centerY: SIZE.height - this.groundNodeHeight * 0.5
-    } );
-    const artworkForDates = [
-      glacierImageNode,
-      barnAndSheepImageNode,
-      nineteenFiftyBackgroundImageNode,
-      twentyTwentyBackgroundImageNode
-    ];
-
-    // Control the visibility of the various date-oriented artwork.
-    Multilink.multilink(
-      [ model.concentrationControlModeProperty, model.dateProperty ],
-      ( concentrationControlMode, date ) => {
-
-        // Update the visibility of the various images that represent dates.
-        glacierImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                   date === ConcentrationDate.ICE_AGE;
-        barnAndSheepImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                        date === ConcentrationDate.SEVENTEEN_FIFTY;
-        nineteenFiftyBackgroundImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                   date === ConcentrationDate.NINETEEN_FIFTY;
-        twentyTwentyBackgroundImageNode.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                  date === ConcentrationDate.TWENTY_TWENTY;
-
-        // In the ice age, the ground should look brown rather than green.
-        if ( concentrationControlMode === ConcentrationControlMode.BY_DATE && date === ConcentrationDate.ICE_AGE ) {
-          groundColorBaseProperty.set( ICE_AGE_GROUND_BASE_COLOR );
-        }
-        else {
-          groundColorBaseProperty.set( GREEN_GRASS_BASE_COLOR );
-        }
-      }
-    );
 
     // Create the node that will make the sky look a bit hazy as more greenhouse gases are added.  Strictly speaking,
     // most greenhouse gases do not interact with visible light, so this is a bit of "Hollywooding" to make it clear
@@ -172,8 +115,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       } );
     }
 
-    // Add the nodes to the layers provided by the parent class.  The order is important for correct layering.
-    artworkForDates.forEach( artworkNode => this.backgroundLayer.addChild( artworkNode ) );
+    // Add the layer nodes.
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
 
     // Add the cloud, if present.
@@ -205,6 +147,83 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   public override reset(): void {
     this.gasConcentrationAlerter.reset();
     super.reset();
+  }
+
+  /**
+   * Create the node that will represent the ground, and will switch the image based on the date.
+   */
+  protected override createGroundNode( model: ConcentrationModel ): Node {
+
+    const sharedImageOptions = {
+      maxWidth: this.width,
+      bottom: SIZE.height
+    };
+    const unadornedLandscapeImage = new Image( unadornedLandscape_png, sharedImageOptions );
+    const agriculturalLandscapeImage = new Image( agriculturalLandscape1_png, sharedImageOptions );
+    const fiftiesLandscapeImage = new Image( fiftiesLandscape_png, sharedImageOptions );
+
+    // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
+    // and was made to do so manually, and will need to be updated if the artwork changes.
+    const lowerLeftCorner = Vector2.ZERO;
+    const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
+    const controlPoint1 = new Vector2( SIZE.width * 0.22, leftSideGroundSurface.y - SIZE.height * 0.13 );
+    const midwayPoint = new Vector2( SIZE.width * 0.6, -SIZE.height * 0.2 );
+    const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.19 );
+    const controlPoint2 = new Vector2( SIZE.width * 0.75, rightSideGroundSurface.y + SIZE.height * 0.02 );
+    const lowerRightCorner = new Vector2( SIZE.width, 0 );
+    const groundShape = new Shape()
+      .moveToPoint( lowerLeftCorner )
+      .lineToPoint( leftSideGroundSurface )
+      .quadraticCurveToPoint( controlPoint1, midwayPoint )
+      .quadraticCurveToPoint( controlPoint2, rightSideGroundSurface )
+      .lineToPoint( lowerRightCorner )
+      .lineToPoint( lowerLeftCorner )
+      .close();
+
+    // surface temperature node, which is meant to look like a glow on the surface
+    const groundShapeBounds = groundShape.getBounds();
+    const surfaceTemperatureNode = new Path( groundShape, {
+      fill: new LinearGradient( 0, groundShapeBounds.minY, 0, groundShapeBounds.maxY )
+        .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
+        .addColorStop( 1, 'rgba( 255, 0, 0, 0 )' ),
+      bottom: SIZE.height
+    } );
+
+    model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
+
+    model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+      surfaceTemperatureNode.opacity = Utils.clamp(
+        ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
+        0,
+        1
+      );
+    } );
+
+    // Control the visibility of the images based on the state of the model.
+    Multilink.multilink(
+      [ model.concentrationControlModeProperty, model.dateProperty ],
+      ( concentrationControlMode, date ) => {
+        unadornedLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_VALUE ||
+                                          date === ConcentrationDate.ICE_AGE ||
+                                          date === ConcentrationDate.TWENTY_TWENTY;
+        agriculturalLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                             date === ConcentrationDate.SEVENTEEN_FIFTY;
+        fiftiesLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                        date === ConcentrationDate.NINETEEN_FIFTY;
+      }
+    );
+
+    // Return a node that contains all the images.
+    return new Node( {
+      children: [
+        unadornedLandscapeImage,
+        agriculturalLandscapeImage,
+        fiftiesLandscapeImage,
+
+        // The surface temperature node must be last on this list for correct layering.
+        surfaceTemperatureNode
+      ]
+    } );
   }
 }
 

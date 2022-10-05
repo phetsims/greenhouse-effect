@@ -8,18 +8,24 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { Color, ColorProperty } from '../../../../scenery/js/imports.js';
+import { Color, LinearGradient, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
+import LayersModel from '../model/LayersModel.js';
 import PhotonSprites from '../PhotonSprites.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+
+// constants
+const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
 
 type SelfOptions = EmptySelfOptions;
 export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
@@ -31,14 +37,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
-    assert && assert(
-      providedOptions.groundBaseColorProperty === undefined,
-      'LayerModelObservationWindow sets groundBaseColorProperty'
-    );
-    const groundBaseColorProperty = new ColorProperty( Color.GRAY );
-
     const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
-      groundBaseColorProperty: groundBaseColorProperty,
       fluxMeterNodeOptions: {
         includeZoomButtons: true
       },
@@ -109,12 +108,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
     this.controlsLayer.addChild( surfaceThermometer );
 
-    // Adjust the color of the ground as the albedo changes.
-    model.groundLayer.albedoProperty.link( albedo => {
-      const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
-      groundBaseColorProperty.set( new Color( colorBaseValue, colorBaseValue, colorBaseValue ) );
-    } );
-
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
@@ -127,6 +120,51 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   public override reset(): void {
     this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
     this.showSurfaceThermometerProperty.reset();
+  }
+
+  /**
+   * Create a ground node that is a shape whose color will change with the albedo.
+   */
+  protected override createGroundNode( model: LayersModel ): Node {
+
+    const nominalGroundHeight = GreenhouseEffectObservationWindow.SIZE.height * GROUND_VERTICAL_PROPORTION;
+    const groundWidth = GreenhouseEffectObservationWindow.SIZE.width;
+
+    // control points used for the shape of the ground
+    const oneEighthWidth = GreenhouseEffectObservationWindow.SIZE.width / 8;
+    const leftHillStartPoint = Vector2.ZERO;
+    const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.15 );
+    const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
+    const leftHillEndPoint = new Vector2( groundWidth / 2, 0 );
+    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
+    const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
+    const rightHillEndPoint = new Vector2( groundWidth, 0 );
+
+    // ground shape
+    const groundShape = new Shape()
+      .moveToPoint( leftHillStartPoint )
+      .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
+      .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
+      .lineTo( groundWidth, nominalGroundHeight )
+      .lineTo( 0, nominalGroundHeight )
+      .lineTo( 0, 0 )
+      .close();
+
+    // Create a node to represent the ground based on the created shape.
+    const groundNodePath = new Path( groundShape, {
+      bottom: GreenhouseEffectObservationWindow.SIZE.height
+    } );
+
+    // Adjust the color of the ground as the albedo changes.
+    model.groundLayer.albedoProperty.link( albedo => {
+      const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
+      const baseColor = new Color( colorBaseValue, colorBaseValue, colorBaseValue );
+      groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+        .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
+        .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
+    } );
+
+    return groundNodePath;
   }
 }
 

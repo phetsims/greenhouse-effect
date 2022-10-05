@@ -8,10 +8,8 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
@@ -19,15 +17,13 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, FocusableHeadingNode, Image, LinearGradient, Node, NodeOptions, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, FocusableHeadingNode, LinearGradient, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
-import fiftiesLandscape_png from '../../../images/fiftiesLandscape_png.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -43,24 +39,10 @@ const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the 
 const DARKNESS_OPACITY = 0.7;
 const EXPECTED_MAX_TEMPERATURE = 309; // in Kelvin
 
-// TODO: Flag to make it easy to switch between computer-generated ground and full artwork for the ground.
-const USE_ARTWORK_FOR_GROUND = false;
-const AGRICULTURAL = false;
-
-// The opacity of the surface temperature is scaled over this range.  The values, which are in Kelvin, were empirically
-// determined and can be adjusted as needed to achieve the desired visual effect.
-const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
-
 // Standard inset for controls and instruments that exist inside the observation window.
 const CONTROL_AND_INSTRUMENT_INSET = 10;
 
 type SelfOptions = {
-
-  // a Property that encloses the base color of the ground, from which a gradient is created
-  groundBaseColorProperty?: Property<Color> | null;
-
-  // whether the ground and sky should appear to glow when warm
-  showTemperatureGlow?: boolean;
 
   // Passed to the FluxMeterNode, but the tandem for the FluxMeterNode is added by this component.
   fluxMeterNodeOptions?: StrictOmit<FluxMeterNodeOptions, 'tandem'>;
@@ -75,7 +57,6 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
   protected readonly fluxMeterNode: FluxMeterNode | null;
-  protected readonly groundNodeHeight: number;
 
   // protected so that they can be placed in the pdomOrder in subclasses
   protected readonly startSunlightButton: TextPushButton;
@@ -92,10 +73,6 @@ class GreenhouseEffectObservationWindow extends Node {
     // StrictOmit for nested options is required when you don't provide defaults for them, see
     // https://github.com/phetsims/chipper/issues/1128
     const options = optionize<GreenhouseEffectObservationWindowOptions, StrictOmit<SelfOptions, 'fluxMeterNodeOptions'>, NodeOptions>()( {
-
-      // SelfOptions
-      groundBaseColorProperty: null,
-      showTemperatureGlow: false,
 
       // default position in the GreenhouseEffect sim
       left: 5,
@@ -157,10 +134,6 @@ class GreenhouseEffectObservationWindow extends Node {
     this.windowFrame.addChild( this.controlsLayer );
     this.windowFrame.addChild( this.foregroundLayer );
 
-    // The ground node will extend above and below the level of the ground in order to lend
-    // perspective to the view.
-    this.groundNodeHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
-
     this.focusableHeadingNode = new FocusableHeadingNode( {
       headingLevel: 3,
       innerContent: GreenhouseEffectStrings.a11y.observationWindowLabel
@@ -177,120 +150,7 @@ class GreenhouseEffectObservationWindow extends Node {
     } );
     this.backgroundLayer.addChild( skyNode );
 
-    // TODO: There is code below to handle two different ways of generating the ground, one by creating a shape and
-    //       filling it with a gradient, and one that uses artwork.  Once the artwork and the general approach are
-    //       finalized, this code will need to be cleaned up to remove the unused portions.  See
-    //       https://github.com/phetsims/greenhouse-effect/issues/49.
-    let groundNode: Node;
-    let groundShape: Shape;
-    const nominalGroundHeight = SIZE.height * GROUND_VERTICAL_PROPORTION;
-    const imageSource = AGRICULTURAL ? agriculturalLandscape1_png : fiftiesLandscape_png;
-    if ( USE_ARTWORK_FOR_GROUND ) {
-      groundNode = new Image( imageSource, {
-        maxWidth: this.width,
-        bottom: SIZE.height
-      } );
-
-      // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
-      // and was made to do so manually, and will need to be updated if the artwork changes.
-      const lowerLeftCorner = Vector2.ZERO;
-      const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
-      const controlPoint1 = new Vector2( SIZE.width * 0.22, leftSideGroundSurface.y - SIZE.height * 0.13 );
-      const midwayPoint = new Vector2( SIZE.width * 0.6, -SIZE.height * 0.2 );
-      const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.19 );
-      const controlPoint2 = new Vector2( SIZE.width * 0.75, rightSideGroundSurface.y + SIZE.height * 0.02 );
-      const lowerRightCorner = new Vector2( SIZE.width, 0 );
-
-      // ground shape
-      groundShape = new Shape()
-        .moveToPoint( lowerLeftCorner )
-        .lineToPoint( leftSideGroundSurface )
-        .quadraticCurveToPoint( controlPoint1, midwayPoint )
-        .quadraticCurveToPoint( controlPoint2, rightSideGroundSurface )
-        .lineToPoint( lowerRightCorner )
-        .lineToPoint( lowerLeftCorner )
-        .close();
-    }
-    else {
-
-      // control points used for the shape of the ground
-      const oneEighthWidth = SIZE.width / 8;
-      const leftHillStartPoint = Vector2.ZERO;
-      const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.15 );
-      const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
-      const leftHillEndPoint = new Vector2( SIZE.width / 2, 0 );
-      const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
-      const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
-      const rightHillEndPoint = new Vector2( SIZE.width, 0 );
-
-      // ground shape
-      groundShape = new Shape()
-        .moveToPoint( leftHillStartPoint )
-        .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
-        .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
-        .lineTo( SIZE.width, this.groundNodeHeight )
-        .lineTo( 0, this.groundNodeHeight )
-        .lineTo( 0, 0 )
-        .close();
-
-      // Create a node to represent the ground based on the created shape.
-      const groundNodePath = new Path( groundShape, {
-        bottom: SIZE.height
-      } );
-
-      // Obtain the base color for the ground from the options or create a default.
-      const groundBaseColorProperty = options.groundBaseColorProperty || new Property( new Color( '#317C18' ) );
-
-      // Update the ground as the base color changes.
-      groundBaseColorProperty.link( ( baseColor: Color ) => {
-
-        // Handle a gradient with equal values for R, G, and B as a special case with less variation from the darkest to
-        // the lightest colors.  This was added to support the variable albedo case, and allows the lightest color to
-        // look more "snow like".
-        if ( baseColor.r === baseColor.g && baseColor.g === baseColor.b ) {
-          groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-            .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
-            .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
-        }
-        else {
-          groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
-            .addColorStop( 0, baseColor.colorUtilsDarker( 0.67 ) )
-            .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
-        }
-      } );
-
-      groundNode = groundNodePath;
-    }
-
-    // Add the temperature glow node if so configured.
-    if ( options.showTemperatureGlow ) {
-
-      // surface temperature node, which is meant to look like a glow on the surface
-      const groundShapeBounds = groundShape.getBounds();
-      const surfaceTemperatureNode = new Path( groundShape, {
-        fill: new LinearGradient( 0, groundShapeBounds.minY, 0, groundShapeBounds.maxY )
-          .addColorStop( 0, PhetColorScheme.RED_COLORBLIND )
-          .addColorStop( 1, 'rgba( 255, 0, 0, 0 )' ),
-        bottom: SIZE.height
-      } );
-
-      model.surfaceTemperatureVisibleProperty.linkAttribute( surfaceTemperatureNode, 'visible' );
-
-      model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
-        surfaceTemperatureNode.opacity = Utils.clamp(
-          ( surfaceTemperature - SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.min ) / SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE.getLength(),
-          0,
-          1
-        );
-      } );
-
-      // Layer the glow in the sky above the sky but behind the ground in the z-order.
-      this.backgroundLayer.addChild( groundNode );
-      this.backgroundLayer.addChild( surfaceTemperatureNode );
-    }
-    else {
-      this.backgroundLayer.addChild( groundNode );
-    }
+    this.backgroundLayer.addChild( this.createGroundNode( model ) );
 
     // energy balance
     this.energyBalancePanel = new EnergyBalancePanel(
@@ -490,6 +350,15 @@ class GreenhouseEffectObservationWindow extends Node {
 
   public reset(): void {
     this.fluxMeterNode?.reset();
+  }
+
+  /**
+   * Create the visual representation of the ground.  This is quite simple here, and it is meant to be overridden in
+   * descendent classes that use more sophisticated representations.
+   */
+  protected createGroundNode( model: LayersModel ): Node {
+    const topOfGround = this.modelViewTransform.modelToViewY( model.groundLayer.altitude );
+    return new Rectangle( 0, topOfGround, this.width, this.height - topOfGround, { fill: new Color( 0, 150, 0 ) } );
   }
 
   // static values
