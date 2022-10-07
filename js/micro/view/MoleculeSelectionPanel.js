@@ -97,7 +97,7 @@ class MoleculeSelectionPanel extends Panel {
 
     const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
       return {
-        node: createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
+        createNode: tandem => createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
         value: photonTarget,
         tandemName: tandemName,

@@ -201,25 +201,25 @@ class DateControl extends Node {
     // the radio buttons for the date control
     const items = [
       {
-        node: new Text( twentyTwentyLabel, LABEL_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.TWENTY_TWENTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
-        node: new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.NINETEEN_FIFTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
-        node: new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.SEVENTEEN_FIFTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
-        node: new Text( iceAgeLabel, LABEL_OPTIONS ),
+        createNode: ( tandem: Tandem ) => new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
         tandemName: 'iceAgeRadioButton'
@@ -453,28 +453,27 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
     assert && assert( dummyProperty.range );
-    const sliderIcon = new VSlider( dummyProperty, dummyProperty.range!, {
-      trackSize: new Dimension2( 2, dateIcon.height - 9 ),
-      thumbSize: new Dimension2( 18, 9 ),
-      trackFillEnabled: 'black',
-      pickable: false,
-
-      // slider icon should not have representation in the PDOM, accessibility is managed by the checkbox
-      tagName: null,
-
-      // phet-io - opting out of the Tandem for the icon
-      tandem: Tandem.OPT_OUT
-    } );
 
     const items = [
       {
-        node: sliderIcon,
+        createNode: ( tandem: Tandem ) => new VSlider( dummyProperty, dummyProperty.range!, {
+          trackSize: new Dimension2( 2, dateIcon.height - 9 ),
+          thumbSize: new Dimension2( 18, 9 ),
+          trackFillEnabled: 'black',
+          pickable: false,
+
+          // slider icon should not have representation in the PDOM, accessibility is managed by the checkbox
+          tagName: null,
+
+          // phet-io - opting out of the Tandem for the icon
+          tandem: Tandem.OPT_OUT
+        } ),
         value: ConcentrationControlMode.BY_VALUE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentration,
         tandemName: 'byConcentrationRadioButton'
       },
       {
-        node: dateIcon,
+        createNode: ( tandem: Tandem ) => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
         tandemName: 'byTimePeriodRadioButton'

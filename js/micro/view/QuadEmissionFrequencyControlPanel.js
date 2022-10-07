@@ -95,8 +95,12 @@ class QuadEmissionFrequencyControlPanel extends Node {
     const visibleTandemName = 'visibleRadioButton';
     const ultravioletTandemName = 'ultravioletRadioButton';
     const radioButtonGroupTandem = tandem.createTandem( 'radioButtonGroup' );
+    const microwaveRadioButtonContent = createRadioButtonContent( new Image( microwaveSource_png ), microwavePhotonNode );
+    const infraredPhotonRadioButtonContent = createRadioButtonContent( new Image( infraredSource_png ), infraredPhotonNode );
+    const visiblePhotonRadioButtonContent = createRadioButtonContent( new Image( flashlight_png ), visiblePhotonNode );
+    const ultravioletPhotonRadioButtonContent = createRadioButtonContent( new Image( uvSource_png ), ultravioletPhotonNode );
     const radioButtonContent = [ {
-      node: createRadioButtonContent( new Image( microwaveSource_png ), microwavePhotonNode ),
+      createNode: tandem => microwaveRadioButtonContent,
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveString, {
         font: labelFont,
@@ -105,7 +109,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       tandemName: microwaveTandemName,
       labelContent: quadWavelengthSelectorMicrowaveString
     }, {
-      node: createRadioButtonContent( new Image( infraredSource_png ), infraredPhotonNode ),
+      createNode: tandem => infraredPhotonRadioButtonContent,
       value: WavelengthConstants.IR_WAVELENGTH,
       label: new Text( quadWavelengthSelectorInfraredString, {
         font: labelFont,
@@ -114,7 +118,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       tandemName: infraredTandemName,
       labelContent: quadWavelengthSelectorInfraredString
     }, {
-      node: createRadioButtonContent( new Image( flashlight_png ), visiblePhotonNode ),
+      createNode: tandem => visiblePhotonRadioButtonContent,
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new Text( quadWavelengthSelectorVisibleString, {
         font: labelFont,
@@ -123,7 +127,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       tandemName: visibleTandemName,
       labelContent: quadWavelengthSelectorVisibleString
     }, {
-      node: createRadioButtonContent( new Image( uvSource_png ), ultravioletPhotonNode ),
+      createNode: tandem => ultravioletPhotonRadioButtonContent,
       value: WavelengthConstants.UV_WAVELENGTH,
       label: new Text( quadWavelengthSelectorUltravioletString, {
         font: labelFont,
@@ -135,7 +139,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
 
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
-    const panelWidth = _.maxBy( radioButtonContent, content => content.node.width ).node.width;
+    const panelWidth = _.maxBy( [ microwaveRadioButtonContent, infraredPhotonRadioButtonContent, visiblePhotonRadioButtonContent, ultravioletPhotonRadioButtonContent ], content => content.width ).width;
 
     // Calculate the minimum scale factor that must be applied to each label. Ensures constant font size for all labels.
     let scaleFactor = 1;
