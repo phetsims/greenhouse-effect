@@ -142,7 +142,7 @@ class Photon {
       velocity: Vector2.Vector2IO,
       showState: StringIO
     },
-    toStateObject: ( t: Photon ) => t.toStateObject(),
+    toStateObject: ( photon: Photon ) => photon.toStateObject(),
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),
       NumberIO.fromStateObject( stateObject.wavelength ), {

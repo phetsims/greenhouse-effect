@@ -328,8 +328,8 @@ class PhotonCollection extends PhetioObject {
     stateSchema: {
       photonStateObjects: ArrayIO( Photon.PhotonIO )
     },
-    toStateObject: ( t: PhotonCollection ) => t.toStateObject(),
-    applyState: ( t: PhotonCollection, s: PhotonCollectionStateObject ) => t.applyState( s ),
+    toStateObject: ( photonCollection: PhotonCollection ) => photonCollection.toStateObject(),
+    applyState: ( photonCollection: PhotonCollection, stateObject: PhotonCollectionStateObject ) => photonCollection.applyState( stateObject ),
     defaultDeserializationMethod: 'applyState'
   } );
 }

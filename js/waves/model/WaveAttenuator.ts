@@ -48,7 +48,7 @@ class WaveAttenuator {
       attenuation: NumberIO,
       distanceFromStart: NumberIO
     },
-    toStateObject: ( t: WaveAttenuator ) => t.toStateObject(),
+    toStateObject: ( waveAttenuator: WaveAttenuator ) => waveAttenuator.toStateObject(),
     fromStateObject: ( stateObject: WaveAttenuatorStateObject ) => new WaveAttenuator(
       NumberIO.fromStateObject( stateObject.attenuation ),
       NumberIO.fromStateObject( stateObject.distanceFromStart )

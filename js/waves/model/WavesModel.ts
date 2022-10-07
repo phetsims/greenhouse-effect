@@ -505,8 +505,8 @@ class WavesModel extends ConcentrationModel {
    */
   public static WavesModelIO = new IOType( 'WavesModelIO', {
       valueType: WavesModel,
-      toStateObject: ( t: WavesModel ) => t.toStateObject(),
-      applyState: ( t: WavesModel, s: WavesModelStateObject ) => t.applyState( s ),
+      toStateObject: ( wavesModel: WavesModel ) => wavesModel.toStateObject(),
+      applyState: ( wavesModel: WavesModel, stateObject: WavesModelStateObject ) => wavesModel.applyState( stateObject ),
       stateSchema: {
         sunWaveSource: EMWaveSource.EMWaveSourceIO,
         groundWaveSource: EMWaveSource.EMWaveSourceIO,
@@ -569,7 +569,7 @@ class WaveAtmosphereInteraction {
       sourceWave: ReferenceIO( Wave.WaveIO ),
       emittedWave: ReferenceIO( Wave.WaveIO )
     },
-    toStateObject: ( t: WaveAtmosphereInteraction ) => t.toStateObject(),
+    toStateObject: ( waveAtmosphereInteraction: WaveAtmosphereInteraction ) => waveAtmosphereInteraction.toStateObject(),
     fromStateObject: ( stateObject: WaveAtmosphereInteractionStateObject ) => new WaveAtmosphereInteraction(
       ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
       ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),

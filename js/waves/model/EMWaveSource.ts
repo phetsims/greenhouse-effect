@@ -55,7 +55,7 @@ class WaveCreationSpec {
       propagationDirection: Vector2.Vector2IO,
       originX: NumberIO
     },
-    toStateObject: ( t: WaveCreationSpec ) => t.toStateObject(),
+    toStateObject: ( waveCreationSpec: WaveCreationSpec ) => waveCreationSpec.toStateObject(),
     fromStateObject: ( stateObject: WaveCreationSpecStateObject ) => new WaveCreationSpec(
       NumberIO.fromStateObject( stateObject.originX ),
       Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
@@ -276,8 +276,8 @@ class EMWaveSource extends PhetioObject {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
     },
-    applyState: ( t: EMWaveSource, state: EMWaveSourceStateObject ) => t.applyState( state ),
-    toStateObject: ( t: EMWaveSource ) => t.toStateObject()
+    applyState: ( emWaveSource: EMWaveSource, stateObject: EMWaveSourceStateObject ) => emWaveSource.applyState( stateObject ),
+    toStateObject: ( emWaveSource: EMWaveSource ) => emWaveSource.toStateObject()
   } );
 }
 

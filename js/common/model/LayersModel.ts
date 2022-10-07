@@ -397,8 +397,8 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly LayersModelIO: IOType = new IOType( 'LayersModelIO', {
     valueType: LayersModel,
     stateSchema: LayersModel.STATE_SCHEMA,
-    toStateObject: ( a: LayersModel ) => a.toStateObject(),
-    applyState: ( a: LayersModel, b: LayersModelStateObject ) => a.applyState( b )
+    toStateObject: ( layersModel: LayersModel ) => layersModel.toStateObject(),
+    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
   } );
 }
 

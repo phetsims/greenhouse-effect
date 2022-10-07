@@ -640,8 +640,8 @@ class Wave extends PhetioObject {
       renderingWavelength: NumberIO,
       modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
     },
-    toStateObject: ( t: Wave ) => t.toStateObject(),
-    applyState: ( t: Wave, s: WaveStateObject ) => t.applyState( s ),
+    toStateObject: ( wave: Wave ) => wave.toStateObject(),
+    applyState: ( wave: Wave, stateObject: WaveStateObject ) => wave.applyState( stateObject ),
     stateToArgsForConstructor: ( state: WaveStateObject ) => [
       NumberIO.fromStateObject( state.wavelength ),
       Vector2.Vector2IO.fromStateObject( state.origin ),
