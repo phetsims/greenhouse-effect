@@ -289,7 +289,8 @@ class FluxMeterNode extends Node {
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       {
-        enableControlProperties: [ isPlayingProperty, visibleProperty ]
+        enableControlProperties: [ isPlayingProperty, visibleProperty ],
+        initialOutputLevel: 1
       }
     );
     soundManager.addSoundGenerator( this.soundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
