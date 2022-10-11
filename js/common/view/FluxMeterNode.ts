@@ -95,7 +95,7 @@ class FluxMeterNode extends Node {
   private readonly wasDraggedProperty: BooleanProperty;
 
   // zoom factor, only used if the zoom feature is enabled
-  private readonly zoomFactor: RangedProperty;
+  private readonly zoomFactorProperty: RangedProperty;
 
   // sound generator for this node
   private readonly soundGenerator: FluxMeterSoundGenerator;
@@ -147,11 +147,11 @@ class FluxMeterNode extends Node {
       maxWidth: 120
     } );
 
-    this.zoomFactor = new NumberProperty( 0, {
+    this.zoomFactorProperty = new NumberProperty( 0, {
       range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS )
     } ).asRanged();
 
-    const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactor ], zoomFactor =>
+    const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactorProperty ], zoomFactor =>
       NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER * Math.pow( FLUX_ARROW_ZOOM_FACTOR, zoomFactor )
     );
 
@@ -171,7 +171,7 @@ class FluxMeterNode extends Node {
     );
     const fluxArrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
 
-    const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactor, {
+    const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
       spacing: 5,
       applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
       applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
@@ -310,7 +310,7 @@ class FluxMeterNode extends Node {
 
   public reset(): void {
     this.wasDraggedProperty.reset();
-    this.zoomFactor.reset();
+    this.zoomFactorProperty.reset();
     this.soundGenerator.reset();
   }
 }
