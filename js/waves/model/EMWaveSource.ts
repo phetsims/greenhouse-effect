@@ -260,8 +260,12 @@ class EMWaveSource extends PhetioObject {
   }
 
   public applyState( stateObject: EMWaveSourceStateObject ): void {
-    this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject( stateObject.wavesToLifetimesMap );
-    this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject( stateObject.waveCreationQueue );
+    this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject(
+      stateObject.wavesToLifetimesMap
+    );
+    this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject(
+      stateObject.waveCreationQueue
+    );
   }
 
   /**
@@ -276,7 +280,8 @@ class EMWaveSource extends PhetioObject {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
     },
-    applyState: ( emWaveSource: EMWaveSource, stateObject: EMWaveSourceStateObject ) => emWaveSource.applyState( stateObject ),
+    applyState: ( emWaveSource: EMWaveSource, stateObject: EMWaveSourceStateObject ) => emWaveSource.applyState( stateObject
+    ),
     toStateObject: ( emWaveSource: EMWaveSource ) => emWaveSource.toStateObject()
   } );
 }

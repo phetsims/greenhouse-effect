@@ -601,7 +601,9 @@ class Wave extends PhetioObject {
     this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
     this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
     this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
-    this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject( stateObject.intensityChanges );
+    this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject(
+      stateObject.intensityChanges
+    );
     this.modelObjectToAttenuatorMap = MapIO(
       ReferenceIO( IOType.ObjectIO ),
       WaveAttenuator.WaveAttenuatorIO
