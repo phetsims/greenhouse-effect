@@ -185,7 +185,7 @@ class FluxMeterNode extends Node {
     } );
 
     // zoom buttons conditionally added to the view, but always created because I think that is required for PhET-iO
-    const contentChildren = [ titleText, fluxArrows ];
+    const contentChildren: Node[] = [ titleText, fluxArrows ];
     options.includeZoomButtons && contentChildren.push( zoomButtons );
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
