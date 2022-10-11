@@ -220,7 +220,7 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     // the endpoint where energy radiating from the top of the atmosphere goes
-    this.outerSpace = new SpaceEnergySink( ( HEIGHT_OF_ATMOSPHERE * 0.85 ), tandem.createTandem( 'outerSpace' ) );
+    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
     if ( options.fluxMeterPresent ) {
@@ -398,7 +398,8 @@ class LayersModel extends GreenhouseEffectModel {
     valueType: LayersModel,
     stateSchema: LayersModel.STATE_SCHEMA,
     toStateObject: ( layersModel: LayersModel ) => layersModel.toStateObject(),
-    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
+    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject
+    )
   } );
 }
 
