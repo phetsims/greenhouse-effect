@@ -34,6 +34,9 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
 
     super( model, observationWindow, timeControlNode, {
 
+      // Frame the observation window so that the photons appear to stay within it.
+      useClippingFrame: true,
+
       // phet-io
       tandem: tandem
     } );

@@ -9,10 +9,11 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Path, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -20,7 +21,12 @@ import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 
+const FRAME_WIDTH = 8; // in screen coords, empirically determined to do the job
+
 type SelfOptions = {
+
+  // controls whether to put the clipping frame around the observation window
+  useClippingFrame?: boolean;
 
   // passed along to the EnergyLegend
   energyLegendOptions?: EnergyLegendOptions;
@@ -53,6 +59,7 @@ class GreenhouseEffectScreenView extends ScreenView {
                       providedOptions?: GreenhouseEffectScreenViewOptions ) {
 
     const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
+      useClippingFrame: false,
       energyLegendOptions: {},
       observationWindowOptions: {},
       tandem: Tandem.REQUIRED
@@ -70,6 +77,25 @@ class GreenhouseEffectScreenView extends ScreenView {
     // Add the observation window to the view.  This is generally provided by the subclass.
     this.observationWindow = observationWindow;
     this.addChild( this.observationWindow );
+
+    // In some cases, the rendering in the observation window can't be clipped using a clip area.  As of this writing,
+    // the primary case where this occurs is when rendering photons, since they use WebGL.  In those cases, a frame can
+    // be added around the observation window.  When this frame matches the background color of the screen view, the
+    // contents of the window stays within its bounds.
+    if ( options.useClippingFrame ) {
+      const observationWindowBounds = this.observationWindow.getBounds();
+      const clippingFramePath = Shape.bounds( observationWindowBounds.dilated( FRAME_WIDTH ) );
+      clippingFramePath.moveTo( observationWindowBounds.minX, observationWindowBounds.minY );
+      clippingFramePath.lineTo( observationWindowBounds.minX, observationWindowBounds.maxY );
+      clippingFramePath.lineTo( observationWindowBounds.maxX, observationWindowBounds.maxY );
+      clippingFramePath.lineTo( observationWindowBounds.maxX, observationWindowBounds.minY );
+      clippingFramePath.close();
+
+      const clippingFrame = new Path( clippingFramePath, {
+        fill: GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR
+      } );
+      this.addChild( clippingFrame );
+    }
 
     // area between right edge of ScreenView and observation window
     const rightWidth = this.layoutBounds.right - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN -

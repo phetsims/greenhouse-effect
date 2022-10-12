@@ -1,25 +1,27 @@
 // Copyright 2020-2022, University of Colorado Boulder
 
 /**
+ * Main screen view for the "Photons" screen.
+ *
  * @author John Blanco
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { Image, VBox } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import photonsScreenMockup_png from '../../../images/photonsScreenMockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
+import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
+import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from '../../waves/view/CloudCheckbox.js';
 import PhotonsModel from '../model/PhotonsModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
-import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
-import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
-import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
-import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -30,11 +32,15 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       tandem: tandem.createTandem( 'observationWindow' )
     } );
 
+    // Create the node that will allow the user to play and pause the simulation.
     const timeControlNode = new LayersModelTimeControlNode( model, {
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 
     super( model, observationWindow, timeControlNode, {
+
+      // Frame the observation window so that the photons appear to stay within it.
+      useClippingFrame: true,
 
       // phet-io
       tandem: tandem
