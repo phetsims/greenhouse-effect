@@ -65,9 +65,9 @@ class FluxMeter extends PhetioObject {
       moveSensorOffLayers: false,
       fluxSensorOptions: {
 
-        // The initial position for the flux sensor, empirically determined to be near the horizon in the observation
-        // window and not initially overlapping with anything important.
-        initialPosition: new Vector2( -LayersModel.SUNLIGHT_SPAN.width * 0.105, LayersModel.HEIGHT_OF_ATMOSPHERE * 0.15 )
+        // The initial position for the flux sensor, empirically determined to be in the sky and not initially
+        // overlapping with anything important.
+        initialPosition: new Vector2( -LayersModel.SUNLIGHT_SPAN.width * 0.105, 16570 )
       },
 
       // temporarily marking phet-io state to be false until serialization is added
