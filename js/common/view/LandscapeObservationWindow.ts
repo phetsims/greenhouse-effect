@@ -20,6 +20,8 @@ import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../..
 import Tandem from '../../../../tandem/js/Tandem.js';
 import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
 import fiftiesLandscape_png from '../../../images/fiftiesLandscape_png.js';
+import landscapeWithDenseCity_png from '../../../images/landscapeWithDenseCity_png.js';
+import landscapeWithGlacier_png from '../../../images/landscapeWithGlacier_png.js';
 import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -161,6 +163,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const unadornedLandscapeImage = new Image( unadornedLandscape_png, sharedImageOptions );
     const agriculturalLandscapeImage = new Image( agriculturalLandscape1_png, sharedImageOptions );
     const fiftiesLandscapeImage = new Image( fiftiesLandscape_png, sharedImageOptions );
+    const denseCityLandscapeImage = new Image( landscapeWithDenseCity_png, sharedImageOptions );
+    const landscapeWithGlacierImage = new Image( landscapeWithGlacier_png, sharedImageOptions );
 
     // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
     // and was made to do so manually, and will need to be updated if the artwork changes.
@@ -206,10 +210,14 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         unadornedLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_VALUE ||
                                           date === ConcentrationDate.ICE_AGE ||
                                           date === ConcentrationDate.TWENTY_TWENTY;
+        landscapeWithGlacierImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                            date === ConcentrationDate.ICE_AGE;
         agriculturalLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                              date === ConcentrationDate.SEVENTEEN_FIFTY;
         fiftiesLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                         date === ConcentrationDate.NINETEEN_FIFTY;
+        denseCityLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                          date === ConcentrationDate.TWENTY_TWENTY;
       }
     );
 
@@ -217,8 +225,10 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     return new Node( {
       children: [
         unadornedLandscapeImage,
+        landscapeWithGlacierImage,
         agriculturalLandscapeImage,
         fiftiesLandscapeImage,
+        denseCityLandscapeImage,
 
         // The surface temperature node must be last on this list for correct layering.
         surfaceTemperatureNode
