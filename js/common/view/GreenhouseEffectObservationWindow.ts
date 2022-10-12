@@ -300,6 +300,9 @@ class GreenhouseEffectObservationWindow extends Node {
       );
 
       this.controlsLayer.addChild( this.fluxMeterNode );
+
+      // The flux meter's sensor should be behind the other controls.
+      this.fluxMeterNode.moveToBack();
     }
     else {
       this.fluxMeterNode = null;
