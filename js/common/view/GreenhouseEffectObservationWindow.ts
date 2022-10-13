@@ -308,7 +308,7 @@ class GreenhouseEffectObservationWindow extends Node {
     // sound generation
 
     // Create a derived property that is true when either of the visual surface temperature indicators are enabled.
-    const surfaceTemperatureIndicatorEnabled = new DerivedProperty(
+    const surfaceTemperatureIndicatorEnabledProperty = new DerivedProperty(
       [
         model.surfaceThermometerVisibleProperty,
         model.surfaceTemperatureVisibleProperty
@@ -325,7 +325,7 @@ class GreenhouseEffectObservationWindow extends Node {
         {
           initialOutputLevel: 0.045,
           enableControlProperties: [
-            surfaceTemperatureIndicatorEnabled,
+            surfaceTemperatureIndicatorEnabledProperty,
             model.isPlayingProperty
           ]
         }
