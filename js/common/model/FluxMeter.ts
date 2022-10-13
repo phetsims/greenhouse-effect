@@ -40,7 +40,7 @@ export type FluxMeterOptions = SelfOptions & PhetioObjectOptions;
 
 // The size of the flux sensor.  Note that this is parallel to the ground, so "height" is actually the Z dimension.
 const FLUX_SENSOR_SIZE = new Dimension2(
-  GreenhouseEffectConstants.SUNLIGHT_SPAN.width * 0.75,
+  GreenhouseEffectConstants.SUNLIGHT_SPAN.width * 0.76,
   GreenhouseEffectConstants.SUNLIGHT_SPAN.height
 );
 
@@ -65,9 +65,10 @@ class FluxMeter extends PhetioObject {
       moveSensorOffLayers: false,
       fluxSensorOptions: {
 
-        // The initial position for the flux sensor, empirically determined to be in the sky and not initially
-        // overlapping with anything important.
-        initialPosition: new Vector2( -LayersModel.SUNLIGHT_SPAN.width * 0.105, 16570 )
+        // The initial position for the flux sensor, empirically determined to be between the ground and the sky in the
+        // "Photons" screen and above the first layer on the "Layer Model" screen, and not initially overlapping with
+        // anything important.
+        initialPosition: new Vector2( -LayersModel.SUNLIGHT_SPAN.width * 0.11, 16570 )
       },
 
       // temporarily marking phet-io state to be false until serialization is added

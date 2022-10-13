@@ -120,6 +120,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   public override reset(): void {
     this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
     this.showSurfaceThermometerProperty.reset();
+    this.fluxMeterNode?.reset();
   }
 
   /**

@@ -217,7 +217,7 @@ class FluxMeterNode extends Node {
       ( wasDragged, cueingArrowsEnabled ) => !wasDragged && cueingArrowsEnabled
     );
 
-    // green arrows around the flux sensor flag, cues the user to drag it
+    // colored arrows around the flux sensor, cues the user to drag it
     const cuingArrowsNode = new VBox( {
       cursor: 'pointer',
       spacing: 15,
