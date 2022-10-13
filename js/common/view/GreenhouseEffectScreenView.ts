@@ -21,7 +21,7 @@ import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 
-const FRAME_WIDTH = 8; // in screen coords, empirically determined to do the job
+const FRAME_WIDTH = 12; // in screen coords, empirically determined to do the job
 
 type SelfOptions = {
 
