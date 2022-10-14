@@ -597,10 +597,7 @@ class Wave extends PhetioObject {
   public applyState( stateObject: WaveStateObject ): void {
     this.length = NumberIO.fromStateObject( stateObject.length );
     this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
-    this.startPoint.setXY(
-      NumberIO.fromStateObject( stateObject.startPoint.x ),
-      NumberIO.fromStateObject( stateObject.startPoint.y )
-    );
+    this.startPoint.set( Vector2.Vector2IO.fromStateObject( stateObject.startPoint ) );
     this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
     this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
     this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
