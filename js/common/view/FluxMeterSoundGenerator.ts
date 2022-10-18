@@ -32,7 +32,7 @@ const FADE_OUT_RATE = 4;
 const FADE_OUT_TIME = 1 / FADE_OUT_RATE;
 
 // the rate of flux change considered necessary to produce sound, empirically determined
-const FLUX_CHANGE_RATE_THRESHOLD = 400000;
+const FLUX_CHANGE_RATE_THRESHOLD = 1000000;
 
 // empirically determined values used to scale attributes of the sound generation
 const MAX_EXPECTED_UPWARD_IR_FLUX = 178000000;
@@ -150,6 +150,7 @@ class FluxMeterSoundGenerator extends SoundGenerator {
 
     // Adjust the countdown timers based on the rate of flux change.
     if ( Math.abs( averageIrFluxUpChangeRate ) > FLUX_CHANGE_RATE_THRESHOLD ) {
+      console.log( `averageIrFluxUpChangeRate = ${averageIrFluxUpChangeRate}` );
       this.irUpFluxChangedCountdownTimer = PRE_FADE_TIME + FADE_OUT_TIME;
     }
     else {
