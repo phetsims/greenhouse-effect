@@ -57,7 +57,7 @@ const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
 
 // Zoom factor for zooming in and out in the flux meter, only used if zoom is enabled.  This value was empirically
 // determined in conjunction with others to make sure that the max outgoing IR will fix in the flux meter.
-const FLUX_ARROW_ZOOM_FACTOR = 2.2;
+const FLUX_ARROW_ZOOM_FACTOR = 2.5;
 
 // the number of zoom levels in each direction
 const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
