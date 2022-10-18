@@ -150,7 +150,6 @@ class FluxMeterSoundGenerator extends SoundGenerator {
 
     // Adjust the countdown timers based on the rate of flux change.
     if ( Math.abs( averageIrFluxUpChangeRate ) > FLUX_CHANGE_RATE_THRESHOLD ) {
-      console.log( `averageIrFluxUpChangeRate = ${averageIrFluxUpChangeRate}` );
       this.irUpFluxChangedCountdownTimer = PRE_FADE_TIME + FADE_OUT_TIME;
     }
     else {
