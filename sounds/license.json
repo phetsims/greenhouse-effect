@@ -231,7 +231,15 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "irFluxDown.mp3": {
+  "irFluxDownA.mp3": {
+    "text": [
+      "Copyright 2022 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "irFluxDownB.mp3": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
     ],

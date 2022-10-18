@@ -8,11 +8,12 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import irFluxDown_mp3 from '../../../sounds/irFluxDown_mp3.js';
+import irFluxDownA_mp3 from '../../../sounds/irFluxDownA_mp3.js';
+import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -33,8 +34,9 @@ const FADE_OUT_TIME = 1 / FADE_OUT_RATE;
 // the rate of flux change considered necessary to produce sound, empirically determined
 const FLUX_CHANGE_RATE_THRESHOLD = 400000;
 
-// an empirically determined value used to scale attributes of the sound generation
-const MAX_EXPECTED_IR_FLUX = 175000000;
+// empirically determined values used to scale attributes of the sound generation
+const MAX_EXPECTED_UPWARD_IR_FLUX = 178000000;
+const MAX_EXPECTED_DOWNWARD_IR_FLUX = 134000000;
 
 // number of samples to use when averaging out the rate of flux change
 const NUMBER_OF_AVERAGING_SAMPLES = 10;
@@ -53,8 +55,10 @@ class FluxMeterSoundGenerator extends SoundGenerator {
   private readonly irFluxDownProperty: TReadOnlyProperty<number>;
   private irPreviousFluxDown: number;
   private irDownFluxChangedCountdownTimer = 0;
-  private readonly irDownFluxSoundClip: SoundClip;
-  private readonly lowPassFilter = new BiquadFilterNode( phetAudioContext );
+  private readonly irFluxDownASoundClip: SoundClip;
+  private readonly irFluxDownBSoundClip: SoundClip;
+  private readonly downwardFluxGainNode: GainNode;
+  private downwardFluxGainLevel = 0;
 
   // arrays that track changes in the flux, used to calculate a moving average
   private readonly irFluxUpRateChangeSamples: number[] = [];
@@ -90,18 +94,24 @@ class FluxMeterSoundGenerator extends SoundGenerator {
     } );
     this.irUpFluxSoundClip.connect( this.masterGainNode );
 
-    // Create the sound clip used for IR flux in the downward direction.
-    this.irDownFluxSoundClip = new SoundClip( irFluxDown_mp3, {
+    // Create the gain node that will be used to fade in and out the combined clips that make up the IR flux down sound.
+    this.downwardFluxGainNode = this.audioContext.createGain();
+    this.downwardFluxGainNode.connect( this.masterGainNode );
+
+    // Create the sound clips used for IR flux in the downward direction.  The overall sound is made by cross-fading
+    // between these two sounds based on the flux level.
+    this.irFluxDownASoundClip = new SoundClip( irFluxDownA_mp3, {
+      initialOutputLevel: 0,
+      loop: true
+    } );
+    this.irFluxDownBSoundClip = new SoundClip( irFluxDownB_mp3, {
       initialOutputLevel: 0,
       loop: true
     } );
 
-    // Set up the filter that will be used on the flux in the downward direction.
-    this.lowPassFilter.type = 'lowpass';
-    this.lowPassFilter.connect( this.masterGainNode );
-
-    // Connect the sound for the IR moving down to the filter.
-    this.irDownFluxSoundClip.connect( this.lowPassFilter );
+    // Connect the sounds for the downward-direction IR to the overall gain node for this sound.
+    this.irFluxDownASoundClip.connect( this.downwardFluxGainNode );
+    this.irFluxDownBSoundClip.connect( this.downwardFluxGainNode );
 
     // Define the class-specific dispose function.
     this.disposeFluxMeterSoundGenerator = () => {
@@ -119,9 +129,10 @@ class FluxMeterSoundGenerator extends SoundGenerator {
     const irFluxUpChangeRateThisStep = Math.abs( this.irPreviousFluxUp - this.irFluxUpProperty.value ) / dt;
     const irFluxDownChangeRateThisStep = Math.abs( this.irPreviousFluxDown - this.irFluxDownProperty.value ) / dt;
 
-    // Update the moving average samples and calculation.  This is a decidedly imperfect moving average calculation
-    // because it doesn't weight the samples based on the dt values with which they are associated, but it is good
-    // enough for the needs of this object.
+    // Update the moving average samples and calculation for the IR flux change rate in both the upward and downward
+    // directions.  This is a decidedly imperfect moving average calculation because it doesn't weight the samples based
+    // on the dt values with which they are associated, but it has so far proven to be good enough for the needs of this
+    // sound generator.
     this.irFluxUpRateChangeSamples.push( irFluxUpChangeRateThisStep );
     if ( this.irFluxUpRateChangeSamples.length > NUMBER_OF_AVERAGING_SAMPLES ) {
       this.irFluxUpRateChangeSamples.shift();
@@ -152,8 +163,7 @@ class FluxMeterSoundGenerator extends SoundGenerator {
       this.irDownFluxChangedCountdownTimer = Math.max( this.irDownFluxChangedCountdownTimer - dt, 0 );
     }
 
-    // Adjust the output level of the IR flux up sound based on the corresponding countdown timer and the current output
-    // level.
+    // Adjust the output level of the upward-direction IR sound.
     let irUpFluxSoundOutputLevel = this.irUpFluxSoundClip.outputLevel;
     if ( this.irUpFluxChangedCountdownTimer > FADE_OUT_TIME ) {
 
@@ -161,13 +171,18 @@ class FluxMeterSoundGenerator extends SoundGenerator {
       irUpFluxSoundOutputLevel = Math.min( irUpFluxSoundOutputLevel + FADE_IN_RATE * dt, 1 );
     }
     else if ( this.irUpFluxChangedCountdownTimer > 0 ) {
+
+      // The countdown indicates that this sound should be fading out, so calculate what is probably a reduced volume.
       irUpFluxSoundOutputLevel = Math.max( irUpFluxSoundOutputLevel - FADE_OUT_RATE * dt, 0 );
     }
     else {
-      irUpFluxSoundOutputLevel = Math.max( irUpFluxSoundOutputLevel - 0.1 * dt, 0 );
-    }
 
-    // Start or stop the sound clip if appropriate.
+      // The sound should be fully faded when the counter gets to zero.
+      irUpFluxSoundOutputLevel = 0;
+    }
+    this.irUpFluxSoundClip.setOutputLevel( irUpFluxSoundOutputLevel );
+
+    // Start or stop the upward-direction IR sound clip if appropriate.
     if ( irUpFluxSoundOutputLevel > 0 && !this.irUpFluxSoundClip.isPlaying ) {
       this.irUpFluxSoundClip.play();
     }
@@ -175,43 +190,42 @@ class FluxMeterSoundGenerator extends SoundGenerator {
       this.irUpFluxSoundClip.stop( 0.1 );
     }
 
-    // Set the output level for the sound corresponding to the upward IR flux.
-    this.irUpFluxSoundClip.setOutputLevel( irUpFluxSoundOutputLevel );
-
-    // Set the playback rate for the IR up sound.  This happens regardless of whether it is playing.
-    const playbackRate = 1 + Math.min( this.irFluxUpProperty.value / MAX_EXPECTED_IR_FLUX, 1 ) * 4;
+    // Set the playback rate for the upward-direction IR sound.  This happens regardless of whether it is playing.
+    const playbackRate = 1 + Math.min( this.irFluxUpProperty.value / MAX_EXPECTED_UPWARD_IR_FLUX, 1 ) * 4;
     this.irUpFluxSoundClip.setPlaybackRate( playbackRate );
 
-    // Update the output level for the sound corresponding to the IR flux in the downward direction.
-    let irDownFluxSoundOutputLevel = this.irDownFluxSoundClip.outputLevel;
+    // Update the overall output level for the downward-direction IR sound.
     if ( this.irDownFluxChangedCountdownTimer > FADE_OUT_TIME ) {
 
       // Move towards full volume if not already there.
-      irDownFluxSoundOutputLevel = Math.min( irDownFluxSoundOutputLevel + FADE_IN_RATE * dt, 1 );
+      this.downwardFluxGainLevel = Math.min( this.downwardFluxGainLevel + FADE_IN_RATE * dt, 1 );
     }
     else if ( this.irDownFluxChangedCountdownTimer > 0 ) {
-      irDownFluxSoundOutputLevel = Math.max( irDownFluxSoundOutputLevel - FADE_OUT_RATE * dt, 0 );
+
+      // The countdown indicates that this sound should be fading out, so calculate what is probably a reduced volume.
+      this.downwardFluxGainLevel = Math.max( this.downwardFluxGainLevel - FADE_OUT_RATE * dt, 0 );
     }
     else {
-      irDownFluxSoundOutputLevel = Math.max( irDownFluxSoundOutputLevel - 0.1 * dt, 0 );
-    }
 
-    // Start or stop the sound clip if appropriate.
-    if ( irDownFluxSoundOutputLevel > 0 && !this.irDownFluxSoundClip.isPlaying ) {
-      this.irDownFluxSoundClip.play();
+      // The sound should be fully faded when the counter gets to zero.
+      this.downwardFluxGainLevel = 0;
     }
-    else if ( irDownFluxSoundOutputLevel === 0 && this.irDownFluxSoundClip.isPlaying ) {
-      this.irDownFluxSoundClip.stop( 0.1 );
+    this.downwardFluxGainNode.gain.setValueAtTime( this.downwardFluxGainLevel, 0 );
+
+    // Set the cross-fade levels for the two sounds that comprise the downward IR composite sound.
+    const soundAOutputLevel = Utils.clamp( 1 - this.irFluxDownProperty.value / MAX_EXPECTED_DOWNWARD_IR_FLUX, 0, 1 );
+    this.irFluxDownASoundClip.setOutputLevel( soundAOutputLevel );
+    this.irFluxDownBSoundClip.setOutputLevel( 1 - soundAOutputLevel );
+
+    // Start or stop the downward-direction IR sound clips if appropriate.
+    if ( this.downwardFluxGainLevel > 0 ) {
+      !this.irFluxDownASoundClip.isPlaying && this.irFluxDownASoundClip.play();
+      !this.irFluxDownBSoundClip.isPlaying && this.irFluxDownBSoundClip.play();
     }
-
-    // Set the output level for the sound corresponding to the upward IR flux.
-    this.irDownFluxSoundClip.setOutputLevel( irDownFluxSoundOutputLevel );
-
-    // Set the frequency of the low-pass filter for the sound in the downward direction.  This formula was empirically
-    // determined such that the change in the high frequencies could be heard reasonably well over the ranges of flux
-    // experienced in the sim.
-    const filterFrequency = 200 + ( Math.min( this.irFluxDownProperty.value / MAX_EXPECTED_IR_FLUX, 1 ) ) * 5000;
-    this.lowPassFilter.frequency.setTargetAtTime( filterFrequency, phetAudioContext.currentTime, 0.015 );
+    else if ( this.downwardFluxGainLevel === 0 ) {
+      this.irFluxDownASoundClip.isPlaying && this.irFluxDownASoundClip.stop( 0.1 );
+      this.irFluxDownBSoundClip.isPlaying && this.irFluxDownBSoundClip.stop( 0.1 );
+    }
 
     // Update the previous flux values for the next step.
     this.irPreviousFluxUp = this.irFluxUpProperty.value;
