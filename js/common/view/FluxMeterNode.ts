@@ -48,7 +48,7 @@ const infraredString = GreenhouseEffectStrings.infrared;
 const energyFluxString = GreenhouseEffectStrings.fluxMeter.energyFlux;
 
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
-const SENSOR_STROKE_COLOR = 'rgb(254,172,63)';
+const SENSOR_STROKE_COLOR = 'rgb(254,153,18)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
 
@@ -136,7 +136,7 @@ class FluxMeterNode extends Node {
         position => modelViewTransform.modelToViewPosition( position )
       ),
       new Vector2Property( new Vector2( -100, 0 ) ), {
-        stroke: 'grey',
+        stroke: new Color( 90, 90, 90 ),
         lineWidth: 5
       }
     );
