@@ -19,8 +19,10 @@ import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
-import fiftiesLandscape_png from '../../../images/fiftiesLandscape_png.js';
-import landscapeWithDenseCity_png from '../../../images/landscapeWithDenseCity_png.js';
+import suburbanLandscapeBackground_png from '../../../images/suburbanLandscapeBackground_png.js';
+import suburbanLandscapeForeground_png from '../../../images/suburbanLandscapeForeground_png.js';
+import landscapeWithDenseCityBackground_png from '../../../images/landscapeWithDenseCityBackground_png.js';
+import landscapeWithDenseCityForeground_png from '../../../images/landscapeWithDenseCityForeground_png.js';
 import landscapeWithGlacier_png from '../../../images/landscapeWithGlacier_png.js';
 import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -31,6 +33,7 @@ import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 type SelfOptions = EmptySelfOptions;
 type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
@@ -162,8 +165,18 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     };
     const unadornedLandscapeImage = new Image( unadornedLandscape_png, sharedImageOptions );
     const agriculturalLandscapeImage = new Image( agriculturalLandscape1_png, sharedImageOptions );
-    const fiftiesLandscapeImage = new Image( fiftiesLandscape_png, sharedImageOptions );
-    const denseCityLandscapeImage = new Image( landscapeWithDenseCity_png, sharedImageOptions );
+    const fiftiesLandscapeBackgroundImage = new Image( suburbanLandscapeBackground_png, sharedImageOptions );
+    const fiftiesLandscapeForegroundImage = new Image( suburbanLandscapeForeground_png,
+
+      // The foreground must be manually positioned, and will need to be updated if the artwork changes.
+      merge( {}, sharedImageOptions, { bottom: SIZE.height - 55 } )
+    );
+    const denseCityLandscapeBackgroundImage = new Image( landscapeWithDenseCityBackground_png, sharedImageOptions );
+    const denseCityLandscapeForegroundImage = new Image( landscapeWithDenseCityForeground_png,
+
+      // The foreground must be manually positioned, and will need to be updated if the artwork changes.
+      merge( {}, sharedImageOptions, { bottom: SIZE.height - 30 } )
+    );
     const landscapeWithGlacierImage = new Image( landscapeWithGlacier_png, sharedImageOptions );
 
     // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
@@ -214,24 +227,34 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
                                             date === ConcentrationDate.ICE_AGE;
         agriculturalLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                              date === ConcentrationDate.SEVENTEEN_FIFTY;
-        fiftiesLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                        date === ConcentrationDate.NINETEEN_FIFTY;
-        denseCityLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                          date === ConcentrationDate.TWENTY_TWENTY;
+        fiftiesLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                  date === ConcentrationDate.NINETEEN_FIFTY;
+        fiftiesLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                  date === ConcentrationDate.NINETEEN_FIFTY;
+        denseCityLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                    date === ConcentrationDate.TWENTY_TWENTY;
+        denseCityLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                    date === ConcentrationDate.TWENTY_TWENTY;
       }
     );
 
     // Return a node that contains all the images.
     return new Node( {
       children: [
+
+        // landscape image backgrounds
         unadornedLandscapeImage,
         landscapeWithGlacierImage,
         agriculturalLandscapeImage,
-        fiftiesLandscapeImage,
-        denseCityLandscapeImage,
+        fiftiesLandscapeBackgroundImage,
+        denseCityLandscapeBackgroundImage,
 
-        // The surface temperature node must be last on this list for correct layering.
-        surfaceTemperatureNode
+        // The surface temperature node must be between the background and foreground images for correct layering.
+        surfaceTemperatureNode,
+
+        // landscape image foregrounds
+        fiftiesLandscapeForegroundImage,
+        denseCityLandscapeForegroundImage
       ]
     } );
   }
