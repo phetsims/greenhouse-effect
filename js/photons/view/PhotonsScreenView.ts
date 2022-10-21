@@ -7,9 +7,8 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { Image, VBox } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import photonsScreenMockup_png from '../../../images/photonsScreenMockup_png.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
@@ -74,16 +73,6 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
     this.legendAndControlsVBox.addChild( concentrationControlPanel );
-
-    const mockup = new Image( photonsScreenMockup_png, {
-      center: this.layoutBounds.center,
-      // @ts-ignore TODO: Image doesn't have minWidth
-      minWidth: this.layoutBounds.width,
-      maxWidth: this.layoutBounds.width,
-      opacity: phet.greenhouseEffect.mockupOpacityProperty.value
-    } );
-    this.addChild( mockup );
-    phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
     const cloudCheckbox = new CloudCheckbox(

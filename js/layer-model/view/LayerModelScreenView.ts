@@ -6,17 +6,15 @@
  * @author John Blanco
  */
 
-import { Image } from '../../../../scenery/js/imports.js';
-import modelScreenMockup_png from '../../../images/modelScreenMockup_png.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import LayerModelModel from '../model/LayerModelModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import LayersControl from './LayersControl.js';
-import SunAndReflectionControl from './SunAndReflectionControl.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import LayerModelModel from '../model/LayerModelModel.js';
+import LayersControl from './LayersControl.js';
+import SunAndReflectionControl from './SunAndReflectionControl.js';
 import TemperatureUnitsSelector from './TemperatureUnitsSelector.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
@@ -52,16 +50,6 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'morePhotonsCheckbox' )
     );
     this.addChild( morePhotonsCheckbox );
-
-    const mockup = new Image( modelScreenMockup_png, {
-      center: this.layoutBounds.center,
-      // @ts-ignore TODO: Image doesn't have minWidth
-      minWidth: this.layoutBounds.width,
-      maxWidth: this.layoutBounds.width,
-      opacity: phet.greenhouseEffect.mockupOpacityProperty.value
-    } );
-    this.addChild( mockup );
-    phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
 
     // layout
     temperatureUnitsSelector.left = this.observationWindow.left;

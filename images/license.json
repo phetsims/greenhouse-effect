@@ -111,22 +111,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": ""
   },
-  "modelScreenMockup.png": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Amy Rouinfar, clipped from design doc"
-  },
-  "photonsScreenMockup.png": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Amy Rouinfar, clipped from design doc"
-  },
   "unadornedLandscape.png": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
@@ -134,13 +118,5 @@
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Mariah Hermsmeyer"
-  },
-  "wavesScreenMockup.png": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Amy Rouinfar, clipped from design doc"
   }
 }

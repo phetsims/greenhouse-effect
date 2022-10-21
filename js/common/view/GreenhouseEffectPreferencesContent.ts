@@ -10,14 +10,9 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Range from '../../../../dot/js/Range.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, HStrut, Text, VBox } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -26,7 +21,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 const HEADING_1_TEXT_OPTIONS = { font: new PhetFont( { size: 20, weight: 'bold' } ) };
 const HEADING_2_TEXT_OPTIONS = { font: new PhetFont( { size: 18, weight: 'bold' } ) };
 const SELECTOR_TEXT_OPTIONS = { font: new PhetFont( 16 ) };
-const SLIDER_LABEL_FONT = new PhetFont( 18 );
 const PANEL_MARGIN = 8;
 const CHECKBOX_WIDTH = 13;
 
@@ -42,15 +36,12 @@ phet.greenhouseEffect.irWaveFromAtmosphereSoundEnabledProperty = new BooleanProp
 // intensity.
 phet.greenhouseEffect.mapIrWaveLoopOutputLevelsToIntensitiesProperty = new BooleanProperty( true );
 
-// global property that defines the opacity of the mockups for all screens
-phet.greenhouseEffect.mockupOpacityProperty = new NumberProperty( 0 );
-
 class GreenhouseEffectPreferencesContent extends HBox {
 
   // internal dispose function
   private readonly disposeGreenhouseEffectPreferencesContent: () => void;
 
-  public constructor( tandem: Tandem ) {
+  public constructor() {
 
     // checkbox for enabling/disabling IR re-emission sound
     const irEmissionFromGroundSoundEnabledCheckbox = new Checkbox( phet.greenhouseEffect.irEmissionFromGroundSoundEnabledProperty, new Text( 'IR emission from ground discrete', SELECTOR_TEXT_OPTIONS ), {
@@ -103,40 +94,15 @@ class GreenhouseEffectPreferencesContent extends HBox {
       }
     );
 
-    // control for setting opacity of mockups
-    const mockupOpacityControl = new MockupOpacityControl(
-      phet.greenhouseEffect.mockupOpacityProperty,
-      tandem.createTandem( 'mockupOpacityControl' )
-    );
-
-    // panel with mockup options
-    const mockupOptionPanel = new Panel(
-      new VBox( {
-        children: [
-          new Text( 'Mockups', HEADING_1_TEXT_OPTIONS ),
-          mockupOpacityControl
-        ],
-        spacing: 20,
-        align: 'left'
-      } ),
-      {
-        fill: '#B3FFD1',
-        xMargin: PANEL_MARGIN,
-        yMargin: PANEL_MARGIN
-      }
-    );
-
     super( {
       children: [
-        soundOptionsPanel,
-        mockupOptionPanel
+        soundOptionsPanel
       ],
       spacing: 30
     } );
 
     this.disposeGreenhouseEffectPreferencesContent = () => {
       irEmissionFromAtmosphereEnabledCheckbox.dispose();
-      mockupOpacityControl.dispose();
     };
   }
 
@@ -144,57 +110,6 @@ class GreenhouseEffectPreferencesContent extends HBox {
    */
   public override dispose(): void {
     this.disposeGreenhouseEffectPreferencesContent();
-    super.dispose();
-  }
-}
-
-/**
- * Inner class that defines the control used to set the opacity of the screen mockups.
- */
-class MockupOpacityControl extends VBox {
-  private readonly disposeMockupOpacityControl: () => void;
-
-  public constructor( opacityProperty: Property<number>, tandem: Tandem ) {
-
-    // slider
-    const slider = new HSlider(
-      opacityProperty,
-      new Range( 0, 1 ), {
-        trackSize: new Dimension2( 200, 5 ),
-        thumbSize: new Dimension2( 20, 40 ),
-
-        // phet-io
-        tandem: tandem.createTandem( 'mockupOpacitySlider' )
-      }
-    );
-
-    // Put the slider together with labels.
-    const sliderAndLabels = new HBox( {
-      children: [
-        new Text( '0', { font: SLIDER_LABEL_FONT } ),
-        slider,
-        new Text( '1', { font: SLIDER_LABEL_FONT } )
-      ],
-      spacing: 10
-    } );
-
-    super( {
-      children: [
-        new Text( 'Opacity (all screens)', SELECTOR_TEXT_OPTIONS ),
-        sliderAndLabels
-      ],
-      spacing: 10
-    } );
-
-    this.disposeMockupOpacityControl = () => {
-      slider.dispose();
-    };
-  }
-
-  /**
-   */
-  public override dispose(): void {
-    this.disposeMockupOpacityControl();
     super.dispose();
   }
 }

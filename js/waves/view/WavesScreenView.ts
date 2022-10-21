@@ -8,11 +8,10 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { Image, VBox } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import wavesScreenMockup_png from '../../../images/wavesScreenMockup_png.js';
 import greenhouseEffectWavesIrLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrLoop_mp3.js';
 import greenhouseEffectWavesIrReemissionLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionLoop_mp3.js';
 import greenhouseEffectWavesIrReemissionStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionStartingSound_mp3.js';
@@ -26,12 +25,12 @@ import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreen
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from './CloudCheckbox.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
@@ -120,17 +119,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     );
     this.addChild( cloudCheckbox );
 
-    // The mockup is an image that represents the design, and is useful for positioning elements during the early
-    // implementation process. TODO - remove prior to publication, see https://github.com/phetsims/greenhouse-effect/issues/16.
-    const mockup = new Image( wavesScreenMockup_png, {
-      center: this.layoutBounds.center,
-      // @ts-ignore TODO: Image doesn't have minWidth - Is this option doing anything then?
-      minWidth: this.layoutBounds.width,
-      maxWidth: this.layoutBounds.width,
-      opacity: phet.greenhouseEffect.mockupOpacityProperty.value
-    } );
-    phet.greenhouseEffect.mockupOpacityProperty.linkAttribute( mockup, 'opacity' );
-
     // layout code
     const visibilityBox = new VBox( {
       children: [ surfaceThermometerCheckbox, surfaceTemperatureCheckbox ],
@@ -143,7 +131,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     this.addChild( visibilityBox );
-    this.addChild( mockup );
 
     // sound generation
     // TODO: Much of the code below is in a prototype state, and should be cleaned up and perhaps put into a separate
