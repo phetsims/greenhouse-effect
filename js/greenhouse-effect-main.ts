@@ -43,14 +43,14 @@ if ( GreenhouseEffectQueryParameters.customPreferences ) {
   simOptions.preferencesModel = new PreferencesModel( {
     simulationOptions: {
       customPreferences: [ {
-        createContent: tandem => new GreenhouseEffectPreferencesContent( tandem.createTandem( 'simPreferences' ) )
+        createContent: () => new GreenhouseEffectPreferencesContent()
       } ]
     }
   } );
 }
 
-// launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
-// until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
+// Launch the sim.  Beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds until the
+// images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70.
 simLauncher.launch( () => {
   const sim = new Sim(
     greenhouseEffectTitleStringProperty,
