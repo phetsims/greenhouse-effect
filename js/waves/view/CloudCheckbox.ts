@@ -50,7 +50,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    super( cloudEnabledProperty, GreenhouseEffectStrings.cloud, options );
+    super( cloudEnabledProperty, GreenhouseEffectStrings.cloudStringProperty, options );
   }
 }
 

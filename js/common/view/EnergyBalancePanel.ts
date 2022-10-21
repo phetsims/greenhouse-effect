@@ -72,15 +72,15 @@ class EnergyBalancePanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h4',
-      labelContent: GreenhouseEffectStrings.energyBalancePanel.title
+      labelContent: GreenhouseEffectStrings.energyBalancePanel.titleStringProperty
     }, providedOptions );
 
     // title
-    const titleText = new Text( GreenhouseEffectStrings.energyBalancePanel.title, {
+    const titleText = new Text( GreenhouseEffectStrings.energyBalancePanel.titleStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: 150
     } );
-    const subTitleText = new Text( GreenhouseEffectStrings.energyBalancePanel.subTitle, {
+    const subTitleText = new Text( GreenhouseEffectStrings.energyBalancePanel.subTitleStringProperty, {
       font: GreenhouseEffectConstants.CONTENT_FONT,
       maxWidth: 120
     } );
@@ -126,7 +126,7 @@ class EnergyBalancePanel extends Panel {
       if ( !sunIsShining ) {
 
         // describe no flow of energy and a hint to start sunlight to make use of the energy balance panel
-        this.descriptionContent = GreenhouseEffectStrings.a11y.noFlowOfEnergyHintDescription;
+        this.descriptionContent = GreenhouseEffectStrings.a11y.noFlowOfEnergyHintDescriptionStringProperty;
       }
       else {
         this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );

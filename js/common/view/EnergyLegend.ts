@@ -11,7 +11,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { AlignGroup, HBox, Image, Path, PathOptions, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { GridBox, Image, Path, PathOptions, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
@@ -23,24 +23,13 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 // constants that define shape of wave icon, in view coordinates
 const WAVE_ICON_AMPLITUDE = 7;
 
-// spacing used for contents in the legend
-const MIN_HORIZONTAL_SPACING = 10;
-
-// horizontal margin for panel contents
-const PANEL_X_MARGIN = 8;
-
-// Text options for legend labels
-const LABEL_OPTIONS = {
-  font: GreenhouseEffectConstants.LABEL_FONT,
-  fill: 'white',
-  maxWidth: 100
-};
+// margin for panel contents
+const PANEL_MARGIN = 8;
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
 class EnergyRepresentation extends EnumerationValue {
   public static PHOTON = new EnergyRepresentation();
   public static WAVE = new EnergyRepresentation();
-
   public static enumeration = new Enumeration( EnergyRepresentation );
 }
 
@@ -64,40 +53,45 @@ class EnergyLegend extends Panel {
 
       // Panel options
       fill: 'black',
-      xMargin: PANEL_X_MARGIN,
+      minWidth: width,
+      xMargin: PANEL_MARGIN,
+      yMargin: PANEL_MARGIN,
 
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.energyLegend.title,
+      labelContent: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
       descriptionTagName: 'p',
-      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindow,
+      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
     // title
-    const titleText = new Text( GreenhouseEffectStrings.energyLegend.title, {
+    const titleText = new Text( GreenhouseEffectStrings.energyLegend.titleStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       fill: 'white',
-      maxWidth: 130,
+      maxWidth: width - 2 * PANEL_MARGIN,
       tandem: options.tandem.createTandem( 'titleText' )
     } );
 
+    // options for legend labels
+    const LABEL_OPTIONS = {
+      font: GreenhouseEffectConstants.LABEL_FONT,
+      fill: 'white',
+      maxWidth: width * 0.75
+    };
+
     // labels
     const sunlightLabelText = new Text(
-      GreenhouseEffectStrings.sunlight,
+      GreenhouseEffectStrings.sunlightStringProperty,
       combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabelText' ) } )
     );
     const infraredLabelText = new Text(
-      GreenhouseEffectStrings.infrared,
+      GreenhouseEffectStrings.infraredStringProperty,
       combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabelText' ) } )
     );
-
-    // icons
-    let sunlightIcon;
-    let infraredIcon;
 
     // eagerly create all icons so we can be sure that all have the same width for identical layout in all screens
     const sunlightWavelength = 15;
@@ -111,62 +105,28 @@ class EnergyLegend extends Panel {
       infraredWavelengths,
       { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
     );
-    const sunlightPhotonIcon = new Image( visiblePhoton_png );
-    const infraredPhotonIcon = new Image( infraredPhoton_png );
+    const sunlightPhotonIcon = new Image( visiblePhoton_png, { maxHeight: sunlightWaveIcon.height } );
+    const infraredPhotonIcon = new Image( infraredPhoton_png, { maxHeight: infraredWaveIcon.height } );
 
-    const iconAlignGroup = new AlignGroup();
-    const sunlightWaveBox = iconAlignGroup.createBox( sunlightWaveIcon );
-    const infraredWaveBox = iconAlignGroup.createBox( infraredWaveIcon );
-    const sunlightPhotonBox = iconAlignGroup.createBox( sunlightPhotonIcon );
-    const infraredPhotonBox = iconAlignGroup.createBox( infraredPhotonIcon );
-
-    // for layout
-    let interRowSpacing;
-
-    if ( options.energyRepresentation === EnergyRepresentation.WAVE ) {
-      sunlightIcon = sunlightWaveBox;
-      infraredIcon = infraredWaveBox;
-      interRowSpacing = Math.max( sunlightWaveBox.bounds.height - sunlightPhotonBox.bounds.height, 0 );
-    }
-    else {
-      sunlightIcon = sunlightPhotonBox;
-      infraredIcon = infraredPhotonBox;
-      interRowSpacing = Math.max( sunlightPhotonBox.bounds.height - sunlightWaveBox.bounds.height, 0 );
-    }
-
-    const sunlightRow = new HBox( {
-      children: [ sunlightLabelText, sunlightIcon ],
-      spacing: MIN_HORIZONTAL_SPACING + Math.max( infraredLabelText.bounds.width - sunlightLabelText.bounds.width, 0 ),
-
-      // pdom
-      tagName: 'li',
-      innerContent: GreenhouseEffectStrings.a11y.energyLegend.sunlightRadiation
+    // grid box that aligns the labels and the icons that represent either waves or photons
+    const gridBox = new GridBox( {
+      rows: [
+        [ sunlightLabelText, options.energyRepresentation === EnergyRepresentation.PHOTON ? sunlightPhotonIcon : sunlightWaveIcon ],
+        [ infraredLabelText, options.energyRepresentation === EnergyRepresentation.PHOTON ? infraredPhotonIcon : infraredWaveIcon ]
+      ],
+      xSpacing: 8,
+      ySpacing: 15,
+      layoutOptions: {
+        align: 'left'
+      },
+      xAlign: 'right',
+      yAlign: 'center',
+      maxWidth: width - PANEL_MARGIN * 2
     } );
-    const infraredRow = new HBox( {
-      children: [ infraredLabelText, infraredIcon ],
-      spacing: MIN_HORIZONTAL_SPACING + Math.max( sunlightLabelText.bounds.width - infraredLabelText.bounds.width, 0 ),
-
-      // pdom
-      tagName: 'li',
-      innerContent: GreenhouseEffectStrings.a11y.energyLegend.infraredRadiation
-    } );
-
-    // determine how much to extend width of contents so legend takes up desired width in the view
-    const maxItemWidth = _.maxBy( [ titleText, sunlightRow, infraredRow ], item => item.width )!.width;
-    const marginWidth = width - maxItemWidth - PANEL_X_MARGIN * 2;
-    assert && assert(
-      marginWidth >= 0,
-      'provided width of is not large enough to fit contents, provide larger width or make contents smaller'
-    );
-
-    const legendAlignGroup = new AlignGroup( { matchVertical: false } );
-    const titleBox = legendAlignGroup.createBox( titleText, { xMargin: marginWidth / 2 } );
-    const sunlightBox = legendAlignGroup.createBox( sunlightRow, { xAlign: 'left', rightMargin: marginWidth } );
-    const infraredBox = legendAlignGroup.createBox( infraredRow, { xAlign: 'left', rightMargin: marginWidth } );
 
     const content = new VBox( {
-      spacing: interRowSpacing,
-      children: [ titleBox, sunlightBox, infraredBox ],
+      spacing: 7,
+      children: [ titleText, gridBox ],
 
       // pdom
       tagName: 'ul'

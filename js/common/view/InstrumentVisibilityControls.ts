@@ -9,7 +9,8 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { PathOptions, Rectangle, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -26,9 +27,9 @@ type SelfOptions = {
   // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
 };
-export type InstrumentVisibilityControlsOptions = SelfOptions & PathOptions;
+export type InstrumentVisibilityControlsOptions = SelfOptions & PanelOptions;
 
-class InstrumentVisibilityControls extends Rectangle {
+class InstrumentVisibilityControls extends Panel {
 
   /**
    * @param model
@@ -36,7 +37,7 @@ class InstrumentVisibilityControls extends Rectangle {
    */
   public constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
 
-    const options = optionize<InstrumentVisibilityControlsOptions, SelfOptions, PathOptions>()( {
+    const options = optionize<InstrumentVisibilityControlsOptions, SelfOptions, PanelOptions>()( {
 
       // SelfOptions
       vBoxOptions: {
@@ -45,9 +46,10 @@ class InstrumentVisibilityControls extends Rectangle {
       },
       includeFluxMeterCheckbox: true,
 
-      // fill for the rectangle surrounding controls, so controls are easier to see against
-      // background artwork of the ObservationWindow
+      // panel options
       fill: 'rgba(255,255,255,0.5)',
+      cornerRadius: 5,
+      stroke: null,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -86,31 +88,35 @@ class InstrumentVisibilityControls extends Rectangle {
     // add controls to children
     const children = [];
     if ( model.energyBalanceVisibleProperty ) {
-      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, GreenhouseEffectStrings.energyBalance, {
-        // phet-io
-        tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
+      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, GreenhouseEffectStrings.energyBalanceStringProperty, {
+          // phet-io
+          tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
-        // pdom
-        helpText: GreenhouseEffectStrings.a11y.energyBalance.helpText,
-        checkedContextResponse: checkedUtterance,
-        uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
-      } ) );
+          // pdom
+          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpText,
+          checkedContextResponse: checkedUtterance,
+          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
+        }
+      ) );
     }
     if ( options.includeFluxMeterCheckbox ) {
-      children.push( new GreenhouseEffectCheckbox( model.fluxMeterVisibleProperty, GreenhouseEffectStrings.fluxMeter.title, {
-        // phet-io
-        tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
-      } ) );
+      children.push(
+        new GreenhouseEffectCheckbox(
+          model.fluxMeterVisibleProperty,
+          GreenhouseEffectStrings.fluxMeter.titleStringProperty,
+          {
+            // phet-io
+            tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
+          }
+        )
+      );
     }
 
     // layout
     options.vBoxOptions.children = children;
     const vBox = new VBox( options.vBoxOptions );
 
-    // surrounding Rectangle adds color so it is easier to see controls against the background
-    // artwork of the ObservationWindow
-    super( vBox.bounds.dilated( 5 ), 5, 5, options );
-    this.addChild( vBox );
+    super( vBox, options );
   }
 }
 

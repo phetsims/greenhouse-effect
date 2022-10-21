@@ -8,6 +8,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
@@ -29,7 +30,9 @@ type SelfOptions = {
 export type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
 
 class GreenhouseEffectCheckbox extends Checkbox {
-  public constructor( property: Property<boolean>, labelString: string, providedOptions?: GreenhouseEffectCheckboxOptions ) {
+  public constructor( property: Property<boolean>,
+                      labelStringProperty: TReadOnlyProperty<string>,
+                      providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
     const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,
@@ -41,10 +44,10 @@ class GreenhouseEffectCheckbox extends Checkbox {
       tandem: Tandem.REQUIRED,
 
       // pdom
-      accessibleName: labelString
+      accessibleName: labelStringProperty
     }, providedOptions );
 
-    const labelText = new Text( labelString, {
+    const labelText = new Text( labelStringProperty, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'labelText' )
     } );

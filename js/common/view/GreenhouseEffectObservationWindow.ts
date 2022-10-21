@@ -17,7 +17,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, FocusableHeadingNode, LinearGradient, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
+import { AlignBox, Color, FocusableHeadingNode, LinearGradient, ManualConstraint, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -170,13 +170,14 @@ class GreenhouseEffectObservationWindow extends Node {
       includeFluxMeterCheckbox: model.fluxMeter !== null,
       tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
     } );
-    this.instrumentVisibilityControls.rightBottom = this.windowFrame.rightBottom.minusXY(
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
-    );
 
     this.controlsLayer.addChild( this.energyBalancePanel );
-    this.controlsLayer.addChild( this.instrumentVisibilityControls );
+    this.controlsLayer.addChild( new AlignBox( this.instrumentVisibilityControls, {
+      alignBounds: this.windowFrame.bounds,
+      margin: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+      xAlign: 'right',
+      yAlign: 'bottom'
+    } ) );
 
     // Create a node that will make everything behind it look darkened.  This will be used to make the scene of the
     // ground and sky appear as though it's night, and then will fade away once the sun is shining, allowing the
@@ -196,13 +197,9 @@ class GreenhouseEffectObservationWindow extends Node {
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 
     // button used to start and restart sunlight
-    this.startSunlightButton = new TextPushButton( GreenhouseEffectStrings.startSunlight, {
+    this.startSunlightButton = new TextPushButton( GreenhouseEffectStrings.startSunlightStringProperty, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
-
-      // position derived from design doc
-      centerX: this.windowFrame.centerX,
-      centerY: this.windowFrame.height * 0.4,
 
       // keep the size reasonable
       maxTextWidth: SIZE.width * 0.5,
@@ -234,6 +231,14 @@ class GreenhouseEffectObservationWindow extends Node {
       visiblePropertyOptions: { phetioReadOnly: true }
     } );
     this.foregroundLayer.addChild( this.startSunlightButton );
+
+    // Constrain the button to stay centered in the same position if its bounds change.
+    ManualConstraint.create( this, [ this.startSunlightButton ], startSunlightButtonProxy => {
+
+      // position derived from design doc
+      startSunlightButtonProxy.centerX = SIZE.width / 2;
+      startSunlightButtonProxy.centerY = SIZE.height * 0.4;
+    } );
 
     // Manage the visibility of the start sunlight button and the darkness overlay.
     model.sunEnergySource.isShiningProperty.link( isShining => {

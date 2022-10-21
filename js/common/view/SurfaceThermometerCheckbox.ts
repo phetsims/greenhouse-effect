@@ -35,7 +35,7 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
       } );
     } );
 
-    super( property, GreenhouseEffectStrings.surfaceThermometer, {
+    super( property, GreenhouseEffectStrings.surfaceThermometerStringProperty, {
       iconNode: iconNode,
 
       // pdom
