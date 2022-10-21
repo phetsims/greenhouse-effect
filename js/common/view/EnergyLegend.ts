@@ -20,8 +20,13 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
-// constants that define shape of wave icon, in view coordinates
+// constants
 const WAVE_ICON_AMPLITUDE = 7;
+const MAX_PHOTON_WIDTH = 15;
+
+// An empirically determined value for the size of the label-icon portion of the panel, used to keep the alignment
+// consistent between the wave and photon versions of this legend.
+const TOTAL_LEGEND_AREA_HEIGHT = 45;
 
 // margin for panel contents
 const PANEL_MARGIN = 8;
@@ -77,7 +82,7 @@ class EnergyLegend extends Panel {
     } );
 
     // options for legend labels
-    const LABEL_OPTIONS = {
+    const labelOptions = {
       font: GreenhouseEffectConstants.LABEL_FONT,
       fill: 'white',
       maxWidth: width * 0.75
@@ -86,36 +91,51 @@ class EnergyLegend extends Panel {
     // labels
     const sunlightLabelText = new Text(
       GreenhouseEffectStrings.sunlightStringProperty,
-      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'sunlightLabelText' ) } )
+      combineOptions<TextOptions>( {}, labelOptions, { tandem: options.tandem.createTandem( 'sunlightLabelText' ) } )
     );
     const infraredLabelText = new Text(
       GreenhouseEffectStrings.infraredStringProperty,
-      combineOptions<TextOptions>( {}, LABEL_OPTIONS, { tandem: options.tandem.createTandem( 'infraredLabelText' ) } )
+      combineOptions<TextOptions>( {}, labelOptions, { tandem: options.tandem.createTandem( 'infraredLabelText' ) } )
     );
 
-    // eagerly create all icons so we can be sure that all have the same width for identical layout in all screens
-    const sunlightWavelength = 15;
-    const sunlightWavelengths = 3.5;
-    const infraredWavelengths = 2.5;
-    const sunlightWaveIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
-      stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR
-    } );
-    const infraredWaveIcon = createWaveIcon(
-      sunlightWavelength * sunlightWavelengths / infraredWavelengths,
-      infraredWavelengths,
-      { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
-    );
-    const sunlightPhotonIcon = new Image( visiblePhoton_png, { maxHeight: sunlightWaveIcon.height } );
-    const infraredPhotonIcon = new Image( infraredPhoton_png, { maxHeight: infraredWaveIcon.height } );
+    // create the icons
+    let sunlightIcon;
+    let infraredIcon;
+    if ( options.energyRepresentation === EnergyRepresentation.WAVE ) {
+      const sunlightWavelength = 15;
+      const sunlightWavelengths = 3.5;
+      const infraredWavelengths = 2.5;
+      sunlightIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
+        stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR
+      } );
+      infraredIcon = createWaveIcon(
+        sunlightWavelength * sunlightWavelengths / infraredWavelengths,
+        infraredWavelengths,
+        { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
+      );
+    }
+    else {
+      const photonIconOptions = { maxWidth: MAX_PHOTON_WIDTH };
+      sunlightIcon = new Image( visiblePhoton_png, photonIconOptions );
+      infraredIcon = new Image( infraredPhoton_png, photonIconOptions );
+    }
 
-    // grid box that aligns the labels and the icons that represent either waves or photons
+    // Calculate the vertical spacing for the grid box in a way that will keep it consistent between the wave and photon
+    // representations.
+    const gridBoxYSpacing = TOTAL_LEGEND_AREA_HEIGHT -
+                            Math.max( sunlightLabelText.height, sunlightIcon.height ) -
+                            Math.max( infraredLabelText.height, infraredIcon.height );
+
+    assert && assert( gridBoxYSpacing >= 0, 'insufficient space for legend area' );
+
+    // Create a grid box to align the labels and the icons that represent the different light wavelengths.
     const gridBox = new GridBox( {
       rows: [
-        [ sunlightLabelText, options.energyRepresentation === EnergyRepresentation.PHOTON ? sunlightPhotonIcon : sunlightWaveIcon ],
-        [ infraredLabelText, options.energyRepresentation === EnergyRepresentation.PHOTON ? infraredPhotonIcon : infraredWaveIcon ]
+        [ sunlightLabelText, sunlightIcon ],
+        [ infraredLabelText, infraredIcon ]
       ],
       xSpacing: 8,
-      ySpacing: 15,
+      ySpacing: gridBoxYSpacing,
       layoutOptions: {
         align: 'left'
       },
