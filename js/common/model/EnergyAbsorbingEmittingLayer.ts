@@ -265,9 +265,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   }
 
   // statics
-  public static WIDTH = SURFACE_DIMENSIONS.width;
-  public static SURFACE_AREA = SURFACE_AREA;
-  public static Substance = Substance;
+  public static readonly WIDTH = SURFACE_DIMENSIONS.width;
+  public static readonly SURFACE_AREA = SURFACE_AREA;
+  public static readonly Substance = Substance;
 }
 
 greenhouseEffect.register( 'EnergyAbsorbingEmittingLayer', EnergyAbsorbingEmittingLayer );

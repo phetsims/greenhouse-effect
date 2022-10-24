@@ -379,7 +379,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * Returns a map of state keys and their associated IOTypes, see IOType for details.
    */
-  public static STATE_SCHEMA: Record<string, IOType> = {
+  public static readonly STATE_SCHEMA: Record<string, IOType> = {
     emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
   };
 

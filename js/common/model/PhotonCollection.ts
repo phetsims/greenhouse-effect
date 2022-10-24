@@ -323,7 +323,7 @@ class PhotonCollection extends PhetioObject {
   }
 
   // @ts-ignore see https://github.com/phetsims/tandem/issues/263
-  public static PhotonCollectionIO = new IOType( 'PhotonCollectionIO', {
+  public static readonly PhotonCollectionIO = new IOType( 'PhotonCollectionIO', {
     valueType: PhotonCollection,
     stateSchema: {
       photonStateObjects: ArrayIO( Photon.PhotonIO )

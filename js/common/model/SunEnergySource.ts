@@ -111,7 +111,7 @@ class SunEnergySource extends PhetioObject {
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static SunEnergySourceIO = new IOType( 'SunEnergySourceIO', {
+  public static readonly SunEnergySourceIO = new IOType( 'SunEnergySourceIO', {
     valueType: SunEnergySource,
     stateSchema: {
       outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
@@ -119,8 +119,8 @@ class SunEnergySource extends PhetioObject {
   } );
 
   // static values
-  public static OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
-  public static OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
+  public static readonly OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
+  public static readonly OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
 }
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );

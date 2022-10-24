@@ -65,7 +65,7 @@ class SpaceEnergySink extends PhetioObject {
    * 'Dynamic element serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static SpaceEnergySinkIO = new IOType( 'SpaceEnergySinkIO', {
+  public static readonly SpaceEnergySinkIO = new IOType( 'SpaceEnergySinkIO', {
     valueType: SpaceEnergySink,
     stateSchema: {
       incomingUpwardMovingEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO

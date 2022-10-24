@@ -505,7 +505,7 @@ class WavesModel extends ConcentrationModel {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static WavesModelIO = new IOType( 'WavesModelIO', {
+  public static readonly WavesModelIO = new IOType( 'WavesModelIO', {
       valueType: WavesModel,
       toStateObject: ( wavesModel: WavesModel ) => wavesModel.toStateObject(),
       applyState: ( wavesModel: WavesModel, stateObject: WavesModelStateObject ) => wavesModel.applyState( stateObject ),
@@ -520,8 +520,8 @@ class WavesModel extends ConcentrationModel {
   );
 
   // other static values
-  public static REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
-  public static WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
+  public static readonly REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;
+  public static readonly WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 }
 
 type WavesModelStateObject = {
@@ -564,7 +564,7 @@ class WaveAtmosphereInteraction {
     };
   }
 
-  public static WaveAtmosphereInteractionIO = new IOType( 'WaveAtmosphereInteractionIO', {
+  public static readonly WaveAtmosphereInteractionIO = new IOType( 'WaveAtmosphereInteractionIO', {
     valueType: WaveAtmosphereInteraction,
     stateSchema: {
       atmosphereLayer: ReferenceIO( IOType.ObjectIO ),

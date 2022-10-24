@@ -36,7 +36,7 @@ class EnergyInfoQueueItem {
     this.energy = energy;
   }
 
-  public static EnergyInfoQueueItemIO = new IOType( 'EnergyInfoQueueItemIO', {
+  public static readonly EnergyInfoQueueItemIO = new IOType( 'EnergyInfoQueueItemIO', {
     valueType: EnergyInfoQueueItem,
     stateSchema: {
       dt: NumberIO,
@@ -135,7 +135,7 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty.reset();
   }
 
-  public static EnergyRateTrackerIO = new IOType( 'EnergyRateTrackerIO', {
+  public static readonly EnergyRateTrackerIO = new IOType( 'EnergyRateTrackerIO', {
     valueType: EnergyRateTracker,
     stateSchema: {
       energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )

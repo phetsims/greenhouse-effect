@@ -48,7 +48,7 @@ class WaveCreationSpec {
     };
   }
 
-  public static WaveCreationSpecIO = new IOType<WaveCreationSpec, WaveCreationSpecStateObject>( 'WaveCreationSpecIO', {
+  public static readonly WaveCreationSpecIO = new IOType<WaveCreationSpec, WaveCreationSpecStateObject>( 'WaveCreationSpecIO', {
     valueType: WaveCreationSpec,
     stateSchema: {
       countdown: NumberIO,
@@ -274,7 +274,7 @@ class EMWaveSource extends PhetioObject {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static EMWaveSourceIO = new IOType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', {
+  public static readonly EMWaveSourceIO = new IOType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', {
     valueType: EMWaveSource,
     stateSchema: {
       wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),

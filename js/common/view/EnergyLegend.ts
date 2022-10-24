@@ -156,7 +156,7 @@ class EnergyLegend extends Panel {
   }
 
   // static values
-  public static EnergyRepresentation = EnergyRepresentation;
+  public static readonly EnergyRepresentation = EnergyRepresentation;
 }
 
 /**

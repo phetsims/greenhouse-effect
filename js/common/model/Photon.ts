@@ -127,13 +127,13 @@ class Photon {
   }
 
   // static values
-  public static IR_WAVELENGTH = IR_WAVELENGTH;
-  public static VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
-  public static SPEED = PHOTON_SPEED;
-  public static ShowState = ShowState;
+  public static readonly IR_WAVELENGTH = IR_WAVELENGTH;
+  public static readonly VISIBLE_WAVELENGTH = VISIBLE_WAVELENGTH;
+  public static readonly SPEED = PHOTON_SPEED;
+  public static readonly ShowState = ShowState;
 
   // phet-io
-  public static PhotonIO = new IOType<Photon, PhotonStateObject>( 'PhotonIO', {
+  public static readonly PhotonIO = new IOType<Photon, PhotonStateObject>( 'PhotonIO', {
     valueType: Photon,
     stateSchema: {
       position: Vector2.Vector2IO,

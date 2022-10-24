@@ -46,7 +46,7 @@ class WaveIntensityChange {
   }
 
   // phet-io
-  public static WaveIntensityChangeIO = new IOType( 'WaveIntensityChangeIO', {
+  public static readonly WaveIntensityChangeIO = new IOType( 'WaveIntensityChangeIO', {
     valueType: WaveIntensityChange,
     stateSchema: {
       postChangeIntensity: NumberIO,

@@ -99,9 +99,9 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     super.reset();
   }
 
-  public static MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
-  public static GREEN_MEADOW_ALBEDO = GROUND_ALBEDO;
-  public static PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
+  public static readonly MINIMUM_EARTH_AT_NIGHT_TEMPERATURE = MINIMUM_EARTH_AT_NIGHT_TEMPERATURE;
+  public static readonly GREEN_MEADOW_ALBEDO = GROUND_ALBEDO;
+  public static readonly PARTIALLY_GLACIATED_LAND_ALBEDO = PARTIALLY_GLACIATED_LAND_ALBEDO;
 }
 
 greenhouseEffect.register( 'GroundLayer', GroundLayer );

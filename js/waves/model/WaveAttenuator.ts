@@ -42,7 +42,7 @@ class WaveAttenuator {
   }
 
   // phet-io
-  public static WaveAttenuatorIO = new IOType( 'WaveAttenuatorIO', {
+  public static readonly WaveAttenuatorIO = new IOType( 'WaveAttenuatorIO', {
     valueType: WaveAttenuator,
     stateSchema: {
       attenuation: NumberIO,

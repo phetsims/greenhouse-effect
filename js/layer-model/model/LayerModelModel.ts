@@ -103,7 +103,7 @@ class LayerModelModel extends LayersModel {
   }
 
   // static values
-  public static IR_ABSORBANCE_RANGE = IR_ABSORBANCE_RANGE;
+  public static readonly IR_ABSORBANCE_RANGE = IR_ABSORBANCE_RANGE;
 }
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
