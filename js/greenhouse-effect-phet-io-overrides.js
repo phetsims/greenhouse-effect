@@ -127,9 +127,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.waveGroup.countProperty": {
       "phetioFeatured": false
     },
-    "greenhouseEffect.wavesScreen.view.cloudCheckbox.labelText.stringProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.slider.visibleProperty": {
       "phetioFeatured": false
     },
@@ -142,37 +139,16 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.energyLegend.infraredLabelText.stringProperty": {
-      "phetioFeatured": true
-    },
-    "greenhouseEffect.wavesScreen.view.energyLegend.sunlightLabelText.stringProperty": {
-      "phetioFeatured": true
-    },
-    "greenhouseEffect.wavesScreen.view.energyLegend.titleText.stringProperty": {
-      "phetioFeatured": true
-    },
-    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.labelText.stringProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.visibleProperty": {
       "phetioFeatured": false
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.text.stringProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.visibleProperty": {
       "phetioFeatured": false
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.wavesCanvasNode.visibleProperty": {
-      "phetioFeatured": true
-    },
-    "greenhouseEffect.wavesScreen.view.surfaceTemperatureCheckbox.labelText.stringProperty": {
-      "phetioFeatured": true
-    },
-    "greenhouseEffect.wavesScreen.view.surfaceThermometerCheckbox.labelText.stringProperty": {
       "phetioFeatured": true
     }
   };
