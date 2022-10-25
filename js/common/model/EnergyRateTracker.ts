@@ -17,7 +17,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -43,8 +43,8 @@ class EnergyInfoQueueItem {
       energy: NumberIO
     },
     fromStateObject: ( stateObject: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem(
-      NumberIO.fromStateObject( stateObject.dt ),
-      NumberIO.fromStateObject( stateObject.energy )
+      stateObject.dt,
+      stateObject.energy
     )
   } );
 }
@@ -148,8 +148,8 @@ class EnergyRateTracker extends PhetioObject {
  * for phet-io
  */
 type EnergyInfoQueueItemStateObject = {
-  dt: NumberStateObject;
-  energy: NumberStateObject;
+  dt: number;
+  energy: number;
 };
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );

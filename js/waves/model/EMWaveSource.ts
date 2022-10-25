@@ -16,7 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -42,9 +42,9 @@ class WaveCreationSpec {
 
   public toStateObject(): WaveCreationSpecStateObject {
     return {
-      countdown: NumberIO.toStateObject( this.countdown ),
+      countdown: this.countdown,
       propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
-      originX: NumberIO.toStateObject( this.originX )
+      originX: this.originX
     };
   }
 
@@ -57,17 +57,17 @@ class WaveCreationSpec {
     },
     toStateObject: ( waveCreationSpec: WaveCreationSpec ) => waveCreationSpec.toStateObject(),
     fromStateObject: ( stateObject: WaveCreationSpecStateObject ) => new WaveCreationSpec(
-      NumberIO.fromStateObject( stateObject.originX ),
+      stateObject.originX,
       Vector2.Vector2IO.fromStateObject( stateObject.propagationDirection ),
-      NumberIO.fromStateObject( stateObject.countdown )
+      stateObject.countdown
     )
   } );
 }
 
 type WaveCreationSpecStateObject = {
-  countdown: NumberStateObject;
+  countdown: number;
   propagationDirection: Vector2StateObject;
-  originX: NumberStateObject;
+  originX: number;
 };
 
 type SelfOptions = {

@@ -15,7 +15,7 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -572,22 +572,22 @@ class Wave extends PhetioObject {
    */
   public toStateObject(): WaveStateObject {
     return {
-      wavelength: NumberIO.toStateObject( this.wavelength ),
+      wavelength: this.wavelength,
       origin: Vector2.Vector2IO.toStateObject( this.origin ),
       propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
-      propagationLimit: NumberIO.toStateObject( this.propagationLimit ),
+      propagationLimit: this.propagationLimit,
       startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
-      length: NumberIO.toStateObject( this.length ),
-      isSourced: BooleanIO.toStateObject( this.isSourced ),
-      existenceTime: NumberIO.toStateObject( this.existenceTime ),
-      phaseOffsetAtOrigin: NumberIO.toStateObject( this.phaseOffsetAtOrigin ),
-      intensityAtStart: NumberIO.toStateObject( this.intensityAtStart ),
+      length: this.length,
+      isSourced: this.isSourced,
+      existenceTime: this.existenceTime,
+      phaseOffsetAtOrigin: this.phaseOffsetAtOrigin,
+      intensityAtStart: this.intensityAtStart,
       intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).toStateObject( this.intensityChanges ),
       modelObjectToAttenuatorMap: MapIO(
         ReferenceIO( IOType.ObjectIO ),
         WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap
       ),
-      renderingWavelength: NumberIO.toStateObject( this.renderingWavelength )
+      renderingWavelength: this.renderingWavelength
     };
   }
 
@@ -595,12 +595,12 @@ class Wave extends PhetioObject {
    * Apply the dynamic (non-immutable) portion of the wave state to this instance.
    */
   public applyState( stateObject: WaveStateObject ): void {
-    this.length = NumberIO.fromStateObject( stateObject.length );
-    this.isSourced = BooleanIO.fromStateObject( stateObject.isSourced );
+    this.length = stateObject.length;
+    this.isSourced = stateObject.isSourced;
     this.startPoint.set( Vector2.Vector2IO.fromStateObject( stateObject.startPoint ) );
-    this.existenceTime = NumberIO.fromStateObject( stateObject.existenceTime );
-    this.phaseOffsetAtOrigin = NumberIO.fromStateObject( stateObject.phaseOffsetAtOrigin );
-    this.intensityAtStart = NumberIO.fromStateObject( stateObject.intensityAtStart );
+    this.existenceTime = stateObject.existenceTime;
+    this.phaseOffsetAtOrigin = stateObject.phaseOffsetAtOrigin;
+    this.intensityAtStart = stateObject.intensityAtStart;
     this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject(
       stateObject.intensityChanges
     );
@@ -645,32 +645,32 @@ class Wave extends PhetioObject {
     toStateObject: ( wave: Wave ) => wave.toStateObject(),
     applyState: ( wave: Wave, stateObject: WaveStateObject ) => wave.applyState( stateObject ),
     stateToArgsForConstructor: ( state: WaveStateObject ) => [
-      NumberIO.fromStateObject( state.wavelength ),
+      state.wavelength,
       Vector2.Vector2IO.fromStateObject( state.origin ),
       Vector2.Vector2IO.fromStateObject( state.propagationDirection ),
-      NumberIO.fromStateObject( state.propagationLimit ),
+      state.propagationLimit,
       {
-        intensityAtStart: NumberIO.fromStateObject( state.intensityAtStart ),
-        initialPhaseOffset: NumberIO.fromStateObject( state.phaseOffsetAtOrigin )
+        intensityAtStart: state.intensityAtStart,
+        initialPhaseOffset: state.phaseOffsetAtOrigin
       }
     ]
   } );
 }
 
 type WaveStateObject = {
-  wavelength: NumberStateObject;
+  wavelength: number;
   origin: Vector2StateObject;
   propagationDirection: Vector2StateObject;
-  propagationLimit: NumberStateObject;
+  propagationLimit: number;
   startPoint: Vector2StateObject;
-  length: NumberStateObject;
+  length: number;
   isSourced: boolean;
-  existenceTime: NumberStateObject;
-  phaseOffsetAtOrigin: NumberStateObject;
-  intensityAtStart: NumberStateObject;
+  existenceTime: number;
+  phaseOffsetAtOrigin: number;
+  intensityAtStart: number;
   intensityChanges: WaveIntensityChangeStateObject[];
   modelObjectToAttenuatorMap: MapStateObject<ReferenceIOState, WaveAttenuatorStateObject>;
-  renderingWavelength: NumberStateObject;
+  renderingWavelength: number;
 };
 
 greenhouseEffect.register( 'Wave', Wave );

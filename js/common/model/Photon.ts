@@ -13,7 +13,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -145,7 +145,7 @@ class Photon {
     toStateObject: ( photon: Photon ) => photon.toStateObject(),
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),
-      NumberIO.fromStateObject( stateObject.wavelength ), {
+      stateObject.wavelength, {
         initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
         showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
       }
@@ -156,7 +156,7 @@ class Photon {
 export type PhotonStateObject = {
   position: Vector2StateObject;
   previousPosition: Vector2StateObject;
-  wavelength: NumberStateObject;
+  wavelength: number;
   velocity: Vector2StateObject;
   showState: string;
 };

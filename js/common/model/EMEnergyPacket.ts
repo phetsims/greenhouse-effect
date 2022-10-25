@@ -8,7 +8,7 @@
 
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -75,10 +75,10 @@ class EMEnergyPacket {
    */
   public toStateObject(): EMEnergyPacketStateObject {
     return {
-      wavelength: NumberIO.toStateObject( this.wavelength ),
-      energy: NumberIO.toStateObject( this.energy ),
-      altitude: NumberIO.toStateObject( this.altitude ),
-      previousAltitude: NumberIO.toStateObject( this.previousAltitude ),
+      wavelength: this.wavelength,
+      energy: this.energy,
+      altitude: this.altitude,
+      previousAltitude: this.previousAltitude,
       direction: EnumerationIO( EnergyDirection ).toStateObject( this.direction )
     };
   }
@@ -100,12 +100,12 @@ class EMEnergyPacket {
     },
     fromStateObject: ( stateObject: EMEnergyPacketStateObject ) => {
       const emEnergyPacket = new EMEnergyPacket(
-        NumberIO.fromStateObject( stateObject.wavelength ),
-        NumberIO.fromStateObject( stateObject.energy ),
-        NumberIO.fromStateObject( stateObject.altitude ),
+        stateObject.wavelength,
+        stateObject.energy,
+        stateObject.altitude,
         EnumerationIO( EnergyDirection ).fromStateObject( stateObject.direction )
       );
-      emEnergyPacket.previousAltitude = NumberIO.fromStateObject( stateObject.previousAltitude );
+      emEnergyPacket.previousAltitude = stateObject.previousAltitude;
       return emEnergyPacket;
     },
     toStateObject: ( coreObject: EMEnergyPacket ) => coreObject.toStateObject()
@@ -113,10 +113,10 @@ class EMEnergyPacket {
 }
 
 export type EMEnergyPacketStateObject = {
-  wavelength: NumberStateObject;
-  energy: NumberStateObject;
-  altitude: NumberStateObject;
-  previousAltitude: NumberStateObject;
+  wavelength: number;
+  energy: number;
+  altitude: number;
+  previousAltitude: number;
   direction: EnergyDirection;
 };
 

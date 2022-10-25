@@ -3,7 +3,7 @@
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -54,16 +54,16 @@ class WaveIntensityChange {
       anchoredTo: NullableIO( ReferenceIO( IOType.ObjectIO ) )
     },
     fromStateObject: ( stateObject: WaveIntensityChangeStateObject ) => new WaveIntensityChange(
-      NumberIO.fromStateObject( stateObject.postChangeIntensity ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart )
+      stateObject.postChangeIntensity,
+      stateObject.distanceFromStart
     )
   } );
 }
 
 // for phet-io
 export type WaveIntensityChangeStateObject = {
-  postChangeIntensity: NumberStateObject;
-  distanceFromStart: NumberStateObject;
+  postChangeIntensity: number;
+  distanceFromStart: number;
   anchoredTo: null | ReferenceIOState;
 };
 

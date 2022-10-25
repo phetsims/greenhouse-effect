@@ -86,7 +86,7 @@ MicroPhoton.PhotonIO = new IOType( 'PhotonIO', {
     toStateObject: photon => ( {
 
       // position is tracked via a child Property
-      wavelength: NumberIO.toStateObject( photon.wavelength )
+      wavelength: photon.wavelength
     } ),
     stateSchema: {
       wavelength: NumberIO

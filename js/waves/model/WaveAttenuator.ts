@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 /**
@@ -36,8 +36,8 @@ class WaveAttenuator {
    */
   public toStateObject(): WaveAttenuatorStateObject {
     return {
-      attenuation: NumberIO.toStateObject( this.attenuation ),
-      distanceFromStart: NumberIO.toStateObject( this.distanceFromStart )
+      attenuation: this.attenuation,
+      distanceFromStart: this.distanceFromStart
     };
   }
 
@@ -50,15 +50,15 @@ class WaveAttenuator {
     },
     toStateObject: ( waveAttenuator: WaveAttenuator ) => waveAttenuator.toStateObject(),
     fromStateObject: ( stateObject: WaveAttenuatorStateObject ) => new WaveAttenuator(
-      NumberIO.fromStateObject( stateObject.attenuation ),
-      NumberIO.fromStateObject( stateObject.distanceFromStart )
+      stateObject.attenuation,
+      stateObject.distanceFromStart
     )
   } );
 }
 
 export type WaveAttenuatorStateObject = {
-  attenuation: NumberStateObject;
-  distanceFromStart: NumberStateObject;
+  attenuation: number;
+  distanceFromStart: number;
 };
 
 greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );
