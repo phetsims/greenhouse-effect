@@ -4,8 +4,8 @@
  * EMWaveSource produces simulated waves of electromagnetic energy.
  */
 
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
@@ -14,6 +14,7 @@ import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
+import InfiniteNumberIO from '../../../../tandem/js/types/InfiniteNumberIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
@@ -254,7 +255,7 @@ class EMWaveSource extends PhetioObject {
 
   public toStateObject(): EMWaveSourceStateObject {
     return {
-      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).toStateObject( this.wavesToLifetimesMap ),
+      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), InfiniteNumberIO ).toStateObject( this.wavesToLifetimesMap ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).toStateObject( this.waveCreationQueue )
     };
   }
