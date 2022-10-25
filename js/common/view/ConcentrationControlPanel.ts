@@ -9,16 +9,16 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Circle, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, FlowBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -33,8 +33,8 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 
 // constants
-const lotsString = GreenhouseEffectStrings.concentrationPanel.lots;
-const noneString = GreenhouseEffectStrings.concentrationPanel.none;
+const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
+const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneStringProperty;
 const waterConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
 const carbonDioxideConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
 const methaneConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
@@ -111,7 +111,7 @@ class ConcentrationControlPanel extends Panel {
     }, providedOptions );
 
     // Title for the whole panel
-    const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentration, {
+    const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentrationStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2,
       tandem: options.tandem.createTandem( 'titleText' )
@@ -139,12 +139,11 @@ class ConcentrationControlPanel extends Panel {
     );
 
     // Put the two concentration controls into a single node where only one is visible at a time.
-    const controlsParentNode = new Node( {
+    const concentrationControlsParentNode = new FlowBox( {
       children: [ concentrationSlider, dateControl ]
     } );
-    concentrationSlider.center = dateControl.center;
 
-    const contentChildren = [ titleText, controlsParentNode, controlRadioButtonGroup ];
+    const contentChildren = [ titleText, concentrationControlsParentNode, controlRadioButtonGroup ];
 
     let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {
@@ -154,12 +153,13 @@ class ConcentrationControlPanel extends Panel {
 
     const content = new VBox( {
       children: contentChildren,
-      spacing: CONTENT_SPACING
+      spacing: CONTENT_SPACING,
+      align: 'center'
     } );
 
     super( content, options );
 
-    // only one form of controls is visible at a time
+    // Only one form of controls is visible at a time.
     concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
       concentrationSlider.visible = ConcentrationControlMode.BY_VALUE === concentrationControl;
       dateControl.visible = ConcentrationControlMode.BY_DATE === concentrationControl;
@@ -201,25 +201,25 @@ class DateControl extends Node {
     // the radio buttons for the date control
     const items = [
       {
-        createNode: ( tandem: Tandem ) => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.TWENTY_TWENTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwenty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
-        createNode: ( tandem: Tandem ) => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.NINETEEN_FIFTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFifty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
-        createNode: ( tandem: Tandem ) => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.SEVENTEEN_FIFTY,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFifty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
-        createNode: ( tandem: Tandem ) => new Text( iceAgeLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAge,
         tandemName: 'iceAgeRadioButton'
@@ -246,7 +246,7 @@ class DateControl extends Node {
     const microConcentrationLine = new Line( 0, 0, 0, CONCENTRATION_SLIDER_TRACK_HEIGHT, meterLineOptions );
 
     // Create the macroBox, which is the little rectangle that depicts the area that is being magnified.  This is sized
-    // to automatically hold all of the possible concentration values that are associated with dates.
+    // to automatically hold all possible concentration values associated with dates.
     const macroBoxProportionateHeight = ConcentrationModel.DATE_CONCENTRATION_RANGE.getLength() /
                                         ConcentrationModel.CONCENTRATION_RANGE.getLength() *
                                         1.2;
@@ -275,8 +275,8 @@ class DateControl extends Node {
     }
 
     // labels for the macro line
-    const lotsText = new Text( lotsString, LABEL_OPTIONS );
-    const noneText = new Text( noneString, LABEL_OPTIONS );
+    const lotsText = new Text( lotsStringProperty, LABEL_OPTIONS );
+    const noneText = new Text( noneStringProperty, LABEL_OPTIONS );
 
     // lines between macro and micro lines showing that the micro line is a zoomed in view of the macro line, end
     // points are set after layout
@@ -338,12 +338,10 @@ class DateControl extends Node {
 }
 
 /**
- * Inner class that is a labelled VSlider that directly controls greenhouse gas concentration in the sim.
+ * Inner class that is a labeled VSlider that directly controls greenhouse gas concentration in the sim.
  */
-class ConcentrationSlider extends Node {
+class ConcentrationSlider extends VBox {
   public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
-
-    super( { tandem: tandem } );
 
     const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range!;
     const sliderSoundGenerator = new ConcentrationSliderSoundGenerator(
@@ -378,15 +376,13 @@ class ConcentrationSlider extends Node {
     slider.scale( -1, 1 );
 
     // add labels to the slider
-    const lotsText = new Text( lotsString, LABEL_OPTIONS );
-    const noneText = new Text( noneString, LABEL_OPTIONS );
+    const lotsText = new Text( lotsStringProperty, LABEL_OPTIONS );
+    const noneText = new Text( noneStringProperty, LABEL_OPTIONS );
 
-    this.addChild( slider );
-    this.addChild( lotsText );
-    this.addChild( noneText );
-
-    lotsText.centerBottom = slider.centerTop;
-    noneText.centerTop = slider.centerBottom;
+    super( {
+      children: [ lotsText, slider, noneText ],
+      tandem: tandem
+    } );
   }
 }
 
@@ -456,7 +452,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
     const items = [
       {
-        createNode: ( tandem: Tandem ) => new VSlider( dummyProperty, dummyProperty.range!, {
+        createNode: () => new VSlider( dummyProperty, dummyProperty.range!, {
           trackSize: new Dimension2( 2, dateIcon.height - 9 ),
           thumbSize: new Dimension2( 18, 9 ),
           trackFillEnabled: 'black',
@@ -473,7 +469,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
         tandemName: 'byConcentrationRadioButton'
       },
       {
-        createNode: ( tandem: Tandem ) => dateIcon,
+        createNode: () => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriod,
         tandemName: 'byTimePeriodRadioButton'
