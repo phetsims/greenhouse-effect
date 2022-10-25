@@ -11,13 +11,13 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, FlowBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -35,10 +35,10 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 // constants
 const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
 const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneStringProperty;
-const waterConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPattern;
-const carbonDioxideConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPattern;
-const methaneConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPattern;
-const nitrousOxideConcentrationPatternString = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPattern;
+const waterConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPatternStringProperty;
+const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
+const methaneConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPatternStringProperty;
+const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
 
 // Height in view coordinates of the concentration slider track (when controlling concentration by value) and the
 // concentration meter graphic (when controlling by date). These are the same height so that the positions of values
@@ -387,44 +387,51 @@ class ConcentrationSlider extends VBox {
 }
 
 class CompositionDataNode extends VBox {
-  private readonly waterText: RichText;
-  private readonly carbonDioxideText: RichText;
-  private readonly methaneText: RichText;
-  private readonly nitrousOxideText: RichText;
 
   public constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
-    super( {
-      align: 'left'
-    } );
 
     const textOptions = {
       font: GreenhouseEffectConstants.CONTENT_FONT,
       maxWidth: 200
     };
-    this.waterText = new RichText( '', textOptions );
-    this.carbonDioxideText = new RichText( '', textOptions );
-    this.methaneText = new RichText( '', textOptions );
-    this.nitrousOxideText = new RichText( '', textOptions );
 
-    this.children = [ this.waterText, this.carbonDioxideText, this.methaneText, this.nitrousOxideText ];
+    // TODO: This doesn't use data or lookup yet, that needs to be implemented, see
+    //       https://github.com/phetsims/greenhouse-effect/issues/219.
+    const relativeHumidityProperty = new NumberProperty( 70 );
+    const carbonDioxideConcentrationProperty = new NumberProperty( 414 );
+    const methaneConcentrationProperty = new NumberProperty( 1.867 );
+    const nitrousOxideConcentrationProperty = new NumberProperty( 0.332 );
+    dateProperty.link( () => {
+      relativeHumidityProperty.set( 70 );
+      carbonDioxideConcentrationProperty.set( 414 );
+      methaneConcentrationProperty.set( 1.867 );
+      nitrousOxideConcentrationProperty.set( 0.332 );
+    } );
 
-    dateProperty.link( this.updateCompositionReadout.bind( this ) );
-  }
+    const waterTextProperty = new PatternStringProperty( waterConcentrationPatternStringProperty, {
+      value: relativeHumidityProperty
+    } );
+    const waterText = new RichText( waterTextProperty, textOptions );
 
-  /**
-   * Update the readout of greenhouse gas composition data for the provided date.
-   * NOTE: Don't have data or lookup yet, that needs to be implemented.
-   */
-  private updateCompositionReadout(): void {
-    const waterString = StringUtils.fillIn( waterConcentrationPatternString, { value: 70 } );
-    const carbonDioxideString = StringUtils.fillIn( carbonDioxideConcentrationPatternString, { value: 414 } );
-    const methaneString = StringUtils.fillIn( methaneConcentrationPatternString, { value: 1.876 } );
-    const nitrousOxideString = StringUtils.fillIn( nitrousOxideConcentrationPatternString, { value: 0.332 } );
+    const carbonDioxideTextProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
+      value: carbonDioxideConcentrationProperty
+    } );
+    const carbonDioxideText = new RichText( carbonDioxideTextProperty, textOptions );
 
-    this.waterText.text = waterString;
-    this.carbonDioxideText.text = carbonDioxideString;
-    this.methaneText.text = methaneString;
-    this.nitrousOxideText.text = nitrousOxideString;
+    const methaneTextProperty = new PatternStringProperty( methaneConcentrationPatternStringProperty, {
+      value: methaneConcentrationProperty
+    } );
+    const methaneText = new RichText( methaneTextProperty, textOptions );
+
+    const nitrousOxideTextProperty = new PatternStringProperty( nitrousOxideConcentrationPatternStringProperty, {
+      value: nitrousOxideConcentrationProperty
+    } );
+    const nitrousOxideText = new RichText( nitrousOxideTextProperty, textOptions );
+
+    super( {
+      children: [ waterText, carbonDioxideText, methaneText, nitrousOxideText ],
+      align: 'left'
+    } );
   }
 }
 

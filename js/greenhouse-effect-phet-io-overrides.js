@@ -133,9 +133,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.titleText.stringProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
       "phetioFeatured": true
     },
