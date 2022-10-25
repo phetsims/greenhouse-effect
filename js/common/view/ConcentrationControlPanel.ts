@@ -97,6 +97,8 @@ class ConcentrationControlPanel extends Panel {
 
     const options = optionize<ConcentrationControlPanelOptions, SelfOptions, PanelOptions>()( {
 
+      minWidth: width,
+      maxWidth: width,
       includeCompositionData: false,
       xMargin: PANEL_MARGINS,
       yMargin: PANEL_MARGINS,
