@@ -6,11 +6,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
 import HSlider from '../../../../sun/js/HSlider.js';
@@ -64,7 +64,7 @@ class SunAndReflectionControl extends Panel {
     };
 
     // Title text for the panel.
-    const titleText = new Text( GreenhouseEffectStrings.sunlight, {
+    const titleText = new Text( GreenhouseEffectStrings.sunlightStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleText' )
@@ -92,7 +92,7 @@ class SunAndReflectionControl extends Panel {
     soundManager.addSoundGenerator( solarIntensitySliderSoundPlayer );
 
     // label for the slider that controls the solar intensity
-    const solarIntensitySliderLabel = new Text( GreenhouseEffectStrings.solarIntensity, {
+    const solarIntensitySliderLabel = new Text( GreenhouseEffectStrings.solarIntensityStringProperty, {
       font: HEADING_FONT
     } );
 
@@ -126,10 +126,13 @@ class SunAndReflectionControl extends Panel {
       const value = solarIntensityProportionRange.min + index * distanceBetweenMajorTicks;
       let labelText;
       if ( value === 1 ) {
-        labelText = GreenhouseEffectStrings.ourSun;
+        labelText = GreenhouseEffectStrings.ourSunStringProperty;
       }
       else {
-        labelText = StringUtils.fillIn( GreenhouseEffectStrings.valuePercentPattern, { value: value * 100 } );
+        labelText = new PatternStringProperty(
+          GreenhouseEffectStrings.valuePercentPatternStringProperty,
+          { value: value * 100 }
+        );
       }
       solarIntensitySlider.addMajorTick(
         value,
@@ -148,7 +151,7 @@ class SunAndReflectionControl extends Panel {
       spacing: 8
     } );    // label for the slider that controls the solar intensity
 
-    const surfaceAlbedoSliderLabel = new Text( GreenhouseEffectStrings.surfaceAlbedo, {
+    const surfaceAlbedoSliderLabel = new Text( GreenhouseEffectStrings.surfaceAlbedoStringProperty, {
       font: HEADING_FONT
     } );
 
