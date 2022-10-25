@@ -9,9 +9,9 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import AxisLine from '../../../../bamboo/js/AxisLine.js';
 import ChartRectangle from '../../../../bamboo/js/ChartRectangle.js';
 import ChartTransform from '../../../../bamboo/js/ChartTransform.js';
@@ -22,7 +22,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
-import { Node, scenery, Text } from '../../../../scenery/js/imports.js';
+import { Node, scenery, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -84,7 +84,10 @@ class EnergyBalancePanel extends Panel {
       font: GreenhouseEffectConstants.CONTENT_FONT,
       maxWidth: 120
     } );
-    const titleNode = new Node( { children: [ titleText, subTitleText ] } );
+    const titleNode = new VBox( {
+      spacing: 5,
+      children: [ titleText, subTitleText ]
+    } );
 
     // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
     // in this sim
@@ -102,12 +105,11 @@ class EnergyBalancePanel extends Panel {
     // the plot
     const balancePlot = new EnergyBalancePlot( negatedEnergyInProperty, netEnergyOutProperty, netEnergyProperty );
 
-    const content = new Node( { children: [ titleNode, balancePlot ] } );
+    const content = new VBox( {
+      spacing: 5,
+      children: [ titleNode, balancePlot ]
+    } );
     super( content, options );
-
-    // layout
-    subTitleText.centerTop = titleText.centerBottom;
-    balancePlot.centerTop = titleNode.centerBottom.plusXY( 0, 10 );
 
     // listeners
     energyBalanceVisibleProperty.link( visible => {
@@ -198,9 +200,10 @@ class EnergyBalancePlot extends Node {
       value: verticalModelSpan,
 
       createLabel: ( value: number ) => {
-        return value === inEnergyModelPosition ? new Text( GreenhouseEffectStrings.energyBalancePanel.in, labelOptions ) :
-               value === outEnergyModelPosition ? new Text( GreenhouseEffectStrings.energyBalancePanel.out, labelOptions ) :
-               new Text( GreenhouseEffectStrings.energyBalancePanel.net, labelOptions );
+        return value === inEnergyModelPosition ?
+               new Text( GreenhouseEffectStrings.energyBalancePanel.inStringProperty, labelOptions ) :
+               value === outEnergyModelPosition ? new Text( GreenhouseEffectStrings.energyBalancePanel.outStringProperty, labelOptions ) :
+               new Text( GreenhouseEffectStrings.energyBalancePanel.netStringProperty, labelOptions );
       }
     } );
 
