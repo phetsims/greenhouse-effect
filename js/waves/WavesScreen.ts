@@ -26,7 +26,7 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.wavesStringProperty,
       descriptionContent: GreenhouseEffectStrings.a11y.waves.homeScreenDescription,
-      keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
+      createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent()
     };
 
     super(

@@ -28,7 +28,7 @@ class MicroScreen extends Screen {
 
       // TODO: This should use the same content as molecules-and-light,
       // MoleculesAndLightKeyboardHelpContent should be moved to this repo.
-      keyboardHelpNode: new SliderControlsAndBasicActionsKeyboardHelpContent()
+      createKeyboardHelpNode: () => new SliderControlsAndBasicActionsKeyboardHelpContent()
     };
 
     super(

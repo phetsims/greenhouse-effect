@@ -26,7 +26,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.photonsStringProperty,
       descriptionContent: GreenhouseEffectStrings.a11y.photons.homeScreenDescription,
-      keyboardHelpNode: new GreenhouseEffectKeyboardHelpContent()
+      createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent()
     };
 
     super(
