@@ -32,8 +32,7 @@ const simOptions: SimOptions = {
     graphicArts: '',
     soundDesign: 'Ashton Morris',
     thanks: 'Dedicated to the memory of Ron LeMaster.'
-  },
-  hasKeyboardHelpContent: true
+  }
 };
 
 // If the appropriate query parameter is set, add controls to the Preferences dialog that designers can use to try out
