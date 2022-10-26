@@ -29,7 +29,10 @@ import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 
 // constants
 const HEADING_FONT = new PhetFont( 14 );
-const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
+const TICK_MARK_TEXT_OPTIONS = {
+  font: new PhetFont( 10 ),
+  maxWidth: 30
+};
 const PANEL_MARGIN = 5;
 const COMMON_SLIDER_OPTIONS: SliderOptions = {
   thumbSize: GreenhouseEffectConstants.HORIZONTAL_SLIDER_THUMB_SIZE,
@@ -136,7 +139,7 @@ class SunAndReflectionControl extends Panel {
       }
       solarIntensitySlider.addMajorTick(
         value,
-        new Text( labelText, { font: TICK_MARK_LABEL_FONT } )
+        new Text( labelText, TICK_MARK_TEXT_OPTIONS )
       );
 
       // minor tick
@@ -187,11 +190,11 @@ class SunAndReflectionControl extends Panel {
     );
     surfaceAlbedoSlider.addMajorTick(
       surfaceAlbedoRange.min,
-      new Text( surfaceAlbedoRange.min, { font: TICK_MARK_LABEL_FONT } )
+      new Text( surfaceAlbedoRange.min, TICK_MARK_TEXT_OPTIONS )
     );
     surfaceAlbedoSlider.addMajorTick(
       surfaceAlbedoRange.max,
-      new Text( surfaceAlbedoRange.max, { font: TICK_MARK_LABEL_FONT } )
+      new Text( surfaceAlbedoRange.max, TICK_MARK_TEXT_OPTIONS )
     );
     const distanceBetweenMinorTicks = 0.1; // from design doc
     _.times( surfaceAlbedoRange.getLength() / distanceBetweenMinorTicks - 1, index => {

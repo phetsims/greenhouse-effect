@@ -1,8 +1,8 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * Controls for the concentration of greenhouse gases in the sim. Concentration can be modified directly by value
- * or greenhouse gas concentration can be selected from a particular date.
+ * Controls for the concentration of greenhouse gases in the sim. Concentration can be modified directly by value or
+ * greenhouse gas concentration can be selected from a particular date.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
@@ -85,7 +85,7 @@ type ConcentrationControlPanelOptions = SelfOptions & PanelOptions;
 class ConcentrationControlPanel extends Panel {
 
   /**
-   * @param width - width the panel contents are limited to, for i18n and layout with other screen components
+   * @param width - overall width of the panel
    * @param concentrationModel
    * @param radiationDescriber
    * @param [providedOptions]
@@ -112,7 +112,7 @@ class ConcentrationControlPanel extends Panel {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    // Title for the whole panel
+    // title for the whole panel
     const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentrationStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2,

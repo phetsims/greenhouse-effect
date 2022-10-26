@@ -6,30 +6,33 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
+import Utils from '../../../../dot/js/Utils.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import Panel from '../../../../sun/js/Panel.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
-import NumberPicker from '../../../../sun/js/NumberPicker.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 import IrAbsorbanceSoundPlayer from './IrAbsorbanceSoundPlayer.js';
-import Utils from '../../../../dot/js/Utils.js';
+import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 
 // constants
 const MAX_LAYERS = 3; // from design doc
 const HEADING_FONT = new PhetFont( 14 );
-const TICK_MARK_LABEL_FONT = new PhetFont( 10 );
+const TICK_MARK_TEXT_OPTIONS = {
+  font: new PhetFont( 10 ),
+  maxWidth: 30
+};
 const PANEL_MARGIN = 5;
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
@@ -55,7 +58,7 @@ class LayersControl extends Panel {
     };
 
     // title text for the panel
-    const titleText = new Text( GreenhouseEffectStrings.infrared, {
+    const titleText = new Text( GreenhouseEffectStrings.infraredStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleText' )
@@ -107,7 +110,7 @@ class LayersControl extends Panel {
     );
 
     // label for picker that controls the number of layers
-    const layerNumberControlLabel = new Text( GreenhouseEffectStrings.absorbingLayers, {
+    const layerNumberControlLabel = new Text( GreenhouseEffectStrings.absorbingLayersStringProperty, {
       font: HEADING_FONT
     } );
 
@@ -118,7 +121,7 @@ class LayersControl extends Panel {
     } );
 
     // label for the slider that controls IR absorbance
-    const irAbsorbanceSliderLabel = new Text( GreenhouseEffectStrings.infraredAbsorbance, {
+    const irAbsorbanceSliderLabel = new Text( GreenhouseEffectStrings.infraredAbsorbanceStringProperty, {
       font: HEADING_FONT
     } );
 
@@ -152,15 +155,21 @@ class LayersControl extends Panel {
     );
     irAbsorbanceSlider.addMajorTick(
       absorbanceRange.min,
-      new Text( StringUtils.fillIn( GreenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.min * 100 } ), {
-        font: TICK_MARK_LABEL_FONT
-      } )
+      new Text(
+        new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
+          value: absorbanceRange.min * 100
+        } ),
+        TICK_MARK_TEXT_OPTIONS
+      )
     );
     irAbsorbanceSlider.addMajorTick(
       absorbanceRange.max,
-      new Text( StringUtils.fillIn( GreenhouseEffectStrings.valuePercentPattern, { value: absorbanceRange.max * 100 } ), {
-        font: TICK_MARK_LABEL_FONT
-      } )
+      new Text(
+        new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
+          value: absorbanceRange.max * 100
+        } ),
+        TICK_MARK_TEXT_OPTIONS
+      )
     );
     const tickMarkSpacing = 0.1;
     for ( let minorTickMarkValue = absorbanceRange.min + tickMarkSpacing;

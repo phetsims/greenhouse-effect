@@ -43,14 +43,15 @@ import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 
-const sunlightString = GreenhouseEffectStrings.sunlight;
-const infraredString = GreenhouseEffectStrings.infrared;
-const energyFluxString = GreenhouseEffectStrings.fluxMeter.energyFlux;
+const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
+const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
+const energyFluxStringProperty = GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty;
 
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
 const SENSOR_STROKE_COLOR = 'rgb(254,153,18)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
+const FLUX_PANEL_X_MARGIN = 6;
 
 // multiplier used to map energy flux values to arrow lengths in nominal (un-zoomed) case, empirically determined
 const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
@@ -142,9 +143,9 @@ class FluxMeterNode extends Node {
     );
     this.addChild( wireNode );
 
-    const titleText = new Text( energyFluxString, {
+    const titleText = new Text( energyFluxStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
-      maxWidth: 120
+      maxWidth: ( FLUX_PANEL_X_MARGIN * 2 + EnergyFluxDisplay.WIDTH * 2 + METER_SPACING ) * 0.9
     } );
 
     this.zoomFactorProperty = new NumberProperty( 0, {
@@ -159,14 +160,14 @@ class FluxMeterNode extends Node {
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
-      sunlightString,
+      sunlightStringProperty,
       GreenhouseEffectConstants.SUNLIGHT_COLOR
     );
     const infraredDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
-      infraredString,
+      infraredStringProperty,
       GreenhouseEffectConstants.INFRARED_COLOR
     );
     const fluxArrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
@@ -236,7 +237,9 @@ class FluxMeterNode extends Node {
     } );
 
     // create the panel
-    this.fluxPanel = new Panel( content );
+    this.fluxPanel = new Panel( content, {
+      xMargin: FLUX_PANEL_X_MARGIN
+    } );
     this.addChild( this.fluxPanel );
 
     // listeners
@@ -340,11 +343,13 @@ class EnergyFluxDisplay extends Node {
   public constructor( energyDownProperty: Property<number>,
                       energyUpProperty: Property<number>,
                       fluxToArrowLengthMultiplierProperty: TReadOnlyProperty<number>,
-                      labelString: string,
+                      labelStringProperty: TReadOnlyProperty<string>,
                       baseColor: Color,
                       providedOptions?: EnergyFluxDisplayOptions ) {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
+
+      // lots of empirically determined value here, chosen to make the thing look decent
       height: 340,
       arrowNodeOptions: {
         headHeight: 16,
@@ -356,16 +361,21 @@ class EnergyFluxDisplay extends Node {
 
     super();
 
-    const labelText = new Text( labelString, {
+    const labelText = new Text( labelStringProperty, {
       font: GreenhouseEffectConstants.CONTENT_FONT,
-      maxWidth: 80
+      maxWidth: EnergyFluxDisplay.WIDTH
     } );
     this.addChild( labelText );
 
     // The rectangle is invisible but acts as a container for the energy arrows and reference lines. Its shape is used
     // as a clip area for the display so that arrows and reference lines don't go beyond the height of this display.
-    const boundsRectangle = new Rectangle( 0, 0, labelText.width * 1.25, options.height, 5, 5 );
+    const boundsRectangle = new Rectangle( 0, 0, EnergyFluxDisplay.WIDTH, options.height, 5, 5 );
     this.addChild( boundsRectangle );
+
+    this.addChild( new VBox( {
+      children: [ labelText, boundsRectangle ],
+      spacing: 5
+    } ) );
 
     // Add the Path that will display reference lines behind the arrows.
     const referenceLinesNode = new Path( null, {
@@ -452,11 +462,10 @@ class EnergyFluxDisplay extends Node {
       referenceLinesNode.centerX = boundsRectangle.width / 2;
       referenceLinesNode.centerY = boundsRectangle.height / 2;
     } );
-
-    // layout
-    boundsRectangle.centerX = labelText.centerX;
-    boundsRectangle.top = labelText.bottom + 8;
   }
+
+  // an empirically determined value used in part to set the overall width of the panel
+  public static readonly WIDTH = 45;
 }
 
 /**
