@@ -11,15 +11,13 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
@@ -38,9 +36,9 @@ import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWind
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
 const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditionalTemperatureDigits ? 3 : 1;
-const kelvinUnitsString = GreenhouseEffectStrings.temperature.units.kelvin;
-const celsiusUnitsString = GreenhouseEffectStrings.temperature.units.celsius;
-const fahrenheitUnitsString = GreenhouseEffectStrings.temperature.units.fahrenheit;
+const kelvinUnitsStringProperty = GreenhouseEffectStrings.temperature.units.kelvinStringProperty;
+const celsiusUnitsStringProperty = GreenhouseEffectStrings.temperature.units.celsiusStringProperty;
+const fahrenheitUnitsStringProperty = GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty;
 
 class ReadoutType extends EnumerationValue {
   public static SELECTABLE = new ReadoutType();
@@ -116,21 +114,21 @@ class ThermometerAndReadout extends Node {
 
       const comboBoxItems = [
         ThermometerAndReadout.createComboBoxItem(
-          kelvinUnitsString,
+          kelvinUnitsStringProperty,
           model.surfaceTemperatureKelvinProperty,
           model.surfaceTemperatureKelvinProperty.range!,
           TemperatureUnits.KELVIN,
           `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
-          celsiusUnitsString,
+          celsiusUnitsStringProperty,
           model.surfaceTemperatureCelsiusProperty,
           celsiusRange,
           TemperatureUnits.CELSIUS,
           `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
-          fahrenheitUnitsString,
+          fahrenheitUnitsStringProperty,
           model.surfaceTemperatureFahrenheitProperty,
           fahrenheitRange,
           TemperatureUnits.FAHRENHEIT,
@@ -165,31 +163,38 @@ class ThermometerAndReadout extends Node {
           GreenhouseEffectUtils.kelvinToFahrenheit( temperature )
       );
 
-      // Create a closure that can be used to get the appropriate units string when the temperature is rendered.
-      const getUnits = () => {
-        const temperatureUnits = model.temperatureUnitsProperty.value;
-        return temperatureUnits === TemperatureUnits.KELVIN ? GreenhouseEffectStrings.temperature.units.kelvin :
-               temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectStrings.temperature.units.celsius :
-               GreenhouseEffectStrings.temperature.units.fahrenheit;
-      };
+      const unitsStringProperty = new DerivedProperty(
+        [
+          model.temperatureUnitsProperty,
+          GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
+          GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
+          GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
+        ],
+        ( units, kelvinUnitsString, celsiusUnitsString, fahrenheitUnitsString ) => {
+          return units === TemperatureUnits.KELVIN ? kelvinUnitsString :
+                 units === TemperatureUnits.CELSIUS ? celsiusUnitsString :
+                 fahrenheitUnitsString;
+        }
+      );
 
       // Create the temperature readout.
       const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
         backgroundStroke: Color.BLACK,
-        cornerRadius: 3,
+        decimalPlaces: DECIMAL_PLACES_IN_READOUT,
         noValueAlign: 'center',
-        numberFormatter: ( temperature: number ) => {
-          return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-            value: Utils.toFixed( temperature, 1 ),
-            units: getUnits()
-          } );
-        },
+        cornerRadius: 3,
+        xMargin: 12,
+        yMargin: 3,
         textOptions: {
-          font: new PhetFont( 14 )
-        }
+          font: GreenhouseEffectConstants.CONTENT_FONT,
+          maxWidth: 100
+        },
+        valuePattern: new PatternStringProperty(
+          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+          { units: unitsStringProperty }
+        )
       } );
-
       this.addChild( temperatureReadout );
     }
 
@@ -201,7 +206,7 @@ class ThermometerAndReadout extends Node {
    * Create a ComboBox item for the units combo box. The Node for the ComboBox item is a NumberDisplay showing the
    * current value of temperature in those units.
    */
-  private static createComboBoxItem( unitsString: string,
+  private static createComboBoxItem( unitsStringProperty: TReadOnlyProperty<string>,
                                      property: TReadOnlyProperty<number>,
                                      propertyRange: Range,
                                      propertyValue: TemperatureUnits,
@@ -214,9 +219,10 @@ class ThermometerAndReadout extends Node {
         font: GreenhouseEffectConstants.CONTENT_FONT,
         maxWidth: 120
       },
-      valuePattern: StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
-        units: unitsString
-      } )
+      valuePattern: new PatternStringProperty(
+        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+        { units: unitsStringProperty }
+      )
     };
 
     return {

@@ -31,7 +31,7 @@ class TemperatureUnitsSelector extends VBox {
       temperatureUnitsProperty,
       [
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.kelvin, {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, {
             font: LABEL_FONT,
             tandem: tandem.createTandem( 'text' )
           } ),
@@ -39,7 +39,7 @@ class TemperatureUnitsSelector extends VBox {
           tandemName: 'kelvinRadioButton'
         },
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.celsius, {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, {
             font: LABEL_FONT,
             tandem: tandem.createTandem( 'text' )
           } ),
@@ -47,7 +47,7 @@ class TemperatureUnitsSelector extends VBox {
           tandemName: 'celciusRadioButton'
         },
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.fahrenheit, {
+          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, {
             font: LABEL_FONT,
             tandem: tandem.createTandem( 'text' )
           } ),
