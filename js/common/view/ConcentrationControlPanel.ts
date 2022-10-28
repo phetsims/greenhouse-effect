@@ -18,7 +18,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { Circle, FlowBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -44,9 +44,6 @@ const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.c
 // concentration meter graphic (when controlling by date). These are the same height so that the positions of values
 // along the slider are at the same positions of values along the concentration meter.
 const CONCENTRATION_SLIDER_TRACK_HEIGHT = 150;
-
-// Size of the concentration slider thumb, also used for layout of labels.
-const CONCENTRATION_SLIDER_THUMB_SIZE = new Dimension2( 20, 10 );
 
 // Tick sizes for the concentration meter.
 const CONCENTRATION_METER_MACRO_BOX_WIDTH = 30;
@@ -179,7 +176,7 @@ class ConcentrationControlPanel extends Panel {
  * of concentration and a "micro" line that is a zoomed in portion of the "macro". The "micro" line shows the
  * value of concentration relative to the range of values that can be selected by date.
  */
-class DateControl extends Node {
+class DateControl extends HBox {
 
   /**
    * @param dateProperty
@@ -191,8 +188,6 @@ class DateControl extends Node {
                       concentrationProperty: TReadOnlyProperty<number>,
                       concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                       tandem: Tandem ) {
-
-    super();
 
     // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
     const twentyTwentyLabel = '2020';
@@ -288,46 +283,57 @@ class DateControl extends Node {
 
     const valueCircle = new Circle( 5, { fill: 'black' } );
 
-    // add components
-    this.addChild( macroValueBox );
-    this.addChild( macroConcentrationLine );
-    this.addChild( microConcentrationLine );
-    this.addChild( topConnectionLine );
-    this.addChild( bottomConnectionLine );
-    this.addChild( valueCircle );
-    this.addChild( lotsText );
-    this.addChild( noneText );
-    this.addChild( dateRadioButtonGroup );
+    // Put the macro line in a VBox with the labels that go at the top and the bottom of it for easier alignment and
+    // handling of dynamic strings.
+    const labeledMacroLine = new VBox( {
+      children: [ lotsText, macroConcentrationLine, noneText ],
+      spacing: 4
+    } );
 
-    // layout - label text at top and bottom of line, offset to match position of text
-    // for the slider which allows extra space for the thumb
-    lotsText.centerBottom = macroConcentrationLine.centerTop.minusXY( 0, CONCENTRATION_SLIDER_THUMB_SIZE.height / 2 );
-    noneText.centerTop = macroConcentrationLine.centerBottom.plusXY( 0, CONCENTRATION_SLIDER_THUMB_SIZE.height / 2 );
+    // Put all the elements that comprise the concentration range graphic together into one node.
+    const concentrationRangeGraphic = new Node( {
+      children: [
+        macroValueBox,
+        labeledMacroLine,
+        microConcentrationLine,
+        topConnectionLine,
+        bottomConnectionLine,
+        valueCircle
+      ]
+    } );
 
-    microConcentrationLine.center = macroConcentrationLine.center.plusXY( 70, 0 );
+    // Lay out the graphic based on the position of the macro line.  This will do the initial layout and will update the
+    // layout when the strings that label the macro line are updated.
+    labeledMacroLine.boundsProperty.link( bounds => {
 
-    macroValueBox.center = macroConcentrationLine.centerBottom.plusXY(
-      0,
-      -CONCENTRATION_SLIDER_TRACK_HEIGHT * macroBoxProportionateCenterY
-    );
+      // Position the box that indicates the blown up region.
+      macroValueBox.center = bounds.center.plusXY(
+        0,
+        -CONCENTRATION_SLIDER_TRACK_HEIGHT * ( macroBoxProportionateCenterY - 0.5 )
+      );
 
-    topConnectionLine.setPoint1( macroValueBox.rightTop );
-    topConnectionLine.setPoint2( microConcentrationLine.centerTop );
+      // Position the micro line, which represents the blown up region.
+      microConcentrationLine.center = bounds.center.plusXY( 70, 0 );
 
-    bottomConnectionLine.setPoint1( macroValueBox.rightBottom );
-    bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom );
+      // Update the lines that go from the corners of the macro box to the blown up line.
+      topConnectionLine.setPoint1( macroValueBox.rightTop );
+      topConnectionLine.setPoint2( microConcentrationLine.centerTop );
+      bottomConnectionLine.setPoint1( macroValueBox.rightBottom );
+      bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom );
 
-    dateRadioButtonGroup.leftTop = microConcentrationLine.rightTop.plusXY( 10, 0 );
+      // Center the value indicator in the horizontal direction.
+      valueCircle.centerX = microConcentrationLine.centerX;
+    } );
 
-    // place the value circle at a position representing current concentration
-    const concentrationRange = ConcentrationModel.CONCENTRATION_RANGE;
+
+    // Update the vertical position of the concentration indicator when the concentration changes.
+    const concentrationRangeLength = ConcentrationModel.CONCENTRATION_RANGE.getLength();
     const concentrationHeightFunction = new LinearFunction(
-      concentrationRange.getLength() * ( macroBoxProportionateCenterY - macroBoxProportionateHeight / 2 ),
-      concentrationRange.getLength() * ( macroBoxProportionateCenterY + macroBoxProportionateHeight / 2 ),
+      concentrationRangeLength * ( macroBoxProportionateCenterY - macroBoxProportionateHeight / 2 ),
+      concentrationRangeLength * ( macroBoxProportionateCenterY + macroBoxProportionateHeight / 2 ),
       microConcentrationLine.bottom,
       microConcentrationLine.top
     );
-    valueCircle.centerX = microConcentrationLine.centerX;
     Multilink.multilink(
       [ concentrationProperty, concentrationControlModeProperty ],
       ( concentration, concentrationControlMode ) => {
@@ -336,6 +342,12 @@ class DateControl extends Node {
         }
       }
     );
+
+    // Put the graphical zoom in representation and the radio buttons next to each other in an HBox.
+    super( {
+      children: [ concentrationRangeGraphic, dateRadioButtonGroup ],
+      spacing: 10
+    } );
   }
 }
 
