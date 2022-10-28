@@ -202,7 +202,7 @@ class GreenhouseEffectObservationWindow extends Node {
       baseColor: PhetColorScheme.BUTTON_YELLOW,
 
       // keep the size reasonable
-      maxTextWidth: SIZE.width * 0.5,
+      maxTextWidth: 250,
 
       listener: () => {
 

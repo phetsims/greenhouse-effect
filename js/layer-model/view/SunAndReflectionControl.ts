@@ -31,7 +31,7 @@ import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 const HEADING_FONT = new PhetFont( 14 );
 const TICK_MARK_TEXT_OPTIONS = {
   font: new PhetFont( 10 ),
-  maxWidth: 30
+  maxWidth: 50
 };
 const PANEL_MARGIN = 5;
 const COMMON_SLIDER_OPTIONS: SliderOptions = {
