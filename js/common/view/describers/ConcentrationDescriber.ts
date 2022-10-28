@@ -5,16 +5,16 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Range from '../../../../../dot/js/Range.js';
+import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
-import Range from '../../../../../dot/js/Range.js';
-import Utils from '../../../../../dot/js/Utils.js';
 
 // constants
-const greenhouseGasesInAtmospherePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePattern;
-const greenhouseGasesValuePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePattern;
+const greenhouseGasesInAtmospherePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePatternStringProperty;
+const greenhouseGasesValuePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePatternStringProperty;
 
 // strings used to describe the levels of concentration in the model
 const noString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.no;
@@ -237,19 +237,6 @@ class ConcentrationDescriber {
   }
 
   /**
-   * Get a description of a change in gas concentration level, returns something like "Now higher levels of greenhouse
-   * gases".
-   */
-  public static getConcentrationRelativeChangeDescription( oldConcentration: number, newConcentration: number ): string {
-    const changeString = newConcentration > oldConcentration ? GreenhouseEffectStrings.a11y.higher :
-                         newConcentration < oldConcentration ? GreenhouseEffectStrings.a11y.lower :
-                         GreenhouseEffectStrings.a11y.unchanged;
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.nowRelativeLevelOfConcentrationPattern, {
-      value: changeString
-    } );
-  }
-
-  /**
    * Get a description of the change in the greenhouse gas concentration value from a previous year to a new one,
    * returns something like:
    * "Greenhouse gas levels much lower than twenty twenty."
@@ -303,7 +290,7 @@ class ConcentrationDescriber {
    * @param concentration - value of concentration in the model
    */
   public static getConcentrationDescription( concentration: number ): string {
-    let descriptionString = '';
+    let descriptionString;
 
     // Round the value to a fixed number of digits so that we can compare to the ranges without JS precision issues.
     const roundedConcentration = Utils.toFixedNumber( concentration, 2 );
@@ -403,8 +390,10 @@ class ConcentrationDescriber {
       valueDescription = StringUtils.capitalize( valueDescription );
     }
 
-    const patternString = includeInAtmosphere ? greenhouseGasesInAtmospherePatternString : greenhouseGasesValuePatternString;
-    return StringUtils.fillIn( patternString, {
+    const patternStringProperty = includeInAtmosphere ?
+                          greenhouseGasesInAtmospherePatternStringProperty :
+                          greenhouseGasesValuePatternStringProperty;
+    return StringUtils.fillIn( patternStringProperty, {
       valueDescription: valueDescription
     } );
   }
