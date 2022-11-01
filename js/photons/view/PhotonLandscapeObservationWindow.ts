@@ -39,7 +39,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection, {
 
       // output level is pretty low, since a lot of these can be happening at once
-      initialOutputLevel: 0.02
+      initialOutputLevel: 0.03
     } ) );
   }
 
