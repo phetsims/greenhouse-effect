@@ -17,9 +17,10 @@ import Photon from '../model/Photon.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
 // constants
-const DEFAULT_OUTPUT_LEVEL = 0.04; // empirically determined, pretty low because a lot of plays can be happening at once
-const PLAYBACK_RATE_RANGE = new Range( 0.94387431268, 1.05946309436 ); // playback rate variation, one musical half step up and down
 const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions cause sounds
+
+// playback rate variation, one musical half step up and down
+const PLAYBACK_RATE_RANGE = new Range( 0.94387431268, 1.05946309436 );
 
 // types for options
 type SelfOptions = EmptySelfOptions;
@@ -30,7 +31,6 @@ class AtmosphericPhotonsSoundGenerator extends SoundClip {
   public constructor( photonCollection: PhotonCollection, providedOptions?: AtmosphericPhotonsSoundGeneratorOptions ) {
 
     const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-      initialOutputLevel: DEFAULT_OUTPUT_LEVEL,
       rateChangesAffectPlayingSounds: false
     }, providedOptions );
 

@@ -17,9 +17,6 @@ import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
-// constants
-const DEFAULT_OUTPUT_LEVEL = 0.22;
-
 // amount of time before starting to fade where flux change is below the threshold, in seconds
 const PRE_FADE_TIME = 0.25;
 
@@ -74,7 +71,6 @@ class FluxMeterSoundGenerator extends SoundGenerator {
                       providedOptions?: FluxMeterSoundGeneratorOptions ) {
 
     const options = optionize<FluxMeterSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-      initialOutputLevel: DEFAULT_OUTPUT_LEVEL
     }, providedOptions );
 
     super( options );

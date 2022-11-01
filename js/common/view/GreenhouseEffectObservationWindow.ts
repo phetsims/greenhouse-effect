@@ -192,7 +192,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // sound generation for sunlight starting
     const sunlightStartingSoundClip = new SoundClip( startSunlightChord_mp3, {
-      initialOutputLevel: 0.5
+      initialOutputLevel: 0.4
     } );
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 

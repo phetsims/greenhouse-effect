@@ -292,6 +292,7 @@ class FluxMeterNode extends Node {
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       {
+        initialOutputLevel: 0.15,
         enableControlProperties: [ isPlayingProperty, visibleProperty ]
       }
     );

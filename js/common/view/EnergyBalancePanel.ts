@@ -118,6 +118,7 @@ class EnergyBalancePanel extends Panel {
 
     // sound generation
     this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, inRadiativeBalanceProperty, {
+      initialOutputLevel: 0.3,
       enableControlProperties: [ energyBalanceVisibleProperty ]
     } );
     soundManager.addSoundGenerator( this.energyBalanceSoundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );

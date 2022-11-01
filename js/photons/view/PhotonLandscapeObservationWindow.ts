@@ -36,7 +36,11 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     this.presentationLayer.addChild( this.photonsNode );
 
     // sound generation
-    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
+    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection, {
+
+      // output level is pretty low, since a lot of these can be happening at once
+      initialOutputLevel: 0.02
+    } ) );
   }
 
   public override step( dt: number ): void {
