@@ -71,6 +71,23 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'layersControl' )
     );
     this.legendAndControlsVBox.addChild( layersControl );
+
+    // pdom - override the pdomOrders for the supertype to insert subtype components
+    this.pdomPlayAreaNode.pdomOrder = [
+      this.observationWindow,
+      sunAndReflectionControl,
+      layersControl,
+      observationWindow.showThermometerCheckbox,
+      ...observationWindow.atmosphereLayerNodes,
+      observationWindow.instrumentVisibilityControls,
+      observationWindow.fluxMeterNode
+    ];
+    this.pdomControlAreaNode.pdomOrder = [
+      temperatureUnitsSelector,
+      morePhotonsCheckbox,
+      this.timeControlNode,
+      this.resetAllButton
+    ];
   }
 }
 

@@ -32,8 +32,9 @@ export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectO
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
-  private readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
+  public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
   private readonly showSurfaceThermometerProperty: BooleanProperty;
+  public readonly showThermometerCheckbox : ShowTemperatureCheckbox;
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -72,13 +73,13 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // checkbox for thermometer visibility
     this.showSurfaceThermometerProperty = new BooleanProperty( true );
-    const showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
+    this.showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
       left: this.atmosphereLayerNodes[ 0 ].showTemperatureCheckboxLeft,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
     } );
-    this.controlsLayer.addChild( showThermometerCheckbox );
+    this.controlsLayer.addChild( this.showThermometerCheckbox );
 
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
