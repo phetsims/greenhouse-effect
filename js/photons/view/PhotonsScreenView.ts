@@ -104,6 +104,22 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     this.addChild( cloudCheckbox );
 
     concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
+
+    // pdom - override the pdomOrders for the supertype to insert subtype components
+    this.pdomPlayAreaNode.pdomOrder = [
+      this.observationWindow,
+      this.energyLegend,
+      concentrationControlPanel,
+      observationWindow.surfaceThermometer,
+      observationWindow.instrumentVisibilityControls,
+      observationWindow.fluxMeterNode,
+      cloudCheckbox
+    ];
+    this.pdomControlAreaNode.pdomOrder = [
+      visibilityBox,
+      this.timeControlNode,
+      this.resetAllButton
+    ];
   }
 }
 

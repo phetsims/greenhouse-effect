@@ -56,7 +56,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly backgroundLayer: Node;
   protected readonly foregroundLayer: Node;
   protected readonly controlsLayer: Node;
-  protected readonly fluxMeterNode: FluxMeterNode | null;
+  public readonly fluxMeterNode: FluxMeterNode | null;
 
   // protected so that they can be placed in the pdomOrder in subclasses
   protected readonly startSunlightButton: TextPushButton;
