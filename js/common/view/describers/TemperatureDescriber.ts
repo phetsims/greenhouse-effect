@@ -79,7 +79,7 @@ class TemperatureDescriber {
    * @param unitsValue
    */
   public static getQuantitativeTemperatureDescription( temperatureKelvin: number, unitsValue: TemperatureUnits ): string {
-    return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
       value: TemperatureDescriber.getTemperatureValueString( temperatureKelvin, unitsValue ),
       units: TemperatureDescriber.getTemperatureUnitsString( unitsValue )
     } );

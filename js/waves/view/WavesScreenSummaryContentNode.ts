@@ -176,7 +176,7 @@ class WavesScreenSummaryContentNode extends Node {
         temperatureFragmentString = quantitativeTemperatureDescriptionString;
       }
 
-      const temperatureDescriptionString = StringUtils.fillIn( surfaceTemperaturePatternStringProperty.value, {
+      const temperatureDescriptionString = StringUtils.fillIn( surfaceTemperaturePatternStringProperty, {
         temperatureDescription: temperatureFragmentString
       } );
 

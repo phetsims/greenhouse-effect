@@ -125,7 +125,7 @@ class RadiationDescriber {
         date
       );
 
-      radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternStringProperty.value, {
+      radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternStringProperty, {
         value: intensityDescription
       } );
 

@@ -45,7 +45,7 @@ class EnergyDescriber {
                                inflowToEarthStringProperty.value :
                                outflowToSpaceStringProperty.value;
 
-      descriptionString = StringUtils.fillIn( outgoingEnergyPatternStringProperty.value, {
+      descriptionString = StringUtils.fillIn( outgoingEnergyPatternStringProperty, {
         increasesOrDecreases: outgoingEnergyChangeString,
         inflowOrOutflow: flowChangeString
       } );
@@ -75,7 +75,7 @@ class EnergyDescriber {
                          inflowToEarthStringProperty.value :
                          outflowToSpaceStringProperty.value;
 
-      descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternStringProperty.value, {
+      descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternStringProperty, {
         greaterThanOrLessThan: changeString,
         inflowOrOutflow: flowString
       } );
