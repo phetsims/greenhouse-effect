@@ -60,7 +60,7 @@ class SunAndReflectionControl extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.infraredStringProperty.value,
+      labelContent: GreenhouseEffectStrings.infraredStringProperty,
 
       // phet-io
       tandem: tandem

@@ -103,7 +103,7 @@ class ConcentrationControlPanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty.value,
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -200,25 +200,25 @@ class DateControl extends HBox {
       {
         createNode: () => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.TWENTY_TWENTY,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         createNode: () => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.NINETEEN_FIFTY,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         createNode: () => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.SEVENTEEN_FIFTY,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
         createNode: () => new Text( iceAgeLabel, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty,
         tandemName: 'iceAgeRadioButton'
       }
     ];
@@ -229,8 +229,8 @@ class DateControl extends HBox {
 
         // pdom
         labelTagName: 'h4',
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty.value,
-        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpTextStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
+        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpTextStringProperty,
 
         // phet-io
         tandem: tandem.createTandem( 'dateRadioButtonGroup' )
@@ -374,9 +374,9 @@ class ConcentrationSlider extends VBox {
       soundGenerator: sliderSoundGenerator,
 
       // pdom
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentrationStringProperty.value,
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentrationStringProperty,
       labelTagName: 'label',
-      helpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty.value,
+      helpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty,
       keyboardStep: 0.05,
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
@@ -486,13 +486,13 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
           tandem: Tandem.OPT_OUT
         } ),
         value: ConcentrationControlMode.BY_VALUE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty,
         tandemName: 'byConcentrationRadioButton'
       },
       {
         createNode: () => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty,
         tandemName: 'byTimePeriodRadioButton'
       }
     ];
@@ -505,8 +505,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
         // pdom
         labelTagName: 'h4',
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty.value,
-        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty.value,
+        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
+        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
 
         // phet-io
         tandem: tandem

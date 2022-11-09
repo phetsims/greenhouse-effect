@@ -111,21 +111,21 @@ class ConcentrationDescriber {
   public static getSkyCloudChangeDescription( cloudEnabled: boolean, isShining: boolean ): string {
     let description;
 
-    const addedOrRemovedDescription = cloudEnabled ?
-                                      GreenhouseEffectStrings.a11y.sky.cloudAddedAlertStringProperty.value :
-                                      GreenhouseEffectStrings.a11y.sky.cloudRemovedAlertStringProperty.value;
+    const addedOrRemovedDescriptionProperty = cloudEnabled ?
+                                      GreenhouseEffectStrings.a11y.sky.cloudAddedAlertStringProperty :
+                                      GreenhouseEffectStrings.a11y.sky.cloudRemovedAlertStringProperty;
     if ( isShining ) {
-      const receivedOrReflectedDescription = cloudEnabled ?
-                                             GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty.value :
-                                             GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty.value;
+      const receivedOrReflectedDescriptionProperty = cloudEnabled ?
+                                             GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty :
+                                             GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty;
 
       description = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sky.cloudAlertPatternStringProperty, {
-        addedOrRemoved: addedOrRemovedDescription,
-        receivedOrReflected: receivedOrReflectedDescription
+        addedOrRemoved: addedOrRemovedDescriptionProperty,
+        receivedOrReflected: receivedOrReflectedDescriptionProperty
       } );
     }
     else {
-      description = addedOrRemovedDescription;
+      description = addedOrRemovedDescriptionProperty.value;
     }
 
     return description;

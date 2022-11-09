@@ -136,7 +136,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
     this.focusableHeadingNode = new FocusableHeadingNode( {
       headingLevel: 3,
-      innerContent: GreenhouseEffectStrings.a11y.observationWindowLabelStringProperty.value
+      innerContent: GreenhouseEffectStrings.a11y.observationWindowLabelStringProperty
     } );
     this.foregroundLayer.addChild( this.focusableHeadingNode );
 
@@ -224,7 +224,7 @@ class GreenhouseEffectObservationWindow extends Node {
       soundPlayer: sunlightStartingSoundClip,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpTextStringProperty.value,
+      helpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpTextStringProperty,
 
       // phet-io
       tandem: options.tandem.createTandem( 'startSunlightButton' ),

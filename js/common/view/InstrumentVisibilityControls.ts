@@ -74,7 +74,7 @@ class InstrumentVisibilityControls extends Panel {
           checkedUtterance.alert = StringUtils.fillIn(
             GreenhouseEffectStrings.a11y.energyBalanceCheckedPatternStringProperty,
             {
-              checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty.value,
+              checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty,
               outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription(
                 netInflowOfEnergy,
                 inRadiativeBalance
@@ -86,7 +86,7 @@ class InstrumentVisibilityControls extends Panel {
 
           // If the sun isn't shining, don't include a description of the energy balance.  See
           // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty.value;
+          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty;
         }
       }
     );
@@ -99,9 +99,9 @@ class InstrumentVisibilityControls extends Panel {
           tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
           // pdom
-          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty.value,
+          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty,
           checkedContextResponse: checkedUtterance,
-          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty.value
+          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
         }
       ) );
     }

@@ -44,14 +44,14 @@ class LayersModelTimeControlNode extends TimeControlNode {
           // Sim is paused but the sun is not shining, add an additional hint about the sunlight being off
           // to guide the user to turn it on.
           this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPausedSunlightOffAlertStringProperty.value
+            GreenhouseEffectStrings.a11y.timeControls.simPausedSunlightOffAlertStringProperty
           );
         }
         else {
 
           // Paused while the sunlight is on - generic alert about the step button
           this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty.value
+            GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty
           );
         }
       }
@@ -60,7 +60,7 @@ class LayersModelTimeControlNode extends TimeControlNode {
 
           // playing while the sun is off - hint to turn the sunlight on
           this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPlayingSunlightOffAlertStringProperty.value
+            GreenhouseEffectStrings.a11y.timeControls.simPlayingSunlightOffAlertStringProperty
           );
         }
       }
