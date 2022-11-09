@@ -14,10 +14,10 @@ import TemperatureDescriber from './TemperatureDescriber.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import ConcentrationDescriber from './ConcentrationDescriber.js';
 
-const infraredEmissionIntensityPatternString = GreenhouseEffectStrings.a11y.infraredEmissionIntensityPattern;
-const infraredEmissionIntensityWithRedirectionPatternString = GreenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPattern;
-const sunlightStartedString = GreenhouseEffectStrings.a11y.sunlightStarted;
-const sunlightStartedSimPausedString = GreenhouseEffectStrings.a11y.sunlightStartedSimPaused;
+const infraredEmissionIntensityPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
+const infraredEmissionIntensityWithRedirectionPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPatternStringProperty;
+const sunlightStartedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedStringProperty;
+const sunlightStartedSimPausedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedSimPausedStringProperty;
 
 class RadiationDescriber {
   private readonly model: LayersModel;
@@ -74,10 +74,12 @@ class RadiationDescriber {
     if ( newConcentration !== oldConcentration ) {
       let changeString: string;
       if ( describeNoConcentration && newConcentration === 0 ) {
-        changeString = GreenhouseEffectStrings.a11y.no;
+        changeString = GreenhouseEffectStrings.a11y.noStringProperty.value;
       }
       else {
-        changeString = newConcentration > oldConcentration ? GreenhouseEffectStrings.a11y.more : GreenhouseEffectStrings.a11y.less;
+        changeString = newConcentration > oldConcentration ?
+                       GreenhouseEffectStrings.a11y.moreStringProperty.value :
+                       GreenhouseEffectStrings.a11y.lessStringProperty.value;
       }
       response = StringUtils.fillIn( patternString, {
         moreOrLess: changeString
@@ -123,15 +125,18 @@ class RadiationDescriber {
         date
       );
 
-      radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternString, {
+      radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternStringProperty.value, {
         value: intensityDescription
       } );
 
       if ( concentration > 0 ) {
-        radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityWithRedirectionPatternString, {
-          surfaceEmission: radiationIntensityDescription,
-          value: RadiationDescriber.getRedirectedInfraredDescription( concentration, concentrationControlMode, date )
-        } );
+        radiationIntensityDescription = StringUtils.fillIn(
+          infraredEmissionIntensityWithRedirectionPatternStringProperty.value,
+          {
+            surfaceEmission: radiationIntensityDescription,
+            value: RadiationDescriber.getRedirectedInfraredDescription( concentration, concentrationControlMode, date )
+          }
+        );
       }
     }
 
@@ -147,7 +152,7 @@ class RadiationDescriber {
 
     let descriptionString;
     if ( !includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace;
+      descriptionString = GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty.value;
     }
     else if ( includeCloudReflection && !includeGlacierReflection ) {
       descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
@@ -180,7 +185,7 @@ class RadiationDescriber {
    * "Sunlight started, sim paused."
    */
   public static getSunlightStartedDescription( isPlaying: boolean ): string {
-    return isPlaying ? sunlightStartedString : sunlightStartedSimPausedString;
+    return isPlaying ? sunlightStartedStringProperty.value : sunlightStartedSimPausedStringProperty.value;
   }
 }
 

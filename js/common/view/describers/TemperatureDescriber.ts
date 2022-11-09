@@ -15,39 +15,39 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../model/Concent
 import TemperatureUnits from '../../model/TemperatureUnits.js';
 
 // strings used to describe temperature
-const extremelyHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
-const veryHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
-const highString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
-const moderateString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
-const lowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
-const veryLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
-const extremelyLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
-const historicallyLowString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
-const historicallyModerateString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
-const historicallyHighString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
-const surfaceTemperatureChangeWithValuePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePattern;
-const surfaceTemperatureChangeWithoutValuePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePattern;
-const temperatureChangeWithValuePatternString = GreenhouseEffectStrings.a11y.temperatureChangeWithValuePattern;
-const temperatureChangeWithoutValuePatternString = GreenhouseEffectStrings.a11y.temperatureChangeWithoutValuePattern;
-const surfaceTemperatureStable = GreenhouseEffectStrings.a11y.surfaceTemperatureStable;
-const surfaceTemperatureStableWithDescription = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescription;
-const surfaceTemperatureStableWithValue = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithValue;
-const surfaceTemperatureStableWithDescriptionAndValue = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValue;
-const warmingString = GreenhouseEffectStrings.a11y.warming;
-const coolingString = GreenhouseEffectStrings.a11y.cooling;
-const stabilizingString = GreenhouseEffectStrings.a11y.stabilizing;
-const surfaceTemperatureIsQuantitativeAndQualitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePattern;
-const surfaceTemperatureIsQuantitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePattern;
-const surfaceTemperatureIsQualitativePatternString = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePattern;
+const extremelyHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty;
+const veryHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty;
+const highStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty;
+const moderateStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty;
+const lowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty;
+const veryLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty;
+const extremelyLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty;
+const historicallyLowStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty;
+const historicallyModerateStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty;
+const historicallyHighStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty;
+const surfaceTemperatureChangeWithValuePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithValuePatternStringProperty;
+const surfaceTemperatureChangeWithoutValuePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureChangeWithoutValuePatternStringProperty;
+const temperatureChangeWithValuePatternStringProperty = GreenhouseEffectStrings.a11y.temperatureChangeWithValuePatternStringProperty;
+const temperatureChangeWithoutValuePatternStringProperty = GreenhouseEffectStrings.a11y.temperatureChangeWithoutValuePatternStringProperty;
+const surfaceTemperatureStableStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureStableStringProperty;
+const surfaceTemperatureStableWithDescriptionStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionStringProperty;
+const surfaceTemperatureStableWithValueStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithValueStringProperty;
+const surfaceTemperatureStableWithDescriptionAndValueStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureStableWithDescriptionAndValueStringProperty;
+const warmingStringProperty = GreenhouseEffectStrings.a11y.warmingStringProperty;
+const coolingStringProperty = GreenhouseEffectStrings.a11y.coolingStringProperty;
+const stabilizingStringProperty = GreenhouseEffectStrings.a11y.stabilizingStringProperty;
+const surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty;
+const surfaceTemperatureIsQuantitativePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePatternStringProperty;
+const surfaceTemperatureIsQualitativePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePatternStringProperty;
 
 const qualitativeTemperatureDescriptionStrings = [
-  extremelyLowString,
-  veryLowString,
-  lowString,
-  moderateString,
-  highString,
-  veryHighString,
-  extremelyHighString
+  extremelyLowStringProperty.value,
+  veryLowStringProperty.value,
+  lowStringProperty.value,
+  moderateStringProperty.value,
+  highStringProperty.value,
+  veryHighStringProperty.value,
+  extremelyHighStringProperty.value
 ];
 
 // The minimum values for temperatures in kelvin each description used in the above array when describing the
@@ -64,9 +64,9 @@ assert && assert( qualitativeTemperatureDescriptionThresholds.length + 1 === qua
 const historicallyModerateTemperatureRange = new Range( 286, 287.8 );
 
 // written units of temperature
-const kelvinString = GreenhouseEffectStrings.a11y.temperatureUnits.kelvin;
-const celsiusString = GreenhouseEffectStrings.a11y.temperatureUnits.celsius;
-const fahrenheitString = GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheit;
+const kelvinStringProperty = GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty;
+const celsiusStringProperty = GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty;
+const fahrenheitStringProperty = GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty;
 
 class TemperatureDescriber {
 
@@ -115,13 +115,13 @@ class TemperatureDescriber {
       // Get a historical description.
       assert && assert( concentrationControlMode === ConcentrationControlMode.BY_DATE );
       if ( value < historicallyModerateTemperatureRange.min ) {
-        qualitativeDescriptionString = historicallyLowString;
+        qualitativeDescriptionString = historicallyLowStringProperty.value;
       }
       else if ( value > historicallyModerateTemperatureRange.max ) {
-        qualitativeDescriptionString = historicallyHighString;
+        qualitativeDescriptionString = historicallyHighStringProperty.value;
       }
       else {
-        qualitativeDescriptionString = historicallyModerateString;
+        qualitativeDescriptionString = historicallyModerateStringProperty.value;
       }
     }
 
@@ -130,7 +130,7 @@ class TemperatureDescriber {
 
   /**
    * Get a qualitative description of the surface temperature as a full sentence. Returns something like
-   * "Surface temperature is somewhat high.
+   * "Surface temperature is somewhat high."
    */
   public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number,
                                                                    concentrationControlMode: ConcentrationControlMode,
@@ -158,9 +158,9 @@ class TemperatureDescriber {
    * "degrees Celsius"
    */
   public static getTemperatureUnitsString( unitsValue: TemperatureUnits ): string {
-    return unitsValue === TemperatureUnits.KELVIN ? kelvinString :
-           unitsValue === TemperatureUnits.CELSIUS ? celsiusString :
-           fahrenheitString;
+    return unitsValue === TemperatureUnits.KELVIN ? kelvinStringProperty.value :
+           unitsValue === TemperatureUnits.CELSIUS ? celsiusStringProperty.value :
+           fahrenheitStringProperty.value;
   }
 
   /**
@@ -188,8 +188,11 @@ class TemperatureDescriber {
     let patternString = null;
 
     if ( oldTemperature !== currentTemperature ) {
-      let qualitativeDescriptionString = describeAsStabilizing ? stabilizingString :
-                                         ( currentTemperature > oldTemperature ? warmingString : coolingString );
+      let qualitativeDescriptionString = describeAsStabilizing ?
+                                         stabilizingStringProperty.value :
+                                         ( currentTemperature > oldTemperature ?
+                                           warmingStringProperty.value :
+                                           coolingStringProperty.value );
 
       // If we are not including the surface temperature fragment, the qualitative description is the first word.
       // This is NOT i18n friendly, but PhET's policy is that is OK for now.
@@ -200,7 +203,9 @@ class TemperatureDescriber {
       if ( thermometerVisible ) {
         const temperatureValueString = TemperatureDescriber.getQuantitativeTemperatureDescription( currentTemperature, unitsValue );
 
-        patternString = includeSurfaceTemperatureFragment ? surfaceTemperatureChangeWithValuePatternString : temperatureChangeWithValuePatternString;
+        patternString = includeSurfaceTemperatureFragment ?
+                        surfaceTemperatureChangeWithValuePatternStringProperty.value :
+                        temperatureChangeWithValuePatternStringProperty.value;
         changeString = StringUtils.fillIn( patternString, {
           qualitativeDescription: qualitativeDescriptionString,
           temperature: temperatureValueString
@@ -208,7 +213,9 @@ class TemperatureDescriber {
       }
       else {
 
-        patternString = includeSurfaceTemperatureFragment ? surfaceTemperatureChangeWithoutValuePatternString : temperatureChangeWithoutValuePatternString;
+        patternString = includeSurfaceTemperatureFragment ?
+                        surfaceTemperatureChangeWithoutValuePatternStringProperty.value :
+                        temperatureChangeWithoutValuePatternStringProperty.value;
         changeString = StringUtils.fillIn( patternString, {
           qualitativeDescription: qualitativeDescriptionString
         } );
@@ -234,7 +241,7 @@ class TemperatureDescriber {
 
     let stableTemperatureString = '';
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
-      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionAndValue, {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionAndValueStringProperty, {
         qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
           concentrationControlMode,
@@ -244,12 +251,12 @@ class TemperatureDescriber {
       } );
     }
     else if ( thermometerVisible && !surfaceTemperatureIndicationVisible ) {
-      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithValue, {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithValueStringProperty, {
         quantitativeDescription: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
       } );
     }
     else if ( !thermometerVisible && surfaceTemperatureIndicationVisible ) {
-      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescription, {
+      stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionStringProperty, {
         qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
           concentrationControlMode,
@@ -258,7 +265,7 @@ class TemperatureDescriber {
       } );
     }
     else if ( !thermometerVisible && !surfaceTemperatureIndicationVisible ) {
-      stableTemperatureString = surfaceTemperatureStable;
+      stableTemperatureString = surfaceTemperatureStableStringProperty.value;
     }
 
     return stableTemperatureString;
@@ -281,22 +288,25 @@ class TemperatureDescriber {
 
     let surfaceTemperatureDescriptionString = null;
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
-      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativeAndQualitativePatternString, {
-        description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
-          temperature,
-          concentrationControlMode,
-          date
-        ),
-        value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
-      } );
+      surfaceTemperatureDescriptionString = StringUtils.fillIn(
+        surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty,
+        {
+          description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+            temperature,
+            concentrationControlMode,
+            date
+          ),
+          value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
+        }
+      );
     }
     else if ( thermometerVisible ) {
-      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativePatternString, {
+      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQuantitativePatternStringProperty, {
         value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
       } );
     }
     else if ( surfaceTemperatureIndicationVisible ) {
-      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQualitativePatternString, {
+      surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQualitativePatternStringProperty, {
         description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
           concentrationControlMode,

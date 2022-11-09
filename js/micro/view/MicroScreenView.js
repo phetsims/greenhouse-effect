@@ -40,9 +40,9 @@ import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPan
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
-const spectrumWindowButtonCaptionString = GreenhouseEffectStrings.SpectrumWindow.buttonCaption;
-const spectrumButtonLabelString = GreenhouseEffectStrings.a11y.spectrumButtonLabel;
-const spectrumButtonDescriptionString = GreenhouseEffectStrings.a11y.spectrumButtonDescription;
+const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectStrings.SpectrumWindow.buttonCaptionStringProperty;
+const spectrumButtonLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumButtonLabelStringProperty;
+const spectrumButtonDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumButtonDescriptionStringProperty;
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -184,7 +184,7 @@ class MicroScreenView extends ScreenView {
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
     // panel minus twice the default x margin of a rectangular push button.
-    const buttonContent = new Text( spectrumWindowButtonCaptionString, { font: new PhetFont( 18 ) } );
+    const buttonContent = new Text( spectrumWindowButtonCaptionStringProperty, { font: new PhetFont( 18 ) } );
     if ( buttonContent.width > moleculeControlPanel.width - 16 ) {
       buttonContent.scale( ( moleculeControlPanel.width - 16 ) / buttonContent.width );
     }
@@ -203,8 +203,8 @@ class MicroScreenView extends ScreenView {
       soundPlayer: nullSoundPlayer,
 
       // pdom
-      innerContent: spectrumButtonLabelString,
-      descriptionContent: spectrumButtonDescriptionString,
+      innerContent: spectrumButtonLabelStringProperty.value,
+      descriptionContent: spectrumButtonDescriptionStringProperty.value,
       appendDescription: true,
       containerTagName: 'div'
     } );
@@ -268,10 +268,8 @@ class MicroScreenView extends ScreenView {
 
   /**
    * View step, called by joist.
-   * @public
-   *
    * @param {number} dt
-   * @returns {}
+   * @public
    */
   step( dt ) {
     this.observationWindow.step( dt );

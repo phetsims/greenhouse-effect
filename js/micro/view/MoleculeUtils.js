@@ -26,22 +26,22 @@ import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
-const carbonDioxideString = GreenhouseEffectStrings.a11y.carbonDioxide;
-const carbonMonoxideString = GreenhouseEffectStrings.a11y.carbonMonoxide;
-const diatomicOxygenString = GreenhouseEffectStrings.a11y.diatomicOxygen;
-const methaneString = GreenhouseEffectStrings.a11y.methane;
-const nitrogenDioxideString = GreenhouseEffectStrings.a11y.nitrogenDioxide;
-const nitrogenString = GreenhouseEffectStrings.a11y.nitrogen;
-const oxygenString = GreenhouseEffectStrings.a11y.oxygen;
-const ozoneString = GreenhouseEffectStrings.a11y.ozone;
-const waterString = GreenhouseEffectStrings.a11y.water;
-const linearString = GreenhouseEffectStrings.a11y.linear;
-const bentString = GreenhouseEffectStrings.a11y.bent;
-const tetrahedralString = GreenhouseEffectStrings.a11y.tetrahedral;
-const diatomicString = GreenhouseEffectStrings.a11y.diatomic;
-const bentGeometryDescriptionString = GreenhouseEffectStrings.a11y.bentGeometryDescription;
-const tetrahedralGeometryDescriptionString = GreenhouseEffectStrings.a11y.tetrahedralGeometryDescription;
-const linearGeometryDescriptionString = GreenhouseEffectStrings.a11y.linearGeometryDescription;
+const carbonDioxideStringProperty = GreenhouseEffectStrings.a11y.carbonDioxideStringProperty;
+const carbonMonoxideStringProperty = GreenhouseEffectStrings.a11y.carbonMonoxideStringProperty;
+const diatomicOxygenStringProperty = GreenhouseEffectStrings.a11y.diatomicOxygenStringProperty;
+const methaneStringProperty = GreenhouseEffectStrings.a11y.methaneStringProperty;
+const nitrogenDioxideStringProperty = GreenhouseEffectStrings.a11y.nitrogenDioxideStringProperty;
+const nitrogenStringProperty = GreenhouseEffectStrings.a11y.nitrogenStringProperty;
+const oxygenStringProperty = GreenhouseEffectStrings.a11y.oxygenStringProperty;
+const ozoneStringProperty = GreenhouseEffectStrings.a11y.ozoneStringProperty;
+const waterStringProperty = GreenhouseEffectStrings.a11y.waterStringProperty;
+const linearStringProperty = GreenhouseEffectStrings.a11y.linearStringProperty;
+const bentStringProperty = GreenhouseEffectStrings.a11y.bentStringProperty;
+const tetrahedralStringProperty = GreenhouseEffectStrings.a11y.tetrahedralStringProperty;
+const diatomicStringProperty = GreenhouseEffectStrings.a11y.diatomicStringProperty;
+const bentGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.bentGeometryDescriptionStringProperty;
+const tetrahedralGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.tetrahedralGeometryDescriptionStringProperty;
+const linearGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.linearGeometryDescriptionStringProperty;
 
 // constants
 class Geometry extends EnumerationValue {
@@ -74,19 +74,19 @@ const MoleculeUtils = {
    * @returns {string}
    */
   getMolecularName( molecule ) {
-    return molecule instanceof CO ? carbonMonoxideString :
-           molecule instanceof N2 ? nitrogenString :
-           molecule instanceof O2 ? oxygenString :
-           molecule instanceof CO2 ? carbonDioxideString :
-           molecule instanceof NO2 ? nitrogenDioxideString :
-           molecule instanceof H2O ? waterString :
-           molecule instanceof O3 ? ozoneString :
-           molecule instanceof CH4 ? methaneString :
-           diatomicOxygenString;
+    return molecule instanceof CO ? carbonMonoxideStringProperty.value :
+           molecule instanceof N2 ? nitrogenStringProperty.value :
+           molecule instanceof O2 ? oxygenStringProperty.value :
+           molecule instanceof CO2 ? carbonDioxideStringProperty.value :
+           molecule instanceof NO2 ? nitrogenDioxideStringProperty.value :
+           molecule instanceof H2O ? waterStringProperty.value :
+           molecule instanceof O3 ? ozoneStringProperty.value :
+           molecule instanceof CH4 ? methaneStringProperty.value :
+           diatomicOxygenStringProperty.value;
   },
 
   /**
-   * Get the molecular formula for an instance of a Molecule. Returns something like 'CO' or 'O'.
+   * Get the molecular formula for an instance of a Molecule. Returns something like 'CO' or 'N2'.
    *
    * @param {Molecule} molecule
    * @returns {string}
@@ -116,16 +116,16 @@ const MoleculeUtils = {
 
     const geometry = MolecularGeometryMap.get( molecule.constructor );
     if ( geometry === Geometry.LINEAR ) {
-      labelString = linearString;
+      labelString = linearStringProperty.value;
     }
     else if ( geometry === Geometry.BENT ) {
-      labelString = bentString;
+      labelString = bentStringProperty.value;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      labelString = tetrahedralString;
+      labelString = tetrahedralStringProperty.value;
     }
     else if ( geometry === Geometry.DIATOMIC ) {
-      labelString = diatomicString;
+      labelString = diatomicStringProperty.value;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );
@@ -146,16 +146,16 @@ const MoleculeUtils = {
 
     const geometry = MolecularGeometryMap.get( molecule.constructor );
     if ( geometry === Geometry.LINEAR ) {
-      titleString = linearString;
+      titleString = linearStringProperty.value;
     }
     else if ( geometry === Geometry.BENT ) {
-      titleString = bentString;
+      titleString = bentStringProperty.value;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      titleString = tetrahedralString;
+      titleString = tetrahedralStringProperty.value;
     }
     else if ( geometry === Geometry.DIATOMIC ) {
-      titleString = diatomicString;
+      titleString = diatomicStringProperty.value;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );
@@ -179,13 +179,13 @@ const MoleculeUtils = {
 
     const geometry = MolecularGeometryMap.get( molecule.constructor );
     if ( geometry === Geometry.LINEAR ) {
-      descriptionString = linearGeometryDescriptionString;
+      descriptionString = linearGeometryDescriptionStringProperty.value;
     }
     else if ( geometry === Geometry.BENT ) {
-      descriptionString = bentGeometryDescriptionString;
+      descriptionString = bentGeometryDescriptionStringProperty.value;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      descriptionString = tetrahedralGeometryDescriptionString;
+      descriptionString = tetrahedralGeometryDescriptionStringProperty.value;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );

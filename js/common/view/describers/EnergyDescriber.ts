@@ -11,23 +11,22 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 
-const increasesString = GreenhouseEffectStrings.a11y.increases;
-const decreasesString = GreenhouseEffectStrings.a11y.decreases;
-const inflowToEarthString = GreenhouseEffectStrings.a11y.inflowToEarth;
-const outflowToSpaceString = GreenhouseEffectStrings.a11y.outflowToSpace;
-const outgoingEnergyPatternString = GreenhouseEffectStrings.a11y.outgoingEnergyPattern;
-const greaterThanString = GreenhouseEffectStrings.a11y.greaterThan;
-const lessThanString = GreenhouseEffectStrings.a11y.lessThan;
-const outgoingEnergyAtAtmospherePatternString = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmospherePattern;
-const outgoingEnergyAtAtmosphereEqualString = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmosphereEqual;
+const increasesStringProperty = GreenhouseEffectStrings.a11y.increasesStringProperty;
+const decreasesStringProperty = GreenhouseEffectStrings.a11y.decreasesStringProperty;
+const inflowToEarthStringProperty = GreenhouseEffectStrings.a11y.inflowToEarthStringProperty;
+const outflowToSpaceStringProperty = GreenhouseEffectStrings.a11y.outflowToSpaceStringProperty;
+const outgoingEnergyPatternStringProperty = GreenhouseEffectStrings.a11y.outgoingEnergyPatternStringProperty;
+const greaterThanStringProperty = GreenhouseEffectStrings.a11y.greaterThanStringProperty;
+const lessThanStringProperty = GreenhouseEffectStrings.a11y.lessThanStringProperty;
+const outgoingEnergyAtAtmospherePatternStringProperty = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmospherePatternStringProperty;
+const outgoingEnergyAtAtmosphereEqualStringProperty = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmosphereEqualStringProperty;
 
 class EnergyDescriber {
 
   /**
-   * Returns a string that describes the change in outgoing energy in the system. Will return
-   * something like
-   * "Outgoing energy decreases; net energy outflow to space." or
-   * "Outgoing energy increases; net energy inflow to earth."
+   * Returns a string that describes the change in outgoing energy in the system. Will return something like
+   *   "Outgoing energy decreases; net energy outflow to space." or
+   *   "Outgoing energy increases; net energy inflow to earth."
    *
    * @param outgoingEnergy - Amount of energy leaving the system (going out to space)
    * @param previousOutgoingEnergy - Amount of outgoing energy the last time change was described.
@@ -39,10 +38,14 @@ class EnergyDescriber {
     let descriptionString = null;
 
     if ( outgoingEnergy !== previousOutgoingEnergy && netEnergy !== 0 ) {
-      const outgoingEnergyChangeString = outgoingEnergy > previousOutgoingEnergy ? increasesString : decreasesString;
-      const flowChangeString = netEnergy > 0 ? inflowToEarthString : outflowToSpaceString;
+      const outgoingEnergyChangeString = outgoingEnergy > previousOutgoingEnergy ?
+                                         increasesStringProperty.value :
+                                         decreasesStringProperty.value;
+      const flowChangeString = netEnergy > 0 ?
+                               inflowToEarthStringProperty.value :
+                               outflowToSpaceStringProperty.value;
 
-      descriptionString = StringUtils.fillIn( outgoingEnergyPatternString, {
+      descriptionString = StringUtils.fillIn( outgoingEnergyPatternStringProperty.value, {
         increasesOrDecreases: outgoingEnergyChangeString,
         inflowOrOutflow: flowChangeString
       } );
@@ -62,13 +65,17 @@ class EnergyDescriber {
 
       // The model may be in radiative balance but net energy is not quite zero. In this case it is small enough that
       // it is effectively zero.
-      descriptionString = outgoingEnergyAtAtmosphereEqualString;
+      descriptionString = outgoingEnergyAtAtmosphereEqualStringProperty.value;
     }
     else {
-      const changeString = netInflowOfEnergy > 0 ? lessThanString : greaterThanString;
-      const flowString = netInflowOfEnergy > 0 ? inflowToEarthString : outflowToSpaceString;
+      const changeString = netInflowOfEnergy > 0 ?
+                           lessThanStringProperty.value :
+                           greaterThanStringProperty.value;
+      const flowString = netInflowOfEnergy > 0 ?
+                         inflowToEarthStringProperty.value :
+                         outflowToSpaceStringProperty.value;
 
-      descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternString, {
+      descriptionString = StringUtils.fillIn( outgoingEnergyAtAtmospherePatternStringProperty.value, {
         greaterThanOrLessThan: changeString,
         inflowOrOutflow: flowString
       } );

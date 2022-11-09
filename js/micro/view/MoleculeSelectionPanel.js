@@ -31,10 +31,10 @@ import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
-const molecularNamePatternString = GreenhouseEffectStrings.molecularNamePattern;
-const moleculesString = GreenhouseEffectStrings.a11y.molecules;
-const moleculesRadioButtonHelpTextString = GreenhouseEffectStrings.a11y.moleculesRadioButtonHelpText;
-const moleculeButtonLabelPatternString = GreenhouseEffectStrings.a11y.moleculeButtonLabelPattern;
+const molecularNamePatternStringProperty = GreenhouseEffectStrings.molecularNamePatternStringProperty;
+const moleculesStringProperty = GreenhouseEffectStrings.a11y.moleculesStringProperty;
+const moleculesRadioButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.moleculesRadioButtonHelpTextStringProperty;
+const moleculeButtonLabelPatternStringProperty = GreenhouseEffectStrings.a11y.moleculeButtonLabelPatternStringProperty;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except
@@ -73,7 +73,11 @@ class MoleculeSelectionPanel extends Panel {
       const backgroundRectangle = new Rectangle( 0, 0, 215, 0 );
 
       // Create text label for the molecule name.  Use StringUtils to order chemical names and formulas as desired.
-      const moleculeNameString = StringUtils.format( molecularNamePatternString, moleculeName, `<span dir="ltr">${moleculeFormula}</span>` );
+      const moleculeNameString = StringUtils.format(
+        molecularNamePatternStringProperty.value,
+        moleculeName,
+        `<span dir="ltr">${moleculeFormula}</span>`
+      );
       const molecularName = new RichText( moleculeNameString, { fill: 'white', font: new PhetFont( 13 ) } );
       textList.push( molecularName );
       molecularName.centerY = backgroundRectangle.centerY;
@@ -97,7 +101,7 @@ class MoleculeSelectionPanel extends Panel {
 
     const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
       return {
-        createNode: tandem => createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
+        createNode: () => createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
         value: photonTarget,
         tandemName: tandemName,
@@ -171,8 +175,8 @@ class MoleculeSelectionPanel extends Panel {
       tandem: tandem,
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: moleculesString,
-      descriptionContent: moleculesRadioButtonHelpTextString
+      labelContent: moleculesStringProperty.value,
+      descriptionContent: moleculesRadioButtonHelpTextStringProperty.value
     } );
   }
 }
@@ -184,7 +188,7 @@ class MoleculeSelectionPanel extends Panel {
  * @returns {string}
  */
 const createPDOMLabel = molecule => {
-  return StringUtils.fillIn( moleculeButtonLabelPatternString, {
+  return StringUtils.fillIn( moleculeButtonLabelPatternStringProperty.value, {
     molecularName: MoleculeUtils.getMolecularName( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
     geometryTitle: MoleculeUtils.getGeometryTitleString( molecule )

@@ -24,16 +24,16 @@ import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
 
-const buttonNodeReturnMoleculeString = GreenhouseEffectStrings.ButtonNode.ReturnMolecule;
-const observationWindowLabelString = GreenhouseEffectStrings.a11y.observationWindowLabel;
-const geometryLabelPatternString = GreenhouseEffectStrings.a11y.geometryLabelPattern;
+const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectStrings.ButtonNode.ReturnMoleculeStringProperty;
+const observationWindowLabelStringProperty = GreenhouseEffectStrings.a11y.observationWindowLabelStringProperty;
+const geometryLabelPatternStringProperty = GreenhouseEffectStrings.a11y.geometryLabelPatternStringProperty;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;
 const CORNER_RADIUS = 7;
 
-// emitter is a little bit to the right of the emission point so that photons "slide" into view from the emitter,
-// and don't "pop" into free space, see https://github.com/phetsims/molecules-and-light/issues/324
+// The emitter is a little to the right of the emission point so that photons "slide" into view from the emitter and
+// don't "pop" into free space, see https://github.com/phetsims/molecules-and-light/issues/324.
 const EMITTER_OFFSET = new Vector2( 100, 0 );
 
 class MicroObservationWindow extends Rectangle {
@@ -53,7 +53,7 @@ class MicroObservationWindow extends Rectangle {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: observationWindowLabelString
+      labelContent: observationWindowLabelStringProperty.value
     } );
 
     this.modelViewTransform = modelViewTransform; // @private
@@ -62,7 +62,7 @@ class MicroObservationWindow extends Rectangle {
     // Width of the 'window frame' which surrounds the observation window.
     this.frameLineWidth = 5;
 
-    // @public (read-only) - keeps track of whether or not the 'Restore Molecule' button should be visible.
+    // @public (read-only) - keeps track of whether the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
     } );
@@ -99,7 +99,7 @@ class MicroObservationWindow extends Rectangle {
     this.particleRemovalBounds = this.bounds.copy().dilate( 20 ); // @private
 
     // Add the button for restoring molecules that break apart.
-    const buttonContent = new Text( buttonNodeReturnMoleculeString, { font: new PhetFont( 13 ) } );
+    const buttonContent = new Text( buttonNodeReturnMoleculeStringProperty.value, { font: new PhetFont( 13 ) } );
     // If necessary, scale the button content for translation purposes.  Max button width is half the width of the
     // observation window.
     const maxButtonWidth = this.width / 2;
@@ -126,7 +126,7 @@ class MicroObservationWindow extends Rectangle {
 
       // pdom
       appendDescription: true,
-      ariaLabel: buttonNodeReturnMoleculeString
+      ariaLabel: buttonNodeReturnMoleculeStringProperty.value
     } );
 
     this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
@@ -190,7 +190,7 @@ class MicroObservationWindow extends Rectangle {
     this.returnMoleculeButtonVisibleProperty.link( visible => {
 
       // hide the return molecule button
-      this.returnMoleculeButtonNode.visible = this.returnMoleculeButtonVisibleProperty.get();
+      this.returnMoleculeButtonNode.visible = visible;
     } );
 
     // pdom
@@ -226,10 +226,10 @@ class MicroObservationWindow extends Rectangle {
     this.describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
     // pdom - update geometry descriptions when target changes
-    photonAbsorptionModel.photonTargetProperty.link( target => {
+    photonAbsorptionModel.photonTargetProperty.link( () => {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
 
-      geometryLabelItem.accessibleName = StringUtils.fillIn( geometryLabelPatternString, {
+      geometryLabelItem.accessibleName = StringUtils.fillIn( geometryLabelPatternStringProperty.value, {
         geometry: MoleculeUtils.getGeometryLabel( targetMolecule )
       } );
       geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );

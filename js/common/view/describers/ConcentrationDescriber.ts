@@ -17,19 +17,19 @@ const greenhouseGasesInAtmospherePatternStringProperty = GreenhouseEffectStrings
 const greenhouseGasesValuePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePatternStringProperty;
 
 // strings used to describe the levels of concentration in the model
-const noString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.no;
-const extremelyLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLow;
-const veryLowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLow;
-const lowString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.low;
-const moderateString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderate;
-const highString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.high;
-const veryHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHigh;
-const extremelyHighString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHigh;
-const maxString = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.max;
-const historicalLevelsOfGreenhouseGassesPatternString = GreenhouseEffectStrings.a11y.historicalLevelsOfGreenhouseGassesPattern;
-const historicallyLowString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.low;
-const historicallyModerateString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderate;
-const historicallyHighString = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.high;
+const noStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty;
+const extremelyLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty;
+const veryLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty;
+const lowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty;
+const moderateStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty;
+const highStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty;
+const veryHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty;
+const extremelyHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty;
+const maxStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.maxStringProperty;
+const historicalLevelsOfGreenhouseGassesPatternStringProperty = GreenhouseEffectStrings.a11y.historicalLevelsOfGreenhouseGassesPatternStringProperty;
+const historicallyLowStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty;
+const historicallyModerateStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty;
+const historicallyHighStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty;
 
 // A type to assist with determining which concentration description to use
 type ConcentrationDescription = {
@@ -47,10 +47,10 @@ type ConcentrationDescription = {
 
 // Maps the date to a relative description of the historical concentration.
 const historicalDescriptionMap = new Map( [
-  [ ConcentrationDate.ICE_AGE, historicallyLowString ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, historicallyModerateString ],
-  [ ConcentrationDate.NINETEEN_FIFTY, historicallyModerateString ],
-  [ ConcentrationDate.TWENTY_TWENTY, historicallyHighString ]
+  [ ConcentrationDate.ICE_AGE, historicallyLowStringProperty ],
+  [ ConcentrationDate.SEVENTEEN_FIFTY, historicallyModerateStringProperty ],
+  [ ConcentrationDate.NINETEEN_FIFTY, historicallyModerateStringProperty ],
+  [ ConcentrationDate.TWENTY_TWENTY, historicallyHighStringProperty ]
 ] );
 
 // Collection of concentration descriptions and their ranges, with fields defining whether the description
@@ -59,36 +59,36 @@ const historicalDescriptionMap = new Map( [
 // as you move through values with the default step size.
 // https://docs.google.com/document/d/1HWVypTlzM5oSUhhcv7gPdx1sSCs0j-xgIF3lbSgzwAQ/edit#
 const qualitativeConcentrationDescriptions: ConcentrationDescription[] = [
-  { range: new Range( 0, 0 ), descriptionString: noString, includeMin: true, includeMax: true },
-  { range: new Range( 0, 0.05 ), descriptionString: extremelyLowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.05, 0.25 ), descriptionString: veryLowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.25, 0.45 ), descriptionString: lowString, includeMin: false, includeMax: true },
-  { range: new Range( 0.45, 0.65 ), descriptionString: moderateString, includeMin: false, includeMax: false },
-  { range: new Range( 0.65, 0.80 ), descriptionString: highString, includeMin: true, includeMax: false },
-  { range: new Range( 0.80, 0.95 ), descriptionString: veryHighString, includeMin: true, includeMax: false },
-  { range: new Range( 0.95, 1 ), descriptionString: extremelyHighString, includeMin: true, includeMax: false },
-  { range: new Range( 1, 1 ), descriptionString: maxString, includeMin: true, includeMax: true }
+  { range: new Range( 0, 0 ), descriptionString: noStringProperty.value, includeMin: true, includeMax: true },
+  { range: new Range( 0, 0.05 ), descriptionString: extremelyLowStringProperty.value, includeMin: false, includeMax: true },
+  { range: new Range( 0.05, 0.25 ), descriptionString: veryLowStringProperty.value, includeMin: false, includeMax: true },
+  { range: new Range( 0.25, 0.45 ), descriptionString: lowStringProperty.value, includeMin: false, includeMax: true },
+  { range: new Range( 0.45, 0.65 ), descriptionString: moderateStringProperty.value, includeMin: false, includeMax: false },
+  { range: new Range( 0.65, 0.80 ), descriptionString: highStringProperty.value, includeMin: true, includeMax: false },
+  { range: new Range( 0.80, 0.95 ), descriptionString: veryHighStringProperty.value, includeMin: true, includeMax: false },
+  { range: new Range( 0.95, 1 ), descriptionString: extremelyHighStringProperty.value, includeMin: true, includeMax: false },
+  { range: new Range( 1, 1 ), descriptionString: maxStringProperty.value, includeMin: true, includeMax: true }
 ];
 
 // strings used to describe the concentration my year
-const iceAgeString = GreenhouseEffectStrings.a11y.timePeriodDescriptions.iceAge;
-const seventeenFiftyString = GreenhouseEffectStrings.a11y.timePeriodDescriptions.seventeenFifty;
-const nineteenFiftyString = GreenhouseEffectStrings.a11y.timePeriodDescriptions.nineteenFifty;
-const twentyTwentyString = GreenhouseEffectStrings.a11y.timePeriodDescriptions.twentyTwenty;
+const iceAgeStringProperty = GreenhouseEffectStrings.a11y.timePeriodDescriptions.iceAgeStringProperty;
+const seventeenFiftyStringProperty = GreenhouseEffectStrings.a11y.timePeriodDescriptions.seventeenFiftyStringProperty;
+const nineteenFiftyStringProperty = GreenhouseEffectStrings.a11y.timePeriodDescriptions.nineteenFiftyStringProperty;
+const twentyTwentyStringProperty = GreenhouseEffectStrings.a11y.timePeriodDescriptions.twentyTwentyStringProperty;
 
-const thereIsALargeGlacierString = GreenhouseEffectStrings.a11y.thereIsALargeGlacier;
-const thereIsAFarmString = GreenhouseEffectStrings.a11y.thereIsAFarm;
-const thereAreAFewHomesAndFactoriesString = GreenhouseEffectStrings.a11y.thereAreAFewHomesAndFactories;
-const thereAreManyHomesAndFactoriesString = GreenhouseEffectStrings.a11y.thereAreManyHomesAndFactories;
-const aLargeGlacierString = GreenhouseEffectStrings.a11y.aLargeGlacier;
-const aFarmString = GreenhouseEffectStrings.a11y.aFarm;
-const aFewHomesAndFactoriesString = GreenhouseEffectStrings.a11y.aFewHomesAndFactories;
-const manyHomesAndFactoriesString = GreenhouseEffectStrings.a11y.manyHomesAndFactories;
+const thereIsALargeGlacierStringProperty = GreenhouseEffectStrings.a11y.thereIsALargeGlacierStringProperty;
+const thereIsAFarmStringProperty = GreenhouseEffectStrings.a11y.thereIsAFarmStringProperty;
+const thereAreAFewHomesAndFactoriesStringProperty = GreenhouseEffectStrings.a11y.thereAreAFewHomesAndFactoriesStringProperty;
+const thereAreManyHomesAndFactoriesStringProperty = GreenhouseEffectStrings.a11y.thereAreManyHomesAndFactoriesStringProperty;
+const aLargeGlacierStringProperty = GreenhouseEffectStrings.a11y.aLargeGlacierStringProperty;
+const aFarmStringProperty = GreenhouseEffectStrings.a11y.aFarmStringProperty;
+const aFewHomesAndFactoriesStringProperty = GreenhouseEffectStrings.a11y.aFewHomesAndFactoriesStringProperty;
+const manyHomesAndFactoriesStringProperty = GreenhouseEffectStrings.a11y.manyHomesAndFactoriesStringProperty;
 
 // strings used to describe the sky
-const skyDescriptionPatternString = GreenhouseEffectStrings.a11y.sky.skyDescriptionPattern;
-const cloudyString = GreenhouseEffectStrings.a11y.sky.cloudy;
-const clearString = GreenhouseEffectStrings.a11y.sky.clear;
+const skyDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.sky.skyDescriptionPatternStringProperty;
+const cloudyStringProperty = GreenhouseEffectStrings.a11y.sky.cloudyStringProperty;
+const clearStringProperty = GreenhouseEffectStrings.a11y.sky.clearStringProperty;
 
 class ConcentrationDescriber {
 
@@ -98,8 +98,8 @@ class ConcentrationDescriber {
    * "The sky is clear".
    */
   public static getSkyCloudDescription( cloudEnabled: boolean ): string {
-    const skyPatternString = skyDescriptionPatternString;
-    const cloudDescriptionString = cloudEnabled ? cloudyString : clearString;
+    const skyPatternString = skyDescriptionPatternStringProperty.value;
+    const cloudDescriptionString = cloudEnabled ? cloudyStringProperty.value : clearStringProperty.value;
     return StringUtils.fillIn( skyPatternString, { cloudDescription: cloudDescriptionString } );
   }
 
@@ -111,11 +111,13 @@ class ConcentrationDescriber {
   public static getSkyCloudChangeDescription( cloudEnabled: boolean, isShining: boolean ): string {
     let description;
 
-    const addedOrRemovedDescription = cloudEnabled ? GreenhouseEffectStrings.a11y.sky.cloudAddedAlert :
-                                      GreenhouseEffectStrings.a11y.sky.cloudRemovedAlert;
+    const addedOrRemovedDescription = cloudEnabled ?
+                                      GreenhouseEffectStrings.a11y.sky.cloudAddedAlertStringProperty.value :
+                                      GreenhouseEffectStrings.a11y.sky.cloudRemovedAlertStringProperty.value;
     if ( isShining ) {
-      const receivedOrReflectedDescription = cloudEnabled ? GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlert :
-                                             GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlert;
+      const receivedOrReflectedDescription = cloudEnabled ?
+                                             GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty.value :
+                                             GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty.value;
 
       description = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sky.cloudAlertPattern, {
         addedOrRemoved: addedOrRemovedDescription,
@@ -135,15 +137,15 @@ class ConcentrationDescriber {
    * "year seventeen fifty"
    */
   public static getTimePeriodString( timePeriodValue: ConcentrationDate ): string {
-    return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeString :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyString :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyString :
-           twentyTwentyString;
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeStringProperty.value :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyStringProperty.value :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyStringProperty.value :
+           twentyTwentyStringProperty.value;
   }
 
   /**
    * Get a description of a particular time period, including the date. Returns something like
-   * "year twenty twenty and there are many homes and factories" or
+   * "year twenty-twenty and there are many homes and factories" or
    * "ice age and there is a large glacier"
    */
   public static getDescribedTimePeriodString( timePeriodValue: ConcentrationDate ): string {
@@ -162,10 +164,10 @@ class ConcentrationDescriber {
    * "there are many homes and factories"
    */
   public static getTimePeriodWithExistenceFragmentDescription( timePeriodValue: ConcentrationDate ): string {
-    return timePeriodValue === ConcentrationDate.ICE_AGE ? thereIsALargeGlacierString :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? thereIsAFarmString :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? thereAreAFewHomesAndFactoriesString :
-           thereAreManyHomesAndFactoriesString;
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? thereIsALargeGlacierStringProperty.value :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? thereIsAFarmStringProperty.value :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? thereAreAFewHomesAndFactoriesStringProperty.value :
+           thereAreManyHomesAndFactoriesStringProperty.value;
   }
 
   /**
@@ -174,10 +176,10 @@ class ConcentrationDescriber {
    * "many homes and factories"
    */
   public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
-    return timePeriodValue === ConcentrationDate.ICE_AGE ? aLargeGlacierString :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? aFarmString :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? aFewHomesAndFactoriesString :
-           manyHomesAndFactoriesString;
+    return timePeriodValue === ConcentrationDate.ICE_AGE ? aLargeGlacierStringProperty.value :
+           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? aFarmStringProperty.value :
+           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? aFewHomesAndFactoriesStringProperty.value :
+           manyHomesAndFactoriesStringProperty.value;
   }
 
   /**
@@ -194,7 +196,7 @@ class ConcentrationDescriber {
 
   /**
    * Get a string that describes the time period in a full context like:
-   * "the time period is the year twenty twenty and there are a large number of homes and factories."
+   * "the time period is the year twenty-twenty and there are a large number of homes and factories."
    *
    * @param timePeriodValue
    * @param capitalize - If true, the first letter will be capitalized as if there a standalone sentence.
@@ -216,7 +218,7 @@ class ConcentrationDescriber {
    * Get a string that describes the new time period after changing control mode to "by date" from "by value". Will
    * return something like
    * "Time period is the year seventeen fifty" or
-   * "Time period is the year twenty twenty".
+   * "Time period is the year twenty-twenty".
    */
   public static getTimePeriodChangeDescription( timePeriodValue: ConcentrationDate ): string {
     return StringUtils.fillIn( GreenhouseEffectStrings.a11y.timePeriodChangeDescriptionPattern, {
@@ -239,7 +241,7 @@ class ConcentrationDescriber {
   /**
    * Get a description of the change in the greenhouse gas concentration value from a previous year to a new one,
    * returns something like:
-   * "Greenhouse gas levels much lower than twenty twenty."
+   * "Greenhouse gas levels much lower than twenty-twenty."
    */
   public static getQualitativeConcentrationChangeDescription( oldConcentrationValue: number,
                                                               oldYear: ConcentrationDate,
@@ -253,24 +255,24 @@ class ConcentrationDescriber {
     let qualitativeDescriptionString;
     if ( concentrationValuesDifference > 0 ) {
       if ( concentrationValuesDifference <= 0.04 ) {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.higher;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.higherStringProperty.value;
       }
       else if ( concentrationValuesDifference <= 0.1 ) {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.muchHigher;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.muchHigherStringProperty.value;
       }
       else {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.significantlyHigher;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.significantlyHigherStringProperty.value;
       }
     }
     else {
       if ( concentrationValuesDifference >= -0.04 ) {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.lower;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.lowerStringProperty.value;
       }
       else if ( concentrationValuesDifference >= -0.1 ) {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.muchLower;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.muchLowerStringProperty.value;
       }
       else {
-        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.significantlyLower;
+        qualitativeDescriptionString = GreenhouseEffectStrings.a11y.significantlyLowerStringProperty.value;
       }
     }
 
@@ -298,7 +300,7 @@ class ConcentrationDescriber {
     if ( roundedConcentration === 0 ) {
 
       // Special case: Leave out the "levels of" portion of the descriptive phrase.
-      descriptionString = noString;
+      descriptionString = noStringProperty.value;
     }
     else {
 
@@ -354,14 +356,15 @@ class ConcentrationDescriber {
       ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date )
     );
 
-    return StringUtils.fillIn( historicalLevelsOfGreenhouseGassesPatternString, {
+    return StringUtils.fillIn( historicalLevelsOfGreenhouseGassesPatternStringProperty, {
       historical: historicalDescription
     } );
   }
 
   public static getHistoricalQualitativeConcentrationDescription( date: ConcentrationDate ): string {
     assert && assert( historicalDescriptionMap.has( date ), 'Provided date is not described.' );
-    return StringUtils.capitalize( historicalDescriptionMap.get( date )! );
+    const historicalDescriptionStringProperty = historicalDescriptionMap.get( date )!;
+    return StringUtils.capitalize( historicalDescriptionStringProperty.value );
   }
 
   /**
@@ -391,8 +394,8 @@ class ConcentrationDescriber {
     }
 
     const patternStringProperty = includeInAtmosphere ?
-                          greenhouseGasesInAtmospherePatternStringProperty :
-                          greenhouseGasesValuePatternStringProperty;
+                                  greenhouseGasesInAtmospherePatternStringProperty :
+                                  greenhouseGasesValuePatternStringProperty;
     return StringUtils.fillIn( patternStringProperty, {
       valueDescription: valueDescription
     } );

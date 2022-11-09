@@ -80,7 +80,7 @@ class InstrumentVisibilityControls extends Panel {
 
           // If the sun isn't shining, don't include a description of the energy balance.  See
           // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlert;
+          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty.value;
         }
       }
     );

@@ -15,23 +15,23 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
-const moleculesFloatingAwayPatternString = GreenhouseEffectStrings.a11y.moleculesFloatingAwayPattern;
-const photonsOnString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOn;
-const photonsOffString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOff;
-const photonsOnSlowSpeedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeed;
-const photonsOnSimPausedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPaused;
-const photonsOnSlowSpeedSimPausedString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPaused;
-const simPausedEmitterOnAlertString = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlert;
-const simPausedEmitterOffAlertString = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlert;
-const simPlayingHintAlertString = GreenhouseEffectStrings.a11y.timeControls.simPlayingHintAlert;
-const stepHintAlertString = GreenhouseEffectStrings.a11y.timeControls.stepHintAlert;
-const pausedPhotonEmittedPatternString = GreenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPattern;
-const shortRotatingAlertString = GreenhouseEffectStrings.a11y.shortRotatingAlert;
-const shortStretchingAlertString = GreenhouseEffectStrings.a11y.shortStretchingAlert;
-const shortBendingAlertString = GreenhouseEffectStrings.a11y.shortBendingAlert;
-const shortGlowingAlertString = GreenhouseEffectStrings.a11y.shortGlowingAlert;
-const moleculePiecesGoneString = GreenhouseEffectStrings.a11y.moleculePiecesGone;
-const resetOrChangeMoleculeString = GreenhouseEffectStrings.a11y.resetOrChangeMolecule;
+const moleculesFloatingAwayPatternStringProperty = GreenhouseEffectStrings.a11y.moleculesFloatingAwayPatternStringProperty;
+const photonsOnStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnStringProperty;
+const photonsOffStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOffStringProperty;
+const photonsOnSlowSpeedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedStringProperty;
+const photonsOnSimPausedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPausedStringProperty;
+const photonsOnSlowSpeedSimPausedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPausedStringProperty;
+const simPausedEmitterOnAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty;
+const simPausedEmitterOffAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlertStringProperty;
+const simPlayingHintAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPlayingHintAlertStringProperty;
+const stepHintAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.stepHintAlertStringProperty;
+const pausedPhotonEmittedPatternStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPatternStringProperty;
+const shortRotatingAlertStringProperty = GreenhouseEffectStrings.a11y.shortRotatingAlertStringProperty;
+const shortStretchingAlertStringProperty = GreenhouseEffectStrings.a11y.shortStretchingAlertStringProperty;
+const shortBendingAlertStringProperty = GreenhouseEffectStrings.a11y.shortBendingAlertStringProperty;
+const shortGlowingAlertStringProperty = GreenhouseEffectStrings.a11y.shortGlowingAlertStringProperty;
+const moleculePiecesGoneStringProperty = GreenhouseEffectStrings.a11y.moleculePiecesGoneStringProperty;
+const resetOrChangeMoleculeStringProperty = GreenhouseEffectStrings.a11y.resetOrChangeMoleculeStringProperty;
 
 class ObservationWindowAlertManager extends Alerter {
 
@@ -47,7 +47,7 @@ class ObservationWindowAlertManager extends Alerter {
     } );
 
     // @private {Utterance} - single utterances for categories of information so any one set of utterances
-    // dont spam the user on frequent interaction
+    // don't spam the user on frequent interaction
     this.photonStateUtterance = new Utterance();
     this.runningStateUtterance = new Utterance();
     this.manualStepUtterance = new Utterance();
@@ -72,7 +72,6 @@ class ObservationWindowAlertManager extends Alerter {
    *
    * @param {PhotonAbsorptionModel} model
    * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
-   * @param {}
    */
   initialize( model, returnMoleculeButtonVisibleProperty ) {
     this.model = model;
@@ -120,7 +119,7 @@ class ObservationWindowAlertManager extends Alerter {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        this.alertDescriptionUtterance( resetOrChangeMoleculeString );
+        this.alertDescriptionUtterance( resetOrChangeMoleculeStringProperty.value );
       }
     } );
   }
@@ -137,10 +136,10 @@ class ObservationWindowAlertManager extends Alerter {
   getRunningStateAlert( emitterOn, running ) {
     let alert;
     if ( running && !emitterOn ) {
-      alert = simPlayingHintAlertString;
+      alert = simPlayingHintAlertStringProperty.value;
     }
     else {
-      alert = emitterOn ? simPausedEmitterOnAlertString : simPausedEmitterOffAlertString;
+      alert = emitterOn ? simPausedEmitterOnAlertStringProperty.value : simPausedEmitterOffAlertStringProperty.value;
     }
 
     assert && assert( alert );
@@ -159,23 +158,23 @@ class ObservationWindowAlertManager extends Alerter {
    */
   getPhotonEmitterStateAlert( on, running, slowMotion ) {
     if ( !on ) {
-      return photonsOffString;
+      return photonsOffStringProperty.value;
     }
     else {
       if ( !running ) {
         if ( slowMotion ) {
-          return photonsOnSlowSpeedSimPausedString;
+          return photonsOnSlowSpeedSimPausedStringProperty.value;
         }
         else {
-          return photonsOnSimPausedString;
+          return photonsOnSimPausedStringProperty.value;
         }
       }
       else {
         if ( slowMotion ) {
-          return photonsOnSlowSpeedString;
+          return photonsOnSlowSpeedStringProperty.value;
         }
         else {
-          return photonsOnString;
+          return photonsOnStringProperty.value;
         }
       }
     }
@@ -192,7 +191,7 @@ class ObservationWindowAlertManager extends Alerter {
   getPhotonEmittedAlert( photon ) {
     const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
 
-    return StringUtils.fillIn( pausedPhotonEmittedPatternString, {
+    return StringUtils.fillIn( pausedPhotonEmittedPatternStringProperty.value, {
       lightSource: lightSourceString
     } );
   }
@@ -217,17 +216,19 @@ class ObservationWindowAlertManager extends Alerter {
       const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
 
       if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
-        alert = stepHintAlertString;
+        alert = stepHintAlertStringProperty.value;
       }
       else if ( photonAbsorbed ) {
         if ( targetMolecule.rotatingProperty.get() ) {
-          alert = shortRotatingAlertString;
+          alert = shortRotatingAlertStringProperty.value;
         }
         else if ( targetMolecule.vibratingProperty.get() ) {
-          alert = targetMolecule.vibratesByStretching() ? shortStretchingAlertString : shortBendingAlertString;
+          alert = targetMolecule.vibratesByStretching() ?
+                  shortStretchingAlertStringProperty.value :
+                  shortBendingAlertStringProperty.value;
         }
         else if ( targetMolecule.highElectronicEnergyStateProperty.get() ) {
-          alert = shortGlowingAlertString;
+          alert = shortGlowingAlertStringProperty.value;
         }
       }
     }
@@ -235,7 +236,7 @@ class ObservationWindowAlertManager extends Alerter {
       if ( !this.model.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
         // no target molecule and constituents have been removed
-        alert = moleculePiecesGoneString;
+        alert = moleculePiecesGoneStringProperty.value;
       }
       else {
 
@@ -261,7 +262,7 @@ class ObservationWindowAlertManager extends Alerter {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return StringUtils.fillIn( moleculesFloatingAwayPatternString, {
+    return StringUtils.fillIn( moleculesFloatingAwayPatternStringProperty.value, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

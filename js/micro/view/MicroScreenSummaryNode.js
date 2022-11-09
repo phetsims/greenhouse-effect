@@ -13,19 +13,19 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const playAreaSummaryString = GreenhouseEffectStrings.a11y.playAreaSummary;
-const controlAreaSummaryString = GreenhouseEffectStrings.a11y.controlAreaSummary;
-const interactionHintString = GreenhouseEffectStrings.a11y.interactionHint;
-const simIsPausedString = GreenhouseEffectStrings.a11y.simIsPaused;
-const simIsPausedOnSlowSpeedString = GreenhouseEffectStrings.a11y.simIsPausedOnSlowSpeed;
-const dynamicPlayingScreenSummaryPatternString = GreenhouseEffectStrings.a11y.dynamicPlayingScreenSummaryPattern;
-const dynamicPausedScreenSummaryPatternString = GreenhouseEffectStrings.a11y.dynamicPausedScreenSummaryPattern;
-const targetMoleculePatternString = GreenhouseEffectStrings.a11y.targetMoleculePattern;
-const screenSummaryWithHintPatternString = GreenhouseEffectStrings.a11y.screenSummaryWithHintPattern;
-const emitsPhotonsString = GreenhouseEffectStrings.a11y.emitsPhotons;
-const emitsPhotonsOnSlowSpeedString = GreenhouseEffectStrings.a11y.emitsPhotonsOnSlowSpeed;
-const isOffAndPointsString = GreenhouseEffectStrings.a11y.isOffAndPoints;
-const emptySpaceString = GreenhouseEffectStrings.a11y.emptySpace;
+const playAreaSummaryStringProperty = GreenhouseEffectStrings.a11y.playAreaSummaryStringProperty;
+const controlAreaSummaryStringProperty = GreenhouseEffectStrings.a11y.controlAreaSummaryStringProperty;
+const interactionHintStringProperty = GreenhouseEffectStrings.a11y.interactionHintStringProperty;
+const simIsPausedStringProperty = GreenhouseEffectStrings.a11y.simIsPausedStringProperty;
+const simIsPausedOnSlowSpeedStringProperty = GreenhouseEffectStrings.a11y.simIsPausedOnSlowSpeedStringProperty;
+const dynamicPlayingScreenSummaryPatternStringProperty = GreenhouseEffectStrings.a11y.dynamicPlayingScreenSummaryPatternStringProperty;
+const dynamicPausedScreenSummaryPatternStringProperty = GreenhouseEffectStrings.a11y.dynamicPausedScreenSummaryPatternStringProperty;
+const targetMoleculePatternStringProperty = GreenhouseEffectStrings.a11y.targetMoleculePatternStringProperty;
+const screenSummaryWithHintPatternStringProperty = GreenhouseEffectStrings.a11y.screenSummaryWithHintPatternStringProperty;
+const emitsPhotonsStringProperty = GreenhouseEffectStrings.a11y.emitsPhotonsStringProperty;
+const emitsPhotonsOnSlowSpeedStringProperty = GreenhouseEffectStrings.a11y.emitsPhotonsOnSlowSpeedStringProperty;
+const isOffAndPointsStringProperty = GreenhouseEffectStrings.a11y.isOffAndPointsStringProperty;
+const emptySpaceStringProperty = GreenhouseEffectStrings.a11y.emptySpaceStringProperty;
 
 class MicroScreenSummaryNode extends Node {
 
@@ -45,33 +45,41 @@ class MicroScreenSummaryNode extends Node {
     // static summary of the play area
     this.addChild( new Node( {
       tagName: 'p',
-      accessibleName: playAreaSummaryString
+      accessibleName: playAreaSummaryStringProperty.value
     } ) );
 
     // static summary of the control area
     this.addChild( new Node( {
       tagName: 'p',
-      accessibleName: controlAreaSummaryString
+      accessibleName: controlAreaSummaryStringProperty.value
     } ) );
 
     // dynamic overview that stays up to date with sim
     const dynamicDescription = new Node( { tagName: 'p' } );
     this.addChild( dynamicDescription );
 
-    const summaryProperties = [ model.photonWavelengthProperty, model.photonEmitterOnProperty, model.photonTargetProperty, model.runningProperty, model.slowMotionProperty, returnMoleculeButtonVisibleProperty ];
-    Multilink.multilink( summaryProperties, ( photonWavelength, emitterOn, photonTarget, running, slowMotion, returnMoleculeButtonVisible ) => {
+    const summaryProperties = [
+      model.photonWavelengthProperty,
+      model.photonEmitterOnProperty,
+      model.photonTargetProperty,
+      model.runningProperty,
+      model.slowMotionProperty,
+      returnMoleculeButtonVisibleProperty
+    ];
+    Multilink.multilink( summaryProperties, () => {
 
       // TODO: Maybe use accessibleName instead if https://github.com/phetsims/scenery/issues/1026 is fixed
       dynamicDescription.innerContent = this.getSummaryString();
     } );
 
-    // in addition to the above Proeprties, update summary when molecules are removed (which may not update the photon target) to describe empty space
+    // In addition to the above Properties, update summary when molecules are removed (which may not update the photon
+    // target) to describe empty space.
     model.activeMolecules.addItemRemovedListener( () => {
       dynamicDescription.innerContent = this.getSummaryString();
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
-    const interactionHint = new Node( { tagName: 'p', innerContent: interactionHintString } );
+    const interactionHint = new Node( { tagName: 'p', innerContent: interactionHintStringProperty.value } );
     this.addChild( interactionHint );
   }
 
@@ -89,39 +97,43 @@ class MicroScreenSummaryNode extends Node {
     const emitterOn = this.model.photonEmitterOnProperty.get();
     const slowMotion = this.model.slowMotionProperty.get();
 
-    let targetString = null;
+    let targetString;
     if ( targetMolecule ) {
-      targetString = StringUtils.fillIn( targetMoleculePatternString, {
+      targetString = StringUtils.fillIn( targetMoleculePatternStringProperty.value, {
         photonTarget: PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() )
       } );
     }
     else {
-      targetString = emptySpaceString;
+      targetString = emptySpaceStringProperty.value;
     }
 
-    let screenSummaryString = null;
-    let emissionDescriptionString = null;
+    let screenSummaryString;
+    let emissionDescriptionString;
     if ( this.model.runningProperty.get() ) {
 
       // if running, slow speed is described with the photon emission description
       if ( emitterOn ) {
-        emissionDescriptionString = slowMotion ? emitsPhotonsOnSlowSpeedString : emitsPhotonsString;
+        emissionDescriptionString = slowMotion ?
+                                    emitsPhotonsOnSlowSpeedStringProperty.value :
+                                    emitsPhotonsStringProperty.value;
       }
       else {
-        emissionDescriptionString = isOffAndPointsString;
+        emissionDescriptionString = isOffAndPointsStringProperty.value;
       }
 
-      screenSummaryString = StringUtils.fillIn( dynamicPlayingScreenSummaryPatternString, {
+      screenSummaryString = StringUtils.fillIn( dynamicPlayingScreenSummaryPatternStringProperty.value, {
         lightSource: lightSourceString,
         emissionDescription: emissionDescriptionString,
         target: targetString
       } );
     }
     else {
-      const playingStateString = slowMotion ? simIsPausedOnSlowSpeedString : simIsPausedString;
-      emissionDescriptionString = emitterOn ? emitsPhotonsString : isOffAndPointsString;
+      const playingStateString = slowMotion ?
+                                 simIsPausedOnSlowSpeedStringProperty.value :
+                                 simIsPausedStringProperty.value;
+      emissionDescriptionString = emitterOn ? emitsPhotonsStringProperty.value : isOffAndPointsStringProperty.value;
 
-      screenSummaryString = StringUtils.fillIn( dynamicPausedScreenSummaryPatternString, {
+      screenSummaryString = StringUtils.fillIn( dynamicPausedScreenSummaryPatternStringProperty.value, {
         playingState: playingStateString,
         lightSource: lightSourceString,
         emissionDescription: emissionDescriptionString,
@@ -131,7 +143,7 @@ class MicroScreenSummaryNode extends Node {
 
     // if the "New Molecule" button is visible, include a description of its existence in the screen summary
     if ( this.returnMoleculeButtonVisibleProperty.get() ) {
-      return StringUtils.fillIn( screenSummaryWithHintPatternString, {
+      return StringUtils.fillIn( screenSummaryWithHintPatternStringProperty.value, {
         summary: screenSummaryString
       } );
     }
