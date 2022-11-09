@@ -71,10 +71,16 @@ class InstrumentVisibilityControls extends Panel {
       ( netInflowOfEnergy, inRadiativeBalance, sunIsShining ) => {
 
         if ( sunIsShining ) {
-          checkedUtterance.alert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.energyBalanceCheckedPattern, {
-            checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlert,
-            outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription( netInflowOfEnergy, inRadiativeBalance )
-          } );
+          checkedUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.energyBalanceCheckedPatternStringProperty,
+            {
+              checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty.value,
+              outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription(
+                netInflowOfEnergy,
+                inRadiativeBalance
+              )
+            }
+          );
         }
         else {
 
@@ -93,9 +99,9 @@ class InstrumentVisibilityControls extends Panel {
           tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
 
           // pdom
-          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpText,
+          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty.value,
           checkedContextResponse: checkedUtterance,
-          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlert
+          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty.value
         }
       ) );
     }

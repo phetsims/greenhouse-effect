@@ -119,7 +119,7 @@ class ConcentrationDescriber {
                                              GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty.value :
                                              GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty.value;
 
-      description = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sky.cloudAlertPattern, {
+      description = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sky.cloudAlertPatternStringProperty, {
         addedOrRemoved: addedOrRemovedDescription,
         receivedOrReflected: receivedOrReflectedDescription
       } );
@@ -152,7 +152,7 @@ class ConcentrationDescriber {
     const timePeriodString = ConcentrationDescriber.getTimePeriodString( timePeriodValue );
     const timePeriodDescriptionString = ConcentrationDescriber.getTimePeriodWithExistenceFragmentDescription( timePeriodValue );
 
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.timePeriodDescriptionPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.timePeriodDescriptionPatternStringProperty, {
       timePeriod: timePeriodString,
       description: timePeriodDescriptionString
     } );
@@ -189,7 +189,7 @@ class ConcentrationDescriber {
    * "Now a large number of homes and factories in observation window."
    */
   public static getObservationWindowNowTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.observationWindowTimePeriodPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.observationWindowTimePeriodPatternStringProperty, {
       timePeriodDescription: ConcentrationDescriber.getTimePeriodDescription( timePeriodValue )
     } );
   }
@@ -203,9 +203,10 @@ class ConcentrationDescriber {
    */
   public static getFullTimePeriodDescription( timePeriodValue: ConcentrationDate, capitalize: boolean ): string {
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
-    let fullTimePeriodDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPattern, {
-      timePeriodDescription: describedTimePeriod
-    } );
+    let fullTimePeriodDescription = StringUtils.fillIn(
+      GreenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPatternStringProperty,
+      { timePeriodDescription: describedTimePeriod }
+    );
 
     if ( capitalize ) {
       fullTimePeriodDescription = StringUtils.capitalize( fullTimePeriodDescription );
@@ -221,7 +222,7 @@ class ConcentrationDescriber {
    * "Time period is the year twenty-twenty".
    */
   public static getTimePeriodChangeDescription( timePeriodValue: ConcentrationDate ): string {
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.timePeriodChangeDescriptionPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.timePeriodChangeDescriptionPatternStringProperty, {
       timePeriodDescription: ConcentrationDescriber.getTimePeriodString( timePeriodValue )
     } );
   }
@@ -233,7 +234,7 @@ class ConcentrationDescriber {
    * "Now low levels of greenhouse gases."
    */
   public static getCurrentConcentrationLevelsDescription( concentrationValue: number ): string {
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.nowLevelsOfConcentrationPattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.nowLevelsOfConcentrationPatternStringProperty, {
       value: ConcentrationDescriber.getConcentrationDescription( concentrationValue )
     } );
   }
@@ -276,10 +277,13 @@ class ConcentrationDescriber {
       }
     }
 
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeConcentrationChangeDescriptionPattern, {
-      comparativeDescription: qualitativeDescriptionString,
-      year: ConcentrationDescriber.getTimePeriodString( oldYear )
-    } );
+    return StringUtils.fillIn(
+      GreenhouseEffectStrings.a11y.qualitativeConcentrationChangeDescriptionPatternStringProperty,
+      {
+        comparativeDescription: qualitativeDescriptionString,
+        year: ConcentrationDescriber.getTimePeriodString( oldYear )
+      }
+    );
   }
 
   /**
@@ -306,7 +310,7 @@ class ConcentrationDescriber {
 
       const qualitativeDescriptionString = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
 
-      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.levelsOfPattern, {
+      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.levelsOfPatternStringProperty, {
         qualitativeDescription: qualitativeDescriptionString
       } );
     }

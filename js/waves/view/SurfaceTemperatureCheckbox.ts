@@ -43,7 +43,7 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       iconNode: iconNode,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.helpText,
+      helpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.helpTextStringProperty,
       checkedContextResponse: checkedUtterance,
       uncheckedContextResponse: 'Surface glow hidden.',
 

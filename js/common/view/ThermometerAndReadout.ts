@@ -144,8 +144,8 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpText,
-        accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabel,
+        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty.value,
+        accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty.value,
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )

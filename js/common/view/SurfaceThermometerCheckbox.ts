@@ -30,18 +30,21 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
     const checkedUtterance = new Utterance();
     Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
-      checkedUtterance.alert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.thermometerShownAlertPattern, {
-        value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, units )
-      } );
+      checkedUtterance.alert = StringUtils.fillIn(
+        GreenhouseEffectStrings.a11y.thermometerShownAlertPatternStringProperty,
+        {
+          value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, units )
+        }
+      );
     } );
 
     super( property, GreenhouseEffectStrings.surfaceThermometerStringProperty, {
       iconNode: iconNode,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpText,
+      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty.value,
       checkedContextResponse: checkedUtterance,
-      uncheckedContextResponse: GreenhouseEffectStrings.a11y.thermometerRemovedAlert,
+      uncheckedContextResponse: GreenhouseEffectStrings.a11y.thermometerRemovedAlertStringProperty.value,
 
       // phet-io
       tandem: tandem

@@ -135,7 +135,7 @@ class TemperatureDescriber {
   public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number,
                                                                    concentrationControlMode: ConcentrationControlMode,
                                                                    date: ConcentrationDate ): string {
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePattern, {
+    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePatternStringProperty, {
       description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode, date )
     } );
   }

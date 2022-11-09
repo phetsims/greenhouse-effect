@@ -44,7 +44,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
       iconNode: iconNode,
-      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpText,
+      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
 
       // phet-io
       tandem: Tandem.REQUIRED

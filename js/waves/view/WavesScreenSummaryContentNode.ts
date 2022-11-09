@@ -33,16 +33,16 @@ class WavesScreenSummaryContentNode extends Node {
 
     const playAreaDescriptionNode = new Node( {
       tagName: 'p',
-      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescription
+      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescriptionStringProperty
     } );
     const controlAreaDescriptionNode = new Node( {
       tagName: 'p',
-      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescription
+      innerContent: GreenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescriptionStringProperty
     } );
     const simStateDescriptionNode = new Node( { tagName: 'p' } ); // content set with the changing model
     const startSunlightHintNode = new Node( {
       tagName: 'p',
-      innerContent: GreenhouseEffectStrings.a11y.startSunlightHint
+      innerContent: GreenhouseEffectStrings.a11y.startSunlightHintStringProperty
     } );
 
     this.children = [

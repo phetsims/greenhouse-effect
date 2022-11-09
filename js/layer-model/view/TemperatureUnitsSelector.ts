@@ -21,7 +21,7 @@ class TemperatureUnitsSelector extends VBox {
   public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     // Create the label that sits above the radio button selectors.
-    const label = new Text( GreenhouseEffectStrings.temperatureUnits, {
+    const label = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
       font: LABEL_FONT,
       tandem: tandem.createTandem( 'labelText' )
     } );

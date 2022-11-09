@@ -35,7 +35,7 @@ class RadiationDescriber {
    */
   public static getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredRadiationRedirectingPattern,
+      GreenhouseEffectStrings.a11y.infraredRadiationRedirectingPatternStringProperty.value,
       newConcentration,
       oldConcentration,
       true // describe when no concentration is redirected from atmosphere
@@ -49,7 +49,7 @@ class RadiationDescriber {
    */
   public static getRadiationFromSurfaceChangeDescription( newConcentration: number, oldConcentration: number ): string | null {
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePattern,
+      GreenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePatternStringProperty.value,
       newConcentration,
       oldConcentration
     );
@@ -99,7 +99,7 @@ class RadiationDescriber {
                                                 ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
                                                 ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
 
-    return StringUtils.capitalize( StringUtils.fillIn( GreenhouseEffectStrings.a11y.amountOfPattern, {
+    return StringUtils.capitalize( StringUtils.fillIn( GreenhouseEffectStrings.a11y.amountOfPatternStringProperty, {
       qualitativeDescription: qualitativeDescriptionOfRedirection
     } ) );
   }
@@ -131,7 +131,7 @@ class RadiationDescriber {
 
       if ( concentration > 0 ) {
         radiationIntensityDescription = StringUtils.fillIn(
-          infraredEmissionIntensityWithRedirectionPatternStringProperty.value,
+          infraredEmissionIntensityWithRedirectionPatternStringProperty,
           {
             surfaceEmission: radiationIntensityDescription,
             value: RadiationDescriber.getRedirectedInfraredDescription( concentration, concentrationControlMode, date )
@@ -155,9 +155,9 @@ class RadiationDescriber {
       descriptionString = GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty.value;
     }
     else if ( includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
-        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
-        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefection
+      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
+        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty,
+        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefectionStringProperty
       } );
     }
     else if ( !includeCloudReflection && includeGlacierReflection ) {
@@ -167,9 +167,9 @@ class RadiationDescriber {
       descriptionString = '';
     }
     else {
-      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPattern, {
-        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpace,
-        reflectionDescription: GreenhouseEffectStrings.a11y.cloudAndGlacierRefection
+      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
+        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty,
+        reflectionDescription: GreenhouseEffectStrings.a11y.cloudAndGlacierRefectionStringProperty
       } );
     }
 

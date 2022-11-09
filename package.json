@@ -23,6 +23,7 @@
       "adapted-from-phet"
     ],
     "simFeatures": {
+      "supportsDynamicLocale": true,
       "supportsSound": true,
       "supportsExtraSound": true,
       "supportsInteractiveDescription": true

@@ -52,8 +52,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
         includeStepForwardButton: false,
 
         // unique description about the observation window since there are no speed or step buttons in this case
-        playingDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingDescription,
-        pausedDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedDescription
+        playingDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingDescriptionStringProperty,
+        pausedDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedDescriptionStringProperty
       },
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
