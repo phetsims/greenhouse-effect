@@ -20,45 +20,45 @@ import { Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text, 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
-const spectrumWindowCyclesPerSecondUnitsString = GreenhouseEffectStrings.SpectrumWindow.cyclesPerSecondUnits;
-const spectrumWindowFrequencyArrowLabelString = GreenhouseEffectStrings.SpectrumWindow.frequencyArrowLabel;
-const spectrumWindowGammaRayBandLabelString = GreenhouseEffectStrings.SpectrumWindow.gammaRayBandLabel;
-const spectrumWindowInfraredBandLabelString = GreenhouseEffectStrings.SpectrumWindow.infraredBandLabel;
-const spectrumWindowMetersUnitsString = GreenhouseEffectStrings.SpectrumWindow.metersUnits;
-const spectrumWindowMicrowaveBandLabelString = GreenhouseEffectStrings.SpectrumWindow.microwaveBandLabel;
-const spectrumWindowRadioBandLabelString = GreenhouseEffectStrings.SpectrumWindow.radioBandLabel;
-const spectrumWindowTitleString = GreenhouseEffectStrings.SpectrumWindow.title;
-const spectrumWindowUltravioletBandLabelString = GreenhouseEffectStrings.SpectrumWindow.ultravioletBandLabel;
-const spectrumWindowVisibleBandLabelString = GreenhouseEffectStrings.SpectrumWindow.visibleBandLabel;
-const spectrumWindowWavelengthArrowLabelString = GreenhouseEffectStrings.SpectrumWindow.wavelengthArrowLabel;
-const spectrumWindowXrayBandLabelString = GreenhouseEffectStrings.SpectrumWindow.xrayBandLabel;
-const spectrumWindowDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowDescription;
-const spectrumWindowEnergyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowEnergyDescription;
-const spectrumWindowSinWaveDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowSinWaveDescription;
-const spectrumWindowLabelledSpectrumLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumLabel;
-const spectrumWindowLabelledSpectrumDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumDescription;
-const spectrumWindowLabelledSpectrumRadioLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioLabel;
-const spectrumWindowLabelledSpectrumMicrowaveLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveLabel;
-const spectrumWindowLabelledSpectrumInfraredLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredLabel;
-const spectrumWindowLabelledSpectrumVisibleLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleLabel;
-const spectrumWindowLabelledSpectrumUltravioletLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletLabel;
-const spectrumWindowLabelledSpectrumXRayLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayLabel;
-const spectrumWindowLabelledSpectrumGammaRayLabelString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayLabel;
-const spectrumWindowLabelledSpectrumRadioFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioFrequencyDescription;
-const spectrumWindowLabelledSpectrumRadioWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioWavelengthDescription;
-const spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription;
-const spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription;
-const spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredFrequencyDescription;
-const spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredWavelengthDescription;
-const spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleFrequencyDescription;
-const spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleWavelengthDescription;
-const spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleGraphicalDescription;
-const spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletFrequencyDescription;
-const spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletWavelengthDescription;
-const spectrumWindowLabelledSpectrumXRayFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayFrequencyDescription;
-const spectrumWindowLabelledSpectrumXRayWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayWavelengthDescription;
-const spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayFrequencyDescription;
-const spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayWavelengthDescription;
+const spectrumWindowCyclesPerSecondUnitsStringProperty = GreenhouseEffectStrings.SpectrumWindow.cyclesPerSecondUnitsStringProperty;
+const spectrumWindowFrequencyArrowLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.frequencyArrowLabelStringProperty;
+const spectrumWindowGammaRayBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.gammaRayBandLabelStringProperty;
+const spectrumWindowInfraredBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.infraredBandLabelStringProperty;
+const spectrumWindowMetersUnitsStringProperty = GreenhouseEffectStrings.SpectrumWindow.metersUnitsStringProperty;
+const spectrumWindowMicrowaveBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.microwaveBandLabelStringProperty;
+const spectrumWindowRadioBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.radioBandLabelStringProperty;
+const spectrumWindowTitleStringProperty = GreenhouseEffectStrings.SpectrumWindow.titleStringProperty;
+const spectrumWindowUltravioletBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.ultravioletBandLabelStringProperty;
+const spectrumWindowVisibleBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.visibleBandLabelStringProperty;
+const spectrumWindowWavelengthArrowLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.wavelengthArrowLabelStringProperty;
+const spectrumWindowXrayBandLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.xrayBandLabelStringProperty;
+const spectrumWindowDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowDescriptionStringProperty;
+const spectrumWindowEnergyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowEnergyDescriptionStringProperty;
+const spectrumWindowSinWaveDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowSinWaveDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumLabelStringProperty;
+const spectrumWindowLabelledSpectrumDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumRadioLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioLabelStringProperty;
+const spectrumWindowLabelledSpectrumMicrowaveLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveLabelStringProperty;
+const spectrumWindowLabelledSpectrumInfraredLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredLabelStringProperty;
+const spectrumWindowLabelledSpectrumVisibleLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleLabelStringProperty;
+const spectrumWindowLabelledSpectrumUltravioletLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletLabelStringProperty;
+const spectrumWindowLabelledSpectrumXRayLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayLabelStringProperty;
+const spectrumWindowLabelledSpectrumGammaRayLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayLabelStringProperty;
+const spectrumWindowLabelledSpectrumRadioFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumRadioWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumRadioWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumXRayFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumXRayWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumXRayWavelengthDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionStringProperty;
+const spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionStringProperty;
 
 // shared constants
 const LABEL_FONT = new PhetFont( 21 );
@@ -89,13 +89,13 @@ class SpectrumDiagram extends VBox {
     const children = [];
 
     // Add the title and scale for translations.
-    const title = new Text( spectrumWindowTitleString, {
+    const title = new Text( spectrumWindowTitleStringProperty, {
       font: new PhetFont( 40 ),
 
       tagName: 'h1',
-      innerContent: spectrumWindowTitleString,
+      innerContent: spectrumWindowTitleStringProperty.value,
       descriptionTagName: 'p',
-      descriptionContent: spectrumWindowDescriptionString, // a general description for the entirety of the Dialog content
+      descriptionContent: spectrumWindowDescriptionStringProperty.value, // a general description for the entirety of the Dialog content
       appendDescription: true
     } );
     if ( title.width > SUBSECTION_WIDTH ) {
@@ -107,13 +107,13 @@ class SpectrumDiagram extends VBox {
     const frequencyArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'right',
-      spectrumWindowFrequencyArrowLabelString,
+      spectrumWindowFrequencyArrowLabelStringProperty.value,
       'white',
       'rgb(5, 255,  255)',
       tandem.createTandem( 'frequencyArrow' ), {
 
         tagName: 'p',
-        innerContent: spectrumWindowEnergyDescriptionString
+        innerContent: spectrumWindowEnergyDescriptionStringProperty.value
       }
     );
     children.push( frequencyArrow );
@@ -126,7 +126,7 @@ class SpectrumDiagram extends VBox {
     const wavelengthArrow = new LabeledArrow(
       SUBSECTION_WIDTH,
       'left',
-      spectrumWindowWavelengthArrowLabelString,
+      spectrumWindowWavelengthArrowLabelStringProperty.value,
       'white',
       'rgb(255, 5, 255)',
       tandem.createTandem( 'wavelengthArrow' )
@@ -136,7 +136,7 @@ class SpectrumDiagram extends VBox {
     // Add the diagram that depicts the wave that gets shorter.
     const decreasingWavelengthNode = new ChirpNode( {
       tagName: 'p',
-      innerContent: spectrumWindowSinWaveDescriptionString
+      innerContent: spectrumWindowSinWaveDescriptionStringProperty.value
     } );
     children.push( decreasingWavelengthNode );
 
@@ -239,9 +239,9 @@ class LabeledSpectrumNode extends Node {
       // the LabeledSpectrumNode is represented as a nested list describing the various ranges of wavelengths and frequencies
       tagName: 'ul',
       labelTagName: 'h2',
-      labelContent: spectrumWindowLabelledSpectrumLabelString,
+      labelContent: spectrumWindowLabelledSpectrumLabelStringProperty.value,
       descriptionTagName: 'p',
-      descriptionContent: spectrumWindowLabelledSpectrumDescriptionString
+      descriptionContent: spectrumWindowLabelledSpectrumDescriptionStringProperty.value
     } );
 
     // Create the "strip", which is the solid background portions that contains the different bands and that has tick
@@ -266,24 +266,24 @@ class LabeledSpectrumNode extends Node {
     }
 
     // Add the various bands, labels include PDOM descriptions
-    addBandLabel( this, 1E3, 1E9, spectrumWindowRadioBandLabelString,
-      spectrumWindowLabelledSpectrumRadioLabelString,
-      spectrumWindowLabelledSpectrumRadioFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumRadioWavelengthDescriptionString,
+    addBandLabel( this, 1E3, 1E9, spectrumWindowRadioBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumRadioLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumRadioFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumRadioWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'radioBandLabelText' )
     );
     addBandDivider( this, 1E9 );
-    addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelString,
-      spectrumWindowLabelledSpectrumMicrowaveLabelString,
-      spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionString,
+    addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumMicrowaveLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'microwaveBandLabelText' )
     );
     addBandDivider( this, 3E11 );
-    addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelString,
-      spectrumWindowLabelledSpectrumInfraredLabelString,
-      spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionString,
+    addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumInfraredLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'infraredBandLabelText' )
     );
 
@@ -294,39 +294,39 @@ class LabeledSpectrumNode extends Node {
     wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
     this.addChild( wavelengthSpectrumNode );
 
-    addBandLabel( this, 1E15, 8E15, spectrumWindowUltravioletBandLabelString,
-      spectrumWindowLabelledSpectrumUltravioletLabelString,
-      spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionString,
+    addBandLabel( this, 1E15, 8E15, spectrumWindowUltravioletBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumUltravioletLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'ultravioletBandLabelText' )
     );
     addBandDivider( this, 1E16 );
-    addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelString,
-      spectrumWindowLabelledSpectrumXRayLabelString,
-      spectrumWindowLabelledSpectrumXRayFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumXRayWavelengthDescriptionString,
+    addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumXRayLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumXRayFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumXRayWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'xrayBandLabelText' )
     );
     addBandDivider( this, 1E19 );
-    addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelString,
-      spectrumWindowLabelledSpectrumGammaRayLabelString,
-      spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionString,
+    addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumGammaRayLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionStringProperty.value,
       tandem.createTandem( 'gammaRayBandLabelText' )
     );
 
     addFrequencyAndLabelDescriptions(
       wavelengthSpectrumNode,
-      spectrumWindowLabelledSpectrumVisibleLabelString,
-      spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionString,
-      spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionString,
+      spectrumWindowLabelledSpectrumVisibleLabelStringProperty.value,
+      spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionStringProperty.value,
+      spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionStringProperty.value,
       {
-        graphicalDescription: spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionString
+        graphicalDescription: spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionStringProperty.value
       }
     );
 
     // Add the label for the visible band.  Scale it down for translations.
-    const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelString, { font: new PhetFont( 16 ) } );
+    const visibleBandLabel = new Text( spectrumWindowVisibleBandLabelStringProperty.value, { font: new PhetFont( 16 ) } );
     const visibleBandCenterX = wavelengthSpectrumNode.centerX;
     if ( visibleBandLabel.width > strip.width / 2 ) {
       visibleBandLabel.scale( ( strip.width / 2 ) / visibleBandLabel.width );
@@ -349,12 +349,12 @@ class LabeledSpectrumNode extends Node {
         text.scale( MAX_UNITS_WIDTH / text.width );
       }
     };
-    const frequencyUnits = new Text( spectrumWindowCyclesPerSecondUnitsString, { font: LABEL_FONT } );
+    const frequencyUnits = new Text( spectrumWindowCyclesPerSecondUnitsStringProperty.value, { font: LABEL_FONT } );
     scaleUnits( frequencyUnits );
     frequencyUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, -TICK_MARK_HEIGHT - frequencyUnits.height / 2 );
     this.addChild( frequencyUnits );
 
-    const wavelengthUnits = new Text( spectrumWindowMetersUnitsString, { font: LABEL_FONT } );
+    const wavelengthUnits = new Text( spectrumWindowMetersUnitsStringProperty.value, { font: LABEL_FONT } );
     scaleUnits( wavelengthUnits );
     wavelengthUnits.leftCenter = new Vector2( SUBSECTION_WIDTH, STRIP_HEIGHT + TICK_MARK_HEIGHT + frequencyUnits.height / 2 );
     this.addChild( wavelengthUnits );
@@ -423,7 +423,7 @@ const log10 = value => {
  *
  * @param {LabeledSpectrumNode} thisNode
  * @param {number} frequency
- * @param {boolean} addLabel - Whether or not a label should be added to the tick mark.
+ * @param {boolean} addLabel - Whether a label should be added to the tick mark.
  * @param {number} bottom - bottom y position of the tick mark.  x position calculated with getOffsetFromFrequency()
  */
 const addFrequencyTickMark = ( thisNode, frequency, bottom, addLabel ) => {

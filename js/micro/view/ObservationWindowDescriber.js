@@ -26,13 +26,13 @@ import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
-const emptySpaceString = GreenhouseEffectStrings.a11y.emptySpace;
-const photonEmitterOffDescriptionPatternString = GreenhouseEffectStrings.a11y.photonEmitterOffDescriptionPattern;
-const targetMoleculePatternString = GreenhouseEffectStrings.a11y.targetMoleculePattern;
-const inactiveAndPassesPhaseDescriptionPatternString = GreenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPattern;
-const emissionPhaseDescriptionPatternString = GreenhouseEffectStrings.a11y.emissionPhaseDescriptionPattern;
-const moleculePiecesGoneString = GreenhouseEffectStrings.a11y.moleculePiecesGone;
-const breakApartDescriptionWithFloatPatternString = GreenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPattern;
+const emptySpaceStringProperty = GreenhouseEffectStrings.a11y.emptySpaceStringProperty;
+const photonEmitterOffDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.photonEmitterOffDescriptionPatternStringProperty;
+const targetMoleculePatternStringProperty = GreenhouseEffectStrings.a11y.targetMoleculePatternStringProperty;
+const inactiveAndPassesPhaseDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPatternStringProperty;
+const emissionPhaseDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.emissionPhaseDescriptionPatternStringProperty;
+const moleculePiecesGoneStringProperty = GreenhouseEffectStrings.a11y.moleculePiecesGoneStringProperty;
+const breakApartDescriptionWithFloatPatternStringProperty = GreenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPatternStringProperty;
 
 class ObservationWindowDescriber {
 
@@ -167,7 +167,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithFloatPatternString, {
+      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithFloatPatternStringProperty.value, {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -179,14 +179,14 @@ class ObservationWindowDescriber {
       // first addition of a constituent molecule. Must be added on molecule addition because they
       // do not exist in activeMolecules at the time of break apart.
       const addMoleculeRemovalListener = () => {
-        const describeMoleculesRemoved = ( molecule, observableArray ) => {
+        const describeMoleculesRemoved = molecule => {
 
           // only update description if the removed molecule is one of the constituents after a break apart
           if ( molecule === moleculeA || molecule === moleculeB ) {
 
             // cant use this here because the active molecule
             if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
-              descriptionNode.innerContent = moleculePiecesGoneString;
+              descriptionNode.innerContent = moleculePiecesGoneStringProperty.value;
             }
           }
         };
@@ -219,26 +219,26 @@ class ObservationWindowDescriber {
 
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
 
-    let targetString = null;
+    let targetString;
     if ( targetMolecule ) {
-      targetString = StringUtils.fillIn( targetMoleculePatternString, {
+      targetString = StringUtils.fillIn( targetMoleculePatternStringProperty.value, {
         photonTarget: PhotonTarget.getMoleculeName( photonTarget )
       } );
     }
     else {
-      targetString = emptySpaceString;
+      targetString = emptySpaceStringProperty.value;
     }
 
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      return StringUtils.fillIn( photonEmitterOffDescriptionPatternString, {
+      return StringUtils.fillIn( photonEmitterOffDescriptionPatternStringProperty.value, {
         lightSource: lightSourceString,
         target: targetString
       } );
     }
     else {
-      return StringUtils.fillIn( inactiveAndPassesPhaseDescriptionPatternString, {
+      return StringUtils.fillIn( inactiveAndPassesPhaseDescriptionPatternStringProperty.value, {
         lightSource: lightSourceString,
         target: targetString
       } );
@@ -262,7 +262,7 @@ class ObservationWindowDescriber {
       modelViewTransform: this.modelViewTransform
     } );
 
-    return StringUtils.fillIn( emissionPhaseDescriptionPatternString, {
+    return StringUtils.fillIn( emissionPhaseDescriptionPatternStringProperty.value, {
       photonTarget: photonTargetString,
       lightSource: lightSourceString,
       direction: directionString

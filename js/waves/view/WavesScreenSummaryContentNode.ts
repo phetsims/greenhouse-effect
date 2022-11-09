@@ -17,16 +17,14 @@ import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
-const currentlyString = GreenhouseEffectStrings.a11y.waves.screenSummary.currently;
-const currentlySimIsPausedString = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPaused;
-const currentlyNoSunlightString = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlight;
-const currentlySimIsPausedNoSunlight = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlight;
-
-const summaryWithTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePattern;
-const summaryWithoutTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePattern;
-
-const surfaceTemperaturePatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePattern;
-const qualitativeAndQuantitativeTemperatureDescriptionPatternString = GreenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPattern;
+const currentlyStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyStringProperty;
+const currentlySimIsPausedStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedStringProperty;
+const currentlyNoSunlightStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlightStringProperty;
+const currentlySimIsPausedNoSunlightStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlightStringProperty;
+const summaryWithTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePatternStringProperty;
+const summaryWithoutTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePatternStringProperty;
+const surfaceTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePatternStringProperty;
+const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty;
 
 class WavesScreenSummaryContentNode extends Node {
 
@@ -96,36 +94,36 @@ class WavesScreenSummaryContentNode extends Node {
 
   /**
    * Returns a full summary of the waves screen. Dependent on most Properties of the WavesModel. Returns something like
-   * "Currently, no sunlight in observation window; the time period is the year twenty twenty. The sky is cloudy." or
+   * "Currently, no sunlight in observation window; the time period is the year twenty-twenty. The sky is cloudy." or
    * "Currently, max levels of greenhouse gases in atmosphere. Earth’s surface temperature is very high, 22 degrees
-   * Celsius. The sky is cloudy.
+   * Celsius. The sky is cloudy."
    */
   private getScreenDescriptionString( sunIsShining: boolean,
-                              isPlaying: boolean,
-                              concentration: number,
-                              date: ConcentrationDate,
-                              surfaceTemperatureKelvin: number,
-                              concentrationControlMode: ConcentrationControlMode,
-                              surfaceTemperatureVisible: boolean,
-                              surfaceThermometerVisible: boolean,
-                              temperatureUnits: TemperatureUnits,
-                              cloudEnabled: boolean ): string {
+                                      isPlaying: boolean,
+                                      concentration: number,
+                                      date: ConcentrationDate,
+                                      surfaceTemperatureKelvin: number,
+                                      concentrationControlMode: ConcentrationControlMode,
+                                      surfaceTemperatureVisible: boolean,
+                                      surfaceThermometerVisible: boolean,
+                                      temperatureUnits: TemperatureUnits,
+                                      cloudEnabled: boolean ): string {
 
     // the final description
-    let descriptionString = '';
+    let descriptionString;
 
     // the leading portion of the summary may include an extra hint that sunlight isn't shining yet or that
     // the sim is paused
-    const currentlyDescriptionString = ( sunIsShining && isPlaying ) ? currentlyString :
-                                       ( sunIsShining && !isPlaying ) ? currentlySimIsPausedString :
-                                       ( !sunIsShining && isPlaying ) ? currentlyNoSunlightString :
-                                       currentlySimIsPausedNoSunlight;
+    const currentlyDescriptionString = ( sunIsShining && isPlaying ) ? currentlyStringProperty.value :
+                                       ( sunIsShining && !isPlaying ) ? currentlySimIsPausedStringProperty.value :
+                                       ( !sunIsShining && isPlaying ) ? currentlyNoSunlightStringProperty.value :
+                                       currentlySimIsPausedNoSunlightStringProperty;
 
     // portion that describes the state of the sky
     const skyDescriptionString = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
 
     // portion that describes the state of the concentration in the atmosphere
-    let concentrationDescriptionString = '';
+    let concentrationDescriptionString;
     if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
 
       // If sun is shining and sim is playing, capitalize because this will be read after "Currently, ", otherwise
@@ -139,14 +137,14 @@ class WavesScreenSummaryContentNode extends Node {
       concentrationDescriptionString = ConcentrationDescriber.getFullTimePeriodDescription( date, true );
     }
 
-    let patternString = '';
+    let patternString;
 
-    // The rest of the description depends on whether or not we want to include information about temperature.
+    // The rest of the description depends on whether we want to include information about temperature.
     // Temperature information is included if elected by the user in the UI while the sun is shining. Describing
     // temperature while the sun is not shining can create confusing descriptions where the concentration is high
     // but the temperature is still low.
     if ( ( surfaceTemperatureVisible || surfaceThermometerVisible ) && sunIsShining ) {
-      patternString = summaryWithTemperaturePatternString;
+      patternString = summaryWithTemperaturePatternStringProperty.value;
 
       // Portion that generates the temperature description. If the thermometer is visible, it will include a
       // quantitative description of the temperature. If user has elected to view the temperature in another
@@ -161,12 +159,15 @@ class WavesScreenSummaryContentNode extends Node {
         temperatureUnits
       );
 
-      let temperatureFragmentString = '';
+      let temperatureFragmentString;
       if ( surfaceTemperatureVisible && surfaceThermometerVisible ) {
-        temperatureFragmentString = StringUtils.fillIn( qualitativeAndQuantitativeTemperatureDescriptionPatternString, {
-          qualitativeDescription: qualitativeTemperatureDescriptionString,
-          quantitativeDescription: quantitativeTemperatureDescriptionString
-        } );
+        temperatureFragmentString = StringUtils.fillIn(
+          qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty.value,
+          {
+            qualitativeDescription: qualitativeTemperatureDescriptionString,
+            quantitativeDescription: quantitativeTemperatureDescriptionString
+          }
+        );
       }
       else if ( surfaceTemperatureVisible ) {
         temperatureFragmentString = qualitativeTemperatureDescriptionString;
@@ -175,7 +176,7 @@ class WavesScreenSummaryContentNode extends Node {
         temperatureFragmentString = quantitativeTemperatureDescriptionString;
       }
 
-      const temperatureDescriptionString = StringUtils.fillIn( surfaceTemperaturePatternString, {
+      const temperatureDescriptionString = StringUtils.fillIn( surfaceTemperaturePatternStringProperty.value, {
         temperatureDescription: temperatureFragmentString
       } );
 
@@ -190,7 +191,7 @@ class WavesScreenSummaryContentNode extends Node {
     else {
 
       // assemble the final description without temperature information
-      patternString = summaryWithoutTemperaturePatternString;
+      patternString = summaryWithoutTemperaturePatternStringProperty.value;
       descriptionString = StringUtils.fillIn( patternString, {
         currentlyDescription: currentlyDescriptionString,
         concentrationDescription: concentrationDescriptionString,

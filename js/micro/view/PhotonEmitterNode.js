@@ -27,10 +27,10 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const lightSourceButtonLabelPatternString = GreenhouseEffectStrings.a11y.lightSource.buttonLabelPattern;
-const lightSourcePressedButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSource.buttonPressedHelpText;
-const lightSourceUnpressedButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpText;
-const openSciEdEnergySourceString = GreenhouseEffectStrings.openSciEd.energySource;
+const lightSourceButtonLabelPatternStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonLabelPatternStringProperty;
+const lightSourcePressedButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonPressedHelpTextStringProperty;
+const lightSourceUnpressedButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpTextStringProperty;
+const openSciEdEnergySourceStringProperty = GreenhouseEffectStrings.openSciEd.energySourceStringProperty;
 
 class PhotonEmitterNode extends Node {
 
@@ -55,7 +55,7 @@ class PhotonEmitterNode extends Node {
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
 
       // add a label to the photon emitter since there is only one possible light source
-      this.lightSourceLabel = new Text( openSciEdEnergySourceString, {
+      this.lightSourceLabel = new Text( openSciEdEnergySourceStringProperty, {
         font: new PhetFont( 11 ),
         fill: 'white',
         maxWidth: 150
@@ -96,7 +96,9 @@ class PhotonEmitterNode extends Node {
       }
 
       // pdom - update the help text for the emitter
-      this.button.descriptionContent = on ? lightSourcePressedButtonHelpTextString : lightSourceUnpressedButtonHelpTextString;
+      this.button.descriptionContent = on ?
+                                       lightSourcePressedButtonHelpTextStringProperty.value :
+                                       lightSourceUnpressedButtonHelpTextStringProperty.value;
     } );
   }
 
@@ -154,7 +156,7 @@ class PhotonEmitterNode extends Node {
     }
 
     // pdom - update the accessible name for the button
-    this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternString, {
+    this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternStringProperty.value, {
       lightSource: WavelengthConstants.getLightSourceName( photonWavelength )
     } );
 

@@ -27,13 +27,13 @@ import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 
-const quadWavelengthSelectorHigherEnergyString = GreenhouseEffectStrings.QuadWavelengthSelector.HigherEnergy;
-const quadWavelengthSelectorInfraredString = GreenhouseEffectStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = GreenhouseEffectStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = GreenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = GreenhouseEffectStrings.QuadWavelengthSelector.Visible;
-const lightSourcesString = GreenhouseEffectStrings.a11y.lightSources;
-const lightSourceRadioButtonHelpTextString = GreenhouseEffectStrings.a11y.lightSourceRadioButtonHelpText;
+const quadWavelengthSelectorHigherEnergyStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.HigherEnergyStringProperty;
+const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.InfraredStringProperty;
+const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.MicrowaveStringProperty;
+const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.UltravioletStringProperty;
+const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
+const lightSourcesStringProperty = GreenhouseEffectStrings.a11y.lightSourcesStringProperty;
+const lightSourceRadioButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSourceRadioButtonHelpTextStringProperty;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;
@@ -61,8 +61,8 @@ class QuadEmissionFrequencyControlPanel extends Node {
     super( {
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: lightSourcesString,
-      descriptionContent: lightSourceRadioButtonHelpTextString
+      labelContent: lightSourcesStringProperty.value,
+      descriptionContent: lightSourceRadioButtonHelpTextStringProperty.value
     } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon
@@ -100,41 +100,41 @@ class QuadEmissionFrequencyControlPanel extends Node {
     const visiblePhotonRadioButtonContent = createRadioButtonContent( new Image( flashlight_png ), visiblePhotonNode );
     const ultravioletPhotonRadioButtonContent = createRadioButtonContent( new Image( uvSource_png ), ultravioletPhotonNode );
     const radioButtonContent = [ {
-      createNode: tandem => microwaveRadioButtonContent,
+      createNode: () => microwaveRadioButtonContent,
       value: WavelengthConstants.MICRO_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorMicrowaveString, {
+      label: new Text( quadWavelengthSelectorMicrowaveStringProperty, {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabelText' )
       } ),
       tandemName: microwaveTandemName,
-      labelContent: quadWavelengthSelectorMicrowaveString
+      labelContent: quadWavelengthSelectorMicrowaveStringProperty.value
     }, {
-      createNode: tandem => infraredPhotonRadioButtonContent,
+      createNode: () => infraredPhotonRadioButtonContent,
       value: WavelengthConstants.IR_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorInfraredString, {
+      label: new Text( quadWavelengthSelectorInfraredStringProperty, {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabelText' )
       } ),
       tandemName: infraredTandemName,
-      labelContent: quadWavelengthSelectorInfraredString
+      labelContent: quadWavelengthSelectorInfraredStringProperty.value
     }, {
-      createNode: tandem => visiblePhotonRadioButtonContent,
+      createNode: () => visiblePhotonRadioButtonContent,
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorVisibleString, {
+      label: new Text( quadWavelengthSelectorVisibleStringProperty, {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabelText' )
       } ),
       tandemName: visibleTandemName,
-      labelContent: quadWavelengthSelectorVisibleString
+      labelContent: quadWavelengthSelectorVisibleStringProperty.value
     }, {
-      createNode: tandem => ultravioletPhotonRadioButtonContent,
+      createNode: () => ultravioletPhotonRadioButtonContent,
       value: WavelengthConstants.UV_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorUltravioletString, {
+      label: new Text( quadWavelengthSelectorUltravioletStringProperty, {
         font: labelFont,
         tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabelText' )
       } ),
       tandemName: ultravioletTandemName,
-      labelContent: quadWavelengthSelectorUltravioletString
+      labelContent: quadWavelengthSelectorUltravioletStringProperty.value
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.
@@ -184,7 +184,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
     } );
 
     // Draw an arrow node to illustrate energy of the emitted photons.
-    const energyText = new Text( quadWavelengthSelectorHigherEnergyString, { font: new PhetFont( 19 ) } );
+    const energyText = new Text( quadWavelengthSelectorHigherEnergyStringProperty, { font: new PhetFont( 19 ) } );
     const energyArrow = new ArrowNode( 0, 0, ARROW_LENGTH, 0, {
       fill: ARROW_COLOR,
       stroke: ARROW_COLOR,
