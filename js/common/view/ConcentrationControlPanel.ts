@@ -8,16 +8,19 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -36,6 +39,7 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
 const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneStringProperty;
 const waterConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPatternStringProperty;
+const waterConcentrationUnknownStringProperty = GreenhouseEffectStrings.concentrationPanel.waterConcentrationUnknownStringProperty;
 const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
 const methaneConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPatternStringProperty;
 const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
@@ -409,22 +413,32 @@ class CompositionDataNode extends VBox {
       maxWidth: 200
     };
 
-    // TODO: This doesn't use data or lookup yet, that needs to be implemented, see
-    //       https://github.com/phetsims/greenhouse-effect/issues/219.
-    const relativeHumidityProperty = new NumberProperty( 70 );
-    const carbonDioxideConcentrationProperty = new NumberProperty( 414 );
-    const methaneConcentrationProperty = new NumberProperty( 1.867 );
-    const nitrousOxideConcentrationProperty = new NumberProperty( 0.332 );
-    dateProperty.link( () => {
-      relativeHumidityProperty.set( 70 );
-      carbonDioxideConcentrationProperty.set( 414 );
-      methaneConcentrationProperty.set( 1.867 );
-      nitrousOxideConcentrationProperty.set( 0.332 );
+    // Set up the data and text that will be used for the concentration display.  Note that H2O is handled as a special
+    // case in this code because it can have a null value, since we don't have data for it's value during the ice age.
+    assert && assert( GREENHOUSE_GAS_CONCENTRATIONS.has( dateProperty.value ), `no concentration data for ${dateProperty.value}` );
+    const initialConcentrationData = GREENHOUSE_GAS_CONCENTRATIONS.get( dateProperty.value );
+    const relativeHumidityProperty = new Property<number | null>( initialConcentrationData!.relativeHumidity );
+    const carbonDioxideConcentrationProperty = new NumberProperty( initialConcentrationData!.carbonDioxideConcentration );
+    const methaneConcentrationProperty = new NumberProperty( initialConcentrationData!.methaneConcentration );
+    const nitrousOxideConcentrationProperty = new NumberProperty( initialConcentrationData!.nitrousOxideConcentration );
+    dateProperty.link( date => {
+      assert && assert( GREENHOUSE_GAS_CONCENTRATIONS.has( date ), `no concentration data for ${date}` );
+      const concentrationData = GREENHOUSE_GAS_CONCENTRATIONS.get( date );
+      relativeHumidityProperty.set( concentrationData!.relativeHumidity );
+      carbonDioxideConcentrationProperty.set( concentrationData!.carbonDioxideConcentration );
+      methaneConcentrationProperty.set( concentrationData!.methaneConcentration );
+      nitrousOxideConcentrationProperty.set( concentrationData!.nitrousOxideConcentration );
     } );
 
-    const waterTextProperty = new PatternStringProperty( waterConcentrationPatternStringProperty, {
-      value: relativeHumidityProperty
-    } );
+    // The readout for water, aka relative humidity, is a bit different from the others because it can be unknown.  This
+    // is what the following derived property for the water text is all about.
+    const waterTextProperty = new DerivedProperty(
+      [ relativeHumidityProperty, waterConcentrationPatternStringProperty, waterConcentrationUnknownStringProperty ],
+      ( relativeHumidity, waterConcentrationPatternString, waterConcentrationUnknownString ) =>
+        relativeHumidity === null ?
+        waterConcentrationUnknownString :
+        StringUtils.fillIn( waterConcentrationPatternString, { value: relativeHumidity } )
+    );
     const waterText = new RichText( waterTextProperty, textOptions );
 
     const carbonDioxideTextProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
@@ -448,6 +462,42 @@ class CompositionDataNode extends VBox {
     } );
   }
 }
+
+/**
+ * data-only class used for mapping the concentrations of various greenhouse gasses to points in time
+ */
+class GreenhouseGasConcentrationData {
+
+  // relative humidity, in percent, null indicates "unknown"
+  public readonly relativeHumidity: number | null;
+
+  // concentration of CO2, in PPM
+  public readonly carbonDioxideConcentration: number;
+
+  // concentration of CH4, in PPM
+  public readonly methaneConcentration: number;
+
+  // concentration of N2O, in PPM
+  public readonly nitrousOxideConcentration: number;
+
+  public constructor( relativeHumidity: number | null,
+                      carbonDioxideConcentration: number,
+                      methaneConcentration: number,
+                      nitrousOxideConcentration: number ) {
+    this.relativeHumidity = relativeHumidity;
+    this.carbonDioxideConcentration = carbonDioxideConcentration;
+    this.methaneConcentration = methaneConcentration;
+    this.nitrousOxideConcentration = nitrousOxideConcentration;
+  }
+}
+
+// Map the dates to greenhouse gas concentration data.  The values came from the design document.
+const GREENHOUSE_GAS_CONCENTRATIONS = new Map( [
+  [ ConcentrationDate.TWENTY_TWENTY, new GreenhouseGasConcentrationData( 70, 413, 1.889, 0.333 ) ],
+  [ ConcentrationDate.NINETEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 311, 1.116, 0.288 ) ],
+  [ ConcentrationDate.SEVENTEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 277, 0.694, 0.271 ) ],
+  [ ConcentrationDate.ICE_AGE, new GreenhouseGasConcentrationData( null, 180, 0.380, 0.215 ) ]
+] );
 
 /**
  * An inner class for the control panel that creates a RadioButtonGroup that selects between controlling concentration

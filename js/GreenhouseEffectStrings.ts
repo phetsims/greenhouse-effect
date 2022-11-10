@@ -39,6 +39,7 @@ type StringsType = {
     'noneStringProperty': LinkableProperty<string>;
     'iceAgeStringProperty': LinkableProperty<string>;
     'waterConcentrationPatternStringProperty': LinkableProperty<string>;
+    'waterConcentrationUnknownStringProperty': LinkableProperty<string>;
     'carbonDioxideConcentrationPatternStringProperty': LinkableProperty<string>;
     'methaneConcentrationPatternStringProperty': LinkableProperty<string>;
     'nitrousOxideConcentrationPatternStringProperty': LinkableProperty<string>;
