@@ -49,18 +49,24 @@ const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.c
 // along the slider are at the same positions of values along the concentration meter.
 const CONCENTRATION_SLIDER_TRACK_HEIGHT = 150;
 
-// Tick sizes for the concentration meter.
+// tick sizes for the concentration meter
 const CONCENTRATION_METER_MACRO_BOX_WIDTH = 30;
 const CONCENTRATION_METER_NUMBER_OF_MICRO_TICKS = 14;
 
-// Margins between content and panel borders.
+// margins between content and panel borders
 const PANEL_MARGINS = 5;
 
-// Spacing between contents within the panel.
+// spacing between contents within the panel
 const CONTENT_SPACING = 10;
 
-// For text labels for the slider and meter.
+// for text labels for the slider and meter
 const LABEL_OPTIONS = { font: GreenhouseEffectConstants.CONTENT_FONT, maxWidth: 60 };
+
+// spacing between the slider and the labels at the top and bottom
+const SLIDER_TRACK_TO_LABEL_SPACING = 10;
+
+// line width for the slider thumb
+const SLIDER_THUMB_LINE_WIDTH = 1;
 
 // color of meters and controls in this panel
 const CONCENTRATION_CONTROLS_STROKE = 'black';
@@ -143,7 +149,8 @@ class ConcentrationControlPanel extends Panel {
 
     // Put the two concentration controls into a single node where only one is visible at a time.
     const concentrationControlsParentNode = new FlowBox( {
-      children: [ concentrationSlider, dateControl ]
+      children: [ concentrationSlider, dateControl ],
+      minContentHeight: Math.max( concentrationSlider.height, dateControl.height )
     } );
 
     const contentChildren = [ titleText, concentrationControlsParentNode, controlRadioButtonGroup ];
@@ -291,7 +298,7 @@ class DateControl extends HBox {
     // handling of dynamic strings.
     const labeledMacroLine = new VBox( {
       children: [ lotsText, macroConcentrationLine, noneText ],
-      spacing: 4
+      spacing: SLIDER_TRACK_TO_LABEL_SPACING
     } );
 
     // Put all the elements that comprise the concentration range graphic together into one node.
@@ -326,9 +333,8 @@ class DateControl extends HBox {
       bottomConnectionLine.setPoint2( microConcentrationLine.centerBottom );
 
       // Center the value indicator in the horizontal direction.
-      valueCircle.centerX = microConcentrationLine.centerX;
+      valueCircle.center = microConcentrationLine.center;
     } );
-
 
     // Update the vertical position of the concentration indicator when the concentration changes.
     const concentrationRangeLength = ConcentrationModel.CONCENTRATION_RANGE.getLength();
@@ -350,13 +356,13 @@ class DateControl extends HBox {
     // Put the graphical zoom in representation and the radio buttons next to each other in an HBox.
     super( {
       children: [ concentrationRangeGraphic, dateRadioButtonGroup ],
-      spacing: 10
+      spacing: CONTENT_SPACING
     } );
   }
 }
 
 /**
- * Inner class that is a labeled VSlider that directly controls greenhouse gas concentration in the sim.
+ * Inner class representing a labeled VSlider that directly controls greenhouse gas concentration.
  */
 class ConcentrationSlider extends VBox {
   public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
@@ -370,6 +376,7 @@ class ConcentrationSlider extends VBox {
     const slider = new VSlider( concentrationModel.manuallyControlledConcentrationProperty, sliderRange, {
       trackSize: new Dimension2( 1, CONCENTRATION_SLIDER_TRACK_HEIGHT ),
       thumbSize: GreenhouseEffectConstants.VERTICAL_SLIDER_THUMB_SIZE,
+      thumbLineWidth: SLIDER_THUMB_LINE_WIDTH,
 
       // constrain the value a bit to avoid some oddities with floating point math
       constrainValue: n => Utils.toFixedNumber( n, 6 ),
@@ -393,12 +400,24 @@ class ConcentrationSlider extends VBox {
     } );
     slider.scale( -1, 1 );
 
-    // add labels to the slider
+    // labels
     const lotsText = new Text( lotsStringProperty, LABEL_OPTIONS );
     const noneText = new Text( noneStringProperty, LABEL_OPTIONS );
 
+    // Position the labels at the top and bottom such that they will be the same distance from the ends of the slider
+    // track as they will be in the concentration range graphic.
+    const sliderToLabelSpacing = SLIDER_TRACK_TO_LABEL_SPACING -
+                                 GreenhouseEffectConstants.VERTICAL_SLIDER_THUMB_SIZE.height / 2 -
+                                 SLIDER_THUMB_LINE_WIDTH;
+    assert && assert(
+      sliderToLabelSpacing >= 0,
+      'slider-to-label spacing less than zero, adjust constants to make this work'
+    );
+
+    // Put the labels and the slider together into the VBox.
     super( {
       children: [ lotsText, slider, noneText ],
+      spacing: sliderToLabelSpacing,
       tandem: tandem
     } );
   }
