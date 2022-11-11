@@ -72,7 +72,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
 
     // checkbox for thermometer visibility
-    this.showSurfaceThermometerProperty = new BooleanProperty( true );
+    this.showSurfaceThermometerProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'showSurfaceThermometerProperty' )
+    } );
     this.showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
       left: this.atmosphereLayerNodes[ 0 ].showTemperatureCheckboxLeft,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
