@@ -6,14 +6,14 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
-import RandomIcon from '../common/view/RandomIcon.js';
+import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
+import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 
 class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
@@ -21,7 +21,7 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
-      homeScreenIcon: new RandomIcon( 552 ),
+      homeScreenIcon: GreenhouseEffectIconFactory.createWavesScreenHomeIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.wavesStringProperty,

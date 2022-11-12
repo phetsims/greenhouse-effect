@@ -7,7 +7,7 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
-import RandomIcon from '../common/view/RandomIcon.js';
+import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import MicroModel from './model/MicroModel.js';
@@ -22,7 +22,7 @@ class MicroScreen extends Screen {
 
     const options = {
       backgroundColorProperty: new Property( '#C5D6E8' ),
-      homeScreenIcon: new RandomIcon( 549 ),
+      homeScreenIcon: GreenhouseEffectIconFactory.createMicroScreenHomeIcon(),
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.microStringProperty,
 

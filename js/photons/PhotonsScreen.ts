@@ -8,12 +8,12 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
-import RandomIcon from '../common/view/RandomIcon.js';
+import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
+import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
-import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 
 class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
@@ -21,7 +21,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
     const options = {
       backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
-      homeScreenIcon: new RandomIcon( 1 ),
+      homeScreenIcon: GreenhouseEffectIconFactory.createPhotonsScreenHomeIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.photonsStringProperty,
