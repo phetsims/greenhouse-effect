@@ -1,7 +1,9 @@
 // Copyright 2022, University of Colorado Boulder
 
 import Screen from '../../../../joist/js/Screen.js';
-import { Color, Image, LinearGradient, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { Shape } from '../../../../kite/js/imports.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import { Color, Image, LinearGradient, Node, Path, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -12,6 +14,8 @@ const LOWER_SKY_COLOR = new Color( '#B5E1F2' );
 const GROUND_COLOR_AT_HORIZON = new Color( '#4BB10B' );
 const LOWER_GROUND_COLOR = new Color( '#0B410C' );
 const PHOTON_MAX_WIDTH = 20;
+const WAVE_AMPLITUDE = 50; // in screen coordinates
+const IR_WAVELENGTH = 60; // in screen coordinates
 
 /**
  * An object with static methods for creating the icons used in the Greenhouse Effect simulation.
@@ -19,7 +23,25 @@ const PHOTON_MAX_WIDTH = 20;
 class GreenhouseEffectIconFactory {
 
   public static createWavesScreenHomeIcon(): Node {
-    return GreenhouseEffectIconFactory.createGrassAndSkyBackground();
+    const background = GreenhouseEffectIconFactory.createGrassAndSkyBackground();
+    const waveShape = new Shape().moveTo( 0, 0 );
+    _.times( 4, ( index: number ) => {
+      waveShape.cubicCurveTo(
+        ( index + 1 / 3 ) * IR_WAVELENGTH,
+        WAVE_AMPLITUDE,
+        ( index + 2 / 3 ) * IR_WAVELENGTH,
+        -WAVE_AMPLITUDE,
+        ( index + 1 ) * IR_WAVELENGTH,
+        0
+      );
+    } );
+    const wave = new Path( waveShape, {
+      lineWidth: 5,
+      stroke: PhetColorScheme.RED_COLORBLIND,
+      lineCap: 'round',
+      x: 200, y: 200
+    } );
+    return new Node( { children: [ background, wave ] } );
   }
 
   public static createPhotonsScreenHomeIcon(): Node {
