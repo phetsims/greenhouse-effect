@@ -18,12 +18,13 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import agriculturalLandscape1_png from '../../../images/agriculturalLandscape1_png.js';
-import suburbanLandscapeBackground_png from '../../../images/suburbanLandscapeBackground_png.js';
-import suburbanLandscapeForeground_png from '../../../images/suburbanLandscapeForeground_png.js';
-import landscapeWithDenseCityBackground_png from '../../../images/landscapeWithDenseCityBackground_png.js';
-import landscapeWithDenseCityForeground_png from '../../../images/landscapeWithDenseCityForeground_png.js';
+import agriculturalLandscapeBackground_png from '../../../images/agriculturalLandscapeBackground_png.js';
+import agriculturalLandscapeForeground_png from '../../../images/agriculturalLandscapeForeground_png.js';
+import fiftiesLandscapeBackground_png from '../../../images/fiftiesLandscapeBackground_png.js';
+import fiftiesLandscapeForeground_png from '../../../images/fiftiesLandscapeForeground_png.js';
 import landscapeWithGlacier_png from '../../../images/landscapeWithGlacier_png.js';
+import twentyTwentiesLandscapeBackground_png from '../../../images/twentyTwentiesLandscapeBackground_png.js';
+import twentyTwentiesLandscapeForeground_png from '../../../images/twentyTwentiesLandscapeForeground_png.js';
 import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -33,7 +34,6 @@ import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
-import merge from '../../../../phet-core/js/merge.js';
 
 type SelfOptions = EmptySelfOptions;
 type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
@@ -164,19 +164,12 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       bottom: SIZE.height
     };
     const unadornedLandscapeImage = new Image( unadornedLandscape_png, sharedImageOptions );
-    const agriculturalLandscapeImage = new Image( agriculturalLandscape1_png, sharedImageOptions );
-    const fiftiesLandscapeBackgroundImage = new Image( suburbanLandscapeBackground_png, sharedImageOptions );
-    const fiftiesLandscapeForegroundImage = new Image( suburbanLandscapeForeground_png,
-
-      // The foreground must be manually positioned, and will need to be updated if the artwork changes.
-      merge( {}, sharedImageOptions, { bottom: SIZE.height - 55 } )
-    );
-    const denseCityLandscapeBackgroundImage = new Image( landscapeWithDenseCityBackground_png, sharedImageOptions );
-    const denseCityLandscapeForegroundImage = new Image( landscapeWithDenseCityForeground_png,
-
-      // The foreground must be manually positioned, and will need to be updated if the artwork changes.
-      merge( {}, sharedImageOptions, { bottom: SIZE.height - 30 } )
-    );
+    const agriculturalLandscapeBackgroundImage = new Image( agriculturalLandscapeBackground_png, sharedImageOptions );
+    const agriculturalLandscapeForegroundImage = new Image( agriculturalLandscapeForeground_png, sharedImageOptions );
+    const fiftiesLandscapeBackgroundImage = new Image( fiftiesLandscapeBackground_png, sharedImageOptions );
+    const fiftiesLandscapeForegroundImage = new Image( fiftiesLandscapeForeground_png, sharedImageOptions );
+    const denseCityLandscapeBackgroundImage = new Image( twentyTwentiesLandscapeBackground_png, sharedImageOptions );
+    const denseCityLandscapeForegroundImage = new Image( twentyTwentiesLandscapeForeground_png, sharedImageOptions );
     const landscapeWithGlacierImage = new Image( landscapeWithGlacier_png, sharedImageOptions );
 
     // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
@@ -225,8 +218,10 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
                                           date === ConcentrationDate.TWENTY_TWENTY;
         landscapeWithGlacierImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                             date === ConcentrationDate.ICE_AGE;
-        agriculturalLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                             date === ConcentrationDate.SEVENTEEN_FIFTY;
+        agriculturalLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                       date === ConcentrationDate.SEVENTEEN_FIFTY;
+        agriculturalLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                                       date === ConcentrationDate.SEVENTEEN_FIFTY;
         fiftiesLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                                   date === ConcentrationDate.NINETEEN_FIFTY;
         fiftiesLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
@@ -245,7 +240,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         // landscape image backgrounds
         unadornedLandscapeImage,
         landscapeWithGlacierImage,
-        agriculturalLandscapeImage,
+        agriculturalLandscapeBackgroundImage,
         fiftiesLandscapeBackgroundImage,
         denseCityLandscapeBackgroundImage,
 
@@ -253,6 +248,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         surfaceTemperatureNode,
 
         // landscape image foregrounds
+        agriculturalLandscapeForegroundImage,
         fiftiesLandscapeForegroundImage,
         denseCityLandscapeForegroundImage
       ]
