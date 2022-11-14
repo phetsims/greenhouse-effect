@@ -1,12 +1,4 @@
 {
-  "agriculturalLandscape1.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
   "agriculturalLandscapeBackground.png": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
@@ -16,14 +8,6 @@
     "notes": "created by Mariah Hermsmeyer"
   },
   "agriculturalLandscapeForeground.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
-  "fiftiesLandscape.png": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
     ],
@@ -71,22 +55,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": ""
   },
-  "landscapeWithDenseCityBackground.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
-  "landscapeWithDenseCityForeground.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
   "landscapeWithGlacier.png": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
@@ -110,22 +78,6 @@
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": ""
-  },
-  "suburbanLandscapeBackground.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
-  "suburbanLandscapeForeground.png": {
-    "text": [
-      "Copyright 2022 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
   },
   "twentyTwentiesLandscapeBackground.png": {
     "text": [
