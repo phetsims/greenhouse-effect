@@ -17,8 +17,6 @@ const HOME_ICON_HEIGHT = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height;
 const GROUND_HEIGHT = HOME_ICON_HEIGHT * 3 / 8;
 const UPPER_SKY_COLOR = new Color( '#3378C1' );
 const LOWER_SKY_COLOR = new Color( '#B5E1F2' );
-const GROUND_COLOR_AT_HORIZON = new Color( '#4BB10B' );
-const LOWER_GROUND_COLOR = new Color( '#0B410C' );
 const PHOTON_MAX_WIDTH = 20;
 const WAVE_AMPLITUDE = 50; // in screen coordinates
 const IR_WAVELENGTH = 60; // in screen coordinates
@@ -27,6 +25,7 @@ const WAVE_LINE_WIDTH = 7;
 const WAVE_LINE_CAP = 'round';
 const WAVE_ALPHA = 0.5;
 const LAYER_THICKNESS = HOME_ICON_HEIGHT * 0.05;
+const GRASS_BASE_COLOR = new Color( '#117c13' );
 
 /**
  * An object with static methods for creating the icons used in the Greenhouse Effect simulation.
@@ -38,7 +37,7 @@ class GreenhouseEffectIconFactory {
    * waves that represent visible and IR light.
    */
   public static createWavesScreenHomeIcon(): Node {
-    const background = GreenhouseEffectIconFactory.createGrassAndSkyBackground();
+    const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
     const waves = [];
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( IR_WAVELENGTH, 4, -Math.PI * 0.65 ), {
       stroke: PhetColorScheme.RED_COLORBLIND.withAlpha( WAVE_ALPHA ),
@@ -71,15 +70,15 @@ class GreenhouseEffectIconFactory {
   public static createPhotonsScreenHomeIcon(): Node {
 
     // Create a background of grass and sky.
-    const background = GreenhouseEffectIconFactory.createGrassAndSkyBackground();
+    const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
 
     // Create the photons.
     const visiblePhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.75, 0.1, 0.35, 0.6, 0.8, 0.2, 0.4 ],
+      [ 0.5, 0.3, 0.75, 0.1, 0.35, 0.55, 0.7, 0.2, 0.4 ],
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH
     );
     const infraredPhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.65, 0.5, 0.5 ],
+      [ 0.4, 0.3, 0.7, 0.4, 0.5 ],
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
@@ -88,36 +87,7 @@ class GreenhouseEffectIconFactory {
 
   public static createLayerModelScreenHomeIcon(): Node {
 
-    const background = new VBox( {
-      children: [
-
-        // sky
-        new Rectangle(
-          0,
-          0,
-          HOME_ICON_WIDTH,
-          HOME_ICON_HEIGHT * 5 / 8,
-          {
-            fill: new LinearGradient( 0, 0, 0, HOME_ICON_HEIGHT )
-              .addColorStop( 0, UPPER_SKY_COLOR )
-              .addColorStop( 1, LOWER_SKY_COLOR )
-          }
-        ),
-
-        // ground
-        new Rectangle(
-          0,
-          0,
-          HOME_ICON_WIDTH,
-          HOME_ICON_HEIGHT * 3 / 8,
-          {
-            fill: new LinearGradient( 0, 0, 0, HOME_ICON_HEIGHT )
-              .addColorStop( 0, new Color( '#848689' ) )
-              .addColorStop( 1, new Color( '#14181A' ) )
-          }
-        )
-      ]
-    } );
+    const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground( new Color( '#3d3635' ) );
 
     // Create the layers, which are meant to look like panes of glass seen edge on.
     const layers: Node[] = [];
@@ -133,11 +103,11 @@ class GreenhouseEffectIconFactory {
 
     // Create the photons.
     const visiblePhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.75, 0.1, 0.35, 0.6, 0.8, 0.2, 0.4 ],
+      [ 0.2, 0.3, 0.7, 0.35, 0.1, 0.75, 0.55, 0.3, 0.45 ],
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH
     );
     const infraredPhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.65, 0.5, 0.5 ],
+      [ 0.5, 0.3, 0.65, 0.5, 0.33, 0.1 ],
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
@@ -154,7 +124,7 @@ class GreenhouseEffectIconFactory {
     );
   }
 
-  private static createGrassAndSkyBackground(): Node {
+  private static createGroundAndSkyBackground( groundBaseColor: Color = GRASS_BASE_COLOR ): Node {
     return new VBox( {
       children: [
 
@@ -165,7 +135,7 @@ class GreenhouseEffectIconFactory {
           HOME_ICON_WIDTH,
           HOME_ICON_HEIGHT - GROUND_HEIGHT,
           {
-            fill: new LinearGradient( 0, 0, 0, HOME_ICON_HEIGHT )
+            fill: new LinearGradient( 0, 0, 0, HOME_ICON_HEIGHT - GROUND_HEIGHT )
               .addColorStop( 0, UPPER_SKY_COLOR )
               .addColorStop( 1, LOWER_SKY_COLOR )
           }
@@ -178,9 +148,9 @@ class GreenhouseEffectIconFactory {
           HOME_ICON_WIDTH,
           GROUND_HEIGHT,
           {
-            fill: new LinearGradient( 0, 0, 0, HOME_ICON_HEIGHT )
-              .addColorStop( 0, GROUND_COLOR_AT_HORIZON )
-              .addColorStop( 1, LOWER_GROUND_COLOR )
+            fill: new LinearGradient( 0, 0, 0, GROUND_HEIGHT )
+              .addColorStop( 0, groundBaseColor.colorUtilsBrighter( 0.5 ) )
+              .addColorStop( 1, groundBaseColor.colorUtilsDarker( 0.3 ) )
           }
         )
       ]
