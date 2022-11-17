@@ -8,19 +8,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Circle, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -38,8 +35,6 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 // constants
 const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
 const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneStringProperty;
-const waterConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.waterConcentrationPatternStringProperty;
-const waterConcentrationUnknownStringProperty = GreenhouseEffectStrings.concentrationPanel.waterConcentrationUnknownStringProperty;
 const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
 const methaneConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPatternStringProperty;
 const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
@@ -436,29 +431,16 @@ class CompositionDataNode extends VBox {
     // case in this code because it can have a null value, since we don't have data for it's value during the ice age.
     assert && assert( GREENHOUSE_GAS_CONCENTRATIONS.has( dateProperty.value ), `no concentration data for ${dateProperty.value}` );
     const initialConcentrationData = GREENHOUSE_GAS_CONCENTRATIONS.get( dateProperty.value );
-    const relativeHumidityProperty = new Property<number | null>( initialConcentrationData!.relativeHumidity );
     const carbonDioxideConcentrationProperty = new NumberProperty( initialConcentrationData!.carbonDioxideConcentration );
     const methaneConcentrationProperty = new NumberProperty( initialConcentrationData!.methaneConcentration );
     const nitrousOxideConcentrationProperty = new NumberProperty( initialConcentrationData!.nitrousOxideConcentration );
     dateProperty.link( date => {
       assert && assert( GREENHOUSE_GAS_CONCENTRATIONS.has( date ), `no concentration data for ${date}` );
       const concentrationData = GREENHOUSE_GAS_CONCENTRATIONS.get( date );
-      relativeHumidityProperty.set( concentrationData!.relativeHumidity );
       carbonDioxideConcentrationProperty.set( concentrationData!.carbonDioxideConcentration );
       methaneConcentrationProperty.set( concentrationData!.methaneConcentration );
       nitrousOxideConcentrationProperty.set( concentrationData!.nitrousOxideConcentration );
     } );
-
-    // The readout for water, aka relative humidity, is a bit different from the others because it can be unknown.  This
-    // is what the following derived property for the water text is all about.
-    const waterTextProperty = new DerivedProperty(
-      [ relativeHumidityProperty, waterConcentrationPatternStringProperty, waterConcentrationUnknownStringProperty ],
-      ( relativeHumidity, waterConcentrationPatternString, waterConcentrationUnknownString ) =>
-        relativeHumidity === null ?
-        waterConcentrationUnknownString :
-        StringUtils.fillIn( waterConcentrationPatternString, { value: relativeHumidity } )
-    );
-    const waterText = new RichText( waterTextProperty, textOptions );
 
     const carbonDioxideTextProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
       value: carbonDioxideConcentrationProperty
@@ -476,7 +458,7 @@ class CompositionDataNode extends VBox {
     const nitrousOxideText = new RichText( nitrousOxideTextProperty, textOptions );
 
     super( {
-      children: [ waterText, carbonDioxideText, methaneText, nitrousOxideText ],
+      children: [ carbonDioxideText, methaneText, nitrousOxideText ],
       align: 'left'
     } );
   }
