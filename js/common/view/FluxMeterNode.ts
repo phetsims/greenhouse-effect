@@ -29,13 +29,14 @@ import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNo
 import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import WireNode from '../../../../scenery-phet/js/WireNode.js';
-import { Color, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Color, ColorProperty, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
@@ -161,14 +162,14 @@ class FluxMeterNode extends Node {
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
       sunlightStringProperty,
-      GreenhouseEffectConstants.SUNLIGHT_COLOR
+      GreenhouseEffectColors.sunlightColorProperty
     );
     const infraredDisplayArrow = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
       infraredStringProperty,
-      GreenhouseEffectConstants.INFRARED_COLOR
+      GreenhouseEffectColors.infraredColorProperty
     );
     const fluxArrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
 
@@ -345,7 +346,7 @@ class EnergyFluxDisplay extends Node {
                       energyUpProperty: Property<number>,
                       fluxToArrowLengthMultiplierProperty: TReadOnlyProperty<number>,
                       labelStringProperty: TReadOnlyProperty<string>,
-                      baseColor: Color,
+                      baseColorProperty: ColorProperty,
                       providedOptions?: EnergyFluxDisplayOptions ) {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
@@ -356,7 +357,7 @@ class EnergyFluxDisplay extends Node {
         headHeight: 16,
         headWidth: 16,
         tailWidth: 8,
-        fill: baseColor
+        fill: baseColorProperty
       }
     }, providedOptions );
 
@@ -406,11 +407,16 @@ class EnergyFluxDisplay extends Node {
     boundsRectangle.addChild( downArrow );
     boundsRectangle.addChild( upArrow );
 
+    const darkenedBaseColorProperty = new DerivedProperty(
+      [ baseColorProperty ],
+      color => color.colorUtilsDarker( 0.25 )
+    );
+
     // Add a horizontal line at the origin of the arrows that can be seen when the arrows have no length.
     const centerIndicatorLine = new Line( 0, 0, boundsRectangle.width * 0.5, 0, {
       centerX: boundsRectangle.width / 2,
       centerY: boundsRectangle.height / 2,
-      stroke: baseColor.colorUtilsDarker( 0.25 ),
+      stroke: darkenedBaseColorProperty,
       lineWidth: 3
     } );
     boundsRectangle.addChild( centerIndicatorLine );

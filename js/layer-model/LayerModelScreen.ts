@@ -4,9 +4,9 @@
  * @author John Blanco
  */
 
-import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import GreenhouseEffectColors from '../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
@@ -20,7 +20,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
   public constructor( tandem: Tandem ) {
 
     const options = {
-      backgroundColorProperty: new Property( GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR ),
+      backgroundColorProperty: GreenhouseEffectColors.screenBackgroundColorProperty,
       homeScreenIcon: GreenhouseEffectIconFactory.createLayerModelScreenHomeIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,

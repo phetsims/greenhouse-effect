@@ -1,5 +1,6 @@
 // Copyright 2022, University of Colorado Boulder
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Screen from '../../../../joist/js/Screen.js';
@@ -8,6 +9,7 @@ import { Color, Image, LinearGradient, Node, Path, Rectangle, VBox } from '../..
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
@@ -36,17 +38,30 @@ class GreenhouseEffectIconFactory {
    * waves that represent visible and IR light.
    */
   public static createWavesScreenHomeIcon(): Node {
+
     const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
+
+    // Create derived properties for the wave colors so that a non-opaque value can be used.
+    const irWaveColorProperty = new DerivedProperty(
+      [ GreenhouseEffectColors.infraredColorProperty ],
+      baseColor => baseColor?.withAlpha( WAVE_ALPHA )
+    );
+    const sunlightWaveColorProperty = new DerivedProperty(
+      [ GreenhouseEffectColors.sunlightColorProperty ],
+      baseColor => baseColor?.withAlpha( WAVE_ALPHA )
+    );
+
+    // Create the wave nodes.
     const waves = [];
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( IR_WAVELENGTH, 4, -Math.PI * 0.65 ), {
-      stroke: Color.RED.withAlpha( WAVE_ALPHA ),
+      stroke: irWaveColorProperty,
       lineWidth: WAVE_LINE_WIDTH,
       lineCap: WAVE_LINE_CAP,
       left: HOME_ICON_WIDTH * 0.1,
       bottom: HOME_ICON_HEIGHT * 0.8
     } ) );
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( IR_WAVELENGTH, 3, Math.PI * 0.65 ), {
-      stroke: Color.RED.withAlpha( WAVE_ALPHA ),
+      stroke: irWaveColorProperty,
       lineWidth: WAVE_LINE_WIDTH,
       lineCap: WAVE_LINE_CAP,
       left: HOME_ICON_WIDTH * 0.7,
@@ -54,7 +69,7 @@ class GreenhouseEffectIconFactory {
     } ) );
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( VISIBLE_WAVELENGTH, 10, Math.PI / 2 ), {
       lineWidth: WAVE_LINE_WIDTH,
-      stroke: Color.YELLOW.withAlpha( WAVE_ALPHA ),
+      stroke: sunlightWaveColorProperty,
       lineCap: WAVE_LINE_CAP,
       centerX: HOME_ICON_WIDTH / 2,
       top: 0

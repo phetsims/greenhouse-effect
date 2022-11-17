@@ -18,6 +18,7 @@ import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
@@ -106,12 +107,12 @@ class EnergyLegend extends Panel {
       const sunlightWavelengths = 3.5;
       const infraredWavelengths = 2.5;
       sunlightIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
-        stroke: GreenhouseEffectConstants.SUNLIGHT_COLOR
+        stroke: GreenhouseEffectColors.sunlightColorProperty
       } );
       infraredIcon = createWaveIcon(
         sunlightWavelength * sunlightWavelengths / infraredWavelengths,
         infraredWavelengths,
-        { stroke: GreenhouseEffectConstants.INFRARED_COLOR }
+        { stroke: GreenhouseEffectColors.infraredColorProperty }
       );
     }
     else {

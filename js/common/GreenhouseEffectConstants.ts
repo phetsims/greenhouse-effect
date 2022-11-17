@@ -9,7 +9,6 @@
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Color } from '../../../scenery/js/imports.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectConstants = {
@@ -17,11 +16,6 @@ const GreenhouseEffectConstants = {
   // margins
   SCREEN_VIEW_X_MARGIN: 15,
   SCREEN_VIEW_Y_MARGIN: 15,
-
-  // colors
-  SCREEN_VIEW_BACKGROUND_COLOR: new Color( 254, 252, 231 ),
-  SUNLIGHT_COLOR: Color.YELLOW,
-  INFRARED_COLOR: Color.RED,
 
   // spacing between observation window and UI components to its right
   OBSERVATION_WINDOW_RIGHT_SPACING: 15,

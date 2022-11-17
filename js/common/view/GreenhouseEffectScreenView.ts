@@ -16,6 +16,7 @@ import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import { Path, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
@@ -92,7 +93,7 @@ class GreenhouseEffectScreenView extends ScreenView {
       clippingFramePath.close();
 
       const clippingFrame = new Path( clippingFramePath, {
-        fill: GreenhouseEffectConstants.SCREEN_VIEW_BACKGROUND_COLOR
+        fill: GreenhouseEffectColors.screenBackgroundColorProperty
       } );
       this.addChild( clippingFrame );
     }

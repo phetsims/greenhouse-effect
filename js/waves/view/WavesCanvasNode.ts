@@ -4,14 +4,15 @@
  * WavesCanvasNode is a Scenery CanvasNode used to render sinusoidal waves that represent different frequencies of light
  * moving around on the screen.
  *
- * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { CanvasNode, CanvasNodeOptions, Color } from '../../../../scenery/js/imports.js';
+import { CanvasNode, CanvasNodeOptions, ColorProperty } from '../../../../scenery/js/imports.js';
+import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from '../model/Wave.js';
@@ -23,7 +24,7 @@ const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
 
 type RenderingParameters = {
-  baseColor: Color;
+  baseColorProperty: ColorProperty;
   amplitude: number;
   wavelength: number;
 };
@@ -55,7 +56,7 @@ class WavesCanvasNode extends CanvasNode {
         [
           GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
           {
-            baseColor: Color.YELLOW,
+            baseColorProperty: GreenhouseEffectColors.sunlightColorProperty,
             amplitude: modelViewTransform.modelToViewDeltaX( WavesModel.WAVE_AMPLITUDE_FOR_RENDERING ),
             wavelength: modelViewTransform.modelToViewDeltaX( modelVisibleWavelength! )
           }
@@ -63,7 +64,7 @@ class WavesCanvasNode extends CanvasNode {
         [
           GreenhouseEffectConstants.INFRARED_WAVELENGTH,
           {
-            baseColor: Color.RED,
+            baseColorProperty: GreenhouseEffectColors.infraredColorProperty,
             amplitude: modelViewTransform.modelToViewDeltaX( WavesModel.WAVE_AMPLITUDE_FOR_RENDERING ),
             wavelength: modelViewTransform.modelToViewDeltaX( modelInfraredWavelength! )
           }
@@ -87,7 +88,7 @@ class WavesCanvasNode extends CanvasNode {
     const renderingParameters = this.waveRenderingParameters.get( wave.wavelength );
     const amplitude = renderingParameters!.amplitude;
     const wavelength = renderingParameters!.wavelength;
-    const baseColor = renderingParameters!.baseColor;
+    const baseColor = renderingParameters!.baseColorProperty.value;
 
     // Set the context up with its initial values.  The stroke style may change as the wave intensity varies.
     let waveIntensity = wave.intensityAtStart;
