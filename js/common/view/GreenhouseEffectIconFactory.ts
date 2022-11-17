@@ -4,7 +4,6 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Screen from '../../../../joist/js/Screen.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
@@ -17,14 +16,14 @@ const HOME_ICON_HEIGHT = Screen.MINIMUM_HOME_SCREEN_ICON_SIZE.height;
 const GROUND_HEIGHT = HOME_ICON_HEIGHT * 3 / 8;
 const UPPER_SKY_COLOR = new Color( '#3378C1' );
 const LOWER_SKY_COLOR = new Color( '#B5E1F2' );
-const PHOTON_MAX_WIDTH = 20;
+const PHOTON_WIDTH = 45;
 const WAVE_AMPLITUDE = 50; // in screen coordinates
 const IR_WAVELENGTH = 60; // in screen coordinates
 const VISIBLE_WAVELENGTH = 30; // in screen coordinates
 const WAVE_LINE_WIDTH = 7;
 const WAVE_LINE_CAP = 'round';
 const WAVE_ALPHA = 0.5;
-const LAYER_THICKNESS = HOME_ICON_HEIGHT * 0.05;
+const LAYER_THICKNESS = HOME_ICON_HEIGHT * 0.1;
 const GRASS_BASE_COLOR = new Color( '#117c13' );
 
 /**
@@ -40,14 +39,14 @@ class GreenhouseEffectIconFactory {
     const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
     const waves = [];
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( IR_WAVELENGTH, 4, -Math.PI * 0.65 ), {
-      stroke: PhetColorScheme.RED_COLORBLIND.withAlpha( WAVE_ALPHA ),
+      stroke: Color.RED.withAlpha( WAVE_ALPHA ),
       lineWidth: WAVE_LINE_WIDTH,
       lineCap: WAVE_LINE_CAP,
       left: HOME_ICON_WIDTH * 0.1,
       bottom: HOME_ICON_HEIGHT * 0.8
     } ) );
     waves.push( new Path( GreenhouseEffectIconFactory.createWaveShape( IR_WAVELENGTH, 3, Math.PI * 0.65 ), {
-      stroke: PhetColorScheme.RED_COLORBLIND.withAlpha( WAVE_ALPHA ),
+      stroke: Color.RED.withAlpha( WAVE_ALPHA ),
       lineWidth: WAVE_LINE_WIDTH,
       lineCap: WAVE_LINE_CAP,
       left: HOME_ICON_WIDTH * 0.7,
@@ -74,11 +73,11 @@ class GreenhouseEffectIconFactory {
 
     // Create the photons.
     const visiblePhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.75, 0.1, 0.35, 0.55, 0.7, 0.2, 0.4 ],
+      [ 0.15, 0.3, 0.65, 0.1, 0.5 ],
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH
     );
     const infraredPhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.4, 0.3, 0.7, 0.4, 0.5 ],
+      [ 0.6, 0.4, 0.7, 0.3 ],
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
@@ -91,11 +90,11 @@ class GreenhouseEffectIconFactory {
 
     // Create the layers, which are meant to look like panes of glass seen edge on.
     const layers: Node[] = [];
-    const numberOfLayers = 2;
+    const numberOfLayers = 1;
     const layerSpacing = ( HOME_ICON_HEIGHT - GROUND_HEIGHT ) / ( numberOfLayers + 1 );
-    _.times( 2, index => {
+    _.times( numberOfLayers, index => {
       layers.push( new Rectangle( 0, 0, HOME_ICON_WIDTH, LAYER_THICKNESS, {
-        fill: Color.WHITE.withAlpha( 0.3 ),
+        fill: Color.WHITE.withAlpha( 0.5 ),
         stroke: Color.DARK_GRAY,
         centerY: ( index + 1 ) * layerSpacing
       } ) );
@@ -103,11 +102,11 @@ class GreenhouseEffectIconFactory {
 
     // Create the photons.
     const visiblePhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.2, 0.3, 0.7, 0.35, 0.1, 0.75, 0.55, 0.3, 0.45 ],
+      [ 0.2, 0.45, 0.7, 0.55, 0.1 ],
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH
     );
     const infraredPhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.5, 0.3, 0.65, 0.5, 0.33, 0.1 ],
+      [ 0.5, 0.3, 0.4, 0.65 ],
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
@@ -190,19 +189,21 @@ class GreenhouseEffectIconFactory {
     const photonProportionatePositions: Vector2[] = [];
     proportionateYPositions.forEach( ( proportionateYPosition, index ) => {
       photonProportionatePositions.push( new Vector2(
-        ( index + 1 ) / ( proportionateYPositions.length + 1 ),
+        ( index + 0.5 ) / ( proportionateYPositions.length ),
         proportionateYPosition
       ) );
     } );
     const imageSource = wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ?
                         infraredPhoton_png :
                         visiblePhoton_png;
-    return photonProportionatePositions.map( proportionatePosition =>
-      new Image( imageSource, {
-        maxWidth: PHOTON_MAX_WIDTH,
-        centerX: proportionatePosition.x * HOME_ICON_WIDTH,
-        centerY: proportionatePosition.y * HOME_ICON_HEIGHT
-      } )
+    return photonProportionatePositions.map( proportionatePosition => {
+        const photonImage = new Image( imageSource, {
+          centerX: proportionatePosition.x * HOME_ICON_WIDTH,
+          centerY: proportionatePosition.y * HOME_ICON_HEIGHT
+        } );
+        photonImage.scale( PHOTON_WIDTH / photonImage.width );
+        return photonImage;
+      }
     );
   }
 }
