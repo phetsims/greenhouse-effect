@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * Colors used throughout this simulation.  This is generally referred to as the "color profile" for the sim.
