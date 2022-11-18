@@ -18,7 +18,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, globalKeyStateTracker, KeyboardUtils, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, KeyboardListener, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
@@ -225,24 +225,25 @@ class MicroScreenView extends ScreenView {
 
     // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
     // in time
-    const globalKeyboardListener = event => {
-      if (
-        timeControlNode.pdomDisplayed &&
-        !photonAbsorptionModel.runningProperty.get() &&
-        globalKeyStateTracker.altKeyDown &&
-        KeyboardUtils.isKeyEvent( event, KeyboardUtils.KEY_L ) ) {
+    const keyboardListener = new KeyboardListener( {
+      keys: [ 'alt+l' ],
+      global: true,
+      fireOnKeyUp: true,
+      callback: ( event, listener ) => {
+        if ( !photonAbsorptionModel.runningProperty.get() ) {
 
-        // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
-        // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
-        // move farther than the absorption window of a molecule in a single step and pass over the molecule without
-        // checking for absorption.
-        const timeStep = 2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
-        photonAbsorptionModel.manualStep( timeStep );
+          // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
+          // and provide feedback for a non-visual experience. The timeStep is calculated so that a photon can never
+          // move farther than the absorption window of a molecule in a single step and pass over the molecule without
+          // checking for absorption.
+          const timeStep = 2 * Molecule.PHOTON_ABSORPTION_DISTANCE / PhotonAbsorptionModel.PHOTON_VELOCITY;
+          photonAbsorptionModel.manualStep( timeStep );
 
-        stepForwardSoundPlayer.play();
+          stepForwardSoundPlayer.play();
+        }
       }
-    };
-    globalKeyStateTracker.keyupEmitter.addListener( globalKeyboardListener );
+    } );
+    timeControlNode.addInputListener( keyboardListener );
 
     // the light spectrum dialog and emission frequency control panel are removed in the
     // Open Sci Ed version
