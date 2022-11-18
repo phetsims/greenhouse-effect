@@ -18,7 +18,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { Circle, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Circle, Color, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -529,6 +529,8 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
         createNode: () => new VSlider( dummyProperty, dummyProperty.range!, {
           trackSize: new Dimension2( 2, dateIcon.height - 9 ),
           thumbSize: new Dimension2( 18, 9 ),
+          thumbFill: Color.LIGHT_GRAY,
+          thumbCenterLineStroke: Color.DARK_GRAY,
           trackFillEnabled: 'black',
           pickable: false,
 
