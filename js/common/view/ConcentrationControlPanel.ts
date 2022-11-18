@@ -26,6 +26,7 @@ import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
@@ -68,7 +69,7 @@ const CONCENTRATION_CONTROLS_STROKE = 'black';
 
 const RADIO_BUTTON_GROUP_OPTIONS = {
   radioButtonOptions: {
-    baseColor: 'white',
+    baseColor: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
     buttonAppearanceStrategyOptions: {
       selectedStroke: 'rgb(0,173,221)',
       selectedLineWidth: 2
@@ -104,6 +105,7 @@ class ConcentrationControlPanel extends Panel {
       includeCompositionData: false,
       xMargin: PANEL_MARGINS,
       yMargin: PANEL_MARGINS,
+      fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
 
       // pdom
       tagName: 'div',

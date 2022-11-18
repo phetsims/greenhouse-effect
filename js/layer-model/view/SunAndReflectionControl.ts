@@ -19,6 +19,7 @@ import { SliderOptions } from '../../../../sun/js/Slider.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
+import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import SunEnergySource from '../../common/model/SunEnergySource.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -56,6 +57,7 @@ class SunAndReflectionControl extends Panel {
       xMargin: PANEL_MARGIN,
       yMargin: PANEL_MARGIN,
       align: 'center' as const,
+      fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
 
       // pdom
       tagName: 'div',

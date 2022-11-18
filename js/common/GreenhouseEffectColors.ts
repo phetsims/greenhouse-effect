@@ -41,6 +41,26 @@ const GreenhouseEffectColors = {
     {
       tandem: Tandem.COLORS.createTandem( 'infraredColorProperty' )
     }
+  ),
+  energyLegendBackgroundColorProperty: new ProfileColorProperty(
+    greenhouseEffect,
+    'energyLegendBackground',
+    {
+      default: Color.BLACK
+    },
+    {
+      tandem: Tandem.COLORS.createTandem( 'energyLegendBackgroundColorProperty' )
+    }
+  ),
+  controlPanelBackgroundColorProperty: new ProfileColorProperty(
+    greenhouseEffect,
+    'controlPanelBackground',
+    {
+      default: Color.WHITE
+    },
+    {
+      tandem: Tandem.COLORS.createTandem( 'controlPanelBackgroundColorProperty' )
+    }
   )
 };
 

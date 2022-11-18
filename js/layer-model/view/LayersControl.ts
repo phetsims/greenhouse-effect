@@ -19,6 +19,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
+import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -47,6 +48,7 @@ class LayersControl extends Panel {
       xMargin: PANEL_MARGIN,
       yMargin: PANEL_MARGIN,
       align: 'center' as const,
+      fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
 
       // pdom
       tagName: 'div',
@@ -101,6 +103,7 @@ class LayersControl extends Panel {
         xMargin: 5,
         font: new PhetFont( 22 ),
         arrowHeight: 8,
+        backgroundColor: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
         valueChangedSoundPlayer: numberOfLayersSoundPlayer,
         boundarySoundPlayer: numberOfLayersSoundPlayer,
 

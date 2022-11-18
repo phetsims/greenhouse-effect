@@ -58,7 +58,7 @@ class EnergyLegend extends Panel {
       energyRepresentation: EnergyRepresentation.PHOTON,
 
       // Panel options
-      fill: 'black',
+      fill: GreenhouseEffectColors.energyLegendBackgroundColorProperty,
       minWidth: width,
       xMargin: PANEL_MARGIN,
       yMargin: PANEL_MARGIN,
