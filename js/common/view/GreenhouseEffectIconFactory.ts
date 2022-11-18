@@ -88,11 +88,11 @@ class GreenhouseEffectIconFactory {
 
     // Create the photons.
     const visiblePhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.15, 0.3, 0.65, 0.1, 0.5 ],
+      [ 0.15, 0.65, 0.3, 0.1, 0.5 ],
       GreenhouseEffectConstants.VISIBLE_WAVELENGTH
     );
     const infraredPhotons = GreenhouseEffectIconFactory.createPhotonImageSet(
-      [ 0.6, 0.4, 0.7, 0.3 ],
+      [ 0.6, 0.4, 0.5, 0.3 ],
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
