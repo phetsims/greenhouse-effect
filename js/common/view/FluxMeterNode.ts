@@ -297,7 +297,10 @@ class FluxMeterNode extends Node {
         enableControlProperties: [ isPlayingProperty, visibleProperty ]
       }
     );
-    soundManager.addSoundGenerator( this.soundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
+    soundManager.addSoundGenerator( this.soundGenerator, {
+      sonificationLevel: SoundLevelEnum.EXTRA,
+      associatedViewNode: this
+    } );
 
     // Make some things available to the methods.
     this.isModelPlayingProperty = isPlayingProperty;
