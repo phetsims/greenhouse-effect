@@ -324,7 +324,7 @@ class GreenhouseEffectObservationWindow extends Node {
       ( thermometerVisible, temperatureVisible ) => thermometerVisible || temperatureVisible
     );
 
-    // Add the filter-based sound generator.
+    // Add the filter-based sound generator for the temperature.
     soundManager.addSoundGenerator(
       new TemperatureSoundGeneratorFiltered(
         model.surfaceTemperatureKelvinProperty,

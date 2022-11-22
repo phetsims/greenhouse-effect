@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -33,7 +32,6 @@ export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectO
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
-  private readonly showSurfaceThermometerProperty: BooleanProperty;
   public readonly showThermometerCheckbox : ShowTemperatureCheckbox;
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
@@ -72,10 +70,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
 
     // checkbox for thermometer visibility
-    this.showSurfaceThermometerProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showSurfaceThermometerProperty' )
-    } );
-    this.showThermometerCheckbox = new ShowTemperatureCheckbox( this.showSurfaceThermometerProperty, {
+
+    this.showThermometerCheckbox = new ShowTemperatureCheckbox( model.surfaceThermometerVisibleProperty, {
       left: this.atmosphereLayerNodes[ 0 ].showTemperatureCheckboxLeft,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -101,7 +97,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
-      visibleProperty: this.showSurfaceThermometerProperty,
+      visibleProperty: model.surfaceThermometerVisibleProperty,
       centerX: this.atmosphereLayerNodes[ 0 ].temperatureReadoutCenter.x,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -126,7 +122,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   public override reset(): void {
     this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
-    this.showSurfaceThermometerProperty.reset();
     this.fluxMeterNode?.reset();
   }
 
