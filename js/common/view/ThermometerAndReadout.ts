@@ -229,7 +229,7 @@ class ThermometerAndReadout extends Node {
       value: propertyValue,
       node: new NumberDisplay( property, propertyRange, numberDisplayOptions ),
       tandemName: tandemName,
-      a11yLabel: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
+      a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
   }
 
