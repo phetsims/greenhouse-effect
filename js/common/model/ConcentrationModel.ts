@@ -39,24 +39,24 @@ assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value f
 // An enumeration for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date.
 class ConcentrationControlMode extends EnumerationValue {
-  public static BY_VALUE = new ConcentrationControlMode();
-  public static BY_DATE = new ConcentrationControlMode();
+  public static readonly BY_VALUE = new ConcentrationControlMode();
+  public static readonly BY_DATE = new ConcentrationControlMode();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  public static enumeration = new Enumeration( ConcentrationControlMode, {
+  public static readonly enumeration = new Enumeration( ConcentrationControlMode, {
     phetioDocumentation: 'Describes the mode by which concentration is controlled, either by date or by value.'
   } );
 }
 
 // dates with recorded values of greenhouse concentration
 class ConcentrationDate extends EnumerationValue {
-  public static ICE_AGE = new ConcentrationDate();
-  public static SEVENTEEN_FIFTY = new ConcentrationDate();
-  public static NINETEEN_FIFTY = new ConcentrationDate();
-  public static TWENTY_TWENTY = new ConcentrationDate();
+  public static readonly ICE_AGE = new ConcentrationDate();
+  public static readonly SEVENTEEN_FIFTY = new ConcentrationDate();
+  public static readonly NINETEEN_FIFTY = new ConcentrationDate();
+  public static readonly TWENTY_TWENTY = new ConcentrationDate();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
-  public static enumeration = new Enumeration( ConcentrationDate, {
+  public static readonly enumeration = new Enumeration( ConcentrationDate, {
     phetioDocumentation: 'Various time periods or years that can be used to define what greenhouse concentration value is ued.'
   } );
 }

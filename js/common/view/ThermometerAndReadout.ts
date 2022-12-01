@@ -41,10 +41,10 @@ const celsiusUnitsStringProperty = GreenhouseEffectStrings.temperature.units.cel
 const fahrenheitUnitsStringProperty = GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty;
 
 class ReadoutType extends EnumerationValue {
-  public static SELECTABLE = new ReadoutType();
-  public static FIXED = new ReadoutType();
+  public static readonly SELECTABLE = new ReadoutType();
+  public static readonly FIXED = new ReadoutType();
 
-  public static enumeration = new Enumeration( ReadoutType );
+  public static readonly enumeration = new Enumeration( ReadoutType );
 }
 
 type SelfOptions = {

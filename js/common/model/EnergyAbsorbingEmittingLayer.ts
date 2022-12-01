@@ -47,10 +47,10 @@ class Substance extends EnumerationValue {
     this.radiationDirections = radiationDirections;
   }
 
-  public static GLASS = new Substance( 2500, 840, [ EnergyDirection.UP, EnergyDirection.DOWN ] );
-  public static EARTH = new Substance( 1250, 1250, [ EnergyDirection.UP ] );
+  public static readonly GLASS = new Substance( 2500, 840, [ EnergyDirection.UP, EnergyDirection.DOWN ] );
+  public static readonly EARTH = new Substance( 1250, 1250, [ EnergyDirection.UP ] );
 
-  public static enumeration = new Enumeration( Substance );
+  public static readonly enumeration = new Enumeration( Substance );
 }
 
 // The size of the energy absorbing layers are all the same in the Greenhouse Effect sim and are not parameterized.

@@ -15,13 +15,13 @@ const UP_VECTOR = new Vector2( 0, 1 );
 const DOWN_VECTOR = new Vector2( 0, -1 );
 
 class EnergyDirection extends EnumerationValue {
-  public static UP = new EnergyDirection();
-  public static DOWN = new EnergyDirection();
+  public static readonly UP = new EnergyDirection();
+  public static readonly DOWN = new EnergyDirection();
 
   /**
    * Get a vector corresponding to the provided enum value.
    */
-  public static toVector = ( enumValue: EnergyDirection ): Vector2 => {
+  public static toVector( enumValue: EnergyDirection ): Vector2 {
     if ( enumValue === EnergyDirection.UP ) {
       return UP_VECTOR;
     }
@@ -29,18 +29,18 @@ class EnergyDirection extends EnumerationValue {
       assert && assert( enumValue === EnergyDirection.DOWN, 'illegal direction' );
       return DOWN_VECTOR;
     }
-  };
+  }
 
   /**
    * Get the opposite of the provided direction.
    */
-  public static getOpposite = ( enumValue: EnergyDirection ): EnergyDirection => {
+  public static getOpposite( enumValue: EnergyDirection ): EnergyDirection {
     return enumValue === EnergyDirection.UP ?
            EnergyDirection.DOWN :
            EnergyDirection.UP;
-  };
+  }
 
-  public static enumeration = new Enumeration( EnergyDirection );
+  public static readonly enumeration = new Enumeration( EnergyDirection );
 }
 
 greenhouseEffect.register( 'EnergyDirection', EnergyDirection );

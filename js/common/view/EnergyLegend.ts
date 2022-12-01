@@ -34,9 +34,9 @@ const PANEL_MARGIN = 8;
 
 // The legend can display photon or wave representation of energy, see energyRepresentation option
 class EnergyRepresentation extends EnumerationValue {
-  public static PHOTON = new EnergyRepresentation();
-  public static WAVE = new EnergyRepresentation();
-  public static enumeration = new Enumeration( EnergyRepresentation );
+  public static readonly PHOTON = new EnergyRepresentation();
+  public static readonly WAVE = new EnergyRepresentation();
+  public static readonly enumeration = new Enumeration( EnergyRepresentation );
 }
 
 type SelfOptions = {

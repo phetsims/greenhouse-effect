@@ -28,10 +28,10 @@ const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
 
 // types and enumerations
 class ShowState extends EnumerationValue {
-  public static ALWAYS = new ShowState();
-  public static ONLY_IN_MORE_PHOTONS_MODE = new ShowState();
+  public static readonly ALWAYS = new ShowState();
+  public static readonly ONLY_IN_MORE_PHOTONS_MODE = new ShowState();
 
-  public static enumeration = new Enumeration( ShowState );
+  public static readonly enumeration = new Enumeration( ShowState );
 }
 
 export type PhotonOptions = {
