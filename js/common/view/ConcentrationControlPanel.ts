@@ -477,12 +477,18 @@ class GreenhouseGasConcentrationData {
   // concentration of CO2, in PPM
   public readonly carbonDioxideConcentration: number;
 
-  // concentration of CH4, in PPM
+  // concentration of CH4, in PPB
   public readonly methaneConcentration: number;
 
-  // concentration of N2O, in PPM
+  // concentration of N2O, in PPB
   public readonly nitrousOxideConcentration: number;
 
+  /**
+   * @param relativeHumidity - percentage
+   * @param carbonDioxideConcentration - in ppm
+   * @param methaneConcentration - in ppb
+   * @param nitrousOxideConcentration - in ppb
+   */
   public constructor( relativeHumidity: number | null,
                       carbonDioxideConcentration: number,
                       methaneConcentration: number,
@@ -496,10 +502,10 @@ class GreenhouseGasConcentrationData {
 
 // Map the dates to greenhouse gas concentration data.  The values came from the design document.
 const GREENHOUSE_GAS_CONCENTRATIONS = new Map( [
-  [ ConcentrationDate.TWENTY_TWENTY, new GreenhouseGasConcentrationData( 70, 413, 1.889, 0.333 ) ],
-  [ ConcentrationDate.NINETEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 311, 1.116, 0.288 ) ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 277, 0.694, 0.271 ) ],
-  [ ConcentrationDate.ICE_AGE, new GreenhouseGasConcentrationData( null, 180, 0.380, 0.215 ) ]
+  [ ConcentrationDate.TWENTY_TWENTY, new GreenhouseGasConcentrationData( 70, 413, 1889, 333 ) ],
+  [ ConcentrationDate.NINETEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 311, 1116, 288 ) ],
+  [ ConcentrationDate.SEVENTEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 277, 694, 271 ) ],
+  [ ConcentrationDate.ICE_AGE, new GreenhouseGasConcentrationData( null, 180, 380, 215 ) ]
 ] );
 
 /**
