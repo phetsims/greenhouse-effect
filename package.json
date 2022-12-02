@@ -28,8 +28,7 @@
       "supportsExtraSound": true,
       "supportsInteractiveDescription": true
     },
-    "supportsOutputJS": true,
-    "published": true
+    "supportsOutputJS": true
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
