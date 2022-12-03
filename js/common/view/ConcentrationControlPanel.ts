@@ -364,7 +364,7 @@ class DateControl extends HBox {
 class ConcentrationSlider extends VBox {
   public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
 
-    const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range!;
+    const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range;
     const sliderSoundGenerator = new ConcentrationSliderSoundGenerator(
       concentrationModel.concentrationProperty,
       sliderRange
@@ -532,7 +532,7 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
 
     const items = [
       {
-        createNode: () => new VSlider( dummyProperty, dummyProperty.range!, {
+        createNode: () => new VSlider( dummyProperty, dummyProperty.range, {
           trackSize: new Dimension2( 2, dateIcon.height - 9 ),
           thumbSize: new Dimension2( 18, 9 ),
           thumbFill: Color.LIGHT_GRAY,

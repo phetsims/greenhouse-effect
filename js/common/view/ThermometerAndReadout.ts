@@ -102,12 +102,12 @@ class ThermometerAndReadout extends Node {
     // ranges for each temperature Property, so the NumberDisplay can determine space needed for each readout
     const kelvinRange = model.surfaceTemperatureKelvinProperty.range;
     const celsiusRange = new Range(
-      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange!.min ),
-      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange!.max )
+      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.min ),
+      GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.max )
     );
     const fahrenheitRange = new Range(
-      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange!.min ),
-      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange!.max )
+      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.min ),
+      GreenhouseEffectUtils.kelvinToFahrenheit( kelvinRange.max )
     );
 
     if ( options.readoutType === ReadoutType.SELECTABLE ) {
@@ -116,7 +116,7 @@ class ThermometerAndReadout extends Node {
         ThermometerAndReadout.createComboBoxItem(
           kelvinUnitsStringProperty,
           model.surfaceTemperatureKelvinProperty,
-          model.surfaceTemperatureKelvinProperty.range!,
+          model.surfaceTemperatureKelvinProperty.range,
           TemperatureUnits.KELVIN,
           `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),

@@ -12,7 +12,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import NumberProperty, { RangedProperty } from '../../../../axon/js/NumberProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -97,7 +97,7 @@ class FluxMeterNode extends Node {
   private readonly wasDraggedProperty: BooleanProperty;
 
   // zoom factor, only used if the zoom feature is enabled
-  private readonly zoomFactorProperty: RangedProperty;
+  private readonly zoomFactorProperty: NumberProperty;
 
   // sound generator for this node
   private readonly soundGenerator: FluxMeterSoundGenerator;
@@ -151,7 +151,7 @@ class FluxMeterNode extends Node {
 
     this.zoomFactorProperty = new NumberProperty( 0, {
       range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS )
-    } ).asRanged();
+    } );
 
     const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactorProperty ], zoomFactor =>
       NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER * Math.pow( FLUX_ARROW_ZOOM_FACTOR, zoomFactor )
