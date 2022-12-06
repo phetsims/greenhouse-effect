@@ -176,10 +176,10 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // and was made to do so manually, and will need to be updated if the artwork changes.
     const lowerLeftCorner = Vector2.ZERO;
     const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
-    const controlPoint1 = new Vector2( SIZE.width * 0.22, leftSideGroundSurface.y - SIZE.height * 0.13 );
+    const controlPoint1 = new Vector2( SIZE.width * 0.21, leftSideGroundSurface.y - SIZE.height * 0.12 );
     const midwayPoint = new Vector2( SIZE.width * 0.6, -SIZE.height * 0.2 );
-    const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.19 );
-    const controlPoint2 = new Vector2( SIZE.width * 0.75, rightSideGroundSurface.y + SIZE.height * 0.02 );
+    const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.197 );
+    const controlPoint2 = new Vector2( SIZE.width * 0.8, rightSideGroundSurface.y + SIZE.height * 0.03 );
     const lowerRightCorner = new Vector2( SIZE.width, 0 );
     const groundShape = new Shape()
       .moveToPoint( lowerLeftCorner )
