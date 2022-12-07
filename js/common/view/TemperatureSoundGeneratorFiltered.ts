@@ -49,7 +49,6 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     lowPassFilter.connect( this.masterGainNode );
 
     // Send the loop into both filters.
-    // @ts-ignore TODO: typing for AudioParam
     baseSoundLoop.connect( lowPassFilter );
 
     // This loop should be producing sound whenever the sun is shining.

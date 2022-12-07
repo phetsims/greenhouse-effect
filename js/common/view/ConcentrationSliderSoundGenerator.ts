@@ -68,7 +68,6 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements TSoundPl
     this.baseSoundClip = new SoundClip( sliderMovement_mp3, {
       rateChangesAffectPlayingSounds: false
     } );
-    // @ts-ignore TODO: typing for AudioParam
     this.baseSoundClip.connect( dynamicsCompressorNode );
 
     // variables used by the methods below

@@ -322,7 +322,6 @@ class PhotonCollection extends PhetioObject {
     return photonProductionRate;
   }
 
-  // @ts-ignore see https://github.com/phetsims/tandem/issues/263
   public static readonly PhotonCollectionIO = new IOType( 'PhotonCollectionIO', {
     valueType: PhotonCollection,
     stateSchema: {
