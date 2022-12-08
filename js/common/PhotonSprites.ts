@@ -24,6 +24,7 @@ import PhotonCollection from './model/PhotonCollection.js';
 import { ShowState } from './model/Photon.js';
 import Range from '../../../dot/js/Range.js';
 import LayersModel from './model/LayersModel.js';
+import greenhouseEffect from '../greenhouseEffect.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design
@@ -140,4 +141,5 @@ class PhotonSprites extends Sprites {
   }
 }
 
+greenhouseEffect.register( 'PhotonSprites', PhotonSprites );
 export default PhotonSprites;
