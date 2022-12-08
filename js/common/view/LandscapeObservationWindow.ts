@@ -22,7 +22,8 @@ import agriculturalLandscapeBackground_png from '../../../images/agriculturalLan
 import agriculturalLandscapeForeground_png from '../../../images/agriculturalLandscapeForeground_png.js';
 import fiftiesLandscapeBackground_png from '../../../images/fiftiesLandscapeBackground_png.js';
 import fiftiesLandscapeForeground_png from '../../../images/fiftiesLandscapeForeground_png.js';
-import landscapeWithGlacier_png from '../../../images/landscapeWithGlacier_png.js';
+import iceAgeLandscapeBackground_png from '../../../images/iceAgeLandscapeBackground_png.js';
+import iceAgeLandscapeForeground_png from '../../../images/iceAgeLandscapeForeground_png.js';
 import twentyTwentiesLandscapeBackground_png from '../../../images/twentyTwentiesLandscapeBackground_png.js';
 import twentyTwentiesLandscapeForeground_png from '../../../images/twentyTwentiesLandscapeForeground_png.js';
 import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
@@ -170,7 +171,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const fiftiesLandscapeForegroundImage = new Image( fiftiesLandscapeForeground_png, sharedImageOptions );
     const denseCityLandscapeBackgroundImage = new Image( twentyTwentiesLandscapeBackground_png, sharedImageOptions );
     const denseCityLandscapeForegroundImage = new Image( twentyTwentiesLandscapeForeground_png, sharedImageOptions );
-    const landscapeWithGlacierImage = new Image( landscapeWithGlacier_png, sharedImageOptions );
+    const iceAgeLandscapeBackgroundImage = new Image( iceAgeLandscapeBackground_png, sharedImageOptions );
+    const iceAgeLandscapeForegroundImage = new Image( iceAgeLandscapeForeground_png, sharedImageOptions );
 
     // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
     // and was made to do so manually, and will need to be updated if the artwork changes.
@@ -216,7 +218,9 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         unadornedLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_VALUE ||
                                           date === ConcentrationDate.ICE_AGE ||
                                           date === ConcentrationDate.TWENTY_TWENTY;
-        landscapeWithGlacierImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+        iceAgeLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                            date === ConcentrationDate.ICE_AGE;
+        iceAgeLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                             date === ConcentrationDate.ICE_AGE;
         agriculturalLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                                        date === ConcentrationDate.SEVENTEEN_FIFTY;
@@ -239,7 +243,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
         // landscape image backgrounds
         unadornedLandscapeImage,
-        landscapeWithGlacierImage,
+        iceAgeLandscapeBackgroundImage,
         agriculturalLandscapeBackgroundImage,
         fiftiesLandscapeBackgroundImage,
         denseCityLandscapeBackgroundImage,
@@ -249,6 +253,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
         // landscape image foregrounds
         agriculturalLandscapeForegroundImage,
+        iceAgeLandscapeForegroundImage,
         fiftiesLandscapeForegroundImage,
         denseCityLandscapeForegroundImage
       ]
