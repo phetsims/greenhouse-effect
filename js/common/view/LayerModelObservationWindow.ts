@@ -7,6 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
@@ -18,7 +19,7 @@ import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
 import LayersModel from '../model/LayersModel.js';
 import PhotonSprites from '../PhotonSprites.js';
-import AtmosphereLayerNode from './AtmosphereLayerNode.js';
+import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
@@ -32,7 +33,7 @@ export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectO
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
-  public readonly showThermometerCheckbox : ShowTemperatureCheckbox;
+  public readonly showThermometerCheckbox: ShowTemperatureCheckbox;
 
   public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
 
@@ -52,27 +53,43 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
 
+    // Create a derived property that will be used to move the temperature display out from under the energy balance
+    // indicator when it's visible.
+    const compensatedTemperatureDisplayLeftProperty = new DerivedProperty(
+      [ model.energyBalanceVisibleProperty ],
+      energyBalanceVisible => energyBalanceVisible ?
+                              AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT + this.energyBalancePanel.width :
+                              AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT
+    );
+
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
+      const atmosphereLayerNodeOptions: AtmosphereLayerNodeOptions = {
+        numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
+        layerThickness: correspondingPhotonAbsorbingLayer.thickness,
+        tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
+      };
+
+      // For the top layer, add an option that will essentially move its temperature display out of the way when the
+      // energy balance indicator is visible.
+      if ( index === model.atmosphereLayers.length - 1 ) {
+        atmosphereLayerNodeOptions.temperatureDisplayLeftProperty = compensatedTemperatureDisplayLeftProperty;
+      }
+
       const atmosphereLayerNode = new AtmosphereLayerNode(
         atmosphereLayer,
         model.temperatureUnitsProperty,
         this.modelViewTransform,
-        {
-          numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
-          layerThickness: correspondingPhotonAbsorbingLayer.thickness,
-          tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
-        }
+        atmosphereLayerNodeOptions
       );
       this.presentationLayer.addChild( atmosphereLayerNode );
       this.atmosphereLayerNodes.push( atmosphereLayerNode );
     } );
 
     // checkbox for thermometer visibility
-
     this.showThermometerCheckbox = new ShowTemperatureCheckbox( model.surfaceThermometerVisibleProperty, {
-      left: this.atmosphereLayerNodes[ 0 ].showTemperatureCheckboxLeft,
+      left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
@@ -98,7 +115,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
       visibleProperty: model.surfaceThermometerVisibleProperty,
-      centerX: this.atmosphereLayerNodes[ 0 ].temperatureReadoutCenter.x,
+      centerX: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.centerX,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 

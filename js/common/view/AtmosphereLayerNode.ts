@@ -6,24 +6,24 @@
  * @author John Blanco
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -31,10 +31,15 @@ const LAYER_RECTANGLE_STROKE_BASE_COLOR = Color.DARK_GRAY;
 const LAYER_RECTANGLE_FILL_BASE_COLOR = Color.LIGHT_GRAY;
 const MINIMUM_OPACITY = 0.4;
 const MAXIMUM_OPACITY = 0.85;
+const TEMPERATURE_DISPLAY_DEFAULT_INDENT = 20; // Y offset for the temperature control, in screen coordinates
 
 type SelfOptions = {
   numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
+
+  // The left side position of the temperature display in its own coordinate frame.  This was added to solve a very
+  // specific dynamic layout issue, see https://github.com/phetsims/greenhouse-effect/issues/230.
+  temperatureDisplayLeftProperty?: null | TReadOnlyProperty<number>;
 };
 export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 
@@ -42,11 +47,8 @@ class AtmosphereLayerNode extends Node {
 
   private readonly showTemperatureProperty: BooleanProperty;
 
-  // Center of the temperature readout in the local coordinate frame, used for layout in the parent.
-  public readonly temperatureReadoutCenter: Vector2;
-
-  // Left side of the temperature checkbox in the local coordinate frame, used for layout in the parent.
-  public readonly showTemperatureCheckboxLeft: number;
+  // The checkbox, icon, and readout for displaying the temperature of the layer.
+  public readonly temperatureDisplay: Node;
 
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
@@ -55,12 +57,16 @@ class AtmosphereLayerNode extends Node {
 
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,
-      numberDisplayEnabledProperty: null
+      numberDisplayEnabledProperty: null,
+      temperatureDisplayLeftProperty: null
     }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
-    const numberDisplayEnabledProperty = ( options.numberDisplayEnabledProperty ) ||
-                                         new BooleanProperty( true );
+    const numberDisplayEnabledProperty = options.numberDisplayEnabledProperty || new BooleanProperty( true );
+
+    // If there is a property for the temperature display position, use it, otherwise create one with a default value.
+    const temperatureDisplayLeftProperty = options.temperatureDisplayLeftProperty ||
+                                           new NumberProperty( TEMPERATURE_DISPLAY_DEFAULT_INDENT );
 
     // If a thickness value is provided, use the model-view transform to convert it to view coordinates, otherwise use
     // the default.
@@ -150,7 +156,13 @@ class AtmosphereLayerNode extends Node {
       children: [ showTemperatureCheckbox, temperatureReadout ],
       spacing: 15,
       centerY: mainBody.centerY,
-      left: 20
+      left: temperatureDisplayLeftProperty.value
+    } );
+
+    // Adjust the temperature display horizontal position if it changes.  No unlink needed, since these nodes are never
+    // disposed.
+    temperatureDisplayLeftProperty.lazyLink( left => {
+      temperatureDisplay.left = left;
     } );
 
     // supertype constructor
@@ -162,9 +174,8 @@ class AtmosphereLayerNode extends Node {
     // Make the temperature property available for reset.
     this.showTemperatureProperty = showTemperatureProperty;
 
-    // Make some positioning information available that other nodes can use for layout purposes.
-    this.temperatureReadoutCenter = temperatureDisplay.localToParentPoint( temperatureReadout.center );
-    this.showTemperatureCheckboxLeft = temperatureDisplay.localToParentBounds( showTemperatureCheckbox.bounds ).minX;
+    // Make the temperature display available externally so that external nodes can be aligned with it.
+    this.temperatureDisplay = temperatureDisplay;
   }
 
   /**
@@ -173,6 +184,8 @@ class AtmosphereLayerNode extends Node {
   public reset(): void {
     this.showTemperatureProperty.reset();
   }
+
+  public static readonly TEMPERATURE_DISPLAY_DEFAULT_INDENT = TEMPERATURE_DISPLAY_DEFAULT_INDENT;
 }
 
 greenhouseEffect.register( 'AtmosphereLayerNode', AtmosphereLayerNode );
