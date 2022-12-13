@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "4b9da02f66e172eead0256dfd2100264f358e7c3",
+    "sha": "64ccf45953fd6dbae8791fdbc69533d795912491",
     "branch": "1.0"
   },
   "joist": {
@@ -41,7 +41,7 @@
     "branch": "HEAD"
   },
   "perennial-alias": {
-    "sha": "bb39b3d7dc81f74a53359de72a645df357fb2e7e",
+    "sha": "f1abc86116f9422dd858eccd010ca0c4e27002e1",
     "branch": "HEAD"
   },
   "phet-core": {
