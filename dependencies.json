@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "99d8090a198170e5a1081925de19fd5e815bd801",
+    "sha": "a1cdc304cbf756bd9cbc1d2246ad86514b078c9c",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "e72a35e1f53679029c6890d6d9a645fed0c60af1",
+    "sha": "4b9da02f66e172eead0256dfd2100264f358e7c3",
     "branch": "1.0"
   },
   "joist": {
