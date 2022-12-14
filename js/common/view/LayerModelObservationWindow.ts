@@ -8,8 +8,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, LinearGradient, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
@@ -148,27 +146,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   protected override createGroundNode( model: LayersModel ): Node {
 
     const nominalGroundHeight = GreenhouseEffectObservationWindow.SIZE.height * GROUND_VERTICAL_PROPORTION;
-    const groundWidth = GreenhouseEffectObservationWindow.SIZE.width;
-
-    // control points used for the shape of the ground
-    const oneEighthWidth = GreenhouseEffectObservationWindow.SIZE.width / 8;
-    const leftHillStartPoint = Vector2.ZERO;
-    const leftHillControlPoint1 = new Vector2( 2 * oneEighthWidth, -nominalGroundHeight * 0.15 );
-    const leftHillControlPoint2 = new Vector2( 3 * oneEighthWidth, nominalGroundHeight * 0.05 );
-    const leftHillEndPoint = new Vector2( groundWidth / 2, 0 );
-    const rightHillControlPoint1 = new Vector2( 5 * oneEighthWidth, -nominalGroundHeight * 0.075 );
-    const rightHillControlPoint2 = new Vector2( 6 * oneEighthWidth, -nominalGroundHeight * 0.25 );
-    const rightHillEndPoint = new Vector2( groundWidth, 0 );
 
     // ground shape
-    const groundShape = new Shape()
-      .moveToPoint( leftHillStartPoint )
-      .cubicCurveToPoint( leftHillControlPoint1, leftHillControlPoint2, leftHillEndPoint )
-      .cubicCurveToPoint( rightHillControlPoint1, rightHillControlPoint2, rightHillEndPoint )
-      .lineTo( groundWidth, nominalGroundHeight )
-      .lineTo( 0, nominalGroundHeight )
-      .lineTo( 0, 0 )
-      .close();
+    const groundShape = GreenhouseEffectObservationWindow.createGroundShape();
 
     // Create a node to represent the ground based on the created shape.
     const groundNodePath = new Path( groundShape, {

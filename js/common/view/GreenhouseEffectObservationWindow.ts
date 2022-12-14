@@ -369,6 +369,29 @@ class GreenhouseEffectObservationWindow extends Node {
     return new Rectangle( 0, topOfGround, this.width, this.height - topOfGround, { fill: new Color( 0, 150, 0 ) } );
   }
 
+  /**
+   * Create a shape that will be used for the surface temperature glow and potentially for a Node that depicts the
+   * ground.  This must match the artwork for the landscapes, and was made to do so manually, and may need to be
+   * updated if the artwork changes.
+   */
+  public static createGroundShape(): Shape {
+
+    const lowerLeftCorner = Vector2.ZERO;
+    const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
+    const controlPoint1 = new Vector2( SIZE.width * 0.44, leftSideGroundSurface.y - SIZE.height * 0.177 );
+    const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.197 );
+    const controlPoint2 = new Vector2( SIZE.width * 0.475, rightSideGroundSurface.y + SIZE.height * 0.09 );
+    const lowerRightCorner = new Vector2( SIZE.width, 0 );
+
+    return new Shape()
+      .moveToPoint( lowerLeftCorner )
+      .lineToPoint( leftSideGroundSurface )
+      .cubicCurveToPoint( controlPoint1, controlPoint2, rightSideGroundSurface )
+      .lineToPoint( lowerRightCorner )
+      .lineToPoint( lowerLeftCorner )
+      .close();
+  }
+
   // static values
   public static readonly SIZE: Dimension2 = SIZE;
   public static readonly CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;

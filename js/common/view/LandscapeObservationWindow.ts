@@ -12,8 +12,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
@@ -156,7 +154,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   }
 
   /**
-   * Create the node that will represent the ground, and will switch the image based on the date.
+   * Create the node that will represent the ground, and will use appropriate images for the various dates.
    */
   protected override createGroundNode( model: ConcentrationModel ): Node {
 
@@ -164,6 +162,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       maxWidth: this.width,
       bottom: SIZE.height
     };
+
+    // background and foreground images
     const unadornedLandscapeImage = new Image( unadornedLandscape_png, sharedImageOptions );
     const agriculturalLandscapeBackgroundImage = new Image( agriculturalLandscapeBackground_png, sharedImageOptions );
     const agriculturalLandscapeForegroundImage = new Image( agriculturalLandscapeForeground_png, sharedImageOptions );
@@ -174,25 +174,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     const iceAgeLandscapeBackgroundImage = new Image( iceAgeLandscapeBackground_png, sharedImageOptions );
     const iceAgeLandscapeForegroundImage = new Image( iceAgeLandscapeForeground_png, sharedImageOptions );
 
-    // Create the shape that will be used for the surface temperature glow.  This must match the shape of the ground,
-    // and was made to do so manually, and will need to be updated if the artwork changes.
-    const lowerLeftCorner = Vector2.ZERO;
-    const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
-    const controlPoint1 = new Vector2( SIZE.width * 0.21, leftSideGroundSurface.y - SIZE.height * 0.12 );
-    const midwayPoint = new Vector2( SIZE.width * 0.6, -SIZE.height * 0.2 );
-    const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.197 );
-    const controlPoint2 = new Vector2( SIZE.width * 0.8, rightSideGroundSurface.y + SIZE.height * 0.03 );
-    const lowerRightCorner = new Vector2( SIZE.width, 0 );
-    const groundShape = new Shape()
-      .moveToPoint( lowerLeftCorner )
-      .lineToPoint( leftSideGroundSurface )
-      .quadraticCurveToPoint( controlPoint1, midwayPoint )
-      .quadraticCurveToPoint( controlPoint2, rightSideGroundSurface )
-      .lineToPoint( lowerRightCorner )
-      .lineToPoint( lowerLeftCorner )
-      .close();
-
     // surface temperature node, which is meant to look like a glow on the surface
+    const groundShape = GreenhouseEffectObservationWindow.createGroundShape();
     const groundShapeBounds = groundShape.getBounds();
     const surfaceTemperatureNode = new Path( groundShape, {
       fill: new LinearGradient( 0, groundShapeBounds.minY, 0, groundShapeBounds.maxY )
