@@ -145,8 +145,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
    */
   protected override createGroundNode( model: LayersModel ): Node {
 
-    const nominalGroundHeight = GreenhouseEffectObservationWindow.SIZE.height * GROUND_VERTICAL_PROPORTION;
-
     // ground shape
     const groundShape = GreenhouseEffectObservationWindow.createGroundShape();
 
@@ -159,7 +157,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     model.groundLayer.albedoProperty.link( albedo => {
       const colorBaseValue = Math.min( 255 * albedo / 0.9, 255 );
       const baseColor = new Color( colorBaseValue, colorBaseValue, colorBaseValue );
-      groundNodePath.fill = new LinearGradient( 0, 0, 0, nominalGroundHeight )
+      const bounds = groundNodePath.localBounds;
+      groundNodePath.fill = new LinearGradient( 0, bounds.minY, 0, bounds.maxY )
         .addColorStop( 0, baseColor.colorUtilsDarker( 0.2 ) )
         .addColorStop( 1, baseColor.colorUtilsBrighter( 0.4 ) );
     } );
