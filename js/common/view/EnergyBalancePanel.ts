@@ -214,8 +214,9 @@ class EnergyBalancePlot extends Node {
     } );
     this.addChild( chartRectangle );
 
-    // Arrows will get cut off if they extend outside of the initial bounds of the plot
-    this.clipArea = Shape.bounds( this.bounds );
+    // The arrows will be cut off if they extend outside the bounds of the plot.  Make sure that they don't overlap with
+    // the labels.
+    barPlot.clipArea = Shape.bounds( this.bounds.withMinY( gridLabels.bounds.maxY ) );
 
     // listeners
     Multilink.multilink(
