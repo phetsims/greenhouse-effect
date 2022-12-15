@@ -61,6 +61,16 @@ const GreenhouseEffectColors = {
     {
       tandem: Tandem.COLORS.createTandem( 'controlPanelBackgroundColorProperty' )
     }
+  ),
+  radioButtonGroupSelectedStrokeColorProperty: new ProfileColorProperty(
+    greenhouseEffect,
+    'radioButtonGroupSelectedStroke',
+    {
+      default: new Color( 0, 173, 221 )
+    },
+    {
+      tandem: Tandem.COLORS.createTandem( 'radioButtonGroupSelectedStrokeColorProperty' )
+    }
   )
 };
 

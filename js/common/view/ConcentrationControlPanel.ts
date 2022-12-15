@@ -71,7 +71,7 @@ const RADIO_BUTTON_GROUP_OPTIONS = {
   radioButtonOptions: {
     baseColor: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
     buttonAppearanceStrategyOptions: {
-      selectedStroke: 'rgb(0,173,221)',
+      selectedStroke: GreenhouseEffectColors.radioButtonGroupSelectedStrokeColorProperty,
       selectedLineWidth: 2
     }
   }
