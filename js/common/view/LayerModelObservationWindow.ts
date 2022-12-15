@@ -22,9 +22,6 @@ import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 
-// constants
-const GROUND_VERTICAL_PROPORTION = 0.25; // vertical proportion occupied by the ground, the rest is the sky
-
 type SelfOptions = EmptySelfOptions;
 export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
 
