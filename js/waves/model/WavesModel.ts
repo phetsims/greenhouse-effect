@@ -16,14 +16,11 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line } from '../../../../kite/js/imports.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
-import greenhouseWaveReflectionVibrato_mp3 from '../../../sounds/greenhouseWaveReflectionVibrato_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
@@ -62,7 +59,6 @@ class WavesModel extends ConcentrationModel {
   private readonly atmosphereLineStart: Vector2;
   private readonly atmosphereLineEnd: Vector2;
   private readonly atmosphereLine: Line;
-  private readonly waveReflectedSoundGenerator: SoundClip;
 
   public constructor( tandem: Tandem ) {
     super( tandem, {
@@ -158,13 +154,6 @@ class WavesModel extends ConcentrationModel {
     this.atmosphereLineStart = new Vector2( 0, 0 );
     this.atmosphereLineEnd = new Vector2( 0, 1 );
     this.atmosphereLine = new Line( this.atmosphereLineStart, this.atmosphereLineEnd );
-
-    // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
-    //       see https://github.com/phetsims/greenhouse-effect/issues/36.  UPDATE 7/27/2021 - This has been turned down
-    //       to 0 in preparation for creating a dev version with a consistent but minimal initial sound design.
-    // sound generation
-    this.waveReflectedSoundGenerator = new SoundClip( greenhouseWaveReflectionVibrato_mp3, { initialOutputLevel: 0 } );
-    soundManager.addSoundGenerator( this.waveReflectedSoundGenerator );
   }
 
   /**
@@ -250,10 +239,6 @@ class WavesModel extends ConcentrationModel {
               }
             );
             this.cloudReflectedWavesMap.set( incidentWave, reflectedWave );
-
-            // TODO: This should be moved to the view, if kept at all.  It is here for prototype purposes at the moment,
-            //       see https://github.com/phetsims/greenhouse-effect/issues/36.
-            this.waveReflectedSoundGenerator.play();
           }
 
           // If there is no attenuation of this wave as it passes through the cloud, create it.
