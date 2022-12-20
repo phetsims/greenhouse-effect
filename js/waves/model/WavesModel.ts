@@ -367,8 +367,6 @@ class WavesModel extends ConcentrationModel {
                 }
               );
 
-              // xxx
-
               // Add an attenuator on the source wave.
               waveFromTheGround.addAttenuator(
                 waveStartToIntersectionLength,

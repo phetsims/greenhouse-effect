@@ -9,11 +9,8 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { VBox } from '../../../../scenery/js/imports.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffectWavesIrReemissionLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionLoop_mp3.js';
-import greenhouseEffectWavesIrReemissionStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionStartingSound_mp3.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
@@ -26,6 +23,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from './CloudCheckbox.js';
+import IrWavesSoundGenerator from './IrWavesSoundGenerator.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
@@ -131,72 +129,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.addChild( visibilityBox );
 
     // sound generation
-    const waveLoopMaxOutputLevel = 0.04;
+    const irWavesSoundGenerator = new IrWavesSoundGenerator( model, this );
+    soundManager.addSoundGenerator( irWavesSoundGenerator );
 
-    // Create a sound generator for each of the IR waves that can originate from the atmosphere.
-    const irWaveRadiatingFromAtmosphereSoundGenerators: SoundClip[] = [];
-    _.times( 3, () => {
-      const soundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionLoop_mp3, {
-        initialOutputLevel: waveLoopMaxOutputLevel,
-        loop: true,
-        enableControlProperties: [
-          model.isPlayingProperty
-        ]
-      } );
-      soundManager.addSoundGenerator( soundGenerator, { associatedViewNode: this } );
-      irWaveRadiatingFromAtmosphereSoundGenerators.push( soundGenerator );
-    } );
-
-    // Create the sound clip that will be played when a new IR wave starts to emanate from the atmosphere.
-    const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionStartingSound_mp3, {
-      initialOutputLevel: 0.02
-    } );
-    soundManager.addSoundGenerator( irWaveEmittedFromAtmosphereSoundGenerator );
-
-    // Play the sounds related to IR interactions with the atmosphere.
-    model.waveAtmosphereInteractions.lengthProperty.lazyLink(
-      ( numberOfInteractions: number, previousNumberOfInteractions: number ) => {
-
-        // Play a one-shot sound each time a new interaction starts.
-        if ( numberOfInteractions > previousNumberOfInteractions ) {
-          irWaveEmittedFromAtmosphereSoundGenerator.play();
-        }
-
-        // Make sure that the number of sound generators playing is equal to the number of waves coming from the atmosphere.
-        irWaveRadiatingFromAtmosphereSoundGenerators.forEach( ( soundGenerator, index ) => {
-          if ( !soundGenerator.isPlaying && numberOfInteractions > index ) {
-            soundGenerator.play();
-          }
-          else if ( soundGenerator.isPlaying && numberOfInteractions <= index ) {
-            soundGenerator.stop();
-          }
-        } );
-      }
-    );
-
-    // A method that is intended to be called during stepping to update the output levels of the loops to match the
-    // intensities of the waves to which they correspond.
-    const updateSoundLoopLevels = () => {
-      let wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel;
-
-      model.waveGroup.forEach( wave => {
-
-        // Only provide sound for the IR waves that are moving down.  This is done to draw more attention to these
-        // waves, since understanding that IR comes back from the atmosphere is a big learning goal.
-        if ( wave.isInfrared && wave.propagationDirection.y < 0 ) {
-          wavesFromAtmosphereOutputLevel = waveLoopMaxOutputLevel * wave.intensityAtStart;
-        }
-      } );
-
-      irWaveRadiatingFromAtmosphereSoundGenerators.forEach( soundGenerator => {
-        if ( soundGenerator.isPlaying && soundGenerator.getOutputLevel() !== wavesFromAtmosphereOutputLevel ) {
-          soundGenerator.setOutputLevel( wavesFromAtmosphereOutputLevel );
-        }
-      } );
-    };
-
-    // Update the sound levels when the model is stepped.  No need to unlink since this view is never disposed.
-    model.steppedEmitter.addListener( updateSoundLoopLevels );
+    // Update this sound generator when the model is stepped.  No need to unlink since this view is never disposed.
+    model.steppedEmitter.addListener( irWavesSoundGenerator.step.bind( irWavesSoundGenerator ) );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
