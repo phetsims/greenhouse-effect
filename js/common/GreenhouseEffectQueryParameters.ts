@@ -10,12 +10,6 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
-  // This flag can be used to enable custom sim-specific options in the Preferences dialog.  This is used to enable
-  // designers to test drive some alternative sounds, see mockups, and so forth.
-  // TODO: This query parameter and the associated dialog should be completely removed prior to publication, see
-  //       https://github.com/phetsims/greenhouse-effect/issues/179.
-  customPreferences: { type: 'flag' },
-
   // This threshold value is used to decide when an EnergyAbsorbingEmittingLayer is considered to be in equilibrium,
   // meaning that the amount of incoming energy is close to the amount of outgoing energy.  There is another query
   // parameter that controls the amount of time that this must be true.  This value is in Watts per square meter.  See

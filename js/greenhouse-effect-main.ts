@@ -6,12 +6,9 @@
  * @author John Blanco
  */
 
-import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import GreenhouseEffectQueryParameters from './common/GreenhouseEffectQueryParameters.js';
-import GreenhouseEffectPreferencesContent from './common/view/GreenhouseEffectPreferencesContent.js';
 import GreenhouseEffectStrings from './GreenhouseEffectStrings.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import PhotonsScreen from './photons/PhotonsScreen.js';
@@ -34,19 +31,6 @@ const simOptions: SimOptions = {
     thanks: 'Dedicated to the memory of Ron LeMaster.'
   }
 };
-
-// If the appropriate query parameter is set, add controls to the Preferences dialog that designers can use to try out
-// different design choices.
-// TODO: This should be removed before publication, see https://github.com/phetsims/greenhouse-effect/issues/179.
-if ( GreenhouseEffectQueryParameters.customPreferences ) {
-  simOptions.preferencesModel = new PreferencesModel( {
-    simulationOptions: {
-      customPreferences: [ {
-        createContent: () => new GreenhouseEffectPreferencesContent()
-      } ]
-    }
-  } );
-}
 
 // Launch the sim.  Beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds until the
 // images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70.
