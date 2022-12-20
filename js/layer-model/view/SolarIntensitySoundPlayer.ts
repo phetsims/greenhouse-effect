@@ -60,7 +60,7 @@ class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
 
       // Map the solar intensity into a cutoff frequency.  This is a very empirical mapping, and is quite dependent on
       // the frequency content of the underlying sound, so feel free to adjust as needed.
-      const cutoffFrequency = Math.max( Math.pow( normalizedSolarIntensity, 2 ) * 5000, 75 );
+      const cutoffFrequency = Math.max( Math.pow( normalizedSolarIntensity, 2 ) * 5000, 300 );
 
       // Set the cutoff frequency.
       lowPassFilter.frequency.setTargetAtTime( cutoffFrequency, phetAudioContext.currentTime, 0.015 );
