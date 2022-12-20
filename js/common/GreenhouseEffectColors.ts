@@ -66,7 +66,7 @@ const GreenhouseEffectColors = {
     greenhouseEffect,
     'radioButtonGroupSelectedStroke',
     {
-      default: new Color( 0, 173, 221 )
+      default: new Color( 0, 148, 189 )
     },
     {
       tandem: Tandem.COLORS.createTandem( 'radioButtonGroupSelectedStrokeColorProperty' )
