@@ -7,10 +7,11 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -36,12 +37,20 @@ class PhotonsModel extends ConcentrationModel {
   public constructor( tandem: Tandem ) {
     super( tandem, { fluxMeterPresent: true } );
 
+    // derived Property that is true when a glacier is present on the ground, false otherwise
+    const glacierPresentProperty = new DerivedProperty(
+      [ this.concentrationControlModeProperty, this.dateProperty ],
+      ( concentrationControlMode, date ) => concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                            date === ConcentrationDate.ICE_AGE
+    );
+
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
       photonAbsorbingEmittingLayerOptions: {
         photonAbsorptionTime: 0,
         photonMaxLateralJumpProportion: 0,
         absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
       },
+      glacierPresentProperty: glacierPresentProperty,
       tandem: tandem.createTandem( 'photonCollection' )
     } );
 

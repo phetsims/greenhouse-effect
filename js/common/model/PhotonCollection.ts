@@ -13,6 +13,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -26,17 +27,25 @@ import LayersModel from './LayersModel.js';
 import Photon, { PhotonStateObject } from './Photon.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 import SunEnergySource from './SunEnergySource.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
 const DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS = 5; // ratio of invisible to visible photons when NOT showing all photons
-
 assert && assert( Number.isInteger( DEFAULT_PROPORTION_OF_INVISIBLE_PHOTONS ), 'value must be an integer' );
+
+// The following Range is used to help decide where to reflect photons when a glacier is present.  It is in meters, and
+// defines the x-range on the ground where the glacier exists.  This value must be manually coordinated with the
+// artwork.
+const GLACIER_X_RANGE = new Range( 12500, 42500 );
 
 type SelfOptions = {
 
   // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
   photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions;
+
+  // whether a glacier is present, which will affect how photons are reflected from the ground
+  glacierPresentProperty?: TReadOnlyProperty<boolean>;
 
   // phet-io
   tandem: Tandem;
@@ -50,6 +59,7 @@ class PhotonCollection extends PhetioObject {
   public readonly showAllSimulatedPhotonsInViewProperty: BooleanProperty;
   private readonly sunEnergySource: SunEnergySource;
   private readonly groundLayer: GroundLayer;
+  private readonly glacierPresentProperty: TReadOnlyProperty<boolean>;
   private photonCreationCountdown: number;
   private groundPhotonProductionRate: number;
   private groundPhotonProductionTimeAccumulator: number;
@@ -63,6 +73,7 @@ class PhotonCollection extends PhetioObject {
 
     const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObject>()( {
       phetioType: PhotonCollection.PhotonCollectionIO,
+      glacierPresentProperty: new BooleanProperty( false ),
       photonAbsorbingEmittingLayerOptions: {
         photonMaxLateralJumpProportion: 0.1,
         photonAbsorptionTime: 1.0
@@ -86,6 +97,7 @@ class PhotonCollection extends PhetioObject {
 
     this.sunEnergySource = sunEnergySource;
     this.groundLayer = groundLayer;
+    this.glacierPresentProperty = options.glacierPresentProperty;
 
     // Create the observable array where the photons will be kept.
     this.photons = createObservableArray();
@@ -158,8 +170,20 @@ class PhotonCollection extends PhetioObject {
       }
       else if ( photon.positionProperty.value.y < 0 && photon.velocity.y < 0 ) {
 
-        // This photon is moving downward and has reached the ground. Decide whether it should be absorbed or reflected.
-        if ( photon.isVisible && dotRandom.nextDouble() < this.groundLayer.albedoProperty.value ) {
+        // This photon is moving downward and has reached the ground.  Decide whether to reflect or absorb it.
+
+        // Figure out what albedo value to use for potential reflection.
+        let albedo = this.groundLayer.albedoProperty.value;
+        if ( this.glacierPresentProperty.value ) {
+
+          // The glacier is present, so the reflection is concentrated in the area where the glacier resides.
+          albedo = GLACIER_X_RANGE.contains( photon.positionProperty.value.x ) ?
+                   Math.min( albedo / ( GLACIER_X_RANGE.getLength() / GroundLayer.WIDTH ), 1 ) :
+                   0;
+        }
+
+        // Decide whether it should be absorbed or reflected.
+        if ( photon.isVisible && dotRandom.nextDouble() < albedo ) {
 
           // The photon should be reflected.  Simulate this by reversing its vertical velocity.
           photon.velocity.setXY( photon.velocity.x, -photon.velocity.y );
