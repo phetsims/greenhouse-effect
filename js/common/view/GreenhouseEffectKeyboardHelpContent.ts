@@ -6,15 +6,18 @@
  */
 
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
-import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
-import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
-import TimingControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimingControlsKeyboardHelpSection.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
+import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
+import TimingControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimingControlsKeyboardHelpSection.js';
+import TwoColumnKeyboardHelpContent from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
-    const sliderHelpSection = new SliderControlsKeyboardHelpSection();
+    const sliderHelpSection = new SliderControlsKeyboardHelpSection( {
+      headingStringProperty: GreenhouseEffectStrings.sliderAndFluxMeterControlsStringProperty
+    } );
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection();
 
     const timingControlsHelpSection = new TimingControlsKeyboardHelpSection();

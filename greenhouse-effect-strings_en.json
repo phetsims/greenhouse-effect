@@ -53,6 +53,9 @@
   "valuePercentPattern": {
     "value": "{{value}}%"
   },
+  "sliderAndFluxMeterControls": {
+    "value": "Slider and Flux Meter Controls"
+  },
   "concentrationPanel.greenhouseGasConcentration": {
     "value": "Greenhouse Gas Concentration"
   },

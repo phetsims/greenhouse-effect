@@ -33,6 +33,7 @@ type StringsType = {
   'infraredStringProperty': LinkableProperty<string>;
   'infraredAbsorbanceStringProperty': LinkableProperty<string>;
   'valuePercentPatternStringProperty': LinkableProperty<string>;
+  'sliderAndFluxMeterControlsStringProperty': LinkableProperty<string>;
   'concentrationPanel': {
     'greenhouseGasConcentrationStringProperty': LinkableProperty<string>;
     'lotsStringProperty': LinkableProperty<string>;
