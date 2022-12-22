@@ -229,6 +229,7 @@ class MicroScreenView extends ScreenView {
       keys: [ 'alt+l' ],
       global: true,
       fireOnKeyUp: true,
+      fireOnKeyDown: false,
       callback: ( event, listener ) => {
         if ( !photonAbsorptionModel.runningProperty.get() ) {
 
