@@ -5,6 +5,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
@@ -16,7 +17,11 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
     const sliderHelpSection = new SliderControlsKeyboardHelpSection( {
-      headingStringProperty: GreenhouseEffectStrings.sliderAndFluxMeterControlsStringProperty
+      headingStringProperty: GreenhouseEffectStrings.sliderAndFluxMeterControlsStringProperty,
+
+      // The following option essentially removes the word "slider" so that the dialog just says "Adjust" and not
+      // "Adjust Slider".  By making it a fixed property, we are not allowing it to be translated, which is intentional.
+      sliderStringProperty: new StringProperty( '' )
     } );
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection();
 
