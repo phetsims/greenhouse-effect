@@ -239,7 +239,7 @@ class Wave extends PhetioObject {
         // state checking
         assert && assert( attenuator, 'There should always be an attenuator for an anchored intensity change.' );
 
-        const intensityAtInputToAttenuator = this.getIntensityAt( attenuator!.distanceFromStart );
+        const intensityAtInputToAttenuator = this.getIntensityAtDistance( attenuator!.distanceFromStart );
         intensityChange.postChangeIntensity = intensityAtInputToAttenuator * ( 1 - attenuator!.attenuation );
       }
       else {
@@ -266,7 +266,7 @@ class Wave extends PhetioObject {
       // state checking
       assert && assert( attenuator, 'There should always be an attenuator for an anchored intensity change.' );
 
-      const intensityAtInputToAttenuator = this.getIntensityAt( attenuator!.distanceFromStart );
+      const intensityAtInputToAttenuator = this.getIntensityAtDistance( attenuator!.distanceFromStart );
       anchoredIntensityChange.postChangeIntensity = intensityAtInputToAttenuator * ( 1 - attenuator!.attenuation );
     } );
 
@@ -316,7 +316,7 @@ class Wave extends PhetioObject {
    * Get the intensity of the wave at the specified distance from the starting point.
    * @param distanceFromStart - in meters
    */
-  public getIntensityAt( distanceFromStart: number ): number {
+  public getIntensityAtDistance( distanceFromStart: number ): number {
     let intensity = this.intensityAtStart;
 
     // Move through the intensity changes and find the last one before the specified distance.  This will provide the
@@ -336,6 +336,15 @@ class Wave extends PhetioObject {
       }
     }
     return intensity;
+  }
+
+  /**
+   * Get the intensity of this wave at the specified altitude.
+   * @param altitude - in meters
+   */
+  public getIntensityAtAltitude( altitude: number ): number {
+    const distanceFromStart = Math.abs( altitude / Math.sin( this.propagationDirection.getAngle() ) );
+    return this.getIntensityAtDistance( distanceFromStart );
   }
 
   /**
@@ -401,7 +410,7 @@ class Wave extends PhetioObject {
     // Create the intensity change on the wave that is caused by this new attenuator.  This will be anchored to the
     // model object that is causing the attenuation and will not propagate with the wave.
     this.intensityChanges.push( new WaveIntensityChange(
-      this.getIntensityAt( distanceFromStart ) * ( 1 - attenuationAmount ),
+      this.getIntensityAtDistance( distanceFromStart ) * ( 1 - attenuationAmount ),
       distanceFromStart,
       causalModelElement
     ) );
@@ -410,7 +419,7 @@ class Wave extends PhetioObject {
     // will propagate with the wave.  We don't want this to be at the exact same distance as the intensity change that
     // will be caused by the attenuator, so put it a few meters beyond this current distance.
     this.intensityChanges.push( new WaveIntensityChange(
-      this.getIntensityAt( distanceFromStart ),
+      this.getIntensityAtDistance( distanceFromStart ),
       distanceFromStart + INTENSITY_CHANGE_DISTANCE_BUMP
     ) );
 
@@ -443,7 +452,7 @@ class Wave extends PhetioObject {
     if ( associatedIntensityChange!.distanceFromStart > 0 && associatedIntensityChange!.distanceFromStart < this.length ) {
 
       // Before freeing this intensity change, make sure it is at the right value.
-      associatedIntensityChange!.postChangeIntensity = this.getIntensityAt( attenuator!.distanceFromStart ) *
+      associatedIntensityChange!.postChangeIntensity = this.getIntensityAtDistance( attenuator!.distanceFromStart ) *
                                                        ( 1 - attenuator!.attenuation );
 
       // Fly! Be free!
@@ -512,7 +521,7 @@ class Wave extends PhetioObject {
 
         // Add a new intensity change that is anchored to the model element and is based on the new attenuation value.
         this.intensityChanges.push( new WaveIntensityChange(
-          this.getIntensityAt( attenuator.distanceFromStart ) * ( 1 - attenuator.attenuation ),
+          this.getIntensityAtDistance( attenuator.distanceFromStart ) * ( 1 - attenuator.attenuation ),
           attenuator.distanceFromStart,
           modelElement
         ) );
@@ -520,7 +529,7 @@ class Wave extends PhetioObject {
       else {
 
         // Update the existing intensity change based on the new attenuation value.
-        associatedIntensityChange!.postChangeIntensity = this.getIntensityAt( attenuator.distanceFromStart ) *
+        associatedIntensityChange!.postChangeIntensity = this.getIntensityAtDistance( attenuator.distanceFromStart ) *
                                                          ( 1 - attenuator.attenuation );
       }
 

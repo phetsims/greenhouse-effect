@@ -298,8 +298,10 @@ class WavesModel extends ConcentrationModel {
         // Make sure the attenuation on the source wave is correct.
         interaction.sourceWave.setAttenuation( interaction.atmosphereLayer, irWaveAttenuation );
 
-        // Make sure the intensity of the emitted wave is correct.
-        const emittedWaveIntensity = interaction.sourceWave.intensityAtStart * irWaveAttenuation;
+        // Set the intensity of the emitted wave.
+        const sourceWaveIntensityAtInteraction =
+          interaction.sourceWave.getIntensityAtAltitude( interaction.atmosphereLayer.altitude );
+        const emittedWaveIntensity = sourceWaveIntensityAtInteraction * irWaveAttenuation;
         if ( interaction.emittedWave.intensityAtStart !== emittedWaveIntensity ) {
           interaction.emittedWave.setIntensityAtStart( emittedWaveIntensity );
         }

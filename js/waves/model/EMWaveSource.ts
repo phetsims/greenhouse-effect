@@ -201,7 +201,7 @@ class EMWaveSource extends PhetioObject {
           }
         }
 
-        if ( matchingWave.getIntensityAt( 0 ) !== waveIntensity ) {
+        if ( matchingWave.getIntensityAtDistance( 0 ) !== waveIntensity ) {
 
           // Update the intensity.
           matchingWave.setIntensityAtStart( waveIntensity );
