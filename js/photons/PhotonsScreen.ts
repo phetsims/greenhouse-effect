@@ -4,7 +4,6 @@
  * @author John Blanco
  */
 
-import StringProperty from '../../../axon/js/StringProperty.js';
 import Screen from '../../../joist/js/Screen.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectColors from '../common/GreenhouseEffectColors.js';
@@ -27,17 +26,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.photonsStringProperty,
       descriptionContent: GreenhouseEffectStrings.a11y.photons.homeScreenDescriptionStringProperty,
-      createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent(
-        {
-          sliderHelpSectionOptions: {
-            headingStringProperty: GreenhouseEffectStrings.sliderAndFluxMeterControlsStringProperty,
-
-            // The following option essentially removes the word "slider" so that the dialog just says "Adjust" and not
-            // "Adjust Slider".  By making it a fixed property, we are not allowing it to be translated, which is intentional.
-            sliderStringProperty: new StringProperty( '' )
-          }
-        }
-      )
+      createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent( { includeFluxMeterHelp: true } )
     };
 
     super(
