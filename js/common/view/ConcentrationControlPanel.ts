@@ -528,7 +528,6 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
     dateIcon.setScaleMagnitude( 34 / dateIcon.width, 34 / dateIcon.height );
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
-    assert && assert( dummyProperty.range );
 
     const items = [
       {
