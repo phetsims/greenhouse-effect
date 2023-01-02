@@ -92,7 +92,7 @@ MicroPhoton.PhotonIO = new IOType( 'PhotonIO', {
       wavelength: NumberIO
     },
 
-    stateToArgsForConstructor: stateObject => [ stateObject.wavelength ]
+    stateObjectToCreateElementArguments: stateObject => [ stateObject.wavelength ]
   }
 );
 

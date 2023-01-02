@@ -653,7 +653,7 @@ class Wave extends PhetioObject {
     },
     toStateObject: ( wave: Wave ) => wave.toStateObject(),
     applyState: ( wave: Wave, stateObject: WaveStateObject ) => wave.applyState( stateObject ),
-    stateToArgsForConstructor: ( state: WaveStateObject ) => [
+    stateObjectToCreateElementArguments: ( state: WaveStateObject ) => [
       state.wavelength,
       Vector2.Vector2IO.fromStateObject( state.origin ),
       Vector2.Vector2IO.fromStateObject( state.propagationDirection ),
