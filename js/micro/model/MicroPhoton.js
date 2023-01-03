@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * Ported from the original file MicroPhoton.java.  This will model a particular photon.  Primarily keeps track of

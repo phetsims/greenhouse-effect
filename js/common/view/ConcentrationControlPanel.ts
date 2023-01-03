@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * Controls for the concentration of greenhouse gases in the sim. Concentration can be modified directly by value or
