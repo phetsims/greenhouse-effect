@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * The "Energy Flux" meter for Greenhouse Effect. This includes a draggable sensor that can move about the Observation
