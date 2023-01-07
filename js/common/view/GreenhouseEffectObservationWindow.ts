@@ -27,6 +27,7 @@ import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
@@ -75,8 +76,8 @@ class GreenhouseEffectObservationWindow extends Node {
     const options = optionize<GreenhouseEffectObservationWindowOptions, StrictOmit<SelfOptions, 'fluxMeterNodeOptions'>, NodeOptions>()( {
 
       // default position in the GreenhouseEffect sim
-      left: 5,
-      top: 10,
+      left: GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
+      top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
 
       // phet-io
       tandem: Tandem.REQUIRED
@@ -106,10 +107,7 @@ class GreenhouseEffectObservationWindow extends Node {
     // TODO: 10/13/2021 - I (jbphet) am refactoring the observation window to be in subclasses.  The windowFrame needs
     //                    to be available to subclasses at this moment, but might not eventually, so check this later
     //                    and make it local if possible, or just delete this comment if not.
-    this.windowFrame = Rectangle.dimension( SIZE, {
-      lineWidth: 2,
-      stroke: 'black'
-    } );
+    this.windowFrame = Rectangle.dimension( SIZE, { lineWidth: 0 } );
     this.addChild( this.windowFrame );
 
     // Clip the root node to stay within the frame.
