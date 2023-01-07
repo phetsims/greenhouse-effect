@@ -15,10 +15,10 @@ const GreenhouseEffectConstants = {
 
   // margins
   SCREEN_VIEW_X_MARGIN: 15,
-  SCREEN_VIEW_Y_MARGIN: 15,
+  SCREEN_VIEW_Y_MARGIN: 10,
 
   // spacing between observation window and UI components to its right
-  OBSERVATION_WINDOW_RIGHT_SPACING: 15,
+  OBSERVATION_WINDOW_RIGHT_SPACING: 12,
 
   // font for titles used throughout the sim in panels and sections
   TITLE_FONT: new PhetFont( { size: 16, weight: 'bold' } ),

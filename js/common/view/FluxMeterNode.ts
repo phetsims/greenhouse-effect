@@ -77,7 +77,10 @@ const CUE_ARROW_OPTIONS = {
 // so we use and arbitrary value that looks decent in the view.
 const SENSOR_VIEW_HEIGHT = 10;
 
-const FLUX_SENSOR_VERTICAL_RANGE = new Range( 500, LayersModel.HEIGHT_OF_ATMOSPHERE - 500 );
+// The vertical range over which the flux meter is allowed to move.  The lower end allows the sensor to get close to the
+// ground but not overlap with UI elements (see https://github.com/phetsims/greenhouse-effect/issues/248).  The upper
+// end makes sure that the sensor stays fully within the observation window.
+const FLUX_SENSOR_VERTICAL_RANGE = new Range( 750, LayersModel.HEIGHT_OF_ATMOSPHERE - 700 );
 
 type SelfOptions = {
 

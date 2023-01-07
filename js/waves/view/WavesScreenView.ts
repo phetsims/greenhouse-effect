@@ -124,7 +124,10 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     visibilityBox.left = this.observationWindow.left + 5;
     visibilityBox.centerY = this.timeControlNode.centerY;
 
-    concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
+    concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY(
+      0,
+      GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN
+    );
 
     this.addChild( visibilityBox );
 
