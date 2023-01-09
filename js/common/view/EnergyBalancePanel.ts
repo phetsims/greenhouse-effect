@@ -214,9 +214,10 @@ class EnergyBalancePlot extends Node {
     } );
     this.addChild( chartRectangle );
 
-    // The arrows will be cut off if they extend outside the bounds of the plot.  Make sure that they don't overlap with
-    // the labels.
-    barPlot.clipArea = Shape.bounds( this.bounds.withMinY( gridLabels.bounds.maxY ) );
+    // The arrows will be clipped if they extend outside the bounds of the plot, and this clipping should make sure
+    // that they don't overlap with the labels.  Also, the clip area can't be too small in the x-direction or the edges
+    // of the arrow heads can be cut off (see https://github.com/phetsims/greenhouse-effect/issues/240).
+    barPlot.clipArea = Shape.bounds( this.bounds.withMinY( gridLabels.bounds.maxY ).dilateX( 5 ) );
 
     // listeners
     Multilink.multilink(
