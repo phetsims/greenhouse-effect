@@ -51,10 +51,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     // Create a derived property that will be used to move the temperature display out from under the energy balance
     // indicator when it's visible.
     const compensatedTemperatureDisplayLeftProperty = new DerivedProperty(
-      [ model.energyBalanceVisibleProperty ],
-      energyBalanceVisible => energyBalanceVisible ?
-                              AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT + this.energyBalancePanel.width :
-                              AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT
+      [ model.energyBalanceVisibleProperty, this.energyBalancePanel.boundsProperty ],
+      ( energyBalanceVisible, energyBalancePanelBounds ) =>
+        energyBalanceVisible ?
+        AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT + energyBalancePanelBounds.width :
+        AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT
     );
 
     // Add the visual representations of the atmosphere layers.
