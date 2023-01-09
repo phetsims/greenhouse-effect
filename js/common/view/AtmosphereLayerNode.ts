@@ -12,6 +12,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
@@ -47,8 +48,11 @@ class AtmosphereLayerNode extends Node {
 
   private readonly showTemperatureProperty: BooleanProperty;
 
-  // The checkbox, icon, and readout for displaying the temperature of the layer.
+  // the checkbox, icon, and readout for displaying the temperature of the layer
   public readonly temperatureDisplay: Node;
+
+  // the readout portion of the temperature display
+  private readonly temperatureReadout: NumberDisplay;
 
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
@@ -176,6 +180,17 @@ class AtmosphereLayerNode extends Node {
 
     // Make the temperature display available externally so that external nodes can be aligned with it.
     this.temperatureDisplay = temperatureDisplay;
+
+    // Make the temperature readout available to a method that needs it.
+    this.temperatureReadout = temperatureReadout;
+  }
+
+  /**
+   * Get the center X position in global coordinate space of the temperature readout.  This is an oddly specific piece
+   * of information, but is needed for alignment of some visual elements.
+   */
+  public getTemperatureReadoutCenter(): Vector2 {
+    return this.temperatureReadout.parentToGlobalPoint( this.temperatureReadout.getCenter() );
   }
 
   /**
