@@ -502,14 +502,21 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
     super( options );
 
     const fluxSensorWidth = modelViewTransform.modelToViewDeltaX( fluxSensor.size.width );
-    const rectangleNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
+    const fluxSensorTouchAreaYDilation = 10;
+    const sensorNode = new Rectangle( 0, 0, fluxSensorWidth, SENSOR_VIEW_HEIGHT, 5, 5, {
       stroke: SENSOR_STROKE_COLOR,
       fill: SENSOR_FILL_COLOR,
       lineWidth: 2,
       cursor: 'ns-resize',
-      center: modelViewTransform.modelToViewXY( fluxSensor.xPosition, fluxSensor.altitudeProperty.value )
+      center: modelViewTransform.modelToViewXY( fluxSensor.xPosition, fluxSensor.altitudeProperty.value ),
+      touchArea: Shape.rectangle(
+        0,
+        -fluxSensorTouchAreaYDilation,
+        fluxSensorWidth,
+        SENSOR_VIEW_HEIGHT + fluxSensorTouchAreaYDilation * 2
+      )
     } );
-    this.addChild( rectangleNode );
+    this.addChild( sensorNode );
   }
 }
 
