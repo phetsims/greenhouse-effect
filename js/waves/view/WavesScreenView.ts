@@ -133,7 +133,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // sound generation
     const irWavesSoundGenerator = new IrWavesSoundGenerator( model, this );
-    soundManager.addSoundGenerator( irWavesSoundGenerator );
+    soundManager.addSoundGenerator( irWavesSoundGenerator, { associatedViewNode: this } );
 
     // Update this sound generator when the model is stepped.  No need to unlink since this view is never disposed.
     model.steppedEmitter.addListener( irWavesSoundGenerator.step.bind( irWavesSoundGenerator ) );
