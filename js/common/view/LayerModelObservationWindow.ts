@@ -91,6 +91,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );
 
+    // Get the X position of the surface thermometer based on the position of a similar display in the layer nodes.
+    // This allows them to line up nicely.
+    const surfaceThermometerCenterX =
+      this.globalToLocalPoint( this.atmosphereLayerNodes[ 0 ].getTemperatureReadoutCenter() ).x;
+
     // surface thermometer
     const surfaceThermometer = new ThermometerAndReadout( model, {
 
@@ -110,7 +115,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
       visibleProperty: model.surfaceThermometerVisibleProperty,
-      centerX: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.centerX,
+      centerX: surfaceThermometerCenterX,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
