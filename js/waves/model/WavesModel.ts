@@ -30,7 +30,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource, { EMWaveSourceStateObject } from './EMWaveSource.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
-import Wave, { WaveOptions } from './Wave.js';
+import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -45,7 +45,7 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
 class WavesModel extends ConcentrationModel {
-  public readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
+  public readonly waveGroup: PhetioGroup<Wave, WaveCreatorArguments>;
   public readonly wavesChangedEmitter: TEmitter;
   private readonly sunWaveSource: SunWaveSource;
   private readonly groundWaveSource: GroundWaveSource;
@@ -70,8 +70,8 @@ class WavesModel extends ConcentrationModel {
 
     // (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
-      ( tandem, wavelength, origin, propagationDirection, propagationLimit, options ) => {
-        options = combineOptions<WaveOptions>( { tandem: tandem }, options );
+      ( tandem, wavelength, origin, propagationDirection, propagationLimit, providedOptions ) => {
+        const options = combineOptions<WaveOptions>( { tandem: tandem }, providedOptions );
         return new Wave( wavelength, origin, propagationDirection, propagationLimit, options );
       },
       [
@@ -231,8 +231,7 @@ class WavesModel extends ConcentrationModel {
               incidentWave.wavelength,
               new Vector2( incidentWave.origin.x, cloud.position.y ),
               direction,
-              LayersModel.HEIGHT_OF_ATMOSPHERE,
-              {
+              LayersModel.HEIGHT_OF_ATMOSPHERE, {
                 intensityAtStart: incidentWave.intensityAtStart * visualCloudReflectivity,
                 initialPhaseOffset: ( incidentWave.getPhaseAt( incidentWave.origin.y - cloud.position.y ) + Math.PI ) %
                                     ( 2 * Math.PI )

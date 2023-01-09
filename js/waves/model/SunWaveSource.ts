@@ -6,14 +6,13 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource, { EMWaveSourceOptions } from '../../waves/model/EMWaveSource.js';
-import Wave, { WaveOptions } from './Wave.js';
+import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -21,7 +20,7 @@ export type SunWaveSourceOptions = SelfOptions & EMWaveSourceOptions;
 
 class SunWaveSource extends EMWaveSource {
 
-  public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( wavesInModel: PhetioGroup<Wave, WaveCreatorArguments>,
                       waveProductionEnabledProperty: Property<boolean>,
                       waveStartAltitude: number,
                       waveEndAltitude: number,

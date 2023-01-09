@@ -14,11 +14,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 
 type SelfOptions = {
   initiallyActive?: boolean;
 };
-export type AtmosphereLayerOptions = SelfOptions & EnergyAbsorbingEmittingLayerOptions;
+export type AtmosphereLayerOptions = SelfOptions & WithOptional<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   public readonly isActiveProperty: BooleanProperty;

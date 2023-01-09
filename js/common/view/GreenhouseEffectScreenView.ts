@@ -14,7 +14,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import { Path, VBox } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -62,8 +61,7 @@ class GreenhouseEffectScreenView extends ScreenView {
     const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       useClippingFrame: false,
       energyLegendOptions: {},
-      observationWindowOptions: {},
-      tandem: Tandem.REQUIRED
+      observationWindowOptions: {}
     }, providedOptions );
 
     if ( options.energyLegendOptions ) {

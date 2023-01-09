@@ -9,8 +9,9 @@
  */
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -50,7 +51,11 @@ type SelfOptions = {
   // a string that can be stuck on the object, useful for debugging, see usage
   debugTag?: string | null;
 };
-export type WaveOptions = SelfOptions & PhetioObjectOptions;
+export type WaveOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+
+// To be passed to the group's creator arguments, not the constructor
+export type WaveCreatorOptions = WithOptional<WaveOptions, 'tandem'>;
+export type WaveCreatorArguments = [ number, Vector2, Vector2, number, WaveCreatorOptions ];
 
 class Wave extends PhetioObject {
 
@@ -124,7 +129,6 @@ class Wave extends PhetioObject {
       debugTag: null,
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       phetioType: Wave.WaveIO,
       phetioDynamicElement: true
     }, providedOptions );

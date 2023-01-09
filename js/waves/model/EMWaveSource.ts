@@ -10,9 +10,9 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import InfiniteNumberIO from '../../../../tandem/js/types/InfiniteNumberIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
@@ -21,7 +21,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Wave, { WaveOptions } from './Wave.js';
+import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 
 // constants
@@ -83,7 +83,7 @@ type SelfOptions = {
   // range of lifetimes for this wave, in seconds
   waveLifetimeRange?: Range;
 };
-export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions;
+export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class EMWaveSource extends PhetioObject {
 
@@ -101,7 +101,7 @@ class EMWaveSource extends PhetioObject {
 
   // other information necessary for the methods to do their thing
   private readonly waveProductionEnabledProperty: TReadOnlyProperty<boolean>;
-  private readonly waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>;
+  private readonly waveGroup: PhetioGroup<Wave, WaveCreatorArguments>;
   private readonly wavelength: number;
   private readonly waveEndAltitude: number;
   private readonly waveSourceSpecs: WaveSourceSpec[];
@@ -117,7 +117,7 @@ class EMWaveSource extends PhetioObject {
    * @param waveSourceSpecs - specifications that define where the waves will be created
    * @param [providedOptions]
    */
-  public constructor( waveGroup: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( waveGroup: PhetioGroup<Wave, WaveCreatorArguments>,
                       waveProductionEnabledProperty: TReadOnlyProperty<boolean>,
                       wavelength: number,
                       waveStartAltitude: number,
@@ -129,7 +129,6 @@ class EMWaveSource extends PhetioObject {
       waveIntensityProperty: null,
       interWaveTime: 0.75,
       waveLifetimeRange: new Range( 10, 15 ),
-      tandem: Tandem.REQUIRED,
       phetioType: EMWaveSource.EMWaveSourceIO
     }, providedOptions );
 
@@ -228,8 +227,9 @@ class EMWaveSource extends PhetioObject {
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
       propagationDirection,
-      this.waveEndAltitude,
-      { intensityAtStart: this.waveIntensityProperty.value }
+      this.waveEndAltitude, {
+        intensityAtStart: this.waveIntensityProperty.value
+      }
     );
 
     // If wave gaps are enabled, the newly created wave should have a limited lifetime, after which a new wave with the

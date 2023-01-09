@@ -14,6 +14,7 @@ import EnergyDirection from './EnergyDirection.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 
 // constants
 
@@ -28,7 +29,7 @@ const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 type SelfOptions = {
   initialAlbedo?: number;
 };
-export type GroundLayerOptions = SelfOptions & EnergyAbsorbingEmittingLayerOptions;
+export type GroundLayerOptions = SelfOptions & WithOptional<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   public readonly albedoProperty: NumberProperty;

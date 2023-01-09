@@ -15,7 +15,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import CloudNode from '../../common/view/CloudNode.js';
 import GreenhouseEffectCheckbox, { GreenhouseEffectCheckboxOptions } from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -44,10 +43,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
       iconNode: iconNode,
-      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty
     }, providedOptions );
 
     super( cloudEnabledProperty, GreenhouseEffectStrings.cloudStringProperty, options );

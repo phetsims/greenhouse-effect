@@ -10,10 +10,10 @@
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -27,7 +27,7 @@ type SelfOptions = {
   // if provided, will be included in the icon for the checkbox
   iconNode?: Node | null;
 };
-export type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions;
+export type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions & PickRequired<CheckboxOptions, 'tandem'>;
 
 class GreenhouseEffectCheckbox extends Checkbox {
   public constructor( property: Property<boolean>,
@@ -39,9 +39,6 @@ class GreenhouseEffectCheckbox extends Checkbox {
 
       // i18n
       maxWidth: 250,
-
-      // phet-io
-      tandem: Tandem.REQUIRED,
 
       // pdom
       accessibleName: labelStringProperty

@@ -8,14 +8,13 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Wave, { WaveOptions } from '../../waves/model/Wave.js';
+import Wave, { WaveCreatorArguments } from '../../waves/model/Wave.js';
 import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 
@@ -29,7 +28,7 @@ export type GroundWaveSourceOptions = SelfOptions & EMWaveSourceOptions;
 
 class GroundWaveSource extends EMWaveSource {
 
-  public constructor( wavesInModel: PhetioGroup<Wave, [ number, Vector2, Vector2, number, WaveOptions ]>,
+  public constructor( wavesInModel: PhetioGroup<Wave, WaveCreatorArguments>,
                       waveStartAltitude: number,
                       waveEndAltitude: number,
                       groundTemperatureProperty: TProperty<number>,

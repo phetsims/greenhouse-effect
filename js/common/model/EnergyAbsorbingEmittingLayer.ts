@@ -12,8 +12,8 @@ import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -72,7 +72,7 @@ type SelfOptions = {
   initialEnergyAbsorptionProportion?: number;
   minimumTemperature?: number;
 };
-export type EnergyAbsorbingEmittingLayerOptions = SelfOptions & PhetioObjectOptions;
+export type EnergyAbsorbingEmittingLayerOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
@@ -112,7 +112,6 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       minimumTemperature: 0,
 
       // phet-io
-      tandem: Tandem.REQUIRED,
       phetioReadOnly: true,
       phetioState: false
 
