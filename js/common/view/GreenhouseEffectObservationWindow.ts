@@ -375,10 +375,10 @@ class GreenhouseEffectObservationWindow extends Node {
   public static createGroundShape(): Shape {
 
     const lowerLeftCorner = Vector2.ZERO;
-    const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.21 );
-    const controlPoint1 = new Vector2( SIZE.width * 0.44, leftSideGroundSurface.y - SIZE.height * 0.177 );
+    const leftSideGroundSurface = new Vector2( 0, -SIZE.height * 0.218 );
+    const controlPoint1 = new Vector2( SIZE.width * 0.52, -SIZE.height * 0.377 );
     const rightSideGroundSurface = new Vector2( SIZE.width, -SIZE.height * 0.197 );
-    const controlPoint2 = new Vector2( SIZE.width * 0.475, rightSideGroundSurface.y + SIZE.height * 0.09 );
+    const controlPoint2 = new Vector2( SIZE.width * 0.41, -SIZE.height * 0.115 );
     const lowerRightCorner = new Vector2( SIZE.width, 0 );
 
     return new Shape()
