@@ -65,6 +65,11 @@ class LayersModelTimeControlNode extends TimeControlNode {
         }
       }
     } );
+
+    // This does not need to be disposed/unlinked since it persists for the life of the sim.
+    model.sunEnergySource.isShiningProperty.link( isSunShining => {
+      this.playPauseStepButtons.enabled = isSunShining;
+    } );
   }
 }
 
