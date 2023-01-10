@@ -142,7 +142,8 @@ class AtmosphereLayerNode extends Node {
       cornerRadius: 3,
       noValueAlign: 'center',
       textOptions: {
-        font: new PhetFont( 14 )
+        font: new PhetFont( 14 ),
+        maxWidth: 120
       }
     } );
 
