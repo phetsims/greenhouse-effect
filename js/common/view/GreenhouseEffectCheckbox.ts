@@ -12,7 +12,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, Node, Text, TextOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
@@ -23,6 +23,8 @@ const LABEL_FONT = new PhetFont( {
 } );
 
 type SelfOptions = {
+
+  maxLabelTextWidth?: number;
 
   // if provided, will be included in the icon for the checkbox
   iconNode?: Node | null;
@@ -36,6 +38,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
 
     const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,
+      maxLabelTextWidth: 180, // empirically determined, works well for most cases in Greenhouse
 
       // i18n
       maxWidth: 250,
@@ -46,6 +49,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
 
     const labelText = new Text( labelStringProperty, {
       font: LABEL_FONT,
+      maxWidth: options.maxLabelTextWidth,
       tandem: options.tandem.createTandem( 'labelText' )
     } );
 

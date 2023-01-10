@@ -10,6 +10,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 const LABEL_FONT = new PhetFont( 14 );
+const UNITS_LABEL_MAX_WIDTH = 50;
 
 /**
  * TemperatureUnitsSelector is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees
@@ -23,6 +24,7 @@ class TemperatureUnitsSelector extends VBox {
     // Create the label that sits above the radio button selectors.
     const label = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
       font: LABEL_FONT,
+      maxWidth: 200,
       tandem: tandem.createTandem( 'labelText' )
     } );
 
@@ -33,6 +35,7 @@ class TemperatureUnitsSelector extends VBox {
         {
           createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, {
             font: LABEL_FONT,
+            maxWidth: UNITS_LABEL_MAX_WIDTH,
             tandem: tandem.createTandem( 'text' )
           } ),
           value: TemperatureUnits.KELVIN,
@@ -41,14 +44,16 @@ class TemperatureUnitsSelector extends VBox {
         {
           createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, {
             font: LABEL_FONT,
+            maxWidth: UNITS_LABEL_MAX_WIDTH,
             tandem: tandem.createTandem( 'text' )
           } ),
           value: TemperatureUnits.CELSIUS,
-          tandemName: 'celciusRadioButton'
+          tandemName: 'celsiusRadioButton'
         },
         {
           createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, {
             font: LABEL_FONT,
+            maxWidth: UNITS_LABEL_MAX_WIDTH,
             tandem: tandem.createTandem( 'text' )
           } ),
           value: TemperatureUnits.FAHRENHEIT,

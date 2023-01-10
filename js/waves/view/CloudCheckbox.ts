@@ -43,6 +43,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
     const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
       iconNode: iconNode,
+      maxLabelTextWidth: 120,
       helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty
     }, providedOptions );
 
