@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * LayerModelObservationWindow is a Scenery Node that presents an enclosed background with a view of a sky and ground.

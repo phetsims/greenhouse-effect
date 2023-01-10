@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * A model of a horizontal layer of a material that absorbs energy, heats up, and then radiates energy as a black body.

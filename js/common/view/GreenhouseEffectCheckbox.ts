@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * Most checkboxes in Greenhouse Effect have a label with an icon. This puts the label and icon

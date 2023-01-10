@@ -1,4 +1,4 @@
-// Copyright 2020-2022, University of Colorado Boulder
+// Copyright 2020-2023, University of Colorado Boulder
 
 /**
  * WavesModel uses a layer model for simulating temperature changes due to changes in the concentration of greenhouse
