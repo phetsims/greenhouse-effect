@@ -227,7 +227,7 @@ class ThermometerAndReadout extends Node {
 
     return {
       value: propertyValue,
-      node: new NumberDisplay( property, propertyRange, numberDisplayOptions ),
+      createNode: tandem => new NumberDisplay( property, propertyRange, numberDisplayOptions ),
       tandemName: tandemName,
       a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
