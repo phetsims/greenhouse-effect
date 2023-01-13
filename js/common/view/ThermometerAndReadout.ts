@@ -212,6 +212,14 @@ class ThermometerAndReadout extends Node {
                                      propertyValue: TemperatureUnits,
                                      tandemName: string ): ComboBoxItem<TemperatureUnits> {
 
+    // Set a minimum background width for the number display.  This is necessary because the nodes that go into the
+    // combo box must be the same size, or things can look weird, see
+    // https://github.com/phetsims/greenhouse-effect/issues/256.  The approach of using a hard-coded constant is
+    // admittedly quite brittle, but because of the constraints of ComboBox, it's hard to figure out the sizes of the
+    // displays before creating them.  So, hard coded it is.  Be wary if reusing this.  The value was empirically
+    // determined.
+    const minNumberDisplayBackgroundWidth = 68;
+
     const numberDisplayOptions = {
       backgroundStroke: null,
       decimalPlaces: DECIMAL_PLACES_IN_READOUT,
@@ -222,7 +230,8 @@ class ThermometerAndReadout extends Node {
       valuePattern: new PatternStringProperty(
         GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
         { units: unitsStringProperty }
-      )
+      ),
+      minBackgroundWidth: minNumberDisplayBackgroundWidth
     };
 
     return {
