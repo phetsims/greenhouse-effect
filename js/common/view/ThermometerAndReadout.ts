@@ -152,7 +152,9 @@ class ThermometerAndReadout extends Node {
       } );
       this.addChild( comboBox );
 
-      // Make sure the NumberDisplays are all the same width, https://github.com/phetsims/greenhouse-effect/issues/256
+      // Make sure the NumberDisplays are all the same width.  This has to be done after the ComboBox is constructed
+      // because the ComboBox creates these nodes using a passed-in creator function.  See
+      // https://github.com/phetsims/greenhouse-effect/issues/256.
       const maxItemWidth = Math.max( ..._.map( comboBox.nodes, 'width' ) );
       comboBox.nodes.forEach( ( node: Node ) => {
         if ( node instanceof NumberDisplay ) {
