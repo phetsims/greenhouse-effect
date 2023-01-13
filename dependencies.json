@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.1.0-rc.1 Tue Jan 10 2023 10:37:47 GMT-0700 (Mountain Standard Time)",
+  "comment": "# greenhouse-effect 1.1.0-rc.1 Fri Jan 13 2023 12:29:58 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "813cc816a4148c116d3ed3057f52de5a50cb67f4",
+    "sha": "555c14a89a7cee0f463943d17da13853102cd0b4",
     "branch": "1.1"
   },
   "joist": {
@@ -45,8 +45,8 @@
     "branch": "HEAD"
   },
   "phet-core": {
-    "sha": "08ef648c569b092876abaa41ae3ce0af26c4c59a",
-    "branch": "HEAD"
+    "sha": "ce47f7dab342b48443318d155ffbe74b1f737135",
+    "branch": "greenhouse-effect-1.1"
   },
   "phet-io": {
     "sha": "d680eb79f0b959553dde83b1a09824115e3964f4",
@@ -78,7 +78,7 @@
   },
   "scenery-phet": {
     "sha": "98efa5f860af0cb6394b5994fe4e01efec4d7c61",
-    "branch": "greenhouse-effect-1.1"
+    "branch": "HEAD"
   },
   "sherpa": {
     "sha": "4260007c513da065dad11d1c637abae67abd39ee",
