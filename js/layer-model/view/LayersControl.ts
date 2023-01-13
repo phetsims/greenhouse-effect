@@ -12,13 +12,12 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import Panel from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -64,16 +63,6 @@ class LayersControl extends Panel {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleText' )
-    } );
-
-    // image of a photon that will be combined with the title text to form the overall title for the panel
-    const infraredPhotonIcon = new Image( infraredPhoton_png, {
-      maxWidth: 20 // empirically determined to look how we want it
-    } );
-
-    const titleNode = new HBox( {
-      children: [ titleText, infraredPhotonIcon ],
-      spacing: 10
     } );
 
     // convenience variable
@@ -191,7 +180,7 @@ class LayersControl extends Panel {
 
 
     const content = new VBox( {
-      children: [ titleNode, numberOfLayersControl, irAbsorbanceControl ],
+      children: [ titleText, numberOfLayersControl, irAbsorbanceControl ],
       spacing: 20
     } );
 
