@@ -12,13 +12,12 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox, Image, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Text, VBox } from '../../../../scenery/js/imports.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import SunEnergySource from '../../common/model/SunEnergySource.js';
@@ -73,16 +72,6 @@ class SunAndReflectionControl extends Panel {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGIN * 2,
       tandem: options.tandem.createTandem( 'titleText' )
-    } );
-
-    // Image of a photon that will be combined with the title text to form the overall title for the panel.
-    const visiblePhotonIcon = new Image( visiblePhoton_png, {
-      maxWidth: 20 // empirically determined to look how we want it
-    } );
-
-    const titleNode = new HBox( {
-      children: [ titleText, visiblePhotonIcon ],
-      spacing: 10
     } );
 
     // convenience variable
@@ -210,7 +199,7 @@ class SunAndReflectionControl extends Panel {
     } );
 
     const content = new VBox( {
-      children: [ titleNode, solarIntensityControl, surfaceAlbedoControl ],
+      children: [ titleText, solarIntensityControl, surfaceAlbedoControl ],
       spacing: 24
     } );
 
