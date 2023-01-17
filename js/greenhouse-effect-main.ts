@@ -25,7 +25,7 @@ const simOptions: SimOptions = {
     leadDesign: 'Kathy Perkins, Amy Rouinfar',
     softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',
     team: 'Wendy Adams, Danielle Harlow, Kelly Lancaster, Trish Loeblein, Robert Parson, Carl Wieman',
-    qualityAssurance: 'Nancy Salpepi, Kathryn Woessner',
+    qualityAssurance: 'Amanda McGarry, Emily Miller, Nancy Salpepi, Marla Schulz, Kathryn Woessner',
     graphicArts: '',
     soundDesign: 'Ashton Morris',
     thanks: 'Dedicated to the memory of Ron LeMaster.'
