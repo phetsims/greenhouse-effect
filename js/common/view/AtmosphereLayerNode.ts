@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -37,10 +36,6 @@ const TEMPERATURE_DISPLAY_DEFAULT_INDENT = 20; // Y offset for the temperature c
 type SelfOptions = {
   numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
-
-  // The left side position of the temperature display in its own coordinate frame.  This was added to solve a very
-  // specific dynamic layout issue, see https://github.com/phetsims/greenhouse-effect/issues/230.
-  temperatureDisplayLeftProperty?: null | TReadOnlyProperty<number>;
 };
 export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
 
@@ -61,16 +56,11 @@ class AtmosphereLayerNode extends Node {
 
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,
-      numberDisplayEnabledProperty: null,
-      temperatureDisplayLeftProperty: null
+      numberDisplayEnabledProperty: null
     }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
     const numberDisplayEnabledProperty = options.numberDisplayEnabledProperty || new BooleanProperty( true );
-
-    // If there is a property for the temperature display position, use it, otherwise create one with a default value.
-    const temperatureDisplayLeftProperty = options.temperatureDisplayLeftProperty ||
-                                           new NumberProperty( TEMPERATURE_DISPLAY_DEFAULT_INDENT );
 
     // If a thickness value is provided, use the model-view transform to convert it to view coordinates, otherwise use
     // the default.
@@ -160,13 +150,7 @@ class AtmosphereLayerNode extends Node {
       children: [ showTemperatureCheckbox, temperatureReadout ],
       spacing: 15,
       centerY: mainBody.centerY,
-      left: temperatureDisplayLeftProperty.value
-    } );
-
-    // Adjust the temperature display horizontal position if it changes.  No unlink needed, since these nodes are never
-    // disposed.
-    temperatureDisplayLeftProperty.lazyLink( left => {
-      temperatureDisplay.left = left;
+      left: TEMPERATURE_DISPLAY_DEFAULT_INDENT
     } );
 
     // supertype constructor
