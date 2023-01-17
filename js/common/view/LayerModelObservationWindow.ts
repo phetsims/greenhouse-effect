@@ -7,9 +7,8 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { Color, LinearGradient, Node, Path } from '../../../../scenery/js/imports.js';
+import { Color, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -48,16 +47,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
 
-    // Create a derived property that will be used to move the temperature display out from under the energy balance
-    // indicator when it's visible.
-    const compensatedTemperatureDisplayLeftProperty = new DerivedProperty(
-      [ model.energyBalanceVisibleProperty, this.energyBalancePanel.boundsProperty ],
-      ( energyBalanceVisible, energyBalancePanelBounds ) =>
-        energyBalanceVisible ?
-        AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT + energyBalancePanelBounds.width :
-        AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT
-    );
-
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
@@ -67,18 +56,26 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
       };
 
-      // For the top layer, add an option that will essentially move its temperature display out of the way when the
-      // energy balance indicator is visible.
-      if ( index === model.atmosphereLayers.length - 1 ) {
-        atmosphereLayerNodeOptions.temperatureDisplayLeftProperty = compensatedTemperatureDisplayLeftProperty;
-      }
-
       const atmosphereLayerNode = new AtmosphereLayerNode(
         atmosphereLayer,
         model.temperatureUnitsProperty,
         this.modelViewTransform,
         atmosphereLayerNodeOptions
       );
+
+      // For the top layer, add a constraint that will update the temperature display's left position based on the
+      // bounds and visibility of the energyBalancePanel.
+      if ( index === model.atmosphereLayers.length - 1 ) {
+        ManualConstraint.create(
+          this,
+          [ this.energyBalancePanel, atmosphereLayerNode.temperatureDisplay ],
+          ( energyBalancePanelProxy, temperatureDisplayProxy ) => {
+            temperatureDisplayProxy.left = AtmosphereLayerNode.TEMPERATURE_DISPLAY_DEFAULT_INDENT +
+                                           ( model.energyBalanceVisibleProperty.value ? energyBalancePanelProxy.right : 0 );
+          }
+        );
+      }
+
       this.presentationLayer.addChild( atmosphereLayerNode );
       this.atmosphereLayerNodes.push( atmosphereLayerNode );
     } );
