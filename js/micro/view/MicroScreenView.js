@@ -228,8 +228,7 @@ class MicroScreenView extends ScreenView {
     const keyboardListener = new KeyboardListener( {
       keys: [ 'alt+l' ],
       global: true,
-      fireOnKeyUp: true,
-      fireOnKeyDown: false,
+      listenerFireTrigger: 'up',
       callback: ( event, listener ) => {
         if ( !photonAbsorptionModel.runningProperty.get() ) {
 
