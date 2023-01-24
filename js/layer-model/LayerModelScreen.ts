@@ -21,7 +21,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
 
     const options = {
       backgroundColorProperty: GreenhouseEffectColors.screenBackgroundColorProperty,
-      homeScreenIcon: GreenhouseEffectIconFactory.createLayerModelScreenHomeIcon(),
+      homeScreenIcon: GreenhouseEffectIconFactory.createLayerModelHomeScreenIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.layerModelStringProperty,

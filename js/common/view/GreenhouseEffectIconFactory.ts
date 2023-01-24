@@ -4,6 +4,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Screen from '../../../../joist/js/Screen.js';
+import ScreenIcon from '../../../../joist/js/ScreenIcon.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
@@ -37,7 +38,7 @@ class GreenhouseEffectIconFactory {
    * Create the icon for the "Waves" screen, which consists of a simple landscape background and some yellow and red
    * waves that represent visible and IR light.
    */
-  public static createWavesScreenHomeIcon(): Node {
+  public static createWavesHomeScreenIcon(): ScreenIcon {
 
     const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
 
@@ -74,14 +75,20 @@ class GreenhouseEffectIconFactory {
       centerX: HOME_ICON_WIDTH / 2,
       top: 0
     } ) );
-    return new Node( { children: [ background, ...waves ] } );
+
+    const iconNode = new Node( { children: [ background, ...waves ] } );
+
+    return new ScreenIcon( iconNode, {
+      maxIconWidthProportion: 1,
+      maxIconHeightProportion: 1
+    } );
   }
 
   /**
    * Create the icon for the "Photons" screen, which consists of a simple landscape background and some yellow and red
    * photons scattered about that represent visible and IR light.
    */
-  public static createPhotonsScreenHomeIcon(): Node {
+  public static createPhotonsHomeScreenIcon(): ScreenIcon {
 
     // Create a background of grass and sky.
     const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground();
@@ -96,10 +103,15 @@ class GreenhouseEffectIconFactory {
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
-    return new Node( { children: [ background, ...visiblePhotons, ...infraredPhotons ] } );
+    const iconNode = new Node( { children: [ background, ...visiblePhotons, ...infraredPhotons ] } );
+
+    return new ScreenIcon( iconNode, {
+      maxIconWidthProportion: 1,
+      maxIconHeightProportion: 1
+    } );
   }
 
-  public static createLayerModelScreenHomeIcon(): Node {
+  public static createLayerModelHomeScreenIcon(): ScreenIcon {
 
     const background = GreenhouseEffectIconFactory.createGroundAndSkyBackground( new Color( '#3d3635' ) );
 
@@ -125,7 +137,12 @@ class GreenhouseEffectIconFactory {
       GreenhouseEffectConstants.INFRARED_WAVELENGTH
     );
 
-    return new Node( { children: [ background, ...visiblePhotons, ...infraredPhotons, ...layers ] } );
+    const iconNode = new Node( { children: [ background, ...visiblePhotons, ...infraredPhotons, ...layers ] } );
+
+    return new ScreenIcon( iconNode, {
+      maxIconWidthProportion: 1,
+      maxIconHeightProportion: 1
+    } );
   }
 
   public static createMicroScreenHomeIcon(): Node {

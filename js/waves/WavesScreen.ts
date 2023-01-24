@@ -21,7 +21,7 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
 
     const options = {
       backgroundColorProperty: GreenhouseEffectColors.screenBackgroundColorProperty,
-      homeScreenIcon: GreenhouseEffectIconFactory.createWavesScreenHomeIcon(),
+      homeScreenIcon: GreenhouseEffectIconFactory.createWavesHomeScreenIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.wavesStringProperty,

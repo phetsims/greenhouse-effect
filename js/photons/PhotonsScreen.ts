@@ -21,7 +21,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
 
     const options = {
       backgroundColorProperty: GreenhouseEffectColors.screenBackgroundColorProperty,
-      homeScreenIcon: GreenhouseEffectIconFactory.createPhotonsScreenHomeIcon(),
+      homeScreenIcon: GreenhouseEffectIconFactory.createPhotonsHomeScreenIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.photonsStringProperty,
