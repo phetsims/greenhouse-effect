@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
