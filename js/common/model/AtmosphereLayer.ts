@@ -59,14 +59,14 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   protected override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
-      if ( this.energyPacketCrossedThisLayer( energyPacket ) ) {
 
-        // Atmospheric layers partially absorb IR and ignore visible light.
-        if ( energyPacket.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH ) {
-          const energyToAbsorb = energyPacket.energy * this.energyAbsorptionProportionProperty.value;
-          absorbedEnergy += energyToAbsorb;
-          energyPacket.energy -= energyToAbsorb;
-        }
+      // Absorb energy from IR packets that cross this layer.
+      if ( energyPacket.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH &&
+           this.energyPacketCrossedThisLayer( energyPacket ) ) {
+
+        const energyToAbsorb = energyPacket.energy * this.energyAbsorptionProportionProperty.value;
+        absorbedEnergy += energyToAbsorb;
+        energyPacket.energy -= energyToAbsorb;
       }
     } );
     return absorbedEnergy;
