@@ -357,7 +357,7 @@ class EnergyFluxDisplay extends Node {
 
     const options = optionize<EnergyFluxDisplayOptions, EnergyFluxDisplayArrowSelfOptions, NodeOptions>()( {
 
-      // lots of empirically determined value here, chosen to make the thing look decent
+      // lots of empirically determined values here, chosen to make the thing look decent
       height: 340,
       arrowNodeOptions: {
         headHeight: 16,
