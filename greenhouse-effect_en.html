@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "greenhouse-effect",
-      "version": "1.1.0-dev.17",
+      "version": "1.1.0-dev.18",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -53,7 +53,10 @@
         "supportsOutputJS": true
       },
       "eslintConfig": {
-        "extends": "../chipper/eslint/sim_eslintrc.js"
+        "extends": "../chipper/eslint/sim_eslintrc.js",
+        "rules": {
+          "todo-should-have-issue": "off"
+        }
       }
     };
   window.phet.chipper.stringRepos =
