@@ -69,7 +69,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
   protected override interactWithEnergyPackets( emEnergyPackets: EMEnergyPacket[] ): number {
     let absorbedEnergy = 0;
     emEnergyPackets.forEach( energyPacket => {
-      if ( this.energyPacketCrossedThisLayer( energyPacket ) && energyPacket.direction === EnergyDirection.DOWN ) {
+      if ( energyPacket.direction === EnergyDirection.DOWN && this.energyPacketCrossedThisLayer( energyPacket ) ) {
 
         // Only visible light is reflected, IR is fully absorbed.
         const albedo = energyPacket.isVisible ? this.albedoProperty.value : 0;
