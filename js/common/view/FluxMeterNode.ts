@@ -11,11 +11,11 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -107,6 +107,10 @@ class FluxMeterNode extends Node {
 
   private readonly isModelPlayingProperty: TReadOnlyProperty<boolean>;
 
+  // displays for the flux, which consist of arrows and a background
+  private readonly sunlightFluxDisplay: EnergyFluxDisplay;
+  private readonly infraredFluxDisplay: EnergyFluxDisplay;
+
   /**
    * @param model - model component for the FluxMeter
    * @param isPlayingProperty - a boolean Property that indicates whether the model in which the flux meter resides is
@@ -160,21 +164,24 @@ class FluxMeterNode extends Node {
       NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER * Math.pow( FLUX_ARROW_ZOOM_FACTOR, zoomFactor )
     );
 
-    const sunlightDisplayArrow = new EnergyFluxDisplay(
+    this.sunlightFluxDisplay = new EnergyFluxDisplay(
       model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
       sunlightStringProperty,
       GreenhouseEffectColors.sunlightColorProperty
     );
-    const infraredDisplayArrow = new EnergyFluxDisplay(
+    this.infraredFluxDisplay = new EnergyFluxDisplay(
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       fluxToIndicatorLengthProperty,
       infraredStringProperty,
       GreenhouseEffectColors.infraredColorProperty
     );
-    const fluxArrows = new HBox( { children: [ sunlightDisplayArrow, infraredDisplayArrow ], spacing: METER_SPACING } );
+    const fluxArrows = new HBox( {
+      children: [ this.sunlightFluxDisplay, this.infraredFluxDisplay ],
+      spacing: METER_SPACING
+    } );
 
     const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
       spacing: 5,
@@ -316,6 +323,8 @@ class FluxMeterNode extends Node {
 
   public step( dt: number ): void {
     this.soundGenerator.step( dt );
+    this.sunlightFluxDisplay.updateFluxArrows();
+    this.infraredFluxDisplay.updateFluxArrows();
   }
 
   public reset(): void {
@@ -338,7 +347,8 @@ type EnergyFluxDisplayOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
 
 /**
  * An inner class that implements a display for energy flux in the up and down directions.  The display consists of a
- * background with two arrows, one that grows upwards and another that grows down.
+ * background with two arrows, one that grows upwards and another that grows down.  The background includes reference
+ * lines so that the display can be zoomed in and out.
  *
  * @param energyDownProperty
  * @param energyUpProperty
@@ -348,8 +358,16 @@ type EnergyFluxDisplayOptions = EnergyFluxDisplayArrowSelfOptions & NodeOptions;
  * @param providedOptions
  */
 class EnergyFluxDisplay extends Node {
-  public constructor( energyDownProperty: Property<number>,
-                      energyUpProperty: Property<number>,
+
+  private readonly energyUpProperty: TReadOnlyProperty<number>;
+  private readonly energyDownProperty: TReadOnlyProperty<number>;
+  private readonly fluxToArrowLengthMultiplierProperty: TReadOnlyProperty<number>;
+  private readonly upArrow: ArrowNode;
+  private readonly downArrow: ArrowNode;
+  private readonly size: Dimension2;
+
+  public constructor( energyDownProperty: TReadOnlyProperty<number>,
+                      energyUpProperty: TReadOnlyProperty<number>,
                       fluxToArrowLengthMultiplierProperty: TReadOnlyProperty<number>,
                       labelStringProperty: TReadOnlyProperty<string>,
                       baseColorProperty: ColorProperty,
@@ -369,16 +387,24 @@ class EnergyFluxDisplay extends Node {
 
     super();
 
+    this.energyDownProperty = energyDownProperty;
+    this.energyUpProperty = energyUpProperty;
+    this.fluxToArrowLengthMultiplierProperty = fluxToArrowLengthMultiplierProperty;
+
     const labelText = new Text( labelStringProperty, {
       font: GreenhouseEffectConstants.CONTENT_FONT,
       maxWidth: EnergyFluxDisplay.WIDTH
     } );
     this.addChild( labelText );
 
-    // The rectangle is invisible but acts as a container for the energy arrows and reference lines. Its shape is used
-    // as a clip area for the display so that arrows and reference lines don't go beyond the height of this display.
+    // Create and add a rectangle that is invisible but acts as a container for the energy arrows and reference lines.
+    // Its shape is used as a clip area for the display so that arrows and reference lines don't go beyond the height of
+    // this display.
     const boundsRectangle = new Rectangle( 0, 0, EnergyFluxDisplay.WIDTH, options.height, 5, 5 );
     this.addChild( boundsRectangle );
+
+    // Make the size available to the methods.
+    this.size = new Dimension2( boundsRectangle.width, boundsRectangle.height );
 
     this.addChild( new VBox( {
       children: [ labelText, boundsRectangle ],
@@ -396,22 +422,22 @@ class EnergyFluxDisplay extends Node {
     boundsRectangle.clipArea = Shape.bounds( boundsRectangle.getRectBounds() );
 
     // Create and add the arrows.
-    const downArrow = new ArrowNode(
+    this.downArrow = new ArrowNode(
       boundsRectangle.width / 2,
       boundsRectangle.height / 2,
       boundsRectangle.width / 2,
       boundsRectangle.height / 2,
       options.arrowNodeOptions
     );
-    const upArrow = new ArrowNode(
+    this.upArrow = new ArrowNode(
       boundsRectangle.width / 2,
       boundsRectangle.height / 2,
       boundsRectangle.width / 2,
       boundsRectangle.height / 2,
       options.arrowNodeOptions
     );
-    boundsRectangle.addChild( downArrow );
-    boundsRectangle.addChild( upArrow );
+    boundsRectangle.addChild( this.downArrow );
+    boundsRectangle.addChild( this.upArrow );
 
     const darkenedBaseColorProperty = new DerivedProperty(
       [ baseColorProperty ],
@@ -426,26 +452,6 @@ class EnergyFluxDisplay extends Node {
       lineWidth: 3
     } );
     boundsRectangle.addChild( centerIndicatorLine );
-
-    // a linear function that maps the number of photons going through the flux meter per second
-    const getArrowHeightFromFlux = ( flux: number, fluxToArrowLengthMultiplier: number ) => flux * fluxToArrowLengthMultiplier;
-
-    // Redraw arrows when the flux Properties or the display scale change.
-    Multilink.multilink(
-      [ energyDownProperty, fluxToArrowLengthMultiplierProperty ],
-      ( energyDown, fluxToArrowLengthMultiplier ) => {
-        downArrow.visible = Math.abs( energyDown ) > 0;
-        downArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 + getArrowHeightFromFlux( energyDown, fluxToArrowLengthMultiplier ) );
-      }
-    );
-
-    Multilink.multilink(
-      [ energyUpProperty, fluxToArrowLengthMultiplierProperty ],
-      ( energyUp, fluxToArrowLengthMultiplier ) => {
-        upArrow.visible = Math.abs( energyUp ) > 0;
-        upArrow.setTip( boundsRectangle.width / 2, boundsRectangle.height / 2 - getArrowHeightFromFlux( energyUp, fluxToArrowLengthMultiplier ) );
-      }
-    );
 
     // Define a reference flux value that will be used to define the spacing between the reference marks.  This value
     // was empirically determined to provide the desired look, and is based on the flux values that naturally occur in
@@ -474,7 +480,37 @@ class EnergyFluxDisplay extends Node {
       referenceLinesNode.setShape( referenceLinesShape );
       referenceLinesNode.centerX = boundsRectangle.width / 2;
       referenceLinesNode.centerY = boundsRectangle.height / 2;
+
+      // Update the flux arrows for the new multiplier.
+      this.updateFluxArrows();
     } );
+  }
+
+  /**
+   * Update the arrows that represent the amount of flux.  This is done as a method called during a step instead of
+   * being based on linkages to the energy properties for better performance, see
+   * https://github.com/phetsims/greenhouse-effect/issues/265#issuecomment-1405870321.
+   */
+  public updateFluxArrows(): void {
+
+    // update the down arrow
+    const energyDown = this.energyDownProperty.value;
+    const downArrowHeight = this.size.height / 2 + this.getArrowHeightFromFlux( energyDown );
+    this.downArrow.visible = Math.abs( energyDown ) > 0;
+    this.downArrow.setTip( this.size.width / 2, downArrowHeight );
+
+    // update the up arrow
+    const energyUp = this.energyUpProperty.value;
+    const upArrowHeight = this.size.height / 2 - this.getArrowHeightFromFlux( energyUp );
+    this.upArrow.visible = Math.abs( energyUp ) > 0;
+    this.upArrow.setTip( this.size.width / 2, upArrowHeight );
+  }
+
+  /**
+   * Map the flux to a value for the height of the flux arrow.
+   */
+  private getArrowHeightFromFlux( flux: number ): number {
+    return flux * this.fluxToArrowLengthMultiplierProperty.value;
   }
 
   // an empirically determined value used in part to set the overall width of the panel
