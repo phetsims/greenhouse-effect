@@ -46,6 +46,7 @@ export type EnergyBalancePanelOptions = SelfOptions & PanelOptions;
 class EnergyBalancePanel extends Panel {
 
   private readonly energyBalanceSoundGenerator: EnergyBalanceSoundGenerator;
+  private readonly balancePlot: EnergyBalancePlot;
 
   /**
    * @param energyBalanceVisibleProperty - a Property that controls whether this Panel is visible in the view
@@ -109,7 +110,11 @@ class EnergyBalancePanel extends Panel {
       spacing: 5,
       children: [ titleNode, balancePlot ]
     } );
+
     super( content, options );
+
+    // Make the plot available to the step method.
+    this.balancePlot = balancePlot;
 
     // listeners
     energyBalanceVisibleProperty.link( visible => {
@@ -143,6 +148,7 @@ class EnergyBalancePanel extends Panel {
    */
   public step( dt: number ): void {
     this.energyBalanceSoundGenerator.step( dt );
+    this.balancePlot.update();
   }
 }
 
@@ -150,11 +156,15 @@ class EnergyBalancePanel extends Panel {
  * Inner class for the actual Plot, using bamboo.
  */
 class EnergyBalancePlot extends Node {
+  private readonly barPlot: UpDownArrowPlot;
+  private readonly netEnergyInProperty: TReadOnlyProperty<number>;
+  private readonly netEnergyOutProperty: TReadOnlyProperty<number>;
+  private readonly netEnergyProperty: TReadOnlyProperty<number>;
 
   /**
-   * @param netEnergyInProperty - Representing net energy in, read-only
-   * @param netEnergyOutProperty - Representing net energy out, read-only
-   * @param netEnergyProperty - Representing net energy of the system, read-only
+   * @param netEnergyInProperty - Representing net energy in
+   * @param netEnergyOutProperty - Representing net energy out
+   * @param netEnergyProperty - Representing net energy of the system
    */
   public constructor( netEnergyInProperty: TReadOnlyProperty<number>,
                       netEnergyOutProperty: Property<number>,
@@ -219,13 +229,24 @@ class EnergyBalancePlot extends Node {
     // of the arrow heads can be cut off (see https://github.com/phetsims/greenhouse-effect/issues/240).
     barPlot.clipArea = Shape.bounds( this.bounds.withMinY( gridLabels.bounds.maxY ).dilateX( 5 ) );
 
-    // listeners
-    Multilink.multilink(
-      [ netEnergyInProperty, netEnergyOutProperty, netEnergyProperty ],
-      ( netIn, netOut, netTotal ) => {
-        barPlot.setDataSet( [ new Vector2( 0, netIn ), new Vector2( 1, netOut ), new Vector2( 2, netTotal ) ] );
-      }
-    );
+    // Make the plot and the energy properties visible to the update method.
+    this.barPlot = barPlot;
+    this.netEnergyInProperty = netEnergyInProperty;
+    this.netEnergyOutProperty = netEnergyOutProperty;
+    this.netEnergyProperty = netEnergyProperty;
+  }
+
+  /**
+   * Update the bar chart.  This is done in a method rather than linking to properties because the latter approach was
+   * updating multiple times per frame and causing some performance issues.  See
+   * https://github.com/phetsims/greenhouse-effect/issues/265.
+   */
+  public update(): void {
+    this.barPlot.setDataSet( [
+      new Vector2( 0, this.netEnergyInProperty.value ),
+      new Vector2( 1, this.netEnergyOutProperty.value ),
+      new Vector2( 2, this.netEnergyProperty.value )
+    ] );
   }
 }
 
