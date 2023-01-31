@@ -154,7 +154,7 @@ class ConcentrationControlPanel extends Panel {
 
     let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {
-      compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty );
+      compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty, width );
       contentChildren.push( compositionDataNode );
     }
 
@@ -422,11 +422,11 @@ class ConcentrationSlider extends VBox {
 
 class CompositionDataNode extends VBox {
 
-  public constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
+  public constructor( dateProperty: EnumerationProperty<ConcentrationDate>, panelWidth: number ) {
 
     const textOptions = {
       font: GreenhouseEffectConstants.CONTENT_FONT,
-      maxWidth: 200
+      maxWidth: panelWidth - 2 * PANEL_MARGINS
     };
 
     // Set up the data and text that will be used for the concentration display.  Note that H2O is handled as a special
