@@ -16,11 +16,12 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
+import TModel from '../../../../joist/js/TModel.js';
 
 type SelfOptions = EmptySelfOptions;
 export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
 
-class GreenhouseEffectModel extends PhetioObject {
+class GreenhouseEffectModel extends PhetioObject implements TModel {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
   public readonly steppedEmitter: TEmitter<[ number ]>;
