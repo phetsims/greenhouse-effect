@@ -73,7 +73,8 @@ class Wave extends PhetioObject {
   // is being sourced, or will move if the wave is propagating without being sourced.
   public readonly startPoint: Vector2;
 
-  // the altitude past which this wave should not propagate
+  // An altitude past which this wave should not propagate.  This can apply to waves moving either up or down, and is
+  // usually either the top of the atmosphere or the ground.
   private readonly propagationLimit: number;
 
   // the length of this wave from the start point to where it ends
@@ -112,9 +113,9 @@ class Wave extends PhetioObject {
    * @param wavelength - wavelength of this light wave, in meters
    * @param origin - the point from which the wave will originate
    * @param propagationDirection - a normalized vector (i.e. length = 1) that indicates the direction in which
-   *                                         this wave is propagating
+   *                               this wave is propagating
    * @param propagationLimit - the altitude beyond which this wave should not extend or travel, works in either
-   *                                    direction, in meters
+   *                           direction, in meters
    * @param [providedOptions]
    */
   public constructor( wavelength: number,
@@ -150,7 +151,7 @@ class Wave extends PhetioObject {
       Math.sign( propagationDirection.y ) === Math.sign( propagationLimit - origin.y ),
       'propagation limit does not make sense for provided propagationDirection'
     );
-    assert && assert( propagationLimit !== origin.x, 'this wave has no where to go' );
+    assert && assert( propagationLimit !== origin.y, 'this wave has no where to go' );
 
     // set initial state
     this.wavelength = wavelength;
@@ -175,18 +176,18 @@ class Wave extends PhetioObject {
 
     const propagationDistance = GreenhouseEffectConstants.SPEED_OF_LIGHT * dt;
 
-    // Update the length, while checking if the current change causes this wave to extend beyond its propagation
-    // limit.  If so, limit the length of the wave.  Note that the propagation limit is not itself a length - it is an
-    // altitude, i.e. a Y value, beyond which a wave should not travel.  This works for waves moving up or down.
-    this.length = Math.min(
-      this.length + propagationDistance,
-      ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
-    );
-
     // If there is a source producing this wave it will continue to emanate from the same origin and will get longer
     // until it reaches an endpoint. If it is not sourced, it will travel through space until it reaches an endpoint,
     // where it will shorten until it disappears.
     if ( this.isSourced ) {
+
+      // Update the length, while checking if the current change causes this wave to extend beyond its propagation
+      // limit.  If so, limit the length of the wave.  Note that the propagation limit is not itself a length - it is an
+      // altitude, i.e. a Y value, beyond which a wave should not travel.  This works for waves moving up or down.
+      this.length = Math.min(
+        this.length + propagationDistance,
+        ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
+      );
 
       // Move the un-anchored intensity changes with the wave.
       this.intensityChanges.forEach( intensityChange => {
@@ -202,9 +203,13 @@ class Wave extends PhetioObject {
       if ( Math.abs( dy ) > Math.abs( this.propagationLimit - this.startPoint.y ) ) {
         dy = this.propagationLimit - this.startPoint.y;
       }
-      this.startPoint.addXY(
-        this.propagationDirection.x * propagationDistance,
-        dy
+      this.startPoint.addXY( this.propagationDirection.x * propagationDistance, dy );
+
+      // Check if the change to the start point causes this wave to extend beyond its propagation limit and, if so,
+      // limit the length so that it doesn't.
+      this.length = Math.min(
+        this.length,
+        ( this.propagationLimit - this.startPoint.y ) / this.propagationDirection.y
       );
 
       // If there are attenuators and anchored intensity changes on this wave, decrease their distance from the start
@@ -259,7 +264,6 @@ class Wave extends PhetioObject {
                                                 ( 1 - crossedAttenuator.attenuation );
         }
       }
-
     } );
 
     // Adjust each of the intensity changes that is associated with an attenuator based on the attenuation value and
