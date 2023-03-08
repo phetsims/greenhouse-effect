@@ -13,7 +13,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import MultiLineText from '../../../../scenery-phet/js/MultiLineText.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
 import { Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
@@ -490,7 +489,8 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
   const centerX = leftBoundaryX + width / 2;
 
   // Create and add the label.
-  const labelText = new MultiLineText( labelString, {
+  const labelText = new RichText( labelString, {
+    replaceNewlines: true,
     align: 'center',
     font: LABEL_FONT,
     tandem: tandem
