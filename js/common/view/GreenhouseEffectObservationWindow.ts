@@ -72,7 +72,7 @@ class GreenhouseEffectObservationWindow extends Node {
     super();
 
     // StrictOmit for nested options is required when you don't provide defaults for them, see
-    // https://github.com/phetsims/chipper/issues/1128
+    // https://github.com/phetsims/phet-core/issues/128
     const options = optionize<GreenhouseEffectObservationWindowOptions, StrictOmit<SelfOptions, 'fluxMeterNodeOptions'>, NodeOptions>()( {
 
       // default position in the GreenhouseEffect sim
