@@ -71,8 +71,7 @@ class PhotonCollection extends PhetioObject {
                       atmosphereLayers: AtmosphereLayer[],
                       providedOptions?: PhotonCollectionOptions ) {
 
-    // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
-    const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObject>()( {
+    const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObjectOptions>()( {
       phetioType: PhotonCollection.PhotonCollectionIO,
       glacierPresentProperty: new BooleanProperty( false ),
       photonAbsorbingEmittingLayerOptions: {
