@@ -71,6 +71,7 @@ class PhotonCollection extends PhetioObject {
                       atmosphereLayers: AtmosphereLayer[],
                       providedOptions?: PhotonCollectionOptions ) {
 
+    // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
     const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObject>()( {
       phetioType: PhotonCollection.PhotonCollectionIO,
       glacierPresentProperty: new BooleanProperty( false ),
