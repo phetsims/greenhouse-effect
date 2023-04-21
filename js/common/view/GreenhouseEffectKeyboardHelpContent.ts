@@ -25,7 +25,7 @@ export type GreenhouseEffectKeyboardHelpContentOptions = SelfOptions & TwoColumn
 class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor( providedOptions?: GreenhouseEffectKeyboardHelpContentOptions ) {
 
-    // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+    // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
     const options = optionize<GreenhouseEffectKeyboardHelpContentOptions, SelfOptions, TwoColumnKeyboardHelpContent>()( {
       includeFluxMeterHelp: false
     }, providedOptions );
