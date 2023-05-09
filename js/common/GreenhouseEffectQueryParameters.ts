@@ -10,20 +10,6 @@ import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
-  // This threshold value is used to decide when an EnergyAbsorbingEmittingLayer is considered to be in equilibrium,
-  // meaning that the amount of incoming energy is close to the amount of outgoing energy.  There is another query
-  // parameter that controls the amount of time that this must be true.  This value is in Watts per square meter.  See
-  // https://github.com/phetsims/greenhouse-effect/issues/137 for more information.
-  // TODO: Prior to initial publication, this query parameter should be removed and the value incorporated directly into the code, see https://github.com/phetsims/greenhouse-effect/issues/137
-  atEquilibriumThreshold: { type: 'number', defaultValue: 0.004 },
-
-  // This value is used in conjunction with atEquilibriumThreshold to decide whether an EnergyAbsorbingEmittingLayer is
-  // in energy equilibrium.  To be considered to be in equilibrium, the net different between incoming and radiated
-  // energy must be less than the threshold for the at-equilibrium time.  This value is in seconds.  See
-  // https://github.com/phetsims/greenhouse-effect/issues/137 for more information.
-  // TODO: Prior to initial publication, this query parameter should be removed and the value incorporated directly into the code, see https://github.com/phetsims/greenhouse-effect/issues/137
-  atEquilibriumTime: { type: 'number', defaultValue: 2.0 },
-
   // The default temperature units to use, meaning the units that all thermometers will be set to on startup and after a
   // reset.  The valid values represent Kelvin, degrees Celsius, and degrees Fahrenheit.
   defaultTemperatureUnits: {

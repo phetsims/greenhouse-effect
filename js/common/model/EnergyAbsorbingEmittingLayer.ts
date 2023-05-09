@@ -16,17 +16,20 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 
 // constants
-const AT_EQUILIBRIUM_THRESHOLD = GreenhouseEffectQueryParameters.atEquilibriumThreshold; // in Watts per square meter, empirically determined
+
+// A value used when determining whether this layer is in energy equilibrium.  It is in Watts per square meter, and
+// when the difference between the incoming energy and the outgoing energy is less than this, that is considered to be
+// at equilibrium.  This was empirically determined, see https://github.com/phetsims/greenhouse-effect/issues/137.
+const AT_EQUILIBRIUM_THRESHOLD = 0.004;
 
 // This constant defines the amount of time that the incoming and outgoing energies have to be equal (within a
 // threshold) before deciding that the layer is at thermal equilibrium.  This is in seconds, and was empirically
-// determined.
-const EQUILIBRATION_TIME = GreenhouseEffectQueryParameters.atEquilibriumTime;
+// determined, see https://github.com/phetsims/greenhouse-effect/issues/137.
+const EQUILIBRATION_TIME = 2.0;
 
 // The various substances that this layer can model.
 class Substance extends EnumerationValue {
