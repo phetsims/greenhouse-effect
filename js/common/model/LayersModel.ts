@@ -1,8 +1,9 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * The LayersModel of GreenhouseEffect is a superclass for several of the sim screens. It is responsible for creating
- * and managing the layers that absorb and radiate heat, thus modeling the capture of heat energy in Earth's atmosphere.
+ * LayersModel is a superclass for several of the models used in the various screens of the Greenhouse Effect sim. It is
+ * responsible for creating and managing the layers that absorb and radiate heat, thus modeling the capture of heat
+ * energy in Earth's atmosphere.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
