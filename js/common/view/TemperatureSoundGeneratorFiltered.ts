@@ -12,7 +12,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import greenhouseEffectTemperatureBaseAmbience4Octaves_mp3 from '../../../sounds/greenhouseEffectTemperatureBaseAmbience4Octaves_mp3.js';
+import temperatureBaseAmbience4Octaves_mp3 from '../../../sounds/temperatureBaseAmbience4Octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
@@ -31,7 +31,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     super( options );
 
     // loop which will be filtered to produce the sounds
-    const baseSoundLoop = new SoundClip( greenhouseEffectTemperatureBaseAmbience4Octaves_mp3, {
+    const baseSoundLoop = new SoundClip( temperatureBaseAmbience4Octaves_mp3, {
       loop: true
     } );
 

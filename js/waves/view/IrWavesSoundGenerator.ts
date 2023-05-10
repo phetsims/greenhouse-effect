@@ -10,8 +10,8 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import greenhouseEffectWavesIrReemissionLoop_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionLoop_mp3.js';
-import greenhouseEffectWavesIrReemissionStartingSound_mp3 from '../../../sounds/greenhouseEffectWavesIrReemissionStartingSound_mp3.js';
+import wavesIrReemissionLoop_mp3 from '../../../sounds/wavesIrReemissionLoop_mp3.js';
+import wavesIrReemissionStartingSound_mp3 from '../../../sounds/wavesIrReemissionStartingSound_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenView from './WavesScreenView.js';
@@ -41,7 +41,7 @@ class IrWavesSoundGenerator extends SoundGenerator {
     // Create a sound generator for each of the IR waves that can originate from the atmosphere.
     const irWaveRadiatingFromAtmosphereSoundGenerators: SoundClip[] = [];
     _.times( MAX_IR_WAVES_FROM_ATMOSPHERE, () => {
-      const soundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionLoop_mp3, {
+      const soundGenerator = new SoundClip( wavesIrReemissionLoop_mp3, {
         initialOutputLevel: WAVE_LOOP_MAX_OUTPUT_LEVEL,
         loop: true,
         enableControlProperties: [
@@ -53,7 +53,7 @@ class IrWavesSoundGenerator extends SoundGenerator {
     } );
 
     // Create the sound clip that will be played when a new IR wave starts to emanate from the atmosphere.
-    const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( greenhouseEffectWavesIrReemissionStartingSound_mp3, {
+    const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( wavesIrReemissionStartingSound_mp3, {
       initialOutputLevel: NEW_WAVE_EMITTED_OUTPUT_LEVEL
     } );
     irWaveEmittedFromAtmosphereSoundGenerator.connect( this.masterGainNode );
@@ -107,9 +107,8 @@ class IrWavesSoundGenerator extends SoundGenerator {
 
   /**
    * Step forward in time by the provided amount.
-   * @param dt - delta time, in seconds
    */
-  public step( dt: number ): void {
+  public step(): void {
     this.updateSoundLoopLevels();
   }
 
