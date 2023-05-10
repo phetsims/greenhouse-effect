@@ -29,7 +29,7 @@ class LayerModelModel extends LayersModel {
   public readonly photonCollection: PhotonCollection;
 
   public constructor( tandem: Tandem ) {
-    super( tandem, {
+    super( {
       numberOfAtmosphereLayers: 3,
       minimumGroundTemperature: MINIMUM_GROUND_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
@@ -37,7 +37,10 @@ class LayerModelModel extends LayersModel {
       fluxMeterPresent: true,
       fluxMeterOptions: {
         moveSensorOffLayers: true
-      }
+      },
+
+      // phet-io
+      tandem: tandem
     } );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere

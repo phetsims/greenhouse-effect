@@ -18,7 +18,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from './Cloud.js';
@@ -89,24 +88,20 @@ class ConcentrationModel extends LayersModel {
   // A property that determines whether the reflective cloud is enabled.
   public readonly cloudEnabledProperty: BooleanProperty;
 
-  /**
-   * @param tandem
-   * @param [options]
-   */
-  public constructor( tandem: Tandem, options?: LayersModelOptions ) {
-    super( tandem, options );
+  public constructor( options: LayersModelOptions ) {
+    super( options );
 
     this.dateProperty = new EnumerationProperty( ConcentrationDate.SEVENTEEN_FIFTY, {
-      tandem: tandem.createTandem( 'dateProperty' )
+      tandem: options.tandem.createTandem( 'dateProperty' )
     } );
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
       range: CONCENTRATION_RANGE,
-      tandem: tandem.createTandem( 'manuallyControlledConcentrationProperty' ),
+      tandem: options.tandem.createTandem( 'manuallyControlledConcentrationProperty' ),
       phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
     this.concentrationControlModeProperty = new EnumerationProperty(
       ConcentrationControlMode.BY_VALUE,
-      { tandem: tandem.createTandem( 'concentrationControlModeProperty' ) }
+      { tandem: options.tandem.createTandem( 'concentrationControlModeProperty' ) }
     );
     this.concentrationProperty = new DerivedProperty(
       [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
@@ -116,7 +111,7 @@ class ConcentrationModel extends LayersModel {
                DATE_TO_CONCENTRATION_MAP.get( date )!;
       },
       {
-        tandem: tandem.createTandem( 'concentrationProperty' ),
+        tandem: options.tandem.createTandem( 'concentrationProperty' ),
         phetioValueType: NumberIO,
         phetioDocumentation: 'The concentration value being used in the model, set via the slider or the date control.'
       }
@@ -160,7 +155,7 @@ class ConcentrationModel extends LayersModel {
     );
 
     this.cloudEnabledProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'cloudEnabledProperty' )
+      tandem: options.tandem.createTandem( 'cloudEnabledProperty' )
     } );
 
     // When switching from manual concentration control mode to date-based concentration mode, the cloud must be turned
@@ -183,7 +178,7 @@ class ConcentrationModel extends LayersModel {
       topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
 
       // phetio
-      tandem: tandem.createTandem( 'cloud' )
+      tandem: options.tandem.createTandem( 'cloud' )
     } );
 
     // Update the enabled state of the cloud.

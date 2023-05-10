@@ -12,21 +12,21 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions;
+export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class GreenhouseEffectModel extends PhetioObject implements TModel {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
   public readonly steppedEmitter: TEmitter<[ number ]>;
 
-  public constructor( tandem: Tandem, providedOptions?: GreenhouseEffectModelOptions ) {
+  public constructor( providedOptions?: GreenhouseEffectModelOptions ) {
 
     const options = optionize<GreenhouseEffectModelOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -36,20 +36,17 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
 
     }, providedOptions );
 
-    assert && assert( !options.tandem, 'tandem should not be supplied via options' );
-    options.tandem = tandem;
-
     super( options );
 
     // playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
-      tandem: tandem.createTandem( 'timeSpeedProperty' )
+      tandem: options.tandem.createTandem( 'timeSpeedProperty' )
     } );
 
     // controls whether the model is stepping through time or paused
     this.isPlayingProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'isPlayingProperty' )
+      tandem: options.tandem.createTandem( 'isPlayingProperty' )
     } );
 
     // emitter that is fired on each step, used to signal the view that an update of sprites or canvases may be needed

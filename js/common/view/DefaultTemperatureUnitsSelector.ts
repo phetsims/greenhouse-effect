@@ -59,21 +59,22 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
           TemperatureUnits.KELVIN,
           GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
           options.tandem,
-          'Kelvin'
+          'KelvinRadioButton'
         ),
         createItem(
           TemperatureUnits.CELSIUS,
           GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
           options.tandem,
-          'Celsius'
+          'CelsiusRadioButton'
         ),
         createItem(
           TemperatureUnits.FAHRENHEIT,
           GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty,
           options.tandem,
-          'Fahrenheit'
+          'FahrenheitRadioButton'
         )
-      ]
+      ],
+      { tandem: options.tandem.createTandem( 'radioButtonGroup' ) }
     );
 
     this.children = [ labelText, radioButtonGroup ];

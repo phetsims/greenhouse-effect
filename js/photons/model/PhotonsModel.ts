@@ -35,7 +35,10 @@ class PhotonsModel extends ConcentrationModel {
   private readonly cloudBounds: Bounds2;
 
   public constructor( tandem: Tandem ) {
-    super( tandem, { fluxMeterPresent: true } );
+    super( {
+      fluxMeterPresent: true,
+      tandem: tandem
+    } );
 
     // derived Property that is true when a glacier is present on the ground, false otherwise
     const glacierPresentProperty = new DerivedProperty(
@@ -56,9 +59,6 @@ class PhotonsModel extends ConcentrationModel {
 
     assert && assert( this.cloud, 'The cloud should always be turned on in the PhotonsModel' );
     this.cloudBounds = this.cloud!.modelShape.bounds;
-
-    // TODO: tandem is documented readonly (though not with TypeScript) - is this correct?
-    this.tandem = tandem;
   }
 
   /**

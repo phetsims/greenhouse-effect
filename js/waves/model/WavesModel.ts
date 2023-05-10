@@ -61,9 +61,10 @@ class WavesModel extends ConcentrationModel {
   private readonly atmosphereLine: Line;
 
   public constructor( tandem: Tandem ) {
-    super( tandem, {
+    super( {
 
       // phet-io
+      tandem: tandem,
       phetioType: WavesModel.WavesModelIO,
       phetioState: true
     } );

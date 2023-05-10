@@ -16,7 +16,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -114,11 +113,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
   public readonly fluxMeterVisibleProperty: BooleanProperty;
 
-  /**
-   * @param [tandem]
-   * @param [providedOptions]
-   */
-  public constructor( tandem: Tandem, providedOptions?: LayersModelOptions ) {
+  public constructor( providedOptions?: LayersModelOptions ) {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
@@ -129,12 +124,12 @@ class LayersModel extends GreenhouseEffectModel {
       fluxMeterOptions: {}
     }, providedOptions );
 
-    super( tandem, options );
+    super( options );
 
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 520 ),
       units: 'K',
-      tandem: tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
+      tandem: options.tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
       phetioReadOnly: true,
       phetioHighFrequency: true
     } );
@@ -150,36 +145,36 @@ class LayersModel extends GreenhouseEffectModel {
     );
 
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
-      tandem: tandem.createTandem( 'netInflowOfEnergyProperty' ),
+      tandem: options.tandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true
     } );
 
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'inRadiativeBalanceProperty' ),
+      tandem: options.tandem.createTandem( 'inRadiativeBalanceProperty' ),
       phetioReadOnly: true
     } );
 
     this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {
-      tandem: tandem.createTandem( 'temperatureUnitsProperty' )
+      tandem: options.tandem.createTandem( 'temperatureUnitsProperty' )
     } );
 
     // If the default temperature units change, change the current units setting to match.
     DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
 
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
+      tandem: options.tandem.createTandem( 'surfaceThermometerVisibleProperty' )
     } );
 
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'energyBalanceVisibleProperty' )
+      tandem: options.tandem.createTandem( 'energyBalanceVisibleProperty' )
     } );
 
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
+      tandem: options.tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
     } );
 
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'fluxMeterVisibleProperty' )
+      tandem: options.tandem.createTandem( 'fluxMeterVisibleProperty' )
     } );
 
     this.emEnergyPackets = [];
@@ -187,16 +182,16 @@ class LayersModel extends GreenhouseEffectModel {
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
       this.emEnergyPackets,
-      tandem.createTandem( 'sunEnergySource' )
+      options.tandem.createTandem( 'sunEnergySource' )
     );
 
-    this.groundLayer = new GroundLayer( tandem.createTandem( 'groundLayer' ), {
+    this.groundLayer = new GroundLayer( options.tandem.createTandem( 'groundLayer' ), {
       minimumTemperature: options.minimumGroundTemperature
     } );
 
     this.atmosphereLayers = [];
 
-    const atmosphereLayersTandem = tandem.createTandem( 'atmosphereLayers' );
+    const atmosphereLayersTandem = options.tandem.createTandem( 'atmosphereLayers' );
 
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.
     const distanceBetweenAtmosphereLayers = HEIGHT_OF_ATMOSPHERE / ( options.numberOfAtmosphereLayers + 1 );
@@ -216,13 +211,13 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     // the endpoint where energy radiating from the top of the atmosphere goes
-    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, tandem.createTandem( 'outerSpace' ) );
+    this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, options.tandem.createTandem( 'outerSpace' ) );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
     if ( options.fluxMeterPresent ) {
 
       const fluxMeterOptions = combineOptions<FluxMeterOptions>( {
-        tandem: tandem.createTandem( 'fluxMeter' )
+        tandem: options.tandem.createTandem( 'fluxMeter' )
       }, options.fluxMeterOptions );
 
       this.fluxMeter = new FluxMeter( this.atmosphereLayers, fluxMeterOptions );
@@ -285,46 +280,8 @@ class LayersModel extends GreenhouseEffectModel {
   }
 
   /**
-   * Find a layer, if there is one, that would be crossed by an object traveling from the start altitude to the end
-   * altitude.  If there are none, null is returned.  If there are several, the first one that would be crossed is
-   * returned.
-   *
-   * Comparisons are exclusive for the first altitude, inclusive for the second.  See the code for details.
-   *
-   * This is intended to be pretty efficient, hence the use of regular 'for' loops and 'break' statements.
-   */
-  protected findCrossedAtmosphereLayer( startAltitude: number, endAltitude: number ): AtmosphereLayer | null {
-    let crossedLayer = null;
-    if ( startAltitude < endAltitude ) {
-      for ( let i = 0; i < this.atmosphereLayers.length; i++ ) {
-        const atmosphereLayer = this.atmosphereLayers[ i ];
-        if ( atmosphereLayer.isActiveProperty.value &&
-             startAltitude < atmosphereLayer.altitude &&
-             endAltitude >= atmosphereLayer.altitude ) {
-
-          crossedLayer = atmosphereLayer;
-          break;
-        }
-      }
-    }
-    else if ( startAltitude > endAltitude ) {
-      for ( let i = this.atmosphereLayers.length - 1; i >= 0; i-- ) {
-        const atmosphereLayer = this.atmosphereLayers[ i ];
-        if ( atmosphereLayer.isActiveProperty.value &&
-             startAltitude > atmosphereLayer.altitude &&
-             endAltitude <= atmosphereLayer.altitude ) {
-
-          crossedLayer = atmosphereLayer;
-          break;
-        }
-      }
-    }
-    return crossedLayer;
-  }
-
-  /**
    * Getter method that is true when infrared radiation is present.
-   * TODO: Should this actually be implemented in subclasses and actually test for the presence of IR?
+   * TODO: Should this be implemented in subclasses and actually test for the presence of IR?
    */
   public isInfraredPresent(): boolean {
     return this.groundLayer.temperatureProperty.value > this.groundLayer.minimumTemperature;
@@ -394,8 +351,7 @@ class LayersModel extends GreenhouseEffectModel {
     valueType: LayersModel,
     stateSchema: LayersModel.STATE_SCHEMA,
     toStateObject: ( layersModel: LayersModel ) => layersModel.toStateObject(),
-    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject
-    )
+    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
   } );
 }
 
