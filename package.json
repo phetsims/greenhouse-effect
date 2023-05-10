@@ -29,7 +29,12 @@
       "supportsInteractiveDescription": true
     },
     "supportsOutputJS": true,
-    "published": true
+    "published": true,
+    "screenNameKeys": [
+      "GREENHOUSE_EFFECT/screen.waves",
+      "GREENHOUSE_EFFECT/screen.photons",
+      "GREENHOUSE_EFFECT/screen.layerModel"
+    ]
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js",
