@@ -64,6 +64,7 @@ type StringsType = {
       'valueUnitsPatternStringProperty': LinkableProperty<string>;
     }
   };
+  'defaultTemperatureUnitsStringProperty': LinkableProperty<string>;
   'QuadWavelengthSelector': {
     'MicrowaveStringProperty': LinkableProperty<string>;
     'InfraredStringProperty': LinkableProperty<string>;

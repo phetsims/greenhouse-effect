@@ -21,7 +21,6 @@ import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Cloud from './Cloud.js';
@@ -33,6 +32,7 @@ import GroundLayer from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
+import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -40,14 +40,7 @@ const DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS = 12; // empirically determined to giv
 const SUNLIGHT_SPAN = GreenhouseEffectConstants.SUNLIGHT_SPAN;
 const MODEL_TIME_STEP = 1 / 60; // in seconds, originally derived from the most common animation frame rate
 const RADIATIVE_BALANCE_THRESHOLD = 5; // in watts per square meter, empirically determined
-
-// map used to set the default temperature units based on the value of a query parameter
-const mapLetterToTemperatureUnits = new Map<string, TemperatureUnits>( [
-  [ 'K', TemperatureUnits.KELVIN ],
-  [ 'C', TemperatureUnits.CELSIUS ],
-  [ 'F', TemperatureUnits.FAHRENHEIT ]
-] );
-const DEFAULT_TEMPERATURE_UNITS = mapLetterToTemperatureUnits.get( GreenhouseEffectQueryParameters.defaultTemperatureUnits! );
+const DEFAULT_TEMPERATURE_UNITS_PROPERTY = GreenhouseEffectPreferences.defaultTemperatureUnitsProperty;
 
 type SelfOptions = {
 
@@ -166,10 +159,12 @@ class LayersModel extends GreenhouseEffectModel {
       phetioReadOnly: true
     } );
 
-    assert && assert( DEFAULT_TEMPERATURE_UNITS, 'something is wrong with the default temperature units' );
-    this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS!, {
+    this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {
       tandem: tandem.createTandem( 'temperatureUnitsProperty' )
     } );
+
+    // If the default temperature units change, change the current units setting to match.
+    DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
 
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: tandem.createTandem( 'surfaceThermometerVisibleProperty' )
@@ -345,7 +340,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
     this.surfaceThermometerVisibleProperty.reset();
-    this.temperatureUnitsProperty.reset();
+    this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
     this.sunEnergySource.reset();
     this.groundLayer.reset();
     this.atmosphereLayers.forEach( atmosphereLayer => { atmosphereLayer.reset(); } );

@@ -15,7 +15,7 @@ class TemperatureUnits extends EnumerationValue {
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
   public static readonly enumeration = new Enumeration( TemperatureUnits, {
-    phetioDocumentation: 'Describes the type of the mammal.'
+    phetioDocumentation: 'The units in which the temperature values are presented.'
   } );
 }
 
