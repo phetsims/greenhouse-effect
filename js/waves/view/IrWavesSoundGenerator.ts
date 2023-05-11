@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * IrWavesSoundGenerator is used to produce sounds that represent the actions of the infrared waves as they interact
