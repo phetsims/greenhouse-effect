@@ -186,8 +186,9 @@ class LayersModel extends GreenhouseEffectModel {
       options.tandem.createTandem( 'sunEnergySource' )
     );
 
-    this.groundLayer = new GroundLayer( options.tandem.createTandem( 'groundLayer' ), {
-      minimumTemperature: options.minimumGroundTemperature
+    this.groundLayer = new GroundLayer( {
+      minimumTemperature: options.minimumGroundTemperature,
+      tandem: options.tandem.createTandem( 'groundLayer' )
     } );
 
     this.atmosphereLayers = [];
@@ -202,8 +203,8 @@ class LayersModel extends GreenhouseEffectModel {
     _.times( options.numberOfAtmosphereLayers, index => {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
-        atmosphereLayersTandem.createTandem( `layer${index}` ),
         {
+          tandem: atmosphereLayersTandem.createTandem( `layer${index}` ),
           initiallyActive: options.atmosphereLayersInitiallyActive,
           initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion
         }

@@ -11,10 +11,9 @@ import Range from '../../../../dot/js/Range.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
 import EnergyDirection from './EnergyDirection.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 
@@ -29,12 +28,15 @@ const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 type SelfOptions = {
   initialAlbedo?: number;
 };
-export type GroundLayerOptions = SelfOptions & WithOptional<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
+export type GroundLayerOptions =
+  SelfOptions &
+  EnergyAbsorbingEmittingLayerOptions &
+  PickRequired<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
 class GroundLayer extends EnergyAbsorbingEmittingLayer {
   public readonly albedoProperty: NumberProperty;
 
-  public constructor( tandem: Tandem, providedOptions?: GroundLayerOptions ) {
+  public constructor( providedOptions?: GroundLayerOptions ) {
 
     const options = optionize<GroundLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
@@ -47,7 +49,6 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
       minimumTemperature: MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
 
       // phet-io
-      tandem: tandem,
       phetioReadOnly: true,
       phetioState: false
 
@@ -58,7 +59,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     // albedo of the ground, meaning how much of the incoming light will be reflected
     this.albedoProperty = new NumberProperty( options.initialAlbedo, {
       range: new Range( 0, 1 ),
-      tandem: tandem.createTandem( 'albedoProperty' ),
+      tandem: options.tandem.createTandem( 'albedoProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Proportion of incident light reflected from the ground from 0 (no reflection) to 1 (all light is reflected).'
     } );
