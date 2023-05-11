@@ -39,30 +39,6 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
-  "greenhouseEffectTemperatureBaseAmbience4Octaves.mp3": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "greenhouseEffectWavesIrReemissionLoop.mp3": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
-  "greenhouseEffectWavesIrReemissionStartingSound.mp3": {
-    "text": [
-      "Copyright 2021 University of Colorado Boulder"
-    ],
-    "projectURL": "https://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
-  },
   "irFluxDownA.mp3": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
@@ -215,6 +191,14 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Ashton Morris (PhET Interactive Simulations)"
   },
+  "temperatureBaseAmbience4Octaves.mp3": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
   "threeAbsorbingLayers.mp3": {
     "text": [
       "Copyright 2022 University of Colorado Boulder"
@@ -242,6 +226,22 @@
   "vibrationSlowMotion.mp3": {
     "text": [
       "Copyright 2020 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "wavesIrReemissionLoop.mp3": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
+    ],
+    "projectURL": "https://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Ashton Morris (PhET Interactive Simulations)"
+  },
+  "wavesIrReemissionStartingSound.mp3": {
+    "text": [
+      "Copyright 2021 University of Colorado Boulder"
     ],
     "projectURL": "https://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
