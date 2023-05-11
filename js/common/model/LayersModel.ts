@@ -122,6 +122,7 @@ class LayersModel extends GreenhouseEffectModel {
       atmosphereLayersInitiallyActive: true,
       fluxMeterPresent: false,
       fluxMeterOptions: {}
+      // phetioType: LayersModel.LayersModelIO TODO: add this, see https://github.com/phetsims/greenhouse-effect/issues/274
     }, providedOptions );
 
     super( options );
@@ -333,6 +334,8 @@ class LayersModel extends GreenhouseEffectModel {
    * Returns a map of state keys and their associated IOTypes, see IOType for details.
    */
   public static readonly STATE_SCHEMA: Record<string, IOType> = {
+
+    // TODO: inline this into the IOType, see https://github.com/phetsims/greenhouse-effect/issues/274.
     emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
   };
 
@@ -350,6 +353,8 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly LayersModelIO: IOType = new IOType( 'LayersModelIO', {
     valueType: LayersModel,
     stateSchema: LayersModel.STATE_SCHEMA,
+    // TODO: MK thinks I can get rid of the following two properties because they should be automatically handled, see
+    //       https://github.com/phetsims/greenhouse-effect/issues/274.
     toStateObject: ( layersModel: LayersModel ) => layersModel.toStateObject(),
     applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
   } );

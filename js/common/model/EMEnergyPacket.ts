@@ -71,19 +71,6 @@ class EMEnergyPacket {
   }
 
   /**
-   * Serializes this EMEnergyPacket instance.
-   */
-  public toStateObject(): EMEnergyPacketStateObject {
-    return {
-      wavelength: this.wavelength,
-      energy: this.energy,
-      altitude: this.altitude,
-      previousAltitude: this.previousAltitude,
-      direction: EnumerationIO( EnergyDirection ).toStateObject( this.direction )
-    };
-  }
-
-  /**
    * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
    * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
@@ -107,8 +94,7 @@ class EMEnergyPacket {
       );
       emEnergyPacket.previousAltitude = stateObject.previousAltitude;
       return emEnergyPacket;
-    },
-    toStateObject: ( coreObject: EMEnergyPacket ) => coreObject.toStateObject()
+    }
   } );
 }
 
