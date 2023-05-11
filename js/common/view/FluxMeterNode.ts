@@ -61,7 +61,7 @@ const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
 // determined in conjunction with others to make sure that the max outgoing IR will fix in the flux meter.
 const FLUX_ARROW_ZOOM_FACTOR = 2.5;
 
-// the number of zoom levels in each direction
+// number of zoom levels in each direction
 const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
 const NUMBER_OF_ZOOM_IN_LEVELS = 1;
 
@@ -88,8 +88,7 @@ type SelfOptions = {
   // the display arrows.
   includeZoomButtons?: boolean;
 };
-type ParentOptions = NodeOptions;
-export type FluxMeterNodeOptions = SelfOptions & PickRequired<ParentOptions, 'tandem'>;
+export type FluxMeterNodeOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class FluxMeterNode extends Node {
 
@@ -127,7 +126,7 @@ class FluxMeterNode extends Node {
                       observationWindowViewBounds: Bounds2,
                       providedOptions?: FluxMeterNodeOptions ) {
 
-    const options = optionize<FluxMeterNodeOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
       includeZoomButtons: false
     }, providedOptions );
 

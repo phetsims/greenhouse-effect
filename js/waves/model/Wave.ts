@@ -10,7 +10,6 @@
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -54,7 +53,7 @@ type SelfOptions = {
 export type WaveOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 // To be passed to the group's creator arguments, not the constructor
-export type WaveCreatorOptions = WithOptional<WaveOptions, 'tandem'>;
+export type WaveCreatorOptions = WaveOptions & PickRequired<WaveOptions, 'tandem'>;
 export type WaveCreatorArguments = [ number, Vector2, Vector2, number, WaveCreatorOptions ];
 
 class Wave extends PhetioObject {
@@ -295,15 +294,6 @@ class Wave extends PhetioObject {
       this.phaseOffsetAtOrigin += TWO_PI;
     }
     this.existenceTime += dt;
-  }
-
-  /**
-   * Get the altitude at which this wave ends.  This can be used instead of getEndPoint when only the end altitude is
-   * needed, since it doesn't allocate a vector and may thus have better performance.  This treats the wave as a line
-   * and does not account for any amplitude.
-   */
-  public getEndAltitude(): number {
-    return this.startPoint.y + this.length * this.propagationDirection.y;
   }
 
   /**
@@ -573,15 +563,6 @@ class Wave extends PhetioObject {
    */
   public getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
-  }
-
-  /**
-   * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
-   */
-  public getSortedAttenuators(): WaveAttenuator[] {
-    return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
-      attenuator1.distanceFromStart - attenuator2.distanceFromStart
-    );
   }
 
   /**
