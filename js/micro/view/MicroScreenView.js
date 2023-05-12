@@ -172,9 +172,11 @@ class MicroScreenView extends ScreenView {
     // @private
     const spectrumButtonLabelText = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabelText' ) );
 
+    // TODO: Create eagerly https://github.com/phetsims/phet-io/issues/1810
     const lightSpectrumDialogCapsule = new PhetioCapsule( tandem => {
 
       // Wrap in a node to prevent DAG problems if archetypes are also created
+      // TODO: Get rid of the extra Node layer https://github.com/phetsims/phet-io/issues/1810
       return new LightSpectrumDialog( new Node( { children: [ spectrumButtonLabelText ] } ), tandem );
     }, [], {
       tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
