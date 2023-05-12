@@ -10,7 +10,6 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';

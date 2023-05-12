@@ -9,7 +9,6 @@
  */
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
