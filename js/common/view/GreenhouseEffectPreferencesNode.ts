@@ -14,11 +14,11 @@ import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import DefaultTemperatureUnitsSelector from './DefaultTemperatureUnitsSelector.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-type GreenhouseEffectPreferencesNodeOptions = SelfOptions & PickRequired<VBoxOptions, 'tandem'>;
+type GreenhouseEffectPreferencesNodeOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
 
 export default class GreenhouseEffectPreferencesNode extends VBox {
 

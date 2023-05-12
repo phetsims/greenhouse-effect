@@ -13,12 +13,12 @@
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
@@ -52,7 +52,7 @@ class EnergyInfoQueueItem {
 type SelfOptions = {
   accumulationPeriod?: number;
 };
-export type EnergyRateTrackerOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type EnergyRateTrackerOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 class EnergyRateTracker extends PhetioObject {
 

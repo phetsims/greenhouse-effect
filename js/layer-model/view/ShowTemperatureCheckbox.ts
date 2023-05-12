@@ -12,11 +12,11 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type ShowTemperatureCheckboxOptions = SelfOptions & CheckboxOptions;
+export type ShowTemperatureCheckboxOptions = SelfOptions & WithRequired<CheckboxOptions, 'tandem'>;
 
 class ShowTemperatureCheckbox extends Checkbox {
   public constructor( property: Property<boolean>, providedOptions?: ShowTemperatureCheckboxOptions ) {
@@ -35,12 +35,7 @@ class ShowTemperatureCheckbox extends Checkbox {
     } );
 
     const options = optionize<ShowTemperatureCheckboxOptions, SelfOptions, CheckboxOptions>()( {
-
-      boxWidth: 15,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
-
+      boxWidth: 15
     }, providedOptions );
 
     super( property, thermometerIcon, options );

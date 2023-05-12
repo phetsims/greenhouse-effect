@@ -10,11 +10,11 @@
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, Node, Text } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const LABEL_ICON_SPACING = 10;
@@ -29,7 +29,7 @@ type SelfOptions = {
   // if provided, will be included in the icon for the checkbox
   iconNode?: Node | null;
 };
-export type GreenhouseEffectCheckboxOptions = SelfOptions & CheckboxOptions & PickRequired<CheckboxOptions, 'tandem'>;
+export type GreenhouseEffectCheckboxOptions = SelfOptions & WithRequired<CheckboxOptions, 'tandem'>;
 
 class GreenhouseEffectCheckbox extends Checkbox {
   public constructor( property: Property<boolean>,

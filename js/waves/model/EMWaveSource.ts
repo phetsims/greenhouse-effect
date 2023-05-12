@@ -23,6 +23,7 @@ import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryP
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const WAVE_GAPS_ENABLED = GreenhouseEffectQueryParameters.waveGapsEnabled;
@@ -83,7 +84,7 @@ type SelfOptions = {
   // range of lifetimes for this wave, in seconds
   waveLifetimeRange?: Range;
 };
-export type EMWaveSourceOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type EMWaveSourceOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 class EMWaveSource extends PhetioObject {
 

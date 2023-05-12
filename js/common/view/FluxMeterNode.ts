@@ -22,7 +22,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
@@ -43,6 +42,7 @@ import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -88,7 +88,7 @@ type SelfOptions = {
   // the display arrows.
   includeZoomButtons?: boolean;
 };
-export type FluxMeterNodeOptions = SelfOptions & NodeOptions & PickRequired<NodeOptions, 'tandem'>;
+export type FluxMeterNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 class FluxMeterNode extends Node {
 

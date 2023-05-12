@@ -16,10 +16,10 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type GreenhouseEffectModelOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type GreenhouseEffectModelOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 class GreenhouseEffectModel extends PhetioObject implements TModel {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;

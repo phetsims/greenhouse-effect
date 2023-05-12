@@ -11,8 +11,6 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import Property from '../../../../axon/js/Property.js';
 import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
 import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
@@ -21,12 +19,11 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 
-type DefaultTemperatureUnitsSelectorOptions = SelfOptions &
-  PickRequired<VBoxOptions, 'tandem'> &
-  PickOptional<VBoxOptions, 'visible'>;
+type DefaultTemperatureUnitsSelectorOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
 
 export default class DefaultTemperatureUnitsSelector extends VBox {
 

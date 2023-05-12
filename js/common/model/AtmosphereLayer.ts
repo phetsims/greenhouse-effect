@@ -13,15 +13,14 @@ import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } fro
 import EMEnergyPacket from './EMEnergyPacket.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
   initiallyActive?: boolean;
 };
 export type AtmosphereLayerOptions =
   SelfOptions &
-  EnergyAbsorbingEmittingLayerOptions &
-  PickRequired<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
+  WithRequired<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   public readonly isActiveProperty: BooleanProperty;

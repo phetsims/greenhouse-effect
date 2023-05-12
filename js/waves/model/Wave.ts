@@ -23,6 +23,7 @@ import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
 import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -51,7 +52,7 @@ type SelfOptions = {
   // a string that can be stuck on the object, useful for debugging, see usage
   debugTag?: string | null;
 };
-export type WaveOptions = SelfOptions & PhetioObjectOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+export type WaveOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 // To be passed to the group's creator arguments, not the constructor
 export type WaveCreatorOptions = WithOptional<WaveOptions, 'tandem'>;
