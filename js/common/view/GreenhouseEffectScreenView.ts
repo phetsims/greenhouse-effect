@@ -19,7 +19,7 @@ import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
-import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
+import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 
 const FRAME_WIDTH = 12; // in screen coords, empirically determined to do the job
 
@@ -30,9 +30,6 @@ type SelfOptions = {
 
   // passed along to the EnergyLegend
   energyLegendOptions?: EnergyLegendOptions;
-
-  // options passed to the GreenhouseEffectObservationWindow
-  observationWindowOptions?: GreenhouseEffectObservationWindowOptions;
 };
 export type GreenhouseEffectScreenViewOptions = SelfOptions & ScreenViewOptions;
 
@@ -56,17 +53,12 @@ class GreenhouseEffectScreenView extends ScreenView {
   public constructor( model: GreenhouseEffectModel,
                       observationWindow: GreenhouseEffectObservationWindow,
                       timeControlNode: TimeControlNode,
-                      providedOptions?: GreenhouseEffectScreenViewOptions ) {
+                      providedOptions: GreenhouseEffectScreenViewOptions ) {
 
     const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       useClippingFrame: false,
-      energyLegendOptions: {},
-      observationWindowOptions: {}
+      energyLegendOptions: { tandem: providedOptions.tandem.createTandem( 'energyLegend' ) }
     }, providedOptions );
-
-    if ( options.energyLegendOptions ) {
-      assert && assert( !options.energyLegendOptions.tandem, 'EnergyLegend Tandem is set by GreenhouseEffectScreenView' );
-    }
 
     super( options );
 

@@ -56,7 +56,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     super( model, observationWindow, timeControlNode, {
       energyLegendOptions: {
-        energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE
+        energyRepresentation: EnergyLegend.EnergyRepresentation.WAVE,
+        tandem: tandem.createTandem( 'energyLegend' )
       },
 
       // phet-io

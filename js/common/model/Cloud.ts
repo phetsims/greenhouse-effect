@@ -18,7 +18,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
@@ -26,11 +25,12 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import LayersModel from './LayersModel.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type ReflectivityValues = {
 
   // proportion of the visible light that hits this cloud from above and is subsequently reflected back up
-  topVisibleLightReflectivity: number;
+  topVisibleLightReflectivity : number;
 
   // proportion of the visible light that hits this cloud from below and is subsequently reflected back down
   bottomVisibleLightReflectivity: number;
@@ -43,7 +43,7 @@ type ReflectivityValues = {
 };
 
 type SelfOptions = Partial<ReflectivityValues>;
-export type CloudOptions = SelfOptions & PhetioObjectOptions;
+export type CloudOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 class Cloud extends PhetioObject {
   public readonly position: Vector2;
@@ -62,8 +62,7 @@ class Cloud extends PhetioObject {
       bottomInfraredLightReflectivity: 0,
 
       // phet-io
-      phetioState: false,
-      tandem: Tandem.REQUIRED // tandem is required because Cloud is used in a Map that is serialized
+      phetioState: false
     }, providedOptions );
 
     super( options );
@@ -96,9 +95,8 @@ class Cloud extends PhetioObject {
   /**
    * Interact with the provided energy.  Energy may be partially reflected.
    * @param emEnergyPackets - energy packets that are moving withing the system
-   * @param dt - delta time, in seconds
    */
-  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[], dt: number ): void {
+  public interactWithEnergy( emEnergyPackets: EMEnergyPacket[] ): void {
 
     if ( this.enabledProperty.value ) {
 

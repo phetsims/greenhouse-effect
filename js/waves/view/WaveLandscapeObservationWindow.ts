@@ -12,21 +12,17 @@ import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '.
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
-import optionize from '../../../../phet-core/js/optionize.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
   tandem?: Tandem;
 };
-type WaveLandscapeObservationWindowOptions = SelfOptions & LandscapeObservationWindowOptions;
+type WaveLandscapeObservationWindowOptions = SelfOptions & WithRequired<LandscapeObservationWindowOptions, 'tandem'>;
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
-  public constructor( model: WavesModel, providedOptions?: WaveLandscapeObservationWindowOptions ) {
-
-    const options = optionize<WaveLandscapeObservationWindowOptions, SelfOptions, LandscapeObservationWindowOptions>()( {
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
+  public constructor( model: WavesModel, options: WaveLandscapeObservationWindowOptions ) {
 
     super( model, options );
 

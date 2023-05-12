@@ -21,7 +21,6 @@ import { AlignBox, Color, FocusableHeadingNode, LinearGradient, ManualConstraint
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
@@ -33,6 +32,7 @@ import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -48,7 +48,7 @@ type SelfOptions = {
   // Passed to the FluxMeterNode, but the tandem for the FluxMeterNode is added by this component.
   fluxMeterNodeOptions?: StrictOmit<FluxMeterNodeOptions, 'tandem'>;
 };
-export type GreenhouseEffectObservationWindowOptions = SelfOptions & NodeOptions;
+export type GreenhouseEffectObservationWindowOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 class GreenhouseEffectObservationWindow extends Node {
   protected readonly modelViewTransform: ModelViewTransform2;
@@ -77,10 +77,7 @@ class GreenhouseEffectObservationWindow extends Node {
 
       // default position in the GreenhouseEffect sim
       left: GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
-      top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN
     }, providedOptions );
 
     // Calculate where we want the ground in the model, which corresponds to y=0, to appear in the view.

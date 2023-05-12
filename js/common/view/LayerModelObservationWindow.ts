@@ -10,7 +10,6 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
@@ -20,9 +19,12 @@ import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLay
 import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type LayerModelObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
+export type LayerModelObservationWindowOptions =
+  SelfOptions &
+  WithRequired<GreenhouseEffectObservationWindowOptions, 'tandem'>;
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -34,11 +36,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
       fluxMeterNodeOptions: {
         includeZoomButtons: true
-      },
-
-      // phet-io
-      tandem: Tandem.REQUIRED
-
+      }
     }, providedOptions );
 
     super( model, options );

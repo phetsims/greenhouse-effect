@@ -256,7 +256,7 @@ class LayersModel extends GreenhouseEffectModel {
         atmosphereLayer.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
       } );
       if ( this.cloud ) {
-        this.cloud.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
+        this.cloud.interactWithEnergy( this.emEnergyPackets );
       }
       this.outerSpace.interactWithEnergy( this.emEnergyPackets, MODEL_TIME_STEP );
 

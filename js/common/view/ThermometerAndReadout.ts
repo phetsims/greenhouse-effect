@@ -21,7 +21,6 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -32,6 +31,7 @@ import LayersModel from '../model/LayersModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -53,10 +53,9 @@ type SelfOptions = {
   readoutType?: ReadoutType;
   listParentNode?: Node | null;
   thermometerNodeOptions?: ThermometerNodeOptions;
-  tandem?: Tandem;
 };
 
-type ThermometerAndReadoutOptions = SelfOptions & NodeOptions;
+type ThermometerAndReadoutOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 class ThermometerAndReadout extends Node {
 
@@ -83,10 +82,7 @@ class ThermometerAndReadout extends Node {
         tubeHeight: 150,
         tubeWidth: 20,
         backgroundFill: 'white'
-      },
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      }
     }, providedOptions );
 
     // options passed to the supertype later in mutate

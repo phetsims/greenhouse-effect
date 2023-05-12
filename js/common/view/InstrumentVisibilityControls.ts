@@ -11,13 +11,13 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = {
 
@@ -27,7 +27,7 @@ type SelfOptions = {
   // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
 };
-export type InstrumentVisibilityControlsOptions = SelfOptions & PanelOptions;
+export type InstrumentVisibilityControlsOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
 
 class InstrumentVisibilityControls extends Panel {
 
@@ -49,11 +49,7 @@ class InstrumentVisibilityControls extends Panel {
       // panel options
       fill: 'rgba(255,255,255,0.5)',
       cornerRadius: 5,
-      stroke: null,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
-
+      stroke: null
     }, providedOptions );
 
     assert && assert(

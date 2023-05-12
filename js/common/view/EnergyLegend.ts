@@ -13,13 +13,13 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { GridBox, Image, Path, PathOptions, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const WAVE_ICON_AMPLITUDE = 7;
@@ -42,7 +42,7 @@ class EnergyRepresentation extends EnumerationValue {
 type SelfOptions = {
   energyRepresentation?: EnergyRepresentation;
 };
-export type EnergyLegendOptions = SelfOptions & PanelOptions;
+export type EnergyLegendOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
 
 class EnergyLegend extends Panel {
 
@@ -68,10 +68,7 @@ class EnergyLegend extends Panel {
       labelTagName: 'h3',
       labelContent: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
       descriptionTagName: 'p',
-      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty
     }, providedOptions );
 
     // title

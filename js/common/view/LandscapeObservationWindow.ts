@@ -12,10 +12,9 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import agriculturalLandscapeBackground_png from '../../../images/agriculturalLandscapeBackground_png.js';
 import agriculturalLandscapeForeground_png from '../../../images/agriculturalLandscapeForeground_png.js';
 import fiftiesLandscapeBackground_png from '../../../images/fiftiesLandscapeBackground_png.js';
@@ -51,13 +50,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
 
-  public constructor( model: ConcentrationModel, providedOptions?: LandscapeObservationWindowOptions ) {
-
-    const options = optionize<LandscapeObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
-
-      // phet-io
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
+  public constructor( model: ConcentrationModel, options: LandscapeObservationWindowOptions ) {
 
     super( model, options );
     this.isPlayingProperty = model.isPlayingProperty;

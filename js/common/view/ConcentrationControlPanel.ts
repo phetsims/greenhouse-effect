@@ -32,6 +32,7 @@ import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from 
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
@@ -83,7 +84,7 @@ type SelfOptions = {
   // date.
   includeCompositionData?: boolean;
 };
-type ConcentrationControlPanelOptions = SelfOptions & PanelOptions;
+type ConcentrationControlPanelOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
 
 class ConcentrationControlPanel extends Panel {
 
@@ -110,10 +111,7 @@ class ConcentrationControlPanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
-
-      // phet-io
-      tandem: Tandem.REQUIRED
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty
     }, providedOptions );
 
     // title for the whole panel

@@ -6,28 +6,24 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonsModel from '../model/PhotonsModel.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type PhotonLandscapeObservationWindowOptions = SelfOptions & LandscapeObservationWindowOptions;
+export type PhotonLandscapeObservationWindowOptions =
+  SelfOptions &
+  WithRequired<LandscapeObservationWindowOptions, 'tandem'>;
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
 
-  public constructor( model: PhotonsModel, providedOptions?: LandscapeObservationWindowOptions ) {
-
-    const options = optionize<PhotonLandscapeObservationWindowOptions, SelfOptions, LandscapeObservationWindowOptions>()( {
-
-      // phet-io
-      tandem: Tandem.REQUIRED
-    }, providedOptions );
+  public constructor( model: PhotonsModel, options: PhotonLandscapeObservationWindowOptions ) {
 
     super( model, options );
 
