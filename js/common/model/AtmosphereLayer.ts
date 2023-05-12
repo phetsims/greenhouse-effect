@@ -10,21 +10,23 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = {
   initiallyActive?: boolean;
 };
-export type AtmosphereLayerOptions = SelfOptions & WithOptional<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
+export type AtmosphereLayerOptions =
+  SelfOptions &
+  EnergyAbsorbingEmittingLayerOptions &
+  PickRequired<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
 class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
   public readonly isActiveProperty: BooleanProperty;
 
-  public constructor( altitude: number, tandem: Tandem, providedOptions?: AtmosphereLayerOptions ) {
+  public constructor( altitude: number, providedOptions?: AtmosphereLayerOptions ) {
 
     const options = optionize<AtmosphereLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
@@ -32,7 +34,6 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
       initiallyActive: true,
 
       // phet-io
-      tandem: tandem,
       phetioReadOnly: true,
       phetioState: false,
       phetioDocumentation: 'Layer in the atmosphere that absorbs and emits energy. Layers are numbered low-to-high according to altitude.'
@@ -40,7 +41,7 @@ class AtmosphereLayer extends EnergyAbsorbingEmittingLayer {
 
     super( altitude, options );
 
-    // The isActiveProperty determines whether or not this layer will interact with the energy that passes through it.
+    // The isActiveProperty determines whether this layer will interact with the energy that passes through it.
     this.isActiveProperty = new BooleanProperty( options.initiallyActive, {
       tandem: options.tandem.createTandem( 'isActiveProperty' ),
       phetioReadOnly: true

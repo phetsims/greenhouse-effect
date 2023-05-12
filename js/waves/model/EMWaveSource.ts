@@ -227,7 +227,8 @@ class EMWaveSource extends PhetioObject {
       this.wavelength,
       new Vector2( originX, this.waveStartAltitude ),
       propagationDirection,
-      this.waveEndAltitude, {
+      this.waveEndAltitude,
+      {
         intensityAtStart: this.waveIntensityProperty.value
       }
     );

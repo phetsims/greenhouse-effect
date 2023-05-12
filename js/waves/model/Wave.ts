@@ -10,7 +10,6 @@
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -23,6 +22,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
+import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -298,15 +298,6 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * Get the altitude at which this wave ends.  This can be used instead of getEndPoint when only the end altitude is
-   * needed, since it doesn't allocate a vector and may thus have better performance.  This treats the wave as a line
-   * and does not account for any amplitude.
-   */
-  public getEndAltitude(): number {
-    return this.startPoint.y + this.length * this.propagationDirection.y;
-  }
-
-  /**
    * Get a vector that represents the end point of this wave.  This does not account for any amplitude of the wave, and
    * just treats it as a line between two points.  If a vector is provided, none is allocated.  This can help to reduce
    * the number of memory allocations.
@@ -573,15 +564,6 @@ class Wave extends PhetioObject {
    */
   public getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
-  }
-
-  /**
-   * Get a list of the attenuators that are currently on this wave sorted from closest to the start point to furthest.
-   */
-  public getSortedAttenuators(): WaveAttenuator[] {
-    return Array.from( this.modelObjectToAttenuatorMap.values() ).sort( ( attenuator1, attenuator2 ) =>
-      attenuator1.distanceFromStart - attenuator2.distanceFromStart
-    );
   }
 
   /**
