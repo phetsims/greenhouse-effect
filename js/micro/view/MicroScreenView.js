@@ -18,13 +18,11 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, KeyboardListener, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, KeyboardListener, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
 import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import PhetioCapsule from '../../../../tandem/js/PhetioCapsule.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -167,21 +165,11 @@ class MicroScreenView extends ScreenView {
     } );
     this.addChild( timeControlNode );
 
-    // Content for the window that displays the EM spectrum upon request.  Constructed once here so that time is not
-    // waisted drawing a new spectrum window every time the user presses the 'Show Light Spectrum' button.
     // @private
-    const spectrumButtonLabelText = new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabelText' ) );
-
-    // TODO: Create eagerly https://github.com/phetsims/phet-io/issues/1810
-    const lightSpectrumDialogCapsule = new PhetioCapsule( tandem => {
-
-      // Wrap in a node to prevent DAG problems if archetypes are also created
-      // TODO: Get rid of the extra Node layer https://github.com/phetsims/phet-io/issues/1810
-      return new LightSpectrumDialog( new Node( { children: [ spectrumButtonLabelText ] } ), tandem );
-    }, [], {
-      tandem: tandem.createTandem( 'lightSpectrumDialogCapsule' ),
-      phetioType: PhetioCapsule.PhetioCapsuleIO( Dialog.DialogIO )
-    } );
+    const lightSpectrumDialog = new LightSpectrumDialog(
+      new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabelText' ) ),
+      tandem.createTandem( 'lightSpectrumDialog' )
+    );
 
     // Add the button for displaying the electromagnetic spectrum. Scale down the button content when it gets too
     // large.  This is done to support translations.  Max width of this button is the width of the molecule control
@@ -196,8 +184,7 @@ class MicroScreenView extends ScreenView {
       touchAreaXDilation: 7,
       touchAreaYDilation: 7,
       listener: () => {
-        const dialog = lightSpectrumDialogCapsule.getElement();
-        dialog.show();
+        lightSpectrumDialog.show();
       },
       tandem: tandem.createTandem( 'showLightSpectrumButton' ),
 
