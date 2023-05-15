@@ -21,8 +21,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
-import WithOptional from '../../../../phet-core/js/types/WithOptional.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -53,8 +53,8 @@ type SelfOptions = {
 };
 export type WaveOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
-// To be passed to the group's creator arguments, not the constructor
-export type WaveCreatorOptions = WithOptional<WaveOptions, 'tandem'>;
+// Options to provide to the PhetioGroup creator function.
+export type WaveCreatorOptions = StrictOmit<WaveOptions, 'tandem'>;
 export type WaveCreatorArguments = [ number, Vector2, Vector2, number, WaveCreatorOptions ];
 
 class Wave extends PhetioObject {
