@@ -66,6 +66,7 @@ class EnergyBalancePanel extends Panel {
     const options = optionize<EnergyBalancePanelOptions, SelfOptions, PanelOptions>()( {
 
       // panel options
+      visibleProperty: energyBalanceVisibleProperty,
       cornerRadius: 5,
       xMargin: 10,
       yMargin: 10,
@@ -115,11 +116,6 @@ class EnergyBalancePanel extends Panel {
 
     // Make the plot available to the step method.
     this.balancePlot = balancePlot;
-
-    // listeners
-    energyBalanceVisibleProperty.link( visible => {
-      this.visible = visible;
-    } );
 
     // sound generation
     this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, inRadiativeBalanceProperty, {
