@@ -32,6 +32,7 @@ import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
 import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -175,7 +176,11 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'fluxMeterVisibleProperty' )
+
+      // Only allow this to show up in the phet-io tree if the flux meter is present in this model.
+      tandem: options.fluxMeterPresent ?
+              options.tandem.createTandem( 'fluxMeterVisibleProperty' ) :
+              Tandem.OPT_OUT
     } );
 
     this.emEnergyPackets = [];
