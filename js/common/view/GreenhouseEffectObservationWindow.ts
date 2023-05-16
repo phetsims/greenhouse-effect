@@ -33,6 +33,7 @@ import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
 import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -195,10 +196,16 @@ class GreenhouseEffectObservationWindow extends Node {
     } );
     soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
 
+    const startSunlightButtonTandem = options.tandem.createTandem( 'startSunlightButton' );
+
     // button used to start and restart sunlight
     this.startSunlightButton = new TextPushButton( GreenhouseEffectStrings.startSunlightStringProperty, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
+      visibleProperty: DerivedProperty.not( model.sunEnergySource.isShiningProperty, {
+        phetioValueType: BooleanIO,
+        tandem: startSunlightButtonTandem.createTandem( 'visibleProperty' )
+      } ),
 
       // keep the size reasonable
       maxTextWidth: 250,
@@ -226,7 +233,7 @@ class GreenhouseEffectObservationWindow extends Node {
       helpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpTextStringProperty,
 
       // phet-io
-      tandem: options.tandem.createTandem( 'startSunlightButton' ),
+      tandem: startSunlightButtonTandem,
       visiblePropertyOptions: { phetioReadOnly: true }
     } );
     this.foregroundLayer.addChild( this.startSunlightButton );
@@ -239,9 +246,8 @@ class GreenhouseEffectObservationWindow extends Node {
       startSunlightButtonProxy.centerY = SIZE.height * 0.4;
     } );
 
-    // Manage the visibility of the start sunlight button and the darkness overlay.
+    // Manage the visibility and opacity of the darkness overlay.
     model.sunEnergySource.isShiningProperty.link( isShining => {
-      this.startSunlightButton.visible = !isShining;
 
       if ( isShining ) {
 

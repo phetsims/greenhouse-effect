@@ -142,9 +142,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.startSunlightButton.visibleProperty": {
-      "phetioFeatured": false
-    },
     "greenhouseEffect.wavesScreen.view.observationWindow.wavesCanvasNode.visibleProperty": {
       "phetioFeatured": true
     }
