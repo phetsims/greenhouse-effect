@@ -127,10 +127,11 @@ class FluxMeterNode extends Node {
                       providedOptions?: FluxMeterNodeOptions ) {
 
     const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
-      includeZoomButtons: false
+      includeZoomButtons: false,
+      visibleProperty: visibleProperty
     }, providedOptions );
 
-    super();
+    super( options );
 
     // Create the node that represents the wire connecting the panel and the sensor.
     const wireNode = new WireNode(
@@ -251,11 +252,6 @@ class FluxMeterNode extends Node {
       xMargin: FLUX_PANEL_X_MARGIN
     } );
     this.addChild( this.fluxPanel );
-
-    // listeners
-    visibleProperty.link( visible => {
-      this.visible = visible;
-    } );
 
     // the offset position for the drag pickup, so that the translation doesn't snap to the cursor position
     let startOffset: Vector2 = Vector2.ZERO;
