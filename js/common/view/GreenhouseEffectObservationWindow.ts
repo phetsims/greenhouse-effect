@@ -77,7 +77,11 @@ class GreenhouseEffectObservationWindow extends Node {
 
       // default position in the GreenhouseEffect sim
       left: GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
-      top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN
+      top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,
+
+      // phet-io
+      phetioVisiblePropertyInstrumented: false
+
     }, providedOptions );
 
     // Calculate where we want the ground in the model, which corresponds to y=0, to appear in the view.
