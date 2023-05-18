@@ -136,9 +136,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.energyBalanceCheckbox.visibleProperty": {
-      "phetioFeatured": false
-    },
     "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
       "phetioFeatured": true
     },

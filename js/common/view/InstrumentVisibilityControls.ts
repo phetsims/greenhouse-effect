@@ -9,20 +9,25 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+
+const LABEL_FONT = new PhetFont( {
+  size: 14
+} );
 
 type SelfOptions = {
 
-  // options passed along to the VBox containing the controls
-  vBoxOptions?: VBoxOptions;
+  // options passed along to the VerticalCheckboxGroup containing the checkboxes
+  verticalCheckboxGroupOptions?: VerticalCheckboxGroupOptions;
 
   // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
@@ -40,23 +45,17 @@ class InstrumentVisibilityControls extends Panel {
     const options = optionize<InstrumentVisibilityControlsOptions, SelfOptions, PanelOptions>()( {
 
       // SelfOptions
-      vBoxOptions: {
-        align: 'left',
-        spacing: 5
-      },
+      verticalCheckboxGroupOptions: {},
       includeFluxMeterCheckbox: true,
 
       // panel options
       fill: 'rgba(255,255,255,0.5)',
       cornerRadius: 5,
       stroke: null
+
     }, providedOptions );
 
-    assert && assert(
-      options.vBoxOptions.children === undefined,
-      'InstrumentVisibilityControls sets children through options'
-    );
-
+    // Create the utterance (for screen readers) that will be used by the energy balance checkbox.
     const checkedUtterance = new Utterance();
     Multilink.multilink(
       [
@@ -87,38 +86,43 @@ class InstrumentVisibilityControls extends Panel {
       }
     );
 
-    // add controls to children
-    const children = [];
-    if ( model.energyBalanceVisibleProperty ) {
-      children.push( new GreenhouseEffectCheckbox( model.energyBalanceVisibleProperty, GreenhouseEffectStrings.energyBalanceStringProperty, {
-          // phet-io
-          tandem: options.tandem.createTandem( 'energyBalanceCheckbox' ),
+    // Define the items for the checkboxes.
+    const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
+
+      // checkbox item for controlling the energy balance indicator
+      {
+        createNode: () => new Text(
+          GreenhouseEffectStrings.energyBalanceStringProperty, { font: LABEL_FONT }
+        ),
+        property: model.energyBalanceVisibleProperty,
+        options: {
 
           // pdom
           helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty,
           checkedContextResponse: checkedUtterance,
           uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
-        }
-      ) );
-    }
+        },
+        tandemName: 'energyBalanceCheckbox'
+      }
+    ];
+
+    // If the flux meter is present, add a checkbox to control its visibility.
     if ( options.includeFluxMeterCheckbox ) {
-      children.push(
-        new GreenhouseEffectCheckbox(
-          model.fluxMeterVisibleProperty,
-          GreenhouseEffectStrings.fluxMeter.titleStringProperty,
-          {
-            // phet-io
-            tandem: options.tandem.createTandem( 'fluxMeterCheckbox' )
-          }
-        )
-      );
+      checkboxGroupItems.push( {
+        createNode: () => new Text(
+          GreenhouseEffectStrings.fluxMeter.titleStringProperty, { font: LABEL_FONT }
+        ),
+        property: model.fluxMeterVisibleProperty,
+        tandemName: 'fluxMeterCheckbox'
+      } );
     }
 
-    // layout
-    options.vBoxOptions.children = children;
-    const vBox = new VBox( options.vBoxOptions );
+    const checkboxGroup = new VerticalCheckboxGroup( checkboxGroupItems, {
+      spacing: 5,
+      tandem: options.tandem.createTandem( 'checkboxGroup' )
+    } );
 
-    super( vBox, options );
+    super( checkboxGroup, options );
   }
 }
 
