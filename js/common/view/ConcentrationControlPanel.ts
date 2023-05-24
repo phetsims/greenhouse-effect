@@ -413,7 +413,10 @@ class ConcentrationSlider extends VBox {
     super( {
       children: [ lotsText, slider, noneText ],
       spacing: sliderToLabelSpacing,
-      tandem: tandem
+
+      // phetio
+      tandem: tandem,
+      phetioVisiblePropertyInstrumented: false
     } );
   }
 }
