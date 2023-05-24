@@ -78,7 +78,12 @@ class MicroScreenView extends ScreenView {
     );
 
     super( {
+
+      // This sim uses non-default layout bounds because it was ported from Java long ago when PhET didn't try to make
+      // the bounds consistent and, once a sim is published as phet-io brand, changing the layout bounds is not
+      // recommended.  See https://github.com/phetsims/greenhouse-effect/issues/279.
       layoutBounds: new Bounds2( 0, 0, 768, 504 ),
+
       tandem: tandem,
       screenSummaryContent: new MicroScreenSummaryNode( photonAbsorptionModel, observationWindow.returnMoleculeButtonVisibleProperty )
     } );
