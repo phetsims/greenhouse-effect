@@ -69,7 +69,7 @@ class PhotonsModel extends ConcentrationModel {
     this.photonCollection.step( dt );
 
     // Check for interaction between the photons and the cloud.  This will cause some photons to reflect off the cloud.
-    if ( this.cloudEnabledProperty.value ) {
+    if ( this.cloud?.enabledProperty.value ) {
 
       assert && assert(
         this.cloud,

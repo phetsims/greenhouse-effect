@@ -15,22 +15,22 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import Property from '../../../../axon/js/Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import LayersModel from './LayersModel.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 type ReflectivityValues = {
 
   // proportion of the visible light that hits this cloud from above and is subsequently reflected back up
-  topVisibleLightReflectivity : number;
+  topVisibleLightReflectivity: number;
 
   // proportion of the visible light that hits this cloud from below and is subsequently reflected back down
   bottomVisibleLightReflectivity: number;
@@ -49,11 +49,15 @@ class Cloud extends PhetioObject {
   public readonly position: Vector2;
   public readonly width: number;
   public readonly height: number;
-  public readonly enabledProperty: Property<boolean>;
+  public readonly enabledProperty: TReadOnlyProperty<boolean>;
   public readonly modelShape: Shape;
   private readonly reflectivityValues: ReflectivityValues;
 
-  public constructor( position: Vector2, width: number, height: number, providedOptions: CloudOptions ) {
+  public constructor( position: Vector2,
+                      width: number,
+                      height: number,
+                      enabledProperty: ReadOnlyProperty<boolean>,
+                      providedOptions: CloudOptions ) {
 
     const options = optionize<CloudOptions, SelfOptions, PhetioObjectOptions>()( {
       topVisibleLightReflectivity: 0.08,
@@ -86,7 +90,8 @@ class Cloud extends PhetioObject {
     this.height = height;
 
     // controls whether the cloud is interacting with light
-    this.enabledProperty = new BooleanProperty( false );
+    this.enabledProperty = enabledProperty;
+    // this.addLinkedElement( enabledProperty, { tandem: options.tandem.createTandem( 'enabledProperty ' ) } );
 
     // elliptical shape that defines the space which the cloud occupies
     this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2, 0 );

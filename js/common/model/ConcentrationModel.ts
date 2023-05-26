@@ -23,6 +23,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from './Cloud.js';
 import GroundLayer from './GroundLayer.js';
 import LayersModel, { LayersModelOptions } from './LayersModel.js';
+import Property from '../../../../axon/js/Property.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
@@ -85,8 +87,8 @@ class ConcentrationModel extends LayersModel {
   // The actual value of concentration for the model, depending on how the concentration is to be controlled.
   public readonly concentrationProperty: TReadOnlyProperty<number>;
 
-  // A property that determines whether the reflective cloud is enabled.
-  public readonly cloudEnabledProperty: BooleanProperty;
+  // A property that determines whether the reflective cloud is enabled when manually controlling gas concentrations.
+  public readonly cloudEnabledInManualConcentrationModeProperty: Property<boolean>;
 
   public constructor( options: LayersModelOptions ) {
     super( options );
@@ -154,36 +156,30 @@ class ConcentrationModel extends LayersModel {
       }
     );
 
-    this.cloudEnabledProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'cloudEnabledProperty' )
+    this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' )
     } );
 
-    // When switching from manual concentration control mode to date-based concentration mode, the cloud must be turned
-    // on if it isn't already.  Then, when switching back to manual concentration mode, the cloud must be restored to
-    // whatever the state was when the user switched away.  That's what the following code does.
-    let cloudEnabledInManualConcentrationMode = this.cloudEnabledProperty.value;
-    this.concentrationControlModeProperty.lazyLink( concentrationControlMode => {
-      if ( concentrationControlMode === ConcentrationControlMode.BY_DATE ) {
-        cloudEnabledInManualConcentrationMode = this.cloudEnabledProperty.value;
-        this.cloudEnabledProperty.set( true );
+    // Create a derived property that determines whether the cloud is enabled in the model.  We do not allow users to
+    // disable the cloud in the "by date" mode because the model is calibrated to assume the correct amount of incident
+    // sunlight reaching the ground, and disabling the cloud would mess that up.
+    const cloudEnabledProperty = new DerivedProperty(
+      [ this.concentrationControlModeProperty, this.cloudEnabledInManualConcentrationModeProperty ],
+      ( concentrationControlMode, cloudEnabledInManualConcentrationMode ) =>
+        concentrationControlMode === ConcentrationControlMode.BY_DATE || cloudEnabledInManualConcentrationMode,
+      {
+        tandem: options.tandem.createTandem( 'cloudEnabledProperty' ),
+        phetioValueType: BooleanIO
       }
-      else if ( concentrationControlMode === ConcentrationControlMode.BY_VALUE ) {
-        this.cloudEnabledProperty.set( cloudEnabledInManualConcentrationMode );
-      }
-    } );
+    );
 
     // Create the one cloud that can be shown.  The position and size of the cloud were chosen to look good in the view
     // and can be adjusted as needed.
-    this.cloud = new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, {
+    this.cloud = new Cloud( new Vector2( -16000, 20000 ), CLOUD_WIDTH, 4000, cloudEnabledProperty, {
       topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
 
       // phetio
       tandem: options.tandem.createTandem( 'cloud' )
-    } );
-
-    // Update the enabled state of the cloud.
-    this.cloudEnabledProperty.link( cloudEnabled => {
-      this.cloud && this.cloud.enabledProperty.set( cloudEnabled );
     } );
   }
 
@@ -194,7 +190,6 @@ class ConcentrationModel extends LayersModel {
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();
-    this.cloudEnabledProperty.reset();
     super.reset();
   }
 

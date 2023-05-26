@@ -76,7 +76,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
     const cloudCheckbox = new CloudCheckbox(
-      model.cloudEnabledProperty,
+      model.cloudEnabledInManualConcentrationModeProperty,
       model.sunEnergySource.isShiningProperty,
       {
         visibleProperty: new DerivedProperty(

@@ -216,12 +216,12 @@ class GasConcentrationAlerter extends Alerter {
 
   private saveImmediateNotificationModelState(): PreviousImmediateNotificationModelState {
     this.previousImmediateNotificationModelState = this.previousImmediateNotificationModelState || {
-      cloudEnabled: this.model.cloudEnabledProperty.value,
+      cloudEnabled: !!this.model.cloud?.enabledProperty.value,
       concentrationControlMode: this.model.concentrationControlModeProperty.value,
       concentrationDate: this.model.dateProperty.value
     };
 
-    this.previousImmediateNotificationModelState.cloudEnabled = this.model.cloudEnabledProperty.value;
+    this.previousImmediateNotificationModelState.cloudEnabled = !!this.model.cloud?.enabledProperty.value;
     this.previousImmediateNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
     this.previousImmediateNotificationModelState.concentrationDate = this.model.dateProperty.value;
 
@@ -275,7 +275,7 @@ class GasConcentrationAlerter extends Alerter {
       this.alert( this.concentrationChangeUtterance );
     }
 
-    const cloudEnabled = this.model.cloudEnabledProperty.value;
+    const cloudEnabled = !!this.model.cloud?.enabledProperty.value;
     if ( this.previousImmediateNotificationModelState.cloudEnabled !== cloudEnabled ) {
       this.alert( ConcentrationDescriber.getSkyCloudChangeDescription(
         cloudEnabled,

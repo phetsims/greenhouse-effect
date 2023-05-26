@@ -52,7 +52,8 @@ class WavesScreenSummaryContentNode extends Node {
       startSunlightHintNode
     ];
 
-    Multilink.multilink( [
+    Multilink.multilink(
+      [
         model.sunEnergySource.isShiningProperty,
         model.isPlayingProperty,
         model.concentrationProperty,
@@ -62,7 +63,7 @@ class WavesScreenSummaryContentNode extends Node {
         model.surfaceTemperatureVisibleProperty,
         model.surfaceThermometerVisibleProperty,
         model.temperatureUnitsProperty,
-        model.cloudEnabledProperty
+        model.cloudEnabledInManualConcentrationModeProperty
       ],
       (
         sunIsShining,

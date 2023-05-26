@@ -83,7 +83,7 @@ class LayersModel extends GreenhouseEffectModel {
   // the energy-absorbing-and-emitting layers for the atmosphere
   public readonly atmosphereLayers: AtmosphereLayer[];
 
-  // a cloud that may or may not be present, and that reflects sunlight if it is
+  // a cloud that may or may not be present, and that can reflect sunlight if it is
   public cloud: Cloud | null = null;
 
   // model of the ground that absorbs energy, heats up, and radiates infrared energy

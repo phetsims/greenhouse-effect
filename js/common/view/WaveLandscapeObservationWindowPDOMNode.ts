@@ -32,30 +32,33 @@ class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       }
     );
 
-    Multilink.multilink(
-      [
-        model.sunEnergySource.isShiningProperty,
-        model.cloudEnabledProperty,
-        model.concentrationControlModeProperty,
-        model.dateProperty
-      ],
-      ( isShining, cloudEnabled, concentrationControlMode, date ) => {
+    if ( model.cloud ) {
 
-        const isGlacierPresent = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                 date === ConcentrationDate.ICE_AGE;
-        this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
-          cloudEnabled,
-          isGlacierPresent
-        );
+      Multilink.multilink(
+        [
+          model.sunEnergySource.isShiningProperty,
+          model.cloud.enabledProperty,
+          model.concentrationControlModeProperty,
+          model.dateProperty
+        ],
+        ( isShining, cloudEnabled, concentrationControlMode, date ) => {
 
-        // if the sun isn't shining yet, hide this portion of the content
-        this.sunlightWavesItemNode.pdomVisible = isShining;
-      }
-    );
+          const isGlacierPresent = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                   date === ConcentrationDate.ICE_AGE;
+          this.sunlightWavesItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
+            cloudEnabled,
+            isGlacierPresent
+          );
 
-    model.cloudEnabledProperty.link( cloudEnabled => {
-      this.skyItemNode.innerContent = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
-    } );
+          // if the sun isn't shining yet, hide this portion of the content
+          this.sunlightWavesItemNode.pdomVisible = isShining;
+        }
+      );
+
+      model.cloud.enabledProperty.link( cloudEnabled => {
+        this.skyItemNode.innerContent = ConcentrationDescriber.getSkyCloudDescription( cloudEnabled );
+      } );
+    }
 
     Multilink.multilink(
       [ model.surfaceTemperatureKelvinProperty, model.concentrationProperty ],
