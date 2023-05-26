@@ -33,6 +33,7 @@ import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
 import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -138,12 +139,24 @@ class LayersModel extends GreenhouseEffectModel {
 
     this.surfaceTemperatureCelsiusProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
-      GreenhouseEffectUtils.kelvinToCelsius
+      GreenhouseEffectUtils.kelvinToCelsius,
+      {
+        units: '\u00B0C',
+        tandem: options.tandem.createTandem( 'surfaceTemperatureCelsiusProperty' ),
+        phetioValueType: NumberIO,
+        phetioHighFrequency: true
+      }
     );
 
     this.surfaceTemperatureFahrenheitProperty = new DerivedProperty(
       [ this.surfaceTemperatureKelvinProperty ],
-      GreenhouseEffectUtils.kelvinToFahrenheit
+      GreenhouseEffectUtils.kelvinToFahrenheit,
+      {
+        units: '\u00B0F',
+        tandem: options.tandem.createTandem( 'surfaceTemperatureFahrenheitProperty' ),
+        phetioValueType: NumberIO,
+        phetioHighFrequency: true
+      }
     );
 
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
