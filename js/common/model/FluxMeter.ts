@@ -96,9 +96,9 @@ class FluxMeter extends PhetioObject {
       }
     );
 
-    // {Vector2Property} - The position in model coordinates where the wire connects to the display - the
-    // display for the meter is just a panel set in view coordinates to align with other components, so this should
-    // be set in the view after the meter component has been positioned
+    // {Vector2Property} - The position in model coordinates where the wire connects to the display. The display for the
+    // meter is just a panel set in view coordinates to align with other components, so this should be set in the view
+    // after the meter component has been positioned.
     this.wireMeterAttachmentPositionProperty = new Vector2Property( new Vector2( 0, 0 ), {
       tandem: options.tandem.createTandem( 'wireMeterAttachmentPositionProperty' )
     } );
