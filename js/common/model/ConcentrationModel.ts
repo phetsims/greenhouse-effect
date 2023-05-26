@@ -157,7 +157,8 @@ class ConcentrationModel extends LayersModel {
     );
 
     this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' )
+      tandem: options.tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' ),
+      phetioDocumentation: 'Controls whether the cloud is enabled in the model when manually controlling the concentration.'
     } );
 
     // Create a derived property that determines whether the cloud is enabled in the model.  We do not allow users to
@@ -169,7 +170,8 @@ class ConcentrationModel extends LayersModel {
         concentrationControlMode === ConcentrationControlMode.BY_DATE || cloudEnabledInManualConcentrationMode,
       {
         tandem: options.tandem.createTandem( 'cloudEnabledProperty' ),
-        phetioValueType: BooleanIO
+        phetioValueType: BooleanIO,
+        phetioDocumentation: 'When true, the cloud will reflect some of the incoming sunlight back into space.'
       }
     );
 

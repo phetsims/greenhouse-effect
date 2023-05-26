@@ -148,12 +148,15 @@ class LayersModel extends GreenhouseEffectModel {
 
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
       tandem: options.tandem.createTandem( 'netInflowOfEnergyProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioDocumentation: 'Total energy coming into Earth\'s atmosphere.'
     } );
 
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'inRadiativeBalanceProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioDocumentation: 'Indicates whether the energy coming in from the sun is equal to that being radiated back ' +
+                           'into space by the Earth.'
     } );
 
     this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {

@@ -57,7 +57,8 @@ class LayerModelModel extends LayersModel {
     // this class.
     this.layersInfraredAbsorbanceProperty = new NumberProperty( INITIAL_ABSORPTION_PROPORTION, {
       range: IR_ABSORBANCE_RANGE,
-      tandem: tandem.createTandem( 'layersInfraredAbsorbanceProperty' )
+      tandem: tandem.createTandem( 'layersInfraredAbsorbanceProperty' ),
+      phetioDocumentation: 'The proportion of IR energy that should be absorbed by a layer when passing through it.'
     } );
 
     // Monitor the absorbance setting and update the layers when changes occur.
@@ -76,7 +77,8 @@ class LayerModelModel extends LayersModel {
     this.numberOfActiveAtmosphereLayersProperty = new NumberProperty( numberOfActiveLayers, {
       range: new Range( 0, this.atmosphereLayers.length ),
       tandem: tandem.createTandem( 'numberOfAtmosphereLayersProperty' ),
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioDocumentation: 'The number of modeled layers in the atmosphere that are absorbing some amount of IR energy'
     } );
 
     // Activate and deactivate layers as the desired number changes.  Layers are activated from the bottom up.

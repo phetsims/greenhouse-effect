@@ -113,7 +113,8 @@ class PhotonCollection extends PhetioObject {
     // there are relatively few.  This property is the one that controls which of those to modes this photon collection
     // is in.
     this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'showAllSimulatedPhotonsInViewProperty' )
+      tandem: options.tandem.createTandem( 'showAllSimulatedPhotonsInViewProperty' ),
+      phetioDocumentation: 'Controls whether all the simulated photons should be shown versus a subset of them.'
     } );
 
     // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit

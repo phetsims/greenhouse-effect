@@ -73,9 +73,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.atmosphereLayers.layer9.temperatureProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.model.cloudEnabledProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.model.concentrationControlModeProperty": {
       "phetioFeatured": true
     },

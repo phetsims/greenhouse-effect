@@ -91,7 +91,10 @@ class Cloud extends PhetioObject {
 
     // controls whether the cloud is interacting with light
     this.enabledProperty = enabledProperty;
-    this.addLinkedElement( enabledProperty, { tandem: options.tandem.createTandem( 'enabledProperty' ) } );
+    this.addLinkedElement( enabledProperty, {
+      tandem: options.tandem.createTandem( 'enabledProperty' ),
+      phetioDocumentation: 'When true, this cloud will reflect some of the incoming sunlight back into space.'
+    } );
 
     // elliptical shape that defines the space which the cloud occupies
     this.modelShape = Shape.ellipse( position.x, position.y, width / 2, height / 2, 0 );
