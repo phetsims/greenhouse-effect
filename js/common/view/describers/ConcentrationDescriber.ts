@@ -48,9 +48,9 @@ type ConcentrationDescription = {
 // Maps the date to a relative description of the historical concentration.
 const historicalDescriptionMap = new Map( [
   [ ConcentrationDate.ICE_AGE, historicallyLowStringProperty ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, historicallyModerateStringProperty ],
-  [ ConcentrationDate.NINETEEN_FIFTY, historicallyModerateStringProperty ],
-  [ ConcentrationDate.TWENTY_TWENTY, historicallyHighStringProperty ]
+  [ ConcentrationDate.YEAR_1750, historicallyModerateStringProperty ],
+  [ ConcentrationDate.YEAR_1950, historicallyModerateStringProperty ],
+  [ ConcentrationDate.YEAR_2020, historicallyHighStringProperty ]
 ] );
 
 // Collection of concentration descriptions and their ranges, with fields defining whether the description
@@ -112,12 +112,12 @@ class ConcentrationDescriber {
     let description;
 
     const addedOrRemovedDescriptionProperty = cloudEnabled ?
-                                      GreenhouseEffectStrings.a11y.sky.cloudAddedAlertStringProperty :
-                                      GreenhouseEffectStrings.a11y.sky.cloudRemovedAlertStringProperty;
+                                              GreenhouseEffectStrings.a11y.sky.cloudAddedAlertStringProperty :
+                                              GreenhouseEffectStrings.a11y.sky.cloudRemovedAlertStringProperty;
     if ( isShining ) {
       const receivedOrReflectedDescriptionProperty = cloudEnabled ?
-                                             GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty :
-                                             GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty;
+                                                     GreenhouseEffectStrings.a11y.sky.someSunlightReflectedAlertStringProperty :
+                                                     GreenhouseEffectStrings.a11y.sky.allSunlightReachesSurfaceAlertStringProperty;
 
       description = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sky.cloudAlertPatternStringProperty, {
         addedOrRemoved: addedOrRemovedDescriptionProperty,
@@ -138,8 +138,8 @@ class ConcentrationDescriber {
    */
   public static getTimePeriodString( timePeriodValue: ConcentrationDate ): string {
     return timePeriodValue === ConcentrationDate.ICE_AGE ? iceAgeStringProperty.value :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? seventeenFiftyStringProperty.value :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? nineteenFiftyStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1750 ? seventeenFiftyStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1950 ? nineteenFiftyStringProperty.value :
            twentyTwentyStringProperty.value;
   }
 
@@ -165,8 +165,8 @@ class ConcentrationDescriber {
    */
   public static getTimePeriodWithExistenceFragmentDescription( timePeriodValue: ConcentrationDate ): string {
     return timePeriodValue === ConcentrationDate.ICE_AGE ? thereIsALargeGlacierStringProperty.value :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? thereIsAFarmStringProperty.value :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? thereAreAFewHomesAndFactoriesStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1750 ? thereIsAFarmStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1950 ? thereAreAFewHomesAndFactoriesStringProperty.value :
            thereAreManyHomesAndFactoriesStringProperty.value;
   }
 
@@ -177,8 +177,8 @@ class ConcentrationDescriber {
    */
   public static getTimePeriodDescription( timePeriodValue: ConcentrationDate ): string {
     return timePeriodValue === ConcentrationDate.ICE_AGE ? aLargeGlacierStringProperty.value :
-           timePeriodValue === ConcentrationDate.SEVENTEEN_FIFTY ? aFarmStringProperty.value :
-           timePeriodValue === ConcentrationDate.NINETEEN_FIFTY ? aFewHomesAndFactoriesStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1750 ? aFarmStringProperty.value :
+           timePeriodValue === ConcentrationDate.YEAR_1950 ? aFewHomesAndFactoriesStringProperty.value :
            manyHomesAndFactoriesStringProperty.value;
   }
 

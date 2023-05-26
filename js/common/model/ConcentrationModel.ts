@@ -52,9 +52,9 @@ class ConcentrationControlMode extends EnumerationValue {
 // dates with recorded values of greenhouse concentration
 class ConcentrationDate extends EnumerationValue {
   public static readonly ICE_AGE = new ConcentrationDate();
-  public static readonly SEVENTEEN_FIFTY = new ConcentrationDate();
-  public static readonly NINETEEN_FIFTY = new ConcentrationDate();
-  public static readonly TWENTY_TWENTY = new ConcentrationDate();
+  public static readonly YEAR_1750 = new ConcentrationDate();
+  public static readonly YEAR_1950 = new ConcentrationDate();
+  public static readonly YEAR_2020 = new ConcentrationDate();
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
   public static readonly enumeration = new Enumeration( ConcentrationDate, {
@@ -66,9 +66,9 @@ class ConcentrationDate extends EnumerationValue {
 // reached in the sim match the values specified in the design doc.
 const DATE_TO_CONCENTRATION_MAP = new Map<ConcentrationDate, number>( [
   [ ConcentrationDate.ICE_AGE, 0.625 ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, 0.7147 ],
-  [ ConcentrationDate.NINETEEN_FIFTY, 0.7182 ],
-  [ ConcentrationDate.TWENTY_TWENTY, 0.7446 ]
+  [ ConcentrationDate.YEAR_1750, 0.7147 ],
+  [ ConcentrationDate.YEAR_1950, 0.7182 ],
+  [ ConcentrationDate.YEAR_2020, 0.7446 ]
 ] );
 const CONCENTRATION_RANGE: Range = new Range( 0, 1 );
 
@@ -93,7 +93,7 @@ class ConcentrationModel extends LayersModel {
   public constructor( options: LayersModelOptions ) {
     super( options );
 
-    this.dateProperty = new EnumerationProperty( ConcentrationDate.SEVENTEEN_FIFTY, {
+    this.dateProperty = new EnumerationProperty( ConcentrationDate.YEAR_1750, {
       tandem: options.tandem.createTandem( 'dateProperty' )
     } );
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {

@@ -193,23 +193,23 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       ( concentrationControlMode, date ) => {
         unadornedLandscapeImage.visible = concentrationControlMode === ConcentrationControlMode.BY_VALUE ||
                                           date === ConcentrationDate.ICE_AGE ||
-                                          date === ConcentrationDate.TWENTY_TWENTY;
+                                          date === ConcentrationDate.YEAR_2020;
         iceAgeLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                             date === ConcentrationDate.ICE_AGE;
         iceAgeLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                             date === ConcentrationDate.ICE_AGE;
         agriculturalLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                       date === ConcentrationDate.SEVENTEEN_FIFTY;
+                                                       date === ConcentrationDate.YEAR_1750;
         agriculturalLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                       date === ConcentrationDate.SEVENTEEN_FIFTY;
+                                                       date === ConcentrationDate.YEAR_1750;
         fiftiesLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                  date === ConcentrationDate.NINETEEN_FIFTY;
+                                                  date === ConcentrationDate.YEAR_1950;
         fiftiesLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                  date === ConcentrationDate.NINETEEN_FIFTY;
+                                                  date === ConcentrationDate.YEAR_1950;
         denseCityLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                    date === ConcentrationDate.TWENTY_TWENTY;
+                                                    date === ConcentrationDate.YEAR_2020;
         denseCityLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                                    date === ConcentrationDate.TWENTY_TWENTY;
+                                                    date === ConcentrationDate.YEAR_2020;
       }
     );
 

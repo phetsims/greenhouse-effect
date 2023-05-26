@@ -205,19 +205,19 @@ class DateControl extends HBox {
     const items = [
       {
         createNode: () => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
-        value: ConcentrationDate.TWENTY_TWENTY,
+        value: ConcentrationDate.YEAR_2020,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         createNode: () => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
-        value: ConcentrationDate.NINETEEN_FIFTY,
+        value: ConcentrationDate.YEAR_1950,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         createNode: () => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
-        value: ConcentrationDate.SEVENTEEN_FIFTY,
+        value: ConcentrationDate.YEAR_1750,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty,
         tandemName: 'seventeenFiftyRadioButton'
       },
@@ -503,9 +503,9 @@ class GreenhouseGasConcentrationData {
 
 // Map the dates to greenhouse gas concentration data.  The values came from the design document.
 const GREENHOUSE_GAS_CONCENTRATIONS = new Map( [
-  [ ConcentrationDate.TWENTY_TWENTY, new GreenhouseGasConcentrationData( 70, 413, 1889, 333 ) ],
-  [ ConcentrationDate.NINETEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 311, 1116, 288 ) ],
-  [ ConcentrationDate.SEVENTEEN_FIFTY, new GreenhouseGasConcentrationData( 70, 277, 694, 271 ) ],
+  [ ConcentrationDate.YEAR_2020, new GreenhouseGasConcentrationData( 70, 413, 1889, 333 ) ],
+  [ ConcentrationDate.YEAR_1950, new GreenhouseGasConcentrationData( 70, 311, 1116, 288 ) ],
+  [ ConcentrationDate.YEAR_1750, new GreenhouseGasConcentrationData( 70, 277, 694, 271 ) ],
   [ ConcentrationDate.ICE_AGE, new GreenhouseGasConcentrationData( null, 180, 380, 215 ) ]
 ] );
 
