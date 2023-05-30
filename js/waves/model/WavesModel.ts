@@ -466,16 +466,15 @@ class WavesModel extends ConcentrationModel {
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
   public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
-      valueType: WavesModel,
-      supertype: LayersModel.LayersModelIO,
-      stateSchema: {
-        sunWaveSource: EMWaveSource.EMWaveSourceIO,
-        groundWaveSource: EMWaveSource.EMWaveSourceIO,
-        cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
-        glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
-      }
+    valueType: WavesModel,
+    supertype: LayersModel.LayersModelIO,
+    stateSchema: {
+      sunWaveSource: EMWaveSource.EMWaveSourceIO,
+      groundWaveSource: EMWaveSource.EMWaveSourceIO,
+      cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
+      glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
     }
-  );
+  } );
 
   // other static values
   public static readonly REAL_TO_RENDERING_WAVELENGTH_MAP = REAL_TO_RENDERING_WAVELENGTH_MAP;

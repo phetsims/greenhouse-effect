@@ -32,17 +32,17 @@ type SelfOptions = {
   // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
 };
-export type InstrumentVisibilityControlsOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
+export type InstrumentVisibilityPanelOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
 
-class InstrumentVisibilityControls extends Panel {
+class InstrumentVisibilityPanel extends Panel {
 
   /**
    * @param model
    * @param [providedOptions]
    */
-  public constructor( model: LayersModel, providedOptions?: InstrumentVisibilityControlsOptions ) {
+  public constructor( model: LayersModel, providedOptions?: InstrumentVisibilityPanelOptions ) {
 
-    const options = optionize<InstrumentVisibilityControlsOptions, SelfOptions, PanelOptions>()( {
+    const options = optionize<InstrumentVisibilityPanelOptions, SelfOptions, PanelOptions>()( {
 
       // SelfOptions
       verticalCheckboxGroupOptions: {},
@@ -126,6 +126,6 @@ class InstrumentVisibilityControls extends Panel {
   }
 }
 
-greenhouseEffect.register( 'InstrumentVisibilityControls', InstrumentVisibilityControls );
+greenhouseEffect.register( 'InstrumentVisibilityPanel', InstrumentVisibilityPanel );
 
-export default InstrumentVisibilityControls;
+export default InstrumentVisibilityPanel;

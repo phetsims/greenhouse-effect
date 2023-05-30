@@ -124,13 +124,13 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.waveGroup.countProperty": {
       "phetioFeatured": false
     },
-    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.concentrationSlider.slider.visibleProperty": {
+    "greenhouseEffect.wavesScreen.view.greenhouseGasConcentrationPanel.concentrationSlider.slider.visibleProperty": {
       "phetioFeatured": false
     },
-    "greenhouseEffect.wavesScreen.view.concentrationControlPanel.visibleProperty": {
+    "greenhouseEffect.wavesScreen.view.greenhouseGasConcentrationPanel.visibleProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityControls.visibleProperty": {
+    "greenhouseEffect.wavesScreen.view.observationWindow.instrumentVisibilityPanel.visibleProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.view.observationWindow.wavesCanvasNode.visibleProperty": {

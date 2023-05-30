@@ -13,7 +13,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
-import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
+import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
@@ -95,19 +95,19 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );
 
-    const concentrationControls = new ConcentrationControlPanel(
+    const greenhouseGasConcentrationPanel = new GreenhouseGasConcentrationPanel(
       this.energyLegend.width,
       model,
       radiationDescriber,
       {
 
         // phet-io
-        tandem: tandem.createTandem( 'concentrationControlPanel' )
+        tandem: tandem.createTandem( 'greenhouseGasConcentrationPanel' )
       }
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
-    this.legendAndControlsVBox.addChild( concentrationControls );
+    this.legendAndControlsVBox.addChild( greenhouseGasConcentrationPanel );
 
     // cloud checkbox
     cloudCheckbox.leftBottom = this.observationWindow.rightBottom.plusXY(
@@ -125,7 +125,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     visibilityBox.left = this.observationWindow.left + 5;
     visibilityBox.centerY = this.timeControlNode.centerY;
 
-    concentrationControls.leftTop = this.energyLegend.leftBottom.plusXY(
+    greenhouseGasConcentrationPanel.leftTop = this.energyLegend.leftBottom.plusXY(
       0,
       GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN
     );
@@ -143,9 +143,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
-      concentrationControls,
+      greenhouseGasConcentrationPanel,
       observationWindow.surfaceThermometer,
-      observationWindow.instrumentVisibilityControls,
+      observationWindow.instrumentVisibilityPanel,
       cloudCheckbox
     ];
     this.pdomControlAreaNode.pdomOrder = [

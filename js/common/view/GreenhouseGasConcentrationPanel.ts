@@ -84,9 +84,9 @@ type SelfOptions = {
   // date.
   includeCompositionData?: boolean;
 };
-type ConcentrationControlPanelOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
+type GreenhouseGasConcentrationPanelOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
 
-class ConcentrationControlPanel extends Panel {
+class GreenhouseGasConcentrationPanel extends Panel {
 
   /**
    * @param width - overall width of the panel
@@ -97,9 +97,9 @@ class ConcentrationControlPanel extends Panel {
   public constructor( width: number,
                       concentrationModel: ConcentrationModel,
                       radiationDescriber: RadiationDescriber,
-                      providedOptions?: ConcentrationControlPanelOptions ) {
+                      providedOptions?: GreenhouseGasConcentrationPanelOptions ) {
 
-    const options = optionize<ConcentrationControlPanelOptions, SelfOptions, PanelOptions>()( {
+    const options = optionize<GreenhouseGasConcentrationPanelOptions, SelfOptions, PanelOptions>()( {
 
       minWidth: width,
       maxWidth: width,
@@ -117,8 +117,7 @@ class ConcentrationControlPanel extends Panel {
     // title for the whole panel
     const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentrationStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
-      maxWidth: width - PANEL_MARGINS * 2,
-      tandem: options.tandem.createTandem( 'titleText' )
+      maxWidth: width - PANEL_MARGINS * 2
     } );
 
     // controls the concentration directly by value
@@ -575,5 +574,5 @@ class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<C
   }
 }
 
-greenhouseEffect.register( 'ConcentrationControlPanel', ConcentrationControlPanel );
-export default ConcentrationControlPanel;
+greenhouseEffect.register( 'GreenhouseGasConcentrationPanel', GreenhouseGasConcentrationPanel );
+export default GreenhouseGasConcentrationPanel;

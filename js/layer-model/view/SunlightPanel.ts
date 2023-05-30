@@ -45,7 +45,7 @@ const COMMON_SLIDER_OPTIONS: SliderOptions = {
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
 const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
-class SunAndReflectionControl extends Panel {
+class SunlightPanel extends Panel {
 
   public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
 
@@ -70,8 +70,7 @@ class SunAndReflectionControl extends Panel {
     // Title text for the panel.
     const titleText = new Text( GreenhouseEffectStrings.sunlightStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
-      maxWidth: width - PANEL_MARGIN * 2,
-      tandem: options.tandem.createTandem( 'titleText' )
+      maxWidth: width - PANEL_MARGIN * 2
     } );
 
     // convenience variable
@@ -207,5 +206,5 @@ class SunAndReflectionControl extends Panel {
   }
 }
 
-greenhouseEffect.register( 'SunAndReflectionControl', SunAndReflectionControl );
-export default SunAndReflectionControl;
+greenhouseEffect.register( 'SunlightPanel', SunlightPanel );
+export default SunlightPanel;

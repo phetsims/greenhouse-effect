@@ -36,7 +36,7 @@ const TICK_MARK_TEXT_OPTIONS = {
 const PANEL_MARGIN = 5;
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
-class LayersControl extends Panel {
+class InfraredPanel extends Panel {
 
   public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
 
@@ -61,8 +61,7 @@ class LayersControl extends Panel {
     // title text for the panel
     const titleText = new Text( GreenhouseEffectStrings.infraredStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
-      maxWidth: width - PANEL_MARGIN * 2,
-      tandem: options.tandem.createTandem( 'titleText' )
+      maxWidth: width - PANEL_MARGIN * 2
     } );
 
     // convenience variable
@@ -188,5 +187,5 @@ class LayersControl extends Panel {
   }
 }
 
-greenhouseEffect.register( 'LayersControl', LayersControl );
-export default LayersControl;
+greenhouseEffect.register( 'InfraredPanel', InfraredPanel );
+export default InfraredPanel;

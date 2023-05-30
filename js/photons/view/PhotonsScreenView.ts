@@ -11,7 +11,7 @@ import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
-import ConcentrationControlPanel from '../../common/view/ConcentrationControlPanel.js';
+import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
@@ -60,19 +60,19 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );
 
-    const concentrationControlPanel = new ConcentrationControlPanel(
+    const greenhouseGasConcentrationPanel = new GreenhouseGasConcentrationPanel(
       this.energyLegend.width,
       model,
       radiationDescriber, {
         includeCompositionData: true,
 
         // phet-io
-        tandem: tandem.createTandem( 'concentrationControlPanel' )
+        tandem: tandem.createTandem( 'greenhouseGasConcentrationPanel' )
       }
     );
 
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
-    this.legendAndControlsVBox.addChild( concentrationControlPanel );
+    this.legendAndControlsVBox.addChild( greenhouseGasConcentrationPanel );
 
     // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
     const cloudCheckbox = new CloudCheckbox(
@@ -103,15 +103,15 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     );
     this.addChild( cloudCheckbox );
 
-    concentrationControlPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
+    greenhouseGasConcentrationPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
-      concentrationControlPanel,
+      greenhouseGasConcentrationPanel,
       observationWindow.surfaceThermometer,
-      observationWindow.instrumentVisibilityControls,
+      observationWindow.instrumentVisibilityPanel,
       observationWindow.fluxMeterNode,
       cloudCheckbox
     ];

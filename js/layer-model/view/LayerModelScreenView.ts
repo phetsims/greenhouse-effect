@@ -13,8 +13,8 @@ import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControl
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import LayersControl from './LayersControl.js';
-import SunAndReflectionControl from './SunAndReflectionControl.js';
+import InfraredPanel from './InfraredPanel.js';
+import SunlightPanel from './SunlightPanel.js';
 import TemperatureUnitsSelector from './TemperatureUnitsSelector.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
@@ -58,28 +58,28 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     morePhotonsCheckbox.top = temperatureUnitsSelector.bottom + 12;
 
     // controls on the side
-    const sunAndReflectionControl = new SunAndReflectionControl(
+    const sunlightPanel = new SunlightPanel(
       this.energyLegend.width,
       model,
-      tandem.createTandem( 'sunAndReflectionControl' )
+      tandem.createTandem( 'sunlightPanel' )
     );
-    this.legendAndControlsVBox.addChild( sunAndReflectionControl );
+    this.legendAndControlsVBox.addChild( sunlightPanel );
 
-    const layersControl = new LayersControl(
+    const infraredPanel = new InfraredPanel(
       this.energyLegend.width,
       model,
-      tandem.createTandem( 'layersControl' )
+      tandem.createTandem( 'infraredPanel' )
     );
-    this.legendAndControlsVBox.addChild( layersControl );
+    this.legendAndControlsVBox.addChild( infraredPanel );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
-      sunAndReflectionControl,
-      layersControl,
+      sunlightPanel,
+      infraredPanel,
       observationWindow.showThermometerCheckbox,
       ...observationWindow.atmosphereLayerNodes,
-      observationWindow.instrumentVisibilityControls,
+      observationWindow.instrumentVisibilityPanel,
       observationWindow.fluxMeterNode
     ];
     this.pdomControlAreaNode.pdomOrder = [

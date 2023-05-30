@@ -30,7 +30,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
-import InstrumentVisibilityControls from './InstrumentVisibilityControls.js';
+import InstrumentVisibilityPanel from './InstrumentVisibilityPanel.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -66,7 +66,7 @@ class GreenhouseEffectObservationWindow extends Node {
   protected readonly energyBalancePanel: EnergyBalancePanel;
 
   // Observation window UI component visibility controls, public for pdomOrder.
-  public readonly instrumentVisibilityControls: InstrumentVisibilityControls;
+  public readonly instrumentVisibilityPanel: InstrumentVisibilityPanel;
 
   public constructor( model: LayersModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
@@ -166,13 +166,13 @@ class GreenhouseEffectObservationWindow extends Node {
     );
 
     // controls for the energy balance indicator and the flux meter, if used in this model
-    this.instrumentVisibilityControls = new InstrumentVisibilityControls( model, {
+    this.instrumentVisibilityPanel = new InstrumentVisibilityPanel( model, {
       includeFluxMeterCheckbox: model.fluxMeter !== null,
-      tandem: options.tandem.createTandem( 'instrumentVisibilityControls' )
+      tandem: options.tandem.createTandem( 'instrumentVisibilityPanel' )
     } );
 
     this.controlsLayer.addChild( this.energyBalancePanel );
-    this.controlsLayer.addChild( new AlignBox( this.instrumentVisibilityControls, {
+    this.controlsLayer.addChild( new AlignBox( this.instrumentVisibilityPanel, {
       alignBounds: this.windowFrame.bounds,
       margin: GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       xAlign: 'right',
