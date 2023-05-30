@@ -460,14 +460,6 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * for phet-io
-   */
-  public override applyState( stateObject: WavesModelStateObject ): void {
-    WavesModel.WavesModelIO.stateSchema.defaultApplyState( this, stateObject );
-    super.applyState( stateObject );
-  }
-
-  /**
    * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
    * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
    * serialization', as described in the Serialization section of
@@ -476,9 +468,6 @@ class WavesModel extends ConcentrationModel {
   public static readonly WavesModelIO = new IOType( 'WavesModelIO', {
       valueType: WavesModel,
       supertype: LayersModel.LayersModelIO,
-
-      // TODO: Because we need the same reference of the emEnergyPackets Array. https://github.com/phetsims/tandem/issues/295
-      applyState: ( wavesModel: WavesModel, stateObject: WavesModelStateObject ) => wavesModel.applyState( stateObject ),
       stateSchema: {
         sunWaveSource: EMWaveSource.EMWaveSourceIO,
         groundWaveSource: EMWaveSource.EMWaveSourceIO,

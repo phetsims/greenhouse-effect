@@ -16,7 +16,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -34,6 +33,7 @@ import TemperatureUnits from './TemperatureUnits.js';
 import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -330,19 +330,6 @@ class LayersModel extends GreenhouseEffectModel {
     }
   }
 
-  /**
-   * for phet-io
-   */
-  public applyState( stateObject: LayersModelStateObject ): void {
-
-    // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
-    // copy in the contents of the state object.
-    this.emEnergyPackets.length = 0;
-    this.emEnergyPackets.push(
-      ...ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets )
-    );
-  }
-
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
   public static readonly SUNLIGHT_SPAN = SUNLIGHT_SPAN;
@@ -357,10 +344,11 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly LayersModelIO: IOType = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
     valueType: LayersModel,
     stateSchema: {
-      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
-    },
-    // TODO: Because we need the same reference of the emEnergyPackets Array. https://github.com/phetsims/tandem/issues/295
-    applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
+
+      // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead of ArrayIO,
+      // ReferenceArraryIO will clear it, then copy in the contents of the state object.
+      emEnergyPackets: ReferenceArrayIO( EMEnergyPacket.EMEnergyPacketIO )
+    }
   } );
 }
 
