@@ -465,7 +465,7 @@ class WavesModel extends ConcentrationModel {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static readonly WavesModelIO = new IOType( 'WavesModelIO', {
+  public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
       valueType: WavesModel,
       supertype: LayersModel.LayersModelIO,
       stateSchema: {
