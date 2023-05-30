@@ -346,7 +346,7 @@ class LayersModel extends GreenhouseEffectModel {
     stateSchema: {
 
       // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead of ArrayIO,
-      // ReferenceArraryIO will clear it, then copy in the contents of the state object.
+      // ReferenceArrayIO will clear it, then copy in the contents of the state object.
       emEnergyPackets: ReferenceArrayIO( EMEnergyPacket.EMEnergyPacketIO )
     }
   } );
