@@ -47,13 +47,12 @@ class GreenhouseEffectCheckbox extends Checkbox {
       accessibleName: labelStringProperty
     }, providedOptions );
 
-    const labelText = new Text( labelStringProperty, {
+    const text = new Text( labelStringProperty, {
       font: LABEL_FONT,
-      maxWidth: options.maxLabelTextWidth,
-      tandem: options.tandem.createTandem( 'labelText' )
+      maxWidth: options.maxLabelTextWidth
     } );
 
-    const contentChildren = options.iconNode ? [ labelText, options.iconNode ] : [ labelText ];
+    const contentChildren = options.iconNode ? [ text, options.iconNode ] : [ text ];
     const checkboxContent = new HBox( {
       children: contentChildren,
       spacing: LABEL_ICON_SPACING

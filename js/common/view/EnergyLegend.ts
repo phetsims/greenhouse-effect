@@ -11,7 +11,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { GridBox, Image, Path, PathOptions, Text, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import { GridBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
@@ -87,13 +87,13 @@ class EnergyLegend extends Panel {
     };
 
     // labels
-    const sunlightLabelText = new Text(
+    const sunlightText = new Text(
       GreenhouseEffectStrings.sunlightStringProperty,
-      combineOptions<TextOptions>( {}, labelOptions, { tandem: options.tandem.createTandem( 'sunlightLabelText' ) } )
+      labelOptions
     );
-    const infraredLabelText = new Text(
+    const infraredText = new Text(
       GreenhouseEffectStrings.infraredStringProperty,
-      combineOptions<TextOptions>( {}, labelOptions, { tandem: options.tandem.createTandem( 'infraredLabelText' ) } )
+      labelOptions
     );
 
     // create the icons
@@ -121,16 +121,16 @@ class EnergyLegend extends Panel {
     // Calculate the vertical spacing for the grid box in a way that will keep it consistent between the wave and photon
     // representations.
     const gridBoxYSpacing = TOTAL_LEGEND_AREA_HEIGHT -
-                            Math.max( sunlightLabelText.height, sunlightIcon.height ) -
-                            Math.max( infraredLabelText.height, infraredIcon.height );
+                            Math.max( sunlightText.height, sunlightIcon.height ) -
+                            Math.max( infraredText.height, infraredIcon.height );
 
     assert && assert( gridBoxYSpacing >= 0, 'insufficient space for legend area' );
 
     // Create a grid box to align the labels and the icons that represent the different light wavelengths.
     const gridBox = new GridBox( {
       rows: [
-        [ sunlightLabelText, sunlightIcon ],
-        [ infraredLabelText, infraredIcon ]
+        [ sunlightText, sunlightIcon ],
+        [ infraredText, infraredIcon ]
       ],
       xSpacing: 8,
       ySpacing: gridBoxYSpacing,

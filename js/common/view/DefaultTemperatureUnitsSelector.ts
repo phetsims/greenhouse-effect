@@ -44,9 +44,8 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
 
     super( options );
 
-    const labelText = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
-      font: PreferencesDialog.CONTENT_FONT,
-      tandem: options.tandem.createTandem( 'labelText' )
+    const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
+      font: PreferencesDialog.CONTENT_FONT
     } );
 
     const radioButtonGroup = new VerticalAquaRadioButtonGroup(
@@ -74,14 +73,14 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
       { tandem: options.tandem.createTandem( 'radioButtonGroup' ) }
     );
 
-    this.children = [ labelText, radioButtonGroup ];
+    this.children = [ text, radioButtonGroup ];
 
     this.addLinkedElement( defaultTemperatureUnitsProperty, {
       tandem: options.tandem.createTandem( defaultTemperatureUnitsProperty.tandem.name )
     } );
 
     this.disposeDefaultTemperatureUnitsSelector = (): void => {
-      labelText.dispose();
+      text.dispose();
       radioButtonGroup.dispose();
     };
   }
@@ -105,10 +104,9 @@ const createItem = ( value: TemperatureUnits,
                      itemTandemName: string ): AquaRadioButtonGroupItem<TemperatureUnits> => {
   return {
     value: value,
-    createNode: tandem => new Text( labelStringProperty, {
+    createNode: () => new Text( labelStringProperty, {
       font: PreferencesDialog.CONTENT_FONT,
-      maxWidth: 500,
-      tandem: tandem.createTandem( 'labelText' )
+      maxWidth: 500
     } ),
     tandemName: itemTandemName
   };
