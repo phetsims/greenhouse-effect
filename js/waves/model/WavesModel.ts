@@ -462,25 +462,8 @@ class WavesModel extends ConcentrationModel {
   /**
    * for phet-io
    */
-  public override toStateObject(): WavesModelStateObject {
-    return combineOptions<WavesModelStateObject>( super.toStateObject(), {
-      sunWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.sunWaveSource ),
-      groundWaveSource: EMWaveSource.EMWaveSourceIO.toStateObject( this.groundWaveSource ),
-      cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.cloudReflectedWavesMap ),
-      glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).toStateObject( this.glacierReflectedWavesMap )
-    } );
-  }
-
-  /**
-   * for phet-io
-   */
   public override applyState( stateObject: WavesModelStateObject ): void {
-    this.sunWaveSource.applyState( stateObject.sunWaveSource );
-    this.groundWaveSource.applyState( stateObject.groundWaveSource );
-    this.cloudReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.cloudReflectedWavesMap
-    );
-    this.glacierReflectedWavesMap = MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ).fromStateObject( stateObject.glacierReflectedWavesMap
-    );
+    WavesModel.WavesModelIO.stateSchema.defaultApplyState( this, stateObject );
     super.applyState( stateObject );
   }
 
@@ -492,14 +475,15 @@ class WavesModel extends ConcentrationModel {
    */
   public static readonly WavesModelIO = new IOType( 'WavesModelIO', {
       valueType: WavesModel,
-      toStateObject: ( wavesModel: WavesModel ) => wavesModel.toStateObject(),
+      supertype: LayersModel.LayersModelIO,
+
+      // TODO: Because we need the same reference of the emEnergyPackets Array. https://github.com/phetsims/tandem/issues/295
       applyState: ( wavesModel: WavesModel, stateObject: WavesModelStateObject ) => wavesModel.applyState( stateObject ),
       stateSchema: {
         sunWaveSource: EMWaveSource.EMWaveSourceIO,
         groundWaveSource: EMWaveSource.EMWaveSourceIO,
         cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
-        glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
-        ...LayersModel.STATE_SCHEMA
+        glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
       }
     }
   );

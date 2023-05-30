@@ -284,7 +284,8 @@ class EMWaveSource extends PhetioObject {
     },
     applyState: ( emWaveSource: EMWaveSource, stateObject: EMWaveSourceStateObject ) => emWaveSource.applyState( stateObject
     ),
-    toStateObject: ( emWaveSource: EMWaveSource ) => emWaveSource.toStateObject()
+    toStateObject: ( emWaveSource: EMWaveSource ) => emWaveSource.toStateObject(),
+    defaultDeserializationMethod: 'applyState'
   } );
 }
 

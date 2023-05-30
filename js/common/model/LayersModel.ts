@@ -333,15 +333,6 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * for phet-io
    */
-  public toStateObject(): LayersModelStateObject {
-    return {
-      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).toStateObject( this.emEnergyPackets )
-    };
-  }
-
-  /**
-   * for phet-io
-   */
   public applyState( stateObject: LayersModelStateObject ): void {
 
     // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead, clear it, then
@@ -351,15 +342,6 @@ class LayersModel extends GreenhouseEffectModel {
       ...ArrayIO( EMEnergyPacket.EMEnergyPacketIO ).fromStateObject( stateObject.emEnergyPackets )
     );
   }
-
-  /**
-   * Returns a map of state keys and their associated IOTypes, see IOType for details.
-   */
-  public static readonly STATE_SCHEMA: Record<string, IOType> = {
-
-    // TODO: inline this into the IOType, see https://github.com/phetsims/greenhouse-effect/issues/274.
-    emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
-  };
 
   // statics
   public static readonly HEIGHT_OF_ATMOSPHERE = HEIGHT_OF_ATMOSPHERE;
@@ -372,12 +354,12 @@ class LayersModel extends GreenhouseEffectModel {
    * serialization', as described in the Serialization section of
    * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
-  public static readonly LayersModelIO: IOType = new IOType( 'LayersModelIO', {
+  public static readonly LayersModelIO: IOType = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
     valueType: LayersModel,
-    stateSchema: LayersModel.STATE_SCHEMA,
-    // TODO: MK thinks I can get rid of the following two properties because they should be automatically handled, see
-    //       https://github.com/phetsims/greenhouse-effect/issues/274.
-    toStateObject: ( layersModel: LayersModel ) => layersModel.toStateObject(),
+    stateSchema: {
+      emEnergyPackets: ArrayIO( EMEnergyPacket.EMEnergyPacketIO )
+    },
+    // TODO: Because we need the same reference of the emEnergyPackets Array. https://github.com/phetsims/tandem/issues/295
     applyState: ( layersModel: LayersModel, stateObject: LayersModelStateObject ) => layersModel.applyState( stateObject )
   } );
 }
