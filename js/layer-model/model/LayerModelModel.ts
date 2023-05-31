@@ -1,6 +1,14 @@
 // Copyright 2020-2023, University of Colorado Boulder
 
 /**
+ * Yes, it's kind of a ridiculous name, but there was already a base class called "LayersModel", and we wanted to stick
+ * to the pattern of <ScreenName>Model (e.g. WavesModel), so yeah, it's called LayerModelModel.  Get over it.
+ *
+ * This is the main model class for the "Layer Model" screen and, as such, implements the behavior where sunlight
+ * comes from the sky, is absorbed by the ground, re-radiated as infrared energy, which is then partially absorbed by
+ * the atmosphere.  The atmosphere is modeled as a set of layers that behave much like glass (transparent to visible
+ * light but absorb IR).
+ *
  * @author John Blanco
  */
 
