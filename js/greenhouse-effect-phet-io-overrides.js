@@ -124,9 +124,6 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.waveGroup.countProperty": {
       "phetioFeatured": false
     },
-    "greenhouseEffect.wavesScreen.view.greenhouseGasConcentrationPanel.concentrationSlider.slider.visibleProperty": {
-      "phetioFeatured": false
-    },
     "greenhouseEffect.wavesScreen.view.greenhouseGasConcentrationPanel.visibleProperty": {
       "phetioFeatured": true
     },

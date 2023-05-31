@@ -121,10 +121,10 @@ class GreenhouseGasConcentrationPanel extends Panel {
     } );
 
     // controls the concentration directly by value
-    const concentrationSlider = new ConcentrationSlider(
+    const concentrationControl = new ConcentrationControl(
       concentrationModel,
       radiationDescriber,
-      options.tandem.createTandem( 'concentrationSlider' )
+      options.tandem.createTandem( 'concentrationControl' )
     );
 
     // controls to select greenhouse gas concentration by date, and a meter displaying relative concentration
@@ -143,8 +143,8 @@ class GreenhouseGasConcentrationPanel extends Panel {
 
     // Put the two concentration controls into a single node where only one is visible at a time.
     const concentrationControlsParentNode = new FlowBox( {
-      children: [ concentrationSlider, dateControl ],
-      minContentHeight: Math.max( concentrationSlider.height, dateControl.height )
+      children: [ concentrationControl, dateControl ],
+      minContentHeight: Math.max( concentrationControl.height, dateControl.height )
     } );
 
     const contentChildren = [ titleText, concentrationControlsParentNode, controlRadioButtonGroup ];
@@ -164,9 +164,9 @@ class GreenhouseGasConcentrationPanel extends Panel {
     super( content, options );
 
     // Only one form of controls is visible at a time.
-    concentrationModel.concentrationControlModeProperty.link( concentrationControl => {
-      concentrationSlider.visible = ConcentrationControlMode.BY_VALUE === concentrationControl;
-      dateControl.visible = ConcentrationControlMode.BY_DATE === concentrationControl;
+    concentrationModel.concentrationControlModeProperty.link( concentrationControlMode => {
+      concentrationControl.visible = ConcentrationControlMode.BY_VALUE === concentrationControlMode;
+      dateControl.visible = ConcentrationControlMode.BY_DATE === concentrationControlMode;
 
       if ( compositionDataNode ) {
         compositionDataNode.visible = dateControl.visible;
@@ -356,9 +356,9 @@ class DateControl extends HBox {
 }
 
 /**
- * Inner class representing a labeled VSlider that directly controls greenhouse gas concentration.
+ * Inner class representing a labeled vertical slider that directly controls greenhouse gas concentration.
  */
-class ConcentrationSlider extends VBox {
+class ConcentrationControl extends VBox {
   public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
 
     const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range;
@@ -390,7 +390,8 @@ class ConcentrationSlider extends VBox {
       },
 
       // phet-io
-      tandem: tandem.createTandem( 'slider' )
+      tandem: tandem.createTandem( 'slider' ),
+      phetioVisiblePropertyInstrumented: false
     } );
     slider.scale( -1, 1 );
 
