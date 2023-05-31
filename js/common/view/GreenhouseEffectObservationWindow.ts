@@ -34,6 +34,7 @@ import InstrumentVisibilityPanel from './InstrumentVisibilityPanel.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates
@@ -255,7 +256,7 @@ class GreenhouseEffectObservationWindow extends Node {
         assert && assert( fadeToDayAnimation === null, 'there shouldn\'t be an in-progress animation when starting' );
 
         // If phet-io is setting state, skip the fade in.
-        if ( phet.joist.sim.isSettingPhetioStateProperty.value ) {
+        if ( isSettingPhetioStateProperty.value ) {
           darknessNode.visible = false;
         }
         else {

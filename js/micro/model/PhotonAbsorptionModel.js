@@ -25,6 +25,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
@@ -203,7 +204,7 @@ class PhotonAbsorptionModel extends PhetioObject {
   resetPhotons() {
 
     // If setting state, the state engine will do this step.
-    if ( !phet.joist.sim.isSettingPhetioStateProperty.value ) {
+    if ( !isSettingPhetioStateProperty.value ) {
       this.photonGroup.clear();
     }
   }
