@@ -35,7 +35,10 @@ const CLOUD_WIDTH = 18000; // in meters, empirically determined to look good
 // on it reduces the amount of light reaching the ground, so the calculation is more complex than that.  The following
 // calculation assumes that the ground with no clouds reflects 20% of incident light.
 const CLOUD_VISIBLE_REFLECTIVITY = 0.125 * LayersModel.SUNLIGHT_SPAN.width / CLOUD_WIDTH;
-assert && assert( CLOUD_VISIBLE_REFLECTIVITY <= 1, `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}` );
+assert && assert(
+  CLOUD_VISIBLE_REFLECTIVITY <= 1,
+  `invalid reflectivity value for cloud: ${CLOUD_VISIBLE_REFLECTIVITY}`
+);
 
 // An enumeration for how concentration can be controlled, either by direct value or by selecting a value for Earth's
 // concentration at a particular date.
@@ -58,7 +61,7 @@ class ConcentrationDate extends EnumerationValue {
 
   // Gets a list of keys, values and mapping between them.  For use in EnumerationProperty and PhET-iO
   public static readonly enumeration = new Enumeration( ConcentrationDate, {
-    phetioDocumentation: 'Various time periods or years that can be used to define what greenhouse concentration value is ued.'
+    phetioDocumentation: 'Various time periods or years that can be chosen to set a value for greenhouse gas concentrations'
   } );
 }
 
