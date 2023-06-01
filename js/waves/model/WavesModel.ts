@@ -22,10 +22,10 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import ConcentrationModel from '../../common/model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
-import LayersModel, { LayersModelStateObject } from '../../common/model/LayersModel.js';
+import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource, { EMWaveSourceStateObject } from './EMWaveSource.js';
 import GroundWaveSource from './GroundWaveSource.js';
@@ -442,8 +442,6 @@ class WavesModel extends ConcentrationModel {
     }
   }
 
-  /**
-   */
   public override reset(): void {
     const numberOfWavesBeforeReset = this.waveGroup.count;
     super.reset();
@@ -467,7 +465,7 @@ class WavesModel extends ConcentrationModel {
    */
   public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
     valueType: WavesModel,
-    supertype: LayersModel.LayersModelIO,
+    supertype: ConcentrationModel.ConcentrationModelIO,
     stateSchema: {
       sunWaveSource: EMWaveSource.EMWaveSourceIO,
       groundWaveSource: EMWaveSource.EMWaveSourceIO,
@@ -486,7 +484,7 @@ type WavesModelStateObject = {
   groundWaveSource: EMWaveSourceStateObject;
   cloudReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
   glacierReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
-} & LayersModelStateObject;
+} & ConcentrationModelStateObject;
 
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the

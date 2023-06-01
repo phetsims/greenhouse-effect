@@ -24,7 +24,10 @@ class WaveIntensityChange {
   // the distance from the start of the wave where this intensity change exists
   public distanceFromStart: number;
 
-  // model object to which this change is "anchored", null indicates it is not anchored and thus should move with the wave
+  // Model object to which this change is "anchored", meaning that the model object is currently causing the change,
+  // so the change should occur at the same position as the object.  There are a number of things that can cause
+  // intensity changes, such as clouds and layers in the atmosphere, hence the vague typing.  A value of `null`
+  // indicates that the intensity change isn't anchored to anything, which means that it should propagate with the wave.
   public anchoredTo: null | PhetioObject;
 
   /**
@@ -42,7 +45,9 @@ class WaveIntensityChange {
    * Print out the state as a string, useful for debugging.
    */
   public toString(): string {
-    return `{ postChangeIntensity: ${this.postChangeIntensity}, distanceFromStart: ${this.distanceFromStart}, anchoredTo: ${this.anchoredTo ? 'something' : 'nothing'}`;
+    return `{ postChangeIntensity: ${this.postChangeIntensity}, ` +
+           `distanceFromStart: ${this.distanceFromStart}, ` +
+           `anchoredTo: ${this.anchoredTo ? 'something' : 'nothing'}`;
   }
 
   // phet-io
@@ -55,7 +60,8 @@ class WaveIntensityChange {
     },
     fromStateObject: ( stateObject: WaveIntensityChangeStateObject ) => new WaveIntensityChange(
       stateObject.postChangeIntensity,
-      stateObject.distanceFromStart
+      stateObject.distanceFromStart,
+      NullableIO( ReferenceIO( IOType.ObjectIO ) ).fromStateObject( stateObject.anchoredTo )
     )
   } );
 }

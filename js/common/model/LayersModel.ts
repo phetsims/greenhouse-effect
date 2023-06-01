@@ -124,7 +124,6 @@ class LayersModel extends GreenhouseEffectModel {
       atmosphereLayersInitiallyActive: true,
       fluxMeterPresent: false,
       fluxMeterOptions: {}
-      // phetioType: LayersModel.LayersModelIO TODO: add this, see https://github.com/phetsims/greenhouse-effect/issues/274
     }, providedOptions );
 
     super( options );
@@ -336,17 +335,14 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**
-   * LayersModelIO handles PhET-iO serialization of the LayersModel. Because serialization involves accessing private
-   * members, it delegates to LayersModel. The methods that LayersModelIO overrides are typical of 'Dynamic element
-   * serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   * LayersModelIO handles PhET-iO serialization of the LayersModel.
    */
   public static readonly LayersModelIO: IOType = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
     valueType: LayersModel,
     stateSchema: {
 
-      // Other objects have a reference to the energy packets, so we don't want to overwrite it.  Instead of ArrayIO,
-      // ReferenceArrayIO will clear it, then copy in the contents of the state object.
+      // Other objects have a reference to the array of energy packets, so we don't want to overwrite it.  Instead of
+      // ArrayIO, ReferenceArrayIO will clear the array and then copy in the contents of the state object.
       emEnergyPackets: ReferenceArrayIO( EMEnergyPacket.EMEnergyPacketIO )
     }
   } );
