@@ -3,10 +3,10 @@
 /**
  * WavesModel uses a layer model for simulating temperature changes due to changes in the concentration of greenhouse
  * gases, and also creates and moves light waves that interact with the ground and atmosphere in a way that simulates
- * that behavior in Earth's atmosphere.
+ * the way these things behave in Earth's atmosphere.
  *
- * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
@@ -62,14 +62,12 @@ class WavesModel extends ConcentrationModel {
 
   public constructor( tandem: Tandem ) {
     super( {
-
-      // phet-io
       tandem: tandem,
       phetioType: WavesModel.WavesModelIO,
       phetioState: true
     } );
 
-    // (read-only) {PhetioGroup.<Wave>} - the waves that are currently active in the model
+    // the electromagnetic waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, providedOptions ) => {
         const options = combineOptions<WaveOptions>( { tandem: tandem }, providedOptions );
@@ -88,7 +86,7 @@ class WavesModel extends ConcentrationModel {
       }
     );
 
-    // signals when the waves have changed so that the view can update them
+    // an emitter that signals when the waves have changed so that the view can update them
     this.wavesChangedEmitter = new Emitter();
 
     // the source of the waves of visible light that come from the sun
@@ -115,8 +113,8 @@ class WavesModel extends ConcentrationModel {
     // map of waves from the sun to waves reflected off of the glacier
     this.glacierReflectedWavesMap = new Map<Wave, Wave>();
 
-    // A Map containing atmospheric layers and ranges that define the x coordinate within which IR waves should
-    // interact with that layer.
+    // A Map containing atmospheric layers and ranges that define the x coordinate within which IR waves should interact
+    // with that layer.
     this.atmosphereLayerToXRangeMap = new Map(
       [
         // leftmost interaction area
@@ -458,10 +456,7 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * WavesModelIO handles PhET-iO serialization of the WavesModel. Because serialization involves accessing private
-   * members, it delegates to WavesModel. The methods that WavesModelIO overrides are typical of 'Dynamic element
-   * serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   * WavesModelIO handles PhET-iO serialization of the WavesModel.
    */
   public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
     valueType: WavesModel,

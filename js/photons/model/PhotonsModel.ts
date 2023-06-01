@@ -8,13 +8,14 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Bounds2, { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 
 // constants
 const MAX_REFLECTION_ADJUSTMENT = Math.PI * 0.25; // empirically determined by what looked good
@@ -37,7 +38,9 @@ class PhotonsModel extends ConcentrationModel {
   public constructor( tandem: Tandem ) {
     super( {
       fluxMeterPresent: true,
-      tandem: tandem
+      tandem: tandem,
+      phetioType: PhotonsModel.PhotonsModelIO,
+      phetioState: true
     } );
 
     // derived Property that is true when a glacier is present on the ground, false otherwise
@@ -57,7 +60,7 @@ class PhotonsModel extends ConcentrationModel {
       tandem: tandem.createTandem( 'photonCollection' )
     } );
 
-    assert && assert( this.cloud, 'The cloud should always be turned on in the PhotonsModel' );
+    assert && assert( this.cloud, 'The cloud should always be present in the PhotonsModel' );
     this.cloudBounds = this.cloud!.modelShape.bounds;
   }
 
@@ -151,7 +154,22 @@ class PhotonsModel extends ConcentrationModel {
     }
     this.photonsPassingThroughCloud.length = j;
   }
+
+  /**
+   * PhotonsModelIO handles PhET-iO serialization of the PhotonsModel.
+   */
+  public static readonly PhotonsModelIO = new IOType<PhotonsModel, PhotonsModelStateObject>( 'PhotonsModelIO', {
+    valueType: PhotonsModel,
+    supertype: ConcentrationModel.ConcentrationModelIO,
+    stateSchema: {
+      cloudBounds: Bounds2.Bounds2IO
+    }
+  } );
 }
+
+type PhotonsModelStateObject = {
+  cloudBounds: Bounds2StateObject;
+} & ConcentrationModelStateObject;
 
 greenhouseEffect.register( 'PhotonsModel', PhotonsModel );
 export default PhotonsModel;
