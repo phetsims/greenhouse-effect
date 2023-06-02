@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
