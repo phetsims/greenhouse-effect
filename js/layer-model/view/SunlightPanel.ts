@@ -124,7 +124,8 @@ class SunlightPanel extends Panel {
       else {
         labelText = new PatternStringProperty(
           GreenhouseEffectStrings.valuePercentPatternStringProperty,
-          { value: value * 100 }
+          { value: value * 100 },
+          { tandem: Tandem.OPT_OUT }
         );
       }
       solarIntensitySlider.addMajorTick(

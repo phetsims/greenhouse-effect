@@ -32,6 +32,7 @@ import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -198,7 +199,8 @@ class ThermometerAndReadout extends Node {
         },
         valuePattern: new PatternStringProperty(
           GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
-          { units: unitsStringProperty }
+          { units: unitsStringProperty },
+          { tandem: Tandem.OPT_OUT }
         )
       } );
       this.addChild( temperatureReadout );
@@ -228,7 +230,7 @@ class ThermometerAndReadout extends Node {
       valuePattern: new PatternStringProperty(
         GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
           units: unitsStringProperty
-        } )
+        }, { tandem: Tandem.OPT_OUT } )
     };
 
     return {

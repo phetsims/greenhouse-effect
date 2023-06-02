@@ -447,17 +447,17 @@ class CompositionDataNode extends VBox {
 
     const carbonDioxideTextProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
       value: carbonDioxideConcentrationProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const carbonDioxideText = new RichText( carbonDioxideTextProperty, textOptions );
 
     const methaneTextProperty = new PatternStringProperty( methaneConcentrationPatternStringProperty, {
       value: methaneConcentrationProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const methaneText = new RichText( methaneTextProperty, textOptions );
 
     const nitrousOxideTextProperty = new PatternStringProperty( nitrousOxideConcentrationPatternStringProperty, {
       value: nitrousOxideConcentrationProperty
-    } );
+    }, { tandem: Tandem.OPT_OUT } );
     const nitrousOxideText = new RichText( nitrousOxideTextProperty, textOptions );
 
     super( {

@@ -24,6 +24,7 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -136,8 +137,8 @@ class AtmosphereLayerNode extends Node {
                      fahrenheitString;
             }
           )
-        }
-      ),
+        }, { tandem: Tandem.OPT_OUT } ),
+      tandem: options.tandem.createTandem( 'valueUnitsStringProperty' ),
       decimalPlaces: 1,
       cornerRadius: 3,
       noValueAlign: 'center',
