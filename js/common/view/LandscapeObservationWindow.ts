@@ -32,6 +32,8 @@ import GasConcentrationAlerter from './GasConcentrationAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 
 type SelfOptions = EmptySelfOptions;
 type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
@@ -49,6 +51,10 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
+
+  // Random value used to seed the cloud node.  This is used in phet-io to make sure the cloud, which has some pseudo
+  // random attributes, looks visually consistent when saving and then setting state.
+  public readonly cloudSeedProperty: TReadOnlyProperty<number>;
 
   public constructor( model: ConcentrationModel, options: LandscapeObservationWindowOptions ) {
 
@@ -115,9 +121,21 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // Add the layer nodes.
     energyAbsorbingEmittingLayerNodes.forEach( layerNode => this.backgroundLayer.addChild( layerNode ) );
 
-    // Add the cloud, if present.
+    // Add the cloud node if a cloud is present in the model.
     if ( model.cloud ) {
-      this.backgroundLayer.addChild( new CloudNode( model.cloud, this.modelViewTransform ) );
+      this.cloudSeedProperty = new NumberProperty( dotRandom.nextDouble(), {
+        tandem: options.tandem.createTandem( 'cloudSeedProperty' ),
+        phetioReadOnly: true,
+        phetioFeatured: false
+      } );
+      this.backgroundLayer.addChild(
+        new CloudNode( model.cloud, this.modelViewTransform, this.cloudSeedProperty )
+      );
+    }
+    else {
+
+      // The cloud seed property is unused, so just initialize it to a fixed value.
+      this.cloudSeedProperty = new NumberProperty( 0 );
     }
 
     // pdom - responsive descriptions
@@ -195,9 +213,9 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
                                           date === ConcentrationDate.ICE_AGE ||
                                           date === ConcentrationDate.YEAR_2020;
         iceAgeLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                            date === ConcentrationDate.ICE_AGE;
+                                                 date === ConcentrationDate.ICE_AGE;
         iceAgeLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
-                                            date === ConcentrationDate.ICE_AGE;
+                                                 date === ConcentrationDate.ICE_AGE;
         agriculturalLandscapeBackgroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
                                                        date === ConcentrationDate.YEAR_1750;
         agriculturalLandscapeForegroundImage.visible = concentrationControlMode === ConcentrationControlMode.BY_DATE &&

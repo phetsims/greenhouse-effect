@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -15,6 +14,9 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import { Color, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
+import Random from '../../../../dot/js/Random.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
@@ -30,7 +32,10 @@ type CloudNodeOptions = SelfOptions & NodeOptions;
 class CloudNode extends Node {
   private readonly disposeCloudNode: () => void;
 
-  public constructor( cloud: Cloud, modelViewTransform: ModelViewTransform2, providedOptions?: CloudNodeOptions ) {
+  public constructor( cloud: Cloud,
+                      modelViewTransform: ModelViewTransform2,
+                      randomNumberGeneratorSeedProperty: TReadOnlyProperty<number>,
+                      providedOptions?: CloudNodeOptions ) {
 
     const options = optionize<CloudNodeOptions, SelfOptions, NodeOptions>()( {
       showReferenceEllipse: false
@@ -38,16 +43,25 @@ class CloudNode extends Node {
 
     super( options );
 
-    const cloudPath = new Path( CloudNode.createCloudShape(
-      modelViewTransform.modelToViewPosition( cloud.position ),
-      Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
-      Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
-    ), {
+    const cloudPath = new Path( null, {
       fill: CLOUD_FILL,
       stroke: CLOUD_BACKGROUND_STROKE,
       miterLimit: 1
     } );
     this.addChild( cloudPath );
+
+    // Create the cloud shape, and update it if and when the random seed changes.  This is done for phet-io, so that the
+    // clouds will look the same in the state wrappers and when configured and saved in Studio.
+    randomNumberGeneratorSeedProperty.link( seed => {
+      const random = new Random( { seed: seed } );
+      const cloudShape = CloudNode.createCloudShape(
+        modelViewTransform.modelToViewPosition( cloud.position ),
+        Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
+        Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) ),
+        random
+      );
+      cloudPath.setShape( cloudShape );
+    } );
 
     // If specified, show an ellipse that corresponds to the strict model shape of the cloud.  This is useful for debug.
     if ( options.showReferenceEllipse ) {
@@ -69,11 +83,8 @@ class CloudNode extends Node {
 
   /**
    * Create a blobby cloud-like shape to represent the cloud. Returns a Shape to be used with a Path.
-   *
-   * TODO: This may be temporary, since we may have artwork or may refine the look of the cloud sometime in the future.
-   *       See https://github.com/phetsims/greenhouse-effect/issues/49.
    */
-  public static createCloudShape( position: Vector2, width: number, height: number ): Shape {
+  public static createCloudShape( position: Vector2, width: number, height: number, random: Random = dotRandom ): Shape {
 
     const circleShapes = [];
     let drawnWidth = 0;
@@ -122,11 +133,11 @@ class CloudNode extends Node {
       }
 
       // Choose the arc radius using randomness and the constraints determined above.
-      const arcRadius = dotRandom.nextDoubleBetween( minArcRadius, maxArcRadius );
+      const arcRadius = random.nextDoubleBetween( minArcRadius, maxArcRadius );
 
       if ( circleShapes.length === 0 ) {
 
-        // Keep track of the radius of the first circle so we can use it later to line things up.
+        // Keep track of the radius of the first circle so that we can use it later to line things up.
         firstCircleRadius = arcRadius;
       }
 
@@ -134,7 +145,7 @@ class CloudNode extends Node {
 
       // Adjust the Y position so that the bottom of the cloud is more flat than the top.
       const arcCenterY = firstCircleRadius ?
-                         adjustedReferenceCenterY - ( arcRadius - firstCircleRadius ) - dotRandom.nextDoubleBetween( -maxYShift, maxYShift ) :
+                         adjustedReferenceCenterY - ( arcRadius - firstCircleRadius ) - random.nextDoubleBetween( -maxYShift, maxYShift ) :
                          adjustedReferenceCenterY;
 
       // Add this circle to our collection.
