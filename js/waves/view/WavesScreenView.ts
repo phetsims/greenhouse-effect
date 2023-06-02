@@ -30,6 +30,8 @@ import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
+  private readonly irWavesSoundGenerator: IrWavesSoundGenerator;
+
   public constructor( model: WavesModel, tandem: Tandem ) {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
@@ -133,11 +135,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.addChild( visibilityBox );
 
     // sound generation
-    const irWavesSoundGenerator = new IrWavesSoundGenerator( model, this );
-    soundManager.addSoundGenerator( irWavesSoundGenerator, { associatedViewNode: this } );
-
-    // Update this sound generator when the model is stepped.  No need to unlink since this view is never disposed.
-    model.steppedEmitter.addListener( irWavesSoundGenerator.step.bind( irWavesSoundGenerator ) );
+    this.irWavesSoundGenerator = new IrWavesSoundGenerator( model, this );
+    soundManager.addSoundGenerator( this.irWavesSoundGenerator, { associatedViewNode: this } );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
@@ -153,6 +152,15 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       this.timeControlNode,
       this.resetAllButton
     ];
+  }
+
+  public override step( dt: number ): void {
+    super.step( dt );
+
+    // Update the IR sound generator if the model is playing.
+    if ( this.model.isPlayingProperty.value ) {
+      this.irWavesSoundGenerator.step();
+    }
   }
 
   public override reset(): void {

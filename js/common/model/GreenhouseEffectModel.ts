@@ -12,9 +12,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
 import TModel from '../../../../joist/js/TModel.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
@@ -24,7 +22,6 @@ export type GreenhouseEffectModelOptions = SelfOptions & WithRequired<PhetioObje
 class GreenhouseEffectModel extends PhetioObject implements TModel {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
-  public readonly steppedEmitter: TEmitter<[ number ]>;
 
   public constructor( providedOptions?: GreenhouseEffectModelOptions ) {
 
@@ -48,19 +45,16 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
     this.isPlayingProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'isPlayingProperty' )
     } );
-
-    // emitter that is fired on each step, used to signal the view that an update of sprites or canvases may be needed
-    this.steppedEmitter = new Emitter( { parameters: [ { valueType: 'number' } ] } );
   }
 
   /**
-   * Step the model forward by the provided time.  Generally, external clients should call the step function instead of
-   * stepModel, but there are some cases where calling this directly makes sense.
+   * Step the model forward by the provided time.
    *
    * @param dt - in seconds
    */
   public stepModel( dt: number ): void {
-    this.steppedEmitter.emit( dt );
+
+    // does nothing in base class
   }
 
   /**

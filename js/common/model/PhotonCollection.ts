@@ -99,7 +99,8 @@ class PhotonCollection extends PhetioObject {
     this.groundLayer = groundLayer;
     this.glacierPresentProperty = options.glacierPresentProperty;
 
-    // Create the observable array where the photons will be kept.
+    // Create the observable array where the photons will be kept.  This doesn't have a tandem because we do a custom
+    // serialization (see code elsewhere in this file) for optimal performance.
     this.photons = createObservableArray();
 
     // Initialize the counters and other values that control the photon production rate.

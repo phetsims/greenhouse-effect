@@ -140,12 +140,6 @@ class GreenhouseEffectScreenView extends ScreenView {
     this.resetAllButton.right = this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN;
     this.resetAllButton.centerY = this.timeControlNode.centerY;
 
-    // Update the view then the model gets stepped.  This is needed because the observation windows may contain nodes
-    // that need to be updated on model changes that don't have Property-based notifications of state changes.
-    model.steppedEmitter.addListener( dt => {
-      this.observationWindow.step( dt );
-    } );
-
     // pdom - order and assign components to their sections in the PDOM, for default components but can
     // be overridden by subtypes
     this.pdomPlayAreaNode.pdomOrder = [
@@ -159,6 +153,9 @@ class GreenhouseEffectScreenView extends ScreenView {
   }
 
   public override step( dt: number ): void {
+
+    // Step the observation window.
+    this.observationWindow.step( dt );
     this.observationWindow.stepAlerters( dt );
   }
 
