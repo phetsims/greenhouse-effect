@@ -9,7 +9,7 @@
  * the atmosphere.  The atmosphere is modeled as a set of layers that behave much like glass (transparent to visible
  * light but absorb IR).
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -18,6 +18,9 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
+import { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 
 // constants
 const INITIAL_ABSORPTION_PROPORTION = 1.0;
@@ -28,9 +31,6 @@ const IR_ABSORBANCE_RANGE = new Range( 0.1, 1 );
 // lowest temperature.  This value was calculated, and then some margin was added.
 const MINIMUM_GROUND_TEMPERATURE = 125;
 
-/**
- * @constructor
- */
 class LayerModelModel extends LayersModel {
   public readonly numberOfActiveAtmosphereLayersProperty: NumberProperty;
   public readonly layersInfraredAbsorbanceProperty: NumberProperty;
@@ -44,11 +44,14 @@ class LayerModelModel extends LayersModel {
       atmosphereLayersInitiallyActive: false,
       fluxMeterPresent: true,
       fluxMeterOptions: {
-        moveSensorOffLayers: true
+        moveSensorOffLayers: true,
+        tandem: tandem.createTandem( 'fluxMeter' )
       },
 
       // phet-io
-      tandem: tandem
+      tandem: tandem,
+      phetioType: LayerModelModel.LayerModelModelIO,
+      phetioState: true
     } );
 
     // the collection of visible and IR photons that move around and interact with the ground and atmosphere
@@ -117,7 +120,20 @@ class LayerModelModel extends LayersModel {
 
   // static values
   public static readonly IR_ABSORBANCE_RANGE = IR_ABSORBANCE_RANGE;
+
+  /**
+   * LayerModelModelIO handles PhET-iO serialization of the LayerModelModel.
+   */
+  public static readonly LayerModelModelIO = new IOType<LayerModelModel, LayerModelModelStateObject>( 'LayerModelModelIO', {
+    valueType: LayerModelModel,
+    supertype: LayersModel.LayersModelIO,
+    stateSchema: {}
+  } );
 }
+
+type LayerModelModelStateObject = {
+  cloudBounds: Bounds2StateObject;
+} & ConcentrationModelStateObject;
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
 export default LayerModelModel;

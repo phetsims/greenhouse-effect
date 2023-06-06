@@ -25,6 +25,7 @@ import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -38,7 +39,7 @@ type SelfOptions = {
   numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
 };
-export type AtmosphereLayerNodeOptions = SelfOptions & NodeOptions;
+export type AtmosphereLayerNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 class AtmosphereLayerNode extends Node {
 
@@ -53,7 +54,7 @@ class AtmosphereLayerNode extends Node {
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
                       modelViewTransform: ModelViewTransform2,
-                      providedOptions?: AtmosphereLayerNodeOptions ) {
+                      providedOptions: AtmosphereLayerNodeOptions ) {
 
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,

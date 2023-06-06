@@ -157,7 +157,8 @@ class FluxMeterNode extends Node {
     } );
 
     this.zoomFactorProperty = new NumberProperty( 0, {
-      range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS )
+      range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS ),
+      tandem: options.tandem.createTandem( 'zoomFactorProperty' )
     } );
 
     const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactorProperty ], zoomFactor =>

@@ -22,6 +22,7 @@ import AtmosphereLayer from './AtmosphereLayer.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import LayersModel from './LayersModel.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
 const MIN_LAYER_TO_SENSOR_DISTANCE = 2200; // in meters, empirically determined
@@ -33,20 +34,16 @@ type SelfOptions = {
   // near one.
   moveSensorOffLayers?: boolean;
 
-  // options passed through to the flux sensor
+  // Options passed through to the flux sensor.  No tandem should be specified since it will be created locally.
   fluxSensorOptions?: StrictOmit<FluxSensorOptions, 'tandem'>;
 };
-export type FluxMeterOptions = SelfOptions & PhetioObjectOptions;
+export type FluxMeterOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 // The size of the flux sensor.  Note that this is parallel to the ground, so "height" is actually the Z dimension.
 const FLUX_SENSOR_SIZE = new Dimension2(
   GreenhouseEffectConstants.SUNLIGHT_SPAN.width * 0.76,
   GreenhouseEffectConstants.SUNLIGHT_SPAN.height
 );
-
-// TODO: Questions: How do I require a tandem these days?  How to I prevent a tandem for a model element that is
-//       included via composition?  How do I then create that tandem and pass it through to the sub-element?  I have
-//       something working, but I'm not sure it is what we currently consider to be idiomatic?
 
 class FluxMeter extends PhetioObject {
 

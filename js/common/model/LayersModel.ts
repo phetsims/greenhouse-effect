@@ -60,7 +60,7 @@ type SelfOptions = {
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
 
-  // options that are pass through to the flux meter if present
+  // options that are passed through to the flux meter if present
   fluxMeterOptions?: FluxMeterOptions;
 };
 export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
@@ -115,7 +115,7 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
   public readonly fluxMeterVisibleProperty: BooleanProperty;
 
-  public constructor( providedOptions?: LayersModelOptions ) {
+  public constructor( providedOptions: LayersModelOptions ) {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
@@ -123,7 +123,9 @@ class LayersModel extends GreenhouseEffectModel {
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true,
       fluxMeterPresent: false,
-      fluxMeterOptions: {}
+      fluxMeterOptions: {
+        tandem: providedOptions.tandem.createTandem( 'fluxMeter' )
+      }
     }, providedOptions );
 
     super( options );

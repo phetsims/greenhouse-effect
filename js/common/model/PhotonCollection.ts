@@ -119,7 +119,8 @@ class PhotonCollection extends PhetioObject {
     } );
 
     // For each of the energy-absorbing-and-emitting layers in the atmosphere, create a layer that will absorb and emit
-    // photons.
+    // photons.  These exist primarily for the visual behavior of the photons, and do not affect the temperature values
+    // of the atmosphere or ground.
     this.photonAbsorbingEmittingLayers = atmosphereLayers.map(
       atmosphereLayer => new PhotonAbsorbingEmittingLayer(
         this.photons,
