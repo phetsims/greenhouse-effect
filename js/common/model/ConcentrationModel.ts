@@ -226,8 +226,7 @@ class ConcentrationModel extends LayersModel {
   public static readonly ConcentrationModelIO: IOType =
     new IOType<ConcentrationModel, ConcentrationModelStateObject>( 'ConcentrationModelIO', {
       valueType: ConcentrationModel,
-      supertype: LayersModel.LayersModelIO,
-      stateSchema: {}
+      supertype: LayersModel.LayersModelIO
     } );
 }
 
