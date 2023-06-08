@@ -83,7 +83,7 @@ class InfraredPanel extends Panel {
     soundManager.addSoundGenerator( numberOfLayersSoundPlayer );
 
     // number picker for controlling the number of layers
-    const numberOfLayersNumberPicker = new NumberPicker(
+    const absorbingLayersPicker = new NumberPicker(
       layersModel.numberOfActiveAtmosphereLayersProperty,
       new Property( new Range( 0, MAX_LAYERS ) ),
       {
@@ -96,7 +96,7 @@ class InfraredPanel extends Panel {
         boundarySoundPlayer: numberOfLayersSoundPlayer,
 
         // phet-io
-        tandem: tandem.createTandem( 'numberOfLayersPicker' )
+        tandem: tandem.createTandem( 'absorbingLayersPicker' )
       }
     );
 
@@ -107,7 +107,7 @@ class InfraredPanel extends Panel {
 
     // Combine the control and label for controlling the number of layers into a single node.
     const numberOfLayersControl = new HBox( {
-      children: [ numberOfLayersNumberPicker, layerNumberControlLabel ],
+      children: [ absorbingLayersPicker, layerNumberControlLabel ],
       spacing: 5
     } );
 
