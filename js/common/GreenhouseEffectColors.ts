@@ -7,7 +7,6 @@
  */
 
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectColors = {
@@ -17,9 +16,6 @@ const GreenhouseEffectColors = {
     'background',
     {
       default: new Color( 254, 252, 231 )
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'screenBackgroundColorProperty' )
     }
   ),
   sunlightColorProperty: new ProfileColorProperty(
@@ -27,9 +23,6 @@ const GreenhouseEffectColors = {
     'sunlight',
     {
       default: Color.YELLOW
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'sunlightColorProperty' )
     }
   ),
   infraredColorProperty: new ProfileColorProperty(
@@ -37,9 +30,6 @@ const GreenhouseEffectColors = {
     'infrared',
     {
       default: Color.RED
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'infraredColorProperty' )
     }
   ),
   energyLegendBackgroundColorProperty: new ProfileColorProperty(
@@ -47,9 +37,6 @@ const GreenhouseEffectColors = {
     'energyLegendBackground',
     {
       default: Color.BLACK
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'energyLegendBackgroundColorProperty' )
     }
   ),
   controlPanelBackgroundColorProperty: new ProfileColorProperty(
@@ -57,9 +44,6 @@ const GreenhouseEffectColors = {
     'controlPanelBackground',
     {
       default: Color.WHITE
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'controlPanelBackgroundColorProperty' )
     }
   ),
   radioButtonGroupSelectedStrokeColorProperty: new ProfileColorProperty(
@@ -67,9 +51,6 @@ const GreenhouseEffectColors = {
     'radioButtonGroupSelectedStroke',
     {
       default: new Color( 0, 148, 189 )
-    },
-    {
-      tandem: Tandem.COLORS.createTandem( 'radioButtonGroupSelectedStrokeColorProperty' )
     }
   )
 };
