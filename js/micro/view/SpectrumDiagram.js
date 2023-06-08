@@ -268,22 +268,19 @@ class LabeledSpectrumNode extends Node {
     addBandLabel( this, 1E3, 1E9, spectrumWindowRadioBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumRadioLabelStringProperty.value,
       spectrumWindowLabelledSpectrumRadioFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumRadioWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'radioBandLabelText' )
+      spectrumWindowLabelledSpectrumRadioWavelengthDescriptionStringProperty.value
     );
     addBandDivider( this, 1E9 );
     addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumMicrowaveLabelStringProperty.value,
       spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'microwaveBandLabelText' )
+      spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionStringProperty.value
     );
     addBandDivider( this, 3E11 );
     addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumInfraredLabelStringProperty.value,
       spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'infraredBandLabelText' )
+      spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionStringProperty.value
     );
 
     // Add the visible spectrum, in order for PDOM descriptions
@@ -296,22 +293,19 @@ class LabeledSpectrumNode extends Node {
     addBandLabel( this, 1E15, 8E15, spectrumWindowUltravioletBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumUltravioletLabelStringProperty.value,
       spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'ultravioletBandLabelText' )
+      spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty.value
     );
     addBandDivider( this, 1E16 );
     addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumXRayLabelStringProperty.value,
       spectrumWindowLabelledSpectrumXRayFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumXRayWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'xrayBandLabelText' )
+      spectrumWindowLabelledSpectrumXRayWavelengthDescriptionStringProperty.value
     );
     addBandDivider( this, 1E19 );
     addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelStringProperty.value,
       spectrumWindowLabelledSpectrumGammaRayLabelStringProperty.value,
       spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionStringProperty.value,
-      spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionStringProperty.value,
-      tandem.createTandem( 'gammaRayBandLabelText' )
+      spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionStringProperty.value
     );
 
     addFrequencyAndLabelDescriptions(
@@ -475,9 +469,8 @@ const addWavelengthTickMark = ( thisNode, wavelength, top, addLabel ) => {
  * @param {string} pdomLabel - label for the content in the PDOM
  * @param {string} frequencyDescription - describes the range of frequencies in the PDOM
  * @param {string} wavelengthDescription - describes the range of wavelengths in the PDOM
- * @param {Tandem} tandem
  */
-const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString, pdomLabel, frequencyDescription, wavelengthDescription, tandem ) => {
+const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString, pdomLabel, frequencyDescription, wavelengthDescription ) => {
 
   // Argument validation.
   assert && assert( highEndFrequency >= lowEndFrequency );
@@ -492,8 +485,7 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
   const labelText = new RichText( labelString, {
     replaceNewlines: true,
     align: 'center',
-    font: LABEL_FONT,
-    tandem: tandem
+    font: LABEL_FONT
   } );
   thisNode.addChild( labelText );
 

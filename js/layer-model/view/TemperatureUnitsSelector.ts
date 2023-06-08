@@ -24,8 +24,7 @@ class TemperatureUnitsSelector extends VBox {
     // Create the label that sits above the radio button selectors.
     const text = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
       font: LABEL_FONT,
-      maxWidth: 200,
-      tandem: tandem.createTandem( 'text' )
+      maxWidth: 200
     } );
 
     // Create the radio buttons.
@@ -33,28 +32,25 @@ class TemperatureUnitsSelector extends VBox {
       temperatureUnitsProperty,
       [
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, {
+          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, {
             font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH,
-            tandem: tandem.createTandem( 'text' )
+            maxWidth: UNITS_LABEL_MAX_WIDTH
           } ),
           value: TemperatureUnits.KELVIN,
           tandemName: 'kelvinRadioButton'
         },
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, {
+          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, {
             font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH,
-            tandem: tandem.createTandem( 'text' )
+            maxWidth: UNITS_LABEL_MAX_WIDTH
           } ),
           value: TemperatureUnits.CELSIUS,
           tandemName: 'celsiusRadioButton'
         },
         {
-          createNode: tandem => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, {
+          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, {
             font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH,
-            tandem: tandem.createTandem( 'text' )
+            maxWidth: UNITS_LABEL_MAX_WIDTH
           } ),
           value: TemperatureUnits.FAHRENHEIT,
           tandemName: 'fahrenheitRadioButton'

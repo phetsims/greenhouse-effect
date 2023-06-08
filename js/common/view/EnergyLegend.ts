@@ -75,8 +75,7 @@ class EnergyLegend extends Panel {
     const titleText = new Text( GreenhouseEffectStrings.energyLegend.titleStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       fill: 'white',
-      maxWidth: width - 2 * PANEL_MARGIN,
-      tandem: options.tandem.createTandem( 'titleText' )
+      maxWidth: width - 2 * PANEL_MARGIN
     } );
 
     // options for legend labels

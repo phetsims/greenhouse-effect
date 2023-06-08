@@ -103,36 +103,26 @@ class QuadEmissionFrequencyControlPanel extends Node {
       createNode: () => microwaveRadioButtonContent,
       value: WavelengthConstants.MICRO_WAVELENGTH,
       label: new Text( quadWavelengthSelectorMicrowaveStringProperty, {
-        font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( microwaveTandemName ).createTandem( 'microwaveRadioButtonLabelText' )
+        font: labelFont
       } ),
       tandemName: microwaveTandemName,
       labelContent: quadWavelengthSelectorMicrowaveStringProperty.value
     }, {
       createNode: () => infraredPhotonRadioButtonContent,
       value: WavelengthConstants.IR_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorInfraredStringProperty, {
-        font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( infraredTandemName ).createTandem( 'infraredRadioButtonLabelText' )
-      } ),
+      label: new Text( quadWavelengthSelectorInfraredStringProperty, { font: labelFont } ),
       tandemName: infraredTandemName,
       labelContent: quadWavelengthSelectorInfraredStringProperty.value
     }, {
       createNode: () => visiblePhotonRadioButtonContent,
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorVisibleStringProperty, {
-        font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( visibleTandemName ).createTandem( 'visibleRadioButtonLabelText' )
-      } ),
+      label: new Text( quadWavelengthSelectorVisibleStringProperty, { font: labelFont } ),
       tandemName: visibleTandemName,
       labelContent: quadWavelengthSelectorVisibleStringProperty.value
     }, {
       createNode: () => ultravioletPhotonRadioButtonContent,
       value: WavelengthConstants.UV_WAVELENGTH,
-      label: new Text( quadWavelengthSelectorUltravioletStringProperty, {
-        font: labelFont,
-        tandem: radioButtonGroupTandem.createTandem( ultravioletTandemName ).createTandem( 'ultravioletRadioButtonLabelText' )
-      } ),
+      label: new Text( quadWavelengthSelectorUltravioletStringProperty, { font: labelFont } ),
       tandemName: ultravioletTandemName,
       labelContent: quadWavelengthSelectorUltravioletStringProperty.value
     } ];
