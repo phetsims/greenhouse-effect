@@ -18,6 +18,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Photon from './Photon.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {
@@ -30,7 +33,7 @@ class PhotonCrossingTestResult extends EnumerationValue {
   public static readonly enumeration = new Enumeration( PhotonCrossingTestResult );
 }
 
-type PhotonAbsorbingEmittingLayerOptions = {
+type SelfOptions = {
 
   // thickness of the layer, in meters
   thickness?: number;
@@ -49,7 +52,9 @@ type PhotonAbsorbingEmittingLayerOptions = {
   absorbanceMultiplier?: number;
 };
 
-class PhotonAbsorbingEmittingLayer {
+export type PhotonAbsorbingEmittingLayerOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
+
+class PhotonAbsorbingEmittingLayer extends PhetioObject {
   public readonly thickness: number;
   private readonly photonAbsorptionTime: number;
   private readonly photonMaxJumpDistance: number;
@@ -61,19 +66,25 @@ class PhotonAbsorbingEmittingLayer {
 
   public constructor( photons: ObservableArray<Photon>,
                       atmosphereLayer: AtmosphereLayer,
-                      providedOptions?: PhotonAbsorbingEmittingLayerOptions ) {
+                      providedOptions: PhotonAbsorbingEmittingLayerOptions ) {
 
-    const options = optionize<PhotonAbsorbingEmittingLayerOptions>()( {
+    const options = optionize<PhotonAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
       thickness: 0,
       photonMaxLateralJumpProportion: 0.01,
       photonAbsorptionTime: 0.1,
-      absorbanceMultiplier: 1
+      absorbanceMultiplier: 1,
+      phetioType: PhotonAbsorbingEmittingLayer.PhotonAbsorbingEmittingLayerIO
     }, providedOptions );
+
+    super( options );
 
     this.photons = photons;
     this.atmosphereLayer = atmosphereLayer;
-    this.atLeastOnePhotonAbsorbedProperty = new BooleanProperty( false );
     this.thickness = options.thickness;
+    this.atLeastOnePhotonAbsorbedProperty = new BooleanProperty( false, {
+      tandem: options.tandem.createTandem( 'atLeastOnePhotonAbsorbedProperty' ),
+      phetioReadOnly: true
+    } );
 
     // a Map that is used to track the amount of time that an absorbed photon has been absorbed into this layer
     this.photonToAbsorbedTimeMap = new Map<Photon, number>();
@@ -196,9 +207,14 @@ class PhotonAbsorbingEmittingLayer {
 
     return velocity;
   }
+
+  public static readonly PhotonAbsorbingEmittingLayerIO = new IOType( 'PhotonAbsorbingEmittingLayerIO', {
+    valueType: PhotonAbsorbingEmittingLayer,
+    stateSchema: {},
+    defaultDeserializationMethod: 'applyState'
+  } );
 }
 
-export type { PhotonAbsorbingEmittingLayerOptions };
 export { PhotonCrossingTestResult };
 
 greenhouseEffect.register( 'PhotonAbsorbingEmittingLayer', PhotonAbsorbingEmittingLayer );

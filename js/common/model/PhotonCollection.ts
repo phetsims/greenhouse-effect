@@ -14,7 +14,7 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Range from '../../../../dot/js/Range.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
@@ -28,6 +28,7 @@ import Photon, { PhotonStateObject } from './Photon.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 import SunEnergySource from './SunEnergySource.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -42,7 +43,7 @@ const GLACIER_X_RANGE = new Range( 12500, 42500 );
 type SelfOptions = {
 
   // options passed to the instances of PhotonAbsorbingEmittingLayer, see the class definition for details
-  photonAbsorbingEmittingLayerOptions?: PhotonAbsorbingEmittingLayerOptions;
+  photonAbsorbingEmittingLayerOptions?: StrictOmit<PhotonAbsorbingEmittingLayerOptions, 'tandem'>;
 
   // whether a glacier is present, which will affect how photons are reflected from the ground
   glacierPresentProperty?: TReadOnlyProperty<boolean>;
@@ -69,7 +70,7 @@ class PhotonCollection extends PhetioObject {
   public constructor( sunEnergySource: SunEnergySource,
                       groundLayer: GroundLayer,
                       atmosphereLayers: AtmosphereLayer[],
-                      providedOptions?: PhotonCollectionOptions ) {
+                      providedOptions: PhotonCollectionOptions ) {
 
     const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObjectOptions>()( {
       phetioType: PhotonCollection.PhotonCollectionIO,
@@ -125,7 +126,14 @@ class PhotonCollection extends PhetioObject {
       atmosphereLayer => new PhotonAbsorbingEmittingLayer(
         this.photons,
         atmosphereLayer,
-        options.photonAbsorbingEmittingLayerOptions
+        combineOptions<PhotonAbsorbingEmittingLayerOptions>(
+          {
+            tandem: options.tandem.createTandem(
+              'photonInteraction' + firstLetterToUpper( atmosphereLayer.tandem.name )
+            )
+          },
+          options.photonAbsorbingEmittingLayerOptions
+        )
       )
     );
   }
@@ -359,6 +367,18 @@ class PhotonCollection extends PhetioObject {
     defaultDeserializationMethod: 'applyState'
   } );
 }
+
+/**
+ * Helper function that returns a copy of the provided string but with the first letter capitalized.  If the first
+ * letter is already capitalized the returned value will match the provided one.
+ *
+ * This will throw an assertion if the first character is not a letter.
+ */
+const firstLetterToUpper = ( stringToAlter: string ) => {
+  const leadingChar = stringToAlter.charAt( 0 );
+  assert && assert( leadingChar.match( /[a-z]/i ), `Leading character is not a letter: ${leadingChar}` );
+  return `${leadingChar.toUpperCase()}${stringToAlter.slice( 1 )}`;
+};
 
 type PhotonCollectionStateObject = {
   photonStateObjects: PhotonStateObject[];
