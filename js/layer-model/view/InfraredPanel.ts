@@ -112,12 +112,12 @@ class InfraredPanel extends Panel {
     } );
 
     // label for the slider that controls IR absorbance
-    const irAbsorbanceSliderLabel = new Text( GreenhouseEffectStrings.infraredAbsorbanceStringProperty, {
+    const infraredAbsorbanceText = new Text( GreenhouseEffectStrings.infraredAbsorbanceStringProperty, {
       font: HEADING_FONT
     } );
 
     // slider for controlling the absorbance of the layers
-    const irAbsorbanceSlider = new HSlider(
+    const infraredAbsorbanceSlider = new HSlider(
       layersModel.layersInfraredAbsorbanceProperty,
       absorbanceRange,
       {
@@ -141,10 +141,10 @@ class InfraredPanel extends Panel {
         },
 
         // phet-io
-        tandem: tandem.createTandem( 'absorbanceSlider' )
+        tandem: tandem.createTandem( 'infraredAbsorbanceSlider' )
       }
     );
-    irAbsorbanceSlider.addMajorTick(
+    infraredAbsorbanceSlider.addMajorTick(
       absorbanceRange.min,
       new Text(
         new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
@@ -153,7 +153,7 @@ class InfraredPanel extends Panel {
         TICK_MARK_TEXT_OPTIONS
       )
     );
-    irAbsorbanceSlider.addMajorTick(
+    infraredAbsorbanceSlider.addMajorTick(
       absorbanceRange.max,
       new Text(
         new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
@@ -168,12 +168,12 @@ class InfraredPanel extends Panel {
           minorTickMarkValue += tickMarkSpacing ) {
 
       // Add minor tick mark to the slider.
-      irAbsorbanceSlider.addMinorTick( minorTickMarkValue );
+      infraredAbsorbanceSlider.addMinorTick( minorTickMarkValue );
     }
 
     // Put the label and slider for the IR absorbance control into their own VBox.
     const irAbsorbanceControl = new VBox( {
-      children: [ irAbsorbanceSliderLabel, irAbsorbanceSlider ],
+      children: [ infraredAbsorbanceText, infraredAbsorbanceSlider ],
       spacing: 5
     } );
 
