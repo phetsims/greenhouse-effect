@@ -25,6 +25,7 @@ import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -123,7 +124,7 @@ class AtmosphereLayerNode extends Node {
       valuePattern: new PatternStringProperty(
         GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
         {
-          units: new DerivedProperty(
+          units: new DerivedStringProperty(
             [
               temperatureUnitsProperty,
               numberDisplayEnabledProperty,
@@ -136,7 +137,8 @@ class AtmosphereLayerNode extends Node {
                      temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
                      temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
                      fahrenheitString;
-            }
+            },
+            { tandem: options.tandem.createTandem( 'unitsStringProperty' ) }
           )
         }, {
           tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' )

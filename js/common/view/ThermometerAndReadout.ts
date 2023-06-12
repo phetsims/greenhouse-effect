@@ -32,6 +32,7 @@ import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -169,7 +170,7 @@ class ThermometerAndReadout extends Node {
           GreenhouseEffectUtils.kelvinToFahrenheit( temperature )
       );
 
-      const unitsStringProperty = new DerivedProperty(
+      const unitsStringProperty = new DerivedStringProperty(
         [
           model.temperatureUnitsProperty,
           GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
@@ -180,7 +181,8 @@ class ThermometerAndReadout extends Node {
           return units === TemperatureUnits.KELVIN ? kelvinUnitsString :
                  units === TemperatureUnits.CELSIUS ? celsiusUnitsString :
                  fahrenheitUnitsString;
-        }
+        },
+        { tandem: options.tandem.createTandem( 'unitsStringProperty' ) }
       );
 
       // Create the temperature readout.
