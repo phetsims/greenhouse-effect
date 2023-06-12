@@ -445,20 +445,20 @@ class CompositionDataNode extends VBox {
       nitrousOxideConcentrationProperty.set( concentrationData!.nitrousOxideConcentration );
     } );
 
-    const carbonDioxideTextProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
+    const carbonDioxideStringProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
       value: carbonDioxideConcentrationProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const carbonDioxideText = new RichText( carbonDioxideTextProperty, textOptions );
+    const carbonDioxideText = new RichText( carbonDioxideStringProperty, textOptions );
 
-    const methaneTextProperty = new PatternStringProperty( methaneConcentrationPatternStringProperty, {
+    const methaneStringProperty = new PatternStringProperty( methaneConcentrationPatternStringProperty, {
       value: methaneConcentrationProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const methaneText = new RichText( methaneTextProperty, textOptions );
+    const methaneText = new RichText( methaneStringProperty, textOptions );
 
-    const nitrousOxideTextProperty = new PatternStringProperty( nitrousOxideConcentrationPatternStringProperty, {
+    const nitrousOxideStringProperty = new PatternStringProperty( nitrousOxideConcentrationPatternStringProperty, {
       value: nitrousOxideConcentrationProperty
     }, { tandem: Tandem.OPT_OUT } );
-    const nitrousOxideText = new RichText( nitrousOxideTextProperty, textOptions );
+    const nitrousOxideText = new RichText( nitrousOxideStringProperty, textOptions );
 
     super( {
       children: [ carbonDioxideText, methaneText, nitrousOxideText ],
