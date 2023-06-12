@@ -157,7 +157,8 @@ class GreenhouseGasConcentrationPanel extends Panel {
 
     let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {
-      compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty, width );
+      compositionDataNode = new CompositionDataNode( concentrationModel.dateProperty, width,
+        options.tandem.createTandem( 'compositionDataNode' ) );
       contentChildren.push( compositionDataNode );
     }
 
@@ -423,7 +424,7 @@ class ConcentrationControl extends VBox {
 
 class CompositionDataNode extends VBox {
 
-  public constructor( dateProperty: EnumerationProperty<ConcentrationDate>, panelWidth: number ) {
+  public constructor( dateProperty: EnumerationProperty<ConcentrationDate>, panelWidth: number, tandem: Tandem ) {
 
     const textOptions = {
       font: GreenhouseEffectConstants.CONTENT_FONT,
@@ -447,22 +448,30 @@ class CompositionDataNode extends VBox {
 
     const carbonDioxideStringProperty = new PatternStringProperty( carbonDioxideConcentrationPatternStringProperty, {
       value: carbonDioxideConcentrationProperty
-    }, { tandem: Tandem.OPT_OUT } );
+    }, {
+      tandem: tandem.createTandem( 'carbonDioxideStringProperty' )
+    } );
     const carbonDioxideText = new RichText( carbonDioxideStringProperty, textOptions );
 
     const methaneStringProperty = new PatternStringProperty( methaneConcentrationPatternStringProperty, {
       value: methaneConcentrationProperty
-    }, { tandem: Tandem.OPT_OUT } );
+    }, {
+      tandem: tandem.createTandem( 'methaneStringProperty' )
+    } );
     const methaneText = new RichText( methaneStringProperty, textOptions );
 
     const nitrousOxideStringProperty = new PatternStringProperty( nitrousOxideConcentrationPatternStringProperty, {
       value: nitrousOxideConcentrationProperty
-    }, { tandem: Tandem.OPT_OUT } );
+    }, {
+      tandem: tandem.createTandem( 'nitrousOxideStringProperty' )
+    } );
     const nitrousOxideText = new RichText( nitrousOxideStringProperty, textOptions );
 
     super( {
       children: [ carbonDioxideText, methaneText, nitrousOxideText ],
-      align: 'left'
+      align: 'left',
+      tandem: tandem,
+      visiblePropertyOptions: { phetioReadOnly: true } // visibility is controlled by the sim
     } );
   }
 }
