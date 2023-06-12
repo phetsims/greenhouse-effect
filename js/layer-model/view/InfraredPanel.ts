@@ -149,7 +149,9 @@ class InfraredPanel extends Panel {
       new Text(
         new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
           value: absorbanceRange.min * 100
-        }, { tandem: Tandem.OPT_OUT } ),
+        }, {
+          tandem: Tandem.OPT_OUT // do not instrument, because it's just a number
+        } ),
         TICK_MARK_TEXT_OPTIONS
       )
     );
@@ -158,7 +160,9 @@ class InfraredPanel extends Panel {
       new Text(
         new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
           value: absorbanceRange.max * 100
-        }, { tandem: Tandem.OPT_OUT } ),
+        }, {
+          tandem: Tandem.OPT_OUT // do not instrument, because it's just a number
+        } ),
         TICK_MARK_TEXT_OPTIONS
       )
     );
