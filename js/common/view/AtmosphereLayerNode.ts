@@ -24,7 +24,6 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 // constants
@@ -116,6 +115,7 @@ class AtmosphereLayerNode extends Node {
     );
 
     // Create the temperature readout.
+    const temperatureReadoutTandem = options.tandem.createTandem( 'temperatureReadout' );
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,
       backgroundStroke: Color.BLACK,
@@ -138,8 +138,10 @@ class AtmosphereLayerNode extends Node {
                      fahrenheitString;
             }
           )
-        }, { tandem: Tandem.OPT_OUT } ),
-      tandem: options.tandem.createTandem( 'valueUnitsStringProperty' ),
+        }, {
+          tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' )
+        } ),
+      tandem: temperatureReadoutTandem,
       decimalPlaces: 1,
       cornerRadius: 3,
       noValueAlign: 'center',
