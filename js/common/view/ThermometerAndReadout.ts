@@ -32,7 +32,6 @@ import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -185,6 +184,7 @@ class ThermometerAndReadout extends Node {
       );
 
       // Create the temperature readout.
+      const temperatureReadoutTandem = options.tandem.createTandem( 'temperatureReadout' );
       const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
         backgroundStroke: Color.BLACK,
@@ -200,8 +200,10 @@ class ThermometerAndReadout extends Node {
         valuePattern: new PatternStringProperty(
           GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
           { units: unitsStringProperty },
-          { tandem: Tandem.OPT_OUT }
-        )
+          { tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' ) }
+        ),
+        tandem: temperatureReadoutTandem,
+        phetioVisiblePropertyInstrumented: false
       } );
       this.addChild( temperatureReadout );
     }
@@ -219,23 +221,22 @@ class ThermometerAndReadout extends Node {
                                      propertyRange: Range,
                                      propertyValue: TemperatureUnits,
                                      tandemName: string ): ComboBoxItem<TemperatureUnits> {
-
-    const numberDisplayOptions = {
-      backgroundStroke: null,
-      decimalPlaces: DECIMAL_PLACES_IN_READOUT,
-      textOptions: {
-        font: GreenhouseEffectConstants.CONTENT_FONT,
-        maxWidth: 120
-      },
-      valuePattern: new PatternStringProperty(
-        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
-          units: unitsStringProperty
-        }, { tandem: Tandem.OPT_OUT } )
-    };
-
     return {
       value: propertyValue,
-      createNode: () => new NumberDisplay( property, propertyRange, numberDisplayOptions ),
+      createNode: tandem => new NumberDisplay( property, propertyRange, {
+        backgroundStroke: null,
+        decimalPlaces: DECIMAL_PLACES_IN_READOUT,
+        textOptions: {
+          font: GreenhouseEffectConstants.CONTENT_FONT,
+          maxWidth: 120
+        },
+        valuePattern: new PatternStringProperty(
+          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
+            units: unitsStringProperty
+          }, { tandem: tandem.createTandem( 'valuePatternStringProperty' ) } ),
+        tandem: tandem,
+        phetioVisiblePropertyInstrumented: false
+      } ),
       tandemName: tandemName,
       a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
