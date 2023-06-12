@@ -142,9 +142,9 @@ class GreenhouseGasConcentrationPanel extends Panel {
     );
 
     // selects how the user is controlling concentration, by date or by value
-    const controlRadioButtonGroup = new ConcentrationControlRadioButtonGroup(
+    const concentrationControlModeRadioButtonGroup = new ConcentrationControlModeRadioButtonGroup(
       concentrationModel.concentrationControlModeProperty,
-      options.tandem.createTandem( 'controlRadioButtonGroup' )
+      options.tandem.createTandem( 'concentrationControlModeRadioButtonGroup' )
     );
 
     // Put the two concentration controls into a single node where only one is visible at a time.
@@ -153,7 +153,7 @@ class GreenhouseGasConcentrationPanel extends Panel {
       minContentHeight: Math.max( concentrationControl.height, dateControl.height )
     } );
 
-    const contentChildren = [ titleText, concentrationControlsParentNode, controlRadioButtonGroup ];
+    const contentChildren = [ titleText, concentrationControlsParentNode, concentrationControlModeRadioButtonGroup ];
 
     let compositionDataNode: CompositionDataNode | null = null;
     if ( options.includeCompositionData ) {
@@ -513,7 +513,7 @@ const GREENHOUSE_GAS_CONCENTRATIONS = new Map( [
  * An inner class for the control panel that creates a RadioButtonGroup that selects between controlling concentration
  * by date or by value.
  */
-class ConcentrationControlRadioButtonGroup extends RectangularRadioButtonGroup<ConcentrationControlMode> {
+class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGroup<ConcentrationControlMode> {
 
   /**
    * @param property - Property for the method of controlling concentration
