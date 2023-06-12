@@ -86,14 +86,17 @@ class InstrumentVisibilityPanel extends Panel {
       }
     );
 
+    const textOptions = {
+      font: LABEL_FONT,
+      maxWidth: 300
+    };
+
     // Define the items for the checkboxes.
     const checkboxGroupItems: VerticalCheckboxGroupItem[] = [
 
       // checkbox item for controlling the energy balance indicator
       {
-        createNode: () => new Text(
-          GreenhouseEffectStrings.energyBalanceStringProperty, { font: LABEL_FONT }
-        ),
+        createNode: () => new Text( GreenhouseEffectStrings.energyBalanceStringProperty, textOptions ),
         property: model.energyBalanceVisibleProperty,
         options: {
 
@@ -109,9 +112,7 @@ class InstrumentVisibilityPanel extends Panel {
     // If the flux meter is present, add a checkbox to control its visibility.
     if ( options.includeFluxMeterCheckbox ) {
       checkboxGroupItems.push( {
-        createNode: () => new Text(
-          GreenhouseEffectStrings.fluxMeter.titleStringProperty, { font: LABEL_FONT }
-        ),
+        createNode: () => new Text( GreenhouseEffectStrings.fluxMeter.titleStringProperty, textOptions ),
         property: model.fluxMeterVisibleProperty,
         tandemName: 'fluxMeterCheckbox'
       } );
