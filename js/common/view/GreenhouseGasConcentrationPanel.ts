@@ -40,6 +40,7 @@ const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneString
 const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
 const methaneConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPatternStringProperty;
 const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
+const iceAgeStringProperty = GreenhouseEffectStrings.concentrationPanel.iceAgeStringProperty;
 
 // Height in view coordinates of the concentration slider track (when controlling concentration by value) and the
 // concentration meter graphic (when controlling by date). These are the same height so that the positions of values
@@ -67,6 +68,11 @@ const SLIDER_THUMB_LINE_WIDTH = 1;
 
 // color of meters and controls in this panel
 const CONCENTRATION_CONTROLS_STROKE = 'black';
+
+// numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
+const STRING_2020 = '2020';
+const STRING_1950 = '1950';
+const STRING_1750 = '1750';
 
 const RADIO_BUTTON_GROUP_OPTIONS = {
   radioButtonOptions: {
@@ -194,34 +200,28 @@ class DateControl extends HBox {
                       concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
                       tandem: Tandem ) {
 
-    // numeric date representations are not translatable, see https://github.com/phetsims/greenhouse-effect/issues/21
-    const twentyTwentyLabel = '2020';
-    const nineteenFiftyLabel = '1950';
-    const seventeenFiftyLabel = '1750';
-    const iceAgeLabel = GreenhouseEffectStrings.concentrationPanel.iceAgeStringProperty.value;
-
     // the radio buttons for the date control
     const items = [
       {
-        createNode: () => new Text( twentyTwentyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( STRING_2020, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_2020,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty,
         tandemName: 'twentyTwentyRadioButton'
       },
       {
-        createNode: () => new Text( nineteenFiftyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( STRING_1950, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1950,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty,
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
-        createNode: () => new Text( seventeenFiftyLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( STRING_1750, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1750,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty,
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
-        createNode: () => new Text( iceAgeLabel, LABEL_OPTIONS ),
+        createNode: () => new Text( iceAgeStringProperty, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty,
         tandemName: 'iceAgeRadioButton'
