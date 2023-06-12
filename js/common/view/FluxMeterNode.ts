@@ -37,12 +37,12 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import GreenhouseEffectOptions from '../GreenhouseEffectOptions.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -226,7 +226,7 @@ class FluxMeterNode extends Node {
     // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
     this.wasDraggedProperty = new BooleanProperty( false );
     const cueingArrowsShownProperty = new DerivedProperty(
-      [ this.wasDraggedProperty, GreenhouseEffectOptions.cueingArrowsEnabledProperty ],
+      [ this.wasDraggedProperty, GreenhouseEffectPreferences.cueingArrowsEnabledProperty ],
       ( wasDragged, cueingArrowsEnabled ) => !wasDragged && cueingArrowsEnabled
     );
 

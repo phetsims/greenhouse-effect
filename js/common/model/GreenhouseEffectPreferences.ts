@@ -12,6 +12,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TemperatureUnits from './TemperatureUnits.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // map used to set the default temperature units based on the value of a query parameter
 const mapLetterToTemperatureUnits = new Map<string, TemperatureUnits>( [
@@ -29,6 +30,11 @@ const GreenhouseEffectPreferences = {
     tandem: Tandem.PREFERENCES.createTandem( 'defaultTemperatureUnitsProperty' ),
     phetioFeatured: true,
     phetioDocumentation: 'The units in which temperature values are displayed by default.'
+  } ),
+
+  cueingArrowsEnabledProperty: new BooleanProperty( GreenhouseEffectQueryParameters.cueingArrowsEnabled, {
+    tandem: Tandem.PREFERENCES.createTandem( 'cueingArrowsEnabledProperty' ),
+    phetioDocumentation: 'shows cueing arrows on draggable elements'
   } )
 };
 

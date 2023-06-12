@@ -19,7 +19,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   },
 
   // Enables the feature that shows cueing arrows on the flux sensor.  This sets the initial value of
-  // GreenhouseEffectOptions.cueingArrowsEnabledProperty.
+  // GreenhouseEffectPreferences.cueingArrowsEnabledProperty.
   cueingArrowsEnabled: {
     type: 'boolean',
     defaultValue: true,
