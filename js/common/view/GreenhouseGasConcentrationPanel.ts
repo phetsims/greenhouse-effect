@@ -471,7 +471,7 @@ class CompositionDataNode extends VBox {
       children: [ carbonDioxideText, methaneText, nitrousOxideText ],
       align: 'left',
       tandem: tandem,
-      visiblePropertyOptions: { phetioReadOnly: true } // visibility is controlled by the sim
+      phetioVisiblePropertyInstrumented: false // visibility is controlled by the sim
     } );
   }
 }
