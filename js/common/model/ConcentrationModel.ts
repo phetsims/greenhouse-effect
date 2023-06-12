@@ -97,17 +97,19 @@ class ConcentrationModel extends LayersModel {
   public constructor( options: LayersModelOptions ) {
     super( options );
 
+    const concentrationTandem = options.tandem.createTandem( 'concentration' );
+
     this.dateProperty = new EnumerationProperty( ConcentrationDate.YEAR_1750, {
-      tandem: options.tandem.createTandem( 'dateProperty' )
+      tandem: concentrationTandem.createTandem( 'dateProperty' )
     } );
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
       range: CONCENTRATION_RANGE,
-      tandem: options.tandem.createTandem( 'manuallyControlledConcentrationProperty' ),
+      tandem: concentrationTandem.createTandem( 'manuallyControlledConcentrationProperty' ),
       phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
     this.concentrationControlModeProperty = new EnumerationProperty(
       ConcentrationControlMode.BY_VALUE,
-      { tandem: options.tandem.createTandem( 'concentrationControlModeProperty' ) }
+      { tandem: concentrationTandem.createTandem( 'concentrationControlModeProperty' ) }
     );
     this.concentrationProperty = new DerivedProperty(
       [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
@@ -117,7 +119,7 @@ class ConcentrationModel extends LayersModel {
                DATE_TO_CONCENTRATION_MAP.get( date )!;
       },
       {
-        tandem: options.tandem.createTandem( 'concentrationProperty' ),
+        tandem: concentrationTandem.createTandem( 'concentrationProperty' ),
         phetioValueType: NumberIO,
         phetioDocumentation: 'The concentration value being used in the model, set via the slider or the date control.'
       }
@@ -160,8 +162,10 @@ class ConcentrationModel extends LayersModel {
       }
     );
 
+    const cloudTandem = options.tandem.createTandem( 'cloud' );
+
     this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' ),
+      tandem: cloudTandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' ),
       phetioDocumentation: 'Controls whether the cloud is enabled in the model when manually controlling the concentration.'
     } );
 
@@ -173,7 +177,7 @@ class ConcentrationModel extends LayersModel {
       ( concentrationControlMode, cloudEnabledInManualConcentrationMode ) =>
         concentrationControlMode === ConcentrationControlMode.BY_DATE || cloudEnabledInManualConcentrationMode,
       {
-        tandem: options.tandem.createTandem( 'cloudEnabledProperty' ),
+        tandem: cloudTandem.createTandem( 'cloudEnabledProperty' ),
         phetioValueType: BooleanIO,
         phetioDocumentation: 'When true, the cloud will reflect some of the incoming sunlight back into space.'
       }
@@ -185,7 +189,7 @@ class ConcentrationModel extends LayersModel {
       topVisibleLightReflectivity: CLOUD_VISIBLE_REFLECTIVITY,
 
       // phetio
-      tandem: options.tandem.createTandem( 'cloud' )
+      tandem: cloudTandem
     } );
   }
 

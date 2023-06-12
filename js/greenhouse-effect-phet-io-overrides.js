@@ -73,13 +73,13 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.atmosphereLayers.layer9.temperatureProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.model.concentrationControlModeProperty": {
+    "greenhouseEffect.wavesScreen.model.concentration.concentrationControlModeProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.model.concentrationProperty": {
+    "greenhouseEffect.wavesScreen.model.concentration.concentrationProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.model.dateProperty": {
+    "greenhouseEffect.wavesScreen.model.concentration.dateProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.model.energyBalanceVisibleProperty": {
@@ -94,7 +94,7 @@ window.phet.preloads.phetio.phetioElementsOverrides =
     "greenhouseEffect.wavesScreen.model.isPlayingProperty": {
       "phetioFeatured": true
     },
-    "greenhouseEffect.wavesScreen.model.manuallyControlledConcentrationProperty": {
+    "greenhouseEffect.wavesScreen.model.concentration.manuallyControlledConcentrationProperty": {
       "phetioFeatured": true
     },
     "greenhouseEffect.wavesScreen.model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty": {
