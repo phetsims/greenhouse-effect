@@ -188,7 +188,7 @@ class FluxMeterNode extends Node {
 
     // zoom buttons conditionally added to the view
     if ( options.includeZoomButtons ) {
-      const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
+      const zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
         spacing: 5,
         applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
         applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
@@ -200,7 +200,7 @@ class FluxMeterNode extends Node {
         },
         tandem: options.tandem.createTandem( 'zoomButtonGroup' )
       } );
-      contentChildren.push( zoomButtons );
+      contentChildren.push( zoomButtonGroup );
     }
 
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
