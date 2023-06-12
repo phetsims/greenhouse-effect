@@ -135,6 +135,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'energyAbsorptionProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'Proportion, from 0 to 1, of light energy absorbed for interacting wavelengths.'
     } );
 

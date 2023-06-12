@@ -1,9 +1,6 @@
 /* eslint-disable */
 window.phet.preloads.phetio.phetioElementsOverrides =
   {
-    "greenhouseEffect.wavesScreen.model.atmosphereLayers.layer0.energyAbsorptionProperty": {
-      "phetioFeatured": true
-    },
     "greenhouseEffect.wavesScreen.model.atmosphereLayers.layer0.temperatureProperty": {
       "phetioFeatured": true
     },
