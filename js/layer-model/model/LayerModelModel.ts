@@ -47,6 +47,7 @@ class LayerModelModel extends LayersModel {
         moveSensorOffLayers: true,
         tandem: tandem.createTandem( 'fluxMeter' )
       },
+      proportionateOutputRatePropertyIsInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/283
 
       // phet-io
       tandem: tandem,

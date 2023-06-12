@@ -62,6 +62,12 @@ type SelfOptions = {
 
   // options that are passed through to the flux meter if present
   fluxMeterOptions?: FluxMeterOptions;
+
+  // Propagated to SunEnergySource.
+  // Determines whether proportionateOutputRateProperty is instrumented. This Property is necessary for the Layer Model
+  // screen, but it can create problematic situations on the Waves and Photons screens, which were not designed to
+  // support variable solar intensity. See https://github.com/phetsims/greenhouse-effect/issues/283
+  proportionateOutputRatePropertyIsInstrumented?: boolean;
 };
 export type LayersModelOptions = SelfOptions & GreenhouseEffectModelOptions;
 
@@ -125,7 +131,8 @@ class LayersModel extends GreenhouseEffectModel {
       fluxMeterPresent: false,
       fluxMeterOptions: {
         tandem: providedOptions.tandem.createTandem( 'fluxMeter' )
-      }
+      },
+      proportionateOutputRatePropertyIsInstrumented: false
     }, providedOptions );
 
     super( options );
@@ -204,9 +211,10 @@ class LayersModel extends GreenhouseEffectModel {
 
     this.sunEnergySource = new SunEnergySource(
       EnergyAbsorbingEmittingLayer.SURFACE_AREA,
-      this.emEnergyPackets,
-      options.tandem.createTandem( 'sunEnergySource' )
-    );
+      this.emEnergyPackets, {
+        tandem: options.tandem.createTandem( 'sunEnergySource' ),
+        proportionateOutputRatePropertyIsInstrumented: options.proportionateOutputRatePropertyIsInstrumented
+      } );
 
     this.groundLayer = new GroundLayer( {
       minimumTemperature: options.minimumGroundTemperature,

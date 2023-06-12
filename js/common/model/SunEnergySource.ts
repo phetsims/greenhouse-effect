@@ -8,7 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -20,6 +20,8 @@ import LayersModel from './LayersModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
@@ -28,6 +30,16 @@ const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
 // for more on the derivation see https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law, particularly the section
 // entitled "Effective temperature of the Earth".
 const OUTPUT_ENERGY_RATE = 343.6;
+
+type SelfOptions = {
+
+  // Determines whether proportionateOutputRateProperty is instrumented. This Property is necessary for the Layer Model
+  // screen, but it can create problematic situations on the Waves and Photons screens, which were not designed to
+  // support variable solar intensity. See https://github.com/phetsims/greenhouse-effect/issues/283
+  proportionateOutputRatePropertyIsInstrumented?: boolean;
+};
+
+type SunEnergySourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
 class SunEnergySource extends PhetioObject {
 
@@ -43,27 +55,34 @@ class SunEnergySource extends PhetioObject {
   /**
    * @param surfaceAreaOfIncidentLight - surface area onto which the sun is shining
    * @param emEnergyPackets - array of energy packets into which energy from this source will be placed
-   * @param tandem - for phet-io
+   * @param providedOptions
    */
-  public constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], tandem: Tandem ) {
+  public constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], providedOptions: SunEnergySourceOptions ) {
 
-    super( {
-      tandem: tandem,
+    const options = optionize<SunEnergySourceOptions, SelfOptions, PhetioObjectOptions>()( {
+
+      // SelfOptions
+      proportionateOutputRatePropertyIsInstrumented: false,
+
+      // PhetioObjectOptions
       phetioType: SunEnergySource.SunEnergySourceIO
-    } );
+    }, providedOptions );
+
+    super( options );
 
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
-      tandem: tandem.createTandem( 'isShiningProperty' )
+      tandem: options.tandem.createTandem( 'isShiningProperty' )
     } );
 
     this.proportionateOutputRateProperty = new NumberProperty( 1, {
       range: OUTPUT_PROPORTION_RANGE,
-      tandem: tandem.createTandem( 'proportionateOutputRateProperty' )
+      tandem: options.proportionateOutputRatePropertyIsInstrumented ?
+              options.tandem.createTandem( 'proportionateOutputRateProperty' ) : Tandem.OPT_OUT
     } );
 
     // tracks the average energy output
     this.outputEnergyRateTracker = new EnergyRateTracker( {
-      tandem: tandem.createTandem( 'outputEnergyRateTracker' )
+      tandem: options.tandem.createTandem( 'outputEnergyRateTracker' )
     } );
 
     this.surfaceAreaOfIncidentLight = surfaceAreaOfIncidentLight;
