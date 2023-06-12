@@ -22,9 +22,6 @@ type GreenhouseEffectPreferencesNodeOptions = SelfOptions & WithRequired<VBoxOpt
 
 export default class GreenhouseEffectPreferencesNode extends VBox {
 
-  // Disposes of things that are specific to this class.
-  private readonly disposeGreenhouseEffectPreferencesNode: () => void;
-
   public constructor( providedOptions: GreenhouseEffectPreferencesNodeOptions ) {
 
     const options = optionize<GreenhouseEffectPreferencesNodeOptions, SelfOptions, VBoxOptions>()( {
@@ -45,15 +42,6 @@ export default class GreenhouseEffectPreferencesNode extends VBox {
     );
 
     this.children = [ temperatureUnitsSelector ];
-
-    this.disposeGreenhouseEffectPreferencesNode = (): void => {
-      temperatureUnitsSelector.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    this.disposeGreenhouseEffectPreferencesNode();
-    super.dispose();
   }
 }
 
