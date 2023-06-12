@@ -184,22 +184,25 @@ class FluxMeterNode extends Node {
       spacing: METER_SPACING
     } );
 
-    const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
-      spacing: 5,
-      applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
-      applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
-      magnifyingGlassNodeOptions: {
-        glassRadius: 6
-      },
-      buttonOptions: {
-        baseColor: PhetColorScheme.PHET_LOGO_BLUE
-      },
-      tandem: options.tandem.createTandem( 'zoomButtonGroup' )
-    } );
-
-    // zoom buttons conditionally added to the view, but always created because I think that is required for PhET-iO
     const contentChildren: Node[] = [ titleText, fluxArrows ];
-    options.includeZoomButtons && contentChildren.push( zoomButtons );
+
+    // zoom buttons conditionally added to the view
+    if ( options.includeZoomButtons ) {
+      const zoomButtons = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
+        spacing: 5,
+        applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
+        applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
+        magnifyingGlassNodeOptions: {
+          glassRadius: 6
+        },
+        buttonOptions: {
+          baseColor: PhetColorScheme.PHET_LOGO_BLUE
+        },
+        tandem: options.tandem.createTandem( 'zoomButtonGroup' )
+      } );
+      contentChildren.push( zoomButtons );
+    }
+
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
     const fluxSensorNode = new FluxSensorNode( model.fluxSensor, modelViewTransform, {
