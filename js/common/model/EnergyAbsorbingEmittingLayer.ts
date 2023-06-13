@@ -128,6 +128,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       units: 'K',
       tandem: options.tandem.createTandem( 'temperatureProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioHighFrequency: true
     } );
 

@@ -100,17 +100,18 @@ class ConcentrationModel extends LayersModel {
     const concentrationTandem = options.tandem.createTandem( 'concentration' );
 
     this.dateProperty = new EnumerationProperty( ConcentrationDate.YEAR_1750, {
-      tandem: concentrationTandem.createTandem( 'dateProperty' )
+      tandem: concentrationTandem.createTandem( 'dateProperty' ),
+      phetioFeatured: true
     } );
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
       range: CONCENTRATION_RANGE,
       tandem: concentrationTandem.createTandem( 'manuallyControlledConcentrationProperty' ),
       phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
-    this.concentrationControlModeProperty = new EnumerationProperty(
-      ConcentrationControlMode.BY_VALUE,
-      { tandem: concentrationTandem.createTandem( 'concentrationControlModeProperty' ) }
-    );
+    this.concentrationControlModeProperty = new EnumerationProperty( ConcentrationControlMode.BY_VALUE, {
+      tandem: concentrationTandem.createTandem( 'concentrationControlModeProperty' ),
+      phetioFeatured: true
+    } );
     this.concentrationProperty = new DerivedProperty(
       [ this.concentrationControlModeProperty, this.dateProperty, this.manuallyControlledConcentrationProperty ],
       ( concentrationControl, date, manuallyControlledConcentration ) => {
@@ -120,6 +121,7 @@ class ConcentrationModel extends LayersModel {
       },
       {
         tandem: concentrationTandem.createTandem( 'concentrationProperty' ),
+        phetioFeatured: true,
         phetioValueType: NumberIO,
         phetioDocumentation: 'The concentration value being used in the model, set via the slider or the date control.'
       }
