@@ -7,12 +7,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
@@ -81,18 +79,12 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'surfaceTemperatureCheckbox' )
     );
 
-    // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
+    // Create the cloud-control checkbox.
     const cloudCheckbox = new CloudCheckbox(
       model.cloudEnabledInManualConcentrationModeProperty,
       model.sunEnergySource.isShiningProperty,
-      {
-        visibleProperty: new DerivedProperty(
-          [ model.concentrationControlModeProperty ],
-          mode => mode === ConcentrationControlMode.BY_VALUE
-        ),
-        tandem: tandem.createTandem( 'cloudCheckbox' )
-      }
-    );
+      model.concentrationControlModeProperty,
+      tandem.createTandem( 'cloudCheckbox' ) );
 
     // Responsible for generating descriptions about the changing radiation.
     const radiationDescriber = new RadiationDescriber( model );

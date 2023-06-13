@@ -169,6 +169,8 @@ class ConcentrationModel extends LayersModel {
     // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
     const cloudTandem = options.tandem.createTandem( 'cloud' );
 
+    // This is the Property controlled by the 'Cloud' checkbox. It's relevant only when controlling concentration
+    // manually (in 'by value' mode).
     this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
       tandem: cloudTandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' ),
       phetioDocumentation: 'Controls whether the cloud is enabled in the model when manually controlling the concentration.'

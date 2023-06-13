@@ -8,28 +8,29 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
 import CloudNode from '../../common/view/CloudNode.js';
-import GreenhouseEffectCheckbox, { GreenhouseEffectCheckboxOptions } from '../../common/view/GreenhouseEffectCheckbox.js';
+import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-
-type SelfOptions = EmptySelfOptions;
-export type CloudCheckboxOptions = SelfOptions & GreenhouseEffectCheckboxOptions;
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
 
 class CloudCheckbox extends GreenhouseEffectCheckbox {
-  public constructor( cloudEnabledProperty: Property<boolean>,
-                      isShiningProperty: BooleanProperty,
-                      providedOptions?: GreenhouseEffectCheckboxOptions ) {
+
+  public constructor( cloudEnabledInManualConcentrationModeProperty: Property<boolean>,
+                      isShiningProperty: Property<boolean>,
+                      concentrationControlModeProperty: EnumerationProperty<ConcentrationControlMode>,
+                      tandem: Tandem ) {
 
     // Create a shape to use for the cloud icon.  The shape generation seems to only work well for some ratios of width
     // to height, so change with caution.
@@ -41,13 +42,17 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
-    const options = optionize<CloudCheckboxOptions, SelfOptions, GreenhouseEffectCheckboxOptions>()( {
+    super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectStrings.cloudStringProperty, {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
-      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty
-    }, providedOptions );
+      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
 
-    super( cloudEnabledProperty, GreenhouseEffectStrings.cloudStringProperty, options );
+      // This checkbox is only shown in 'by value' mode, where the concentration is controlled manually.
+      // Clouds are always enabled in 'by date' mode.
+      visibleProperty: new DerivedProperty( [ concentrationControlModeProperty ],
+          mode => mode === ConcentrationControlMode.BY_VALUE ),
+      tandem: tandem
+    } );
   }
 }
 

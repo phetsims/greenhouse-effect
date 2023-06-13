@@ -6,11 +6,9 @@
  * @author John Blanco
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
@@ -74,18 +72,12 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
     // Add the concentration controls.  It goes into a VBox to support dynamic layout.
     this.legendAndControlsVBox.addChild( greenhouseGasConcentrationPanel );
 
-    // Create the cloud-control checkbox.  This is only shown in manually-controlled-concentration mode.
+    // Create the cloud-control checkbox.
     const cloudCheckbox = new CloudCheckbox(
       model.cloudEnabledInManualConcentrationModeProperty,
       model.sunEnergySource.isShiningProperty,
-      {
-        visibleProperty: new DerivedProperty(
-          [ model.concentrationControlModeProperty ],
-          mode => mode === ConcentrationControlMode.BY_VALUE
-        ),
-        tandem: tandem.createTandem( 'cloudCheckbox' )
-      }
-    );
+      model.concentrationControlModeProperty,
+      tandem.createTandem( 'cloudCheckbox' ) );
 
     // layout code
     const visibilityBox = new VBox( {
