@@ -215,11 +215,13 @@ class LayersModel extends GreenhouseEffectModel {
       phetioFeatured: true
     } );
 
+    const fluxMeterTandem = options.tandem.createTandem( 'fluxMeter' );
+
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {
 
       // Only allow this to show up in the phet-io tree if the flux meter is present in this model.
       tandem: options.fluxMeterPresent ?
-              options.tandem.createTandem( 'fluxMeterVisibleProperty' ) :
+              fluxMeterTandem.createTandem( 'fluxMeterVisibleProperty' ) :
               Tandem.OPT_OUT
     } );
 
@@ -276,7 +278,7 @@ class LayersModel extends GreenhouseEffectModel {
     if ( options.fluxMeterPresent ) {
 
       const fluxMeterOptions = combineOptions<FluxMeterOptions>( {
-        tandem: options.tandem.createTandem( 'fluxMeter' )
+        tandem: fluxMeterTandem
       }, options.fluxMeterOptions );
 
       this.fluxMeter = new FluxMeter( this.atmosphereLayers, fluxMeterOptions );
