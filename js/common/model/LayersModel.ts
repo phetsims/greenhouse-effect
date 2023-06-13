@@ -137,10 +137,31 @@ class LayersModel extends GreenhouseEffectModel {
 
     super( options );
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
+    const surfaceTemperatureTandem = options.tandem.createTandem( 'surfaceTemperature' );
+
+    this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {
+      tandem: surfaceTemperatureTandem.createTandem( 'temperatureUnitsProperty' ),
+      phetioFeatured: true
+    } );
+
+    // If the default temperature units change, change the current units setting to match.
+    DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
+
+    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
+      tandem: surfaceTemperatureTandem.createTandem( 'surfaceThermometerVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
+    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
+      tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureVisibleProperty' ),
+      phetioFeatured: true
+    } );
+
     this.surfaceTemperatureKelvinProperty = new NumberProperty( 0, {
       range: new Range( 0, 520 ),
       units: 'K',
-      tandem: options.tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
+      tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
       phetioFeatured: true,
       phetioReadOnly: true,
       phetioHighFrequency: true
@@ -151,7 +172,7 @@ class LayersModel extends GreenhouseEffectModel {
       GreenhouseEffectUtils.kelvinToCelsius,
       {
         units: '\u00B0C',
-        tandem: options.tandem.createTandem( 'surfaceTemperatureCelsiusProperty' ),
+        tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureCelsiusProperty' ),
         phetioValueType: NumberIO,
         phetioHighFrequency: true
       }
@@ -162,45 +183,30 @@ class LayersModel extends GreenhouseEffectModel {
       GreenhouseEffectUtils.kelvinToFahrenheit,
       {
         units: '\u00B0F',
-        tandem: options.tandem.createTandem( 'surfaceTemperatureFahrenheitProperty' ),
+        tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureFahrenheitProperty' ),
         phetioValueType: NumberIO,
         phetioHighFrequency: true
       }
     );
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
+    const energyBalanceTandem = options.tandem.createTandem( 'energyBalance' );
+
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
-      tandem: options.tandem.createTandem( 'netInflowOfEnergyProperty' ),
+      tandem: energyBalanceTandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Total energy coming into Earth\'s atmosphere.'
     } );
 
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'inRadiativeBalanceProperty' ),
+      tandem: energyBalanceTandem.createTandem( 'inRadiativeBalanceProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Indicates whether the energy coming in from the sun is equal to that being radiated back ' +
                            'into space by the Earth.'
     } );
 
-    this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {
-      tandem: options.tandem.createTandem( 'temperatureUnitsProperty' ),
-      phetioFeatured: true
-    } );
-
-    // If the default temperature units change, change the current units setting to match.
-    DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
-
-    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'surfaceThermometerVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'energyBalanceVisibleProperty' ),
-      phetioFeatured: true
-    } );
-
-    this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'surfaceTemperatureVisibleProperty' ),
+      tandem: energyBalanceTandem.createTandem( 'energyBalanceVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -228,6 +234,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     this.atmosphereLayers = [];
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
     const atmosphereLayersTandem = options.tandem.createTandem( 'atmosphereLayers' );
 
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.

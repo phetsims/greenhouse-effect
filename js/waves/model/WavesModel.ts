@@ -67,6 +67,9 @@ class WavesModel extends ConcentrationModel {
       phetioState: true
     } );
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
+    const wavesTandem = tandem.createTandem( 'waves' );
+
     // the electromagnetic waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
       ( tandem, wavelength, origin, propagationDirection, propagationLimit, providedOptions ) => {
@@ -81,7 +84,7 @@ class WavesModel extends ConcentrationModel {
         {}
       ],
       {
-        tandem: tandem.createTandem( 'waveGroup' ),
+        tandem: wavesTandem.createTandem( 'waveGroup' ),
         phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
       }
     );
@@ -95,7 +98,7 @@ class WavesModel extends ConcentrationModel {
       this.sunEnergySource.isShiningProperty,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
       0,
-      { tandem: tandem.createTandem( 'sunWaveSource' ) }
+      { tandem: wavesTandem.createTandem( 'sunWaveSource' ) }
     );
 
     // the source of the waves of infrared light (i.e. the ones that come from the ground)
@@ -104,7 +107,7 @@ class WavesModel extends ConcentrationModel {
       0,
       LayersModel.HEIGHT_OF_ATMOSPHERE,
       this.surfaceTemperatureKelvinProperty,
-      { tandem: tandem.createTandem( 'groundWaveSource' ) }
+      { tandem: wavesTandem.createTandem( 'groundWaveSource' ) }
     );
 
     // map of waves from the sun to waves reflected off of clouds
@@ -140,7 +143,7 @@ class WavesModel extends ConcentrationModel {
     // (read-only) {ObservableArrayDef.<WaveAtmosphereInteraction>} - An array of the interactions that are
     // currently occurring between IR waves and the atmosphere.
     this.waveAtmosphereInteractions = createObservableArray( {
-      tandem: tandem.createTandem( 'waveAtmosphereInteractions' ),
+      tandem: wavesTandem.createTandem( 'waveAtmosphereInteractions' ),
       phetioType: createObservableArray.ObservableArrayIO( WaveAtmosphereInteraction.WaveAtmosphereInteractionIO ),
       phetioDocumentation: 'Interactions between IR waves coming from the ground and the atmosphere'
     } );

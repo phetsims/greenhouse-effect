@@ -97,6 +97,7 @@ class ConcentrationModel extends LayersModel {
   public constructor( options: LayersModelOptions ) {
     super( options );
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
     const concentrationTandem = options.tandem.createTandem( 'concentration' );
 
     this.dateProperty = new EnumerationProperty( ConcentrationDate.YEAR_1750, {
@@ -165,6 +166,7 @@ class ConcentrationModel extends LayersModel {
       }
     );
 
+    // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
     const cloudTandem = options.tandem.createTandem( 'cloud' );
 
     this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
