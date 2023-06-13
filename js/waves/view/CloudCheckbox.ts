@@ -21,6 +21,8 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
@@ -42,6 +44,14 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
+    // This is a PhET-iO only Property, provided so that the instructional designer can totally hide the 'Cloud'
+    // checkbox, regardless of ConcentrationControlMode. See https://github.com/phetsims/greenhouse-effect/issues/297
+    const showCloudCheckboxProperty = new BooleanProperty( true, {
+      tandem: tandem.createTandem( 'showCloudCheckboxProperty' ),
+      phetioFeatured: true,
+      phetioDocumentation: 'The sim controls cloudCheckbox.visibleProperty. Set this to false to permanently hide the Cloud checkbox.'
+    } );
+
     super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectStrings.cloudStringProperty, {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
@@ -49,8 +59,11 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
 
       // This checkbox is only shown in 'by value' mode, where the concentration is controlled manually.
       // Clouds are always enabled in 'by date' mode.
-      visibleProperty: new DerivedProperty( [ concentrationControlModeProperty ],
-          mode => mode === ConcentrationControlMode.BY_VALUE ),
+      visibleProperty: new DerivedProperty( [ concentrationControlModeProperty, showCloudCheckboxProperty ],
+        ( mode, showCloudCheckbox ) => ( mode === ConcentrationControlMode.BY_VALUE ) && showCloudCheckbox, {
+          tandem: tandem.createTandem( 'visibleProperty' ),
+          phetioValueType: BooleanIO
+        } ),
       tandem: tandem
     } );
   }
