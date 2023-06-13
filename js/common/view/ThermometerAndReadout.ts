@@ -19,7 +19,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Color, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -31,8 +31,8 @@ import LayersModel from '../model/LayersModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -56,7 +56,7 @@ type SelfOptions = {
   thermometerNodeOptions?: ThermometerNodeOptions;
 };
 
-type ThermometerAndReadoutOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+type ThermometerAndReadoutOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class ThermometerAndReadout extends Node {
 
@@ -83,14 +83,13 @@ class ThermometerAndReadout extends Node {
         tubeHeight: 150,
         tubeWidth: 20,
         backgroundFill: 'white'
-      }
+      },
+
+      visibleProperty: model.surfaceThermometerVisibleProperty
     }, providedOptions );
 
     // options passed to the supertype later in mutate
     super();
-
-    // visibility
-    model.surfaceThermometerVisibleProperty.linkAttribute( this, 'visible' );
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
     const thermometerNode = new ThermometerNode( model.surfaceTemperatureKelvinProperty, options.minTemperature, options.maxTemperature, options.thermometerNodeOptions );

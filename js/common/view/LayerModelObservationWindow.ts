@@ -107,10 +107,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
         majorTickLength: 7,
         minorTickLength: 4
       },
-
       readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
-      visibleProperty: model.surfaceThermometerVisibleProperty,
       centerX: surfaceThermometerCenterX,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
