@@ -560,13 +560,13 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         } ),
         value: ConcentrationControlMode.BY_VALUE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty,
-        tandemName: 'byConcentrationRadioButton'
+        tandemName: 'byValueRadioButton'
       },
       {
         createNode: () => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
         labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty,
-        tandemName: 'byTimePeriodRadioButton'
+        tandemName: 'byDateRadioButton'
       }
     ];
 
