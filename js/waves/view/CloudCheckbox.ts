@@ -58,7 +58,8 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
 
       // This checkbox is only shown in 'by value' mode, where the concentration is controlled manually.
-      // Clouds are always enabled in 'by date' mode.
+      // Clouds are always enabled in 'by date' mode. showCloudCheckboxProperty can be used to permanently
+      // hide the checkbox, regardless of mode.
       visibleProperty: new DerivedProperty( [ concentrationControlModeProperty, showCloudCheckboxProperty ],
         ( mode, showCloudCheckbox ) => ( mode === ConcentrationControlMode.BY_VALUE ) && showCloudCheckbox, {
           tandem: tandem.createTandem( 'visibleProperty' ),
