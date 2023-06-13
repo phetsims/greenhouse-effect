@@ -88,7 +88,9 @@ class LayerModelModel extends LayersModel {
     // be used by clients to activate and deactivate layers.
     this.numberOfActiveAtmosphereLayersProperty = new NumberProperty( numberOfActiveLayers, {
       range: new Range( 0, this.atmosphereLayers.length ),
-      tandem: tandem.createTandem( 'numberOfAtmosphereLayersProperty' ),
+
+      // Group under model.atmosphereLayers, see https://github.com/phetsims/greenhouse-effect/issues/281
+      tandem: this.atmosphereLayersTandem.createTandem( 'numberOfActiveAtmosphereLayersProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'The number of modeled layers in the atmosphere that are absorbing some amount of IR energy'
     } );

@@ -122,6 +122,9 @@ class LayersModel extends GreenhouseEffectModel {
   public readonly temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>;
   public readonly fluxMeterVisibleProperty: BooleanProperty;
 
+  // For grouping model elements in the Studio tree
+  protected readonly atmosphereLayersTandem: Tandem;
+
   public constructor( providedOptions: LayersModelOptions ) {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
@@ -247,7 +250,7 @@ class LayersModel extends GreenhouseEffectModel {
     this.atmosphereLayers = [];
 
     // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
-    const atmosphereLayersTandem = options.tandem.createTandem( 'atmosphereLayers' );
+    this.atmosphereLayersTandem = options.tandem.createTandem( 'atmosphereLayers' );
 
     // The atmosphere layers are evenly spaced between the ground and the top of the atmosphere.
     const distanceBetweenAtmosphereLayers = HEIGHT_OF_ATMOSPHERE / ( options.numberOfAtmosphereLayers + 1 );
@@ -258,7 +261,7 @@ class LayersModel extends GreenhouseEffectModel {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
         {
-          tandem: atmosphereLayersTandem.createTandem( `layer${index}` ),
+          tandem: this.atmosphereLayersTandem.createTandem( `layer${index}` ),
           initiallyActive: options.atmosphereLayersInitiallyActive,
           initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion
         }
