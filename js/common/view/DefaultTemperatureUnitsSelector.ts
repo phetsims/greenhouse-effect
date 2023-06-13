@@ -45,7 +45,8 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
     super( options );
 
     const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
-      font: PreferencesDialog.CONTENT_FONT
+      font: PreferencesDialog.CONTENT_FONT,
+      maxWidth: 500
     } );
 
     const radioButtonGroup = new VerticalAquaRadioButtonGroup(
