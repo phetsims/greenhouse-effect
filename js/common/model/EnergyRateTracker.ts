@@ -80,6 +80,7 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty = new NumberProperty( 0, {
       units: 'W',
       tandem: options.tandem.createTandem( 'energyRateProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Amount of energy being produced or absorbed.'
     } );
 

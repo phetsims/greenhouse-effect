@@ -106,6 +106,7 @@ class ConcentrationModel extends LayersModel {
     this.manuallyControlledConcentrationProperty = new NumberProperty( 0.5, {
       range: CONCENTRATION_RANGE,
       tandem: concentrationTandem.createTandem( 'manuallyControlledConcentrationProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'The concentration value as set by the slider when in \'by value\' mode.'
     } );
     this.concentrationControlModeProperty = new EnumerationProperty( ConcentrationControlMode.BY_VALUE, {

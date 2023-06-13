@@ -71,7 +71,8 @@ class SunEnergySource extends PhetioObject {
     super( options );
 
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
-      tandem: options.tandem.createTandem( 'isShiningProperty' )
+      tandem: options.tandem.createTandem( 'isShiningProperty' ),
+      phetioFeatured: true
     } );
 
     this.proportionateOutputRateProperty = new NumberProperty( 1, {

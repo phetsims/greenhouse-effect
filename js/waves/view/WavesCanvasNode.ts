@@ -17,6 +17,8 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave from '../model/Wave.js';
 import WavesModel from '../model/WavesModel.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -29,17 +31,22 @@ type RenderingParameters = {
   wavelength: number;
 };
 
+type SelfOptions = EmptySelfOptions;
+type WavesCanvasNodeOptions = SelfOptions & PickRequired<CanvasNode, 'canvasBounds' | 'tandem'>;
+
 class WavesCanvasNode extends CanvasNode {
   private readonly model: WavesModel;
   private readonly modelViewTransform: ModelViewTransform2;
   private readonly waveRenderingParameters: Map<number, RenderingParameters>;
 
-  /**
-   * @param model
-   * @param modelViewTransform
-   * @param [options]
-   */
-  public constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, options: CanvasNodeOptions ) {
+  public constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, providedOptions: WavesCanvasNodeOptions ) {
+
+    const options = optionize<WavesCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
+
+      // CanvasNodeOptions
+      visiblePropertyOptions: { phetioFeatured: true }
+    }, providedOptions );
+
     super( options );
     this.model = model;
     this.modelViewTransform = modelViewTransform;

@@ -38,12 +38,14 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
     // playing speed for the model
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
-      tandem: options.tandem.createTandem( 'timeSpeedProperty' )
+      tandem: options.tandem.createTandem( 'timeSpeedProperty' ),
+      phetioFeatured: true
     } );
 
     // controls whether the model is stepping through time or paused
     this.isPlayingProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'isPlayingProperty' )
+      tandem: options.tandem.createTandem( 'isPlayingProperty' ),
+      phetioFeatured: true
     } );
   }
 

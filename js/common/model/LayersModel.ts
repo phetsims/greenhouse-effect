@@ -141,6 +141,7 @@ class LayersModel extends GreenhouseEffectModel {
       range: new Range( 0, 520 ),
       units: 'K',
       tandem: options.tandem.createTandem( 'surfaceTemperatureKelvinProperty' ),
+      phetioFeatured: true,
       phetioReadOnly: true,
       phetioHighFrequency: true
     } );
@@ -181,22 +182,26 @@ class LayersModel extends GreenhouseEffectModel {
     } );
 
     this.temperatureUnitsProperty = new EnumerationProperty( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value, {
-      tandem: options.tandem.createTandem( 'temperatureUnitsProperty' )
+      tandem: options.tandem.createTandem( 'temperatureUnitsProperty' ),
+      phetioFeatured: true
     } );
 
     // If the default temperature units change, change the current units setting to match.
     DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
 
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'surfaceThermometerVisibleProperty' )
+      tandem: options.tandem.createTandem( 'surfaceThermometerVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'energyBalanceVisibleProperty' )
+      tandem: options.tandem.createTandem( 'energyBalanceVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
-      tandem: options.tandem.createTandem( 'surfaceTemperatureVisibleProperty' )
+      tandem: options.tandem.createTandem( 'surfaceTemperatureVisibleProperty' ),
+      phetioFeatured: true
     } );
 
     this.fluxMeterVisibleProperty = new BooleanProperty( false, {

@@ -117,7 +117,10 @@ class GreenhouseGasConcentrationPanel extends Panel {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty
+      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
+
+      // phet-io
+      visiblePropertyOptions: { phetioFeatured: true }
     }, providedOptions );
 
     // title for the whole panel

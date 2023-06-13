@@ -51,8 +51,10 @@ class InstrumentVisibilityPanel extends Panel {
       // panel options
       fill: 'rgba(255,255,255,0.5)',
       cornerRadius: 5,
-      stroke: null
+      stroke: null,
 
+      // phet-io
+      visiblePropertyOptions: { phetioFeatured: true }
     }, providedOptions );
 
     // Create the utterance (for screen readers) that will be used by the energy balance checkbox.
