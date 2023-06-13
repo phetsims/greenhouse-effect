@@ -34,6 +34,7 @@ import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -190,23 +191,27 @@ class LayersModel extends GreenhouseEffectModel {
     );
 
     // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
-    const energyBalanceTandem = options.tandem.createTandem( 'energyBalance' );
+    // This is a PhET-iO object so that we can add linked elements to it.
+    const energyBalance = new PhetioObject( {
+      tandem: options.tandem.createTandem( 'energyBalance' ),
+      phetioState: false
+    } );
 
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
-      tandem: energyBalanceTandem.createTandem( 'netInflowOfEnergyProperty' ),
+      tandem: energyBalance.tandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Total energy coming into Earth\'s atmosphere.'
     } );
 
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
-      tandem: energyBalanceTandem.createTandem( 'inRadiativeBalanceProperty' ),
+      tandem: energyBalance.tandem.createTandem( 'inRadiativeBalanceProperty' ),
       phetioReadOnly: true,
       phetioDocumentation: 'Indicates whether the energy coming in from the sun is equal to that being radiated back ' +
                            'into space by the Earth.'
     } );
 
     this.energyBalanceVisibleProperty = new BooleanProperty( false, {
-      tandem: energyBalanceTandem.createTandem( 'energyBalanceVisibleProperty' ),
+      tandem: energyBalance.tandem.createTandem( 'energyBalanceVisibleProperty' ),
       phetioFeatured: true
     } );
 
@@ -226,6 +231,11 @@ class LayersModel extends GreenhouseEffectModel {
         tandem: options.tandem.createTandem( 'sunEnergySource' ),
         proportionateOutputRatePropertyIsInstrumented: options.proportionateOutputRatePropertyIsInstrumented
       } );
+
+    // Requeted in https://github.com/phetsims/greenhouse-effect/issues/281
+    energyBalance.addLinkedElement( this.sunEnergySource.outputEnergyRateTracker.energyRateProperty, {
+      tandem: energyBalance.tandem.createTandem( 'incomingEnergyRateProperty' )
+    } );
 
     this.groundLayer = new GroundLayer( {
       minimumTemperature: options.minimumGroundTemperature,
@@ -256,6 +266,11 @@ class LayersModel extends GreenhouseEffectModel {
 
     // the endpoint where energy radiating from the top of the atmosphere goes
     this.outerSpace = new SpaceEnergySink( HEIGHT_OF_ATMOSPHERE, options.tandem.createTandem( 'outerSpace' ) );
+
+    // Requested in https://github.com/phetsims/greenhouse-effect/issues/281
+    energyBalance.addLinkedElement( this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty, {
+      tandem: energyBalance.tandem.createTandem( 'outgoingEnergyRateProperty' )
+    } );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
     if ( options.fluxMeterPresent ) {
