@@ -34,14 +34,14 @@ export default class GreenhouseEffectPreferencesNode extends VBox {
 
     super( options );
 
-    const temperatureUnitsSelector = new DefaultTemperatureUnitsSelector(
+    const defaultTemperatureUnitsSelector = new DefaultTemperatureUnitsSelector(
       GreenhouseEffectPreferences.defaultTemperatureUnitsProperty,
       {
-        tandem: options.tandem.createTandem( 'DefaultTemperatureUnitsSelector' )
+        tandem: options.tandem.createTandem( 'defaultTemperatureUnitsSelector' )
       }
     );
 
-    this.children = [ temperatureUnitsSelector ];
+    this.children = [ defaultTemperatureUnitsSelector ];
   }
 }
 
