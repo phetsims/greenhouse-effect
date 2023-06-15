@@ -21,6 +21,9 @@ import Photon from './Photon.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {
@@ -208,14 +211,25 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     return velocity;
   }
 
-  public static readonly PhotonAbsorbingEmittingLayerIO = new IOType( 'PhotonAbsorbingEmittingLayerIO', {
-    valueType: PhotonAbsorbingEmittingLayer,
-    stateSchema: {},
-    defaultDeserializationMethod: 'applyState'
-  } );
+  public static readonly PhotonAbsorbingEmittingLayerIO =
+    new IOType<PhotonAbsorbingEmittingLayer, PhotonAbsorbingEmittingLayerStateObject>(
+      'PhotonAbsorbingEmittingLayerIO',
+      {
+        valueType: PhotonAbsorbingEmittingLayer,
+        stateSchema: {
+          photonToAbsorbedTimeMap: MapIO( ReferenceIO( Photon.PhotonIO ), NumberIO )
+        },
+        defaultDeserializationMethod: 'applyState'
+      } );
 }
 
 export { PhotonCrossingTestResult };
+
+type PhotonAbsorbingEmittingLayerStateObject = {
+  photonToAbsorbedTimeMap: MapStateObject<ReferenceIOState, number>;
+};
+
+export type { PhotonAbsorbingEmittingLayerStateObject };
 
 greenhouseEffect.register( 'PhotonAbsorbingEmittingLayer', PhotonAbsorbingEmittingLayer );
 export default PhotonAbsorbingEmittingLayer;
