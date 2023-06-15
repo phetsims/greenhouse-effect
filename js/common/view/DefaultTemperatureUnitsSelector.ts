@@ -76,9 +76,7 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
 
     this.children = [ text, radioButtonGroup ];
 
-    this.addLinkedElement( defaultTemperatureUnitsProperty, {
-      tandem: options.tandem.createTandem( defaultTemperatureUnitsProperty.tandem.name )
-    } );
+    this.addLinkedElement( defaultTemperatureUnitsProperty );
 
     this.disposeDefaultTemperatureUnitsSelector = (): void => {
       text.dispose();

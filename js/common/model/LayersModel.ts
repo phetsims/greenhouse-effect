@@ -239,7 +239,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     // Requeted in https://github.com/phetsims/greenhouse-effect/issues/281
     energyBalance.addLinkedElement( this.sunEnergySource.outputEnergyRateTracker.energyRateProperty, {
-      tandem: energyBalance.tandem.createTandem( 'incomingEnergyRateProperty' )
+      tandemName: 'incomingEnergyRateProperty'
     } );
 
     this.groundLayer = new GroundLayer( {
@@ -274,7 +274,7 @@ class LayersModel extends GreenhouseEffectModel {
 
     // Requested in https://github.com/phetsims/greenhouse-effect/issues/281
     energyBalance.addLinkedElement( this.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty, {
-      tandem: energyBalance.tandem.createTandem( 'outgoingEnergyRateProperty' )
+      tandemName: 'outgoingEnergyRateProperty'
     } );
 
     //  Create the model component for the FluxMeter if the options indicate that it should be present.
