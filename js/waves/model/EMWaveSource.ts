@@ -254,22 +254,6 @@ class EMWaveSource extends PhetioObject {
     this.waveCreationQueue.length = 0;
   }
 
-  public toStateObject(): EMWaveSourceStateObject {
-    return {
-      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), InfiniteNumberIO ).toStateObject( this.wavesToLifetimesMap ),
-      waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).toStateObject( this.waveCreationQueue )
-    };
-  }
-
-  public applyState( stateObject: EMWaveSourceStateObject ): void {
-    this.wavesToLifetimesMap = MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ).fromStateObject(
-      stateObject.wavesToLifetimesMap
-    );
-    this.waveCreationQueue = ArrayIO( WaveCreationSpec.WaveCreationSpecIO ).fromStateObject(
-      stateObject.waveCreationQueue
-    );
-  }
-
   /**
    * EMWaveSourceIO handles PhET-iO serialization of the EMWaveSource. Because serialization involves accessing private
    * members, it delegates to EMWaveSource. The methods that EMWaveSourceIO overrides are typical of 'Dynamic element
@@ -279,13 +263,9 @@ class EMWaveSource extends PhetioObject {
   public static readonly EMWaveSourceIO = new IOType<EMWaveSource, EMWaveSourceStateObject>( 'EMWaveSourceIO', {
     valueType: EMWaveSource,
     stateSchema: {
-      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), NumberIO ),
+      wavesToLifetimesMap: MapIO( ReferenceIO( Wave.WaveIO ), InfiniteNumberIO ),
       waveCreationQueue: ArrayIO( WaveCreationSpec.WaveCreationSpecIO )
-    },
-    applyState: ( emWaveSource: EMWaveSource, stateObject: EMWaveSourceStateObject ) => emWaveSource.applyState( stateObject
-    ),
-    toStateObject: ( emWaveSource: EMWaveSource ) => emWaveSource.toStateObject(),
-    defaultDeserializationMethod: 'applyState'
+    }
   } );
 }
 

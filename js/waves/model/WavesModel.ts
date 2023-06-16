@@ -27,7 +27,7 @@ import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmit
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EMWaveSource, { EMWaveSourceStateObject } from './EMWaveSource.js';
+import { EMWaveSourceStateObject } from './EMWaveSource.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
@@ -465,8 +465,6 @@ class WavesModel extends ConcentrationModel {
     valueType: WavesModel,
     supertype: ConcentrationModel.ConcentrationModelIO,
     stateSchema: {
-      sunWaveSource: EMWaveSource.EMWaveSourceIO,
-      groundWaveSource: EMWaveSource.EMWaveSourceIO,
       cloudReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) ),
       glacierReflectedWavesMap: MapIO( ReferenceIO( Wave.WaveIO ), ReferenceIO( Wave.WaveIO ) )
     }

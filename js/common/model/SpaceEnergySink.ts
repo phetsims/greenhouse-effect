@@ -9,28 +9,21 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 
-class SpaceEnergySink extends PhetioObject {
+class SpaceEnergySink {
   private readonly altitude: number;
   public readonly incomingUpwardMovingEnergyRateTracker: EnergyRateTracker;
 
   public constructor( altitude: number, tandem: Tandem ) {
 
-    super( {
-      tandem: tandem,
-      phetioType: SpaceEnergySink.SpaceEnergySinkIO
-    } );
-
     this.altitude = altitude;
 
-    // {read-only} - energy rate tracking for incoming upward-moving energy, used for debugging
+    // Energy rate tracking for incoming upward-moving energy, used for debugging.
     this.incomingUpwardMovingEnergyRateTracker = new EnergyRateTracker( {
       accumulationPeriod: 0.25,
       tandem: tandem.createTandem( 'incomingUpwardMovingEnergyRateTracker' )
@@ -58,19 +51,6 @@ class SpaceEnergySink extends PhetioObject {
     // Track the incoming energy rate.
     this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( energyEmittedIntoSpace, dt );
   }
-
-  /**
-   * SpaceEnergySinkIO handles PhET-iO serialization of the SpaceEnergySink. Because serialization involves accessing
-   * private members, it delegates to SpaceEnergySink. The methods that SpaceEnergySinkIO overrides are typical of
-   * 'Dynamic element serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
-   */
-  public static readonly SpaceEnergySinkIO = new IOType( 'SpaceEnergySinkIO', {
-    valueType: SpaceEnergySink,
-    stateSchema: {
-      incomingUpwardMovingEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
-    }
-  } );
 }
 
 greenhouseEffect.register( 'SpaceEnergySink', SpaceEnergySink );

@@ -138,8 +138,7 @@ class EnergyRateTracker extends PhetioObject {
     valueType: EnergyRateTracker,
     stateSchema: {
       energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )
-    },
-    defaultDeserializationMethod: 'applyState'
+    }
   } );
 }
 

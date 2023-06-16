@@ -8,8 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -41,7 +40,7 @@ type SelfOptions = {
 
 type SunEnergySourceOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
 
-class SunEnergySource extends PhetioObject {
+class SunEnergySource {
 
   // controls whether the sun is shining
   public readonly isShiningProperty: BooleanProperty;
@@ -57,18 +56,16 @@ class SunEnergySource extends PhetioObject {
    * @param emEnergyPackets - array of energy packets into which energy from this source will be placed
    * @param providedOptions
    */
-  public constructor( surfaceAreaOfIncidentLight: number, emEnergyPackets: EMEnergyPacket[], providedOptions: SunEnergySourceOptions ) {
+  public constructor( surfaceAreaOfIncidentLight: number,
+                      emEnergyPackets: EMEnergyPacket[],
+                      providedOptions: SunEnergySourceOptions ) {
 
-    const options = optionize<SunEnergySourceOptions, SelfOptions, PhetioObjectOptions>()( {
+    const options = optionize<SunEnergySourceOptions, SelfOptions>()( {
 
       // SelfOptions
-      proportionateOutputRatePropertyIsInstrumented: false,
+      proportionateOutputRatePropertyIsInstrumented: false
 
-      // PhetioObjectOptions
-      phetioType: SunEnergySource.SunEnergySourceIO
     }, providedOptions );
-
-    super( options );
 
     this.isShiningProperty = new BooleanProperty( GreenhouseEffectQueryParameters.initiallyStarted, {
       tandem: options.tandem.createTandem( 'isShiningProperty' ),
@@ -117,26 +114,11 @@ class SunEnergySource extends PhetioObject {
     return this.isShiningProperty.value ? OUTPUT_ENERGY_RATE * this.proportionateOutputRateProperty.value : 0;
   }
 
-  /**
-   */
   public reset(): void {
     this.outputEnergyRateTracker.reset();
     this.isShiningProperty.reset();
     this.proportionateOutputRateProperty.reset();
   }
-
-  /**
-   * SunEnergySourceIO handles PhET-iO serialization of the SunEnergySource. Because serialization involves accessing
-   * private members, it delegates to SunEnergySource. The methods that SunEnergySourceIO overrides are typical of
-   * 'Dynamic element serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
-   */
-  public static readonly SunEnergySourceIO = new IOType( 'SunEnergySourceIO', {
-    valueType: SunEnergySource,
-    stateSchema: {
-      outputEnergyRateTracker: EnergyRateTracker.EnergyRateTrackerIO
-    }
-  } );
 
   // static values
   public static readonly OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;

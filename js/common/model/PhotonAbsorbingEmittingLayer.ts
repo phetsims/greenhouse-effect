@@ -218,9 +218,9 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
         valueType: PhotonAbsorbingEmittingLayer,
         stateSchema: {
           photonToAbsorbedTimeMap: MapIO( ReferenceIO( Photon.PhotonIO ), NumberIO )
-        },
-        defaultDeserializationMethod: 'applyState'
-      } );
+        }
+      }
+    );
 }
 
 export { PhotonCrossingTestResult };
