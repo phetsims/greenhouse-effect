@@ -15,20 +15,18 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import GroundLayer from './GroundLayer.js';
 import LayersModel from './LayersModel.js';
-import Photon, { PhotonStateObject } from './Photon.js';
+import Photon from './Photon.js';
 import PhotonAbsorbingEmittingLayer, { PhotonAbsorbingEmittingLayerOptions, PhotonCrossingTestResult } from './PhotonAbsorbingEmittingLayer.js';
 import SunEnergySource from './SunEnergySource.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -47,13 +45,11 @@ type SelfOptions = {
 
   // whether a glacier is present, which will affect how photons are reflected from the ground
   glacierPresentProperty?: TReadOnlyProperty<boolean>;
-
-  // phet-io
-  tandem: Tandem;
 };
-type PhotonCollectionOptions = SelfOptions & PhetioObjectOptions;
 
-class PhotonCollection extends PhetioObject {
+type PhotonCollectionOptions = SelfOptions & PickRequired<PhetioObjectOptions, 'tandem'>;
+
+class PhotonCollection {
 
   public readonly photons: ObservableArray<Photon>;
   public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
@@ -72,16 +68,13 @@ class PhotonCollection extends PhetioObject {
                       atmosphereLayers: AtmosphereLayer[],
                       providedOptions: PhotonCollectionOptions ) {
 
-    const options = optionize<PhotonCollectionOptions, SelfOptions, PhetioObjectOptions>()( {
-      phetioType: PhotonCollection.PhotonCollectionIO,
+    const options = optionize<PhotonCollectionOptions, SelfOptions>()( {
       glacierPresentProperty: new BooleanProperty( false ),
       photonAbsorbingEmittingLayerOptions: {
         photonMaxLateralJumpProportion: 0.1,
         photonAbsorptionTime: 1.0
       }
     }, providedOptions );
-
-    super( options );
 
     // Some of the code in this class depends on the atmosphere layers being in ascending order of altitude, so verify
     // that this is true.
@@ -100,9 +93,11 @@ class PhotonCollection extends PhetioObject {
     this.groundLayer = groundLayer;
     this.glacierPresentProperty = options.glacierPresentProperty;
 
-    // Create the observable array where the photons will be kept.  This doesn't have a tandem because we do a custom
-    // serialization (see code elsewhere in this file) for optimal performance.
-    this.photons = createObservableArray();
+    // Create the observable array where the photons will be kept.
+    this.photons = createObservableArray( {
+      tandem: options.tandem.createTandem( 'photons' ),
+      phetioType: createObservableArray.ObservableArrayIO( Photon.PhotonIO )
+    } );
 
     // Initialize the counters and other values that control the photon production rate.
     this.photonCreationCountdown = 0;
@@ -301,25 +296,6 @@ class PhotonCollection extends PhetioObject {
   }
 
   /**
-   * Serialize this instance to a state object, used for phet-io.
-   */
-  public toStateObject(): PhotonCollectionStateObject {
-    return {
-      photonStateObjects: ArrayIO( Photon.PhotonIO ).toStateObject( this.photons )
-    };
-  }
-
-  /**
-   * Set the state of this instance based on the provided state object, used for phet-io.
-   */
-  public applyState( stateObject: PhotonCollectionStateObject ): void {
-    this.photons.clear();
-    this.photons.push(
-      ...ArrayIO( Photon.PhotonIO ).fromStateObject( stateObject.photonStateObjects )
-    );
-  }
-
-  /**
    * Restore initial state.
    */
   public reset(): void {
@@ -356,16 +332,6 @@ class PhotonCollection extends PhetioObject {
 
     return photonProductionRate;
   }
-
-  public static readonly PhotonCollectionIO = new IOType( 'PhotonCollectionIO', {
-    valueType: PhotonCollection,
-    stateSchema: {
-      photonStateObjects: ArrayIO( Photon.PhotonIO )
-    },
-    toStateObject: ( photonCollection: PhotonCollection ) => photonCollection.toStateObject(),
-    applyState: ( photonCollection: PhotonCollection, stateObject: PhotonCollectionStateObject ) => photonCollection.applyState( stateObject ),
-    defaultDeserializationMethod: 'applyState'
-  } );
 }
 
 /**
@@ -378,10 +344,6 @@ const firstLetterToUpper = ( stringToAlter: string ) => {
   const leadingChar = stringToAlter.charAt( 0 );
   assert && assert( leadingChar.match( /[a-z]/i ), `Leading character is not a letter: ${leadingChar}` );
   return `${leadingChar.toUpperCase()}${stringToAlter.slice( 1 )}`;
-};
-
-type PhotonCollectionStateObject = {
-  photonStateObjects: PhotonStateObject[];
 };
 
 greenhouseEffect.register( 'PhotonCollection', PhotonCollection );
