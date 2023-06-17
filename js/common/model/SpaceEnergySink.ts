@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * SpaceEnergySink a place where outgoing energy can be sent if we don't want to do anything with it.  It exists
