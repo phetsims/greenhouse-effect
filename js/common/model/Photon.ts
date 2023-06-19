@@ -7,7 +7,6 @@
  */
 
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
-import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
@@ -17,6 +16,8 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import StringIO from '../../../../tandem/js/types/StringIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -39,6 +40,9 @@ export type PhotonOptions = {
   // initial velocity of the photon, will be created if not supplied
   initialVelocity?: Vector2 | null;
 
+  // previous position of the photon, will be created if not supplied
+  previousPosition?: Vector2 | null;
+
   // whether this photon should always be shown in the view or only in "more photons" mode
   showState?: ShowState;
 };
@@ -49,7 +53,7 @@ export type PhotonOptions = {
 class Photon {
 
   // position in model space in meters
-  public readonly positionProperty: Vector2Property;
+  public readonly positionProperty: TProperty<Vector2>;
 
   // previous position, used for checking when the photon has crossed some threshold
   public readonly previousPosition: Vector2;
@@ -68,14 +72,17 @@ class Photon {
 
     const options = optionize<PhotonOptions>()( {
       initialVelocity: null,
-      showState: ShowState.ALWAYS
+      showState: ShowState.ALWAYS,
+      previousPosition: null
     }, providedOptions );
 
     assert && assert( SUPPORTED_WAVELENGTHS.includes( wavelength ), 'unsupported wavelength' );
 
+    // Create the internal data.  There are no tandems set here because photon uses data-type serialization, so no
+    // references are stored within phet-io.
+    this.positionProperty = new TinyProperty<Vector2>( initialPosition );
     this.wavelength = wavelength;
-    this.positionProperty = new Vector2Property( initialPosition );
-    this.previousPosition = new Vector2( initialPosition.x, initialPosition.y );
+    this.previousPosition = options.previousPosition || new Vector2( initialPosition.x, initialPosition.y );
     this.velocity = options.initialVelocity || new Vector2( 0, PHOTON_SPEED );
     this.showState = options.showState;
   }
@@ -116,6 +123,8 @@ class Photon {
     this.previousPosition.set( this.positionProperty.value );
   }
 
+  // Provide a custom toStateObject method because the default doesn't support mapping a composite position property
+  // into our state object.
   public toStateObject(): PhotonStateObject {
     return {
       position: this.positionProperty.value.toStateObject(),
@@ -146,6 +155,7 @@ class Photon {
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),
       stateObject.wavelength, {
+        previousPosition: Vector2.fromStateObject( stateObject.previousPosition ),
         initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
         showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
       }
