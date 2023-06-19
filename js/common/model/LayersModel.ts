@@ -178,6 +178,7 @@ class LayersModel extends GreenhouseEffectModel {
         units: '\u00B0C',
         tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureCelsiusProperty' ),
         phetioValueType: NumberIO,
+        phetioFeatured: true,
         phetioHighFrequency: true
       }
     );
@@ -189,6 +190,7 @@ class LayersModel extends GreenhouseEffectModel {
         units: '\u00B0F',
         tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureFahrenheitProperty' ),
         phetioValueType: NumberIO,
+        phetioFeatured: true,
         phetioHighFrequency: true
       }
     );

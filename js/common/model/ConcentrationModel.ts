@@ -187,6 +187,7 @@ class ConcentrationModel extends LayersModel {
       {
         tandem: cloudTandem.createTandem( 'cloudEnabledProperty' ),
         phetioValueType: BooleanIO,
+        phetioFeatured: true,
         phetioDocumentation: 'When true, the cloud will reflect some of the incoming sunlight back into space.'
       }
     );
