@@ -58,6 +58,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
       range: new Range( 0, 1 ),
       tandem: options.tandem.createTandem( 'albedoProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'Proportion of incident light reflected from the ground from 0 (no reflection) to 1 (all light is reflected).'
     } );
   }

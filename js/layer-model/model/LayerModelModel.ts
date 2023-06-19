@@ -70,6 +70,7 @@ class LayerModelModel extends LayersModel {
     this.layersInfraredAbsorbanceProperty = new NumberProperty( INITIAL_ABSORPTION_PROPORTION, {
       range: IR_ABSORBANCE_RANGE,
       tandem: tandem.createTandem( 'layersInfraredAbsorbanceProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'The proportion of IR energy that should be absorbed by a layer when passing through it.'
     } );
 
@@ -92,6 +93,7 @@ class LayerModelModel extends LayersModel {
       // Group under model.atmosphereLayers, see https://github.com/phetsims/greenhouse-effect/issues/281
       tandem: this.atmosphereLayersTandem.createTandem( 'numberOfActiveAtmosphereLayersProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'The number of modeled layers in the atmosphere that are absorbing some amount of IR energy'
     } );
 

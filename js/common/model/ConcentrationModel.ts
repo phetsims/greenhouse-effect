@@ -173,6 +173,7 @@ class ConcentrationModel extends LayersModel {
     // manually (in 'by value' mode).
     this.cloudEnabledInManualConcentrationModeProperty = new BooleanProperty( true, {
       tandem: cloudTandem.createTandem( 'cloudEnabledInManualConcentrationModeProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Controls whether the cloud is enabled in the model when manually controlling the concentration.'
     } );
 

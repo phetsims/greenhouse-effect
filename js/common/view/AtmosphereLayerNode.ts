@@ -95,7 +95,8 @@ class AtmosphereLayerNode extends Node {
 
     // Create the property and associated checkbox that will control whether the temperature readout is visible.
     const showTemperatureProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showTemperatureProperty' )
+      tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
+      phetioFeatured: true
     } );
     const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, {
       tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )

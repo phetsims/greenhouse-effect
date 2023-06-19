@@ -158,7 +158,8 @@ class FluxMeterNode extends Node {
 
     this.zoomFactorProperty = new NumberProperty( 0, {
       range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS ),
-      tandem: options.tandem.createTandem( 'zoomFactorProperty' )
+      tandem: options.tandem.createTandem( 'zoomFactorProperty' ),
+      phetioFeatured: true
     } );
 
     const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactorProperty ], zoomFactor =>
@@ -198,7 +199,10 @@ class FluxMeterNode extends Node {
         buttonOptions: {
           baseColor: PhetColorScheme.PHET_LOGO_BLUE
         },
-        tandem: options.tandem.createTandem( 'zoomButtonGroup' )
+        tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
+        visiblePropertyOptions: {
+          phetioFeatured: true
+        }
       } );
       contentChildren.push( zoomButtonGroup );
     }

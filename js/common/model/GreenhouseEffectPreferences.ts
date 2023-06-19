@@ -34,6 +34,7 @@ const GreenhouseEffectPreferences = {
 
   cueingArrowsEnabledProperty: new BooleanProperty( GreenhouseEffectQueryParameters.cueingArrowsEnabled, {
     tandem: Tandem.PREFERENCES.createTandem( 'cueingArrowsEnabledProperty' ),
+    phetioFeatured: true,
     phetioDocumentation: 'shows cueing arrows on draggable elements'
   } )
 };

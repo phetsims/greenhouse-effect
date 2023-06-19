@@ -111,6 +111,7 @@ class PhotonCollection {
     // is in.
     this.showAllSimulatedPhotonsInViewProperty = new BooleanProperty( false, {
       tandem: options.tandem.createTandem( 'showAllSimulatedPhotonsInViewProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'Controls whether all the simulated photons should be shown versus a subset of them.'
     } );
 

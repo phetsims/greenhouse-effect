@@ -75,7 +75,8 @@ class SunEnergySource {
     this.proportionateOutputRateProperty = new NumberProperty( 1, {
       range: OUTPUT_PROPORTION_RANGE,
       tandem: options.proportionateOutputRatePropertyIsInstrumented ?
-              options.tandem.createTandem( 'proportionateOutputRateProperty' ) : Tandem.OPT_OUT
+              options.tandem.createTandem( 'proportionateOutputRateProperty' ) : Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
 
     // tracks the average energy output

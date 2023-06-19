@@ -83,8 +83,9 @@ class FluxSensor extends PhetioObject {
 
     this.xPosition = options.initialPosition.x;
     this.altitudeProperty = new NumberProperty( options.initialPosition.y, {
-      tandem: options.tandem.createTandem( 'altitudeProperty' ),
       units: 'm',
+      tandem: options.tandem.createTandem( 'altitudeProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'The altitude of the flux sensor in the atmosphere.'
     } );
 

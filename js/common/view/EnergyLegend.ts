@@ -68,7 +68,12 @@ class EnergyLegend extends Panel {
       labelTagName: 'h3',
       labelContent: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
       descriptionTagName: 'p',
-      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty
+      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty,
+
+      // phet-io
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions );
 
     // title

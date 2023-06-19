@@ -55,7 +55,10 @@ class InfraredPanel extends Panel {
       labelContent: GreenhouseEffectStrings.infraredStringProperty,
 
       // phet-io
-      tandem: tandem
+      tandem: tandem,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     };
 
     // title text for the panel

@@ -203,12 +203,14 @@ class LayersModel extends GreenhouseEffectModel {
     this.netInflowOfEnergyProperty = new NumberProperty( 0, {
       tandem: energyBalance.tandem.createTandem( 'netInflowOfEnergyProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'Total energy coming into Earth\'s atmosphere.'
     } );
 
     this.inRadiativeBalanceProperty = new BooleanProperty( true, {
       tandem: energyBalance.tandem.createTandem( 'inRadiativeBalanceProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'Indicates whether the energy coming in from the sun is equal to that being radiated back ' +
                            'into space by the Earth.'
     } );
@@ -225,7 +227,8 @@ class LayersModel extends GreenhouseEffectModel {
       // Only allow this to show up in the phet-io tree if the flux meter is present in this model.
       tandem: options.fluxMeterPresent ?
               fluxMeterTandem.createTandem( 'fluxMeterVisibleProperty' ) :
-              Tandem.OPT_OUT
+              Tandem.OPT_OUT,
+      phetioFeatured: true
     } );
 
     this.emEnergyPackets = [];

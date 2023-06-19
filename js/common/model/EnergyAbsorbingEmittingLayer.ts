@@ -145,6 +145,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     this.atEquilibriumProperty = new BooleanProperty( true, {
       tandem: options.tandem.createTandem( 'atEquilibriumProperty' ),
       phetioReadOnly: true,
+      phetioFeatured: true,
       phetioDocumentation: 'True when the amount of energy being absorbed is roughly equal to the amount being radiated.'
     } );
 

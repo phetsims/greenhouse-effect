@@ -64,7 +64,10 @@ class SunlightPanel extends Panel {
       labelContent: GreenhouseEffectStrings.infraredStringProperty,
 
       // phet-io
-      tandem: tandem
+      tandem: tandem,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     };
 
     // Title text for the panel.
