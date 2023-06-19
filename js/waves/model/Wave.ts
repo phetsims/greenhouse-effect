@@ -80,9 +80,6 @@ class Wave extends PhetioObject {
   // the length of this wave from the start point to where it ends
   public length: number;
 
-  // the length of time that this wave has existed, in seconds
-  public existenceTime: number;
-
   // Angle of phase offset, in radians.  This is here primarily in support of the view, but it has to be available in
   // the model in order to coordinate the appearance of reflected and stimulated waves.
   public phaseOffsetAtOrigin: number;
@@ -161,7 +158,6 @@ class Wave extends PhetioObject {
     this.startPoint = origin.copy();
     this.length = 0;
     this.isSourced = true;
-    this.existenceTime = 0;
     this.phaseOffsetAtOrigin = options.initialPhaseOffset;
     this.intensityAtStart = options.intensityAtStart;
     this.intensityChanges = [];
@@ -294,7 +290,6 @@ class Wave extends PhetioObject {
     else if ( this.phaseOffsetAtOrigin < 0 ) {
       this.phaseOffsetAtOrigin += TWO_PI;
     }
-    this.existenceTime += dt;
   }
 
   /**
@@ -578,7 +573,6 @@ class Wave extends PhetioObject {
       startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
       length: this.length,
       isSourced: this.isSourced,
-      existenceTime: this.existenceTime,
       phaseOffsetAtOrigin: this.phaseOffsetAtOrigin,
       intensityAtStart: this.intensityAtStart,
       intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).toStateObject( this.intensityChanges ),
@@ -597,7 +591,6 @@ class Wave extends PhetioObject {
     this.length = stateObject.length;
     this.isSourced = stateObject.isSourced;
     this.startPoint.set( Vector2.Vector2IO.fromStateObject( stateObject.startPoint ) );
-    this.existenceTime = stateObject.existenceTime;
     this.phaseOffsetAtOrigin = stateObject.phaseOffsetAtOrigin;
     this.intensityAtStart = stateObject.intensityAtStart;
     this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject(
@@ -634,7 +627,6 @@ class Wave extends PhetioObject {
       startPoint: Vector2.Vector2IO,
       length: NumberIO,
       isSourced: BooleanIO,
-      existenceTime: NumberIO,
       phaseOffsetAtOrigin: NumberIO,
       intensityAtStart: NumberIO,
       intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ),
@@ -664,7 +656,6 @@ type WaveStateObject = {
   startPoint: Vector2StateObject;
   length: number;
   isSourced: boolean;
-  existenceTime: number;
   phaseOffsetAtOrigin: number;
   intensityAtStart: number;
   intensityChanges: WaveIntensityChangeStateObject[];

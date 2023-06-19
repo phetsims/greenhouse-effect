@@ -37,10 +37,7 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   showAdditionalTemperatureDigits: { type: 'flag' },
 
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
-  showAllLayers: { type: 'flag' },
-
-  // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
-  waveGapsEnabled: { type: 'boolean', defaultValue: false }
+  showAllLayers: { type: 'flag' }
 } );
 
 greenhouseEffect.register( 'GreenhouseEffectQueryParameters', GreenhouseEffectQueryParameters );

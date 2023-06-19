@@ -27,7 +27,6 @@ import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmit
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import { EMWaveSourceStateObject } from './EMWaveSource.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
@@ -166,8 +165,8 @@ class WavesModel extends ConcentrationModel {
   public override stepModel( dt: number ): void {
     const numberOfWavesAtStartOfStep = this.waveGroup.count;
     super.stepModel( dt );
-    this.sunWaveSource.step( dt );
-    this.groundWaveSource.step( dt );
+    this.sunWaveSource.step();
+    this.groundWaveSource.step();
     this.waveGroup.forEach( wave => wave.step( dt ) );
     this.updateWaveCloudInteractions();
     this.updateWaveAtmosphereInteractions();
@@ -451,8 +450,6 @@ class WavesModel extends ConcentrationModel {
     this.surfaceTemperatureVisibleProperty.reset();
     this.cloudReflectedWavesMap.clear();
     this.glacierReflectedWavesMap.clear();
-    this.sunWaveSource.reset();
-    this.groundWaveSource.reset();
     this.waveAtmosphereInteractions.clear();
     if ( numberOfWavesBeforeReset > 0 ) {
       this.wavesChangedEmitter.emit();
@@ -477,8 +474,6 @@ class WavesModel extends ConcentrationModel {
 }
 
 type WavesModelStateObject = {
-  sunWaveSource: EMWaveSourceStateObject;
-  groundWaveSource: EMWaveSourceStateObject;
   cloudReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
   glacierReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
 } & ConcentrationModelStateObject;
