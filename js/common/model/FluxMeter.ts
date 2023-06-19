@@ -97,7 +97,8 @@ class FluxMeter extends PhetioObject {
     // meter is just a panel set in view coordinates to align with other components, so this should be set in the view
     // after the meter component has been positioned.
     this.wireMeterAttachmentPositionProperty = new Vector2Property( new Vector2( 0, 0 ), {
-      tandem: options.tandem.createTandem( 'wireMeterAttachmentPositionProperty' )
+      tandem: options.tandem.createTandem( 'wireMeterAttachmentPositionProperty' ),
+      phetioReadOnly: true // see https://github.com/phetsims/greenhouse-effect/issues/303
     } );
 
     const checkAndUpdateSensorPosition = () => {
