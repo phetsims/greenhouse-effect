@@ -128,9 +128,9 @@ class PhotonAbsorptionModel extends PhetioObject {
     this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
     this.activeMolecules = createObservableArray( {
-      tandem: tandem.createTandem( 'molecules' ),
-      phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
-    } ); // Elements are of type Molecule.
+      tandem: tandem.createTandem( 'activeMolecules' ),
+      phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO ) // Elements are of type Molecule.
+    } );
 
     // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
     // to the photons ObservableArrayDef because this is specifically for photon emission from the light source

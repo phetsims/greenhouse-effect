@@ -83,7 +83,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
+      tandem: options.tandem.createTandem( 'showThermometerCheckbox' )
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );
 

@@ -107,7 +107,7 @@ class MicroObservationWindow extends Rectangle {
       buttonContent.scale( maxButtonWidth / buttonContent.width );
     }
     // @private
-    this.returnMoleculeButtonNode = new RectangularPushButton( {
+    this.returnMoleculeButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(247, 151, 34)',
       touchAreaXDilation: 7,
@@ -129,9 +129,9 @@ class MicroObservationWindow extends Rectangle {
       ariaLabel: buttonNodeReturnMoleculeStringProperty.value
     } );
 
-    this.returnMoleculeButtonNode.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
+    this.returnMoleculeButton.rightTop = ( new Vector2( this.width - 2 * this.frameLineWidth - 10, 10 ) );
 
-    this.addChild( this.returnMoleculeButtonNode );
+    this.addChild( this.returnMoleculeButton );
 
     // function for adding a molecule to this window and hooking up a removal listener
     const addMoleculeToWindow = molecule => {
@@ -190,7 +190,7 @@ class MicroObservationWindow extends Rectangle {
     this.returnMoleculeButtonVisibleProperty.link( visible => {
 
       // hide the return molecule button
-      this.returnMoleculeButtonNode.visible = visible;
+      this.returnMoleculeButton.visible = visible;
     } );
 
     // pdom
