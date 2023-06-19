@@ -582,7 +582,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
             phetioFeatured: false
           },
           enabledPropertyOptions: {
-            phetioFeatured: false //TODO https://github.com/phetsims/greenhouse-effect/issues/300 does not get applied!
+            phetioFeatured: false
           }
         },
 
