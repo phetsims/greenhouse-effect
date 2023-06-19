@@ -20,7 +20,7 @@ import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { Circle, Color, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
-import RectangularRadioButtonGroup, { RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem, RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -542,7 +542,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
 
     const dummyProperty = new NumberProperty( 5, { range: new Range( 0, 10 ) } );
 
-    const items = [
+    const items: RectangularRadioButtonGroupItem<ConcentrationControlMode>[] = [
       {
         createNode: () => new VSlider( dummyProperty, dummyProperty.range, {
           trackSize: new Dimension2( 2, dateIcon.height - 9 ),
@@ -575,6 +575,16 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
       items,
       combineOptions<RectangularRadioButtonGroupOptions>( {
         orientation: 'horizontal' as const,
+
+        // See https://github.com/phetsims/greenhouse-effect/issues/300#issuecomment-1597373083
+        radioButtonOptions: {
+          visiblePropertyOptions: {
+            phetioFeatured: false
+          },
+          enabledPropertyOptions: {
+            phetioFeatured: false //TODO https://github.com/phetsims/greenhouse-effect/issues/300 does not get applied!
+          }
+        },
 
         // pdom
         labelTagName: 'h4',
