@@ -81,6 +81,7 @@ class EnergyRateTracker extends PhetioObject {
       units: 'W',
       tandem: options.tandem.createTandem( 'energyRateProperty' ),
       phetioFeatured: true,
+      phetioReadOnly: true, // see https://github.com/phetsims/greenhouse-effect/issues/302
       phetioDocumentation: 'Amount of energy being produced or absorbed.'
     } );
 
