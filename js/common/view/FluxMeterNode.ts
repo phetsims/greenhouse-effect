@@ -1,9 +1,9 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * The "Energy Flux" meter for Greenhouse Effect. This includes a draggable sensor that can move about the Observation
- * Window and detect the flux of sunlight and infrared photons. A graphical representation of flux is displayed
- * in a panel with large arrows.
+ * FluxMeterNode is the view portion of the energy flux meter for Greenhouse Effect. This includes a draggable sensor
+ * that can move up and down in the observation window and detect the flux of sunlight and infrared photons at various
+ * altitudes within the atmosphere. A graphical representation of flux is displayed in a panel with large arrows.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
@@ -54,7 +54,7 @@ const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
 const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
 const FLUX_PANEL_X_MARGIN = 6;
 
-// multiplier used to map energy flux values to arrow lengths in nominal (un-zoomed) case, empirically determined
+// multiplier used to map energy flux values to arrow lengths in nominal (un-zoomed) case, value empirically determined
 const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
 
 // Zoom factor for zooming in and out in the flux meter, only used if zoom is enabled.  This value was empirically
