@@ -51,7 +51,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const atmosphereLayerNodeOptions: AtmosphereLayerNodeOptions = {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
         layerThickness: correspondingPhotonAbsorbingLayer.thickness,
-        tandem: options.tandem.createTandem( `atmosphereLayer${index}` )
+        tandem: options.tandem.createTandem( `atmosphereLayer${index + 1}` )
       };
 
       const atmosphereLayerNode = new AtmosphereLayerNode(

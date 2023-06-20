@@ -266,7 +266,7 @@ class LayersModel extends GreenhouseEffectModel {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
         {
-          tandem: this.atmosphereLayersTandem.createTandem( `layer${index}` ),
+          tandem: this.atmosphereLayersTandem.createTandem( `layer${index + 1}` ),
           initiallyActive: options.atmosphereLayersInitiallyActive,
           initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion
         }
