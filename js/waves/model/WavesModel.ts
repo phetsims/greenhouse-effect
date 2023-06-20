@@ -83,7 +83,6 @@ class WavesModel extends ConcentrationModel {
         {}
       ],
       {
-        groupElementStartingIndex: 0,
         tandem: wavesTandem.createTandem( 'waveGroup' ),
         phetioType: PhetioGroup.PhetioGroupIO( Wave.WaveIO )
       }

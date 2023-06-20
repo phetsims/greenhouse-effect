@@ -81,8 +81,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @private
     this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new MicroPhoton( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
       phetioType: PhetioGroup.PhetioGroupIO( MicroPhoton.PhotonIO ),
-      tandem: tandem.createTandem( 'photonGroup' ),
-      groupElementStartingIndex: 0
+      tandem: tandem.createTandem( 'photonGroup' )
     } );
 
     // @public - Property that indicating whether photons are being emitted from the photon emitter
