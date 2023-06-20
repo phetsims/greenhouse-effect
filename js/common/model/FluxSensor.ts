@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * FluxSensor is a two-dimensional sensor which is modeled as a rectangle that is parallel to the ground and measures
