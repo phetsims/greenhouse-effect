@@ -36,6 +36,13 @@ class PhotonCrossingTestResult extends EnumerationValue {
   public static readonly enumeration = new Enumeration( PhotonCrossingTestResult );
 }
 
+// This constant defines the range of angles at which photons can be radiated from a layer in either the up or down
+// direction.  Think of it as the angular with of the cone above and below the layer where the photon can travel.
+const PHOTON_EMISSION_ZONE_WIDTH = Math.PI / 2;
+
+// The minimum amount of deflection that a photon should experience when being re-radiated after being absorbed.
+const MIN_POST_ABSORPTION_ANGLE_CHANGE = Math.PI / 6;
+
 type SelfOptions = {
 
   // thickness of the layer, in meters
@@ -117,7 +124,8 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     const bottomOfLayerAltitude = layerAltitude - this.thickness * 0.0001;
     const topOfLayerAltitude = layerAltitude + this.thickness * 0.0001;
 
-    // TODO: This is a little hard to read, consider CROSSED_INDETERMINATE in the first portion, then post process, or something.
+    // Determine the initial crossing test result.  At this stage of the process, crossings are designated as
+    // CROSSED_BUT_IGNORED, but this can be changed below.
     if ( previousPhotonAltitude < bottomOfLayerAltitude ) {
       if ( currentPhotonAltitude < bottomOfLayerAltitude ) {
         result = PhotonCrossingTestResult.FULLY_BELOW;
@@ -167,7 +175,7 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
       if ( updatedAbsorptionTime > this.photonAbsorptionTime ) {
 
         // This photon has been around long enough, and it's time to release it.
-        photon.velocity.set( PhotonAbsorbingEmittingLayer.createPhotonReleaseVelocity() );
+        photon.velocity.set( PhotonAbsorbingEmittingLayer.createPhotonReleaseVelocity( photon.velocity ) );
         photon.positionProperty.set( this.createPhotonReleasePosition( photon ) );
         photon.resetPreviousPosition();
         this.photonToAbsorbedTimeMap.delete( photon );
@@ -195,20 +203,79 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
 
   /**
    * Create the release velocity for this photon.  The speed must be the simulation's value for the speed of light,
-   * but the direction can be generally up or down and within a "code" of possible directions.
+   * but the direction can be generally up or down and within a "cone" of possible directions.
    */
-  private static createPhotonReleaseVelocity(): Vector2 {
-    const velocity = new Vector2( 0, GreenhouseEffectConstants.SPEED_OF_LIGHT );
+  private static createPhotonReleaseVelocity( previousVelocity: Vector2 ): Vector2 {
 
-    // Randomly determine if the general direction should be up or down.
+    // Create a velocity vector at the speed of light (in this sim).
+    // const photonReleaseVelocity = new Vector2( 0, GreenhouseEffectConstants.SPEED_OF_LIGHT );
+    // const photonReleaseVelocity = previousVelocity.copy();
+    let photonReleaseVelocity;
+
+    // Randomly determine whether to flip the up/down direction.
     if ( dotRandom.nextBoolean() ) {
-      velocity.setY( -velocity.y );
+
+      // We are flipping it.  This is the easier case, since we don't have to be concerned about a minimum deflection.
+      // Start by creating a velocity vector that is straight up or down.
+      const yDirectionMultiplier = previousVelocity.y > 0 ? -1 : 1;
+      photonReleaseVelocity = new Vector2( 0, yDirectionMultiplier * GreenhouseEffectConstants.SPEED_OF_LIGHT );
+
+      // Add some randomness to the general direction.
+      photonReleaseVelocity.rotate( dotRandom.nextDoubleBetween( -1, 1 ) * PHOTON_EMISSION_ZONE_WIDTH / 2 );
+    }
+    else {
+
+      // The direction is NOT going to be flipped.  In this case, we need to make sure that there is a minimum amount
+      // of deflection of the photon's path so that it is easier for users to see that some interaction has occurred.
+      photonReleaseVelocity = previousVelocity.copy();
+
+      const minPositiveAngle = Math.PI / 2 - PHOTON_EMISSION_ZONE_WIDTH / 2;
+      const maxPositiveAngle = Math.PI / 2 + PHOTON_EMISSION_ZONE_WIDTH / 2;
+
+      const currentAngleAbsVal = Math.abs( previousVelocity.getAngle() );
+
+      // Calculate the max amount of deflection that can occur in each direction (clockwise and counterclockwise) and
+      // still stay within the allowable range of photon paths.
+      const maxCounterclockwiseDeflection = maxPositiveAngle - currentAngleAbsVal;
+      const maxClockwiseDeflection = minPositiveAngle - currentAngleAbsVal;
+
+      // Based on the photon's original path, it may have either one or two possible deflections that can occur that
+      // allow it to both stay within the allowed angle range and have the minimum deflection amount.  These are
+      // calculated here.
+      const candidateDeflectionAngles = [];
+      if ( maxCounterclockwiseDeflection > MIN_POST_ABSORPTION_ANGLE_CHANGE ) {
+
+        // There is enough room for a deflection in this direction, so randomly generate an angle in the allowed range
+        // and add it to the list of candidate deflections.
+        candidateDeflectionAngles.push(
+          dotRandom.nextDoubleBetween( MIN_POST_ABSORPTION_ANGLE_CHANGE, maxCounterclockwiseDeflection )
+        );
+      }
+      if ( Math.abs( maxClockwiseDeflection ) > MIN_POST_ABSORPTION_ANGLE_CHANGE ) {
+
+        // There is enough room for a deflection in this direction, so randomly generate an angle in the allowed range
+        // and add it to the list of candidate deflections.
+        candidateDeflectionAngles.push(
+          -dotRandom.nextDoubleBetween( MIN_POST_ABSORPTION_ANGLE_CHANGE, -maxClockwiseDeflection )
+        );
+      }
+
+      // There should always be at least one deflection, otherwise something is wrong with the logic above.
+      assert && assert( candidateDeflectionAngles.length > 0, 'Logic error - no candidate deflection angles' );
+
+      // Randomly pick one of the deflections.
+      let deflection = dotRandom.sample( candidateDeflectionAngles );
+
+      // The code above works with the absolute value of the angle, which effectively means it translates any downward
+      // moving vectors to be upward moving.  This is where that is compensated for if needed.
+      if ( previousVelocity.y < 0 ) {
+        deflection = -deflection;
+      }
+
+      photonReleaseVelocity = previousVelocity.rotated( deflection );
     }
 
-    // Add some randomness to the general direction.
-    velocity.rotate( dotRandom.nextDoubleBetween( -1, 1 ) * Math.PI / 4 );
-
-    return velocity;
+    return photonReleaseVelocity;
   }
 
   public static readonly PhotonAbsorbingEmittingLayerIO =
