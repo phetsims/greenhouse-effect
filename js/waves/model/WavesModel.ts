@@ -502,27 +502,20 @@ class WaveAtmosphereInteraction {
     this.emittedWave = emittedWave;
   }
 
-  public toStateObject(): WaveAtmosphereInteractionStateObject {
-    return {
-      atmosphereLayer: ReferenceIO( IOType.ObjectIO ).toStateObject( this.atmosphereLayer ),
-      sourceWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.sourceWave ),
-      emittedWave: ReferenceIO( Wave.WaveIO ).toStateObject( this.emittedWave )
-    };
-  }
-
-  public static readonly WaveAtmosphereInteractionIO = new IOType( 'WaveAtmosphereInteractionIO', {
-    valueType: WaveAtmosphereInteraction,
-    stateSchema: {
-      atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
-      sourceWave: ReferenceIO( Wave.WaveIO ),
-      emittedWave: ReferenceIO( Wave.WaveIO )
-    },
-    toStateObject: ( waveAtmosphereInteraction: WaveAtmosphereInteraction ) => waveAtmosphereInteraction.toStateObject(),
-    fromStateObject: ( stateObject: WaveAtmosphereInteractionStateObject ) => new WaveAtmosphereInteraction(
-      ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
-      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
-      ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) )
-  } );
+  // phet-io - We use data-type serialization here because these are used as elements in an ObservableArray.
+  public static readonly WaveAtmosphereInteractionIO =
+    new IOType<WaveAtmosphereInteraction, WaveAtmosphereInteractionStateObject>( 'WaveAtmosphereInteractionIO', {
+      valueType: WaveAtmosphereInteraction,
+      stateSchema: {
+        atmosphereLayer: ReferenceIO( IOType.ObjectIO ),
+        sourceWave: ReferenceIO( Wave.WaveIO ),
+        emittedWave: ReferenceIO( Wave.WaveIO )
+      },
+      fromStateObject: ( stateObject: WaveAtmosphereInteractionStateObject ) => new WaveAtmosphereInteraction(
+        ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
+        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
+        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) )
+    } );
 }
 
 type WaveAtmosphereInteractionStateObject = {
