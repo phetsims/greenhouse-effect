@@ -36,17 +36,20 @@ class EnergyInfoQueueItem {
     this.energy = energy;
   }
 
-  public static readonly EnergyInfoQueueItemIO = new IOType( 'EnergyInfoQueueItemIO', {
-    valueType: EnergyInfoQueueItem,
-    stateSchema: {
-      dt: NumberIO,
-      energy: NumberIO
-    },
-    fromStateObject: ( stateObject: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem(
-      stateObject.dt,
-      stateObject.energy
-    )
-  } );
+  // phet-io - We are using data-type serialization because these are things that go into a queue and there is no need
+  // to keep references to them.
+  public static readonly EnergyInfoQueueItemIO =
+    new IOType<EnergyInfoQueueItem, EnergyInfoQueueItemStateObject>( 'EnergyInfoQueueItemIO', {
+      valueType: EnergyInfoQueueItem,
+      stateSchema: {
+        dt: NumberIO,
+        energy: NumberIO
+      },
+      fromStateObject: ( stateObject: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem(
+        stateObject.dt,
+        stateObject.energy
+      )
+    } );
 }
 
 type SelfOptions = {
@@ -135,13 +138,19 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty.reset();
   }
 
-  public static readonly EnergyRateTrackerIO = new IOType( 'EnergyRateTrackerIO', {
-    valueType: EnergyRateTracker,
-    stateSchema: {
-      energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )
-    }
-  } );
+  // phet-io IOType - Uses reference serialization because EnergyRateTracker instances are persistent in all cases.
+  public static readonly EnergyRateTrackerIO =
+    new IOType<EnergyRateTracker, EnergyRateTrackerStateObject>( 'EnergyRateTrackerIO', {
+      valueType: EnergyRateTracker,
+      stateSchema: {
+        energyInfoQueue: ArrayIO( EnergyInfoQueueItem.EnergyInfoQueueItemIO )
+      }
+    } );
 }
+
+type EnergyRateTrackerStateObject = {
+  energyInfoQueue: EnergyInfoQueueItem[];
+};
 
 /**
  * for phet-io
