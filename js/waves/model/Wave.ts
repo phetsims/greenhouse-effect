@@ -562,47 +562,6 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * Serializes this Wave instance.
-   */
-  public toStateObject(): WaveStateObject {
-    return {
-      wavelength: this.wavelength,
-      origin: Vector2.Vector2IO.toStateObject( this.origin ),
-      propagationDirection: Vector2.Vector2IO.toStateObject( this.propagationDirection ),
-      propagationLimit: this.propagationLimit,
-      startPoint: Vector2.Vector2IO.toStateObject( this.startPoint ),
-      length: this.length,
-      isSourced: this.isSourced,
-      phaseOffsetAtOrigin: this.phaseOffsetAtOrigin,
-      intensityAtStart: this.intensityAtStart,
-      intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).toStateObject( this.intensityChanges ),
-      modelObjectToAttenuatorMap: MapIO(
-        ReferenceIO( IOType.ObjectIO ),
-        WaveAttenuator.WaveAttenuatorIO ).toStateObject( this.modelObjectToAttenuatorMap
-      ),
-      renderingWavelength: this.renderingWavelength
-    };
-  }
-
-  /**
-   * Apply the dynamic (non-immutable) portion of the wave state to this instance.
-   */
-  public applyState( stateObject: WaveStateObject ): void {
-    this.length = stateObject.length;
-    this.isSourced = stateObject.isSourced;
-    this.startPoint.set( Vector2.Vector2IO.fromStateObject( stateObject.startPoint ) );
-    this.phaseOffsetAtOrigin = stateObject.phaseOffsetAtOrigin;
-    this.intensityAtStart = stateObject.intensityAtStart;
-    this.intensityChanges = ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ).fromStateObject(
-      stateObject.intensityChanges
-    );
-    this.modelObjectToAttenuatorMap = MapIO(
-      ReferenceIO( IOType.ObjectIO ),
-      WaveAttenuator.WaveAttenuatorIO
-    ).fromStateObject( stateObject.modelObjectToAttenuatorMap );
-  }
-
-  /**
    * Make sure the intensity changes are ordered from closest to furthest from the start point of the wave.
    */
   private sortIntensityChanges(): void {
@@ -633,8 +592,6 @@ class Wave extends PhetioObject {
       renderingWavelength: NumberIO,
       modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
     },
-    toStateObject: ( wave: Wave ) => wave.toStateObject(),
-    applyState: ( wave: Wave, stateObject: WaveStateObject ) => wave.applyState( stateObject ),
     stateObjectToCreateElementArguments: ( state: WaveStateObject ) => [
       state.wavelength,
       Vector2.Vector2IO.fromStateObject( state.origin ),
