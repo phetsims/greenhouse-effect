@@ -13,7 +13,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import StringIO from '../../../../tandem/js/types/StringIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
@@ -123,16 +122,13 @@ class Photon {
     this.previousPosition.set( this.positionProperty.value );
   }
 
-  // Provide a custom toStateObject method because the default doesn't support mapping a composite position property
-  // into our state object.
-  public toStateObject(): PhotonStateObject {
-    return {
-      position: this.positionProperty.value.toStateObject(),
-      previousPosition: this.previousPosition.toStateObject(),
-      wavelength: this.wavelength,
-      velocity: this.velocity.toStateObject(),
-      showState: EnumerationIO( ShowState ).toStateObject( this.showState )
-    };
+  // Setters and getters needed for phet-io.
+  public set position( position: Vector2 ) {
+    this.positionProperty.set( position );
+  }
+
+  public get position(): Vector2 {
+    return this.positionProperty.get();
   }
 
   // static values
@@ -141,7 +137,9 @@ class Photon {
   public static readonly SPEED = PHOTON_SPEED;
   public static readonly ShowState = ShowState;
 
-  // phet-io
+  // IOType for data-type serialization.  This type of serialization is used because we don't need to provide
+  // information on photons, or the ability to directly manipulate them individually, to phet-io users.  This also has
+  // higher performance versus having every photon individually instrumented as a phet-io object.
   public static readonly PhotonIO = new IOType<Photon, PhotonStateObject>( 'PhotonIO', {
     valueType: Photon,
     stateSchema: {
@@ -149,9 +147,8 @@ class Photon {
       previousPosition: Vector2.Vector2IO,
       wavelength: NumberIO,
       velocity: Vector2.Vector2IO,
-      showState: StringIO
+      showState: EnumerationIO( ShowState )
     },
-    toStateObject: ( photon: Photon ) => photon.toStateObject(),
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),
       stateObject.wavelength, {
