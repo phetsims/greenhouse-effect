@@ -7,7 +7,6 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
@@ -15,9 +14,7 @@ import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandsc
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
-type SelfOptions = {
-  tandem?: Tandem;
-};
+type SelfOptions = Pick<LandscapeObservationWindow, 'tandem'>;
 type WaveLandscapeObservationWindowOptions = SelfOptions & WithRequired<LandscapeObservationWindowOptions, 'tandem'>;
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
