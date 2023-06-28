@@ -71,7 +71,12 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
           'fahrenheitRadioButton'
         )
       ],
-      { tandem: options.tandem.createTandem( 'radioButtonGroup' ) }
+      {
+        tandem: options.tandem.createTandem( 'radioButtonGroup' ),
+
+        // pdom
+        labelContent: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
+      }
     );
 
     this.children = [ text, radioButtonGroup ];
@@ -107,7 +112,10 @@ const createItem = ( value: TemperatureUnits,
       font: PreferencesDialog.CONTENT_FONT,
       maxWidth: 500
     } ),
-    tandemName: itemTandemName
+    tandemName: itemTandemName,
+
+    // pdom
+    labelContent: labelStringProperty
   };
 };
 
