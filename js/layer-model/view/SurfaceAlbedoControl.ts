@@ -61,7 +61,7 @@ export default class SurfaceAlbedoControl extends VBox {
           middleMovingUpSoundPlayer: surfaceAlbedoSoundPlayer,
           middleMovingDownSoundPlayer: surfaceAlbedoSoundPlayer
         },
-        tandem: tandem.createTandem( 'surfaceAlbedoSlider' ),
+        tandem: tandem.createTandem( 'slider' ),
         phetioVisiblePropertyInstrumented: false
       } )
     );
