@@ -228,6 +228,8 @@ class FluxMeterNode extends Node {
     this.addChild( fluxSensorNode );
 
     // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
+    // They can also be hidden by setting fluxSensorNode.inputEnabledProperty to false via PhET-iO/Studio, see
+    // https://github.com/phetsims/greenhouse-effect/issues/312.
     this.wasDraggedProperty = new BooleanProperty( false );
     const cueingArrowsShownProperty = new DerivedProperty(
       [ this.wasDraggedProperty, GreenhouseEffectPreferences.cueingArrowsEnabledProperty, fluxSensorNode.inputEnabledProperty ],
