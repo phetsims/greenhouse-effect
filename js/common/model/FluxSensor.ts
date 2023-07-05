@@ -88,7 +88,8 @@ class FluxSensor extends PhetioObject {
 
       // The altitude (in meters) over which the flux sensor is allowed to move. The lower end allows the sensor to get
       // close to the ground but not overlap with UI elements. The upper end makes sure that the sensor stays fully
-      // within the observation window. See https://github.com/phetsims/greenhouse-effect/issues/248
+      // within the observation window. See https://github.com/phetsims/greenhouse-effect/issues/248 and
+      // https://github.com/phetsims/greenhouse-effect/issues/313
       range: new Range( 750, LayersModel.HEIGHT_OF_ATMOSPHERE - 700 ),
       rangePropertyOptions: { units: 'm' },
       tandem: options.tandem.createTandem( 'altitudeProperty' ),
