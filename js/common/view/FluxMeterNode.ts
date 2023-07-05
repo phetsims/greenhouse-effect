@@ -12,7 +12,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -39,7 +38,6 @@ import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
-import LayersModel from '../model/LayersModel.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
@@ -76,11 +74,6 @@ const CUE_ARROW_OPTIONS = {
 // The height of the sensor in the view.  This is needed because the sensor model doesn't have any y-dimension height,
 // so we use and arbitrary value that looks decent in the view.
 const SENSOR_VIEW_HEIGHT = 10;
-
-// The vertical range over which the flux meter is allowed to move.  The lower end allows the sensor to get close to the
-// ground but not overlap with UI elements (see https://github.com/phetsims/greenhouse-effect/issues/248).  The upper
-// end makes sure that the sensor stays fully within the observation window.
-const FLUX_SENSOR_VERTICAL_RANGE = new Range( 750, LayersModel.HEIGHT_OF_ATMOSPHERE - 700 );
 
 type SelfOptions = {
 
@@ -266,6 +259,8 @@ class FluxMeterNode extends Node {
     // the offset position for the drag pickup, so that the translation doesn't snap to the cursor position
     let startOffset: Vector2 = Vector2.ZERO;
 
+    const fluxSensorAltitudeRange = model.fluxSensor.altitudeProperty.range;
+
     fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
         startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( fluxSensorNode.center );
@@ -287,7 +282,7 @@ class FluxMeterNode extends Node {
 
         // Constrain the Y position in model space to just below the top of the atmosphere at the high end and just
         // above the ground at the low end.
-        const modelY = FLUX_SENSOR_VERTICAL_RANGE.constrainValue( modelViewTransform.viewToModelY( viewPoint.y ) );
+        const modelY = fluxSensorAltitudeRange.constrainValue( modelViewTransform.viewToModelY( viewPoint.y ) );
 
         // Set the altitude of the flux sensor based on the drag action.
         model.fluxSensor.altitudeProperty.set( modelY );
@@ -533,10 +528,12 @@ type FluxSensorNodeOptions = NodeOptions & StrictOmit<AccessibleSliderOptions, '
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
   public constructor( fluxSensor: FluxSensor, modelViewTransform: ModelViewTransform2, providedOptions?: FluxSensorNodeOptions ) {
 
+    const fluxSensorAltitudeRangeProperty = fluxSensor.altitudeProperty.rangeProperty;
+
     const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
-      enabledRangeProperty: new Property( FLUX_SENSOR_VERTICAL_RANGE ),
-      keyboardStep: FLUX_SENSOR_VERTICAL_RANGE.getLength() / 30,
+      enabledRangeProperty: fluxSensorAltitudeRangeProperty,
+      keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 30,
       a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`
     }, providedOptions );
 

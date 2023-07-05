@@ -13,6 +13,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
@@ -84,6 +85,12 @@ class FluxSensor extends PhetioObject {
     this.xPosition = options.initialPosition.x;
     this.altitudeProperty = new NumberProperty( options.initialPosition.y, {
       units: 'm',
+
+      // The altitude (in meters) over which the flux sensor is allowed to move. The lower end allows the sensor to get
+      // close to the ground but not overlap with UI elements. The upper end makes sure that the sensor stays fully
+      // within the observation window. See https://github.com/phetsims/greenhouse-effect/issues/248
+      range: new Range( 750, LayersModel.HEIGHT_OF_ATMOSPHERE - 700 ),
+      rangePropertyOptions: { units: 'm' },
       tandem: options.tandem.createTandem( 'altitudeProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'The altitude of the flux sensor in the atmosphere.'
