@@ -73,7 +73,7 @@ class FluxSensor extends PhetioObject {
     const options = optionize<FluxSensorOptions, SelfOptions, PhetioObjectOptions>()( {
       initialPosition: DEFAULT_INITIAL_POSITION,
 
-      // temporarily marking phet-io state to be false until serialization is added
+      //TODO temporarily marking phet-io state to be false until serialization is added
       phetioState: false
 
     }, providedOptions );
