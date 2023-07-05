@@ -230,8 +230,8 @@ class FluxMeterNode extends Node {
     // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
     this.wasDraggedProperty = new BooleanProperty( false );
     const cueingArrowsShownProperty = new DerivedProperty(
-      [ this.wasDraggedProperty, GreenhouseEffectPreferences.cueingArrowsEnabledProperty ],
-      ( wasDragged, cueingArrowsEnabled ) => !wasDragged && cueingArrowsEnabled
+      [ this.wasDraggedProperty, GreenhouseEffectPreferences.cueingArrowsEnabledProperty, fluxSensorNode.inputEnabledProperty ],
+      ( wasDragged, cueingArrowsEnabled, inputEnabled ) => !wasDragged && cueingArrowsEnabled && inputEnabled
     );
 
     // colored arrows around the flux sensor, cues the user to drag it
