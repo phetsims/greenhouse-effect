@@ -41,6 +41,7 @@ import FluxSensor from '../model/FluxSensor.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -221,7 +222,8 @@ class FluxMeterNode extends Node {
       },
       endDrag: () => {
         model.fluxSensor.isDraggingProperty.set( false );
-      }
+      },
+      tandem: options.tandem.createTandem( 'fluxSensorNode' )
     } );
     this.addChild( fluxSensorNode );
 
@@ -523,7 +525,9 @@ class EnergyFluxDisplay extends Node {
  */
 type FluxSensorNodeSelfOptions = EmptySelfOptions;
 type FluxSensorNodeParentOptions = AccessibleSliderOptions & NodeOptions;
-type FluxSensorNodeOptions = NodeOptions & StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'>;
+type FluxSensorNodeOptions = NodeOptions &
+  StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'> &
+  PickRequired<NodeOptions, 'tandem'>;
 
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
   public constructor( fluxSensor: FluxSensor, modelViewTransform: ModelViewTransform2, providedOptions?: FluxSensorNodeOptions ) {
@@ -534,7 +538,9 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: fluxSensorAltitudeRangeProperty,
       keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 30,
-      a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`
+      a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`,
+      phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
+      phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
     }, providedOptions );
 
     super( options );
@@ -555,6 +561,8 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       )
     } );
     this.addChild( sensorNode );
+
+    this.addLinkedElement( fluxSensor );
   }
 }
 

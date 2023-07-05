@@ -74,7 +74,8 @@ class FluxSensor extends PhetioObject {
       initialPosition: DEFAULT_INITIAL_POSITION,
 
       //TODO temporarily marking phet-io state to be false until serialization is added
-      phetioState: false
+      phetioState: false,
+      phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
 
     }, providedOptions );
 
