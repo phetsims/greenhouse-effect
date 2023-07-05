@@ -10,6 +10,24 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import greenhouseEffect from '../greenhouseEffect.js';
+import { SliderOptions } from '../../../sun/js/Slider.js';
+import { TextOptions } from '../../../scenery/js/imports.js';
+
+const HORIZONTAL_SLIDER_THUMB_SIZE = new Dimension2( 13, 26 );
+
+const SLIDER_OPTIONS: SliderOptions = {
+  thumbSize: HORIZONTAL_SLIDER_THUMB_SIZE,
+  thumbTouchAreaXDilation: 8,
+  thumbTouchAreaYDilation: 8,
+  majorTickLength: HORIZONTAL_SLIDER_THUMB_SIZE.height * 0.6,
+  minorTickLength: HORIZONTAL_SLIDER_THUMB_SIZE.height * 0.25,
+  tickLabelSpacing: 2
+};
+
+const TICK_MARK_TEXT_OPTIONS: TextOptions = {
+  font: new PhetFont( 10 ),
+  maxWidth: 50
+};
 
 const GreenhouseEffectConstants = {
 
@@ -24,7 +42,7 @@ const GreenhouseEffectConstants = {
   TITLE_FONT: new PhetFont( { size: 16, weight: 'bold' } ),
 
   // font used to label components throughout the sim
-  LABEL_FONT: new PhetFont( { size: 14 } ),
+  LABEL_FONT: new PhetFont( 14 ),
 
   // font used to label supplementary content
   CONTENT_FONT: new PhetFont( { size: 12 } ),
@@ -48,7 +66,9 @@ const GreenhouseEffectConstants = {
   // miscellaneous shared constants
   MAX_DT: 0.1, // in seconds
   VERTICAL_SLIDER_THUMB_SIZE: new Dimension2( 26, 13 ),
-  HORIZONTAL_SLIDER_THUMB_SIZE: new Dimension2( 13, 26 )
+  HORIZONTAL_SLIDER_THUMB_SIZE: HORIZONTAL_SLIDER_THUMB_SIZE,
+  SLIDER_OPTIONS: SLIDER_OPTIONS,
+  TICK_MARK_TEXT_OPTIONS: TICK_MARK_TEXT_OPTIONS
 };
 
 greenhouseEffect.register( 'GreenhouseEffectConstants', GreenhouseEffectConstants );
