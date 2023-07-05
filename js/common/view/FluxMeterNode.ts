@@ -128,7 +128,8 @@ class FluxMeterNode extends Node {
 
     const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
       includeZoomButtons: false,
-      visibleProperty: visibleProperty
+      visibleProperty: visibleProperty,
+      phetioFeatured: true
     }, providedOptions );
 
     super( options );
