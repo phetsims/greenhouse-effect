@@ -125,7 +125,7 @@ class LayersModel extends GreenhouseEffectModel {
   // For grouping model elements in the Studio tree
   protected readonly atmosphereLayersTandem: Tandem;
 
-  public constructor( providedOptions: LayersModelOptions ) {
+  protected constructor( providedOptions: LayersModelOptions ) {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,

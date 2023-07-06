@@ -23,7 +23,7 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
   public readonly timeSpeedProperty: EnumerationProperty<TimeSpeed>;
   public readonly isPlayingProperty: BooleanProperty;
 
-  public constructor( providedOptions?: GreenhouseEffectModelOptions ) {
+  protected constructor( providedOptions?: GreenhouseEffectModelOptions ) {
 
     const options = optionize<GreenhouseEffectModelOptions, SelfOptions, PhetioObjectOptions>()( {
 

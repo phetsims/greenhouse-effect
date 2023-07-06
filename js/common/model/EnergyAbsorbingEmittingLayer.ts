@@ -99,7 +99,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly atEquilibriumProperty: BooleanProperty;
   private atEquilibriumTime: number;
 
-  public constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
+  protected constructor( altitude: number, providedOptions?: EnergyAbsorbingEmittingLayerOptions ) {
 
     const options = optionize<EnergyAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
 
