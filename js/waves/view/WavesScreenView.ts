@@ -20,7 +20,7 @@ import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerChec
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
-import CloudCheckbox from './CloudCheckbox.js';
+import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import IrWavesSoundGenerator from './IrWavesSoundGenerator.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';

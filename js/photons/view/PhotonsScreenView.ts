@@ -16,7 +16,7 @@ import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControl
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import CloudCheckbox from '../../waves/view/CloudCheckbox.js';
+import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 
