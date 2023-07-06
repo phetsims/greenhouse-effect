@@ -9,9 +9,8 @@
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import irFluxDownA_mp3 from '../../../sounds/irFluxDownA_mp3.js';
 import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
@@ -37,10 +36,6 @@ const MAX_EXPECTED_DOWNWARD_IR_FLUX = 134000000;
 
 // number of samples to use when averaging out the rate of flux change
 const NUMBER_OF_AVERAGING_SAMPLES = 10;
-
-// types for options
-type SelfOptions = EmptySelfOptions;
-type FluxMeterSoundGeneratorOptions = SelfOptions & SoundGeneratorOptions;
 
 class FluxMeterSoundGenerator extends SoundGenerator {
 
@@ -68,12 +63,13 @@ class FluxMeterSoundGenerator extends SoundGenerator {
                       visibleFluxDownProperty: TReadOnlyProperty<number>,
                       irFluxUpProperty: TReadOnlyProperty<number>,
                       irFluxDownProperty: TReadOnlyProperty<number>,
-                      providedOptions?: FluxMeterSoundGeneratorOptions ) {
+                      isPlayingProperty: TReadOnlyProperty<boolean>,
+                      visibleProperty: TReadOnlyProperty<boolean> ) {
 
-    const options = optionize<FluxMeterSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-    }, providedOptions );
-
-    super( options );
+    super( {
+      initialOutputLevel: 0.15,
+      enableControlProperties: [ isPlayingProperty, visibleProperty ]
+    } );
 
     // Make the properties that track the flux rates available to the methods.
     this.irFluxUpProperty = irFluxUpProperty;

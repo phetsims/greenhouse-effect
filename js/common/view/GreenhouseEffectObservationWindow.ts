@@ -336,14 +336,8 @@ class GreenhouseEffectObservationWindow extends Node {
         model.surfaceTemperatureKelvinProperty,
         model.sunEnergySource.isShiningProperty,
         new Range( model.groundLayer.minimumTemperature, EXPECTED_MAX_TEMPERATURE ),
-        {
-          initialOutputLevel: 0.045,
-          enableControlProperties: [
-            surfaceTemperatureIndicatorEnabledProperty,
-            model.isPlayingProperty
-          ]
-        }
-      ),
+        surfaceTemperatureIndicatorEnabledProperty,
+        model.isPlayingProperty ),
       { associatedViewNode: this }
     );
   }

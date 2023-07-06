@@ -114,10 +114,8 @@ class EnergyBalancePanel extends Panel {
     this.balancePlot = balancePlot;
 
     // sound generation
-    this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, inRadiativeBalanceProperty, {
-      initialOutputLevel: 0.3,
-      enableControlProperties: [ energyBalanceVisibleProperty ]
-    } );
+    this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, inRadiativeBalanceProperty,
+      energyBalanceVisibleProperty );
     soundManager.addSoundGenerator( this.energyBalanceSoundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
 
     // pdom

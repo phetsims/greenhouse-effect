@@ -8,10 +8,9 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -26,10 +25,6 @@ const MAX_BLIPS_PER_SECOND = 10;
 const VOLUME_UP_ENERGY_RATE = 10000; // threshold for turning up and maintaining volume, empirically determined
 const VOLUME_FADE_OUT_TIME = 40000; // in seconds
 
-// types for options
-type SelfOptions = EmptySelfOptions;
-type EnergyBalanceSoundGeneratorOptions = SelfOptions & SoundGeneratorOptions;
-
 class EnergyBalanceSoundGenerator extends SoundGenerator {
 
   private readonly disposeEnergyBalanceSoundGenerator: () => void;
@@ -43,10 +38,12 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
 
   public constructor( netEnergyBalanceProperty: TReadOnlyProperty<number>,
                       inRadiativeBalanceProperty: TReadOnlyProperty<boolean>,
-                      providedOptions?: EnergyBalanceSoundGeneratorOptions ) {
+                      energyBalanceVisibleProperty: TReadOnlyProperty<boolean> ) {
 
-    const options = optionize<EnergyBalanceSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
-    }, providedOptions );
+    const options = {
+      initialOutputLevel: 0.3,
+      enableControlProperties: [ energyBalanceVisibleProperty ]
+    };
 
     super( options );
 
