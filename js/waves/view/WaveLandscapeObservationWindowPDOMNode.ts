@@ -7,12 +7,12 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
-import ObservationWindowPDOMNode from './ObservationWindowPDOMNode.js';
-import WavesModel from '../../waves/model/WavesModel.js';
-import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
-import RadiationDescriber from './describers/RadiationDescriber.js';
-import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
+import WavesModel from '../model/WavesModel.js';
+import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends ObservationWindowPDOMNode {

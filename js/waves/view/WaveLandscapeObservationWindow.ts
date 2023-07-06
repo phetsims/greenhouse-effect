@@ -10,7 +10,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
-import WaveLandscapeObservationWindowPDOMNode from '../../common/view/WaveLandscapeObservationWindowPDOMNode.js';
+import WaveLandscapeObservationWindowPDOMNode from './WaveLandscapeObservationWindowPDOMNode.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
