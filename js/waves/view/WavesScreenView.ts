@@ -21,14 +21,14 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from '../../common/view/CloudCheckbox.js';
-import IrWavesSoundGenerator from './IrWavesSoundGenerator.js';
+import InfraredWavesSoundGenerator from './InfraredWavesSoundGenerator.js';
 import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
-  private readonly irWavesSoundGenerator: IrWavesSoundGenerator;
+  private readonly irWavesSoundGenerator: InfraredWavesSoundGenerator;
 
   public constructor( model: WavesModel, tandem: Tandem ) {
 
@@ -127,7 +127,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.addChild( visibilityBox );
 
     // sound generation
-    this.irWavesSoundGenerator = new IrWavesSoundGenerator( model, this );
+    this.irWavesSoundGenerator = new InfraredWavesSoundGenerator( model, this );
     soundManager.addSoundGenerator( this.irWavesSoundGenerator, { associatedViewNode: this } );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components

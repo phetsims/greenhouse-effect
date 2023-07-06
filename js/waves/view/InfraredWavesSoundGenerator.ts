@@ -25,7 +25,7 @@ const NEW_WAVE_EMITTED_OUTPUT_LEVEL = 0.02;
 type SelfOptions = EmptySelfOptions;
 type IrWavesSoundGeneratorOptions = SelfOptions & SoundGeneratorOptions;
 
-class IrWavesSoundGenerator extends SoundGenerator {
+class InfraredWavesSoundGenerator extends SoundGenerator {
 
   private readonly disposeIrWavesSoundGenerator: () => void;
   private readonly updateSoundLoopLevels: () => void;
@@ -118,5 +118,5 @@ class IrWavesSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'IrWavesSoundGenerator', IrWavesSoundGenerator );
-export default IrWavesSoundGenerator;
+greenhouseEffect.register( 'IrWavesSoundGenerator', InfraredWavesSoundGenerator );
+export default InfraredWavesSoundGenerator;
