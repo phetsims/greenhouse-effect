@@ -30,7 +30,7 @@ export default class AtmosphericPhotonsSoundGenerator extends SoundClip {
       rateChangesAffectPlayingSounds: false
     } );
 
-    photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
+    photonCollection.photons.addItemAddedListener( addedPhoton => {
 
       // A new photon has been added to the collection.  Decide whether to play a sound signifying its arrival based on
       // a number of factors, one of which is a random threshold used to reduce the number of sounds produced so that it
