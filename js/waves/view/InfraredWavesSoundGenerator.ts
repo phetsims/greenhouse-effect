@@ -118,5 +118,5 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'IrWavesSoundGenerator', InfraredWavesSoundGenerator );
+greenhouseEffect.register( 'InfraredWavesSoundGenerator', InfraredWavesSoundGenerator );
 export default InfraredWavesSoundGenerator;

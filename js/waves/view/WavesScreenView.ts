@@ -28,7 +28,7 @@ import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
 class WavesScreenView extends GreenhouseEffectScreenView {
 
-  private readonly irWavesSoundGenerator: InfraredWavesSoundGenerator;
+  private readonly infraredWavesSoundGenerator: InfraredWavesSoundGenerator;
 
   public constructor( model: WavesModel, tandem: Tandem ) {
 
@@ -127,8 +127,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.addChild( visibilityBox );
 
     // sound generation
-    this.irWavesSoundGenerator = new InfraredWavesSoundGenerator( model, this );
-    soundManager.addSoundGenerator( this.irWavesSoundGenerator, { associatedViewNode: this } );
+    this.infraredWavesSoundGenerator = new InfraredWavesSoundGenerator( model, this );
+    soundManager.addSoundGenerator( this.infraredWavesSoundGenerator, { associatedViewNode: this } );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
@@ -151,7 +151,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // Update the IR sound generator if the model is playing.
     if ( this.model.isPlayingProperty.value ) {
-      this.irWavesSoundGenerator.step();
+      this.infraredWavesSoundGenerator.step();
     }
   }
 
