@@ -20,7 +20,6 @@ import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import { Node, scenery, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -38,10 +37,6 @@ const BAR_COLOR = 'rgb(0,187,115)';
 const BAR_STROKE = 'grey';
 const PLOT_VIEW_WIDTH = 100; // view coordinates
 const PLOT_VIEW_HEIGHT = 120; // view coordinates
-
-// types
-type SelfOptions = EmptySelfOptions;
-export type EnergyBalancePanelOptions = SelfOptions & PanelOptions;
 
 class EnergyBalancePanel extends Panel {
 
