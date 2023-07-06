@@ -56,7 +56,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   // random attributes, looks visually consistent when saving and then setting state.
   public readonly cloudSeedProperty: TReadOnlyProperty<number>;
 
-  public constructor( model: ConcentrationModel, options: LandscapeObservationWindowOptions ) {
+  protected constructor( model: ConcentrationModel, options: LandscapeObservationWindowOptions ) {
 
     super( model, options );
     this.isPlayingProperty = model.isPlayingProperty;

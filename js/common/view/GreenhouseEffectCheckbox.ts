@@ -32,9 +32,9 @@ type SelfOptions = {
 export type GreenhouseEffectCheckboxOptions = SelfOptions & WithRequired<CheckboxOptions, 'tandem'>;
 
 class GreenhouseEffectCheckbox extends Checkbox {
-  public constructor( property: Property<boolean>,
-                      labelStringProperty: TReadOnlyProperty<string>,
-                      providedOptions?: GreenhouseEffectCheckboxOptions ) {
+  protected constructor( property: Property<boolean>,
+                         labelStringProperty: TReadOnlyProperty<string>,
+                         providedOptions?: GreenhouseEffectCheckboxOptions ) {
 
     const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,

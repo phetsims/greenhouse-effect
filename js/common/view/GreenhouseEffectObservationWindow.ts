@@ -69,7 +69,7 @@ class GreenhouseEffectObservationWindow extends Node {
   // Observation window UI component visibility controls, public for pdomOrder.
   public readonly instrumentVisibilityPanel: InstrumentVisibilityPanel;
 
-  public constructor( model: LayersModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
+  protected constructor( model: LayersModel, providedOptions?: GreenhouseEffectObservationWindowOptions ) {
 
     super();
 

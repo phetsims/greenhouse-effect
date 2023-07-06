@@ -48,12 +48,12 @@ class GreenhouseEffectScreenView extends ScreenView {
    *                                            TODO: The first three screens all use the same TimeControlNode as well
    *                                            as other components. Perhaps we need to have a subclass for these
    *                                            instead of providing the component with composition.
-   * @param [providedOptions]
+   * @param providedOptions
    */
-  public constructor( model: GreenhouseEffectModel,
-                      observationWindow: GreenhouseEffectObservationWindow,
-                      timeControlNode: TimeControlNode,
-                      providedOptions: GreenhouseEffectScreenViewOptions ) {
+  protected constructor( model: GreenhouseEffectModel,
+                         observationWindow: GreenhouseEffectObservationWindow,
+                         timeControlNode: TimeControlNode,
+                         providedOptions: GreenhouseEffectScreenViewOptions ) {
 
     const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
       useClippingFrame: false,
