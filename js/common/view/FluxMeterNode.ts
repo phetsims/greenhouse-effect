@@ -49,7 +49,7 @@ const energyFluxStringProperty = GreenhouseEffectStrings.fluxMeter.energyFluxStr
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
 const SENSOR_STROKE_COLOR = 'rgb(254,153,18)';
 const SENSOR_FILL_COLOR = 'rgba(200,200,200,0.6)';
-const CUE_ARROW_LENGTH = 28; // length of the 'drag cue' arrows around the flux sensor
+const CUEING_ARROW_LENGTH = 28; // length of the cueing arrows around the flux sensor
 const FLUX_PANEL_X_MARGIN = 6;
 
 // multiplier used to map energy flux values to arrow lengths in nominal (un-zoomed) case, value empirically determined
@@ -63,7 +63,7 @@ const FLUX_ARROW_ZOOM_FACTOR = 2.5;
 const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
 const NUMBER_OF_ZOOM_IN_LEVELS = 1;
 
-const CUE_ARROW_OPTIONS = {
+const CUEING_ARROW_OPTIONS = {
   fill: SENSOR_STROKE_COLOR,
   lineWidth: 0.5,
   headWidth: 20,
@@ -210,7 +210,7 @@ class FluxMeterNode extends Node {
       },
       drag: () => {
 
-        // Hide the cue arrows if they are visible.
+        // Hide the cueing arrows if they are visible.
         this.wasDraggedProperty.set( true );
 
         // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
@@ -236,21 +236,21 @@ class FluxMeterNode extends Node {
     );
 
     // colored arrows around the flux sensor, cues the user to drag it
-    const cuingArrowsNode = new VBox( {
+    const cueingArrowsNode = new VBox( {
       cursor: 'pointer',
       spacing: 15,
       children: [
-        new ArrowNode( 0, 0, 0, -CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS ),
-        new ArrowNode( 0, 0, 0, CUE_ARROW_LENGTH, CUE_ARROW_OPTIONS )
+        new ArrowNode( 0, 0, 0, -CUEING_ARROW_LENGTH, CUEING_ARROW_OPTIONS ),
+        new ArrowNode( 0, 0, 0, CUEING_ARROW_LENGTH, CUEING_ARROW_OPTIONS )
       ],
       centerX: fluxSensorNode.bounds.maxX,
       visibleProperty: cueingArrowsShownProperty
     } );
-    this.addChild( cuingArrowsNode );
+    this.addChild( cueingArrowsNode );
 
-    // Reposition the cue arrows as the flux sensor moves.
+    // Reposition the cueing arrows as the flux sensor moves.
     model.fluxSensor.altitudeProperty.link( altitude => {
-      cuingArrowsNode.centerY = modelViewTransform.modelToViewY( altitude );
+      cueingArrowsNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
 
     // create the panel
@@ -271,7 +271,7 @@ class FluxMeterNode extends Node {
       },
       drag: ( event: SceneryEvent ) => {
 
-        // Hide the cue arrows if they are visible.
+        // Hide the cueing arrows if they are visible.
         this.wasDraggedProperty.set( true );
 
         // Clear the flux sensor if it is dragged while the main model is paused.  This prevents the display of flux
