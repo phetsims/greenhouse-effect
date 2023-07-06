@@ -73,6 +73,7 @@ export default class DefaultTemperatureUnitsSelector extends VBox {
       ],
       {
         tandem: options.tandem.createTandem( 'radioButtonGroup' ),
+        phetioVisiblePropertyInstrumented: false,
 
         // pdom
         labelContent: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
