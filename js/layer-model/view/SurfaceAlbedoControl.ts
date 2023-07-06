@@ -84,7 +84,8 @@ export default class SurfaceAlbedoControl extends VBox {
       children: [ labelText, slider ],
       spacing: 1,
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: true
+      phetioVisiblePropertyInstrumented: true,
+      visiblePropertyOptions: { phetioFeatured: true }
     } );
   }
 }
