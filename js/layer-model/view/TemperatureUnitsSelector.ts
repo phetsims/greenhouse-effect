@@ -62,7 +62,8 @@ class TemperatureUnitsSelector extends VBox {
         radioButtonOptions: {
           radius: 6
         },
-        tandem: tandem.createTandem( 'temperatureUnitsRadioButtonGroup' )
+        tandem: tandem.createTandem( 'temperatureUnitsRadioButtonGroup' ),
+        phetioVisiblePropertyInstrumented: false // see https://github.com/phetsims/greenhouse-effect/issues/318
       }
     );
 
@@ -71,7 +72,10 @@ class TemperatureUnitsSelector extends VBox {
       tandem: tandem,
       children: [ text, temperatureUnitsRadioButtonGroup ],
       align: 'left',
-      spacing: 3
+      spacing: 3,
+      visiblePropertyOptions: {
+        phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/318
+      }
     } );
   }
 }
