@@ -21,7 +21,7 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 type SelfOptions = EmptySelfOptions;
 type IrAbsorbanceSoundPlayerOptions = SelfOptions & SoundClipOptions;
 
-class IrAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
+class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   // sound clip played for sounds in the middle, i.e. not at either the min or max
   // private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
@@ -95,5 +95,5 @@ class IrAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
   }
 }
 
-greenhouseEffect.register( 'IrAbsorbanceSoundPlayer', IrAbsorbanceSoundPlayer );
-export default IrAbsorbanceSoundPlayer;
+greenhouseEffect.register( 'IrAbsorbanceSoundPlayer', InfraredAbsorbanceSoundPlayer );
+export default InfraredAbsorbanceSoundPlayer;
