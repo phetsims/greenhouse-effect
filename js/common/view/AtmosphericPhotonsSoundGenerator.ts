@@ -8,11 +8,10 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
 import PhotonCollection from '../model/PhotonCollection.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Photon from '../model/Photon.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
@@ -22,19 +21,14 @@ const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions ca
 // playback rate variation, one musical half step up and down
 const PLAYBACK_RATE_RANGE = new Range( 0.94387431268, 1.05946309436 );
 
-// types for options
-type SelfOptions = EmptySelfOptions;
-type AtmosphericPhotonsSoundGeneratorOptions = SelfOptions & SoundClipOptions;
+export default class AtmosphericPhotonsSoundGenerator extends SoundClip {
 
-class AtmosphericPhotonsSoundGenerator extends SoundClip {
+  public constructor( photonCollection: PhotonCollection ) {
 
-  public constructor( photonCollection: PhotonCollection, providedOptions?: AtmosphericPhotonsSoundGeneratorOptions ) {
-
-    const options = optionize<AtmosphericPhotonsSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
+    super( emissionOfInfraredPhotonFromAtmosphere_mp3, {
+      initialOutputLevel: 0.03, // output level is pretty low, since a lot of these can be happening at once
       rateChangesAffectPlayingSounds: false
-    }, providedOptions );
-
-    super( emissionOfInfraredPhotonFromAtmosphere_mp3, options );
+    } );
 
     photonCollection.photons.addItemAddedListener( ( addedPhoton: Photon ) => {
 
@@ -59,4 +53,3 @@ class AtmosphericPhotonsSoundGenerator extends SoundClip {
 }
 
 greenhouseEffect.register( 'AtmosphericPhotonsSoundGenerator', AtmosphericPhotonsSoundGenerator );
-export default AtmosphericPhotonsSoundGenerator;

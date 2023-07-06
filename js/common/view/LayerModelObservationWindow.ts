@@ -119,11 +119,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     this.controlsLayer.addChild( surfaceThermometer );
 
     // sound generation
-    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection, {
-
-      // output level is pretty low, since a lot of these can be happening at once
-      initialOutputLevel: 0.03
-    } ) );
+    soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
 
   public override step( dt: number ): void {
