@@ -8,7 +8,7 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
@@ -25,7 +25,7 @@ export default class InfraredPanel extends Panel {
 
   public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {
 
-    const options = {
+    const options: PanelOptions = {
 
       minWidth: width,
       maxWidth: width,
@@ -54,13 +54,13 @@ export default class InfraredPanel extends Panel {
 
     const absorbingLayersControl = new AbsorbingLayersControl(
       layersModel.numberOfActiveAtmosphereLayersProperty,
-      options.tandem.createTandem( 'absorbingLayersControl' )
+      tandem.createTandem( 'absorbingLayersControl' )
     );
 
     const infraredAbsorbanceControl = new InfraredAbsorbanceControl(
       layersModel.layersInfraredAbsorbanceProperty,
       new Dimension2( width * 0.75, 1 ),
-      options.tandem.createTandem( 'infraredAbsorbanceControl' )
+      tandem.createTandem( 'infraredAbsorbanceControl' )
     );
 
     const content = new VBox( {

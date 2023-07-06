@@ -19,7 +19,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const WAVE_ICON_AMPLITUDE = 7;
@@ -42,7 +42,7 @@ class EnergyRepresentation extends EnumerationValue {
 type SelfOptions = {
   energyRepresentation?: EnergyRepresentation;
 };
-export type EnergyLegendOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
+export type EnergyLegendOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
 
 class EnergyLegend extends Panel {
 

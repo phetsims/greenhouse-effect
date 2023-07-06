@@ -8,7 +8,7 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
@@ -16,11 +16,6 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-
-// types for options
-type SelfOptions = EmptySelfOptions;
-type SurfaceAlbedoSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -36,11 +31,11 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
   private readonly surfaceAlbedoProperty: NumberProperty;
   private readonly surfaceAlbedoRange: Range;
 
-  public constructor( surfaceAlbedoProperty: NumberProperty,
-                      surfaceAlbedoRange: Range,
-                      providedOptions?: SurfaceAlbedoSoundPlayerOptions ) {
+  public constructor( surfaceAlbedoProperty: NumberProperty, surfaceAlbedoRange: Range ) {
 
-    super( providedOptions );
+    super( {
+      initialOutputLevel: 0.1
+    } );
 
     // Make the number property and its range available to the methods.
     this.surfaceAlbedoProperty = surfaceAlbedoProperty;

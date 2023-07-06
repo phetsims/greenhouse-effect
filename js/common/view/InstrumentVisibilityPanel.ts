@@ -16,9 +16,9 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 const LABEL_FONT = new PhetFont( {
   size: 14
@@ -32,7 +32,7 @@ type SelfOptions = {
   // If true, a checkbox for the flux meter will be included in the controls.
   includeFluxMeterCheckbox?: boolean;
 };
-export type InstrumentVisibilityPanelOptions = SelfOptions & WithRequired<PanelOptions, 'tandem'>;
+export type InstrumentVisibilityPanelOptions = SelfOptions & PickRequired<PanelOptions, 'tandem'>;
 
 class InstrumentVisibilityPanel extends Panel {
 

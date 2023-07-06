@@ -31,11 +31,7 @@ export default class InfraredAbsorbanceControl extends VBox {
     const infraredAbsorbanceRange = LayerModelModel.IR_ABSORBANCE_RANGE;
 
     // sound player used by slider for sound generation in the middle range
-    const irAbsorbanceSoundPlayer = new InfraredAbsorbanceSoundPlayer(
-      infraredAbsorbanceProperty,
-      infraredAbsorbanceRange,
-      { initialOutputLevel: 0.075 }
-    );
+    const irAbsorbanceSoundPlayer = new InfraredAbsorbanceSoundPlayer( infraredAbsorbanceProperty, infraredAbsorbanceRange );
     soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
 
     // Label

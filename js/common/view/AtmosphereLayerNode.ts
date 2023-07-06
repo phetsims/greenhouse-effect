@@ -24,8 +24,8 @@ import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer from '../model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -39,7 +39,7 @@ type SelfOptions = {
   numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
 };
-export type AtmosphereLayerNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+export type AtmosphereLayerNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class AtmosphereLayerNode extends Node {
 

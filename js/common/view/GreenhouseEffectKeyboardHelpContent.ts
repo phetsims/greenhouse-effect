@@ -20,7 +20,7 @@ type SelfOptions = {
   // boolean flag that indicates whether the flux meter help information should be included in the help contents
   includeFluxMeterHelp?: boolean;
 };
-export type GreenhouseEffectKeyboardHelpContentOptions = SelfOptions & TwoColumnKeyboardHelpContentOptions;
+export type GreenhouseEffectKeyboardHelpContentOptions = SelfOptions;
 
 class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor( providedOptions?: GreenhouseEffectKeyboardHelpContentOptions ) {

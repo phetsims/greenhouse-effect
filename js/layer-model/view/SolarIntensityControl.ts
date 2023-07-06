@@ -35,8 +35,7 @@ export default class SolarIntensityControl extends VBox {
     // sound player for the middle range of the slider
     const solarIntensitySoundPlayer = new SolarIntensitySoundPlayer(
       proportionateOutputRateProperty,
-      solarIntensityProportionRange,
-      { initialOutputLevel: 0.075 }
+      solarIntensityProportionRange
     );
     soundManager.addSoundGenerator( solarIntensitySoundPlayer );
 

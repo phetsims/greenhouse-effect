@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { Color, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -17,29 +16,23 @@ import LayersModel from '../model/LayersModel.js';
 import PhotonSprites from '../PhotonSprites.js';
 import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
-import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
+import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-
-type SelfOptions = EmptySelfOptions;
-export type LayerModelObservationWindowOptions =
-  SelfOptions &
-  WithRequired<GreenhouseEffectObservationWindowOptions, 'tandem'>;
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
   public readonly showThermometerCheckbox: ShowTemperatureCheckbox;
 
-  public constructor( model: LayerModelModel, providedOptions: GreenhouseEffectObservationWindowOptions ) {
+  public constructor( model: LayerModelModel, tandem: Tandem ) {
 
-    const options = optionize<LayerModelObservationWindowOptions, SelfOptions, GreenhouseEffectObservationWindowOptions>()( {
+    super( model, {
       fluxMeterNodeOptions: {
         includeZoomButtons: true
-      }
-    }, providedOptions );
-
-    super( model, options );
+      },
+      tandem: tandem
+    } );
 
     // Add the node that will render the photons.
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
@@ -51,7 +44,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const atmosphereLayerNodeOptions: AtmosphereLayerNodeOptions = {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
         layerThickness: correspondingPhotonAbsorbingLayer.thickness,
-        tandem: options.tandem.createTandem( `atmosphereLayer${index + 1}` )
+        tandem: tandem.createTandem( `atmosphereLayer${index + 1}` )
       };
 
       const atmosphereLayerNode = new AtmosphereLayerNode(
@@ -83,7 +76,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      tandem: options.tandem.createTandem( 'showThermometerCheckbox' )
+      tandem: tandem.createTandem( 'showThermometerCheckbox' )
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );
 
@@ -114,7 +107,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
       // phet-io
-      tandem: options.tandem.createTandem( 'surfaceThermometer' )
+      tandem: tandem.createTandem( 'surfaceThermometer' )
     } );
     this.controlsLayer.addChild( surfaceThermometer );
 

@@ -28,10 +28,7 @@ export default class AbsorbingLayersControl extends HBox {
   public constructor( numberOfActiveAtmosphereLayersProperty: NumberProperty, tandem: Tandem ) {
 
     // sound player for the number of layers
-    const numberOfLayersSoundPlayer = new NumberOfLayersSoundPlayer(
-      numberOfActiveAtmosphereLayersProperty,
-      { initialOutputLevel: 0.2 }
-    );
+    const numberOfLayersSoundPlayer = new NumberOfLayersSoundPlayer( numberOfActiveAtmosphereLayersProperty );
     soundManager.addSoundGenerator( numberOfLayersSoundPlayer );
 
     // NumberPicker

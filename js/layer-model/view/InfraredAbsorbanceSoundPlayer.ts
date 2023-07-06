@@ -8,18 +8,13 @@
  */
 
 import Range from '../../../../dot/js/Range.js';
-import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-
-// types for options
-type SelfOptions = EmptySelfOptions;
-type IrAbsorbanceSoundPlayerOptions = SelfOptions & SoundClipOptions;
 
 class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -39,11 +34,10 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
   private readonly irAbsorbanceRange: Range;
 
 
-  public constructor( irAbsorbanceProperty: NumberProperty,
-                      irAbsorbanceRange: Range,
-                      providedOptions?: IrAbsorbanceSoundPlayerOptions ) {
-
-    super( providedOptions );
+  public constructor( irAbsorbanceProperty: NumberProperty, irAbsorbanceRange: Range ) {
+    super( {
+      initialOutputLevel: 0.075
+    } );
 
     // Make the parameters available to the methods.
     this.irAbsorbanceProperty = irAbsorbanceProperty;

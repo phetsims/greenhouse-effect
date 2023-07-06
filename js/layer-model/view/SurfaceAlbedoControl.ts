@@ -33,10 +33,7 @@ export default class SurfaceAlbedoControl extends VBox {
     const surfaceAlbedoRange = new Range( 0, 0.9 );
 
     // sound player for the middle range of the slider
-    const surfaceAlbedoSoundPlayer = new SurfaceAlbedoSoundPlayer(
-      surfaceAlbedoProperty,
-      surfaceAlbedoRange, { initialOutputLevel: 0.1 }
-    );
+    const surfaceAlbedoSoundPlayer = new SurfaceAlbedoSoundPlayer( surfaceAlbedoProperty, surfaceAlbedoRange );
     soundManager.addSoundGenerator( surfaceAlbedoSoundPlayer );
 
     // Label

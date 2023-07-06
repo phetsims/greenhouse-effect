@@ -8,17 +8,13 @@
  */
 
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
 import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-
-type SelfOptions = EmptySelfOptions;
-export type NumberOfLayersSoundPlayerOptions = SelfOptions & SoundGeneratorOptions;
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -28,9 +24,11 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
   // number of active layers
   private readonly numberOfLayersProperty: NumberProperty;
 
-  public constructor( numberOfLayersProperty: NumberProperty, providedOptions?: NumberOfLayersSoundPlayerOptions ) {
+  public constructor( numberOfLayersProperty: NumberProperty ) {
 
-    super( providedOptions );
+    super( {
+      initialOutputLevel: 0.2
+    } );
 
     this.numberOfLayersProperty = numberOfLayersProperty;
     this.layerSoundClips = [

@@ -20,7 +20,7 @@ import UpDownArrowPlot from '../../../../bamboo/js/UpDownArrowPlot.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import { Node, scenery, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -54,18 +54,14 @@ class EnergyBalancePanel extends Panel {
    * @param netEnergyOutProperty
    * @param inRadiativeBalanceProperty
    * @param sunIsShiningProperty
-   * @param [providedOptions]
    */
   public constructor( energyBalanceVisibleProperty: Property<boolean>,
                       netEnergyInProperty: Property<number>,
                       netEnergyOutProperty: Property<number>,
                       inRadiativeBalanceProperty: Property<boolean>,
-                      sunIsShiningProperty: Property<boolean>,
-                      providedOptions?: EnergyBalancePanelOptions ) {
+                      sunIsShiningProperty: Property<boolean> ) {
 
-    const options = optionize<EnergyBalancePanelOptions, SelfOptions, PanelOptions>()( {
-
-      // panel options
+    const options: PanelOptions = {
       visibleProperty: energyBalanceVisibleProperty,
       cornerRadius: 5,
       xMargin: 10,
@@ -75,7 +71,7 @@ class EnergyBalancePanel extends Panel {
       tagName: 'div',
       labelTagName: 'h4',
       labelContent: GreenhouseEffectStrings.energyBalancePanel.titleStringProperty
-    }, providedOptions );
+    };
 
     // title
     const titleText = new Text( GreenhouseEffectStrings.energyBalancePanel.titleStringProperty, {

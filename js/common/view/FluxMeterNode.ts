@@ -39,7 +39,6 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import FluxMeter from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
@@ -82,7 +81,7 @@ type SelfOptions = {
   // the display arrows.
   includeZoomButtons?: boolean;
 };
-export type FluxMeterNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+export type FluxMeterNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
 class FluxMeterNode extends Node {
 

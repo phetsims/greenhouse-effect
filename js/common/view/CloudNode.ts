@@ -27,7 +27,7 @@ type SelfOptions = {
   // useful for debugging
   showReferenceEllipse?: boolean;
 };
-type CloudNodeOptions = SelfOptions & NodeOptions;
+type CloudNodeOptions = SelfOptions;
 
 class CloudNode extends Node {
   private readonly disposeCloudNode: () => void;
