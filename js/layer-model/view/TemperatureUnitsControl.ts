@@ -13,7 +13,7 @@ const LABEL_FONT = new PhetFont( 14 );
 const UNITS_LABEL_MAX_WIDTH = 50;
 
 /**
- * TemperatureUnitsSelector is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees
+ * TemperatureUnitsControl is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees
  * Fahrenheit, using a horizontal set of radio buttons.  This was originally developed for the "Layer Model" screen of
  * the "Greenhouse Effect" simulation, but may be applicable to other situations in the future.
  */
@@ -21,7 +21,7 @@ const UNITS_LABEL_MAX_WIDTH = 50;
 class TemperatureUnitsControl extends VBox {
   public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
-    // Create the label that sits above the radio button selectors.
+    // Create the label that sits above the radio buttons.
     const text = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
       font: LABEL_FONT,
       maxWidth: 200
@@ -80,5 +80,5 @@ class TemperatureUnitsControl extends VBox {
   }
 }
 
-greenhouseEffect.register( 'TemperatureUnitsSelector', TemperatureUnitsControl );
+greenhouseEffect.register( 'TemperatureUnitsControl', TemperatureUnitsControl );
 export default TemperatureUnitsControl;
