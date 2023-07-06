@@ -108,4 +108,4 @@ const createItem = ( value: TemperatureUnits,
   };
 };
 
-greenhouseEffect.register( 'DefaultTemperatureUnitsSelector', DefaultTemperatureUnitsControl );
+greenhouseEffect.register( 'DefaultTemperatureUnitsControl', DefaultTemperatureUnitsControl );
