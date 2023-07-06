@@ -19,7 +19,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
-export default class DefaultTemperatureUnitsSelector extends VBox {
+export default class DefaultTemperatureUnitsControl extends VBox {
 
   private readonly disposeDefaultTemperatureUnitsSelector: () => void;
 
@@ -108,4 +108,4 @@ const createItem = ( value: TemperatureUnits,
   };
 };
 
-greenhouseEffect.register( 'DefaultTemperatureUnitsSelector', DefaultTemperatureUnitsSelector );
+greenhouseEffect.register( 'DefaultTemperatureUnitsSelector', DefaultTemperatureUnitsControl );
