@@ -3,7 +3,7 @@
 /**
  * Colors used throughout this simulation.  This is generally referred to as the "color profile" for the sim.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';

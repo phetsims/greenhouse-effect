@@ -1,7 +1,9 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * @author John Blanco
+ * LayerModelScreen is the 'Layers Model' screen.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Screen from '../../../joist/js/Screen.js';

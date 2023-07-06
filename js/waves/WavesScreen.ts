@@ -1,6 +1,8 @@
 // Copyright 2020-2023, University of Colorado Boulder
 
 /**
+ * WavesScreen is the 'Waves' screen.
+ *
  * @author Sam Reid (PhET Interactive Simulations)
  */
 

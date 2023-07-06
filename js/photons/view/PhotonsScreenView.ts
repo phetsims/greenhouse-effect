@@ -3,7 +3,7 @@
 /**
  * Main screen view for the "Photons" screen.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import { VBox } from '../../../../scenery/js/imports.js';

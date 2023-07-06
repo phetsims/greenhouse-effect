@@ -2,6 +2,8 @@
 
 /**
  * EMWaveSource produces simulated waves of electromagnetic energy.
+ *
+ * @author @author John Blanco (PhET Interactive Simulations)
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';

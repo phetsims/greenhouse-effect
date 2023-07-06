@@ -3,7 +3,7 @@
 /**
  * ScreenView (root view class) for the Layer Model screen.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Tandem from '../../../../tandem/js/Tandem.js';

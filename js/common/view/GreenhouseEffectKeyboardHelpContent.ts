@@ -2,6 +2,7 @@
 
 /**
  * The contents of the keyboard help dialog for this sim, used for all screens.
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 

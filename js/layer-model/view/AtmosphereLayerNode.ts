@@ -3,7 +3,7 @@
 /**
  * Node that represents a layer in the atmosphere that absorbs and emits energy.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';

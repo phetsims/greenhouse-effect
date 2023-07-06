@@ -5,7 +5,7 @@
  * Fahrenheit, using a horizontal set of radio buttons.  This was originally developed for the "Layer Model" screen of
  * the "Greenhouse Effect" simulation, but may be applicable to other situations in the future.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Property from '../../../../axon/js/Property.js';

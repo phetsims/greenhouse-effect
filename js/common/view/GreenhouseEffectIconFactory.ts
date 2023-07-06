@@ -1,5 +1,11 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
+/**
+ * An object with static methods for creating the icons used in the Greenhouse Effect simulation.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ */
+
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -29,9 +35,6 @@ const WAVE_ALPHA = 0.5;
 const LAYER_THICKNESS = HOME_ICON_HEIGHT * 0.1;
 const GRASS_BASE_COLOR = new Color( '#117c13' );
 
-/**
- * An object with static methods for creating the icons used in the Greenhouse Effect simulation.
- */
 class GreenhouseEffectIconFactory {
 
   /**

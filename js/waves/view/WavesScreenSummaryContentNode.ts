@@ -2,6 +2,7 @@
 
 /**
  * The Node that manages and updates the screen summary in the PDOM.
+ *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 

@@ -5,6 +5,8 @@
  * It specifies a minimum and maximum X value for where waves will be produced and a direction of travel.  This exists
  * because the wave production occurs in pairs of X value locations, and the source shifts back and forth between them
  * in order to create some variation.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';

@@ -6,7 +6,7 @@
  *
  * TODO: Once the "real" node for these layers has been created, this may become obsolete.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Range from '../../../../dot/js/Range.js';

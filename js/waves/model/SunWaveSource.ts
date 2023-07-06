@@ -2,6 +2,8 @@
 
 /**
  * SunWaveSource acts as a source of the modeled electromagnetic (EM) waves produced by the sun.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
