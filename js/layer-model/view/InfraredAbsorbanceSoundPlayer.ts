@@ -95,5 +95,5 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
   }
 }
 
-greenhouseEffect.register( 'IrAbsorbanceSoundPlayer', InfraredAbsorbanceSoundPlayer );
+greenhouseEffect.register( 'InfraredAbsorbanceSoundPlayer', InfraredAbsorbanceSoundPlayer );
 export default InfraredAbsorbanceSoundPlayer;
