@@ -9,15 +9,14 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
-import AquaRadioButtonGroup from '../../../../sun/js/AquaRadioButtonGroup.js';
+import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 
-const LABEL_FONT = new PhetFont( 14 );
 const UNITS_LABEL_MAX_WIDTH = 50;
 
 class TemperatureUnitsControl extends VBox {
@@ -25,49 +24,45 @@ class TemperatureUnitsControl extends VBox {
 
     // Create the label that sits above the radio buttons.
     const text = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
-      font: LABEL_FONT,
+      font: GreenhouseEffectConstants.LABEL_FONT,
       maxWidth: 200
     } );
 
-    // Create the radio buttons.
-    const temperatureUnitsRadioButtonGroup = new AquaRadioButtonGroup(
-      temperatureUnitsProperty,
-      [
-        {
-          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, {
-            font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH
-          } ),
-          value: TemperatureUnits.KELVIN,
-          tandemName: 'kelvinRadioButton'
-        },
-        {
-          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, {
-            font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH
-          } ),
-          value: TemperatureUnits.CELSIUS,
-          tandemName: 'celsiusRadioButton'
-        },
-        {
-          createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, {
-            font: LABEL_FONT,
-            maxWidth: UNITS_LABEL_MAX_WIDTH
-          } ),
-          value: TemperatureUnits.FAHRENHEIT,
-          tandemName: 'fahrenheitRadioButton'
-        }
-      ],
+    // Options shared by the labels for all radio buttons
+    const textOptions = {
+      font: GreenhouseEffectConstants.LABEL_FONT,
+      maxWidth: UNITS_LABEL_MAX_WIDTH
+    };
+
+    // Items that describe the radio buttons
+    const items: AquaRadioButtonGroupItem<TemperatureUnits>[] = [
       {
-        orientation: 'horizontal',
-        spacing: 15,
-        radioButtonOptions: {
-          radius: 6
-        },
-        tandem: tandem.createTandem( 'temperatureUnitsRadioButtonGroup' ),
-        phetioVisiblePropertyInstrumented: false // see https://github.com/phetsims/greenhouse-effect/issues/318
+        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, textOptions ),
+        value: TemperatureUnits.KELVIN,
+        tandemName: 'kelvinRadioButton'
+      },
+      {
+        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, textOptions ),
+        value: TemperatureUnits.CELSIUS,
+        tandemName: 'celsiusRadioButton'
+      },
+      {
+        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, textOptions ),
+        value: TemperatureUnits.FAHRENHEIT,
+        tandemName: 'fahrenheitRadioButton'
       }
-    );
+    ];
+
+    // Create the radio buttons.
+    const temperatureUnitsRadioButtonGroup = new AquaRadioButtonGroup<TemperatureUnits>( temperatureUnitsProperty, items, {
+      orientation: 'horizontal',
+      spacing: 15,
+      radioButtonOptions: {
+        radius: 6
+      },
+      tandem: tandem.createTandem( 'temperatureUnitsRadioButtonGroup' ),
+      phetioVisiblePropertyInstrumented: false // see https://github.com/phetsims/greenhouse-effect/issues/318
+    } );
 
     // Put the label and radio buttons together in the VBox.
     super( {
