@@ -62,7 +62,6 @@ export default class AbsorbingLayersControl extends HBox {
       children: [ picker, labelText ],
       spacing: 5,
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: { phetioFeatured: true }
     } );
   }

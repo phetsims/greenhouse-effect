@@ -99,7 +99,6 @@ export default class SolarIntensityControl extends VBox {
       children: [ labelText, slider ],
       spacing: 8,
       tandem: tandem,
-      phetioVisiblePropertyInstrumented: true,
       visiblePropertyOptions: { phetioFeatured: true }
     } );
   }
