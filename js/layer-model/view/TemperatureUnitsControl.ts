@@ -18,7 +18,7 @@ const UNITS_LABEL_MAX_WIDTH = 50;
  * the "Greenhouse Effect" simulation, but may be applicable to other situations in the future.
  */
 
-class TemperatureUnitsSelector extends VBox {
+class TemperatureUnitsControl extends VBox {
   public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     // Create the label that sits above the radio button selectors.
@@ -80,5 +80,5 @@ class TemperatureUnitsSelector extends VBox {
   }
 }
 
-greenhouseEffect.register( 'TemperatureUnitsSelector', TemperatureUnitsSelector );
-export default TemperatureUnitsSelector;
+greenhouseEffect.register( 'TemperatureUnitsSelector', TemperatureUnitsControl );
+export default TemperatureUnitsControl;

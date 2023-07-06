@@ -15,7 +15,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredPanel from './InfraredPanel.js';
 import SunlightPanel from './SunlightPanel.js';
-import TemperatureUnitsSelector from './TemperatureUnitsSelector.js';
+import TemperatureUnitsControl from './TemperatureUnitsControl.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -39,11 +39,11 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       tandem: tandem
     } );
 
-    const temperatureUnitsSelector = new TemperatureUnitsSelector(
+    const temperatureUnitsControl = new TemperatureUnitsControl(
       model.temperatureUnitsProperty,
-      tandem.createTandem( 'temperatureUnitsSelector' )
+      tandem.createTandem( 'temperatureUnitsControl' )
     );
-    this.addChild( temperatureUnitsSelector );
+    this.addChild( temperatureUnitsControl );
 
     const morePhotonsCheckbox = new MorePhotonsCheckbox(
       model.photonCollection.showAllSimulatedPhotonsInViewProperty,
@@ -52,10 +52,10 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     this.addChild( morePhotonsCheckbox );
 
     // layout
-    temperatureUnitsSelector.left = this.observationWindow.left;
-    temperatureUnitsSelector.top = this.observationWindow.bottom + 3;
+    temperatureUnitsControl.left = this.observationWindow.left;
+    temperatureUnitsControl.top = this.observationWindow.bottom + 3;
     morePhotonsCheckbox.left = this.observationWindow.left;
-    morePhotonsCheckbox.top = temperatureUnitsSelector.bottom + 12;
+    morePhotonsCheckbox.top = temperatureUnitsControl.bottom + 12;
 
     // controls on the side
     const sunlightPanel = new SunlightPanel(
@@ -83,7 +83,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       observationWindow.fluxMeterNode
     ];
     this.pdomControlAreaNode.pdomOrder = [
-      temperatureUnitsSelector,
+      temperatureUnitsControl,
       morePhotonsCheckbox,
       this.timeControlNode,
       this.resetAllButton
