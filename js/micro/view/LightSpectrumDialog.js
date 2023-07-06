@@ -21,12 +21,8 @@ class LightSpectrumDialog extends Dialog {
    * @param {Tandem} tandem
    */
   constructor( content, tandem ) {
-
     super( content, {
-
-      // phet-io
-      tandem: tandem,
-      phetioDynamicElement: true
+      tandem: tandem
     } );
   }
 }
