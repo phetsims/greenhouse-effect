@@ -1,5 +1,13 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
+/**
+ * TemperatureUnitsControl is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees
+ * Fahrenheit, using a horizontal set of radio buttons.  This was originally developed for the "Layer Model" screen of
+ * the "Greenhouse Effect" simulation, but may be applicable to other situations in the future.
+ *
+ * @author John Blanco
+ */
+
 import Property from '../../../../axon/js/Property.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
@@ -11,12 +19,6 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 const LABEL_FONT = new PhetFont( 14 );
 const UNITS_LABEL_MAX_WIDTH = 50;
-
-/**
- * TemperatureUnitsControl is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees
- * Fahrenheit, using a horizontal set of radio buttons.  This was originally developed for the "Layer Model" screen of
- * the "Greenhouse Effect" simulation, but may be applicable to other situations in the future.
- */
 
 class TemperatureUnitsControl extends VBox {
   public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
