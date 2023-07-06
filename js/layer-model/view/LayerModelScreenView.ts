@@ -8,7 +8,7 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
-import LayerModelObservationWindow from '../../common/view/LayerModelObservationWindow.js';
+import LayerModelObservationWindow from './LayerModelObservationWindow.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';

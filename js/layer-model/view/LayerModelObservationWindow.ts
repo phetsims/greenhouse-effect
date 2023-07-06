@@ -10,14 +10,14 @@
 import { Color, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
-import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
-import LayersModel from '../model/LayersModel.js';
-import PhotonSprites from '../PhotonSprites.js';
-import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
-import AtmosphericPhotonsSoundGenerator from './AtmosphericPhotonsSoundGenerator.js';
-import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
-import ThermometerAndReadout from './ThermometerAndReadout.js';
+import LayerModelModel from '../model/LayerModelModel.js';
+import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
+import LayersModel from '../../common/model/LayersModel.js';
+import PhotonSprites from '../../common/PhotonSprites.js';
+import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from '../../common/view/AtmosphereLayerNode.js';
+import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
+import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
+import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
