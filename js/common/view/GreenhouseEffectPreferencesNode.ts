@@ -36,9 +36,7 @@ export default class GreenhouseEffectPreferencesNode extends VBox {
 
     const defaultTemperatureUnitsControl = new DefaultTemperatureUnitsSelector(
       GreenhouseEffectPreferences.defaultTemperatureUnitsProperty,
-      {
-        tandem: options.tandem.createTandem( 'defaultTemperatureUnitsControl' )
-      }
+      options.tandem.createTandem( 'defaultTemperatureUnitsControl' )
     );
 
     this.children = [ defaultTemperatureUnitsControl ];

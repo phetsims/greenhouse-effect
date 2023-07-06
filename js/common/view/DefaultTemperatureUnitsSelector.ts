@@ -9,8 +9,7 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { Text, VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
+import { Text, VBox } from '../../../../scenery/js/imports.js';
 import Property from '../../../../axon/js/Property.js';
 import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
 import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
@@ -19,68 +18,57 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-
-type SelfOptions = EmptySelfOptions;
-
-type DefaultTemperatureUnitsSelectorOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;
 
 export default class DefaultTemperatureUnitsSelector extends VBox {
 
   private readonly disposeDefaultTemperatureUnitsSelector: () => void;
 
-  public constructor( defaultTemperatureUnitsProperty: Property<TemperatureUnits>,
-                      providedOptions?: DefaultTemperatureUnitsSelectorOptions ) {
-
-    const options = optionize<DefaultTemperatureUnitsSelectorOptions, SelfOptions, VBoxOptions>()( {
-
-      // VBoxOptions
-      spacing: 8,
-      align: 'center',
-      visiblePropertyOptions: {
-        phetioFeatured: true
-      }
-    }, providedOptions );
-
-    super( options );
+  public constructor( defaultTemperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
       font: PreferencesDialog.CONTENT_FONT,
       maxWidth: 500
     } );
 
-    const radioButtonGroup = new VerticalAquaRadioButtonGroup(
-      defaultTemperatureUnitsProperty,
-      [
-        createItem(
-          TemperatureUnits.KELVIN,
-          GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
-          options.tandem,
-          'kelvinRadioButton'
-        ),
-        createItem(
-          TemperatureUnits.CELSIUS,
-          GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
-          options.tandem,
-          'celsiusRadioButton'
-        ),
-        createItem(
-          TemperatureUnits.FAHRENHEIT,
-          GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty,
-          options.tandem,
-          'fahrenheitRadioButton'
-        )
-      ],
-      {
-        tandem: options.tandem.createTandem( 'radioButtonGroup' ),
-        phetioVisiblePropertyInstrumented: false,
+    // Items that describe the radio buttons
+    const items: AquaRadioButtonGroupItem<TemperatureUnits>[] = [
+      createItem(
+        TemperatureUnits.KELVIN,
+        GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
+        tandem,
+        'kelvinRadioButton'
+      ),
+      createItem(
+        TemperatureUnits.CELSIUS,
+        GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
+        tandem,
+        'celsiusRadioButton'
+      ),
+      createItem(
+        TemperatureUnits.FAHRENHEIT,
+        GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty,
+        tandem,
+        'fahrenheitRadioButton'
+      )
+    ];
 
-        // pdom
-        labelContent: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
-      }
-    );
+    const radioButtonGroup = new VerticalAquaRadioButtonGroup<TemperatureUnits>( defaultTemperatureUnitsProperty, items, {
+      tandem: tandem.createTandem( 'radioButtonGroup' ),
+      phetioVisiblePropertyInstrumented: false,
 
-    this.children = [ text, radioButtonGroup ];
+      // pdom
+      labelContent: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
+    } );
+
+    super( {
+      children: [ text, radioButtonGroup ],
+      spacing: 8,
+      align: 'center',
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      },
+      tandem: tandem
+    } );
 
     this.addLinkedElement( defaultTemperatureUnitsProperty );
 
