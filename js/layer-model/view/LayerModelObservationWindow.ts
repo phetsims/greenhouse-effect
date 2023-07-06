@@ -14,7 +14,7 @@ import LayerModelModel from '../model/LayerModelModel.js';
 import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
-import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from '../../common/view/AtmosphereLayerNode.js';
+import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';

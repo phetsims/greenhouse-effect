@@ -19,11 +19,11 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import ShowTemperatureCheckbox from '../../layer-model/view/ShowTemperatureCheckbox.js';
-import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import AtmosphereLayer from '../model/AtmosphereLayer.js';
-import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
-import TemperatureUnits from '../model/TemperatureUnits.js';
+import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
+import GreenhouseEffectUtils from '../../common/GreenhouseEffectUtils.js';
+import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
+import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
+import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
