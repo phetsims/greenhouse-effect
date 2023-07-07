@@ -22,7 +22,7 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import InfraredWavesSoundGenerator from './InfraredWavesSoundGenerator.js';
-import SurfaceTemperatureCheckbox from './SurfaceTemperatureCheckbox.js';
+import ShowSurfaceTemperatureCheckbox from './ShowSurfaceTemperatureCheckbox.js';
 import WaveLandscapeObservationWindow from './WaveLandscapeObservationWindow.js';
 import WavesScreenSummaryContentNode from './WavesScreenSummaryContentNode.js';
 
@@ -73,10 +73,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       model.temperatureUnitsProperty,
       tandem.createTandem( 'surfaceThermometerCheckbox' )
     );
-    const surfaceTemperatureCheckbox = new SurfaceTemperatureCheckbox(
+
+    const showSurfaceTemperatureCheckbox = new ShowSurfaceTemperatureCheckbox(
       model.surfaceTemperatureVisibleProperty,
       model,
-      tandem.createTandem( 'surfaceTemperatureCheckbox' )
+      tandem.createTandem( 'showSurfaceTemperatureCheckbox' )
     );
 
     // Create the cloud-control checkbox.
@@ -112,7 +113,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // layout code
     const visibilityBox = new VBox( {
-      children: [ surfaceThermometerCheckbox, surfaceTemperatureCheckbox ],
+      children: [ surfaceThermometerCheckbox, showSurfaceTemperatureCheckbox ],
       spacing: 5,
       align: 'left'
     } );

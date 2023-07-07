@@ -17,7 +17,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import ConcentrationModel from '../../common/model/ConcentrationModel.js';
 
-class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
+class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   public constructor( property: Property<boolean>, model: ConcentrationModel, tandem: Tandem ) {
 
     const iconWidth = 15;
@@ -53,5 +53,5 @@ class SurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   }
 }
 
-greenhouseEffect.register( 'SurfaceTemperatureCheckbox', SurfaceTemperatureCheckbox );
-export default SurfaceTemperatureCheckbox;
+greenhouseEffect.register( 'SurfaceTemperatureCheckbox', ShowSurfaceTemperatureCheckbox );
+export default ShowSurfaceTemperatureCheckbox;
