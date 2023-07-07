@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * WaveSourceSpec is a simple class that is used to specify where waves can be produced - or sourced - by a wave source.

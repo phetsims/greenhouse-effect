@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * FluxMeterSoundGenerator is used to produce sounds for the flux meter, which measures the amount of flux for visible

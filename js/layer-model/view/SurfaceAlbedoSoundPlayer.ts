@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2022-2023, University of Colorado Boulder
 
 /**
  * SurfaceAlbedoSoundPlayer is used to produce sounds for the slider that controls surface albedo.  It is sound clip
