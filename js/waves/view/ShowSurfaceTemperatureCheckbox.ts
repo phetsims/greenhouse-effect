@@ -53,5 +53,5 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   }
 }
 
-greenhouseEffect.register( 'SurfaceTemperatureCheckbox', ShowSurfaceTemperatureCheckbox );
+greenhouseEffect.register( 'ShowSurfaceTemperatureCheckbox', ShowSurfaceTemperatureCheckbox );
 export default ShowSurfaceTemperatureCheckbox;
