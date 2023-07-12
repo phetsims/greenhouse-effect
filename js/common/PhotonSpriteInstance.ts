@@ -22,8 +22,6 @@ class PhotonSpriteInstance extends SpriteInstance {
 
     super();
 
-    // TODO: OrganismSpriteInstance, from which this was leveraged, had scale in addition to translation.  I (jpphet)
-    //       don't think it is needed for the photons, but I'm not certain.  Revisit at some point.
     // Set the transform type field in super SpriteInstance.
     this.transformType = SpriteInstanceTransformType.TRANSLATION;
 
