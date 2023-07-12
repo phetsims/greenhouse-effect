@@ -24,7 +24,6 @@ import { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 
 // constants
 const INITIAL_ABSORPTION_PROPORTION = 1.0;
-const IR_ABSORBANCE_RANGE = new Range( 0.1, 1 );
 
 // This value, which is in Kelvin, is the minimum value that the ground is allowed to get to.  It was calculated by
 // using 50% sun and 0.9 albedo, since these are the values that are allowed in the UI design that would lead to the
@@ -68,7 +67,7 @@ class LayerModelModel extends LayersModel {
     // This Property is used to set the absorbance value used for all layers in this model.  It is part of the API for
     // this class.
     this.layersInfraredAbsorbanceProperty = new NumberProperty( INITIAL_ABSORPTION_PROPORTION, {
-      range: IR_ABSORBANCE_RANGE,
+      range: new Range( 0.1, 1 ),
       tandem: tandem.createTandem( 'layersInfraredAbsorbanceProperty' ),
       phetioFeatured: true,
       phetioDocumentation: 'The proportion of IR energy that should be absorbed by a layer when passing through it.'
@@ -122,9 +121,6 @@ class LayerModelModel extends LayersModel {
     this.photonCollection.reset();
     super.reset();
   }
-
-  // static values
-  public static readonly IR_ABSORBANCE_RANGE = IR_ABSORBANCE_RANGE;
 
   /**
    * LayerModelModelIO handles PhET-iO serialization of the LayerModelModel.

@@ -7,7 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -31,17 +30,14 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
   );
 
   private readonly irAbsorbanceProperty: NumberProperty;
-  private readonly irAbsorbanceRange: Range;
 
-
-  public constructor( irAbsorbanceProperty: NumberProperty, irAbsorbanceRange: Range ) {
+  public constructor( irAbsorbanceProperty: NumberProperty ) {
     super( {
       initialOutputLevel: 0.075
     } );
 
     // Make the parameters available to the methods.
     this.irAbsorbanceProperty = irAbsorbanceProperty;
-    this.irAbsorbanceRange = irAbsorbanceRange;
 
     // Create a low-pass filter that will change as the solar intensity changes.
     const lowPassFilter = new BiquadFilterNode( phetAudioContext );
@@ -52,7 +48,8 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
 
     // Adjust the cutoff frequency of the filter as the solar intensity changes.
     irAbsorbanceProperty.link( solarIntensity => {
-      const normalizedIrAbsorbance = ( solarIntensity - irAbsorbanceRange.min ) / irAbsorbanceRange.getLength();
+      const normalizedIrAbsorbance = ( solarIntensity - irAbsorbanceProperty.range.min ) /
+                                     irAbsorbanceProperty.range.getLength();
 
       // Map the IR absorbance into a cutoff frequency.  This is a very empirical mapping, and is quite dependent on
       // the frequency content of the underlying sound, so feel free to adjust as needed.
@@ -72,7 +69,8 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
    */
   public play(): void {
     const irAbsorbance = this.irAbsorbanceProperty.value;
-    if ( irAbsorbance > this.irAbsorbanceRange.min && irAbsorbance < this.irAbsorbanceRange.max ) {
+    const irRange = this.irAbsorbanceProperty.range;
+    if ( irAbsorbance > irRange.min && irAbsorbance < irRange.max ) {
       this.middleSoundClip.play();
     }
     else {

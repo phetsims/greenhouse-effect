@@ -12,7 +12,6 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import SunEnergySource from '../../common/model/SunEnergySource.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -21,22 +20,19 @@ import { SliderOptions } from '../../../../sun/js/Slider.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 
 const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
 export default class SolarIntensityControl extends VBox {
 
-  public constructor( proportionateOutputRateProperty: NumberProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
+  public constructor( proportionateOutputRateProperty: TRangedProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
 
     // convenience variable
-    const solarIntensityProportionRange = SunEnergySource.OUTPUT_PROPORTION_RANGE;
+    const solarIntensityProportionRange = proportionateOutputRateProperty.range;
 
     // sound player for the middle range of the slider
-    const solarIntensitySoundPlayer = new SolarIntensitySoundPlayer(
-      proportionateOutputRateProperty,
-      solarIntensityProportionRange
-    );
+    const solarIntensitySoundPlayer = new SolarIntensitySoundPlayer( proportionateOutputRateProperty );
     soundManager.addSoundGenerator( solarIntensitySoundPlayer );
 
     // Label

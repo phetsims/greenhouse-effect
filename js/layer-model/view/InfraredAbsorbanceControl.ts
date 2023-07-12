@@ -10,7 +10,6 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredAbsorbanceSoundPlayer from './InfraredAbsorbanceSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -28,10 +27,10 @@ export default class InfraredAbsorbanceControl extends VBox {
   public constructor( infraredAbsorbanceProperty: NumberProperty, trackSize: Dimension2, tandem: Tandem ) {
 
     // convenience variable
-    const infraredAbsorbanceRange = LayerModelModel.IR_ABSORBANCE_RANGE;
+    const infraredAbsorbanceRange = infraredAbsorbanceProperty.range;
 
     // sound player used by slider for sound generation in the middle range
-    const irAbsorbanceSoundPlayer = new InfraredAbsorbanceSoundPlayer( infraredAbsorbanceProperty, infraredAbsorbanceRange );
+    const irAbsorbanceSoundPlayer = new InfraredAbsorbanceSoundPlayer( infraredAbsorbanceProperty );
     soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
 
     // Label

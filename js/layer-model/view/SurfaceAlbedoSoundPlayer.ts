@@ -7,15 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Range from '../../../../dot/js/Range.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -28,18 +27,16 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
     }
   );
 
-  private readonly surfaceAlbedoProperty: NumberProperty;
-  private readonly surfaceAlbedoRange: Range;
+  private readonly surfaceAlbedoProperty: TRangedProperty;
 
-  public constructor( surfaceAlbedoProperty: NumberProperty, surfaceAlbedoRange: Range ) {
+  public constructor( surfaceAlbedoProperty: TRangedProperty ) {
 
     super( {
       initialOutputLevel: 0.1
     } );
 
-    // Make the number property and its range available to the methods.
+    // Make the number property.
     this.surfaceAlbedoProperty = surfaceAlbedoProperty;
-    this.surfaceAlbedoRange = surfaceAlbedoRange;
 
     // Hook up the primary and boundary sound clips to the output.
     this.primarySoundClip.connect( this.masterGainNode );
@@ -61,7 +58,8 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
     // Adjust the reverb level as the albedo changes, making it so that more reverb occurs with the higher levels of
     // surface albedo.
     surfaceAlbedoProperty.link( surfaceAlbedo => {
-      const normalizedSurfaceAlbedo = ( surfaceAlbedo - surfaceAlbedoRange.min ) / surfaceAlbedoRange.getLength();
+      const normalizedSurfaceAlbedo = ( surfaceAlbedo - surfaceAlbedoProperty.range.min ) /
+                                      surfaceAlbedoProperty.range.getLength();
       const gainMultiplier = 0.4; // empirically determined to get the desired sound.
       reverbGainNode.gain.setTargetAtTime( normalizedSurfaceAlbedo * gainMultiplier, phetAudioContext.currentTime, 0.015 );
     } );
@@ -69,7 +67,8 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   public play(): void {
     const surfaceAlbedo = this.surfaceAlbedoProperty.value;
-    if ( surfaceAlbedo > this.surfaceAlbedoRange.min && surfaceAlbedo < this.surfaceAlbedoRange.max ) {
+    const surfaceAlbedoRange = this.surfaceAlbedoProperty.range;
+    if ( surfaceAlbedo > surfaceAlbedoRange.min && surfaceAlbedo < surfaceAlbedoRange.max ) {
       this.primarySoundClip.play();
     }
     else {

@@ -22,6 +22,7 @@ const TIME_CONSTANT = 0.015;
 const FILTER_Q = 10; // empirically determined
 
 class TemperatureSoundGeneratorFiltered extends SoundGenerator {
+
   private readonly temperatureToFilterFrequency: LinearFunction;
 
   public constructor( temperatureProperty: Property<number>,

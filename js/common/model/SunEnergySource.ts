@@ -22,9 +22,6 @@ import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-// constants
-const OUTPUT_PROPORTION_RANGE = new Range( 0.5, 2 );
-
 // Energy produced the sun in Watts per square meter.  This value was calculated using the Stefan-Boltzmann equation,
 // for more on the derivation see https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law, particularly the section
 // entitled "Effective temperature of the Earth".
@@ -73,7 +70,7 @@ class SunEnergySource {
     } );
 
     this.proportionateOutputRateProperty = new NumberProperty( 1, {
-      range: OUTPUT_PROPORTION_RANGE,
+      range: new Range( 0.5, 2 ),
       tandem: options.proportionateOutputRatePropertyIsInstrumented ?
               options.tandem.createTandem( 'proportionateOutputRateProperty' ) : Tandem.OPT_OUT,
       phetioFeatured: true
@@ -123,7 +120,6 @@ class SunEnergySource {
 
   // static values
   public static readonly OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
-  public static readonly OUTPUT_PROPORTION_RANGE = OUTPUT_PROPORTION_RANGE;
 }
 
 greenhouseEffect.register( 'SunEnergySource', SunEnergySource );

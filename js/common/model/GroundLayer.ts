@@ -55,7 +55,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
 
     // albedo of the ground, meaning how much of the incoming light will be reflected
     this.albedoProperty = new NumberProperty( options.initialAlbedo, {
-      range: new Range( 0, 1 ),
+      range: new Range( 0, 0.9 ), // Technically, an albedo value can go to 1, but we never do that in this sim.
       tandem: options.tandem.createTandem( 'albedoProperty' ),
       phetioReadOnly: true,
       phetioFeatured: true,

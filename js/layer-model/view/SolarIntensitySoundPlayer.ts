@@ -10,11 +10,11 @@
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 
 class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -27,10 +27,13 @@ class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
     }
   );
 
-  private readonly solarIntensityProperty: NumberProperty;
+  private readonly solarIntensityProperty: TRangedProperty;
   private readonly solarIntensityRange: Range;
 
-  public constructor( solarIntensityProperty: NumberProperty, solarIntensityRange: Range ) {
+  public constructor( solarIntensityProperty: TRangedProperty ) {
+
+    // convenience variable
+    const solarIntensityRange = solarIntensityProperty.range;
 
     super( {
       initialOutputLevel: 0.075

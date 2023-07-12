@@ -13,27 +13,26 @@ import { Text, VBox } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import Range from '../../../../dot/js/Range.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
 import Utils from '../../../../dot/js/Utils.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
 
 export default class SurfaceAlbedoControl extends VBox {
 
-  public constructor( surfaceAlbedoProperty: NumberProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
+  public constructor( surfaceAlbedoProperty: TRangedProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
 
     // convenience variable
-    const surfaceAlbedoRange = new Range( 0, 0.9 );
+    const surfaceAlbedoRange = surfaceAlbedoProperty.range;
 
     // sound player for the middle range of the slider
-    const surfaceAlbedoSoundPlayer = new SurfaceAlbedoSoundPlayer( surfaceAlbedoProperty, surfaceAlbedoRange );
+    const surfaceAlbedoSoundPlayer = new SurfaceAlbedoSoundPlayer( surfaceAlbedoProperty );
     soundManager.addSoundGenerator( surfaceAlbedoSoundPlayer );
 
     // Label
