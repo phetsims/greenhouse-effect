@@ -1,10 +1,8 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * Node that represents a layer that absorbs and emits energy.  This is generally for debugging the behavior of the
- * model.
- *
- * TODO: Once the "real" node for these layers has been created, this may become obsolete.
+ * Node that represents a layer that absorbs and emits energy.  This is for debugging the behavior of the model, and
+ * should never be visible to end users.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */

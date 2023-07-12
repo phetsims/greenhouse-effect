@@ -409,9 +409,8 @@ class WavesModel extends ConcentrationModel {
     // See if any new waves should be created.
     if ( this.groundLayer.albedoProperty.value >= GroundLayer.PARTIALLY_GLACIATED_LAND_ALBEDO ) {
 
-      // Make a list of waves that originated from the sun and are reaching the glacier.
-      // TODO: This is using a fixed position and should be adjusted when we know exactly where the glacier will be,
-      //       see https://github.com/phetsims/greenhouse-effect/issues/73.
+      // Make a list of waves that originated from the sun and are reaching the glacier.  This uses some fixed
+      // positioning, so may need to be adjusted if the waves are moved around.
       const wavesHittingTheGlacier = this.waveGroup.filter( wave =>
         wave.isVisible &&
         wave.origin.x > 0 &&
