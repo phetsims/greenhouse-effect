@@ -82,10 +82,10 @@ class MicroObservationWindow extends Rectangle {
     photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ).plus( new Vector2( 0, photonEmitterNode.openSciEdLabelHeight / 2 ) ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
-    // TODO: This clip area has been replaced with a layered rectangle in MicroScreenView because of a
-    // Safari specific SVG bug caused by clipping.  Once we discover the cause of this bug, the clipping area can
-    // replace the layered rectangle in MicroScreenView.  See
-    // https://github.com/phetsims/molecules-and-light/issues/105 and https://github.com/phetsims/scenery/issues/412.
+    // TODO: (see https://github.com/phetsims/molecules-and-light/issues/105 and
+    //       https://github.com/phetsims/scenery/issues/412) This clip area has been replaced with a layered rectangle
+    //       in MicroScreenView because of a Safari specific SVG bug caused by clipping.  Once we discover the cause of
+    //       this bug, the clipping area can replace the layered rectangle in MicroScreenView.
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
     //    this.clipArea = new Shape().roundRect(
     //      this.left,

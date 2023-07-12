@@ -117,10 +117,10 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     const currentPhotonAltitude = photon.positionProperty.value.y;
     const layerAltitude = this.atmosphereLayer.altitude;
 
-    // TODO: The design team is working on improving how the absorption and re-emission of photons looks.  On 6/1/2022
-    //       the thickness of the layers was adjusted to be quite thin so that the photons didn't appear to jump across
-    //       the layers.  This will need to be refined once the visual portrayal is finalized.  See
-    //       https://github.com/phetsims/greenhouse-effect/issues/167.
+    // TODO: See https://github.com/phetsims/greenhouse-effect/issues/167.  The design team is working on improving how
+    //       the absorption and re-emission of photons looks.  On 6/1/2022 the thickness of the layers was adjusted to
+    //       be quite thin so that the photons didn't appear to jump across the layers.  This will need to be refined
+    //       once the visual portrayal is finalized.
     const bottomOfLayerAltitude = layerAltitude - this.thickness * 0.0001;
     const topOfLayerAltitude = layerAltitude + this.thickness * 0.0001;
 

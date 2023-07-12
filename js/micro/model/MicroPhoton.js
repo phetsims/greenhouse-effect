@@ -52,7 +52,7 @@ class MicroPhoton extends PhetioObject {
    * @public
    */
   dispose() {
-    this.positionProperty.unlinkAll(); // TODO: this seems like a hack, but is it a good hack?
+    this.positionProperty.unlinkAll();
     this.positionProperty.dispose();
     super.dispose();
   }

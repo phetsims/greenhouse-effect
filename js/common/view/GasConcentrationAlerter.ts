@@ -8,9 +8,9 @@
  * @author John Blanco (PhET Interactive Simulations)
  *
  *
- * TODO: 1/5/2022 - This is named GasConcentrationAlerter, but it's doing more than just talking about the state.  We
- *                  should consider a new name, perhaps LayerModelStateAlerter or something along those lines.  See
- *                  https://github.com/phetsims/greenhouse-effect/issues/129.
+ * TODO: (see https://github.com/phetsims/greenhouse-effect/issues/129) This is named GasConcentrationAlerter, but it's
+ *       doing more than just talking about the state.  We should consider a new name, perhaps LayerModelStateAlerter or
+ *       something along those lines.
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';

@@ -94,9 +94,9 @@ class MicroScreenView extends ScreenView {
     this.addChild( this.observationWindow );
 
     // This rectangle hides photons that are outside the observation window.
-    // TODO: This rectangle is a temporary workaround that replaces the clipping area in MicroObservationWindow because of a
-    // Safari specific SVG bug caused by clipping.  See https://github.com/phetsims/molecules-and-light/issues/105 and
-    // https://github.com/phetsims/scenery/issues/412.
+    // TODO: (see https://github.com/phetsims/molecules-and-light/issues/105 and
+    //       https://github.com/phetsims/scenery/issues/412. This rectangle is a temporary workaround that replaces the
+    //       clipping area in MicroObservationWindow because of a Safari specific SVG bug caused by clipping.
     const clipRectangle = new Rectangle( this.observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
       CORNER_RADIUS, CORNER_RADIUS, {
         stroke: '#C5D6E8',

@@ -1,7 +1,8 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 /**
- * TODO: Type Documentation
+ * MicroScreenSummaryNode provides interactive description that summarizes the "Micro" screen.
+ *
  * @author Jesse Greenberg
  */
 

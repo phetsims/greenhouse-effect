@@ -72,7 +72,7 @@ class Molecule {
       tandem: Tandem.OPTIONAL // not needed when part of the selection radio buttons.
     }, options );
 
-    // TODO (phet-io): Should this be an assertion?  Why is this here?
+    // TODO (phet-io): Should this be an assertion?  Why is this here?  See https://github.com/phetsims/greenhouse-effect/issues/324.
     options.tandem = Tandem.OPTIONAL;
 
     this.highElectronicEnergyStateProperty = new BooleanProperty( false, !options.isForIcon ? {
@@ -459,8 +459,6 @@ class Molecule {
   queryAbsorbPhoton( photon ) {
 
     let absorbPhoton = false;
-
-    // TODO: Need to determine if the photon as passed through and emit here.
 
     if ( this.absorptionHysteresisCountdownTime <= 0 &&
          photon.positionProperty.get().distance( this.getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE &&

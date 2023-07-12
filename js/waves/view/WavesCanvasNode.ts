@@ -243,8 +243,9 @@ greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
 const waveIntensityToLineWidth = ( waveIntensity: number ): number => {
 
-  // TODO: Are there performance costs for using non-integer line widths?  We need to make this determination and decide
-  //       whether to use integer or floating point values.  See https://github.com/phetsims/greenhouse-effect/issues/84.
+  // TODO: (see https://github.com/phetsims/greenhouse-effect/issues/84) Are there performance costs for using non-
+  //       integer line widths?  We need to make this determination and decide whether to use integer or floating point
+  //       values.
   // return Math.ceil( waveIntensity * WAVE_MAX_LINE_WIDTH );
   return Utils.clamp( waveIntensity * WAVE_MAX_LINE_WIDTH, 0.5, WAVE_MAX_LINE_WIDTH );
 };

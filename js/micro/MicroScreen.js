@@ -26,7 +26,7 @@ class MicroScreen extends Screen {
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.microStringProperty,
 
-      // TODO: This should use the same content as molecules-and-light,
+      // TODO: This should use the same content as molecules-and-light, see https://github.com/phetsims/greenhouse-effect/issues/324.
       // MoleculesAndLightKeyboardHelpContent should be moved to this repo.
       createKeyboardHelpNode: () => new SliderControlsAndBasicActionsKeyboardHelpContent()
     };
