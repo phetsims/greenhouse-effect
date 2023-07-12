@@ -10,8 +10,6 @@
  * a Matrix3 (which determines how it's transformed).  At each model step, the positions of the PhotonInstance instances
  * are updated by adjusting their matrix, and then invalidatePaint is called to re-render the sprites.
  *
- * TODO: Is there any need to size this node like we do for canvases?
- *
  * @author John Blanco (PhET Interactive Simulations)
  */
 

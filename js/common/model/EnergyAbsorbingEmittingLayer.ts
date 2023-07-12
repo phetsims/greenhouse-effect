@@ -110,8 +110,10 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       initialEnergyAbsorptionProportion: 1,
 
       // The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the temperature at
-      // which it is originally set to.  When at this temperature, the layer will radiate no energy.
-      // TODO: Decide whether this is really worth keeping.  It's tricky, and may not be what we really ultimately want.
+      // which it is originally set to.  When at this temperature, the layer will radiate no energy.  This is a bit of
+      // a violation of the actual physics, since anything that is above absolute zero radiates some energy, but was a
+      // necessary simplification to have the Earth at a stable initial temperature that is reasonable (i.e. not
+      // absolute zero).
       minimumTemperature: 0,
 
       // phet-io

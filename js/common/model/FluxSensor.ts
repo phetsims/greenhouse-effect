@@ -29,8 +29,6 @@ type SelfOptions = {
 };
 export type FluxSensorOptions = SelfOptions & PhetioObjectOptions;
 
-// TODO: How do I require a tandem nowadays?
-
 // constants
 const DEFAULT_INITIAL_POSITION = Vector2.ZERO;
 
@@ -72,8 +70,6 @@ class FluxSensor extends PhetioObject {
 
     const options = optionize<FluxSensorOptions, SelfOptions, PhetioObjectOptions>()( {
       initialPosition: DEFAULT_INITIAL_POSITION,
-
-      //TODO temporarily marking phet-io state to be false until serialization is added
       phetioState: false,
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
 

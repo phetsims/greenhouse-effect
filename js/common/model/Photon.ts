@@ -46,9 +46,6 @@ export type PhotonOptions = {
   showState?: ShowState;
 };
 
-// TODO: Consider just having a direction instead of a velocity, which is what is done elsewhere in the sim, since
-//       photons should always be moving at the speed of light.
-
 class Photon {
 
   // position in model space in meters

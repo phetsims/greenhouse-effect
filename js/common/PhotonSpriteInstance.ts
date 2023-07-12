@@ -32,14 +32,6 @@ class PhotonSpriteInstance extends SpriteInstance {
     this.modelViewTransform = modelViewTransform;
   }
 
-  // TODO: I (jbphet) tried to add an initialize method, but was getting an error during TypeScript compilation that
-  //       said:
-  //         js/common/PhotonSpriteInstance.ts(15,7): error TS2415: Class 'PhotonSpriteInstance' incorrectly extends base class 'SpriteInstance & PoolableInstance'.
-  //         Type 'PhotonSpriteInstance' is not assignable to type 'SpriteInstance'.
-  //         Property 'initialize' is private in type 'SpriteInstance' but not in type 'PhotonSpriteInstance'.
-  //
-  //         I worked around this by initializing the fields manually, but should follow up on it.
-
   /**
    * Updates the matrix to match the organism's position and xDirection.
    */
