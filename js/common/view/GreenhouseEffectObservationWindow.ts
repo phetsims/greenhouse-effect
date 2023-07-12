@@ -107,9 +107,6 @@ class GreenhouseEffectObservationWindow extends Node {
     );
 
     // main window frame into which other items will need to fit
-    // TODO: 10/13/2021 - I (jbphet) am refactoring the observation window to be in subclasses.  The windowFrame needs
-    //                    to be available to subclasses at this moment, but might not eventually, so check this later
-    //                    and make it local if possible, or just delete this comment if not.
     this.windowFrame = Rectangle.dimension( SIZE, { lineWidth: 0 } );
     this.addChild( this.windowFrame );
 
@@ -154,13 +151,7 @@ class GreenhouseEffectObservationWindow extends Node {
     this.backgroundLayer.addChild( this.createGroundNode( model ) );
 
     // energy balance
-    this.energyBalancePanel = new EnergyBalancePanel(
-      model.energyBalanceVisibleProperty,
-      model.sunEnergySource.outputEnergyRateTracker.energyRateProperty,
-      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
-      model.inRadiativeBalanceProperty,
-      model.sunEnergySource.isShiningProperty
-    );
+    this.energyBalancePanel = new EnergyBalancePanel( model );
     this.energyBalancePanel.leftTop = this.windowFrame.leftTop.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET

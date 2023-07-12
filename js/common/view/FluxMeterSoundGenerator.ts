@@ -56,9 +56,6 @@ class FluxMeterSoundGenerator extends SoundGenerator {
   private readonly irFluxUpRateChangeSamples: number[] = [];
   private readonly irFluxDownRateChangeSamples: number[] = [];
 
-  // internal dispose function
-  private readonly disposeFluxMeterSoundGenerator: () => void;
-
   public constructor( visibleFluxUpProperty: TReadOnlyProperty<number>,
                       visibleFluxDownProperty: TReadOnlyProperty<number>,
                       irFluxUpProperty: TReadOnlyProperty<number>,
@@ -104,11 +101,6 @@ class FluxMeterSoundGenerator extends SoundGenerator {
     // Connect the sounds for the downward-direction IR to the overall gain node for this sound.
     this.irFluxDownASoundClip.connect( this.downwardFluxGainNode );
     this.irFluxDownBSoundClip.connect( this.downwardFluxGainNode );
-
-    // Define the class-specific dispose function.
-    this.disposeFluxMeterSoundGenerator = () => {
-      // TODO: Remove this if it's not needed.  See https://github.com/phetsims/greenhouse-effect/issues/185.
-    };
   }
 
   /**
@@ -230,11 +222,6 @@ class FluxMeterSoundGenerator extends SoundGenerator {
     this.irUpFluxSoundClip.stop( 0.1 );
     this.irUpFluxSoundClip.setPlaybackRate( 1 );
     this.irPreviousFluxUp = 0;
-  }
-
-  public override dispose(): void {
-    this.disposeFluxMeterSoundGenerator();
-    super.dispose();
   }
 }
 

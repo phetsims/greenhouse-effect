@@ -31,6 +31,7 @@ import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.
 import SunEnergySource from '../model/SunEnergySource.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import EnergyBalanceSoundGenerator from './EnergyBalanceSoundGenerator.js';
+import LayersModel from '../model/LayersModel.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';
@@ -44,20 +45,12 @@ class EnergyBalancePanel extends Panel {
   private readonly balancePlot: EnergyBalancePlot;
 
   /**
-   * @param energyBalanceVisibleProperty - a Property that controls whether this Panel is visible in the view
-   * @param netEnergyInProperty
-   * @param netEnergyOutProperty
-   * @param inRadiativeBalanceProperty
-   * @param sunIsShiningProperty
+   * @param model - a model of energy capture in an atmosphere based on energy absorbing and emitting layers
    */
-  public constructor( energyBalanceVisibleProperty: Property<boolean>,
-                      netEnergyInProperty: Property<number>,
-                      netEnergyOutProperty: Property<number>,
-                      inRadiativeBalanceProperty: Property<boolean>,
-                      sunIsShiningProperty: Property<boolean> ) {
+  public constructor( model: LayersModel ) {
 
     const options: PanelOptions = {
-      visibleProperty: energyBalanceVisibleProperty,
+      visibleProperty: model.energyBalanceVisibleProperty,
       cornerRadius: 5,
       xMargin: 10,
       yMargin: 10,
@@ -85,18 +78,16 @@ class EnergyBalancePanel extends Panel {
     // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
     // in this sim
     const negatedEnergyInProperty: TReadOnlyProperty<number> = new DerivedProperty(
-      [ netEnergyInProperty ],
+      [ model.sunEnergySource.outputEnergyRateTracker.energyRateProperty ],
       netEnergyIn => -netEnergyIn
     );
 
-    // TODO: Use model.netInflowOfEnergyProperty instead of this custom one.
-    const netEnergyProperty: TReadOnlyProperty<number> = new DerivedProperty(
-      [ negatedEnergyInProperty, netEnergyOutProperty ],
-      ( netIn, netOut ) => netIn + netOut
-    );
-
     // the plot
-    const balancePlot = new EnergyBalancePlot( negatedEnergyInProperty, netEnergyOutProperty, netEnergyProperty );
+    const balancePlot = new EnergyBalancePlot(
+      negatedEnergyInProperty,
+      model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
+      model.netInflowOfEnergyProperty
+    );
 
     const content = new VBox( {
       spacing: 5,
@@ -109,22 +100,31 @@ class EnergyBalancePanel extends Panel {
     this.balancePlot = balancePlot;
 
     // sound generation
-    this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator( netEnergyProperty, inRadiativeBalanceProperty,
-      energyBalanceVisibleProperty );
+    this.energyBalanceSoundGenerator = new EnergyBalanceSoundGenerator(
+      model.netInflowOfEnergyProperty,
+      model.inRadiativeBalanceProperty,
+      model.energyBalanceVisibleProperty
+    );
     soundManager.addSoundGenerator( this.energyBalanceSoundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
 
     // pdom
-    Multilink.multilink( [ netEnergyProperty, inRadiativeBalanceProperty, sunIsShiningProperty ], ( netEnergy, inRadiativeBalance, sunIsShining ) => {
+    Multilink.multilink(
+      [
+        model.netInflowOfEnergyProperty,
+        model.inRadiativeBalanceProperty,
+        model.sunEnergySource.isShiningProperty
+      ],
+      ( netEnergy, inRadiativeBalance, sunIsShining ) => {
 
-      if ( !sunIsShining ) {
+        if ( !sunIsShining ) {
 
-        // describe no flow of energy and a hint to start sunlight to make use of the energy balance panel
-        this.descriptionContent = GreenhouseEffectStrings.a11y.noFlowOfEnergyHintDescriptionStringProperty;
-      }
-      else {
-        this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
-      }
-    } );
+          // describe no flow of energy and a hint to start sunlight to make use of the energy balance panel
+          this.descriptionContent = GreenhouseEffectStrings.a11y.noFlowOfEnergyHintDescriptionStringProperty;
+        }
+        else {
+          this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
+        }
+      } );
   }
 
   /**
