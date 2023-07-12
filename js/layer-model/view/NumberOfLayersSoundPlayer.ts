@@ -13,8 +13,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
 import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -22,9 +22,9 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
   private readonly layerSoundClips: SoundClip[];
 
   // number of active layers
-  private readonly numberOfLayersProperty: NumberProperty;
+  private readonly numberOfLayersProperty: TRangedProperty;
 
-  public constructor( numberOfLayersProperty: NumberProperty ) {
+  public constructor( numberOfLayersProperty: TRangedProperty ) {
 
     super( {
       initialOutputLevel: 0.2

@@ -16,12 +16,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
-import Property from '../../../../axon/js/Property.js';
-import Range from '../../../../dot/js/Range.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
-
-const MAX_LAYERS = 3; // from design doc
 
 export default class AbsorbingLayersControl extends HBox {
 
@@ -34,7 +30,7 @@ export default class AbsorbingLayersControl extends HBox {
     // NumberPicker
     const picker = new NumberPicker(
       numberOfActiveAtmosphereLayersProperty,
-      new Property( new Range( 0, MAX_LAYERS ) ),
+      numberOfActiveAtmosphereLayersProperty.rangeProperty,
       {
         cornerRadius: 3,
         xMargin: 5,
