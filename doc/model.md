@@ -1,3 +1,11 @@
+# Greenhouse Effect - model description
+
+@author John Blanco
+
+This document is a high-level description of the models used in PhET's _Greenhouse Effect_ simulation. It's assumed that
+the reader has some basic knowledge of the physics related to emissions and absorption of electromagnetic energy by
+matter.
+
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
 
 TODO: Item to add - the waves in the atmosphere are based on overall gas concentration, not the absorbance of the layer

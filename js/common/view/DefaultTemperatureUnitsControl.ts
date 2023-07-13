@@ -21,8 +21,6 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 export default class DefaultTemperatureUnitsControl extends VBox {
 
-  private readonly disposeDefaultTemperatureUnitsSelector: () => void;
-
   public constructor( defaultTemperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
@@ -67,20 +65,11 @@ export default class DefaultTemperatureUnitsControl extends VBox {
       visiblePropertyOptions: {
         phetioFeatured: true
       },
+      isDisposable: false,
       tandem: tandem
     } );
 
     this.addLinkedElement( defaultTemperatureUnitsProperty );
-
-    this.disposeDefaultTemperatureUnitsSelector = (): void => {
-      text.dispose();
-      radioButtonGroup.dispose();
-    };
-  }
-
-  public override dispose(): void {
-    super.dispose();
-    this.disposeDefaultTemperatureUnitsSelector();
   }
 }
 
