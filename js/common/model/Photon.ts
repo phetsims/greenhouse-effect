@@ -17,6 +17,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import TinyProperty from '../../../../axon/js/TinyProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
@@ -155,6 +156,11 @@ class Photon {
       }
     )
   } );
+
+  // Photons are lightweight and should not need to be disposed.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
+  }
 }
 
 export type PhotonStateObject = {
