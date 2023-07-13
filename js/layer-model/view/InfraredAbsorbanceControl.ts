@@ -102,7 +102,8 @@ export default class InfraredAbsorbanceControl extends VBox {
       children: [ labelText, slider ],
       spacing: 5,
       tandem: tandem,
-      visiblePropertyOptions: { phetioFeatured: true }
+      visiblePropertyOptions: { phetioFeatured: true },
+      isDisposable: false
     } );
   }
 }

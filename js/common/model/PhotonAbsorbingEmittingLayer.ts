@@ -83,7 +83,10 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
       photonMaxLateralJumpProportion: 0.01,
       photonAbsorptionTime: 0.1,
       absorbanceMultiplier: 1,
-      phetioType: PhotonAbsorbingEmittingLayer.PhotonAbsorbingEmittingLayerIO
+      phetioType: PhotonAbsorbingEmittingLayer.PhotonAbsorbingEmittingLayerIO,
+
+      // To date there hasn't been a need to dispose instances of this class, so disposal is currently unsupported.
+      isDisposable: false
     }, providedOptions );
 
     super( options );

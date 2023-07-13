@@ -58,7 +58,8 @@ class AtmosphereLayerNode extends Node {
 
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,
-      numberDisplayEnabledProperty: null
+      numberDisplayEnabledProperty: null,
+      isDisposable: false
     }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.

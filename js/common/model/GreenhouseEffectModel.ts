@@ -29,7 +29,10 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
 
       // By default, this is not stateful, but note that some subtypes such as WavesModel override this and specify a
       // phetioType.
-      phetioState: false
+      phetioState: false,
+
+      // To date there hasn't been a need to dispose instances of this class, so disposal is currently unsupported.
+      isDisposable: false
 
     }, providedOptions );
 

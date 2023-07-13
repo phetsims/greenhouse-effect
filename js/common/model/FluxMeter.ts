@@ -66,10 +66,10 @@ class FluxMeter extends PhetioObject {
         // a noticeable amount of downward IR flux.
         initialPosition: new Vector2( -LayersModel.SUNLIGHT_SPAN.width * 0.11, 4500 )
       },
+      phetioState: false,
 
-      // temporarily marking phet-io state to be false until serialization is added
-      phetioState: false
-
+      // Instances of this class are intended to exist for the life of the sim, so disposal is unsupported.
+      isDisposable: false
     }, providedOptions );
 
     super( options );

@@ -21,6 +21,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 // Energy produced the sun in Watts per square meter.  This value was calculated using the Stefan-Boltzmann equation,
 // for more on the derivation see https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law, particularly the section
@@ -116,6 +117,11 @@ class SunEnergySource {
     this.outputEnergyRateTracker.reset();
     this.isShiningProperty.reset();
     this.proportionateOutputRateProperty.reset();
+  }
+
+  // The sun exists for the duration of the sim, so disposal is not supported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 
   // static values

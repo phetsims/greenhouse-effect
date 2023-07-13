@@ -27,6 +27,7 @@ import SunEnergySource from './SunEnergySource.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -332,6 +333,11 @@ class PhotonCollection {
     }
 
     return photonProductionRate;
+  }
+
+  // Instances of this type have thus far not needed to be disposed, so it is currently unsupported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

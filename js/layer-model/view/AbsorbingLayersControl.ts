@@ -39,6 +39,7 @@ export default class AbsorbingLayersControl extends HBox {
         backgroundColor: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
         valueChangedSoundPlayer: numberOfLayersSoundPlayer,
         boundarySoundPlayer: numberOfLayersSoundPlayer,
+        isDisposable: false,
 
         // phet-io
         tandem: tandem.createTandem( 'picker' ),

@@ -14,6 +14,7 @@ import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 class SpaceEnergySink {
   private readonly altitude: number;
@@ -50,6 +51,11 @@ class SpaceEnergySink {
 
     // Track the incoming energy rate.
     this.incomingUpwardMovingEnergyRateTracker.addEnergyInfo( energyEmittedIntoSpace, dt );
+  }
+
+  // Instances of this class are intended to exist for the life of the sim, so disposal is unsupported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

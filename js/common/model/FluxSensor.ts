@@ -71,7 +71,10 @@ class FluxSensor extends PhetioObject {
     const options = optionize<FluxSensorOptions, SelfOptions, PhetioObjectOptions>()( {
       initialPosition: DEFAULT_INITIAL_POSITION,
       phetioState: false,
-      phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
+      phetioFeatured: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
+
+      // Instances of this class are intended to exist for the life of the sim, so disposal is unsupported.
+      isDisposable: false
 
     }, providedOptions );
 

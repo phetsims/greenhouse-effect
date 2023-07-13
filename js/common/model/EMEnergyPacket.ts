@@ -12,6 +12,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyDirection from './EnergyDirection.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 class EMEnergyPacket {
 
@@ -68,6 +69,12 @@ class EMEnergyPacket {
     else {
       this.altitude -= dt * GreenhouseEffectConstants.SPEED_OF_LIGHT;
     }
+  }
+
+  // Instances of this class are intended to be lightweight and own no Property instances, so disposal is unneeded and
+  // not supported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 
   /**

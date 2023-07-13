@@ -71,11 +71,11 @@ class EnergyRateTracker extends PhetioObject {
   public constructor( providedOptions?: EnergyRateTrackerOptions ) {
 
     const options = optionize<EnergyRateTrackerOptions, SelfOptions, PhetioObjectOptions>()( {
-
       accumulationPeriod: DEFAULT_ACCUMULATION_PERIOD,
+      phetioType: EnergyRateTracker.EnergyRateTrackerIO,
 
-      // phet-io
-      phetioType: EnergyRateTracker.EnergyRateTrackerIO
+      // To date there hasn't been a need to dispose instances of this class, so disposal is currently unsupported.
+      isDisposable: false
     }, providedOptions );
 
     super( options );

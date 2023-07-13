@@ -118,8 +118,10 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
 
       // phet-io
       phetioReadOnly: true,
-      phetioState: false
+      phetioState: false,
 
+      // To date there hasn't been a need to dispose instances of this class, so disposal is currently unsupported.
+      isDisposable: false
     }, providedOptions );
 
     super( options );
