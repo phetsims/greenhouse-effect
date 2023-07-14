@@ -3,6 +3,7 @@
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * WaveAttenuator is a simple class that is used to keep track of points along a wave where attenuation (reduction in
@@ -43,6 +44,12 @@ class WaveAttenuator {
       stateObject.distanceFromStart
     )
   } );
+
+  // Instances of this class are intended to be lightweight and own no Property instances, so disposal is unneeded and
+  // not supported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
+  }
 }
 
 export type WaveAttenuatorStateObject = {

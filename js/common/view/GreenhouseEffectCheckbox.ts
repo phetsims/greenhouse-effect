@@ -39,6 +39,7 @@ class GreenhouseEffectCheckbox extends Checkbox {
     const options = optionize<GreenhouseEffectCheckboxOptions, SelfOptions, CheckboxOptions>()( {
       iconNode: null,
       maxLabelTextWidth: 180, // empirically determined, works well for most cases in Greenhouse
+      isDisposable: false,
 
       // i18n
       maxWidth: 250,

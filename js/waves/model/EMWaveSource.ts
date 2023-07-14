@@ -16,6 +16,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 type SelfOptions = {
 
@@ -128,6 +129,11 @@ class EMWaveSource {
         intensityAtStart: this.waveIntensityProperty.value
       }
     );
+  }
+
+  // These generally exist for the life of the sim, so disposal has not been implemented.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

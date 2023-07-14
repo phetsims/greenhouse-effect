@@ -30,7 +30,7 @@ const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = Gr
 class WavesScreenSummaryContentNode extends Node {
 
   public constructor( model: WavesModel ) {
-    super();
+    super( { isDisposable: false } );
 
     const playAreaDescriptionNode = new Node( {
       tagName: 'p',

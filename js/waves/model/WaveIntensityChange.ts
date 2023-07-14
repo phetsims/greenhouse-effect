@@ -6,6 +6,7 @@ import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * WaveIntensityChange is a type that represents a change in a propagating wave's intensity at a point along a wave that
@@ -66,6 +67,12 @@ class WaveIntensityChange {
         NullableIO( ReferenceIO( IOType.ObjectIO ) ).fromStateObject( stateObject.anchoredTo )
       )
     } );
+
+  // Instances of this class are intended to be lightweight and do not link to any Property instances, so disposal is
+  // unneeded and not supported.
+  public dispose(): void {
+    Disposable.assertNotDisposable();
+  }
 }
 
 // for phet-io

@@ -25,8 +25,7 @@ class ObservationWindowPDOMNode extends Node {
 
   protected constructor( model: LayersModel ) {
     super( {
-
-      // pdom
+      isDisposable: false,
       tagName: 'ul'
     } );
 
