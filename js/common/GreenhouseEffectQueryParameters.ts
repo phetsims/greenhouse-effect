@@ -15,7 +15,8 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   defaultTemperatureUnits: {
     type: 'string',
     validValues: [ 'K', 'C', 'F' ],
-    defaultValue: 'C'
+    defaultValue: 'C',
+    public: true
   },
 
   // Enables the feature that shows cueing arrows on the flux sensor.  This sets the initial value of
