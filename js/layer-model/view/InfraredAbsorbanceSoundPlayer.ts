@@ -14,6 +14,7 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -84,6 +85,11 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
   public stop(): void {
     this.middleSoundClip.stop();
     this.boundarySoundClip.stop();
+  }
+
+  // This is intended to exist for the life of the sim, so disposal is not supported.
+  public override dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

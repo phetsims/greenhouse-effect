@@ -35,7 +35,8 @@ class ShowTemperatureCheckbox extends Checkbox {
     } );
 
     const options = optionize<ShowTemperatureCheckboxOptions, SelfOptions, CheckboxOptions>()( {
-      boxWidth: 15
+      boxWidth: 15,
+      isDisposable: false
     }, providedOptions );
 
     super( property, thermometerIcon, options );

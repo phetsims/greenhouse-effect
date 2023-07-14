@@ -77,6 +77,8 @@ class GreenhouseEffectObservationWindow extends Node {
     // https://github.com/phetsims/phet-core/issues/128
     const options = optionize<GreenhouseEffectObservationWindowOptions, StrictOmit<SelfOptions, 'fluxMeterNodeOptions'>, NodeOptions>()( {
 
+      isDisposable: false,
+
       // default position in the GreenhouseEffect sim
       left: GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
       top: GreenhouseEffectConstants.SCREEN_VIEW_Y_MARGIN,

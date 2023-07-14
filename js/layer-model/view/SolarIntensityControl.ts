@@ -57,7 +57,8 @@ export default class SolarIntensityControl extends VBox {
           maxSoundPlayer: solarIntensitySoundPlayer
         },
         tandem: tandem.createTandem( 'slider' ),
-        phetioVisiblePropertyInstrumented: false
+        phetioVisiblePropertyInstrumented: false,
+        isDisposable: false
       } )
     );
 

@@ -33,6 +33,7 @@ export default class InfraredPanel extends Panel {
       yMargin: PANEL_MARGIN,
       align: 'center' as const,
       fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
+      isDisposable: false,
 
       // pdom
       tagName: 'div',

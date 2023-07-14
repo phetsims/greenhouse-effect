@@ -66,13 +66,14 @@ class TemperatureUnitsControl extends VBox {
 
     // Put the label and radio buttons together in the VBox.
     super( {
-      tandem: tandem,
       children: [ text, temperatureUnitsRadioButtonGroup ],
       align: 'left',
       spacing: 3,
       visiblePropertyOptions: {
         phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/318
-      }
+      },
+      tandem: tandem,
+      isDisposable: false
     } );
   }
 }

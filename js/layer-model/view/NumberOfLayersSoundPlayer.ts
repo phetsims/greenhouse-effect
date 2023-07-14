@@ -15,6 +15,7 @@ import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -55,6 +56,11 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
   public stop(): void {
     // Nothing to do in this case.
+  }
+
+  // This is intended to exist for the life of the sim, so disposal is not supported.
+  public override dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 

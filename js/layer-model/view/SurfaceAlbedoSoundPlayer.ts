@@ -15,6 +15,7 @@ import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -79,6 +80,11 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
   public stop(): void {
     this.primarySoundClip.stop();
     this.boundarySoundClip.stop();
+  }
+
+  // This is intended to exist for the life of the sim, and disposal is not supported.
+  public override dispose(): void {
+    Disposable.assertNotDisposable();
   }
 }
 
