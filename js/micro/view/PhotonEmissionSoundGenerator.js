@@ -50,49 +50,51 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
     const photonEmissionFromMoleculeSoundClipOptions = { initialOutputLevel: PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL };
 
     // map of photon wavelengths to initial emission sounds
-    // Note - can't use initialization constructor for Map due to lack of support in IE.
-    const photonInitialEmissionSoundPlayers = new Map();
-    photonInitialEmissionSoundPlayers.set(
-      WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( photonEmitMicrowave_mp3, photonInitialEmissionSoundClipOptions )
-    );
-    photonInitialEmissionSoundPlayers.set(
-      WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( photonEmitIr_mp3, photonInitialEmissionSoundClipOptions )
-    );
-    photonInitialEmissionSoundPlayers.set(
-      WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( photonEmitVisible_mp3, photonInitialEmissionSoundClipOptions )
-    );
-    photonInitialEmissionSoundPlayers.set(
-      WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( photonEmitUv_mp3, photonInitialEmissionSoundClipOptions )
-    );
-    photonInitialEmissionSoundPlayers.forEach( value => {
-      soundManager.addSoundGenerator( value );
+    const photonInitialEmissionSoundPlayerMap = new Map( [
+      [
+        WavelengthConstants.MICRO_WAVELENGTH,
+        new SoundClip( photonEmitMicrowave_mp3, photonInitialEmissionSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.IR_WAVELENGTH,
+        new SoundClip( photonEmitIr_mp3, photonInitialEmissionSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.VISIBLE_WAVELENGTH,
+        new SoundClip( photonEmitVisible_mp3, photonInitialEmissionSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.UV_WAVELENGTH,
+        new SoundClip( photonEmitUv_mp3, photonInitialEmissionSoundClipOptions )
+      ]
+    ] );
+
+    photonInitialEmissionSoundPlayerMap.forEach( soundPlayer => {
+      soundManager.addSoundGenerator( soundPlayer );
     } );
 
     // map of wavelengths to the sounds used when photons are emitted from the active molecule
-    // Note - can't use initialization constructor for Map due to lack of support in IE.
-    const photonEmissionFromMoleculeSoundPlayers = new Map();
-    photonEmissionFromMoleculeSoundPlayers.set(
-      WavelengthConstants.MICRO_WAVELENGTH,
-      new SoundClip( photonReleaseMicrowave_mp3, photonEmissionFromMoleculeSoundClipOptions )
-    );
-    photonEmissionFromMoleculeSoundPlayers.set(
-      WavelengthConstants.IR_WAVELENGTH,
-      new SoundClip( photonReleaseIr_mp3, photonEmissionFromMoleculeSoundClipOptions )
-    );
-    photonEmissionFromMoleculeSoundPlayers.set(
-      WavelengthConstants.VISIBLE_WAVELENGTH,
-      new SoundClip( photonReleaseVisible_mp3, photonEmissionFromMoleculeSoundClipOptions )
-    );
-    photonEmissionFromMoleculeSoundPlayers.set(
-      WavelengthConstants.UV_WAVELENGTH,
-      new SoundClip( photonReleaseUv_mp3, photonEmissionFromMoleculeSoundClipOptions )
-    );
-    photonEmissionFromMoleculeSoundPlayers.forEach( value => {
-      soundManager.addSoundGenerator( value );
+    const photonEmissionFromMoleculeSoundPlayersMap = new Map( [
+      [
+        WavelengthConstants.MICRO_WAVELENGTH,
+        new SoundClip( photonReleaseMicrowave_mp3, photonEmissionFromMoleculeSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.IR_WAVELENGTH,
+        new SoundClip( photonReleaseIr_mp3, photonEmissionFromMoleculeSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.VISIBLE_WAVELENGTH,
+        new SoundClip( photonReleaseVisible_mp3, photonEmissionFromMoleculeSoundClipOptions )
+      ],
+      [
+        WavelengthConstants.UV_WAVELENGTH,
+        new SoundClip( photonReleaseUv_mp3, photonEmissionFromMoleculeSoundClipOptions )
+      ]
+    ] );
+
+    photonEmissionFromMoleculeSoundPlayersMap.forEach( soundPlayer => {
+      soundManager.addSoundGenerator( soundPlayer );
     } );
 
     // listen for new photons and play sounds or set them up to be played later when appropriate
@@ -102,10 +104,10 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {
 
         // this photon was just emitted from the active molecule, so play the appropriate emission sound
-        photonEmissionFromMoleculeSoundPlayers.get( photon.wavelength ).play();
+        photonEmissionFromMoleculeSoundPlayersMap.get( photon.wavelength ).play();
       }
       else {
-        photonInitialEmissionSoundPlayers.get( photon.wavelength ).play();
+        photonInitialEmissionSoundPlayerMap.get( photon.wavelength ).play();
       }
     } );
   }
