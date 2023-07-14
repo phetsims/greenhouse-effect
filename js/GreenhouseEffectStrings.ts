@@ -46,8 +46,6 @@ type StringsType = {
   'fluxMeter': {
     'titleStringProperty': LocalizedStringProperty;
     'energyFluxStringProperty': LocalizedStringProperty;
-    'sunlightStringProperty': LocalizedStringProperty;
-    'infraredStringProperty': LocalizedStringProperty;
   };
   'energyBalancePanel': {
     'titleStringProperty': LocalizedStringProperty;
@@ -163,13 +161,9 @@ type StringsType = {
     'energyLegend': {
       'titleStringProperty': LocalizedStringProperty;
       'inObservationWindowStringProperty': LocalizedStringProperty;
-      'sunlightRadiationStringProperty': LocalizedStringProperty;
-      'infraredRadiationStringProperty': LocalizedStringProperty;
     };
     'infraredRadiationRedirectingPatternStringProperty': LocalizedStringProperty;
-    'infraredRadiationRedirectingWithTemperaturePatternStringProperty': LocalizedStringProperty;
     'infraredRadiationEmittedFromSurfacePatternStringProperty': LocalizedStringProperty;
-    'infraredRadiationEmittedFromSurfaceWithTemperaturePatternStringProperty': LocalizedStringProperty;
     'moreStringProperty': LocalizedStringProperty;
     'lessStringProperty': LocalizedStringProperty;
     'noStringProperty': LocalizedStringProperty;
@@ -212,7 +206,6 @@ type StringsType = {
     'aLargeGlacierStringProperty': LocalizedStringProperty;
     'timePeriodChangeDescriptionPatternStringProperty': LocalizedStringProperty;
     'nowLevelsOfConcentrationPatternStringProperty': LocalizedStringProperty;
-    'nowRelativeLevelOfConcentrationPatternStringProperty': LocalizedStringProperty;
     'qualitativeConcentrationChangeDescriptionPatternStringProperty': LocalizedStringProperty;
     'higherStringProperty': LocalizedStringProperty;
     'muchHigherStringProperty': LocalizedStringProperty;
@@ -220,7 +213,6 @@ type StringsType = {
     'lowerStringProperty': LocalizedStringProperty;
     'muchLowerStringProperty': LocalizedStringProperty;
     'significantlyLowerStringProperty': LocalizedStringProperty;
-    'unchangedStringProperty': LocalizedStringProperty;
     'energyBalanceCheckedAlertStringProperty': LocalizedStringProperty;
     'energyBalanceCheckedPatternStringProperty': LocalizedStringProperty;
     'energyBalanceUncheckedAlertStringProperty': LocalizedStringProperty;
@@ -256,8 +248,6 @@ type StringsType = {
     'warmingStringProperty': LocalizedStringProperty;
     'coolingStringProperty': LocalizedStringProperty;
     'stabilizingStringProperty': LocalizedStringProperty;
-    'warmingStatementStringProperty': LocalizedStringProperty;
-    'coolingStatementStringProperty': LocalizedStringProperty;
     'concentrationPanel': {
       'titleStringProperty': LocalizedStringProperty;
       'experimentModeStringProperty': LocalizedStringProperty;
@@ -273,7 +263,6 @@ type StringsType = {
         'iceAgeStringProperty': LocalizedStringProperty;
       };
       'concentration': {
-        'labelStringProperty': LocalizedStringProperty;
         'greenhouseGasConcentrationStringProperty': LocalizedStringProperty;
         'concentrationSliderHelpTextStringProperty': LocalizedStringProperty;
       }

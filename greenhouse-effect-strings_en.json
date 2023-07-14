@@ -65,12 +65,6 @@
   "fluxMeter.energyFlux": {
     "value": "Energy Flux"
   },
-  "fluxMeter.sunlight": {
-    "value": "Sunlight"
-  },
-  "fluxMeter.infrared": {
-    "value": "Infrared"
-  },
   "concentrationPanel.lots": {
     "value": "Lots"
   },
@@ -346,25 +340,13 @@
       },
       "inObservationWindow": {
         "value": "In observation window:"
-      },
-      "sunlightRadiation": {
-        "value": "Sunlight radiation: yellow waves, wavelength shorter than infrared"
-      },
-      "infraredRadiation": {
-        "value": "Infrared radiation: red waves, wavelength longer than sunlight"
       }
     },
     "infraredRadiationRedirectingPattern": {
       "value": "{{moreOrLess}} infrared radiation redirecting back to surface."
     },
-    "infraredRadiationRedirectingWithTemperaturePattern": {
-      "value": "{{moreOrLess}} infrared radiation redirecting back to surface, now {{quantitativeTemperature}}."
-    },
     "infraredRadiationEmittedFromSurfacePattern": {
       "value": "{{moreOrLess}} infrared radiation emitting from surface."
-    },
-    "infraredRadiationEmittedFromSurfaceWithTemperaturePattern": {
-      "value": "{{moreOrLess}} infrared radiation emitting from surface, now {{quantitativeTemperature}}."
     },
     "more": {
       "value": "More"
@@ -484,9 +466,6 @@
     "nowLevelsOfConcentrationPattern": {
       "value": "Now {{value}} greenhouse gases."
     },
-    "nowRelativeLevelOfConcentrationPattern": {
-      "value": "Now {{value}} levels of greenhouse gases."
-    },
     "qualitativeConcentrationChangeDescriptionPattern": {
       "value": "Greenhouse gas levels {{comparativeDescription}} than {{year}}."
     },
@@ -507,9 +486,6 @@
     },
     "significantlyLower": {
       "value": "significantly lower"
-    },
-    "unchanged": {
-      "value": "unchanged"
     },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
@@ -612,12 +588,6 @@
     "stabilizing": {
       "value": "stabilizing"
     },
-    "warmingStatement": {
-      "value": "Warming."
-    },
-    "coolingStatement": {
-      "value": "Cooling."
-    },
     "concentrationPanel": {
       "title": {
         "value": "Greenhouse Gas Exploration Controls"
@@ -655,9 +625,6 @@
         }
       },
       "concentration": {
-        "label": {
-          "value": "Concentration"
-        },
         "greenhouseGasConcentration": {
           "value": "Greenhouse Gas Concentration"
         },
