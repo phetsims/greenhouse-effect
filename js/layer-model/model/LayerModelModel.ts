@@ -58,7 +58,7 @@ class LayerModelModel extends LayersModel {
     this.photonCollection = new PhotonCollection( this.sunEnergySource, this.groundLayer, this.atmosphereLayers, {
       photonAbsorbingEmittingLayerOptions: {
         photonMaxLateralJumpProportion: 0,
-        photonAbsorptionTime: 0,
+        photonAbsorptionTime: 0.25,
         thickness: 2800 // empirically determined to look good in the view
       },
       tandem: tandem.createTandem( 'photonCollection' )
