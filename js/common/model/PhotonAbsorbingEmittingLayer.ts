@@ -120,25 +120,18 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     const currentPhotonAltitude = photon.positionProperty.value.y;
     const layerAltitude = this.atmosphereLayer.altitude;
 
-    // TODO: See https://github.com/phetsims/greenhouse-effect/issues/167.  The design team is working on improving how
-    //       the absorption and re-emission of photons looks.  On 6/1/2022 the thickness of the layers was adjusted to
-    //       be quite thin so that the photons didn't appear to jump across the layers.  This will need to be refined
-    //       once the visual portrayal is finalized.
-    const bottomOfLayerAltitude = layerAltitude - this.thickness * 0.0001;
-    const topOfLayerAltitude = layerAltitude + this.thickness * 0.0001;
-
-    // Determine the initial crossing test result.  At this stage of the process, crossings are designated as
-    // CROSSED_BUT_IGNORED, but this can be changed below.
-    if ( previousPhotonAltitude < bottomOfLayerAltitude ) {
-      if ( currentPhotonAltitude < bottomOfLayerAltitude ) {
+    // Determine the initial crossing test result.  At this stage of the process, all crossings are designated as
+    // CROSSED_BUT_IGNORED, but this may be changed to CROSSED_AND_ABSORBED by the subsequent code.
+    if ( previousPhotonAltitude < layerAltitude ) {
+      if ( currentPhotonAltitude < layerAltitude ) {
         result = PhotonCrossingTestResult.FULLY_BELOW;
       }
       else {
         result = PhotonCrossingTestResult.CROSSED_BUT_IGNORED;
       }
     }
-    else if ( previousPhotonAltitude > topOfLayerAltitude ) {
-      if ( currentPhotonAltitude > topOfLayerAltitude ) {
+    else if ( previousPhotonAltitude > layerAltitude ) {
+      if ( currentPhotonAltitude > layerAltitude ) {
         result = PhotonCrossingTestResult.FULLY_ABOVE;
       }
       else {
