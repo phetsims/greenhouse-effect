@@ -57,6 +57,8 @@ class TemperatureUnitsControl extends VBox {
     const temperatureUnitsRadioButtonGroup = new AquaRadioButtonGroup<TemperatureUnits>( temperatureUnitsProperty, items, {
       orientation: 'horizontal',
       spacing: 15,
+      touchAreaXDilation: 6,
+      touchAreaYDilation: 4,
       radioButtonOptions: {
         radius: 6
       },

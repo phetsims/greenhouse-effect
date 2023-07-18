@@ -40,6 +40,7 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
     super( property, GreenhouseEffectStrings.surfaceThermometerStringProperty, {
       iconNode: iconNode,
+      touchAreaXDilation: 5,
 
       // pdom
       helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty,

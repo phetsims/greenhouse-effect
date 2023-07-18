@@ -56,6 +56,8 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
       helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
 
       // This checkbox is only shown in 'by value' mode, where the concentration is controlled manually.
       // Clouds are always enabled in 'by date' mode. showCloudCheckboxProperty can be used to permanently

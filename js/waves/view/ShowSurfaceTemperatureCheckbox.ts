@@ -41,6 +41,8 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
     super( property, GreenhouseEffectStrings.showSurfaceTemperatureStringProperty, {
       iconNode: iconNode,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 4,
 
       // pdom
       helpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.helpTextStringProperty,

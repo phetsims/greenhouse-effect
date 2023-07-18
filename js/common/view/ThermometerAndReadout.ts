@@ -137,6 +137,9 @@ class ThermometerAndReadout extends Node {
         listPosition: 'above',
         yMargin: 4,
         xMargin: 4,
+        buttonTouchAreaXDilation: 5,
+        buttonTouchAreaYDilation: 5,
+
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom

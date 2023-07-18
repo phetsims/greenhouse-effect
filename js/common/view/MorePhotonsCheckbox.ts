@@ -19,6 +19,9 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
     super( property, GreenhouseEffectStrings.morePhotonsStringProperty, {
 
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 4,
+
       // pdom
       helpText: 'help text not yet implemented',
       checkedContextResponse: 'utterance not yet implement',

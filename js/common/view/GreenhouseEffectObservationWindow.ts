@@ -196,6 +196,8 @@ class GreenhouseEffectObservationWindow extends Node {
     this.startSunlightButton = new TextPushButton( GreenhouseEffectStrings.startSunlightStringProperty, {
       font: new PhetFont( 18 ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
+      touchAreaXDilation: 7,
+      touchAreaYDilation: 7,
       visibleProperty: DerivedProperty.not( model.sunEnergySource.isShiningProperty, {
         phetioValueType: BooleanIO,
         tandem: startSunlightButtonTandem.createTandem( 'visibleProperty' )

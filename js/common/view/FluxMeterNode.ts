@@ -186,6 +186,8 @@ class FluxMeterNode extends Node {
     if ( options.includeZoomButtons ) {
       const zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
         spacing: 5,
+        touchAreaXDilation: 2,
+        touchAreaYDilation: 5,
         applyZoomIn: ( currentZoom: number ) => currentZoom + 1,
         applyZoomOut: ( currentZoom: number ) => currentZoom - 1,
         magnifyingGlassNodeOptions: {
