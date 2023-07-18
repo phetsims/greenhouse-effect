@@ -22,7 +22,7 @@ import Disposable from '../../../../axon/js/Disposable.js';
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;
 
-// TODO - These should be consolidated with the molecules-and-light code, see https://github.com/phetsims/greenhouse-effect/issues/19
+// TODO - These should be consolidated with the molecules-and-light code, see https://github.com/phetsims/greenhouse-effect/issues/340
 const IR_WAVELENGTH = GreenhouseEffectConstants.INFRARED_WAVELENGTH;
 const VISIBLE_WAVELENGTH = GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
 const SUPPORTED_WAVELENGTHS = [ IR_WAVELENGTH, VISIBLE_WAVELENGTH ];
