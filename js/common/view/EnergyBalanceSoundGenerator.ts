@@ -28,13 +28,17 @@ const VOLUME_FADE_OUT_TIME = 40000; // in seconds
 class EnergyBalanceSoundGenerator extends SoundGenerator {
 
   private readonly disposeEnergyBalanceSoundGenerator: () => void;
-  private interBlipTime: number = Number.POSITIVE_INFINITY;
-  private interBlipCountdown: number = Number.POSITIVE_INFINITY;
   private readonly fullVolumeLevel: number;
   private volumeFadeCountdown = 0;
   private previousEnergyRate: number;
   private readonly soundClip: SoundClip;
   private readonly netEnergyBalanceProperty: TReadOnlyProperty<number>;
+
+  // The amount of time between each "blip" sound generated.  Changes based on the net energy balance.
+  private interBlipTime: number = Number.POSITIVE_INFINITY;
+
+  // Countdown value used to decide when to produce the next "blip" sound.
+  private interBlipCountdown: number = Number.POSITIVE_INFINITY;
 
   public constructor( netEnergyBalanceProperty: TReadOnlyProperty<number>,
                       inRadiativeBalanceProperty: TReadOnlyProperty<boolean>,
