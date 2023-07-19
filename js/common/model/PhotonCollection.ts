@@ -54,13 +54,26 @@ class PhotonCollection {
 
   public readonly photons: ObservableArray<Photon>;
   public readonly photonAbsorbingEmittingLayers: PhotonAbsorbingEmittingLayer[];
-  public readonly showAllSimulatedPhotonsInViewProperty: BooleanProperty;
   private readonly sunEnergySource: SunEnergySource;
   private readonly groundLayer: GroundLayer;
   private readonly glacierPresentProperty: TReadOnlyProperty<boolean>;
+
+  // This value tracks whether all the simulated photons should be shown or just a subset.  The two different amounts
+  // are used to serve different learning goals.
+  public readonly showAllSimulatedPhotonsInViewProperty: BooleanProperty;
+
+  // counter used to decide when to produce the next photon
   private photonCreationCountdown: number;
+
+  // The rate at which the ground produces (i.e. radiates) IR photons.  This is adjusted based on the ground's
+  // temperature.  This is in photons/second.
   private groundPhotonProductionRate: number;
+
+  // A time accumulator used to determine when new photons should be produced.  Units are seconds.
   private groundPhotonProductionTimeAccumulator: number;
+
+  // Counters used to decide for a given photon whether it should be always visible or only visible when showing all
+  // simulated photons.
   private visiblePhotonCreationCount: number;
   private infraredPhotonCreationCount: number;
 
