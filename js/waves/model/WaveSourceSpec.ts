@@ -17,7 +17,12 @@ import Disposable from '../../../../axon/js/Disposable.js';
  * A simple class that specifies the X value for where waves will be produced and a direction of travel.
  */
 class WaveSourceSpec {
+
+  // The X (i.e. horizontal) position, in meters, from which this wave should originate.  No Y value is included
+  // because all wave sources in the sim are assigned a fixed and unchanging altitude.
   public readonly xPosition: number;
+
+  // A 2D vector representing the direction in which the wave should travel.
   public readonly propagationDirection: Vector2;
 
   public constructor( xPosition: number, propagationDirection: Vector2 ) {
