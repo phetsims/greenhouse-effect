@@ -36,7 +36,11 @@ class PhotonSprites extends Sprites {
   private readonly spriteInstances: SpriteInstance[];
   private readonly photonCollection: PhotonCollection;
   private readonly modelViewTransform: ModelViewTransform2;
+
+  // The scale value used to render the photons.
   private readonly photonScale: number;
+
+  // The sprite used to render the visible and infrared photons.
   private readonly visiblePhotonSprite: Sprite;
   private readonly infraredPhotonSprite: Sprite;
 
