@@ -27,10 +27,20 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {
+
+  // The tested photon was fully above the layer against which it was tested.
   public static readonly FULLY_ABOVE = new PhotonCrossingTestResult();
+
+  // The tested photon was fully below the layer against which it was tested.
   public static readonly FULLY_BELOW = new PhotonCrossingTestResult();
+
+  // The tested photon crossed the layer against which it was tests but was ignored (i.e. not absorbed).
   public static readonly CROSSED_BUT_IGNORED = new PhotonCrossingTestResult();
+
+  // The tested photon crossed the layer against which it was tested and was absorbed.
   public static readonly CROSSED_AND_ABSORBED = new PhotonCrossingTestResult();
+
+  // No result, generally used as an initial value that is updated during the testing process.
   public static readonly NONE = new PhotonCrossingTestResult();
 
   public static readonly enumeration = new Enumeration( PhotonCrossingTestResult );
