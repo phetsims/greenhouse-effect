@@ -25,9 +25,16 @@ const TWO_PI = 2 * Math.PI;
 const WAVE_SEGMENT_INCREMENT = 2; // in screen coordinates
 const WAVE_MAX_LINE_WIDTH = 8;
 
+// A type that contains the parameters used to render a wave, thus defining its visual appearance.
 type RenderingParameters = {
+
+  // The color used to portray the wave.
   baseColorProperty: ColorProperty;
+
+  // The amplitude, in screen coordinates (which are roughly pixels), used to portray the wave.
   amplitude: number;
+
+  // The wavelength, in screen coordinates (which are roughly pixels), used to portray the wave.
   wavelength: number;
 };
 
@@ -37,7 +44,10 @@ type WavesCanvasNodeOptions = SelfOptions & PickRequired<CanvasNode, 'canvasBoun
 class WavesCanvasNode extends CanvasNode {
   private readonly model: WavesModel;
   private readonly modelViewTransform: ModelViewTransform2;
-  private readonly waveRenderingParameters: Map<number, RenderingParameters>;
+
+  // A JS Map of the parameters used to render waves of different wavelengths.  The key is the wavelength and the value
+  // is the set of rendering parameters that define the visual appearance of the wave.
+  private readonly waveRenderingParameterMap: Map<number, RenderingParameters>;
 
   public constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, providedOptions: WavesCanvasNodeOptions ) {
 
@@ -56,8 +66,8 @@ class WavesCanvasNode extends CanvasNode {
     const modelInfraredWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.INFRARED_WAVELENGTH );
     assert && assert( modelInfraredWavelength !== undefined );
 
-    // Create a Map with the parameters for drawing the different types of waves.
-    this.waveRenderingParameters = new Map(
+    // Create a Map with the parameters for drawing the different wavelengths of the waves in the model.
+    this.waveRenderingParameterMap = new Map(
       [
         [
           GreenhouseEffectConstants.VISIBLE_WAVELENGTH,
@@ -91,7 +101,7 @@ class WavesCanvasNode extends CanvasNode {
     // convenience variables
     const modelViewTransform = this.modelViewTransform;
     const startPoint = modelViewTransform.modelToViewPosition( wave.startPoint );
-    const renderingParameters = this.waveRenderingParameters.get( wave.wavelength );
+    const renderingParameters = this.waveRenderingParameterMap.get( wave.wavelength );
     const amplitude = renderingParameters!.amplitude;
     const wavelength = renderingParameters!.wavelength;
     const baseColor = renderingParameters!.baseColorProperty.value;
