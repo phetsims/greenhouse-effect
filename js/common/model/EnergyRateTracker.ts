@@ -28,7 +28,11 @@ const DECIMAL_PLACES = 1; // used to round the output value so that there isn't 
  * Simple data type used for tracking energy within EnergyRateTracker.
  */
 class EnergyInfoQueueItem {
+
+  // the amount of time between this item and the previous one in the queue (delta time)
   public readonly dt: number;
+
+  // the amount of energy associated with this item, in joules
   public readonly energy: number;
 
   public constructor( dt: number, energy: number ) {
