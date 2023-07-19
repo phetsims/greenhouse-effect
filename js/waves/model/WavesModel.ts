@@ -44,14 +44,34 @@ const REAL_TO_RENDERING_WAVELENGTH_MAP = new Map( [
 const WAVE_AMPLITUDE_FOR_RENDERING = 2000;
 
 class WavesModel extends ConcentrationModel {
+
+  // phet-io group that is used to track and create the individual wave instances
   public readonly waveGroup: PhetioGroup<Wave, WaveCreatorArguments>;
+
+  // an emitter that signals when the waves have changed so that the view can update them
   public readonly wavesChangedEmitter: TEmitter;
+
+  // the source of visible-frequency waves
   private readonly sunWaveSource: SunWaveSource;
+
+  // source of the IR waves that come from the ground
   private readonly groundWaveSource: GroundWaveSource;
+
+  // a JS Map where the key is a wave coming into the cloud and the value is the reflected wave
   private cloudReflectedWavesMap: Map<Wave, Wave>;
+
+  // a JS Map where the key is a wave coming into contact with the glacier and the value is the reflected wave
   private glacierReflectedWavesMap: Map<Wave, Wave>;
+
+  // A JS Map containing atmospheric layers and ranges that define the x coordinate within which IR waves should
+  // interact with that layer.
   private readonly atmosphereLayerToXRangeMap: Map<EnergyAbsorbingEmittingLayer, Range>;
+
+  // the set of all places where the waves in the model are interacting with layers in the atmosphere
   public readonly waveAtmosphereInteractions: ObservableArray<WaveAtmosphereInteraction>;
+
+  // Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas of the
+  // atmosphere, reused by methods in order to reduce memory allocations.
   private readonly waveLineStart: Vector2;
   private readonly waveLineEnd: Vector2;
   private readonly waveLine: Line;
@@ -88,7 +108,6 @@ class WavesModel extends ConcentrationModel {
       }
     );
 
-    // an emitter that signals when the waves have changed so that the view can update them
     this.wavesChangedEmitter = new Emitter();
 
     // the source of the waves of visible light that come from the sun
@@ -109,14 +128,9 @@ class WavesModel extends ConcentrationModel {
       { tandem: wavesTandem.createTandem( 'groundWaveSource' ) }
     );
 
-    // map of waves from the sun to waves reflected off of clouds
     this.cloudReflectedWavesMap = new Map<Wave, Wave>();
-
-    // map of waves from the sun to waves reflected off of the glacier
     this.glacierReflectedWavesMap = new Map<Wave, Wave>();
 
-    // A Map containing atmospheric layers and ranges that define the x coordinate within which IR waves should interact
-    // with that layer.
     this.atmosphereLayerToXRangeMap = new Map(
       [
         // leftmost interaction area
@@ -147,8 +161,7 @@ class WavesModel extends ConcentrationModel {
       phetioDocumentation: 'Interactions between IR waves coming from the ground and the atmosphere'
     } );
 
-    // Pre-allocated vectors and lines used for testing whether waves are crossing through interactive areas of the
-    // atmosphere, reused by methods in order to reduce memory allocations.
+    // Allocate the reusable elements used to test whether waves are moving through interactive atmosphere layers.
     this.waveLineStart = new Vector2( 0, 0 );
     this.waveLineEnd = new Vector2( 0, 1 );
     this.waveLine = new Line( this.waveLineStart, this.waveLineEnd );
