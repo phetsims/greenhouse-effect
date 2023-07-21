@@ -19,6 +19,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
+import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
@@ -129,7 +130,7 @@ class FluxSensor extends PhetioObject {
 
     // Go through each energy packet and determine if it has moved through the sensor and, if so, measure it.
     energyPackets.forEach( energyPacket => {
-      if ( this.energyPacketCrossedAltitude( energyPacket ) ) {
+      if ( energyPacketCrossedAltitude( energyPacket, this.altitudeProperty.value ) ) {
         if ( energyPacket.direction === EnergyDirection.DOWN ) {
           assert && assert( energyPacket.isVisible || energyPacket.isInfrared, 'energy packet must be visible or IR' );
           if ( energyPacket.isVisible ) {
@@ -186,15 +187,6 @@ class FluxSensor extends PhetioObject {
   public reset(): void {
     this.clearEnergyTrackers();
     this.altitudeProperty.reset();
-  }
-
-  /**
-   * Returns true if the provided energy packet passed through the altitude at which this sensor resides.
-   */
-  private energyPacketCrossedAltitude( energyPacket: EMEnergyPacket ): boolean {
-    const altitude = this.altitudeProperty.value;
-    return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
-           ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
   }
 }
 

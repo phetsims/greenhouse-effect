@@ -18,6 +18,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 
 // constants
 
@@ -173,9 +174,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
    * Returns true if the provided energy packet crossed over this layer during its latest step.
    */
   protected energyPacketCrossedThisLayer( energyPacket: EMEnergyPacket ): boolean {
-    const altitude = this.altitude;
-    return ( energyPacket.previousAltitude > altitude && energyPacket.altitude <= altitude ) ||
-           ( energyPacket.previousAltitude < altitude && energyPacket.altitude >= altitude );
+    return energyPacketCrossedAltitude( energyPacket, this.altitude );
   }
 
   /**
