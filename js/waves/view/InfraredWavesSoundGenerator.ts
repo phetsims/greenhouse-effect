@@ -15,6 +15,7 @@ import wavesIrReemissionStartingSound_mp3 from '../../../sounds/wavesIrReemissio
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenView from './WavesScreenView.js';
+import isInfrared from '../../common/model/isInfrared.js';
 
 // constants
 const MAX_IR_WAVES_FROM_ATMOSPHERE = 3;
@@ -88,7 +89,7 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
 
         // Only provide sound for the IR waves that are moving down.  This is done to draw more attention to these
         // waves, since understanding that IR comes back from the atmosphere is a big learning goal.
-        if ( wave.isInfrared && wave.propagationDirection.y < 0 ) {
+        if ( isInfrared( wave ) && wave.propagationDirection.y < 0 ) {
           wavesFromAtmosphereOutputLevel = WAVE_LOOP_MAX_OUTPUT_LEVEL * wave.intensityAtStart;
         }
       } );

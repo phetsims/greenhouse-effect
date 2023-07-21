@@ -99,20 +99,6 @@ class Photon {
   }
 
   /**
-   * convenience method for determining whether this is a visible photon
-   */
-  public get isVisible(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
-  }
-
-  /**
-   * convenience method for determining whether this is an infrared photon
-   */
-  public get isInfrared(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
-  }
-
-  /**
    * Reset the previous position by making it match the current position.  This is generally used when a photon is
    * being released from something, and we don't want to detect false layer crossing after the release.
    */

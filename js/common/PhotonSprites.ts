@@ -24,6 +24,7 @@ import Range from '../../../dot/js/Range.js';
 import LayersModel from './model/LayersModel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectObservationWindow from './view/GreenhouseEffectObservationWindow.js';
+import isVisible from './model/isVisible.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design
@@ -122,7 +123,7 @@ class PhotonSprites extends Sprites {
 
         // Update the matrix that controls where this photon is rendered.
         const spriteInstance = this.spriteInstances[ numberOfPhotonsDisplayed - 1 ];
-        spriteInstance.sprite = photon.isVisible ? this.visiblePhotonSprite : this.infraredPhotonSprite;
+        spriteInstance.sprite = isVisible( photon ) ? this.visiblePhotonSprite : this.infraredPhotonSprite;
         spriteInstance.matrix.setToAffine(
           this.photonScale,
           0,

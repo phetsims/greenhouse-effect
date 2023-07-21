@@ -44,20 +44,6 @@ class EMEnergyPacket {
   }
 
   /**
-   * convenience method for determining whether the EM energy contained in this packet is in the visible light range
-   */
-  public get isVisible(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
-  }
-
-  /**
-   * convenience method for determining whether the EM energy contained in this packet is in the infrared light range
-   */
-  public get isInfrared(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
-  }
-
-  /**
    * @param dt - delta time, in seconds
    */
   public step( dt: number ): void {

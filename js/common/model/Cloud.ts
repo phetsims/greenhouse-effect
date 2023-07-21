@@ -26,6 +26,7 @@ import LayersModel from './LayersModel.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import isVisible from './isVisible.js';
 
 type ReflectivityValues = {
 
@@ -118,13 +119,13 @@ class Cloud extends PhetioObject {
 
         // Check whether this energy packet has interacted with the cloud and, if so, calculate the reflection.
         if ( emEnergyPacket.previousAltitude > altitude && emEnergyPacket.altitude <= altitude ) {
-          const reflectivity = emEnergyPacket.isVisible ?
+          const reflectivity = isVisible( emEnergyPacket ) ?
                                this.reflectivityValues.topVisibleLightReflectivity :
                                this.reflectivityValues.topInfraredLightReflectivity;
           reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanWidthProportion;
         }
         else if ( emEnergyPacket.previousAltitude < altitude && emEnergyPacket.altitude >= altitude ) {
-          const reflectivity = emEnergyPacket.isVisible ?
+          const reflectivity = isVisible( emEnergyPacket ) ?
                                this.reflectivityValues.bottomVisibleLightReflectivity :
                                this.reflectivityValues.bottomInfraredLightReflectivity;
           reflectedEnergy = emEnergyPacket.energy * reflectivity * sunlightSpanWidthProportion;

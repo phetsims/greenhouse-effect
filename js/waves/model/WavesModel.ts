@@ -30,6 +30,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
+import isInfrared from '../../common/model/isInfrared.js';
+import isVisible from '../../common/model/isVisible.js';
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -224,7 +226,7 @@ class WavesModel extends ConcentrationModel {
 
         // Make a list of waves that originated from the sun and are currently passing through the cloud.
         const wavesCrossingTheCloud = this.waveGroup.filter( wave =>
-          wave.isVisible &&
+          isVisible( wave ) &&
           wave.origin.y === this.sunWaveSource.waveStartAltitude &&
           wave.propagationDirection.y < 0 &&
           wave.startPoint.y > cloud.position.y &&
@@ -322,7 +324,7 @@ class WavesModel extends ConcentrationModel {
     } );
 
     // Make a list of all IR waves that are currently emanating from the ground.
-    const wavesFromTheGround = this.waveGroup.filter( wave => wave.isInfrared && wave.origin.y === 0 );
+    const wavesFromTheGround = this.waveGroup.filter( wave => isInfrared( wave ) && wave.origin.y === 0 );
 
     // For each IR wave from the ground, check to see if there are any interactions with the atmosphere that should
     // exist but don't yet.
@@ -425,7 +427,7 @@ class WavesModel extends ConcentrationModel {
       // Make a list of waves that originated from the sun and are reaching the glacier.  This uses some fixed
       // positioning, so may need to be adjusted if the waves are moved around.
       const wavesHittingTheGlacier = this.waveGroup.filter( wave =>
-        wave.isVisible &&
+        isVisible( wave ) &&
         wave.origin.x > 0 &&
         wave.origin.y === this.sunWaveSource.waveStartAltitude &&
         wave.propagationDirection.y < 0 &&

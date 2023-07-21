@@ -16,6 +16,7 @@ import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import isVisible from '../../common/model/isVisible.js';
 
 // constants
 const MAX_REFLECTION_ADJUSTMENT = Math.PI * 0.25; // empirically determined by what looked good
@@ -101,7 +102,7 @@ class PhotonsModel extends ConcentrationModel {
 
     // Get a list of all photons that could potentially reflect off of the cloud.
     const photonsThatCouldReflect = this.photonCollection.photons.filter(
-      photon => photon.isVisible &&
+      photon => isVisible( photon ) &&
                 photon.velocity.y < 0 &&
                 !this.photonsPassingThroughCloud.includes( photon ) &&
                 this.cloud!.modelShape.containsPoint( photon.positionProperty.value )

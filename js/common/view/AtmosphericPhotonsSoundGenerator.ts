@@ -14,6 +14,7 @@ import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emission
 import PhotonCollection from '../model/PhotonCollection.js';
 import Photon from '../model/Photon.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import isInfrared from '../model/isInfrared.js';
 
 // constants
 const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions cause sounds
@@ -35,7 +36,7 @@ export default class AtmosphericPhotonsSoundGenerator extends SoundClip {
       // A new photon has been added to the collection.  Decide whether to play a sound signifying its arrival based on
       // a number of factors, one of which is a random threshold used to reduce the number of sounds produced so that it
       // doesn't become too distracting.
-      const playSound = addedPhoton.isInfrared &&
+      const playSound = isInfrared( addedPhoton ) &&
                         addedPhoton.showState === Photon.ShowState.ALWAYS &&
                         addedPhoton.positionProperty.value.y > 0 && // don't play for photons coming from the ground
                         dotRandom.nextDouble() < PLAY_DECISION_THRESHOLD;

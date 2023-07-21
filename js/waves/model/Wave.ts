@@ -540,20 +540,6 @@ class Wave extends PhetioObject {
   }
 
   /**
-   * convenience method for determining whether this is a visible photon
-   */
-  public get isVisible(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.VISIBLE_WAVELENGTH;
-  }
-
-  /**
-   * convenience method for determining whether this is an infrared photon
-   */
-  public get isInfrared(): boolean {
-    return this.wavelength === GreenhouseEffectConstants.INFRARED_WAVELENGTH;
-  }
-
-  /**
    * Get the wave's phase at the specified distance from the origin.
    * @param distanceFromOrigin - in meters
    */

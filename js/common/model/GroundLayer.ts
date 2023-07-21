@@ -14,6 +14,7 @@ import EnergyDirection from './EnergyDirection.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import isVisible from './isVisible.js';
 
 // constants
 
@@ -72,7 +73,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
       if ( energyPacket.direction === EnergyDirection.DOWN && this.energyPacketCrossedThisLayer( energyPacket ) ) {
 
         // Only visible light is reflected, IR is fully absorbed.
-        const albedo = energyPacket.isVisible ? this.albedoProperty.value : 0;
+        const albedo = isVisible( energyPacket ) ? this.albedoProperty.value : 0;
 
         absorbedEnergy += energyPacket.energy * ( 1 - albedo );
         const reflectedEnergy = energyPacket.energy - absorbedEnergy;

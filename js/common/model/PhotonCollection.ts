@@ -28,6 +28,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import Disposable from '../../../../axon/js/Disposable.js';
+import isInfrared from './isInfrared.js';
+import isVisible from './isVisible.js';
 
 // constants
 const SUN_NOMINAL_PHOTON_CREATION_RATE = 10; // photons created per second (from the sun)
@@ -204,7 +206,7 @@ class PhotonCollection {
         }
 
         // Decide whether it should be absorbed or reflected.
-        if ( photon.isVisible && dotRandom.nextDouble() < albedo ) {
+        if ( isVisible( photon ) && dotRandom.nextDouble() < albedo ) {
 
           // The photon should be reflected.  Simulate this by reversing its vertical velocity.
           photon.velocity.setXY( photon.velocity.x, -photon.velocity.y );
@@ -225,7 +227,7 @@ class PhotonCollection {
         // statements.
 
         // If this is an infrared photon, test is against the atmosphere layers to see if it should be absorbed.
-        if ( photon.isInfrared ) {
+        if ( isInfrared( photon ) ) {
 
           // the following comparison loops are written for efficiency so that it does the least number of comparisons
           // possible, hence the use of classic C-style for loops and `break` statements.

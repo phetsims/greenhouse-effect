@@ -23,6 +23,8 @@ import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
 import LayersModel from './LayersModel.js';
+import isVisible from './isVisible.js';
+import isInfrared from './isInfrared.js';
 
 // types
 type SelfOptions = {
@@ -132,8 +134,11 @@ class FluxSensor extends PhetioObject {
     energyPackets.forEach( energyPacket => {
       if ( energyPacketCrossedAltitude( energyPacket, this.altitudeProperty.value ) ) {
         if ( energyPacket.direction === EnergyDirection.DOWN ) {
-          assert && assert( energyPacket.isVisible || energyPacket.isInfrared, 'energy packet must be visible or IR' );
-          if ( energyPacket.isVisible ) {
+          assert && assert(
+            isVisible( energyPacket ) || isInfrared( energyPacket ),
+            'energy packet must be visible or IR'
+          );
+          if ( isVisible( energyPacket ) ) {
             totalVisibleLightEnergyCrossingDownward += energyPacket.energy;
           }
           else {
@@ -142,7 +147,7 @@ class FluxSensor extends PhetioObject {
         }
         else {
           assert && assert( energyPacket.direction === EnergyDirection.UP, 'unexpected energy direction' );
-          if ( energyPacket.isVisible ) {
+          if ( isVisible( energyPacket ) ) {
             totalVisibleLightEnergyCrossingUpward += energyPacket.energy;
           }
           else {
