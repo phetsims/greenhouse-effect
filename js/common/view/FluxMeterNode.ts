@@ -424,21 +424,9 @@ class EnergyFluxDisplay extends Node {
     // Set a clip area so that the arrows don't go outside the background.
     boundsRectangle.clipArea = Shape.bounds( boundsRectangle.getRectBounds() );
 
-    // Create and add the arrows.
-    this.downArrow = new ArrowNode(
-      boundsRectangle.width / 2,
-      boundsRectangle.height / 2,
-      boundsRectangle.width / 2,
-      boundsRectangle.height / 2,
-      options.arrowNodeOptions
-    );
-    this.upArrow = new ArrowNode(
-      boundsRectangle.width / 2,
-      boundsRectangle.height / 2,
-      boundsRectangle.width / 2,
-      boundsRectangle.height / 2,
-      options.arrowNodeOptions
-    );
+    // Create and add the arrows that will be used to indicate the magnitude of the flux in the up and down directions.
+    this.downArrow = EnergyFluxDisplay.createDisplayArrowNode( boundsRectangle, options.arrowNodeOptions );
+    this.upArrow = EnergyFluxDisplay.createDisplayArrowNode( boundsRectangle, options.arrowNodeOptions );
     boundsRectangle.addChild( this.downArrow );
     boundsRectangle.addChild( this.upArrow );
 
@@ -514,6 +502,20 @@ class EnergyFluxDisplay extends Node {
    */
   private getArrowHeightFromFlux( flux: number ): number {
     return flux * this.fluxToArrowLengthMultiplierProperty.value;
+  }
+
+  private static createDisplayArrowNode( boundsRectangle: Rectangle, options: ArrowNodeOptions ) : ArrowNode {
+
+    // Create an arrow node with no length that is positioned in the center of the provided bounds rectangle.  Other
+    // code will set the tip to different values to indicate a magnitude.
+    return new ArrowNode(
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
+      boundsRectangle.width / 2,
+      boundsRectangle.height / 2,
+      options
+    );
+
   }
 
   // an empirically determined value used in part to set the overall width of the panel
