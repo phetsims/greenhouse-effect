@@ -76,17 +76,24 @@ class EnergyBalancePanel extends Panel {
     } );
 
     // Energy "In" needs to be plotted in the negative y direction to match other graphics related to energy flux
-    // in this sim
+    // in this sim.
     const negatedEnergyInProperty: TReadOnlyProperty<number> = new DerivedProperty(
       [ model.sunEnergySource.outputEnergyRateTracker.energyRateProperty ],
       netEnergyIn => -netEnergyIn
+    );
+
+    // Create a derived property to represent the net energy coming into the system.  This will be negative if more
+    // energy is leaving than is coming in.
+    const netIncomingEnergyProperty: TReadOnlyProperty<number> = new DerivedProperty(
+      [ negatedEnergyInProperty, model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty ],
+      ( netIn, netOut ) => netIn + netOut
     );
 
     // the plot
     const balancePlot = new EnergyBalancePlot(
       negatedEnergyInProperty,
       model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty,
-      model.netInflowOfEnergyProperty
+      netIncomingEnergyProperty
     );
 
     const content = new VBox( {
