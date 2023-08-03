@@ -44,7 +44,8 @@ const simOptions: SimOptions = {
         ]
       } ]
     }
-  } )
+  } ),
+  phetioDesigned: true
 };
 
 // Launch the sim.  Beware that scenery Image nodes created outside simLauncher.launch() will have zero bounds until the

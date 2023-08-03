@@ -34,7 +34,10 @@
       "GREENHOUSE_EFFECT/screen.waves",
       "GREENHOUSE_EFFECT/screen.photons",
       "GREENHOUSE_EFFECT/screen.layerModel"
-    ]
+    ],
+    "phet-io": {
+      "compareDesignedAPIChanges": true
+    }
   },
   "eslintConfig": {
     "extends": "../chipper/eslint/sim_eslintrc.js"
