@@ -27,12 +27,13 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import GroundLayer from '../model/GroundLayer.js';
-import LayersModel from '../model/LayersModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -56,15 +57,18 @@ type SelfOptions = {
   thermometerNodeOptions?: ThermometerNodeOptions;
 };
 
-type ThermometerAndReadoutOptions = SelfOptions & NodeTranslationOptions & PickRequired<NodeOptions, 'tandem'>;
+type ThermometerAndReadoutOptions =
+  SelfOptions &
+  NodeTranslationOptions &
+  PickRequired<NodeOptions, 'tandem' | 'visibleProperty'>;
 
 class ThermometerAndReadout extends Node {
 
-  /**
-   * @param model
-   * @param [providedOptions]
-   */
-  public constructor( model: LayersModel, providedOptions?: ThermometerAndReadoutOptions ) {
+  public constructor( temperatureInKelvinProperty: TRangedProperty,
+                      temperatureInCelsiusProperty: TReadOnlyProperty<number>,
+                      temperatureInFahrenheitProperty: TReadOnlyProperty<number>,
+                      unitsProperty: EnumerationProperty<TemperatureUnits>,
+                      providedOptions?: ThermometerAndReadoutOptions ) {
 
     const options = optionize<ThermometerAndReadoutOptions, SelfOptions, NodeOptions>()( {
 
@@ -83,20 +87,23 @@ class ThermometerAndReadout extends Node {
         tubeHeight: 150,
         tubeWidth: 20,
         backgroundFill: 'white'
-      },
-
-      visibleProperty: model.surfaceThermometerVisibleProperty
+      }
     }, providedOptions );
 
     // options passed to the supertype later in mutate
     super();
 
     // thermometer - range chosen empirically to make it look reasonable in the sim
-    const thermometerNode = new ThermometerNode( model.surfaceTemperatureKelvinProperty, options.minTemperature, options.maxTemperature, options.thermometerNodeOptions );
+    const thermometerNode = new ThermometerNode(
+      temperatureInKelvinProperty,
+      options.minTemperature,
+      options.maxTemperature,
+      options.thermometerNodeOptions
+    );
     this.addChild( thermometerNode );
 
     // ranges for each temperature Property, so the NumberDisplay can determine space needed for each readout
-    const kelvinRange = model.surfaceTemperatureKelvinProperty.range;
+    const kelvinRange = temperatureInKelvinProperty.range;
     const celsiusRange = new Range(
       GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.min ),
       GreenhouseEffectUtils.kelvinToCelsius( kelvinRange.max )
@@ -111,28 +118,28 @@ class ThermometerAndReadout extends Node {
       const comboBoxItems = [
         ThermometerAndReadout.createComboBoxItem(
           kelvinUnitsStringProperty,
-          model.surfaceTemperatureKelvinProperty,
-          model.surfaceTemperatureKelvinProperty.range,
+          temperatureInKelvinProperty,
+          temperatureInKelvinProperty.range,
           TemperatureUnits.KELVIN,
           `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsStringProperty,
-          model.surfaceTemperatureCelsiusProperty,
+          temperatureInCelsiusProperty,
           celsiusRange,
           TemperatureUnits.CELSIUS,
           `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsStringProperty,
-          model.surfaceTemperatureFahrenheitProperty,
+          temperatureInFahrenheitProperty,
           fahrenheitRange,
           TemperatureUnits.FAHRENHEIT,
           `fahrenheit${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         )
       ];
 
-      const comboBox = new ComboBox( model.temperatureUnitsProperty, comboBoxItems, options.listParentNode || this, {
+      const comboBox = new ComboBox( unitsProperty, comboBoxItems, options.listParentNode || this, {
         align: 'right',
         listPosition: 'above',
         yMargin: 4,
@@ -165,7 +172,7 @@ class ThermometerAndReadout extends Node {
 
       // Create a derived property for the value that will be displayed as the temperature.
       const temperatureValueProperty = new DerivedProperty(
-        [ model.surfaceTemperatureKelvinProperty, model.temperatureUnitsProperty ],
+        [ temperatureInKelvinProperty, unitsProperty ],
         ( temperature, temperatureUnits ) =>
           temperatureUnits === TemperatureUnits.KELVIN ? temperature :
           temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperature ) :
@@ -174,7 +181,7 @@ class ThermometerAndReadout extends Node {
 
       const unitsStringProperty = new DerivedStringProperty(
         [
-          model.temperatureUnitsProperty,
+          unitsProperty,
           GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
           GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
           GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty

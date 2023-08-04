@@ -86,29 +86,36 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       this.globalToLocalPoint( this.atmosphereLayerNodes[ 0 ].getTemperatureReadoutCenter() ).x;
 
     // surface thermometer
-    const surfaceThermometer = new ThermometerAndReadout( model, {
+    const surfaceThermometer = new ThermometerAndReadout(
+      model.surfaceTemperatureKelvinProperty,
+      model.surfaceTemperatureCelsiusProperty,
+      model.surfaceTemperatureFahrenheitProperty,
+      model.temperatureUnitsProperty,
+      {
 
-      minTemperature: model.groundLayer.minimumTemperature - 5,
-      maxTemperature: 475, // empirically determined
+        visibleProperty: model.surfaceThermometerVisibleProperty,
+        minTemperature: model.groundLayer.minimumTemperature - 5,
+        maxTemperature: 475, // empirically determined
 
-      thermometerNodeOptions: {
-        bulbDiameter: 25,
-        tubeHeight: 80,
-        tubeWidth: 14,
-        lineWidth: 1.5,
-        tickSpacing: 8,
-        majorTickLength: 7,
-        minorTickLength: 4
-      },
-      readoutType: ThermometerAndReadout.ReadoutType.FIXED,
+        thermometerNodeOptions: {
+          bulbDiameter: 25,
+          tubeHeight: 80,
+          tubeWidth: 14,
+          lineWidth: 1.5,
+          tickSpacing: 8,
+          majorTickLength: 7,
+          minorTickLength: 4
+        },
+        readoutType: ThermometerAndReadout.ReadoutType.FIXED,
 
-      centerX: surfaceThermometerCenterX,
-      bottom: GreenhouseEffectObservationWindow.SIZE.height -
-              GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
+        centerX: surfaceThermometerCenterX,
+        bottom: GreenhouseEffectObservationWindow.SIZE.height -
+                GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
 
-      // phet-io
-      tandem: tandem.createTandem( 'surfaceThermometer' )
-    } );
+        // phet-io
+        tandem: tandem.createTandem( 'surfaceThermometer' )
+      }
+    );
     this.controlsLayer.addChild( surfaceThermometer );
 
     // sound generation

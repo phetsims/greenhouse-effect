@@ -63,13 +63,19 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
     // thermometer
     const listParentNode = new Node();
-    this.surfaceThermometer = new ThermometerAndReadout( model, {
+    this.surfaceThermometer = new ThermometerAndReadout(
+      model.surfaceTemperatureKelvinProperty,
+      model.surfaceTemperatureCelsiusProperty,
+      model.surfaceTemperatureFahrenheitProperty,
+      model.temperatureUnitsProperty,
+      {
+        visibleProperty: model.surfaceThermometerVisibleProperty,
+        minTemperature: model.groundLayer.minimumTemperature - 5,
 
-      minTemperature: model.groundLayer.minimumTemperature - 5,
-
-      // phet-io
-      tandem: options.tandem.createTandem( 'surfaceThermometer' )
-    } );
+        // phet-io
+        tandem: options.tandem.createTandem( 'surfaceThermometer' )
+      }
+    );
     this.surfaceThermometer.leftBottom = this.windowFrame.leftBottom.plusXY(
       GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
       -GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET
