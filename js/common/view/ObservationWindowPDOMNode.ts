@@ -11,7 +11,7 @@
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayersModel from '../../common/model/LayersModel.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
@@ -23,7 +23,7 @@ class ObservationWindowPDOMNode extends Node {
   protected infraredWavesItemNode: Node;
   protected surfaceTemperatureItemNode: Node;
 
-  protected constructor( model: LayersModel ) {
+  protected constructor( sunIsShiningProperty: TReadOnlyProperty<boolean> ) {
     super( {
       isDisposable: false,
       tagName: 'ul'
@@ -45,7 +45,7 @@ class ObservationWindowPDOMNode extends Node {
       this.surfaceTemperatureItemNode
     ];
 
-    model.sunEnergySource.isShiningProperty.link( ( isShining: boolean ) => {
+    sunIsShiningProperty.link( ( isShining: boolean ) => {
       const descriptionString = isShining ? 'on' : 'off';
       sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
         sunDescription: descriptionString
