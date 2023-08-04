@@ -1,7 +1,8 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * WaveLandscapeObservationWindow adds the ability to depict electromagnetic waves to its parent class.
+ * WaveLandscapeObservationWindow is a specialization class that adds the ability to depict electromagnetic waves to its
+ * parent class.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -23,7 +24,7 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
     super( model, options );
 
-    const wavesCanvasNode = new WavesCanvasNode( model, this.modelViewTransform, {
+    const wavesCanvasNode = new WavesCanvasNode( model.waveGroup, this.modelViewTransform, {
       canvasBounds: GreenhouseEffectObservationWindow.SIZE.toBounds(),
       tandem: options.tandem.createTandem( 'wavesCanvasNode' )
     } );

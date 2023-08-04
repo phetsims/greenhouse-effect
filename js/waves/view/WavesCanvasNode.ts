@@ -15,10 +15,11 @@ import { CanvasNode, CanvasNodeOptions, ColorProperty } from '../../../../scener
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Wave from '../model/Wave.js';
+import Wave, { WaveCreatorArguments } from '../model/Wave.js';
 import WavesModel from '../model/WavesModel.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;
@@ -42,14 +43,16 @@ type SelfOptions = EmptySelfOptions;
 type WavesCanvasNodeOptions = SelfOptions & PickRequired<CanvasNode, 'canvasBounds' | 'tandem'>;
 
 class WavesCanvasNode extends CanvasNode {
-  private readonly model: WavesModel;
+  private readonly waveGroup: PhetioGroup<Wave, WaveCreatorArguments>;
   private readonly modelViewTransform: ModelViewTransform2;
 
   // A JS Map of the parameters used to render waves of different wavelengths.  The key is the wavelength and the value
   // is the set of rendering parameters that define the visual appearance of the wave.
   private readonly waveRenderingParameterMap: Map<number, RenderingParameters>;
 
-  public constructor( model: WavesModel, modelViewTransform: ModelViewTransform2, providedOptions: WavesCanvasNodeOptions ) {
+  public constructor( waveGroup: PhetioGroup<Wave, WaveCreatorArguments>,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions: WavesCanvasNodeOptions ) {
 
     const options = optionize<WavesCanvasNodeOptions, SelfOptions, CanvasNodeOptions>()( {
       isDisposable: false,
@@ -57,7 +60,7 @@ class WavesCanvasNode extends CanvasNode {
     }, providedOptions );
 
     super( options );
-    this.model = model;
+    this.waveGroup = waveGroup;
     this.modelViewTransform = modelViewTransform;
 
     const modelVisibleWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( GreenhouseEffectConstants.VISIBLE_WAVELENGTH );
@@ -90,7 +93,7 @@ class WavesCanvasNode extends CanvasNode {
   }
 
   public override paintCanvas( context: CanvasRenderingContext2D ): void {
-    this.model.waveGroup.forEach( wave => this.drawWave( context, wave ) );
+    this.waveGroup.forEach( wave => this.drawWave( context, wave ) );
   }
 
   /**
