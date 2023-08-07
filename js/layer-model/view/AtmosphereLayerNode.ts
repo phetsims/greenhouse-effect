@@ -139,12 +139,13 @@ class AtmosphereLayerNode extends Node {
                      temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
                      temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
                      fahrenheitString;
-            },
-            { tandem: options.tandem.createTandem( 'unitsStringProperty' ) }
+            }
           )
-        }, {
+        },
+        {
           tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' )
-        } ),
+        }
+      ),
       tandem: temperatureReadoutTandem,
       decimalPlaces: 1,
       cornerRadius: 3,

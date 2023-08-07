@@ -107,7 +107,7 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     const options = optionize<PhotonAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
       thickness: 0,
       photonMaxLateralJumpProportion: 0.01,
-      photonAbsorptionTime: 0.1,
+      photonAbsorptionTime: 5,
       absorbanceMultiplier: 1,
       phetioType: PhotonAbsorbingEmittingLayer.PhotonAbsorbingEmittingLayerIO,
 

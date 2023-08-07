@@ -120,22 +120,19 @@ class ThermometerAndReadout extends Node {
           kelvinUnitsStringProperty,
           temperatureInKelvinProperty,
           temperatureInKelvinProperty.range,
-          TemperatureUnits.KELVIN,
-          `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          TemperatureUnits.KELVIN
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsStringProperty,
           temperatureInCelsiusProperty,
           celsiusRange,
-          TemperatureUnits.CELSIUS,
-          `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          TemperatureUnits.CELSIUS
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsStringProperty,
           temperatureInFahrenheitProperty,
           fahrenheitRange,
-          TemperatureUnits.FAHRENHEIT,
-          `fahrenheit${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          TemperatureUnits.FAHRENHEIT
         )
       ];
 
@@ -190,8 +187,7 @@ class ThermometerAndReadout extends Node {
           return units === TemperatureUnits.KELVIN ? kelvinUnitsString :
                  units === TemperatureUnits.CELSIUS ? celsiusUnitsString :
                  fahrenheitUnitsString;
-        },
-        { tandem: options.tandem.createTandem( 'unitsStringProperty' ) }
+        }
       );
 
       // Create the temperature readout.
@@ -230,8 +226,7 @@ class ThermometerAndReadout extends Node {
   private static createComboBoxItem( unitsStringProperty: TReadOnlyProperty<string>,
                                      property: TReadOnlyProperty<number>,
                                      propertyRange: Range,
-                                     propertyValue: TemperatureUnits,
-                                     tandemName: string ): ComboBoxItem<TemperatureUnits> {
+                                     propertyValue: TemperatureUnits ): ComboBoxItem<TemperatureUnits> {
     return {
       value: propertyValue,
       createNode: tandem => new NumberDisplay( property, propertyRange, {
@@ -248,7 +243,6 @@ class ThermometerAndReadout extends Node {
         tandem: tandem,
         phetioVisiblePropertyInstrumented: false
       } ),
-      tandemName: tandemName,
       a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
   }
