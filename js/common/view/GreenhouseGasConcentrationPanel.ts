@@ -31,7 +31,6 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import RadiationDescriber from './describers/RadiationDescriber.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // constants
@@ -97,12 +96,10 @@ class GreenhouseGasConcentrationPanel extends Panel {
   /**
    * @param width - overall width of the panel
    * @param concentrationModel
-   * @param radiationDescriber
    * @param [providedOptions]
    */
   public constructor( width: number,
                       concentrationModel: ConcentrationModel,
-                      radiationDescriber: RadiationDescriber,
                       providedOptions?: GreenhouseGasConcentrationPanelOptions ) {
 
     const options = optionize<GreenhouseGasConcentrationPanelOptions, SelfOptions, PanelOptions>()( {
@@ -132,7 +129,6 @@ class GreenhouseGasConcentrationPanel extends Panel {
     // controls the concentration directly by value
     const concentrationControl = new ConcentrationControl(
       concentrationModel,
-      radiationDescriber,
       options.tandem.createTandem( 'concentrationControl' )
     );
 
@@ -363,7 +359,7 @@ class DateControl extends HBox {
  * Inner class representing a labeled vertical slider that directly controls greenhouse gas concentration.
  */
 class ConcentrationControl extends VBox {
-  public constructor( concentrationModel: ConcentrationModel, radiationDescriber: RadiationDescriber, tandem: Tandem ) {
+  public constructor( concentrationModel: ConcentrationModel, tandem: Tandem ) {
 
     const sliderRange = concentrationModel.manuallyControlledConcentrationProperty.range;
     const sliderSoundGenerator = new ConcentrationSliderSoundGenerator(

@@ -10,7 +10,6 @@ import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
-import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
@@ -55,13 +54,10 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       tandem.createTandem( 'morePhotonsCheckbox' )
     );
 
-    // Responsible for generating descriptions about the changing radiation.
-    const radiationDescriber = new RadiationDescriber( model );
-
     const greenhouseGasConcentrationPanel = new GreenhouseGasConcentrationPanel(
       this.energyLegend.width,
       model,
-      radiationDescriber, {
+      {
         includeCompositionData: true,
 
         // phet-io

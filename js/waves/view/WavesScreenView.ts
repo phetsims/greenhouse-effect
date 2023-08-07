@@ -12,7 +12,6 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
-import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyLegend from '../../common/view/EnergyLegend.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
@@ -88,13 +87,9 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       model.concentrationControlModeProperty,
       tandem.createTandem( 'cloudCheckbox' ) );
 
-    // Responsible for generating descriptions about the changing radiation.
-    const radiationDescriber = new RadiationDescriber( model );
-
     const greenhouseGasConcentrationPanel = new GreenhouseGasConcentrationPanel(
       this.energyLegend.width,
       model,
-      radiationDescriber,
       {
 
         // phet-io

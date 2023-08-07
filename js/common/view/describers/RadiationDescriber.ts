@@ -9,7 +9,6 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GroundLayer from '../../model/GroundLayer.js';
-import LayersModel from '../../model/LayersModel.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import ConcentrationDescriber from './ConcentrationDescriber.js';
@@ -20,10 +19,13 @@ const sunlightStartedStringProperty = GreenhouseEffectStrings.a11y.sunlightStart
 const sunlightStartedSimPausedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedSimPausedStringProperty;
 
 class RadiationDescriber {
-  private readonly model: LayersModel;
 
-  public constructor( model: LayersModel ) {
-    this.model = model;
+  public constructor() {
+
+    // At the time of this writing (Aug 2023), there are only static usages of this type, so the constructor has been
+    // disallowed.  If state is ever needed, feel free to change this.  See
+    // https://github.com/phetsims/greenhouse-effect/issues/339.
+    assert && assert( false, 'Intended, at least originally, to only be used statically.' );
   }
 
   /**
