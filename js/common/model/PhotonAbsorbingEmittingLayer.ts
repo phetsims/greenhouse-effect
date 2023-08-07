@@ -75,13 +75,29 @@ type SelfOptions = {
 export type PhotonAbsorbingEmittingLayerOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 class PhotonAbsorbingEmittingLayer extends PhetioObject {
+
+  // thickness of this layer in meters
   public readonly thickness: number;
+
+  // time, in seconds, for which photons are absorbed by this layer
   private readonly photonAbsorptionTime: number;
+
+  // max horizontal distance that a photon will "jump" between absorption and re-emission
   private readonly photonMaxJumpDistance: number;
+
+  // see options description for this one
   private readonly absorbanceMultiplier: number;
+
+  // a Map that is used to track the amount of time that an absorbed photon has been absorbed into this layer
   private readonly photonToAbsorbedTimeMap: Map<Photon, number>;
+
+  // photons that are moving around in the model and could potentially cross and be absorbed by this layer
   public readonly photons: ObservableArray<Photon>;
+
+  // the atmosphere layer in the model to which this layer corresponds
   private atmosphereLayer: AtmosphereLayer;
+
+  // a Property that transitions from false to true when the first photon is absorbed by this layer
   public atLeastOnePhotonAbsorbedProperty: BooleanProperty;
 
   public constructor( photons: ObservableArray<Photon>,
@@ -109,7 +125,6 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true
     } );
 
-    // a Map that is used to track the amount of time that an absorbed photon has been absorbed into this layer
     this.photonToAbsorbedTimeMap = new Map<Photon, number>();
 
     // options that control various aspects of the photon re-emission process
