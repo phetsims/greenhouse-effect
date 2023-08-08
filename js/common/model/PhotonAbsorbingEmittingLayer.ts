@@ -22,7 +22,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
-import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
@@ -107,7 +106,7 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     const options = optionize<PhotonAbsorbingEmittingLayerOptions, SelfOptions, PhetioObjectOptions>()( {
       thickness: 0,
       photonMaxLateralJumpProportion: 0.01,
-      photonAbsorptionTime: 5,
+      photonAbsorptionTime: 0.1,
       absorbanceMultiplier: 1,
       phetioType: PhotonAbsorbingEmittingLayer.PhotonAbsorbingEmittingLayerIO,
 
@@ -305,7 +304,7 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
       {
         valueType: PhotonAbsorbingEmittingLayer,
         stateSchema: {
-          photonToAbsorbedTimeMap: MapIO( ReferenceIO( Photon.PhotonIO ), NumberIO )
+          photonToAbsorbedTimeMap: MapIO( Photon.PhotonIO, NumberIO )
         }
       }
     );
@@ -314,7 +313,7 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
 export { PhotonCrossingTestResult };
 
 type PhotonAbsorbingEmittingLayerStateObject = {
-  photonToAbsorbedTimeMap: MapStateObject<ReferenceIOState, number>;
+  photonToAbsorbedTimeMap: MapStateObject<Photon, number>;
 };
 
 export type { PhotonAbsorbingEmittingLayerStateObject };
