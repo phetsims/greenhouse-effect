@@ -118,7 +118,6 @@ class AtmosphereLayerNode extends Node {
     );
 
     // Create the temperature readout.
-    const temperatureReadoutTandem = options.tandem.createTandem( 'temperatureReadout' );
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
       visibleProperty: showTemperatureProperty,
       backgroundStroke: Color.BLACK,
@@ -141,12 +140,8 @@ class AtmosphereLayerNode extends Node {
                      fahrenheitString;
             }
           )
-        },
-        {
-          tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' )
         }
       ),
-      tandem: temperatureReadoutTandem,
       decimalPlaces: 1,
       cornerRadius: 3,
       noValueAlign: 'center',

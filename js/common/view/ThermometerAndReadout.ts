@@ -191,7 +191,6 @@ class ThermometerAndReadout extends Node {
       );
 
       // Create the temperature readout.
-      const temperatureReadoutTandem = options.tandem.createTandem( 'temperatureReadout' );
       const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
         backgroundStroke: Color.BLACK,
@@ -206,10 +205,8 @@ class ThermometerAndReadout extends Node {
         },
         valuePattern: new PatternStringProperty(
           GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
-          { units: unitsStringProperty },
-          { tandem: temperatureReadoutTandem.createTandem( 'valuePatternStringProperty' ) }
+          { units: unitsStringProperty }
         ),
-        tandem: temperatureReadoutTandem,
         phetioVisiblePropertyInstrumented: false
       } );
       this.addChild( temperatureReadout );
