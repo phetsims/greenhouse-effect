@@ -84,75 +84,79 @@ class CloudNode extends Node {
   /**
    * Create a blobby cloud-like shape to represent the cloud. Returns a Shape to be used with a Path.
    */
-  public static createCloudShape( position: Vector2, width: number, height: number, random: Random = dotRandom ): Shape {
+  public static createCloudShape( centerPosition: Vector2,
+                                  width: number,
+                                  height: number,
+                                  random: Random = dotRandom ): Shape {
 
     const circleShapes = [];
-    let drawnWidth = 0;
-    const leftBound = position.x - width / 2;
-    const rightBound = position.x + width / 2;
+    const leftBound = centerPosition.x - width / 2;
+    const rightBound = centerPosition.x + width / 2;
 
-    // limits for circle sizes, empirically determined
+    // limits for individual circle sizes, empirically determined
     const circleMinimumRadius = height * 0.5;
     const circleMaximumRadius = height * 0.7;
 
     // horizontal position of the circle being drawn, updated with each iteration
-    let arcCenterX = leftBound;
+    let nextLeftCircleCenterX = leftBound;
+    let nextRightCircleCenterX = rightBound;
 
-    // The vertical position is shifted down slightly so that the bottom of the cloud can look flat and still contain
-    // the elliptical shape that is used in the model.
-    const adjustedReferenceCenterY = position.y + circleMaximumRadius * 0.3;
+    // The vertical position is shifted down slightly so that the bottom of the cloud can look somewhat flat and still
+    // contain the elliptical shape that is used in the model.
+    const adjustedReferenceBottomY = centerPosition.y + circleMaximumRadius * 0.7;
 
-    // max random shift up or down in the Y direction, empirically determined
+    // max random shift in the up or down (Y) direction for each circle, empirically determined
     const maxYShift = circleMaximumRadius * 0.025;
 
-    // used to align the circles
-    let firstCircleRadius = 0;
+    // Generate the circles that will be combined to define the shape.  This is done iteratively starting from the
+    // left and right sides and working towards the middle.  The circles on the outer edges are smaller than those
+    // towards the center.
+    let circleSetComplete = false;
+    while ( !circleSetComplete ) {
 
-    // Add a set of overlapping circles with some randomness of size and position to create the cloud shape.
-    while ( leftBound + drawnWidth < rightBound ) {
+      // Compute a multiplier that will be used to scale the circles down at the left and right edges and allow them to
+      // be full size in the center.  This equation was empirically determined.
+      const scaleMultiplier = Math.min( 0.3 + 1 - ( centerPosition.x - nextLeftCircleCenterX ) / ( width / 2 ), 1 );
 
-      const proportionDrawn = drawnWidth / width;
+      // Create the min and max radius values for the circle based on where it is.
+      const minArcRadius = circleMinimumRadius * scaleMultiplier;
+      const maxArcRadius = circleMaximumRadius * scaleMultiplier;
 
-      // The radius is random, but limited by the height and the Y position within the cloud.  The circles on the ends
-      // are a little smaller than those in the middle.
-      let minArcRadius = circleMinimumRadius;
-      let maxArcRadius = circleMaximumRadius;
-      if ( proportionDrawn < 0.25 ) {
+      // Add the next circle on the left side, moving towards center.
+      const nextLeftCircleRadius = random.nextDoubleBetween( minArcRadius, maxArcRadius );
 
-        // This circle is on the left side, scale it down a bit.
-        const reductionMultiplier = 1 - 2 * ( 0.25 - proportionDrawn );
-        minArcRadius = reductionMultiplier * minArcRadius;
-        maxArcRadius = reductionMultiplier * maxArcRadius;
+      nextLeftCircleCenterX += nextLeftCircleRadius;
+
+      // Set the Y position, but use a little bit of randomness for a more natural look.
+      const nextLeftCircleCenterY = adjustedReferenceBottomY -
+                                    nextLeftCircleRadius -
+                                    random.nextDoubleBetween( -maxYShift, maxYShift );
+
+      // Add the new circle to our collection.
+      circleShapes.push(
+        Shape.arc( nextLeftCircleCenterX, nextLeftCircleCenterY, nextLeftCircleRadius, 0, 2 * Math.PI )
+      );
+
+      // Add the next circle on the right side, moving towards center.
+      const nextRightCircleRadius = random.nextDoubleBetween( minArcRadius, maxArcRadius );
+
+      nextRightCircleCenterX -= nextRightCircleRadius;
+
+      // Set the Y position, but use a little bit of randomness for a more natural look.
+      const nextRightCircleCenterY = adjustedReferenceBottomY -
+                                     nextRightCircleRadius -
+                                     random.nextDoubleBetween( -maxYShift, maxYShift );
+
+      // Add the new circle to our collection.
+      circleShapes.push(
+        Shape.arc( nextRightCircleCenterX, nextRightCircleCenterY, nextRightCircleRadius, 0, 2 * Math.PI )
+      );
+
+      // Decide if we're done by looking at how close the last two circles are.
+      const interCircleDistance = nextRightCircleCenterX - nextLeftCircleCenterX;
+      if ( interCircleDistance < minArcRadius ) {
+        circleSetComplete = true;
       }
-      else if ( proportionDrawn > 0.75 ) {
-
-        // This circle is on the right side, scale it down a bit.
-        const reductionMultiplier = 0.5 + 2 * ( 1 - proportionDrawn );
-        minArcRadius = reductionMultiplier * minArcRadius;
-        maxArcRadius = reductionMultiplier * maxArcRadius;
-      }
-
-      // Choose the arc radius using randomness and the constraints determined above.
-      const arcRadius = random.nextDoubleBetween( minArcRadius, maxArcRadius );
-
-      if ( circleShapes.length === 0 ) {
-
-        // Keep track of the radius of the first circle so that we can use it later to line things up.
-        firstCircleRadius = arcRadius;
-      }
-
-      arcCenterX = arcCenterX + arcRadius;
-
-      // Adjust the Y position so that the bottom of the cloud is more flat than the top.
-      const arcCenterY = firstCircleRadius ?
-                         adjustedReferenceCenterY - ( arcRadius - firstCircleRadius ) - random.nextDoubleBetween( -maxYShift, maxYShift ) :
-                         adjustedReferenceCenterY;
-
-      // Add this circle to our collection.
-      const circleShape = Shape.arc( arcCenterX, arcCenterY, arcRadius, 0, 2 * Math.PI );
-      circleShapes.push( circleShape );
-
-      drawnWidth = arcCenterX + arcRadius - leftBound;
     }
 
     return Shape.union( circleShapes );
