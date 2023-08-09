@@ -75,8 +75,10 @@ class EMEnergyPacket {
       wavelength: NumberIO,
       energy: NumberIO,
       altitude: NumberIO,
-      previousAltitude: NumberIO,
-      direction: EnumerationIO( EnergyDirection )
+      direction: EnumerationIO( EnergyDirection ),
+
+      // Fields that begin with '_' will not be shown in Studio.
+      _previousAltitude: NumberIO
     },
     fromStateObject: ( stateObject: EMEnergyPacketStateObject ) => {
       const emEnergyPacket = new EMEnergyPacket(

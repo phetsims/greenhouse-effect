@@ -128,10 +128,12 @@ class Photon {
     valueType: Photon,
     stateSchema: {
       position: Vector2.Vector2IO,
-      previousPosition: Vector2.Vector2IO,
       wavelength: NumberIO,
       velocity: Vector2.Vector2IO,
-      showState: EnumerationIO( ShowState )
+      showState: EnumerationIO( ShowState ),
+
+      // Fields that begin with '_' will not be shown in Studio.
+      _previousPosition: Vector2.Vector2IO
     },
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),

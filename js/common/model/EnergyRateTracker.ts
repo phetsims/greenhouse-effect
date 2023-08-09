@@ -46,8 +46,10 @@ class EnergyInfoQueueItem {
     new IOType<EnergyInfoQueueItem, EnergyInfoQueueItemStateObject>( 'EnergyInfoQueueItemIO', {
       valueType: EnergyInfoQueueItem,
       stateSchema: {
-        dt: NumberIO,
-        energy: NumberIO
+
+        // Fields that begin with '_' will not be shown in Studio.
+        _dt: NumberIO,
+        _energy: NumberIO
       },
       fromStateObject: ( stateObject: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem(
         stateObject.dt,

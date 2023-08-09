@@ -575,8 +575,10 @@ class Wave extends PhetioObject {
       phaseOffsetAtOrigin: NumberIO,
       intensityAtStart: NumberIO,
       intensityChanges: ArrayIO( WaveIntensityChange.WaveIntensityChangeIO ),
-      renderingWavelength: NumberIO,
-      modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO )
+      modelObjectToAttenuatorMap: MapIO( ReferenceIO( IOType.ObjectIO ), WaveAttenuator.WaveAttenuatorIO ),
+
+      // Fields that begin with '_' will not be shown in Studio.
+      _renderingWavelength: NumberIO
     },
     stateObjectToCreateElementArguments: ( state: WaveStateObject ) => [
       state.wavelength,
