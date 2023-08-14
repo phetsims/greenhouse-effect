@@ -560,7 +560,7 @@ class Wave extends PhetioObject {
    * WaveIO handles PhET-iO serialization of Wave. Because serialization involves accessing private members,
    * it delegates to Wave. The methods that WaveIO overrides are typical of 'Dynamic element serialization',
    * as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/master/doc/phet-io-instrumentation-technical-guide.md#serialization
+   * https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization
    */
   public static readonly WaveIO = new IOType<Wave, WaveStateObject>( 'WaveIO', {
     valueType: Wave,
