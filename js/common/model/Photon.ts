@@ -137,8 +137,9 @@ class Photon {
     },
     fromStateObject: ( stateObject: PhotonStateObject ) => new Photon(
       Vector2.fromStateObject( stateObject.position ),
-      stateObject.wavelength, {
-        previousPosition: Vector2.fromStateObject( stateObject.previousPosition ),
+      stateObject.wavelength,
+      {
+        previousPosition: Vector2.fromStateObject( stateObject._previousPosition ),
         initialVelocity: Vector2.fromStateObject( stateObject.velocity ),
         showState: EnumerationIO( ShowState ).fromStateObject( stateObject.showState )
       }
@@ -153,7 +154,7 @@ class Photon {
 
 export type PhotonStateObject = {
   position: Vector2StateObject;
-  previousPosition: Vector2StateObject;
+  _previousPosition: Vector2StateObject;
   wavelength: number;
   velocity: Vector2StateObject;
   showState: string;
