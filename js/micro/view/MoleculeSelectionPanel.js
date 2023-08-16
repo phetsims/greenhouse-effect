@@ -12,7 +12,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { FocusHighlightPath, Rectangle, RichText } from '../../../../scenery/js/imports.js';
+import { HighlightPath, Rectangle, RichText } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
@@ -163,11 +163,11 @@ class MoleculeSelectionPanel extends Panel {
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
-    const groupCoefficient = FocusHighlightPath.getGroupDilationCoefficient( radioButtonGroup ) + HIGHLIGHT_DILATION;
-    radioButtonGroup.groupFocusHighlight = new FocusHighlightPath( Shape.bounds( radioButtonGroup.bounds.dilated( groupCoefficient ) ), {
-      outerLineWidth: FocusHighlightPath.GROUP_OUTER_LINE_WIDTH,
-      innerLineWidth: FocusHighlightPath.GROUP_INNER_LINE_WIDTH,
-      innerStroke: FocusHighlightPath.FOCUS_COLOR
+    const groupCoefficient = HighlightPath.getGroupDilationCoefficient( radioButtonGroup ) + HIGHLIGHT_DILATION;
+    radioButtonGroup.groupFocusHighlight = new HighlightPath( Shape.bounds( radioButtonGroup.bounds.dilated( groupCoefficient ) ), {
+      outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
+      innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH,
+      innerStroke: HighlightPath.FOCUS_COLOR
     } );
 
     super( radioButtonGroup, {
