@@ -53,7 +53,7 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
 
     // Create the source sound clip.
     this.soundClip = new SoundClip( energyBalanceBlip_mp3, { rateChangesAffectPlayingSounds: false } );
-    this.soundClip.connect( this.masterGainNode );
+    this.soundClip.connect( this.mainGainNode );
 
     // Create a convolver node that will be used for a reverb effect.
     const convolver = phetAudioContext.createConvolver();
@@ -65,7 +65,7 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     // Hook up the signal path for the reverb.
     this.soundClip.connect( convolver );
     convolver.connect( reverbGainNode );
-    reverbGainNode.connect( this.masterGainNode );
+    reverbGainNode.connect( this.mainGainNode );
 
     this.netEnergyBalanceProperty = netEnergyBalanceProperty;
     this.fullVolumeLevel = options.initialOutputLevel;

@@ -45,7 +45,7 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
     lowPassFilter.type = 'lowpass';
 
     // Connect the filter to the audio output path.
-    lowPassFilter.connect( this.masterGainNode );
+    lowPassFilter.connect( this.mainGainNode );
 
     // Adjust the cutoff frequency of the filter as the solar intensity changes.
     irAbsorbanceProperty.link( solarIntensity => {

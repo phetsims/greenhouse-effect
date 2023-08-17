@@ -62,7 +62,7 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements TSoundPl
     dynamicsCompressorNode.ratio.setValueAtTime( 12, now );
     dynamicsCompressorNode.attack.setValueAtTime( 0, now );
     dynamicsCompressorNode.release.setValueAtTime( 0.25, now );
-    dynamicsCompressorNode.connect( this.masterGainNode );
+    dynamicsCompressorNode.connect( this.mainGainNode );
 
     // the sound clip that forms the basis of all sounds that are produced
     this.baseSoundClip = new SoundClip( sliderMovement_mp3, {

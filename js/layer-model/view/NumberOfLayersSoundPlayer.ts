@@ -40,7 +40,7 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
     ];
 
     // Hook up the sounds to this sound generator's master gain node
-    this.layerSoundClips.forEach( clip => { clip.connect( this.masterGainNode ); } );
+    this.layerSoundClips.forEach( clip => { clip.connect( this.mainGainNode ); } );
   }
 
   /**

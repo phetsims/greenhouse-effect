@@ -52,7 +52,7 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
     const lowPassFilter = this.audioContext.createBiquadFilter();
     lowPassFilter.type = 'lowpass';
     lowPassFilter.Q.value = FILTER_Q;
-    lowPassFilter.connect( this.masterGainNode );
+    lowPassFilter.connect( this.mainGainNode );
 
     // Send the loop into both filters.
     baseSoundLoop.connect( lowPassFilter );

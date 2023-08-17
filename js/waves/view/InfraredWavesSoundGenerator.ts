@@ -49,7 +49,7 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
           wavesModel.isPlayingProperty
         ]
       } );
-      soundGenerator.connect( this.masterGainNode );
+      soundGenerator.connect( this.mainGainNode );
       irWaveRadiatingFromAtmosphereSoundGenerators.push( soundGenerator );
     } );
 
@@ -57,7 +57,7 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
     const irWaveEmittedFromAtmosphereSoundGenerator = new SoundClip( wavesIrReemissionStartingSound_mp3, {
       initialOutputLevel: NEW_WAVE_EMITTED_OUTPUT_LEVEL
     } );
-    irWaveEmittedFromAtmosphereSoundGenerator.connect( this.masterGainNode );
+    irWaveEmittedFromAtmosphereSoundGenerator.connect( this.mainGainNode );
 
     // Play the sounds related to IR interactions with the atmosphere.
     const irWaveChangeListener = ( numberOfInteractions: number, previousNumberOfInteractions: number ) => {

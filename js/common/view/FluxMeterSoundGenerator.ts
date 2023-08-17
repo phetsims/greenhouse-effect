@@ -81,11 +81,11 @@ class FluxMeterSoundGenerator extends SoundGenerator {
       initialOutputLevel: 0,
       loop: true
     } );
-    this.irUpFluxSoundClip.connect( this.masterGainNode );
+    this.irUpFluxSoundClip.connect( this.mainGainNode );
 
     // Create the gain node that will be used to fade in and out the combined clips that make up the IR flux down sound.
     this.downwardFluxGainNode = this.audioContext.createGain();
-    this.downwardFluxGainNode.connect( this.masterGainNode );
+    this.downwardFluxGainNode.connect( this.mainGainNode );
 
     // Create the sound clips used for IR flux in the downward direction.  The overall sound is made by cross-fading
     // between these two sounds based on the flux level.

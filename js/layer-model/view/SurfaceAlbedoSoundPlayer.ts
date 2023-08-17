@@ -40,8 +40,8 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
     this.surfaceAlbedoProperty = surfaceAlbedoProperty;
 
     // Hook up the primary and boundary sound clips to the output.
-    this.primarySoundClip.connect( this.masterGainNode );
-    this.boundarySoundClip.connect( this.masterGainNode );
+    this.primarySoundClip.connect( this.mainGainNode );
+    this.boundarySoundClip.connect( this.mainGainNode );
 
     // Add a convolver that will act as a reverb effect.
     const convolver = phetAudioContext.createConvolver();
@@ -54,7 +54,7 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
     this.primarySoundClip.connect( convolver );
     this.boundarySoundClip.connect( convolver );
     convolver.connect( reverbGainNode );
-    reverbGainNode.connect( this.masterGainNode );
+    reverbGainNode.connect( this.mainGainNode );
 
     // Adjust the reverb level as the albedo changes, making it so that more reverb occurs with the higher levels of
     // surface albedo.

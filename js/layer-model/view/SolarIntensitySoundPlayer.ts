@@ -49,7 +49,7 @@ class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
     lowPassFilter.type = 'lowpass';
 
     // Connect the filter to the audio output path.
-    lowPassFilter.connect( this.masterGainNode );
+    lowPassFilter.connect( this.mainGainNode );
 
     // Adjust the cutoff frequency of the filter as the solar intensity changes.
     solarIntensityProperty.link( solarIntensity => {
