@@ -223,7 +223,7 @@ class MicroScreenView extends ScreenView {
       keys: [ 'alt+l' ],
       global: true,
       listenerFireTrigger: 'up',
-      callback: ( event, listener ) => {
+      callback: () => {
         if ( !photonAbsorptionModel.runningProperty.get() ) {
 
           // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
