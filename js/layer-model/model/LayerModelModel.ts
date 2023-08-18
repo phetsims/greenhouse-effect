@@ -100,7 +100,6 @@ class LayerModelModel extends LayersModel {
 
       // Group under model.atmosphereLayers, see https://github.com/phetsims/greenhouse-effect/issues/281
       tandem: this.atmosphereLayersTandem.createTandem( 'numberOfActiveAtmosphereLayersProperty' ),
-      phetioReadOnly: true,
       phetioFeatured: true,
       phetioDocumentation: 'The number of modeled layers in the atmosphere that are absorbing some amount of IR energy'
     } );
