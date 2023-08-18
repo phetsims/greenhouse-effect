@@ -35,6 +35,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -151,6 +152,15 @@ class LayersModel extends GreenhouseEffectModel {
 
     // If the default temperature units change, change the current units setting to match.
     DEFAULT_TEMPERATURE_UNITS_PROPERTY.lazyLink( units => this.temperatureUnitsProperty.set( units ) );
+
+    // If phet-io state is being used to restore the state of this model, we need to make sure that the temperature
+    // units end up at the value specified in the Preferences dialog, NOT the previously saved state.  See
+    // https://github.com/phetsims/greenhouse-effect/issues/352 for additional background on this.
+    isSettingPhetioStateProperty.lazyLink( isSettingPhetioState => {
+      if ( !isSettingPhetioState ) {
+        this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
+      }
+    } );
 
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: surfaceTemperatureTandem.createTandem( 'surfaceThermometerVisibleProperty' ),
