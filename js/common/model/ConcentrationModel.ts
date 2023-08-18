@@ -209,6 +209,7 @@ class ConcentrationModel extends LayersModel {
     this.concentrationControlModeProperty.reset();
     this.dateProperty.reset();
     this.manuallyControlledConcentrationProperty.reset();
+    this.cloudEnabledInManualConcentrationModeProperty.reset();
     super.reset();
   }
 
