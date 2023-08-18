@@ -32,7 +32,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
     };
 
     super(
-      () => new LayerModelModel( tandem.createTandem( 'model' ) ),
+      () => new LayerModelModel( { tandem: tandem.createTandem( 'model' ) } ),
       model => new LayerModelScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );

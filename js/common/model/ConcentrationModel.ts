@@ -26,6 +26,10 @@ import LayersModel, { LayersModelOptions, LayersModelStateObject } from './Layer
 import Property from '../../../../axon/js/Property.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+type ConcentrationModelOptions = SelfOptions & LayersModelOptions;
 
 // constants
 const SCALE_HEIGHT_OF_ATMOSPHERE = 8400; // in meters, taken from a Wikipedia article
@@ -94,7 +98,7 @@ class ConcentrationModel extends LayersModel {
   // A property that determines whether the reflective cloud is enabled when manually controlling gas concentrations.
   public readonly cloudEnabledInManualConcentrationModeProperty: Property<boolean>;
 
-  public constructor( options: LayersModelOptions ) {
+  public constructor( options: ConcentrationModelOptions ) {
     super( options );
 
     // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
@@ -257,4 +261,5 @@ export { ConcentrationControlMode };
 export { ConcentrationDate };
 
 greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
+export type { ConcentrationModelOptions };
 export default ConcentrationModel;

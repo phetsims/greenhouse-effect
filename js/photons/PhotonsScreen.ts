@@ -33,7 +33,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
     };
 
     super(
-      () => new PhotonsModel( tandem.createTandem( 'model' ) ),
+      () => new PhotonsModel( { tandem: tandem.createTandem( 'model' ) } ),
       model => new PhotonsScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );

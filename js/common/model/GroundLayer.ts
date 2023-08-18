@@ -28,6 +28,7 @@ const PARTIALLY_GLACIATED_LAND_ALBEDO = 0.225;
 
 type SelfOptions = {
   initialAlbedo?: number;
+  albedoPhetioReadOnly?: boolean;
 };
 export type GroundLayerOptions = SelfOptions & WithRequired<EnergyAbsorbingEmittingLayerOptions, 'tandem'>;
 
@@ -39,6 +40,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     const options = optionize<GroundLayerOptions, SelfOptions, EnergyAbsorbingEmittingLayerOptions>()( {
 
       initialAlbedo: GROUND_ALBEDO,
+      albedoPhetioReadOnly: true,
 
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
@@ -58,7 +60,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
     this.albedoProperty = new NumberProperty( options.initialAlbedo, {
       range: new Range( 0, 0.9 ), // Technically, an albedo value can go to 1, but we never do that in this sim.
       tandem: options.tandem.createTandem( 'albedoProperty' ),
-      phetioReadOnly: true,
+      phetioReadOnly: options.albedoPhetioReadOnly,
       phetioFeatured: true,
       phetioDocumentation: 'Proportion of incident light reflected from the ground from 0 (no reflection) to 1 (all light is reflected).'
     } );

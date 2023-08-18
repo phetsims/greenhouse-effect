@@ -26,7 +26,7 @@ import EMEnergyPacket, { EMEnergyPacketStateObject } from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import FluxMeter, { FluxMeterOptions } from './FluxMeter.js';
 import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
-import GroundLayer from './GroundLayer.js';
+import GroundLayer, { GroundLayerOptions } from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
@@ -47,9 +47,6 @@ const DEFAULT_TEMPERATURE_UNITS_PROPERTY = GreenhouseEffectPreferences.defaultTe
 
 type SelfOptions = {
 
-  // min temperature that the ground is allowed to reach, in Kelvin
-  minimumGroundTemperature?: number;
-
   // the number of energy absorbing and emitting layers in the atmosphere
   numberOfAtmosphereLayers?: number;
 
@@ -61,6 +58,9 @@ type SelfOptions = {
 
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
+
+  // options that are passed through to the ground layer
+  groundLayerOptions?: GroundLayerOptions;
 
   // options that are passed through to the flux meter if present
   fluxMeterOptions?: FluxMeterOptions;
@@ -130,10 +130,12 @@ class LayersModel extends GreenhouseEffectModel {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
-      minimumGroundTemperature: GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true,
       fluxMeterPresent: false,
+      groundLayerOptions: {
+        tandem: providedOptions.tandem.createTandem( 'groundLayer' )
+      },
       fluxMeterOptions: {
         tandem: providedOptions.tandem.createTandem( 'fluxMeter' )
       },
@@ -252,15 +254,12 @@ class LayersModel extends GreenhouseEffectModel {
         proportionateOutputRatePropertyIsInstrumented: options.proportionateOutputRatePropertyIsInstrumented
       } );
 
-    // Requeted in https://github.com/phetsims/greenhouse-effect/issues/281
+    // Requested in https://github.com/phetsims/greenhouse-effect/issues/281
     energyBalance.addLinkedElement( this.sunEnergySource.outputEnergyRateTracker.energyRateProperty, {
       tandemName: 'incomingEnergyRateProperty'
     } );
 
-    this.groundLayer = new GroundLayer( {
-      minimumTemperature: options.minimumGroundTemperature,
-      tandem: options.tandem.createTandem( 'groundLayer' )
-    } );
+    this.groundLayer = new GroundLayer( options.groundLayerOptions );
 
     this.atmosphereLayers = [];
 

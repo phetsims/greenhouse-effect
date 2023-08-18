@@ -15,14 +15,13 @@ import TEmitter from '../../../../axon/js/TEmitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Line } from '../../../../kite/js/imports.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import ConcentrationModel, { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationModelOptions, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel from '../../common/model/LayersModel.js';
@@ -32,6 +31,9 @@ import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
 import isInfrared from '../../common/model/isInfrared.js';
 import isVisible from '../../common/model/isVisible.js';
+
+type SelfOptions = EmptySelfOptions;
+type WaveModelOptions = SelfOptions & ConcentrationModelOptions;
 
 // constants
 const MAX_ATMOSPHERIC_INTERACTION_PROPORTION = 0.75; // max proportion of IR wave that can go back to Earth
@@ -81,15 +83,17 @@ class WavesModel extends ConcentrationModel {
   private readonly atmosphereLineEnd: Vector2;
   private readonly atmosphereLine: Line;
 
-  public constructor( tandem: Tandem ) {
-    super( {
-      tandem: tandem,
+  public constructor( providedOptions: WaveModelOptions ) {
+
+    const options = optionize<WaveModelOptions, SelfOptions, ConcentrationModelOptions>()( {
       phetioType: WavesModel.WavesModelIO,
       phetioState: true
-    } );
+    }, providedOptions );
+
+    super( options );
 
     // For grouping model elements, see https://github.com/phetsims/greenhouse-effect/issues/281
-    const wavesTandem = tandem.createTandem( 'waves' );
+    const wavesTandem = options.tandem.createTandem( 'waves' );
 
     // the electromagnetic waves that are currently active in the model
     this.waveGroup = new PhetioGroup(
@@ -539,4 +543,5 @@ type WaveAtmosphereInteractionStateObject = {
 };
 
 greenhouseEffect.register( 'WavesModel', WavesModel );
+export type { WaveModelOptions };
 export default WavesModel;

@@ -10,13 +10,16 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2, { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate, ConcentrationModelOptions, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import isVisible from '../../common/model/isVisible.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+
+type SelfOptions = EmptySelfOptions;
+type PhotonModelOptions = SelfOptions & ConcentrationModelOptions;
 
 // constants
 const MAX_REFLECTION_ADJUSTMENT = Math.PI * 0.25; // empirically determined by what looked good
@@ -36,13 +39,15 @@ class PhotonsModel extends ConcentrationModel {
   // bounds of the cloud, calculated during construction to save time later
   private readonly cloudBounds: Bounds2;
 
-  public constructor( tandem: Tandem ) {
-    super( {
+  public constructor( providedOptions: PhotonModelOptions ) {
+
+    const options = optionize<PhotonModelOptions, SelfOptions, ConcentrationModelOptions>()( {
       fluxMeterPresent: true,
-      tandem: tandem,
       phetioType: PhotonsModel.PhotonsModelIO,
       phetioState: true
-    } );
+    }, providedOptions );
+
+    super( options );
 
     // derived Property that is true when a glacier is present on the ground, false otherwise
     const glacierPresentProperty = new DerivedProperty(
@@ -58,7 +63,7 @@ class PhotonsModel extends ConcentrationModel {
         absorbanceMultiplier: 10 // empirically determined to give us the desired visual behavior, adjust as needed
       },
       glacierPresentProperty: glacierPresentProperty,
-      tandem: tandem.createTandem( 'photonCollection' )
+      tandem: options.tandem.createTandem( 'photonCollection' )
     } );
 
     assert && assert( this.cloud, 'The cloud should always be present in the PhotonsModel' );
@@ -173,4 +178,5 @@ type PhotonsModelStateObject = {
 } & ConcentrationModelStateObject;
 
 greenhouseEffect.register( 'PhotonsModel', PhotonsModel );
+export type { PhotonModelOptions };
 export default PhotonsModel;
