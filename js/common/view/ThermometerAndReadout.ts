@@ -120,19 +120,22 @@ class ThermometerAndReadout extends Node {
           kelvinUnitsStringProperty,
           temperatureInKelvinProperty,
           temperatureInKelvinProperty.range,
-          TemperatureUnits.KELVIN
+          TemperatureUnits.KELVIN,
+          `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsStringProperty,
           temperatureInCelsiusProperty,
           celsiusRange,
-          TemperatureUnits.CELSIUS
+          TemperatureUnits.CELSIUS,
+          `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsStringProperty,
           temperatureInFahrenheitProperty,
           fahrenheitRange,
-          TemperatureUnits.FAHRENHEIT
+          TemperatureUnits.FAHRENHEIT,
+          `fahrenheit${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
         )
       ];
 
@@ -223,10 +226,11 @@ class ThermometerAndReadout extends Node {
   private static createComboBoxItem( unitsStringProperty: TReadOnlyProperty<string>,
                                      property: TReadOnlyProperty<number>,
                                      propertyRange: Range,
-                                     propertyValue: TemperatureUnits ): ComboBoxItem<TemperatureUnits> {
+                                     propertyValue: TemperatureUnits,
+                                     tandemName: string ): ComboBoxItem<TemperatureUnits> {
     return {
       value: propertyValue,
-      createNode: tandem => new NumberDisplay( property, propertyRange, {
+      createNode: () => new NumberDisplay( property, propertyRange, {
         backgroundStroke: null,
         decimalPlaces: DECIMAL_PLACES_IN_READOUT,
         textOptions: {
@@ -234,12 +238,12 @@ class ThermometerAndReadout extends Node {
           maxWidth: 120
         },
         valuePattern: new PatternStringProperty(
-          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty, {
-            units: unitsStringProperty
-          }, { tandem: tandem.createTandem( 'valuePatternStringProperty' ) } ),
-        tandem: tandem,
+          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+          { units: unitsStringProperty }
+        ),
         phetioVisiblePropertyInstrumented: false
       } ),
+      tandemName: tandemName,
       a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
   }
