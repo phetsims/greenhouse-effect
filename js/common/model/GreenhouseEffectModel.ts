@@ -53,9 +53,10 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
   }
 
   /**
-   * Step the model forward by the provided time.
-   *
-   * @param dt - in seconds
+   * Step the model forward by the provided time.  This is intended to be overridden in descendent classes.  Using a
+   * separate method versus the `step` function allows there to be some common functionality for stepping in the base
+   * class.
+   * @param dt - delta time, in seconds
    */
   public stepModel( dt: number ): void {
 
@@ -63,8 +64,9 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
   }
 
   /**
-   * Step the simulation, called by PhET framework.
-   * @param dt - in seconds
+   * Step the simulation, called by the PhET framework.  Descendent classes should generally leave this method as is
+   * (i.e. don't override it) and override stepModel to implement their time-based behaviors.
+   * @param dt - delta time, in seconds
    */
   public step( dt: number ): void {
     if ( this.isPlayingProperty.value ) {
