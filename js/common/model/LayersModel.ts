@@ -390,7 +390,7 @@ class LayersModel extends GreenhouseEffectModel {
   public static readonly RADIATIVE_BALANCE_THRESHOLD = RADIATIVE_BALANCE_THRESHOLD;
 
   /**
-   * LayersModelIO handles PhET-iO serialization of the LayersModel.
+   * LayersModelIO uses reference serialization because this model element exists for the life of the sim.
    */
   public static readonly LayersModelIO: IOType = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
     valueType: LayersModel,

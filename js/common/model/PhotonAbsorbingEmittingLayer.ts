@@ -298,6 +298,10 @@ class PhotonAbsorbingEmittingLayer extends PhetioObject {
     return photonReleaseVelocity;
   }
 
+  /**
+   * PhotonAbsorbingEmittingLayerIO uses reference serialization because these are PhetIOObjects and endure for the life
+   * of the sim.
+   */
   public static readonly PhotonAbsorbingEmittingLayerIO =
     new IOType<PhotonAbsorbingEmittingLayer, PhotonAbsorbingEmittingLayerStateObject>(
       'PhotonAbsorbingEmittingLayerIO',

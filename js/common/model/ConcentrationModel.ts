@@ -237,9 +237,9 @@ class ConcentrationModel extends LayersModel {
   }
 
   /**
-   * ConcentrationModelIO would generally handle PhET-iO serialization of the ConcentrationModel.  However, since this
-   * level of the class hierarchy only adds standard Property fields, its serialization is automatic.  So, this is
-   * essentially stubbed, but exists so that the IOType hierarchy matches the class hierarchy.
+   * ConcentrationModelIO would generally handle PhET-iO serialization of the ConcentrationModel, but since this level
+   * of the model class hierarchy only adds standard Property fields, its serialization is automatic.  So, this is
+   * essentially stubbed but exists so that the IOType hierarchy matches the class hierarchy.
    */
   public static readonly ConcentrationModelIO: IOType =
     new IOType<ConcentrationModel, ConcentrationModelStateObject>( 'ConcentrationModelIO', {

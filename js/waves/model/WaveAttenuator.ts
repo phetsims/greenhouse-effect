@@ -32,7 +32,10 @@ class WaveAttenuator {
     this.distanceFromStart = distanceFromStart;
   }
 
-  // phet-io - This uses data type serialization because instances of WaveAttenuator are set as state within the waves.
+  /**
+   * WaveAttenuatorIO uses data type serialization because instances of WaveAttenuator are set as state within the
+   * waves and references are not shared.
+   */
   public static readonly WaveAttenuatorIO = new IOType<WaveAttenuator, WaveAttenuatorStateObject>( 'WaveAttenuatorIO', {
     valueType: WaveAttenuator,
     stateSchema: {

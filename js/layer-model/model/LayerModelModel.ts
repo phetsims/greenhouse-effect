@@ -131,7 +131,8 @@ class LayerModelModel extends LayersModel {
   }
 
   /**
-   * LayerModelModelIO handles PhET-iO serialization of the LayerModelModel.
+   * LayerModelModelIO is essentially stubbed because the parent classes handle the serialization for any of the non-
+   * default items.
    */
   public static readonly LayerModelModelIO = new IOType<LayerModelModel, LayerModelModelStateObject>( 'LayerModelModelIO', {
     valueType: LayerModelModel,

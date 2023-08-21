@@ -51,8 +51,10 @@ class WaveIntensityChange {
            `anchoredTo: ${this.anchoredTo ? 'something' : 'nothing'}`;
   }
 
-  // phet-io IOType - We use data-type serialization here because these intensity changes can be set as set in the
-  // individual waves and references aren't shared.
+  /**
+   * WaveIntensityChangeIO uses data-type serialization here because these intensity changes can be set as set in the
+   * individual waves and references aren't shared.
+   */
   public static readonly WaveIntensityChangeIO =
     new IOType<WaveIntensityChange, WaveIntensityChangeStateObject>( 'WaveIntensityChangeIO', {
       valueType: WaveIntensityChange,

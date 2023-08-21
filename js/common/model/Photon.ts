@@ -121,9 +121,11 @@ class Photon {
   public static readonly SPEED = PHOTON_SPEED;
   public static readonly ShowState = ShowState;
 
-  // IOType for data-type serialization.  This type of serialization is used because we don't need to provide
-  // information on photons, or the ability to directly manipulate them individually, to phet-io users.  This also has
-  // higher performance versus having every photon individually instrumented as a phet-io object.
+  /**
+   * IOType for data-type serialization.  This type of serialization is used because we don't need to provide
+   * information on photons, or the ability to directly manipulate them individually, to phet-io users.  This also has
+   * higher performance versus having every photon individually instrumented as a phet-io object.
+   */
   public static readonly PhotonIO = new IOType<Photon, PhotonStateObject>( 'PhotonIO', {
     valueType: Photon,
     stateSchema: {

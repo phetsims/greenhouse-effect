@@ -40,8 +40,10 @@ class EnergyInfoQueueItem {
     this.energy = energy;
   }
 
-  // phet-io - We are using data-type serialization because these are things that go into a queue and there is no need
-  // to keep references to them.
+  /**
+   * EnergyInfoQueueItemIO uses data-type serialization because references are not shared and creating new instances
+   * during deserialization works fine.
+   */
   public static readonly EnergyInfoQueueItemIO =
     new IOType<EnergyInfoQueueItem, EnergyInfoQueueItemStateObject>( 'EnergyInfoQueueItemIO', {
       valueType: EnergyInfoQueueItem,
@@ -144,7 +146,10 @@ class EnergyRateTracker extends PhetioObject {
     this.energyRateProperty.reset();
   }
 
-  // phet-io IOType - Uses reference serialization because EnergyRateTracker instances are persistent in all cases.
+  /**
+   * EnergyRateTrackerIO uses reference serialization because EnergyRateTracker instances are persistent throughout
+   * the life of the sim.
+   */
   public static readonly EnergyRateTrackerIO =
     new IOType<EnergyRateTracker, EnergyRateTrackerStateObject>( 'EnergyRateTrackerIO', {
       valueType: EnergyRateTracker,

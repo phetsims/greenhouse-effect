@@ -64,10 +64,10 @@ class EMEnergyPacket {
   }
 
   /**
-   * EMEnergyPacketIO handles PhET-iO serialization of EMEnergyPacket. Because serialization involves accessing private
-   * members, it delegates to EMEnergyPacket. The methods that EMEnergyPacketIO overrides are typical of 'Dynamic element
-   * serialization', as described in the Serialization section of
-   * https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization
+   * EMEnergyPacketIO implements data type serialization as described in
+   * https://github.com/phetsims/phet-io/blob/main/doc/phet-io-instrumentation-technical-guide.md#serialization.
+   * This is appropriate because EMEnergyPacket instances are not PhetioObjects, and they come and go as the sim
+   * evolves, and creating new instances during deserialization works fine.
    */
   public static readonly EMEnergyPacketIO = new IOType<EMEnergyPacket, EMEnergyPacketStateObject>( 'EMEnergyPacketIO', {
     valueType: EMEnergyPacket,

@@ -474,7 +474,8 @@ class WavesModel extends ConcentrationModel {
   }
 
   /**
-   * WavesModelIO handles PhET-iO serialization of the WavesModel.
+   * WavesModelIO handles PhET-iO serialization of the WavesModel.  This uses reference-type serialization since
+   * instances of this type persist for the lifetime of the sim.
    */
   public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
     valueType: WavesModel,
@@ -520,7 +521,10 @@ class WaveAtmosphereInteraction {
     this.emittedWave = emittedWave;
   }
 
-  // phet-io - We use data-type serialization here because these are used as elements in an ObservableArray.
+  /**
+   * WaveAtmosphereInteractionIO uses data-type serialization here because these are used as elements in an
+   * ObservableArray which is itself serialized.
+   */
   public static readonly WaveAtmosphereInteractionIO =
     new IOType<WaveAtmosphereInteraction, WaveAtmosphereInteractionStateObject>( 'WaveAtmosphereInteractionIO', {
       valueType: WaveAtmosphereInteraction,
