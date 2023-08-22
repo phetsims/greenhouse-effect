@@ -19,7 +19,7 @@
     "runnable": true,
     "supportedBrands": [
       "phet",
-      "phetio"
+      "phet-io"
     ],
     "simFeatures": {
       "supportsDynamicLocale": true,
