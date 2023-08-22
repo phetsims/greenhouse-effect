@@ -11,12 +11,13 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Color, Node, NodeOptions, Path } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, NodeOptions, Path, SceneryEvent } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
 import Random from '../../../../dot/js/Random.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
@@ -79,6 +80,61 @@ class CloudNode extends Node {
     this.disposeCloudNode = () => {
       cloud.enabledProperty.unlink( cloudEnabledObserver );
     };
+
+    const dragPoints: Vector2[] = [];
+    const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
+    let isShip = false;
+    this.addInputListener( new DragListener( {
+      start: () => {
+        dragPoints.length = 0;
+      },
+      drag: ( event: SceneryEvent ) => {
+        dragPoints.push( this.globalToParentPoint( event.pointer.point ) );
+      },
+      end: () => {
+        if ( !isShip ) {
+          const allPointsInCloud = dragPoints.reduce(
+            ( allInCloud, currentValue ) => {
+              return cloudBounds.containsPoint( currentValue ) && allInCloud;
+            },
+            true
+          );
+          const pointsNearCenter = dragPoints.filter( p => p.distance( this.center ) < this.width / 20 );
+          const cx = this.center.x;
+          const cy = this.center.y;
+          const pointsInUpperLeft = dragPoints.filter( p => cx - p.x > this.width / 8 && cy - p.y > this.height / 8 );
+          const pointsInUpperRight = dragPoints.filter( p => p.x - cx > this.width / 8 && cy - p.y > this.height / 8 );
+          const pointsInLowerLeft = dragPoints.filter( p => cx + p.x > this.width / 8 && p.y - cy > this.height / 8 );
+          const pointsInLowerRight = dragPoints.filter( p => p.x - cx > this.width / 8 && p.y - cy > this.height / 8 );
+
+          if ( allPointsInCloud &&
+               pointsNearCenter.length > 0 &&
+               pointsInUpperLeft.length > 0 &&
+               pointsInLowerLeft.length > 0 &&
+               pointsInUpperRight.length > 0 &&
+               pointsInLowerRight.length > 0 ) {
+
+            cloudPath.setShape( CloudNode.createAlternativeShape(
+              modelViewTransform.modelToViewPosition( cloud.position ),
+              Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
+              Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
+            ) );
+            isShip = true;
+          }
+        }
+        else {
+          cloudPath.setShape( CloudNode.createCloudShape(
+            modelViewTransform.modelToViewPosition( cloud.position ),
+            Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
+            Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
+          ) );
+          isShip = false;
+        }
+      },
+
+      // phet-io
+      tandem: Tandem.OPT_OUT
+    } ) );
   }
 
   /**
@@ -160,6 +216,48 @@ class CloudNode extends Node {
     }
 
     return Shape.union( circleShapes );
+  }
+
+  public static createAlternativeShape( centerPosition: Vector2,
+                                        width: number,
+                                        height: number ): Shape {
+    const domeWidth = width / 2;
+    const domeHeight = height * 0.4;
+    const domeStart = centerPosition.plusXY( -domeWidth / 2, -domeHeight / 2 );
+    const domeEnd = domeStart.plusXY( domeWidth, 0 );
+    const shape = new Shape();
+    shape.moveToPoint( domeStart );
+    shape.ellipticalArcTo( domeWidth / 2, domeHeight, 0, false, true, domeEnd.x, domeEnd.y );
+    shape.ellipticalArcTo( domeWidth / 2, domeHeight * 0.2, 0, false, true, domeStart.x, domeStart.y );
+    shape.ellipticalArcTo( domeWidth, domeHeight, 0, true, false, domeEnd.x, domeEnd.y );
+    shape.ellipticalArcTo( domeWidth / 2, domeHeight * 0.2, 0, false, true, domeStart.x, domeStart.y );
+
+    const portalRadius = height / 8;
+    const portalCenters = [
+      centerPosition.plusXY( -width / 4, height / 4 * 0.7 ),
+      centerPosition.plusXY( 0, height / 4 ),
+      centerPosition.plusXY( width / 4, height / 4 * 0.7 )
+    ];
+    portalCenters.forEach( portalCenter => {
+      shape.moveToPoint( portalCenter.plusXY( portalRadius, 0 ) );
+      shape.circle( portalCenter, portalRadius );
+    } );
+
+    const faceCenter = portalCenters[ 2 ];
+    const eyeRadiusX = portalRadius * 0.2;
+    const eyeRadiusY = portalRadius * 0.1;
+    const rightEyeCenter = faceCenter.plusXY( -portalRadius * 0.4, -portalRadius * 0.3 );
+    shape.moveToPoint( rightEyeCenter );
+    shape.ellipse( rightEyeCenter, eyeRadiusX, eyeRadiusY, Math.PI / 4 );
+    const leftEyeCenter = faceCenter.plusXY( portalRadius * 0.4, -portalRadius * 0.3 );
+    shape.moveToPoint( leftEyeCenter );
+    shape.ellipse( leftEyeCenter, eyeRadiusX, eyeRadiusY, -Math.PI / 4 );
+    const smileCenter = faceCenter.plusXY( 0, portalRadius / 3 );
+    const smileWidth = portalRadius;
+    shape.moveToPoint( smileCenter.plusXY( -smileWidth / 2, 0 ) );
+    shape.ellipticalArcTo( portalRadius, portalRadius, 0, false, false, smileCenter.x + smileWidth / 2, smileCenter.y );
+
+    return shape;
   }
 
   /**
