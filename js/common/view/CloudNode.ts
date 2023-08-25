@@ -18,6 +18,7 @@ import Random from '../../../../dot/js/Random.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
@@ -81,9 +82,9 @@ class CloudNode extends Node {
       cloud.enabledProperty.unlink( cloudEnabledObserver );
     };
 
+    // Happy Easter!
     const dragPoints: Vector2[] = [];
-    const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
-    let isShip = false;
+    let isAlternative = false;
     this.addInputListener( new DragListener( {
       start: () => {
         dragPoints.length = 0;
@@ -92,34 +93,91 @@ class CloudNode extends Node {
         dragPoints.push( this.globalToParentPoint( event.pointer.point ) );
       },
       end: () => {
-        if ( !isShip ) {
-          const allPointsInCloud = dragPoints.reduce(
+        if ( !isAlternative ) {
+
+          // Are all points within the bounds of the cloud?
+          const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
+          const allPointsInCloudBounds = dragPoints.reduce(
             ( allInCloud, currentValue ) => {
               return cloudBounds.containsPoint( currentValue ) && allInCloud;
             },
             true
           );
-          const pointsNearCenter = dragPoints.filter( p => p.distance( this.center ) < this.width / 20 );
-          const cx = this.center.x;
-          const cy = this.center.y;
-          const pointsInUpperLeft = dragPoints.filter( p => cx - p.x > this.width / 8 && cy - p.y > this.height / 8 );
-          const pointsInUpperRight = dragPoints.filter( p => p.x - cx > this.width / 8 && cy - p.y > this.height / 8 );
-          const pointsInLowerLeft = dragPoints.filter( p => cx + p.x > this.width / 8 && p.y - cy > this.height / 8 );
-          const pointsInLowerRight = dragPoints.filter( p => p.x - cx > this.width / 8 && p.y - cy > this.height / 8 );
 
-          if ( allPointsInCloud &&
-               pointsNearCenter.length > 0 &&
-               pointsInUpperLeft.length > 0 &&
-               pointsInLowerLeft.length > 0 &&
-               pointsInUpperRight.length > 0 &&
-               pointsInLowerRight.length > 0 ) {
+          if ( allPointsInCloudBounds ) {
 
-            cloudPath.setShape( CloudNode.createAlternativeShape(
-              modelViewTransform.modelToViewPosition( cloud.position ),
-              Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
-              Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
-            ) );
-            isShip = true;
+            // Calculate the bounds of the points created by the user's drag action.
+            const dragPointsBounds = new Bounds2(
+              dragPoints.reduce( ( minXSoFar, dp ) => Math.min( minXSoFar, dp.x ), Number.POSITIVE_INFINITY ),
+              dragPoints.reduce( ( minYSoFar, dp ) => Math.min( minYSoFar, dp.y ), Number.POSITIVE_INFINITY ),
+              dragPoints.reduce( ( maxXSoFar, dp ) => Math.max( maxXSoFar, dp.x ), Number.NEGATIVE_INFINITY ),
+              dragPoints.reduce( ( maxYSoFar, dp ) => Math.max( maxYSoFar, dp.y ), Number.NEGATIVE_INFINITY )
+            );
+
+
+            // The drag bounds must have a minimum size.
+            if ( dragPointsBounds.width > this.width / 4 && dragPointsBounds.height > this.height / 4 ) {
+
+              // Normalize the drag points such that x and y values are all from 0 to 1 inclusive.
+              const normalizedDragPoints = dragPoints.map(
+                dp => new Vector2(
+                  ( dp.x - dragPointsBounds.minX ) / dragPointsBounds.width,
+                  ( dp.y - dragPointsBounds.minY ) / dragPointsBounds.height
+                )
+              );
+
+              // The shape being tested here is essentially an infinity sign.
+
+              const createZone = ( centerX: number, centerY: number, zoneLength: number ) =>
+                new Bounds2(
+                  centerX - zoneLength / 2,
+                  centerY - zoneLength / 2,
+                  centerX + zoneLength / 2,
+                  centerY + zoneLength / 2
+                );
+
+              // Create a set of zones where at least one point is required.
+              const rZones = [
+                createZone( 0.5, 0.5, 0.1 ),
+                createZone( 0.25, 0.1, 0.2 ),
+                createZone( 0.75, 0.1, 0.2 ),
+                createZone( 0.25, 0.9, 0.2 ),
+                createZone( 0.75, 0.9, 0.2 )
+              ];
+              const occupiedRZones: Bounds2[] = [];
+
+              // Create a set of zones where no points should be.
+              const xZones = [
+                createZone( 0.5, 0.05, 0.1 ),
+                createZone( 0.5, 0.95, 0.1 ),
+                createZone( 0.25, 0.5, 0.1 ),
+                createZone( 0.75, 0.5, 0.1 )
+              ];
+              const occupiedXZones: Bounds2[] = [];
+
+              normalizedDragPoints.forEach( dp => {
+                const rZone = rZones.find( rZone => rZone.containsPoint( dp ) );
+                if ( rZone && !occupiedRZones.includes( rZone ) ) {
+                  occupiedRZones.push( rZone );
+                }
+                if ( !rZone ) {
+                  const xZone = xZones.find( xZone => xZone.containsPoint( dp ) );
+                  if ( xZone && !occupiedXZones.includes( xZone ) ) {
+                    occupiedXZones.push( xZone );
+                  }
+                }
+              } );
+
+              // Are the required zones all occupied and the excluded zones clear?
+              if ( occupiedRZones.length === rZones.length && occupiedXZones.length === 0 ) {
+                cloudPath.setShape( CloudNode.createAlternativeShape(
+                  modelViewTransform.modelToViewPosition( cloud.position ),
+                  Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
+                  Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
+                ) );
+                isAlternative = true;
+              }
+            }
           }
         }
         else {
@@ -128,7 +186,7 @@ class CloudNode extends Node {
             Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
             Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
           ) );
-          isShip = false;
+          isAlternative = false;
         }
       },
 
