@@ -43,7 +43,9 @@ class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
 
     // Create the various sections that will be combined to make up the dialog contents.
     const sliderHelpSection = new SliderControlsKeyboardHelpSection( sliderHelpSectionOptions );
-    const basicActionsHelpSection = new BasicActionsKeyboardHelpSection();
+    const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
+      withCheckboxContent: true
+    } );
     const timingControlsHelpSection = new TimeControlKeyboardHelpSection();
 
     // Vertically align the left sections.
