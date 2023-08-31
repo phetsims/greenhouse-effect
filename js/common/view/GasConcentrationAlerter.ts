@@ -17,9 +17,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import Utterance, { TAlertable } from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import LayersModel from '../model/LayersModel.js';
@@ -27,6 +27,12 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+
+type SelfOptions = {
+  enabledProperty?: TReadOnlyProperty<boolean> | null;
+};
+export type GasConcentrationAlerterOptions = SelfOptions & AlerterOptions;
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -95,6 +101,9 @@ class GasConcentrationAlerter extends Alerter {
   // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
   private describeTemperatureAsStabilizing = false;
 
+  // A boolean Property that can be provided via the options and that can be used to enable or disable alerts.
+  private enabledProperty: TReadOnlyProperty<boolean>;
+
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: TReadOnlyProperty<number>;
@@ -111,15 +120,21 @@ class GasConcentrationAlerter extends Alerter {
   private readonly observationWindowSceneUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
   private readonly concentrationChangeUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
 
-  public constructor( model: ConcentrationModel, providedOptions?: AlerterOptions ) {
+  public constructor( model: ConcentrationModel, providedOptions?: GasConcentrationAlerterOptions ) {
 
-    const options = optionize<AlerterOptions, EmptySelfOptions, AlerterOptions>()( {
+    const options = optionize<GasConcentrationAlerterOptions, SelfOptions, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
-      alertToVoicing: false
+      alertToVoicing: false,
+
+      // This is set to null by default, and if no value is provided, the code below will create an enabledProperty.
+      enabledProperty: null
     }, providedOptions );
 
     super( options );
+
+    // Use the provided enabledProperty or create one that is always true.
+    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
     this.model = model;
     this.useVerboseSurfaceTemperatureAlert = true;
@@ -138,7 +153,7 @@ class GasConcentrationAlerter extends Alerter {
     this.previousImmediateNotificationModelState = this.saveImmediateNotificationModelState();
 
     // When we reach equilibrium at the ground layer, announce that state immediately. This doesn't need to be
-    // ordered in with the other alerts so it doesn't need to be in the polling solution. But it could be moved
+    // ordered in with the other alerts, so it doesn't need to be in the polling solution. But it could be moved
     // to "immediate" state model if that is more clear in the future.
     model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
       if ( atEquilibrium ) {
@@ -154,7 +169,7 @@ class GasConcentrationAlerter extends Alerter {
     } );
 
     // Announce the temperature when the user changes the units. This is unrelated to the concentration and temperature
-    // change alerts that happen in the polling implementation so it can stay in a linked listener. But this could
+    // change alerts that happen in the polling implementation, so it can stay in a linked listener. But this could
     // move to "immediate" state model someday if that is more clear.
     model.temperatureUnitsProperty.lazyLink( temperatureUnits => {
       this.alert( TemperatureDescriber.getQuantitativeTemperatureDescription(
@@ -185,7 +200,7 @@ class GasConcentrationAlerter extends Alerter {
     } );
 
     // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
-    // alert is unrelated to concentration and temperature alerts that happen in the polling so it can stay in a
+    // alert is unrelated to concentration and temperature alerts that happen in the polling, so it can stay in a
     // linked listener. But it could move to the polling implementation in "immediate state model" if that is more
     // clear.
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
@@ -236,6 +251,16 @@ class GasConcentrationAlerter extends Alerter {
       this.model.surfaceTemperatureKelvinProperty.value,
       TEMPERATURE_DECIMAL_PLACES
     );
+  }
+
+  /**
+   * The `alert` function is overridden so that we can check whether this component is enabled before performing the
+   * alert.
+   */
+  public override alert( alertable: TAlertable ): void {
+    if ( this.enabledProperty.value ) {
+      super.alert( alertable );
+    }
   }
 
   /**
