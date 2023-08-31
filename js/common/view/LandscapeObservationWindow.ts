@@ -14,7 +14,7 @@ import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import { Color, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import { Color, DisplayedProperty, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import agriculturalLandscapeBackground_png from '../../../images/agriculturalLandscapeBackground_png.js';
 import agriculturalLandscapeForeground_png from '../../../images/agriculturalLandscapeForeground_png.js';
 import fiftiesLandscapeBackground_png from '../../../images/fiftiesLandscapeBackground_png.js';
@@ -146,7 +146,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
     // pdom - responsive descriptions
     this.gasConcentrationAlerter = new GasConcentrationAlerter( model, {
-      descriptionAlertNode: this
+      descriptionAlertNode: this,
+      enabledProperty: new DisplayedProperty( this )
     } );
   }
 
