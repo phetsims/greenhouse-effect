@@ -36,7 +36,6 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import { PhetioState } from '../../../../tandem/js/TandemConstants.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -159,15 +158,12 @@ class LayersModel extends GreenhouseEffectModel {
     // If phet-io state is being used to reset the screen, we need to make sure that the temperature
     // units end up at the value specified in the Preferences dialog, NOT the previously saved state. See
     // https://github.com/phetsims/greenhouse-effect/issues/352 for additional background on this.
-    let recentScopeTandem = Tandem.ROOT;
     Tandem.PHET_IO_ENABLED && phet.phetio.phetioEngine.phetioStateEngine.stateSetEmitter.addListener(
-      ( state: PhetioState, scopeTandem: Tandem ) => { recentScopeTandem = scopeTandem; } );
-    isSettingPhetioStateProperty.lazyLink( isSettingPhetioState => {
-      if ( !isSettingPhetioState && recentScopeTandem !== Tandem.ROOT ) {
-        this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
-        recentScopeTandem = Tandem.ROOT;
-      }
-    } );
+      ( state: PhetioState, scopeTandem: Tandem ) => {
+        if ( scopeTandem !== Tandem.ROOT ) {
+          this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
+        }
+      } );
 
     this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
       tandem: surfaceTemperatureTandem.createTandem( 'surfaceThermometerVisibleProperty' ),
