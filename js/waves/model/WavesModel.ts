@@ -477,7 +477,7 @@ class WavesModel extends ConcentrationModel {
    * WavesModelIO handles PhET-iO serialization of the WavesModel.  This uses reference-type serialization since
    * instances of this type persist for the lifetime of the sim.
    */
-  public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject>( 'WavesModelIO', {
+  public static readonly WavesModelIO = new IOType<WavesModel, WavesModelStateObject, WavesModelSelfStateObject>( 'WavesModelIO', {
     valueType: WavesModel,
     supertype: ConcentrationModel.ConcentrationModelIO,
     stateSchema: {
@@ -491,10 +491,12 @@ class WavesModel extends ConcentrationModel {
   public static readonly WAVE_AMPLITUDE_FOR_RENDERING = WAVE_AMPLITUDE_FOR_RENDERING;
 }
 
-type WavesModelStateObject = {
+type WavesModelSelfStateObject = {
   cloudReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
   glacierReflectedWavesMap: MapStateObject<ReferenceIOState, ReferenceIOState>;
-} & ConcentrationModelStateObject;
+};
+
+type WavesModelStateObject = ConcentrationModelStateObject & WavesModelSelfStateObject;
 
 /**
  * Helper function for calculating an attenuation value that should be used in an atmospheric interaction based on the

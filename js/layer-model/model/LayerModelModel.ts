@@ -137,6 +137,8 @@ class LayerModelModel extends LayersModel {
   public static readonly LayerModelModelIO = new IOType<LayerModelModel, LayerModelModelStateObject>( 'LayerModelModelIO', {
     valueType: LayerModelModel,
     supertype: LayersModel.LayersModelIO,
+
+    // @ts-expect-error TODO: https://github.com/phetsims/greenhouse-effect/issues/362
     stateSchema: {}
   } );
 }

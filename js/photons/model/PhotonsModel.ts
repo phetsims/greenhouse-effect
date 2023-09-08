@@ -165,7 +165,7 @@ class PhotonsModel extends ConcentrationModel {
    * PhotonsModelIO handles PhET-iO serialization of the PhotonsModel using reference-type serialization.  This approach
    * is used because instances of this type exist for the lifetime of the sim.
    */
-  public static readonly PhotonsModelIO = new IOType<PhotonsModel, PhotonsModelStateObject>( 'PhotonsModelIO', {
+  public static readonly PhotonsModelIO = new IOType<PhotonsModel, PhotonsModelStateObject, PhotonsModelSelfStateObject>( 'PhotonsModelIO', {
     valueType: PhotonsModel,
     supertype: ConcentrationModel.ConcentrationModelIO,
     stateSchema: {
@@ -174,9 +174,10 @@ class PhotonsModel extends ConcentrationModel {
   } );
 }
 
-type PhotonsModelStateObject = {
+type PhotonsModelSelfStateObject = {
   cloudBounds: Bounds2StateObject;
-} & ConcentrationModelStateObject;
+};
+type PhotonsModelStateObject = PhotonsModelSelfStateObject & ConcentrationModelStateObject;
 
 greenhouseEffect.register( 'PhotonsModel', PhotonsModel );
 export type { PhotonModelOptions };
