@@ -87,7 +87,7 @@ class EMEnergyPacket {
         stateObject.altitude,
         EnumerationIO( EnergyDirection ).fromStateObject( stateObject.direction )
       );
-      emEnergyPacket.previousAltitude = stateObject.previousAltitude;
+      emEnergyPacket.previousAltitude = stateObject._previousAltitude;
       return emEnergyPacket;
     }
   } );
@@ -97,7 +97,7 @@ export type EMEnergyPacketStateObject = {
   wavelength: number;
   energy: number;
   altitude: number;
-  previousAltitude: number;
+  _previousAltitude: number;
   direction: EnergyDirection;
 };
 
