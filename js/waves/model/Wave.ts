@@ -604,7 +604,7 @@ type WaveStateObject = {
   intensityAtStart: number;
   intensityChanges: WaveIntensityChangeStateObject[];
   modelObjectToAttenuatorMap: MapStateObject<ReferenceIOState, WaveAttenuatorStateObject>;
-  renderingWavelength: number;
+  _renderingWavelength: number;
 };
 
 greenhouseEffect.register( 'Wave', Wave );

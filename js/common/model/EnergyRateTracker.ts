@@ -54,8 +54,8 @@ class EnergyInfoQueueItem {
         _energy: NumberIO
       },
       fromStateObject: ( stateObject: EnergyInfoQueueItemStateObject ) => new EnergyInfoQueueItem(
-        stateObject.dt,
-        stateObject.energy
+        stateObject._dt,
+        stateObject._energy
       )
     } );
 }
@@ -167,8 +167,8 @@ type EnergyRateTrackerStateObject = {
  * for phet-io
  */
 type EnergyInfoQueueItemStateObject = {
-  dt: number;
-  energy: number;
+  _dt: number;
+  _energy: number;
 };
 
 greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
