@@ -17,9 +17,9 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import Utterance, { TAlertable } from '../../../../utterance-queue/js/Utterance.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import LayersModel from '../model/LayersModel.js';
@@ -27,12 +27,8 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-type SelfOptions = {
-  enabledProperty?: TReadOnlyProperty<boolean> | null;
-};
-export type GasConcentrationAlerterOptions = SelfOptions & AlerterOptions;
+export type GasConcentrationAlerterOptions = AlerterOptions;
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -101,9 +97,6 @@ class GasConcentrationAlerter extends Alerter {
   // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
   private describeTemperatureAsStabilizing = false;
 
-  // A boolean Property that can be provided via the options and that can be used to enable or disable alerts.
-  private enabledProperty: TReadOnlyProperty<boolean>;
-
   private readonly outgoingEnergyProperty: NumberProperty;
   private readonly incomingEnergyProperty: NumberProperty;
   private netEnergyProperty: TReadOnlyProperty<number>;
@@ -122,19 +115,13 @@ class GasConcentrationAlerter extends Alerter {
 
   public constructor( model: ConcentrationModel, providedOptions?: GasConcentrationAlerterOptions ) {
 
-    const options = optionize<GasConcentrationAlerterOptions, SelfOptions, AlerterOptions>()( {
+    const options = optionize<GasConcentrationAlerterOptions, EmptySelfOptions, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
-      alertToVoicing: false,
-
-      // This is set to null by default, and if no value is provided, the code below will create an enabledProperty.
-      enabledProperty: null
+      alertToVoicing: false
     }, providedOptions );
 
     super( options );
-
-    // Use the provided enabledProperty or create one that is always true.
-    this.enabledProperty = options.enabledProperty || new BooleanProperty( true );
 
     this.model = model;
     this.useVerboseSurfaceTemperatureAlert = true;
@@ -251,16 +238,6 @@ class GasConcentrationAlerter extends Alerter {
       this.model.surfaceTemperatureKelvinProperty.value,
       TEMPERATURE_DECIMAL_PLACES
     );
-  }
-
-  /**
-   * The `alert` function is overridden so that we can check whether this component is enabled before performing the
-   * alert.
-   */
-  public override alert( alertable: TAlertable ): void {
-    if ( this.enabledProperty.value ) {
-      super.alert( alertable );
-    }
   }
 
   /**
