@@ -15,7 +15,6 @@ import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import GreenhouseEffectPreferencesNode from './common/view/GreenhouseEffectPreferencesNode.js';
-import GreenhouseEffectPreferences from './common/model/GreenhouseEffectPreferences.js';
 
 const greenhouseEffectTitleStringProperty = GreenhouseEffectStrings[ 'greenhouse-effect' ].titleStringProperty;
 
@@ -38,10 +37,7 @@ const simOptions: SimOptions = {
       customPreferences: [ {
         createContent: tandem => new GreenhouseEffectPreferencesNode( {
           tandem: tandem.createTandem( 'simPreferences' )
-        } ),
-        modelLinkables: [
-          { property: GreenhouseEffectPreferences.defaultTemperatureUnitsProperty }
-        ]
+        } )
       } ]
     }
   } ),
