@@ -1,10 +1,10 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * PhotonEmissionSoundGenerator is a sound generator that produces sounds when photons are emitted.  Photons that are
- * emitted from one area in the model use one set of sounds, since they are meant to convey the initial emission from
- * the lamps or other emitters, and those emitted from another position use a different set of sounds, since they are
- * emitted by a molecule that had previously absorbed a photon.
+ * PhotonEmissionSoundGenerator is a sound generator that produces sounds when photons are emitted in the model.
+ * Photons that are emitted from one area in the model use one set of sounds, since they are meant to convey the initial
+ * emission from the lamps or other emitters, and those emitted from another position use a different set of sounds,
+ * since they are emitted by a molecule that had previously absorbed a photon.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -97,13 +97,13 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
       soundManager.addSoundGenerator( soundPlayer );
     } );
 
-    // listen for new photons and play sounds or set them up to be played later when appropriate
+    // Listen for new photons and play sounds or set them up to be played later when appropriate.
     photonGroup.elementCreatedEmitter.addListener( photon => {
       const photonXPosition = photon.positionProperty.value.x;
 
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {
 
-        // this photon was just emitted from the active molecule, so play the appropriate emission sound
+        // This photon was just emitted from the active molecule, so play the appropriate emission sound.
         photonEmissionFromMoleculeSoundPlayersMap.get( photon.wavelength ).play();
       }
       else {
