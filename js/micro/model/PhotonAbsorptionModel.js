@@ -79,12 +79,19 @@ class PhotonAbsorptionModel extends PhetioObject {
     this.photonAbsorptionModel = tandem; // @private
 
     // @private
-    this.photonGroup = new PhetioGroup( ( tandem, wavelength ) => new MicroPhoton( wavelength, { tandem: tandem } ), [ WavelengthConstants.IR_WAVELENGTH ], {
-      phetioType: PhetioGroup.PhetioGroupIO( MicroPhoton.PhotonIO ),
-      tandem: tandem.createTandem( 'photonGroup' )
-    } );
+    this.photonGroup = new PhetioGroup(
+      ( tandem, wavelength, initialPosition ) => new MicroPhoton(
+        wavelength,
+        { tandem: tandem, initialPosition: initialPosition }
+      ),
+      [ WavelengthConstants.IR_WAVELENGTH, Vector2.ZERO ],
+      {
+        phetioType: PhetioGroup.PhetioGroupIO( MicroPhoton.PhotonIO ),
+        tandem: tandem.createTandem( 'photonGroup' )
+      }
+    );
 
-    // @public - Property that indicating whether photons are being emitted from the photon emitter
+    // @public - Property that indicates whether photons are being emitted from the photon emitter
     this.photonEmitterOnProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'photonEmitterOnProperty' )
     } );
@@ -101,7 +108,7 @@ class PhotonAbsorptionModel extends PhetioObject {
       ]
     } );
 
-    // {Property.<PhotonTarget>}
+    // @public (read-only) {Property.<PhotonTarget>}
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
       phetioValueType: EnumerationIO( PhotonTarget ),
@@ -126,9 +133,10 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @public - convenience Property, indicating whether sim is running in slow motion
     this.slowMotionProperty = new DerivedProperty( [ this.timeSpeedProperty ], speed => speed === TimeSpeed.SLOW );
 
+    // @public {ObservableArrayDef<Molecule>} - molecules present and active in the model
     this.activeMolecules = createObservableArray( {
       tandem: tandem.createTandem( 'activeMolecules' ),
-      phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO ) // Elements are of type Molecule.
+      phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
     } );
 
     // @public (read-only) {Emitter} - emitter for when a photon is emitted from the emission point - useful in addition
@@ -253,6 +261,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     if ( this.photonEmissionCountdownTimer !== Number.POSITIVE_INFINITY ) {
       this.photonEmissionCountdownTimer -= dt;
       if ( this.photonEmissionCountdownTimer <= 0 ) {
+
         // Time to emit.
         this.emitPhoton( Math.abs( this.photonEmissionCountdownTimer ) );
         this.photonEmissionCountdownTimer = this.photonEmissionPeriodTarget;
@@ -342,12 +351,14 @@ class PhotonAbsorptionModel extends PhetioObject {
    * @public
    */
   emitPhoton( advanceAmount ) {
-    const photon = this.photonGroup.createNextElement( this.photonWavelengthProperty.get() );
-    photon.positionProperty.set( new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y ) );
+    const photon = this.photonGroup.createNextElement(
+      this.photonWavelengthProperty.get(),
+      new Vector2( PHOTON_EMISSION_POSITION.x + PHOTON_VELOCITY * advanceAmount, PHOTON_EMISSION_POSITION.y )
+    );
     const emissionAngle = 0; // Straight to the right.
     photon.setVelocity( PHOTON_VELOCITY * Math.cos( emissionAngle ), PHOTON_VELOCITY * Math.sin( emissionAngle ) );
 
-    // indicate that a photon has been emitted from the initial emission point
+    // Indicate that a photon has been emitted.
     this.photonEmittedEmitter.emit( photon );
   }
 
@@ -420,9 +431,9 @@ class PhotonAbsorptionModel extends PhetioObject {
    * @param {Tandem} tandem
    */
   updateActiveMolecule( photonTarget, tandem ) {
-    this.activeMolecules.forEach( molecule => { molecule.dispose(); } );
 
     // Remove the old photon target(s).
+    this.activeMolecules.forEach( molecule => { molecule.dispose(); } );
     this.activeMolecules.clear(); // Clear the old active molecules array
 
     // Add the new photon target(s).
@@ -451,10 +462,10 @@ class PhotonAbsorptionModel extends PhetioObject {
       this.targetMolecule = null;
 
       this.activeMolecules.remove( newMolecule );
+
       // Add the constituent molecules to the photonAbsorptionModel.
       this.activeMolecules.add( constituentMolecule1 );
       this.activeMolecules.add( constituentMolecule2 );
-
     } );
   }
 

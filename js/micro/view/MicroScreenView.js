@@ -257,7 +257,7 @@ class MicroScreenView extends ScreenView {
       photonAbsorptionModel.slowMotionProperty
     ) );
 
-    // add the sound generator that will produce the sounds when photons are emitted by the lamps or the active molecule
+    // Add the sound generator that will produce sounds when photons are emitted by the lamps or the active molecule.
     soundManager.addSoundGenerator( new PhotonEmissionSoundGenerator( photonAbsorptionModel.photonGroup ) );
   }
 

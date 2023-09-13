@@ -29,15 +29,15 @@ class MicroPhoton extends PhetioObject {
   constructor( wavelength, options ) {
 
     options = merge( {
+      initialPosition: Vector2.ZERO,
       tandem: Tandem.REQUIRED,
       phetioType: MicroPhoton.PhotonIO,
       phetioDynamicElement: true
     }, options );
 
-    // Photons in the play area are instrumented, those in the control panel (for icons) are not.
     super( options );
 
-    this.positionProperty = new Vector2Property( new Vector2( 0, 0 ), {
+    this.positionProperty = new Vector2Property( options.initialPosition, {
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
 

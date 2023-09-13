@@ -103,10 +103,12 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
 
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {
 
-        // This photon was just emitted from the active molecule, so play the appropriate emission sound.
+        // This photon was just emitted from the active molecule, so play the 'emitted from molecule' sound.
         photonEmissionFromMoleculeSoundPlayersMap.get( photon.wavelength ).play();
       }
       else {
+
+        // This photon was just emitted from a light source (e.g. a flashlight), so play the initial emission sound.
         photonInitialEmissionSoundPlayerMap.get( photon.wavelength ).play();
       }
     } );

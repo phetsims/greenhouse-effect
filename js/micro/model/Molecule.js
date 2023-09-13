@@ -530,12 +530,16 @@ class Molecule {
    * @param {number} wavelength - The photon to be emitted.
    **/
   emitPhoton( wavelength ) {
-    const photonToEmit = this.photonGroup.createNextElement( wavelength );
-    const emissionAngle = dotRandom.nextDouble() * Math.PI * 2;
-    photonToEmit.setVelocity( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
-      ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
     const centerOfGravityPosRef = this.centerOfGravityProperty.get();
-    photonToEmit.position = new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y );
+    const photonToEmit = this.photonGroup.createNextElement(
+      wavelength,
+      new Vector2( centerOfGravityPosRef.x, centerOfGravityPosRef.y )
+    );
+    const emissionAngle = dotRandom.nextDouble() * Math.PI * 2;
+    photonToEmit.setVelocity(
+      PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ),
+      ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) )
+    );
     this.absorptionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     this.photonEmittedEmitter.emit( photonToEmit );
   }
