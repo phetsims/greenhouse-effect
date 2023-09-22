@@ -1,3 +1,27 @@
+# Greenhouse Effect - Implementation Notes
+
+@author John Blanco
+
+This document contains notes related to the implementation of the "Greenhouse Effect" simulation. The intended audience
+is developers who need to make changes to or need to leverage the code. Such a need may arise if new features are added,
+or if bugs or usability issues are reported and need to be addressed. This document is intended to provide an overview
+of the simulation's architecture, a sort of "forest for the trees" view. The devil is, of course, in the details, and
+the code itself should be considered the "ground truth".
+
+The reader is encouraged to read
+the [model document](https://github.com/phetsims/greenhouse-effect/blob/main/doc/model.md) before proceeding if they
+haven't already done so.
+
+## Overview
+
+The Greenhouse Effect simulation is intended to demonstrate some of the basic science behind the means through which a
+planetary atmosphere captures heat from its host star.  The first two screens are intended to simulation the Earth, and
+the third screen simulates a more general situation where the intensity of the host start and the albedo (aka the
+reflectance) of the ground can be changed.  For the remainder of this section we will use the terms "sun", "ground", and
+"atmosphere" to describe the major components of the simulation.
+
+TODO: Pick it up here.  See https://github.com/phetsims/greenhouse-effect/issues/326.
+
 #TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
 See https://github.com/phetsims/greenhouse-effect/issues/19
 
