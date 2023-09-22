@@ -19,7 +19,6 @@ import LayersModel, { LayersModelOptions } from '../../common/model/LayersModel.
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
-import { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -131,18 +130,14 @@ class LayerModelModel extends LayersModel {
   }
 
   /**
-   * LayerModelModelIO is essentially stubbed because the parent classes handle the serialization for any of the non-
-   * default items.
+   * LayerModelModelIO is essentially stubbed because the parent classes handle the serialization for any of the
+   * non-default items.
    */
-  public static readonly LayerModelModelIO = new IOType<LayerModelModel, LayerModelModelStateObject>( 'LayerModelModelIO', {
+  public static readonly LayerModelModelIO = new IOType<LayerModelModel, ConcentrationModelStateObject>( 'LayerModelModelIO', {
     valueType: LayerModelModel,
     supertype: LayersModel.LayersModelIO
   } );
 }
-
-type LayerModelModelStateObject = {
-  cloudBounds: Bounds2StateObject;
-} & ConcentrationModelStateObject;
 
 greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
 export default LayerModelModel;
