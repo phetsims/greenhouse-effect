@@ -14,16 +14,51 @@ haven't already done so.
 
 ## Overview
 
-The Greenhouse Effect simulation is intended to demonstrate some of the basic science behind the means through which a
-planetary atmosphere captures heat from its host star.  The first two screens are intended to simulation the Earth, and
-the third screen simulates a more general situation where the intensity of the host start and the albedo (aka the
-reflectance) of the ground can be changed.  For the remainder of this section we will use the terms "sun", "ground", and
+The Greenhouse Effect simulation is intended to demonstrate some of the basic science through which a planetary
+atmosphere captures heat from its host star. The first two screens are intended to simulate the Earth and the third
+screen simulates a more general situation where the intensity of the host star and the albedo (aka the reflectance) of
+the ground can be changed. For the remainder of this section we will use the terms "sun", "ground", and
 "atmosphere" to describe the major components of the simulation.
 
-TODO: Pick it up here.  See https://github.com/phetsims/greenhouse-effect/issues/326.
+## General Considerations
 
-#TODO: Need notes for Waves, Photons, and Model screen. Existing content taken from Molecules and Light
-See https://github.com/phetsims/greenhouse-effect/issues/19
+This section describes how this sim addresses implementation considerations that are typically encountered in PhET sims.
+
+**Model-View Architecture**
+
+This sim uses a model-view architecture, as is the general practice in all PhET simulations where this makes sense.  The
+units of distance in the model are kilometers, and this is projected into the view using a model-view controller.  Below
+are some specifics on the common elements of the model and the view.
+
+**Model**
+
+In all three screens the "layer model" of an atmosphere is used to model the way in which energy is captured in an
+atmosphere.  In this mode there are multiple layers in the atmosphere that do not interact with visible light but that
+absorb and then re-radiate infrared light.  This is, broadly speaking, similar to how greenhouse gasses such as carbon
+dioxide interact with visible and infrared light, i.e. they have little interaction with visible light but absorb and
+re-emit infrared.  This is also similar to how glass behaves, so the model can be thought of as a set of layers of glass
+that are parallel to the ground and that are spaced at equal distances through the atmosphere, and the absorbance of
+these layers varies.  In the first two screens these layers are invisible to the user and the absorbance is set based
+on the concentration of greenhouse gasses.  In the third screen the user has explicit control over the number of layers
+and their absorbance.
+
+The absorbance and re-emission of infrared energy in the individual layers is calculated using the Stefan-Boltzmann
+equation. For additional information on the nature of this equation and models based on it, please see
+https://brian-rose.github.io/ClimateLaboratoryBook/courseware/elementary-greenhouse.html.
+
+The design of the model code makes significant use of inheritance.  There is a base class for all models called
+`GreenhouseEffectModel`.  This is extended by `LayersModel` where the layers and their interactions are defined.  Below
+this in the inheritance hierarchy is a split into the `ConcentrationModel`, which is further extended for the first two
+screens, and `LayerModelModel`, which is the model for the third screen.
+
+The `LayersModel` uses instances of the `EMEnergyPacket` class to model the movement of electromagnetic energy through
+the atmosphere.  These can be thought of as very larger photons, and they only move directly up or directly down, which
+is somewhat in contrast to what the user sees in terms of the motion of the waves and photons.  This is done to keep
+things simple and consistent in the behavior of the model.
+
+**View**
+
+TODO: Pick it up here.  See https://github.com/phetsims/greenhouse-effect/issues/326.
 
 # General Notes on the Layer-Based Model
 
