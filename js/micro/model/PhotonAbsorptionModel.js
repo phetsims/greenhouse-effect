@@ -8,8 +8,8 @@
  * picometers (10E-12 meters).
  *
  * The basic idea for this model is that there is some sort of photon emitter that emits photons, and some sort of
- * photon target that could potentially some of the emitted photons and react in some way.  In many cases, the photon
- * target can re-emit one or more photons after absorption.
+ * photon target that could potentially absorb some of the emitted photons and react in some way.  In many cases, the
+ * photon target can re-emit one or more photons after absorption.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
@@ -43,7 +43,7 @@ import O3 from './molecules/O3.js';
 import PhotonTarget from './PhotonTarget.js';
 import WavelengthConstants from './WavelengthConstants.js';
 
-// ------- constants -------------
+// constants
 
 // constants that control where and how photons are emitted.
 const PHOTON_EMISSION_POSITION = new Vector2( -1350, 0 );
@@ -69,7 +69,6 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Constructor for a photon absorption model.
-   *
    * @param {PhotonTarget} initialPhotonTarget - Initial molecule which the photon gets fired at.
    * @param {Tandem} tandem
    */
@@ -175,7 +174,6 @@ class PhotonAbsorptionModel extends PhetioObject {
     this.photonEmissionPeriodTarget = DEFAULT_PHOTON_EMISSION_PERIOD; // @private
   }
 
-
   /**
    * Reset the model to its initial state.
    * @public
@@ -219,9 +217,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Advance the molecules one step in time.  Called by the animation loop.
-   * @public
-   *
    * @param {number} dt - The incremental time step.
+   * @public
    */
   step( dt ) {
 
@@ -252,9 +249,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Check if it is time to emit any photons from the photon emitter.
-   * @public
-   *
    * @param {number} dt - the incremental time step, in seconds
+   * @public
    */
   checkEmissionTimer( dt ) {
 
@@ -279,9 +275,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Step the photons in time.
-   * @public
-   *
    * @param {number} dt - the incremental times step, in seconds
+   * @public
    */
   stepPhotons( dt ) {
     const photonsToRemove = [];
@@ -303,17 +298,9 @@ class PhotonAbsorptionModel extends PhetioObject {
   }
 
   /**
-   * @public
-   */
-  clearPhotons() {
-    this.photonGroup.clear();
-  }
-
-  /**
    * Step the molecules one step in time.
-   * @public
-   *
    * @param {number} dt - The incremental time step.
+   * @public
    */
   stepMolecules( dt ) {
     const moleculesToStep = this.activeMolecules.slice( 0 );
@@ -324,9 +311,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Step one frame manually.
-   * @public
-   *
    * @param {number} dt - time to step forward the model by, in seconds
+   * @public
    */
   manualStep( dt ) {
 
@@ -343,8 +329,8 @@ class PhotonAbsorptionModel extends PhetioObject {
   }
 
   /**
-   * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target,
-   * which will decide whether a given photon should be absorbed.
+   * Cause a photon to be emitted from the emission point.  Emitted photons will travel toward the photon target, which
+   * will decide whether a given photon should be absorbed.
    * @param advanceAmount - amount of time that the photon should be "advanced" from its starting position.  This
    * makes it possible to make the emission stream look more constant in cases where there was a long delay between
    * frames.
@@ -364,9 +350,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Set the wavelength of the photon to be emitted if desired frequency is not equal to the current value.
-   * @public
-   *
    * @param {number} freq
+   * @public
    */
   setEmittedPhotonWavelength( freq ) {
     if ( this.photonWavelengthProperty.get() !== freq ) {
@@ -377,9 +362,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Get the emission position for this photonAbsorptionModel.  Useful when other models need access to this position.
-   * @public
-   *
    * @returns {Vector2}
+   * @public
    */
   getPhotonEmissionPosition() {
     return PHOTON_EMISSION_POSITION;
@@ -387,9 +371,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Set the emission period, i.e. the time between photons.
-   * @public
-   *
    * @param {number} photonEmissionPeriod - Period between photons in milliseconds.
+   * @public
    */
   setPhotonEmissionPeriod( photonEmissionPeriod ) {
 
@@ -423,12 +406,11 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   /**
    * Update the active molecule to the current photon target.  Clear the old array of active molecules, create a new
-   * molecule, and then add it to the active molecules array.  Add listeners to the molecule that check for when
-   * the molecule should emit a photon or break apart into constituents.
-   * @public
-   *
+   * molecule, and then add it to the active molecules array.  Add listeners to the molecule that check for when the
+   * molecule should emit a photon or break apart into constituents.
    * @param {PhotonTarget} photonTarget - The string constant which represents the desired photon target.
    * @param {Tandem} tandem
+   * @public
    */
   updateActiveMolecule( photonTarget, tandem ) {
 
@@ -470,22 +452,11 @@ class PhotonAbsorptionModel extends PhetioObject {
   }
 
   /**
-   * Get the active molecules in this photonAbsorption model.  Returns a new array object holding those molecules.
-   * @public
-   *
-   * @returns {Array.<Molecule>} activeMolecules
-   */
-  getMolecules() {
-    return this.activeMolecules.slice( 0 );
-  }
-
-  /**
    * Returns true if this model still contains both of the constituent molecules provided after a break apart.
-   * @public
-   *
    * @param {Molecule} moleculeA
    * @param {Molecule} moleculeB
    * @returns {boolean}
+   * @public
    */
   hasBothConstituentMolecules( moleculeA, moleculeB ) {
     return this.activeMolecules.includes( moleculeA ) && this.activeMolecules.includes( moleculeB );
