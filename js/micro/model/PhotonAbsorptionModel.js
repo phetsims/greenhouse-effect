@@ -111,7 +111,11 @@ class PhotonAbsorptionModel extends PhetioObject {
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
       phetioValueType: EnumerationIO( PhotonTarget ),
-      validValues: PhotonTarget.VALUES
+      validValues: PhotonTarget.VALUES,
+
+      // This model was written early in PhET's HTML years, well before we tried to design such that models were
+      // tolerant of changes to order dependencies.
+      hasListenerOrderDependencies: true
     } );
 
     // @public (read-only) {null|Molecule} - A reference to the current target molecule, determined from the
@@ -428,7 +432,7 @@ class PhotonAbsorptionModel extends PhetioObject {
       photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? new O3( { tandem: tandem.createTandem( 'O3' ) } ) :
       photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? new NO2( { tandem: tandem.createTandem( 'NO2' ) } ) :
       photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? new CH4( { tandem: tandem.createTandem( 'CH4' ) } ) :
-      assert && assert( false, 'unhandled photon target.' );
+      assert && assert( false, 'unhandled photon target' );
 
     this.targetMolecule = newMolecule;
     this.activeMolecules.add( newMolecule );
@@ -438,12 +442,11 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     // Break apart into constituent molecules.
     newMolecule.brokeApartEmitter.addListener( ( constituentMolecule1, constituentMolecule2 ) => {
+
       // Remove the molecule from the photonAbsorptionModel's list of active molecules.
-
-      newMolecule.dispose();
-      this.targetMolecule = null;
-
       this.activeMolecules.remove( newMolecule );
+      this.targetMolecule = null;
+      newMolecule.dispose();
 
       // Add the constituent molecules to the photonAbsorptionModel.
       this.activeMolecules.add( constituentMolecule1 );
