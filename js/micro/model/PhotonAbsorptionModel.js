@@ -114,7 +114,8 @@ class PhotonAbsorptionModel extends PhetioObject {
       validValues: PhotonTarget.VALUES,
 
       // This model was written early in PhET's HTML years, well before we tried to design such that models were
-      // tolerant of changes to order dependencies.
+      // tolerant of changes to order dependencies.  Without this value set to true we see CT failures, see
+      // https://github.com/phetsims/molecules-and-light/issues/394.
       hasListenerOrderDependencies: true
     } );
 
