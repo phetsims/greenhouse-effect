@@ -218,6 +218,11 @@
         "value": "Measure incoming and outgoing energy at top of atmosphere."
       }
     },
+    "fluxMeter": {
+      "helpText": {
+        "value": "Measure incoming and outgoing energy throughout atmosphere."
+      }
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."

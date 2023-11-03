@@ -58,7 +58,7 @@ class InstrumentVisibilityPanel extends Panel {
     }, providedOptions );
 
     // Create the utterance (for screen readers) that will be used by the energy balance checkbox.
-    const checkedUtterance = new Utterance();
+    const energyBalanceCheckedUtterance = new Utterance();
     Multilink.multilink(
       [
         model.netInflowOfEnergyProperty,
@@ -68,7 +68,7 @@ class InstrumentVisibilityPanel extends Panel {
       ( netInflowOfEnergy, inRadiativeBalance, sunIsShining ) => {
 
         if ( sunIsShining ) {
-          checkedUtterance.alert = StringUtils.fillIn(
+          energyBalanceCheckedUtterance.alert = StringUtils.fillIn(
             GreenhouseEffectStrings.a11y.energyBalanceCheckedPatternStringProperty,
             {
               checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty,
@@ -83,7 +83,7 @@ class InstrumentVisibilityPanel extends Panel {
 
           // If the sun isn't shining, don't include a description of the energy balance.  See
           // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-          checkedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty;
+          energyBalanceCheckedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty;
         }
       }
     );
@@ -103,8 +103,9 @@ class InstrumentVisibilityPanel extends Panel {
         options: {
 
           // pdom
+          accessibleName: GreenhouseEffectStrings.energyBalanceStringProperty,
           helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty,
-          checkedContextResponse: checkedUtterance,
+          checkedContextResponse: energyBalanceCheckedUtterance,
           uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
         },
         tandemName: 'energyBalanceCheckbox'
@@ -116,6 +117,12 @@ class InstrumentVisibilityPanel extends Panel {
       checkboxGroupItems.push( {
         createNode: () => new Text( GreenhouseEffectStrings.fluxMeter.titleStringProperty, textOptions ),
         property: model.fluxMeterVisibleProperty,
+        options: {
+
+          // pdom
+          accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
+          helpText: GreenhouseEffectStrings.a11y.fluxMeter.helpTextStringProperty
+        },
         tandemName: 'fluxMeterCheckbox'
       } );
     }

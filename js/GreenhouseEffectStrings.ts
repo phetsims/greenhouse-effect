@@ -110,6 +110,9 @@ type StringsType = {
     'energyBalance': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
+    'fluxMeter': {
+      'helpTextStringProperty': LocalizedStringProperty;
+    };
     'surfaceThermometer': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
