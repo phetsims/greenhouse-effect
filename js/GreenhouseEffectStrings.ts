@@ -113,6 +113,8 @@ type StringsType = {
     'fluxMeter': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
+    'fluxMeterUncheckedAlertStringProperty': LocalizedStringProperty;
+    'fluxMeterCheckedAlertStringProperty': LocalizedStringProperty;
     'surfaceThermometer': {
       'helpTextStringProperty': LocalizedStringProperty;
     };

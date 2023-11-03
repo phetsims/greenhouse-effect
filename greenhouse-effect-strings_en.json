@@ -223,6 +223,12 @@
         "value": "Measure incoming and outgoing energy throughout atmosphere."
       }
     },
+    "fluxMeterUncheckedAlert": {
+      "value": "Energy Flux hidden."
+    },
+    "fluxMeterCheckedAlert": {
+      "value": "Energy Flux added to Observation Window."
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."

@@ -121,7 +121,9 @@ class InstrumentVisibilityPanel extends Panel {
 
           // pdom
           accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
-          helpText: GreenhouseEffectStrings.a11y.fluxMeter.helpTextStringProperty
+          helpText: GreenhouseEffectStrings.a11y.fluxMeter.helpTextStringProperty,
+          checkedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty,
+          uncheckedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
         },
         tandemName: 'fluxMeterCheckbox'
       } );
