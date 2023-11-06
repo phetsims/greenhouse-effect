@@ -229,6 +229,9 @@
     "fluxMeterCheckedAlert": {
       "value": "Energy Flux added to Observation Window."
     },
+    "fluxMeterStateDescription": {
+      "value": "{{altitude}}, {{incomingSunlightAmount}} incoming sunlight and {{outgoingSunlightAmount}} outgoing sunlight. {{outgoingInfraredAmount}} outgoing infrared and {{incomingInfraredAmount}} incoming infrared."
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."
@@ -297,6 +300,29 @@
       },
       "max": {
         "value": "max"
+      }
+    },
+    "qualitativeAltitudeDescriptions": {
+      "nearSurface": {
+        "value": "near surface"
+      },
+      "veryLow": {
+        "value": "at very low altitude"
+      },
+      "low": {
+        "value": "at low altitude"
+      },
+      "moderate": {
+        "value": "at moderate altitude"
+      },
+      "high": {
+        "value": "at high altitude"
+      },
+      "veryHigh": {
+        "value": "at very high altitude"
+      },
+      "topOfAtmosphere": {
+        "value": "at top of the atmosphere"
       }
     },
     "amountOfPattern": {

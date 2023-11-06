@@ -41,6 +41,7 @@ import FluxSensor from '../model/FluxSensor.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import FluxMeterDescriber from './describers/FluxMeterDescriber.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -122,7 +123,12 @@ class FluxMeterNode extends Node {
     const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
       includeZoomButtons: false,
       visibleProperty: visibleProperty,
-      phetioFeatured: true
+      phetioFeatured: true,
+
+      // pdom
+      tagName: 'div',
+      labelTagName: 'h4',
+      labelContent: GreenhouseEffectStrings.fluxMeter.titleStringProperty
     }, providedOptions );
 
     super( options );
@@ -255,7 +261,7 @@ class FluxMeterNode extends Node {
       cueingArrowsNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
 
-    // create the panel
+    // Create the panel.
     this.fluxPanel = new Panel( content, {
       xMargin: FLUX_PANEL_X_MARGIN
     } );
@@ -314,6 +320,9 @@ class FluxMeterNode extends Node {
       sonificationLevel: SoundLevelEnum.EXTRA,
       associatedViewNode: this
     } );
+
+    // Hook up the state describer.
+    this.descriptionContent = FluxMeterDescriber.getFluxDescription();
 
     // Make some things available to the methods.
     this.isModelPlayingProperty = isPlayingProperty;
@@ -504,7 +513,7 @@ class EnergyFluxDisplay extends Node {
     return flux * this.fluxToArrowLengthMultiplierProperty.value;
   }
 
-  private static createDisplayArrowNode( boundsRectangle: Rectangle, options: ArrowNodeOptions ) : ArrowNode {
+  private static createDisplayArrowNode( boundsRectangle: Rectangle, options: ArrowNodeOptions ): ArrowNode {
 
     // Create an arrow node with no length that is positioned in the center of the provided bounds rectangle.  Other
     // code will set the tip to different values to indicate a magnitude.
