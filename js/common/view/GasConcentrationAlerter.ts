@@ -285,7 +285,7 @@ class GasConcentrationAlerter extends Alerter {
       ) );
     }
 
-    // Now alert "periodic" changes. These are update that are only described every ALERT_INTERVAL.
+    // Now alert "periodic" changes. These are updates that are only described every ALERT_INTERVAL.
     // "periodic" alerts will only progress if the model is currently stepping as well
     if ( this.model.isPlayingProperty.value ) {
       this.timeSinceLastAlert += dt;
