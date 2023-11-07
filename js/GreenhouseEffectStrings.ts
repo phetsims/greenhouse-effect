@@ -116,6 +116,7 @@ type StringsType = {
     'fluxMeterUncheckedAlertStringProperty': LocalizedStringProperty;
     'fluxMeterCheckedAlertStringProperty': LocalizedStringProperty;
     'fluxMeterStateDescriptionStringProperty': LocalizedStringProperty;
+    'fluxMeterAltitudeStringProperty': LocalizedStringProperty;
     'surfaceThermometer': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
@@ -138,11 +139,15 @@ type StringsType = {
     'qualitativeAmountDescriptions': {
       'noStringProperty': LocalizedStringProperty;
       'extremelyLowStringProperty': LocalizedStringProperty;
+      'exceptionallyLowStringProperty': LocalizedStringProperty;
       'veryLowStringProperty': LocalizedStringProperty;
       'lowStringProperty': LocalizedStringProperty;
+      'somewhatLowStringProperty': LocalizedStringProperty;
       'moderateStringProperty': LocalizedStringProperty;
+      'somewhatHighStringProperty': LocalizedStringProperty;
       'highStringProperty': LocalizedStringProperty;
       'veryHighStringProperty': LocalizedStringProperty;
+      'exceptionallyHighStringProperty': LocalizedStringProperty;
       'extremelyHighStringProperty': LocalizedStringProperty;
       'maxStringProperty': LocalizedStringProperty;
     };

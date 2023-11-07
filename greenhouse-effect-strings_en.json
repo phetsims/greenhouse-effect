@@ -232,6 +232,9 @@
     "fluxMeterStateDescription": {
       "value": "{{altitude}}, {{incomingSunlightAmount}} incoming sunlight and {{outgoingSunlightAmount}} outgoing sunlight. {{outgoingInfraredAmount}} outgoing infrared and {{incomingInfraredAmount}} incoming infrared."
     },
+    "fluxMeterAltitude": {
+      "value": "Flux Meter Altitude"
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."
@@ -280,20 +283,32 @@
       "extremelyLow": {
         "value": "extremely low"
       },
+      "exceptionallyLow": {
+        "value": "exceptionally high"
+      },
       "veryLow": {
         "value": "very low"
       },
       "low": {
         "value": "low"
       },
+      "somewhatLow": {
+        "value": "somewhat low"
+      },
       "moderate": {
         "value": "moderate"
+      },
+      "somewhatHigh": {
+        "value": "somewhat high"
       },
       "high": {
         "value": "high"
       },
       "veryHigh": {
         "value": "very high"
+      },
+      "exceptionallyHigh": {
+      "value": "exceptionally high"
       },
       "extremelyHigh": {
         "value": "extremely high"

@@ -41,7 +41,8 @@ import FluxSensor from '../model/FluxSensor.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import FluxMeterDescriber from './describers/FluxMeterDescriber.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import LayersModel from '../model/LayersModel.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -322,7 +323,140 @@ class FluxMeterNode extends Node {
     } );
 
     // Hook up the state describer.
-    this.descriptionContent = FluxMeterDescriber.getFluxDescription();
+    const mapValueToString = ( value: number,
+                               thresholdsToStringsMap: Map<number, TReadOnlyProperty<string>>,
+                               thresholdIsInclusive = false ) => {
+
+      const sortedThresholds = _.sortBy( Array.from( thresholdsToStringsMap.keys() ) );
+      let result = thresholdsToStringsMap.get( sortedThresholds[ sortedThresholds.length - 1 ] )!.value;
+      for ( const threshold of sortedThresholds ) {
+        if ( ( !thresholdIsInclusive && value < threshold ) || ( thresholdIsInclusive && value <= threshold ) ) {
+          result = thresholdsToStringsMap.get( threshold )!.value;
+          break;
+        }
+      }
+      return result;
+    };
+
+    const mapOfThresholdsToAltitudeStrings = new Map(
+      [
+        [
+          LayersModel.HEIGHT_OF_ATMOSPHERE * 0.05,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.nearSurfaceStringProperty
+        ],
+        [
+          LayersModel.HEIGHT_OF_ATMOSPHERE * 0.2,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.veryLowStringProperty
+        ],
+        [
+          LayersModel.HEIGHT_OF_ATMOSPHERE * 0.4,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.lowStringProperty
+        ],
+        [
+          LayersModel.HEIGHT_OF_ATMOSPHERE * 0.6,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.moderateStringProperty
+        ],
+        [
+          LayersModel.HEIGHT_OF_ATMOSPHERE * 0.8,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.highStringProperty
+        ],
+        [
+          model.fluxSensor.altitudeProperty.rangeProperty.value.max,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.veryHighStringProperty
+        ],
+        [
+          Number.MAX_VALUE,
+          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.topOfAtmosphereStringProperty
+        ]
+      ]
+    );
+
+    const mapOfThresholdsToEnergyFluxStrings = new Map(
+      [
+        [
+          0,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty
+        ],
+        [
+          2E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty
+        ],
+        [
+          3E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty
+        ],
+        [
+          5E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty
+        ],
+        [
+          10E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty
+        ],
+        [
+          15E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty
+        ],
+        [
+          20E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty
+        ],
+        [
+          25E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty
+        ],
+        [
+          30E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty
+        ],
+        [
+          35E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty
+        ],
+        [
+          80E6,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty
+        ],
+        [
+          Number.MAX_VALUE,
+          GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty
+        ]
+      ]
+    );
+
+    const fluxMeterDescriptionProperty = new PatternStringProperty(
+      GreenhouseEffectStrings.a11y.fluxMeterStateDescriptionStringProperty,
+      {
+        altitude: new DerivedProperty(
+          [ model.fluxSensor.altitudeProperty ],
+          altitude => mapValueToString( altitude, mapOfThresholdsToAltitudeStrings )
+        ),
+        incomingSunlightAmount: new DerivedProperty(
+          [ model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty ],
+          energyRate => mapValueToString( energyRate, mapOfThresholdsToEnergyFluxStrings, true )
+        ),
+        // incomingSunlightAmount: new DerivedProperty(
+        //   [ model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty ],
+        //   energyRate => {
+        //     console.log( `energyRate = ${energyRate}` );
+        //     return mapValueToString( energyRate, mapOfThresholdsToEnergyFluxStrings, true );
+        //   }
+        // ),
+        outgoingSunlightAmount: new DerivedProperty(
+          [ model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty ],
+          energyRate => mapValueToString( energyRate, mapOfThresholdsToEnergyFluxStrings, true )
+        ),
+        incomingInfraredAmount: new DerivedProperty(
+          [ model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty ],
+          energyRate => mapValueToString( energyRate, mapOfThresholdsToEnergyFluxStrings, true )
+        ),
+        outgoingInfraredAmount: new DerivedProperty(
+          [ model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty ],
+          energyRate => mapValueToString( energyRate, mapOfThresholdsToEnergyFluxStrings, true )
+        )
+      }
+    );
+    fluxMeterDescriptionProperty.link( description => { this.descriptionContent = description; } );
 
     // Make some things available to the methods.
     this.isModelPlayingProperty = isPlayingProperty;
@@ -551,6 +685,7 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       enabledRangeProperty: fluxSensorAltitudeRangeProperty,
       keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 30,
       a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`,
+      accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
       phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
     }, providedOptions );
