@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * A describer that is responsible for generating description strings for the flux detected by the flux meter.
