@@ -43,7 +43,12 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
     this.addChild( greenhouseEffectObservationWindowPDOMNode );
 
     // pdom - order of contents in the PDOM for traversal and screen readers
-    this.pdomOrder = [ this.focusableHeadingNode, this.startSunlightButton, greenhouseEffectObservationWindowPDOMNode, this.energyBalancePanel ];
+    this.pdomOrder = [
+      this.focusableHeadingNode,
+      this.startSunlightButton,
+      greenhouseEffectObservationWindowPDOMNode,
+      this.energyBalancePanel
+    ];
   }
 }
 

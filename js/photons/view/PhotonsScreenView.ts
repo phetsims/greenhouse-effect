@@ -93,14 +93,13 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     greenhouseGasConcentrationPanel.leftTop = this.energyLegend.leftBottom.plusXY( 0, 10 );
 
-    // pdom - override the pdomOrders for the supertype to insert subtype components
+    // pdom - override the pdomOrders for the supertype to insert subtype components in the desired order
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
       greenhouseGasConcentrationPanel,
       observationWindow.surfaceThermometer,
       observationWindow.instrumentVisibilityPanel,
-      observationWindow.fluxMeterNode,
       cloudCheckbox
     ];
     this.pdomControlAreaNode.pdomOrder = [

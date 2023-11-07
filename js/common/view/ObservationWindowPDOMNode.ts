@@ -1,10 +1,9 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * A Node that supports Interactive Description for the observation window, with PDOM structure and
- * descriptions for the state of the simulation.
+ * A Node that supports Interactive Description for the observation window, with PDOM structure and descriptions for the
+ * state of the simulation.
  *
- * NOTE: This is in active development, it is a work in progress.
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 

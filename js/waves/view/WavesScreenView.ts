@@ -127,7 +127,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     this.infraredWavesSoundGenerator = new InfraredWavesSoundGenerator( model, this );
     soundManager.addSoundGenerator( this.infraredWavesSoundGenerator, { associatedViewNode: this } );
 
-    // pdom - override the pdomOrders for the supertype to insert subtype components
+    // pdom - override the pdomOrders for the supertype to insert subtype components in the desired order
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
