@@ -123,6 +123,7 @@ type StringsType = {
     'showSurfaceTemperature': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
+    'surfaceTemperatureScaleHiddenStringProperty': LocalizedStringProperty;
     'historicalRelativeDescriptions': {
       'highStringProperty': LocalizedStringProperty;
       'moderateStringProperty': LocalizedStringProperty;

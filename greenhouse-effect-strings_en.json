@@ -245,6 +245,9 @@
         "value": "Describe temperature on a scale."
       }
     },
+    "surfaceTemperatureScaleHidden": {
+        "value": "Surface temperature scale hidden."
+    },
     "historicalRelativeDescriptions": {
       "high": {
         "value": "historically high"
