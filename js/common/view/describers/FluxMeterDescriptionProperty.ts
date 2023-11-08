@@ -109,6 +109,7 @@ class FluxMeterDescriptionProperty extends StringProperty {
 
     super( '' );
 
+    // Monitor the provided Properties and update the value of the string.
     Multilink.multilink(
       [
         fluxMeterModel.fluxSensor.altitudeProperty,
