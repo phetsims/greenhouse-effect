@@ -82,6 +82,9 @@ class GasConcentrationAlerter extends Alerter {
   // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
   private timeSinceLastAlert: number;
 
+  // The elapsed time from the model during this alerter's last update.
+  private previousElapsedModelTime = 0;
+
   // The number of times that the temperature change alert has been announced. Whenever the concentration value changes
   // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
   // verbose temperature description is used. Otherwise, a very terse alert is used. This is an attempt to reduce how
@@ -285,12 +288,11 @@ class GasConcentrationAlerter extends Alerter {
       ) );
     }
 
-    // Now alert "periodic" changes. These are updates that are only described every ALERT_INTERVAL.
-    // "periodic" alerts will only progress if the model is currently stepping as well
-    if ( this.model.isPlayingProperty.value ) {
-      this.timeSinceLastAlert += dt;
-    }
+    // Calculate the time since the last alert based on the time experienced by the model.  There is no need to do
+    // alerts if the model hasn't changed.
+    this.timeSinceLastAlert += Math.max( this.model.totalElapsedTime - this.previousElapsedModelTime, 0 );
 
+    // If it's time, make the periodic alerts.
     if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
       const previousControlModeFromPeriodState = this.previousPeriodicNotificationModelState.concentrationControlMode;
       const currentTemperature = this.getCurrentTemperature();
@@ -380,6 +382,7 @@ class GasConcentrationAlerter extends Alerter {
       this.timeSinceLastAlert = 0;
     }
 
+    this.previousElapsedModelTime = this.model.totalElapsedTime;
     this.saveImmediateNotificationModelState();
   }
 

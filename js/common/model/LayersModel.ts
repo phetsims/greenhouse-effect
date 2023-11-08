@@ -104,6 +104,9 @@ class LayersModel extends GreenhouseEffectModel {
   // used to track how much stepping of the model needs to occur
   private modelSteppingTime: number;
 
+  // the total elapsed time that has been modeled, in seconds
+  public totalElapsedTime = 0;
+
   // model of a meter that can measure the energy flux moving through the atmosphere
   public readonly fluxMeter: FluxMeter | null;
 
@@ -315,6 +318,9 @@ class LayersModel extends GreenhouseEffectModel {
 
   public override stepModel( dt: number ): void {
 
+    // Update the total time that this model has experienced.
+    this.totalElapsedTime += dt;
+
     // Step the model components by a consistent dt in order to avoid instabilities in the layer interactions.  See
     // https://github.com/phetsims/greenhouse-effect/issues/48 for information on why this is necessary.
     this.modelSteppingTime += dt;
@@ -371,6 +377,7 @@ class LayersModel extends GreenhouseEffectModel {
   public override reset(): void {
     super.reset();
 
+    this.totalElapsedTime = 0;
     this.netInflowOfEnergyProperty.reset();
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
