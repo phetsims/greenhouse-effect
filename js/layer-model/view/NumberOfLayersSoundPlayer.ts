@@ -39,7 +39,7 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
       new SoundClip( threeAbsorbingLayers_mp3 )
     ];
 
-    // Hook up the sounds to this sound generator's master gain node
+    // Hook up the sounds to this sound generator's main gain node
     this.layerSoundClips.forEach( clip => { clip.connect( this.mainGainNode ); } );
   }
 
