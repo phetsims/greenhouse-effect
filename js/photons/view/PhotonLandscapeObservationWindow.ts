@@ -14,6 +14,7 @@ import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '.
 import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PhotonsLandscapeObservationWindowPDOMNode from './PhotonsLandscapeObservationWindowPDOMNode.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PhotonLandscapeObservationWindowOptions =
@@ -30,6 +31,10 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // Add the node that will render the photons.
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
+
+    // pdom - manages descriptions for the observation window
+    const observationWindowPDOMNode = new PhotonsLandscapeObservationWindowPDOMNode( model );
+    this.addChild( observationWindowPDOMNode );
 
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );

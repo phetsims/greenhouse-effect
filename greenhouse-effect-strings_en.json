@@ -240,6 +240,15 @@
         "value": "Measure Earth’s surface temperature."
       }
     },
+    "carbonDioxidePPMPattern": {
+      "value": "Carbon dioxide {{value}} parts per million"
+    },
+    "methanePPMPattern": {
+      "value": "Methane {{value}} parts per billion"
+    },
+    "nitrousOxidePPMPattern": {
+      "value": "Nitrous oxide {{value}} parts per billion"
+    },
     "showSurfaceTemperature": {
       "helpText": {
         "value": "Describe temperature on a scale."
@@ -566,6 +575,29 @@
     "photons": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with photon representation."
+      },
+      "observationWindow": {
+        "sunlightPhotonsDescription": {
+          "value": "Sunlight photons travel from space to surface."
+        },
+        "cloudReflectionDescription": {
+          "value": "Cloud reflects some sunlight back into space."
+        },
+        "sunlightDescriptionPattern": {
+          "value": "{{sunlightDescription}} {{reflectionDescription}}"
+        },
+        "incomingInfraredPattern": {
+          "value": "A {{incomingAmountDescription}} amount of infrared photons emit from surface and travel to space."
+        },
+        "outgoingInfraredPattern": {
+          "value": "{{outgoingAmountDescription}} proportion of infrared photons are redirecting back to surface."
+        },
+        "infraredDescriptionPattern": {
+          "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
+        },
+        "photonDensityDescription": {
+          "value": "Higher density of infrared photons near surface."
+        }
       }
     },
     "sunlightWavesTravelFromSpace": {

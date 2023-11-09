@@ -120,6 +120,9 @@ type StringsType = {
     'surfaceThermometer': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
+    'carbonDioxidePPMPatternStringProperty': LocalizedStringProperty;
+    'methanePPMPatternStringProperty': LocalizedStringProperty;
+    'nitrousOxidePPMPatternStringProperty': LocalizedStringProperty;
     'showSurfaceTemperature': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
@@ -243,6 +246,15 @@ type StringsType = {
     'observationWindowTimePeriodPatternStringProperty': LocalizedStringProperty;
     'photons': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'observationWindow': {
+        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
+        'cloudReflectionDescriptionStringProperty': LocalizedStringProperty;
+        'sunlightDescriptionPatternStringProperty': LocalizedStringProperty;
+        'incomingInfraredPatternStringProperty': LocalizedStringProperty;
+        'outgoingInfraredPatternStringProperty': LocalizedStringProperty;
+        'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
+        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
+      }
     };
     'sunlightWavesTravelFromSpaceStringProperty': LocalizedStringProperty;
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;

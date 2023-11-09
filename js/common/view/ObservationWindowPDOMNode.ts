@@ -12,15 +12,7 @@ import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
-// constants
-const ITEM_NODE_OPTIONS = { tagName: 'li' };
-
 class ObservationWindowPDOMNode extends Node {
-  protected skyItemNode: Node;
-  protected concentrationItemNode: Node;
-  protected sunlightWavesItemNode: Node;
-  protected infraredWavesItemNode: Node;
-  protected surfaceTemperatureItemNode: Node;
 
   protected constructor( sunIsShiningProperty: TReadOnlyProperty<boolean> ) {
     super( {
@@ -28,25 +20,12 @@ class ObservationWindowPDOMNode extends Node {
       tagName: 'ul'
     } );
 
-    const sunlightItemNode = new Node( ITEM_NODE_OPTIONS );
-    this.concentrationItemNode = new Node( ITEM_NODE_OPTIONS );
-    this.skyItemNode = new Node( ITEM_NODE_OPTIONS );
-    this.sunlightWavesItemNode = new Node( ITEM_NODE_OPTIONS );
-    this.infraredWavesItemNode = new Node( ITEM_NODE_OPTIONS );
-    this.surfaceTemperatureItemNode = new Node( ITEM_NODE_OPTIONS );
-
-    this.children = [
-      sunlightItemNode,
-      this.concentrationItemNode,
-      this.skyItemNode,
-      this.sunlightWavesItemNode,
-      this.infraredWavesItemNode,
-      this.surfaceTemperatureItemNode
-    ];
+    const sunShiningItemNode = new Node( { tagName: 'li' } );
+    this.addChild( sunShiningItemNode );
 
     sunIsShiningProperty.link( ( isShining: boolean ) => {
       const descriptionString = isShining ? 'on' : 'off';
-      sunlightItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
+      sunShiningItemNode.innerContent = StringUtils.fillIn( 'The sunlight is {{sunDescription}}.', {
         sunDescription: descriptionString
       } );
     } );
