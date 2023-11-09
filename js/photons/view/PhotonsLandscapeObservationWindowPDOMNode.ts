@@ -18,6 +18,8 @@ import ConcentrationDescriber from '../../common/view/describers/ConcentrationDe
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
 
@@ -55,11 +57,10 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     // The density item is requested to come before the surface temperature item
     this.insertChild( this.indexOfChild( this.surfaceTemperatureItemNode ), this.densityItemNode );
 
-    model.dateProperty.link( date => {
-      this.carbonDioxidePPMItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getGasDistributionDescription( 180, GreenhouseEffectStrings.a11y.carbonDioxidePPMPatternStringProperty );
-      this.methanePPMItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getGasDistributionDescription( 380, GreenhouseEffectStrings.a11y.methanePPMPatternStringProperty );
-      this.nitrousOxidePPMItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getGasDistributionDescription( 215, GreenhouseEffectStrings.a11y.nitrousOxidePPMPatternStringProperty );
-    } );
+    const gasConcentrations = new GreenhouseGasConcentrations( model.dateProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.carbonDioxideConcentrationProperty, this.carbonDioxidePPMItemNode, GreenhouseEffectStrings.a11y.carbonDioxidePPMPatternStringProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.methaneConcentrationProperty, this.methanePPMItemNode, GreenhouseEffectStrings.a11y.methanePPMPatternStringProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.nitrousOxideConcentrationProperty, this.nitrousOxidePPMItemNode, GreenhouseEffectStrings.a11y.nitrousOxidePPMPatternStringProperty );
 
     // Gas concentration descriptions are only visible when in time period mode.
     model.concentrationControlModeProperty.link( concentrationControlMode => {
@@ -103,6 +104,24 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
       ( controlMode, date, concentration, surfaceTemperature ) => {
         this.infraredItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getInfraredDescription( controlMode, date, concentration, surfaceTemperature );
       } );
+  }
+
+  /**
+   * Adds a listener to a NumberProperty representing the amount of a gas in the atmosphere to describe the new amount
+   * and set the description to the provided Node.
+   *
+   * "Carbon dioxide 180 parts per million"
+   *
+   * @param concentrationProperty - The property to listen to for changes in concentration
+   * @param ppmItemNode - The Node to set the description on
+   * @param patternStringProperty - The pattern string to use for the description
+   */
+  private static registerConcentrationListener( concentrationProperty: NumberProperty, ppmItemNode: Node, patternStringProperty: LocalizedStringProperty ): void {
+    concentrationProperty.link( concentration => {
+      ppmItemNode.innerContent = StringUtils.fillIn( patternStringProperty.value, {
+        value: concentration
+      } );
+    } );
   }
 
   /**
