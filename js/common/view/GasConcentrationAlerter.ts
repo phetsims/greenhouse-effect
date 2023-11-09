@@ -34,9 +34,11 @@ export type GasConcentrationAlerterOptions = AlerterOptions;
 const TEMPERATURE_DECIMAL_PLACES = 1;
 
 // in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
-const ALERT_INTERVAL = 4;
+const ALERT_INTERVAL_WHILE_PLAYING = 4;
+const ALERT_INTERVAL_WHILE_STEPPING = 1;
 
-// in seconds, how long to wait before the next alert after changing the concentration value
+// In seconds, how long to wait before the next alert after changing the concentration value.  This only applies when
+// model is playing, not when stepping.
 const ALERT_DELAY_AFTER_CHANGING_CONCENTRATION = 2;
 
 // How many times a terse temperature alert should be spoken before a verbose temperature alert is used. Note this
@@ -48,14 +50,16 @@ const NUMBER_OF_TERSE_TEMPERATURE_ALERTS = 2;
 // hold delay for most operating systems so that we don't get an initial change response when you first press down and
 // hold. This delay needs to be shorter than ALERT_DELAY_AFTER_CHANGING_CONCENTRATION or else the alerts could come
 // through in the wrong order.
-const delayAfterChangingDate = 1.5; // in seconds
-assert && assert( delayAfterChangingDate < ALERT_DELAY_AFTER_CHANGING_CONCENTRATION,
-  'delay will cause alerts to be out of order' );
+const ALERT_DELAY_AFTER_CHANGING_DATE = 1.5; // in seconds
+assert && assert(
+  ALERT_DELAY_AFTER_CHANGING_DATE < ALERT_DELAY_AFTER_CHANGING_CONCENTRATION,
+  'delay will cause alerts to be out of order'
+);
 const DATE_CHANGE_UTTERANCE_OPTIONS = {
-  alertStableDelay: delayAfterChangingDate * 1000 // UtteranceQueue uses ms
+  alertStableDelay: ALERT_DELAY_AFTER_CHANGING_DATE * 1000 // UtteranceQueue uses ms
 };
 
-// The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL.
+// The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL_WHILE_PLAYING.
 type PreviousPeriodicNotificationModelState = {
   temperature: number;
   concentration: number;
@@ -63,7 +67,7 @@ type PreviousPeriodicNotificationModelState = {
   netInflowOfEnergy: number;
 
   // This is in moth periodic and immediate state - when this changes we need to notify some information immediately
-  // and some information at the next ALERT_INTERVAL related to this change.
+  // and some information at the next ALERT_INTERVAL_WHILE_PLAYING related to this change.
   concentrationControlMode: ConcentrationControlMode;
 };
 
@@ -79,16 +83,16 @@ class GasConcentrationAlerter extends Alerter {
   // reference to the model, used in the methods
   private readonly model: ConcentrationModel;
 
-  // Time that has passed since last alert, when this equals ALERT_INTERVAL, a new alert is sent the UtteranceQueue.
+  // Time that has passed since last alert, when this equals ALERT_INTERVAL_WHILE_PLAYING, a new alert is sent the UtteranceQueue.
   private timeSinceLastAlert: number;
 
-  // The elapsed time from the model during this alerter's last update.
+  // The elapsed time from the model during the previous step of this alerter.
   private previousElapsedModelTime = 0;
 
   // The number of times that the temperature change alert has been announced. Whenever the concentration value changes
   // this count is reset. Every time this counter is an interval of NUMBER_OF_TERSE_TEMPERATURE_ALERTS, a more
   // verbose temperature description is used. Otherwise, a very terse alert is used. This is an attempt to reduce how
-  // much is spoken every ALERT_INTERVAL
+  // much is spoken every ALERT_INTERVAL_WHILE_PLAYING
   private temperatureChangeAlertCount: number;
 
   // When true, an extra verbose fragment about the surface temperature will be included. This will be true whenever
@@ -173,9 +177,15 @@ class GasConcentrationAlerter extends Alerter {
       this.useVerboseSurfaceTemperatureAlert = true;
       this.temperatureChangeAlertCount = 0;
 
-      // after changing concentration, we should quickly hear content instead of waiting the full ALERT_INTERVAL
-      this.timeSinceLastAlert = ALERT_INTERVAL - ALERT_DELAY_AFTER_CHANGING_CONCENTRATION;
-      assert && assert( this.timeSinceLastAlert >= 0, 'setting timing variable to a negative value, your interval values need adjusting' );
+      if ( model.isPlayingProperty.value ) {
+
+        // After changing concentration, we should quickly hear content instead of waiting the full alert interval.
+        this.timeSinceLastAlert = ALERT_INTERVAL_WHILE_PLAYING - ALERT_DELAY_AFTER_CHANGING_CONCENTRATION;
+        assert && assert(
+          this.timeSinceLastAlert >= 0,
+          'setting timing variable to a negative value, your interval values need adjusting'
+        );
+      }
     } );
 
     model.concentrationControlModeProperty.lazyLink( () => {
@@ -196,10 +206,16 @@ class GasConcentrationAlerter extends Alerter {
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
       this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
     } );
+
+    // Monitor the "playing" state and reset the accumulated time since the last alert when changes occur.  This keeps
+    // the amount of time between alerts consistent when switching modes.
+    model.isPlayingProperty.link( isPlaying => {
+      this.timeSinceLastAlert = isPlaying ? ALERT_INTERVAL_WHILE_PLAYING / 2 : ALERT_INTERVAL_WHILE_STEPPING / 2;
+    } );
   }
 
   /**
-   * Save the model state that is used for descriptions that occur periodically at every ALERT_INTERVAL.
+   * Save the model state that is used for descriptions that occur periodically at every ALERT_INTERVAL_WHILE_PLAYING.
    */
   private savePeriodicNotificationModelState(): PreviousPeriodicNotificationModelState {
     this.previousPeriodicNotificationModelState = this.previousPeriodicNotificationModelState || {
@@ -248,10 +264,8 @@ class GasConcentrationAlerter extends Alerter {
    * function should be called every view step, regardless of whether the model is playing because certain alerts
    * describe updates that are unrelated to the changing concentration model (see
    * "previousImmediateNotificationModelState").
-   *
-   * @param dt - in seconds
    */
-  public step( dt: number ): void {
+  public step(): void {
 
     // Start by alerting "immediate" model changes. These are updates that need to be described as soon as they change.
     const currentControlMode = this.model.concentrationControlModeProperty.value;
@@ -292,8 +306,13 @@ class GasConcentrationAlerter extends Alerter {
     // alerts if the model hasn't changed.
     this.timeSinceLastAlert += Math.max( this.model.totalElapsedTime - this.previousElapsedModelTime, 0 );
 
-    // If it's time, make the periodic alerts.
-    if ( this.timeSinceLastAlert > ALERT_INTERVAL ) {
+    // Use a different threshold for the time between alerts when stepping.
+    const alertInterval = this.model.isPlayingProperty.value ?
+                          ALERT_INTERVAL_WHILE_PLAYING :
+                          ALERT_INTERVAL_WHILE_STEPPING;
+
+    // If it's time, speak the periodic alerts.
+    if ( this.timeSinceLastAlert > alertInterval ) {
       const previousControlModeFromPeriodState = this.previousPeriodicNotificationModelState.concentrationControlMode;
       const currentTemperature = this.getCurrentTemperature();
       const currentConcentration = this.model.concentrationProperty.value;

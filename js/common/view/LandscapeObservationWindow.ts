@@ -163,7 +163,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
    * step() because this needs to be stepped even while the sim is paused.
    */
   public override stepAlerters( dt: number ): void {
-    this.gasConcentrationAlerter.step( dt );
+    this.gasConcentrationAlerter.step();
   }
 
   public override reset(): void {
