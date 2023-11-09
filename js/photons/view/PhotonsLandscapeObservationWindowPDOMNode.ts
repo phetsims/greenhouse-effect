@@ -125,18 +125,6 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
   }
 
   /**
-   * Fills in a pattern string with the given value to create descriptions related to the distribution of gases in the
-   * atmosphere. Returns something like:
-   *
-   * "Carbon dioxide 180 parts per million"
-   */
-  private static getGasDistributionDescription( value: number, patternStringProperty: LocalizedStringProperty ): string {
-    return StringUtils.fillIn( patternStringProperty.value, {
-      value: value
-    } );
-  }
-
-  /**
    * Returns a description of the sunlight travel for this observation window. Returns something like:
    *
    * "Sunlight photons travel from space to surface. Cloud reflects some sunlight back into space."
