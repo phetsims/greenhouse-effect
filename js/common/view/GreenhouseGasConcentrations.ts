@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * GreenhouseGasConcentrations contains a set of properties that represent the concentrations of a set of greenhouse
