@@ -27,6 +27,14 @@ import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 // constants
 const MIN_LAYER_TO_SENSOR_DISTANCE = 2200; // in meters, empirically determined
 
+export type FluxMeterReadings = {
+  sensorAltitude: number;
+  visibleLightDownFlux: number;
+  visibleLightUpFlux: number;
+  infraredLightDownFlux: number;
+  infraredLightUpFlux: number;
+};
+
 // types
 type SelfOptions = {
 
@@ -130,6 +138,19 @@ class FluxMeter extends PhetioObject {
    */
   public measureEnergyPacketFlux( energyPackets: EMEnergyPacket[], dt: number ): void {
     this.fluxSensor.measureEnergyPacketFlux( energyPackets, dt );
+  }
+
+  /**
+   * Read the values from the meter.
+   */
+  public readMeter(): FluxMeterReadings {
+    return {
+      sensorAltitude: this.fluxSensor.altitudeProperty.value,
+      visibleLightDownFlux: this.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty.value,
+      visibleLightUpFlux: this.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty.value,
+      infraredLightDownFlux: this.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty.value,
+      infraredLightUpFlux: this.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty.value
+    };
   }
 
   /**

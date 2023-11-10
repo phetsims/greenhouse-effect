@@ -27,6 +27,8 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
+import { FluxMeterReadings } from '../model/FluxMeter.js';
 
 export type GasConcentrationAlerterOptions = AlerterOptions;
 
@@ -58,6 +60,12 @@ assert && assert(
 const DATE_CHANGE_UTTERANCE_OPTIONS = {
   alertStableDelay: ALERT_DELAY_AFTER_CHANGING_DATE * 1000 // UtteranceQueue uses ms
 };
+
+// The change in altitude for the flux sensor that will trigger a new alert.
+const FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD = LayersModel.HEIGHT_OF_ATMOSPHERE / 10;
+
+// The change in detected energy flux from the flux meter that will trigger a new alert.  Empirically determine.
+const ENERGY_FLUX_CHANGE_THRESHOLD = 2000000;
 
 // The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL_WHILE_PLAYING.
 type PreviousPeriodicNotificationModelState = {
@@ -114,11 +122,18 @@ class GasConcentrationAlerter extends Alerter {
 
   private previousImmediateNotificationModelState: PreviousImmediateNotificationModelState;
 
+  // Snapshot of the previous flux meter state, used to decide when to make alerts about the flux meter. A null value
+  // indicates that the flux meter isn't present in the model.
+  private previousFluxMeterState: FluxMeterReadings | null;
+
   // Utterances that describe the changing scene and concentration when controlling by date. Using
   // reusable Utterances allows this information to "collapse" in the queue and only the most
   // recent change is heard when rapid updates happen.
   private readonly observationWindowSceneUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
   private readonly concentrationChangeUtterance = new Utterance( DATE_CHANGE_UTTERANCE_OPTIONS );
+
+  // description string property for the energy flux sensed by the flux meter
+  private readonly energyFluxDescriptionProperty: TReadOnlyProperty<string> | null;
 
   public constructor( model: ConcentrationModel, providedOptions?: GasConcentrationAlerterOptions ) {
 
@@ -145,6 +160,7 @@ class GasConcentrationAlerter extends Alerter {
 
     this.previousPeriodicNotificationModelState = this.savePeriodicNotificationModelState();
     this.previousImmediateNotificationModelState = this.saveImmediateNotificationModelState();
+    this.previousFluxMeterState = model.fluxMeter ? model.fluxMeter.readMeter() : null;
 
     // When we reach equilibrium at the ground layer, announce that state immediately. This doesn't need to be
     // ordered in with the other alerts, so it doesn't need to be in the polling solution. But it could be moved
@@ -212,6 +228,8 @@ class GasConcentrationAlerter extends Alerter {
     model.isPlayingProperty.link( isPlaying => {
       this.timeSinceLastAlert = isPlaying ? ALERT_INTERVAL_WHILE_PLAYING / 2 : ALERT_INTERVAL_WHILE_STEPPING / 2;
     } );
+
+    this.energyFluxDescriptionProperty = model.fluxMeter ? new FluxMeterDescriptionProperty( model.fluxMeter ) : null;
   }
 
   /**
@@ -395,6 +413,45 @@ class GasConcentrationAlerter extends Alerter {
             outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
           }
         }
+
+        if ( this.energyFluxDescriptionProperty && this.model.fluxMeterVisibleProperty.value ) {
+
+          const fluxMeterReadings = this.model.fluxMeter!.readMeter();
+
+          // Calculate the differences between the current flux meter state and the state at the previous alert.
+          const altitudeChange = Math.abs(
+            this.previousFluxMeterState!.sensorAltitude - fluxMeterReadings.sensorAltitude
+          );
+          const visibleLightDownChange = Math.abs(
+            this.previousFluxMeterState!.visibleLightDownFlux - fluxMeterReadings.visibleLightDownFlux
+          );
+          const visibleLightUpChange = Math.abs(
+            this.previousFluxMeterState!.visibleLightUpFlux - fluxMeterReadings.visibleLightUpFlux
+          );
+          const infraredLightDownChange = Math.abs(
+            this.previousFluxMeterState!.infraredLightDownFlux - fluxMeterReadings.infraredLightDownFlux
+          );
+          const infraredLightUpChange = Math.abs(
+            this.previousFluxMeterState!.infraredLightUpFlux - fluxMeterReadings.infraredLightUpFlux
+          );
+
+          const fluxChangeOverThreshold =
+            [ visibleLightDownChange, visibleLightUpChange, infraredLightDownChange, infraredLightUpChange ].reduce(
+              ( previousValue, change ) => previousValue || change > ENERGY_FLUX_CHANGE_THRESHOLD,
+              false
+            );
+
+          // Did the altitude or energy flux measurements change in such a way that we should do a new alert?
+          if ( altitudeChange || fluxChangeOverThreshold ) {
+            if ( altitudeChange > FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD && !fluxChangeOverThreshold ) {
+              this.alert( 'no change in energy flux' );
+            }
+            else if ( fluxChangeOverThreshold ) {
+              this.alert( this.energyFluxDescriptionProperty.value );
+            }
+            this.previousFluxMeterState = this.model.fluxMeter!.readMeter();
+          }
+        }
       }
 
       this.savePeriodicNotificationModelState();
@@ -406,7 +463,7 @@ class GasConcentrationAlerter extends Alerter {
   }
 
   /**
-   * Reset this to its initial state.  For this to work properly, the model must be reset prior to calling this method.
+   * Reset this to its initial state.  For this to work properly the model must be reset prior to calling this method.
    */
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
@@ -414,6 +471,9 @@ class GasConcentrationAlerter extends Alerter {
     this.describeTemperatureAsStabilizing = false;
     this.savePeriodicNotificationModelState();
     this.saveImmediateNotificationModelState();
+    if ( this.model.fluxMeter ) {
+      this.previousFluxMeterState = this.model.fluxMeter.readMeter();
+    }
   }
 }
 
