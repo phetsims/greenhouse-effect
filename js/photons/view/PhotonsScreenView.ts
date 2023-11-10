@@ -18,6 +18,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
+import PhotonsScreenSummaryContentNode from './PhotonsScreenSummaryContentNode.js';
 
 class PhotonsScreenView extends GreenhouseEffectScreenView {
 
@@ -39,7 +40,10 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       useClippingFrame: true,
 
       // phet-io
-      tandem: tandem
+      tandem: tandem,
+
+      // pdom
+      screenSummaryContent: new PhotonsScreenSummaryContentNode( model )
     } );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox(

@@ -246,6 +246,10 @@ type StringsType = {
     'observationWindowTimePeriodPatternStringProperty': LocalizedStringProperty;
     'photons': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenSummary': {
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
+      };
       'observationWindow': {
         'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
         'cloudReflectionDescriptionStringProperty': LocalizedStringProperty;
