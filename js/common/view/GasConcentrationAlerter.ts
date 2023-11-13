@@ -29,6 +29,7 @@ import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 import { FluxMeterReadings } from '../model/FluxMeter.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 export type GasConcentrationAlerterOptions = AlerterOptions;
 
@@ -64,8 +65,13 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
 // The change in altitude for the flux sensor that will trigger a new alert.
 const FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD = LayersModel.HEIGHT_OF_ATMOSPHERE / 10;
 
-// The change in detected energy flux from the flux meter that will trigger a new alert.  Empirically determine.
-const ENERGY_FLUX_CHANGE_THRESHOLD = 4000000;
+// The change in energy flux from the flux meter that will trigger a new alert when the altitude has also changed.
+// In watts, empirically determined.
+const DEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD = 1000000;
+
+// The change in energy flux from the flux meter that will trigger a new alert regardless of whether the altitude has
+// changed. In watts, empirically determined.
+const INDEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD = 4000000;
 
 // The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL_WHILE_PLAYING.
 type PreviousPeriodicNotificationModelState = {
@@ -414,11 +420,19 @@ class GasConcentrationAlerter extends Alerter {
           }
         }
 
-        if ( this.energyFluxDescriptionProperty && this.model.fluxMeterVisibleProperty.value ) {
+        if ( this.model.fluxMeter &&
+             this.model.fluxMeterVisibleProperty.value &&
+             !this.model.fluxMeter.fluxSensor.isDraggingProperty.value ) {
 
-          const fluxMeterReadings = this.model.fluxMeter!.readMeter();
+          assert && assert(
+            this.energyFluxDescriptionProperty,
+            'there should be a flux description whenever the flux meter is present in the model'
+          );
 
-          // Calculate the differences between the current flux meter state and the state at the previous alert.
+          // Read the flux meter.
+          const fluxMeterReadings = this.model.fluxMeter.readMeter();
+
+          // Calculate the differences between the current flux meter readings and the ones from the previous alert.
           const altitudeChange = Math.abs(
             this.previousFluxMeterState!.sensorAltitude - fluxMeterReadings.sensorAltitude
           );
@@ -435,21 +449,29 @@ class GasConcentrationAlerter extends Alerter {
             this.previousFluxMeterState!.infraredLightUpFlux - fluxMeterReadings.infraredLightUpFlux
           );
 
+          const altitudeChangeOverThreshold = altitudeChange > FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD;
+
+          // Decide if the change in flux warrants a new alert.  The threshold used for this decision depends on whether
+          // the altitude also changed.
+          const fluxChangeThreshold = altitudeChangeOverThreshold ?
+                                      DEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD :
+                                      INDEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD;
           const fluxChangeOverThreshold =
             [ visibleLightDownChange, visibleLightUpChange, infraredLightDownChange, infraredLightUpChange ].reduce(
-              ( previousValue, change ) => previousValue || change > ENERGY_FLUX_CHANGE_THRESHOLD,
+              ( previousValue, change ) => previousValue || change > fluxChangeThreshold,
               false
             );
 
           // Did the altitude or energy flux measurements change in such a way that we should do a new alert?
-          if ( altitudeChange || fluxChangeOverThreshold ) {
-            if ( altitudeChange > FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD && !fluxChangeOverThreshold ) {
-              this.alert( 'no change in energy flux' );
+          if ( altitudeChangeOverThreshold || fluxChangeOverThreshold ) {
+            if ( altitudeChangeOverThreshold && !fluxChangeOverThreshold ) {
+              this.alert( GreenhouseEffectStrings.a11y.fluxMeterNoChangeStringProperty );
+              this.previousFluxMeterState = this.model.fluxMeter.readMeter();
             }
             else if ( fluxChangeOverThreshold ) {
-              this.alert( this.energyFluxDescriptionProperty.value );
+              this.alert( this.energyFluxDescriptionProperty!.value );
+              this.previousFluxMeterState = this.model.fluxMeter.readMeter();
             }
-            this.previousFluxMeterState = this.model.fluxMeter!.readMeter();
           }
         }
       }

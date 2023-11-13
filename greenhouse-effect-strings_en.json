@@ -238,6 +238,9 @@
     "fluxMeterAltitude": {
       "value": "Flux Meter Altitude"
     },
+    "fluxMeterNoChange": {
+      "value": "no change in energy flux"
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."
