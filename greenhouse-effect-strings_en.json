@@ -229,6 +229,9 @@
     "fluxMeterCheckedAlert": {
       "value": "Energy Flux added to Observation Window."
     },
+    "fluxMeterCheckedPattern": {
+      "value": "{{checkedResponse}} {{energyFluxDescription}}"
+    },
     "fluxMeterStateDescription": {
       "value": "{{altitude}}, {{incomingSunlightAmount}} incoming sunlight and {{outgoingSunlightAmount}} outgoing sunlight. {{outgoingInfraredAmount}} outgoing infrared and {{incomingInfraredAmount}} incoming infrared."
     },

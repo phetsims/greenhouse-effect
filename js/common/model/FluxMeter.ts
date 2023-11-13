@@ -154,6 +154,16 @@ class FluxMeter extends PhetioObject {
   }
 
   /**
+   * Convenience method that indicates whether any energy is currently being sensed by the flux meter.  Returns true if
+   * and of the readings are above zero, false if all readings are zero.
+   */
+  public isSensingFlux(): boolean {
+    const readings = this.readMeter();
+    return ( readings.visibleLightDownFlux > 0 || readings.visibleLightUpFlux > 0 ||
+             readings.infraredLightDownFlux > 0 || readings.infraredLightUpFlux > 0 );
+  }
+
+  /**
    * Check the sensor position and, if it is too close to any layers, move it away.
    */
   private checkAndUpdateSensorPosition(): void {

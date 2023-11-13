@@ -19,6 +19,7 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 
 const LABEL_FONT = new PhetFont( {
   size: 14
@@ -114,6 +115,40 @@ class InstrumentVisibilityPanel extends Panel {
 
     // If the flux meter is present, add a checkbox to control its visibility.
     if ( options.includeFluxMeterCheckbox ) {
+
+      assert && assert( model.fluxMeter, 'Flux meter checkbox should not be present without flux meter.' );
+
+      // Create a describer for the energy flux.
+      const energyFluxDescriptionProperty = new FluxMeterDescriptionProperty( model.fluxMeter! );
+
+      // Create the utterance (for screen readers) that will be used by the energy balance checkbox.
+      const fluxMeterCheckedUtterance = new Utterance();
+      Multilink.multilink(
+        [
+          model.sunEnergySource.isShiningProperty,
+          energyFluxDescriptionProperty
+        ],
+        ( sunIsShining, energyFluxDescription ) => {
+
+          if ( sunIsShining && model.fluxMeter!.isSensingFlux() ) {
+          // if ( sunIsShining ) {
+            fluxMeterCheckedUtterance.alert = StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.fluxMeterCheckedPatternStringProperty,
+              {
+                checkedResponse: GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty,
+                energyFluxDescription: energyFluxDescription
+              }
+            );
+          }
+          else {
+
+            // If the sun isn't shining, don't include a description of the energy balance.  See
+            // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
+            fluxMeterCheckedUtterance.alert = GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty;
+          }
+        }
+      );
+
       checkboxGroupItems.push( {
         createNode: () => new Text( GreenhouseEffectStrings.fluxMeter.titleStringProperty, textOptions ),
         property: model.fluxMeterVisibleProperty,
@@ -122,7 +157,7 @@ class InstrumentVisibilityPanel extends Panel {
           // pdom
           accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
           helpText: GreenhouseEffectStrings.a11y.fluxMeter.helpTextStringProperty,
-          checkedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty,
+          checkedContextResponse: fluxMeterCheckedUtterance,
           uncheckedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
         },
         tandemName: 'fluxMeterCheckbox'
