@@ -65,7 +65,7 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
 const FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD = LayersModel.HEIGHT_OF_ATMOSPHERE / 10;
 
 // The change in detected energy flux from the flux meter that will trigger a new alert.  Empirically determine.
-const ENERGY_FLUX_CHANGE_THRESHOLD = 2000000;
+const ENERGY_FLUX_CHANGE_THRESHOLD = 4000000;
 
 // The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL_WHILE_PLAYING.
 type PreviousPeriodicNotificationModelState = {
