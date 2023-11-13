@@ -27,7 +27,10 @@ const surfaceTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.wav
 const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty;
 
 export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
-  public constructor( model: ConcentrationModel, playAreaDescription: LocalizedStringProperty, controlAreaDescription: LocalizedStringProperty ) {
+  public constructor( model: ConcentrationModel,
+                      playAreaDescription: LocalizedStringProperty,
+                      controlAreaDescription: LocalizedStringProperty ) {
+
     super( model, playAreaDescription, controlAreaDescription );
 
     Multilink.multilink(
