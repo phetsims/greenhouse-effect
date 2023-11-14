@@ -238,9 +238,13 @@
     "fluxMeterAltitude": {
       "value": "Flux Meter Altitude"
     },
-    "fluxMeterNoChange": {
-      "value": "no change in energy flux"
+    "fluxMeterSmallChangePattern": {
+      "value": "{{negligibleOrNo}} change in energy flux"
     },
+    "negligible": {
+      "value": "negligible"
+    },
+
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."

@@ -7,7 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  *
- *
  * TODO: (see https://github.com/phetsims/greenhouse-effect/issues/129) This is named GasConcentrationAlerter, but it's
  *       doing more than just talking about the state.  We should consider a new name, perhaps LayerModelStateAlerter or
  *       something along those lines.
@@ -30,6 +29,7 @@ import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 import { FluxMeterReadings } from '../model/FluxMeter.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 export type GasConcentrationAlerterOptions = AlerterOptions;
 
@@ -65,27 +65,31 @@ const DATE_CHANGE_UTTERANCE_OPTIONS = {
 // The change in altitude for the flux sensor that will trigger a new alert.
 const FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD = LayersModel.HEIGHT_OF_ATMOSPHERE / 10;
 
-// The change in energy flux from the flux meter that will trigger a new alert when the altitude has also changed.
-// In watts, empirically determined.
-const DEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD = 1000000;
+// The change in energy flux measured by the flux meter that is considered significant enough to describe when the
+// altitude of the flux meter's sensor has also changed. This is in watts and was empirically determined.
+const DEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD = 300000;
 
-// The change in energy flux from the flux meter that will trigger a new alert regardless of whether the altitude has
-// changed. In watts, empirically determined.
+// The change in energy flux measured by the flux meter that will trigger a new alert regardless of whether the altitude
+// of the flux meter's sensor has changed. This is in watts and was empirically determined.
 const INDEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD = 4000000;
 
-// The parts of the model that are described as they change over time, more slowly behind ALERT_INTERVAL_WHILE_PLAYING.
+// The change of energy flux measured by the flux meter that must occur for it to be considered any change at all.  A
+// change below this threshold is described as no change.
+const APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD = 10000;
+
+// The parts of the model that are periodically described as they change over time.
 type PreviousPeriodicNotificationModelState = {
   temperature: number;
   concentration: number;
   outgoingEnergy: number;
   netInflowOfEnergy: number;
 
-  // This is in moth periodic and immediate state - when this changes we need to notify some information immediately
-  // and some information at the next ALERT_INTERVAL_WHILE_PLAYING related to this change.
+  // This is in both periodic and immediate state - when this changes we need to describe some information immediately
+  // and some information at the next alert interval.
   concentrationControlMode: ConcentrationControlMode;
 };
 
-// The model state that should be described as soon as possible every time it changes,
+// The model state that should be described as soon as possible every time it changes.
 type PreviousImmediateNotificationModelState = {
   concentrationControlMode: ConcentrationControlMode;
   cloudEnabled: boolean;
@@ -130,7 +134,7 @@ class GasConcentrationAlerter extends Alerter {
 
   // Snapshot of the previous flux meter state, used to decide when to make alerts about the flux meter. A null value
   // indicates that the flux meter isn't present in the model.
-  private previousFluxMeterState: FluxMeterReadings | null;
+  private previousFluxMeterReadings: FluxMeterReadings | null;
 
   // Utterances that describe the changing scene and concentration when controlling by date. Using
   // reusable Utterances allows this information to "collapse" in the queue and only the most
@@ -166,7 +170,23 @@ class GasConcentrationAlerter extends Alerter {
 
     this.previousPeriodicNotificationModelState = this.savePeriodicNotificationModelState();
     this.previousImmediateNotificationModelState = this.saveImmediateNotificationModelState();
-    this.previousFluxMeterState = model.fluxMeter ? model.fluxMeter.readMeter() : null;
+
+    if ( model.fluxMeter ) {
+
+      this.previousFluxMeterReadings = model.fluxMeter.readMeter();
+
+      // Update the flux meter readings at the start of a drag of the sensor.  This is done because the user is probably
+      // trying to measure the variations in flux at different altitudes and is likely NOT interested in any flux
+      // changes that have accumulated while the flux meter was parked at a single altitude.
+      model.fluxMeter?.fluxSensor.isDraggingProperty.link( isDragging => {
+        if ( isDragging ) {
+          this.previousFluxMeterReadings = model.fluxMeter!.readMeter();
+        }
+      } );
+    }
+    else {
+      this.previousFluxMeterReadings = null;
+    }
 
     // When we reach equilibrium at the ground layer, announce that state immediately. This doesn't need to be
     // ordered in with the other alerts, so it doesn't need to be in the polling solution. But it could be moved
@@ -434,19 +454,19 @@ class GasConcentrationAlerter extends Alerter {
 
           // Calculate the differences between the current flux meter readings and the ones from the previous alert.
           const altitudeChange = Math.abs(
-            this.previousFluxMeterState!.sensorAltitude - fluxMeterReadings.sensorAltitude
+            this.previousFluxMeterReadings!.sensorAltitude - fluxMeterReadings.sensorAltitude
           );
           const visibleLightDownChange = Math.abs(
-            this.previousFluxMeterState!.visibleLightDownFlux - fluxMeterReadings.visibleLightDownFlux
+            this.previousFluxMeterReadings!.visibleLightDownFlux - fluxMeterReadings.visibleLightDownFlux
           );
           const visibleLightUpChange = Math.abs(
-            this.previousFluxMeterState!.visibleLightUpFlux - fluxMeterReadings.visibleLightUpFlux
+            this.previousFluxMeterReadings!.visibleLightUpFlux - fluxMeterReadings.visibleLightUpFlux
           );
           const infraredLightDownChange = Math.abs(
-            this.previousFluxMeterState!.infraredLightDownFlux - fluxMeterReadings.infraredLightDownFlux
+            this.previousFluxMeterReadings!.infraredLightDownFlux - fluxMeterReadings.infraredLightDownFlux
           );
           const infraredLightUpChange = Math.abs(
-            this.previousFluxMeterState!.infraredLightUpFlux - fluxMeterReadings.infraredLightUpFlux
+            this.previousFluxMeterReadings!.infraredLightUpFlux - fluxMeterReadings.infraredLightUpFlux
           );
 
           const altitudeChangeOverThreshold = altitudeChange > FLUX_SENSOR_ALTITUDE_CHANGE_THRESHOLD;
@@ -456,21 +476,35 @@ class GasConcentrationAlerter extends Alerter {
           const fluxChangeThreshold = altitudeChangeOverThreshold ?
                                       DEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD :
                                       INDEPENDENT_ENERGY_FLUX_CHANGE_THRESHOLD;
-          const fluxChangeOverThreshold =
-            [ visibleLightDownChange, visibleLightUpChange, infraredLightDownChange, infraredLightUpChange ].reduce(
-              ( previousValue, change ) => previousValue || change > fluxChangeThreshold,
-              false
-            );
+          const fluxChanges = [
+            visibleLightDownChange,
+            visibleLightUpChange,
+            infraredLightDownChange,
+            infraredLightUpChange
+          ];
+          const fluxChangeOverThreshold = fluxChanges.reduce(
+            ( previousValue, change ) => previousValue || change > fluxChangeThreshold,
+            false
+          );
+          const fluxChangeTotal = fluxChanges.reduce( ( totalSoFar, change ) => totalSoFar + change, 0 );
 
           // Did the altitude or energy flux measurements change in such a way that we should do a new alert?
           if ( altitudeChangeOverThreshold || fluxChangeOverThreshold ) {
             if ( altitudeChangeOverThreshold && !fluxChangeOverThreshold ) {
-              this.alert( GreenhouseEffectStrings.a11y.fluxMeterNoChangeStringProperty );
-              this.previousFluxMeterState = this.model.fluxMeter.readMeter();
+              const littleOrNoChangeString = StringUtils.fillIn(
+                GreenhouseEffectStrings.a11y.fluxMeterSmallChangePatternStringProperty,
+                {
+                  negligibleOrNo: fluxChangeTotal < APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD ?
+                                  GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty :
+                                  GreenhouseEffectStrings.a11y.negligibleStringProperty
+                }
+              );
+              this.alert( littleOrNoChangeString );
+              this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
             }
             else if ( fluxChangeOverThreshold ) {
               this.alert( this.energyFluxDescriptionProperty!.value );
-              this.previousFluxMeterState = this.model.fluxMeter.readMeter();
+              this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
             }
           }
         }
@@ -494,7 +528,7 @@ class GasConcentrationAlerter extends Alerter {
     this.savePeriodicNotificationModelState();
     this.saveImmediateNotificationModelState();
     if ( this.model.fluxMeter ) {
-      this.previousFluxMeterState = this.model.fluxMeter.readMeter();
+      this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
     }
   }
 }
