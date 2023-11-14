@@ -101,7 +101,8 @@ class GasConcentrationAlerter extends Alerter {
   // reference to the model, used in the methods
   private readonly model: ConcentrationModel;
 
-  // Time that has passed since last alert, when this equals ALERT_INTERVAL_WHILE_PLAYING, a new alert is sent the UtteranceQueue.
+  // Time that has passed since last alert.  When the difference between this and the current time gets big enough, a
+  // new alert is dispatched.
   private timeSinceLastAlert: number;
 
   // The elapsed time from the model during the previous step of this alerter.
