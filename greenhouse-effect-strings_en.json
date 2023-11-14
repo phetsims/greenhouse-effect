@@ -427,20 +427,11 @@
     "no": {
       "value": "No"
     },
-    "increases": {
-      "value": "increases"
-    },
-    "decreases": {
-      "value": "decreases"
-    },
     "inflowToEarth": {
       "value": "inflow to Earth"
     },
     "outflowToSpace": {
       "value": "outflow to space"
-    },
-    "outgoingEnergyPattern": {
-      "value": "Outgoing energy {{increasesOrDecreases}}; net energy {{inflowOrOutflow}}."
     },
     "outgoingEnergyAtAtmospherePattern": {
       "value": "Outgoing energy is {{greaterThanOrLessThan}} incoming energy at top of atmosphere, net energy {{inflowOrOutflow}}."

@@ -193,11 +193,8 @@ type StringsType = {
     'moreStringProperty': LocalizedStringProperty;
     'lessStringProperty': LocalizedStringProperty;
     'noStringProperty': LocalizedStringProperty;
-    'increasesStringProperty': LocalizedStringProperty;
-    'decreasesStringProperty': LocalizedStringProperty;
     'inflowToEarthStringProperty': LocalizedStringProperty;
     'outflowToSpaceStringProperty': LocalizedStringProperty;
-    'outgoingEnergyPatternStringProperty': LocalizedStringProperty;
     'outgoingEnergyAtAtmospherePatternStringProperty': LocalizedStringProperty;
     'outgoingEnergyAtAtmosphereEqualStringProperty': LocalizedStringProperty;
     'noFlowOfEnergyHintDescriptionStringProperty': LocalizedStringProperty;
