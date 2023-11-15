@@ -16,7 +16,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -42,6 +41,8 @@ import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
+import FluxSensorAltitudeDescriptionProperty from './describers/FluxSensorAltitudeDescriptionProperty.js';
+import Cloud from '../model/Cloud.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -109,6 +110,7 @@ class FluxMeterNode extends Node {
    * @param isPlayingProperty - a boolean Property that indicates whether the model in which the flux meter resides is
    *                            running
    * @param visibleProperty - a boolean Property that controls whether this node is visible
+   * @param cloud - model of a cloud that the flux sensor may be above or below
    * @param modelViewTransform
    * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
    * @param providedOptions
@@ -116,6 +118,7 @@ class FluxMeterNode extends Node {
   public constructor( model: FluxMeter,
                       isPlayingProperty: TReadOnlyProperty<boolean>,
                       visibleProperty: TReadOnlyProperty<boolean>,
+                      cloud: Cloud | null,
                       modelViewTransform: ModelViewTransform2,
                       observationWindowViewBounds: Bounds2,
                       providedOptions?: FluxMeterNodeOptions ) {
@@ -212,7 +215,7 @@ class FluxMeterNode extends Node {
 
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
-    const fluxSensorNode = new FluxSensorNode( model.fluxSensor, modelViewTransform, {
+    const fluxSensorNode = new FluxSensorNode( model.fluxSensor, cloud, modelViewTransform, {
       startDrag: () => {
         model.fluxSensor.isDraggingProperty.set( true );
       },
@@ -543,15 +546,43 @@ type FluxSensorNodeOptions = NodeOptions &
   PickRequired<NodeOptions, 'tandem'>;
 
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
-  public constructor( fluxSensor: FluxSensor, modelViewTransform: ModelViewTransform2, providedOptions?: FluxSensorNodeOptions ) {
+  public constructor( fluxSensor: FluxSensor,
+                      cloud: Cloud | null,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions?: FluxSensorNodeOptions ) {
 
     const fluxSensorAltitudeRangeProperty = fluxSensor.altitudeProperty.rangeProperty;
+
+    // Create description of the flux meter sensor's altitude.
+    const sensorAltitudeDescriptionProperty = new FluxSensorAltitudeDescriptionProperty( fluxSensor.altitudeProperty );
+
+    // The cloud may or may not be provided.  If it isn't, create a dummy instance that will always be disabled.
+    const cloudModel = cloud ? cloud : new Cloud( Vector2.ZERO, 10, 10, new BooleanProperty( false ) );
+
+    // Create a description of the relationship between the flux sensor and the cloud.  If the cloud is not enabled the
+    // description will be an empty string.
+    const fluxSensorAndCloudDescriptionProperty = new DerivedProperty(
+      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty ],
+      ( cloudEnabled, sensorAltitude ) => {
+        let description = '';
+        if ( cloudEnabled ) {
+          if ( sensorAltitude > cloudModel.position.y ) {
+            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
+          }
+          else {
+            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
+          }
+        }
+        return description;
+      }
+    );
 
     const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: fluxSensorAltitudeRangeProperty,
       keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 30,
-      a11yCreateAriaValueText: value => `${Utils.roundSymmetric( value )} m`,
+      a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
+      a11yDependencies: [ fluxSensorAndCloudDescriptionProperty ],
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
       phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312

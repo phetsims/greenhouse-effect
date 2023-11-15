@@ -244,7 +244,12 @@
     "negligible": {
       "value": "negligible"
     },
-
+    "aboveCloud": {
+      "value": "above cloud"
+    },
+    "belowCloud": {
+      "value": "below cloud"
+    },
     "surfaceThermometer": {
       "helpText": {
         "value": "Measure Earth’s surface temperature."
@@ -582,7 +587,7 @@
           "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  Experiment with the greenhouse gas concentration or explore and compare historical time periods. It also has controls to add a cloud and measure the energy balance or energy flux."
         },
         "controlAreaDescription": {
-          "value":"The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+          "value": "The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
         }
       },
       "observationWindow": {

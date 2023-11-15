@@ -58,7 +58,7 @@ class Cloud extends PhetioObject {
                       width: number,
                       height: number,
                       enabledProperty: ReadOnlyProperty<boolean>,
-                      providedOptions: CloudOptions ) {
+                      providedOptions?: CloudOptions ) {
 
     const options = optionize<CloudOptions, SelfOptions, PhetioObjectOptions>()( {
       topVisibleLightReflectivity: 0.08,

@@ -120,6 +120,8 @@ type StringsType = {
     'fluxMeterAltitudeStringProperty': LocalizedStringProperty;
     'fluxMeterSmallChangePatternStringProperty': LocalizedStringProperty;
     'negligibleStringProperty': LocalizedStringProperty;
+    'aboveCloudStringProperty': LocalizedStringProperty;
+    'belowCloudStringProperty': LocalizedStringProperty;
     'surfaceThermometer': {
       'helpTextStringProperty': LocalizedStringProperty;
     };
