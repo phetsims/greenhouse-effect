@@ -115,6 +115,9 @@ type StringsType = {
     };
     'fluxMeterUncheckedAlertStringProperty': LocalizedStringProperty;
     'fluxMeterCheckedAlertStringProperty': LocalizedStringProperty;
+    'morePhotonsCheckedAlertStringProperty': LocalizedStringProperty;
+    'morePhotonsUncheckedAlertStringProperty': LocalizedStringProperty;
+    'morePhotonsHelpTextStringProperty': LocalizedStringProperty;
     'fluxMeterCheckedPatternStringProperty': LocalizedStringProperty;
     'fluxMeterStateDescriptionStringProperty': LocalizedStringProperty;
     'fluxMeterAltitudeStringProperty': LocalizedStringProperty;

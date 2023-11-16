@@ -23,9 +23,9 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
       touchAreaYDilation: 4,
 
       // pdom
-      helpText: 'help text not yet implemented',
-      checkedContextResponse: 'utterance not yet implemented',
-      uncheckedContextResponse: 'utterance not yet implemented',
+      helpText: GreenhouseEffectStrings.a11y.morePhotonsHelpTextStringProperty,
+      checkedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsCheckedAlertStringProperty,
+      uncheckedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsUncheckedAlertStringProperty,
 
       // phet-io
       tandem: tandem

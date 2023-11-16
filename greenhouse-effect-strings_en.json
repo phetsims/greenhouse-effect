@@ -229,6 +229,15 @@
     "fluxMeterCheckedAlert": {
       "value": "Energy Flux added to Observation Window."
     },
+    "morePhotonsCheckedAlert": {
+      "value": "Displaying more photons in observation window."
+    },
+    "morePhotonsUncheckedAlert": {
+      "value": "Displaying fewer photons in observation window."
+    },
+    "morePhotonsHelpText": {
+      "value": "Displays more photons in observation window."
+    },
     "fluxMeterCheckedPattern": {
       "value": "{{checkedResponse}} {{energyFluxDescription}}"
     },
