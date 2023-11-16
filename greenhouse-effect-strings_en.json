@@ -422,6 +422,18 @@
       },
       "inObservationWindow": {
         "value": "In observation window:"
+      },
+      "wavesSunlightDescription": {
+        "value": "Sunlight radiation: yellow waves, wavelength shorter than infrared"
+      },
+      "wavesInfraredDescription": {
+        "value": "Infrared radiation: red waves, wavelength longer than sunlight"
+      },
+      "photonsSunlightDescription": {
+        "value": "Sunlight radiation: yellow photons"
+      },
+      "photonsInfraredDescription": {
+        "value": "Infrared radiation: red photons"
       }
     },
     "infraredRadiationRedirectingPattern": {

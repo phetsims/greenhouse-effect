@@ -191,6 +191,10 @@ type StringsType = {
     'energyLegend': {
       'titleStringProperty': LocalizedStringProperty;
       'inObservationWindowStringProperty': LocalizedStringProperty;
+      'wavesSunlightDescriptionStringProperty': LocalizedStringProperty;
+      'wavesInfraredDescriptionStringProperty': LocalizedStringProperty;
+      'photonsSunlightDescriptionStringProperty': LocalizedStringProperty;
+      'photonsInfraredDescriptionStringProperty': LocalizedStringProperty;
     };
     'infraredRadiationRedirectingPatternStringProperty': LocalizedStringProperty;
     'infraredRadiationEmittedFromSurfacePatternStringProperty': LocalizedStringProperty;

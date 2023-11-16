@@ -11,7 +11,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { GridBox, Image, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import { GridBox, Image, ImageOptions, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
@@ -108,18 +108,31 @@ class EnergyLegend extends Panel {
       const sunlightWavelengths = 3.5;
       const infraredWavelengths = 2.5;
       sunlightIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
-        stroke: GreenhouseEffectColors.sunlightColorProperty
+        stroke: GreenhouseEffectColors.sunlightColorProperty,
+        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.wavesSunlightDescriptionStringProperty
       } );
       infraredIcon = createWaveIcon(
         sunlightWavelength * sunlightWavelengths / infraredWavelengths,
         infraredWavelengths,
-        { stroke: GreenhouseEffectColors.infraredColorProperty }
+        {
+          stroke: GreenhouseEffectColors.infraredColorProperty,
+          accessibleName: GreenhouseEffectStrings.a11y.energyLegend.wavesInfraredDescriptionStringProperty
+        }
       );
     }
     else {
-      const photonIconOptions = { maxWidth: MAX_PHOTON_WIDTH };
-      sunlightIcon = new Image( visiblePhoton_png, photonIconOptions );
-      infraredIcon = new Image( infraredPhoton_png, photonIconOptions );
+      const photonIconOptions = {
+        maxWidth: MAX_PHOTON_WIDTH,
+
+        // the icons are described in a list item under a parent with tagname 'ul'
+        tagName: 'li'
+      };
+      sunlightIcon = new Image( visiblePhoton_png, combineOptions<ImageOptions>( photonIconOptions, {
+        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.photonsSunlightDescriptionStringProperty
+      } ) );
+      infraredIcon = new Image( infraredPhoton_png, combineOptions<ImageOptions>( photonIconOptions, {
+        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.photonsInfraredDescriptionStringProperty
+      } ) );
     }
 
     // Calculate the vertical spacing for the grid box in a way that will keep it consistent between the wave and photon
@@ -150,7 +163,7 @@ class EnergyLegend extends Panel {
       spacing: 7,
       children: [ titleText, gridBox ],
 
-      // pdom
+      // pdom - a structural parent for list items that describe the icons in the legend
       tagName: 'ul'
     } );
 
@@ -170,7 +183,10 @@ class EnergyLegend extends Panel {
 const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options?: PathOptions ) => {
 
   options = combineOptions<PathOptions>( {
-    lineWidth: 1.5
+    lineWidth: 1.5,
+
+    // pdom - the description for each item will be in a list item under a parent with tagname 'ul'
+    tagName: 'li'
   }, options );
 
   const iconLength = wavelength * wavelengthsToDraw;
