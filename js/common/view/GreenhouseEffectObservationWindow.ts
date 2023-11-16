@@ -292,7 +292,8 @@ class GreenhouseEffectObservationWindow extends Node {
         model.fluxMeterVisibleProperty,
         model.cloud,
         this.modelViewTransform,
-        this.windowFrame.bounds, combineOptions<FluxMeterNodeOptions>( {
+        this.windowFrame.bounds,
+        combineOptions<FluxMeterNodeOptions>( {
           tandem: options.tandem.createTandem( 'fluxMeterNode' )
         }, options.fluxMeterNodeOptions )
       );

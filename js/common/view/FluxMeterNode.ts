@@ -43,6 +43,7 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 import FluxSensorAltitudeDescriptionProperty from './describers/FluxSensorAltitudeDescriptionProperty.js';
 import Cloud from '../model/Cloud.js';
+import Orientation from '../../../../phet-core/js/Orientation.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -131,7 +132,7 @@ class FluxMeterNode extends Node {
       // pdom
       tagName: 'div',
       labelTagName: 'h4',
-      labelContent: GreenhouseEffectStrings.fluxMeter.titleStringProperty
+      labelContent: GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty
     }, providedOptions );
 
     super( options );
@@ -580,10 +581,14 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
     const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: fluxSensorAltitudeRangeProperty,
-      keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 30,
+      keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 10,
+      pageKeyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 5,
+      shiftKeyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 20,
       a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
       a11yDependencies: [ fluxSensorAndCloudDescriptionProperty ],
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
+      helpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
+      ariaOrientation: Orientation.VERTICAL,
       phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312
     }, providedOptions );

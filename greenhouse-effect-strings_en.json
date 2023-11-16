@@ -238,6 +238,9 @@
     "fluxMeterAltitude": {
       "value": "Flux Meter Altitude"
     },
+    "fluxMeterHelpText": {
+      "value": "Measure energy flux at different altitudes."
+    },
     "fluxMeterSmallChangePattern": {
       "value": "{{negligibleOrNo}} change in energy flux"
     },
