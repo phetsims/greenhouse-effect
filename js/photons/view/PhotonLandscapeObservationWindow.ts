@@ -36,6 +36,15 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     const observationWindowPDOMNode = new PhotonsLandscapeObservationWindowPDOMNode( model );
     this.addChild( observationWindowPDOMNode );
 
+    // pdom - order of contents in the PDOM for traversal and screen readers
+    this.pdomOrder = [
+      this.focusableHeadingNode,
+      this.startSunlightButton,
+      observationWindowPDOMNode,
+      this.energyBalancePanel,
+      this.fluxMeterNode
+    ];
+
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
   }
