@@ -570,7 +570,7 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
             description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
           }
           else {
-            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
+            description = GreenhouseEffectStrings.a11y.belowCloudStringProperty.value;
           }
         }
         return description;
