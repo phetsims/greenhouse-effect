@@ -199,11 +199,16 @@ type StringsType = {
       'photonsSunlightDescriptionStringProperty': LocalizedStringProperty;
       'photonsInfraredDescriptionStringProperty': LocalizedStringProperty;
     };
-    'infraredRadiationRedirectingPatternStringProperty': LocalizedStringProperty;
-    'infraredRadiationEmittedFromSurfacePatternStringProperty': LocalizedStringProperty;
+    'infraredEnergyRedirectingPatternStringProperty': LocalizedStringProperty;
+    'infraredEnergyEmittedFromSurfacePatternStringProperty': LocalizedStringProperty;
     'moreStringProperty': LocalizedStringProperty;
     'lessStringProperty': LocalizedStringProperty;
     'noStringProperty': LocalizedStringProperty;
+    'fewerStringProperty': LocalizedStringProperty;
+    'energyRepresentation': {
+      'photonsStringProperty': LocalizedStringProperty;
+      'radiationStringProperty': LocalizedStringProperty;
+    };
     'inflowToEarthStringProperty': LocalizedStringProperty;
     'outflowToSpaceStringProperty': LocalizedStringProperty;
     'outgoingEnergyAtAtmospherePatternStringProperty': LocalizedStringProperty;

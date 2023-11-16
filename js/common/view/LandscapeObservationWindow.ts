@@ -12,7 +12,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { Color, DisplayedProperty, Image, LinearGradient, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import agriculturalLandscapeBackground_png from '../../../images/agriculturalLandscapeBackground_png.js';
@@ -34,9 +33,14 @@ import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import EnergyRepresentation from './EnergyRepresentation.js';
 
-type SelfOptions = EmptySelfOptions;
-type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
+type SelfOptions = {
+
+  // Controls whether the descriptions for energy are for waves or photons.
+  energyRepresentation: EnergyRepresentation;
+};
+export type LandscapeObservationWindowOptions = SelfOptions & GreenhouseEffectObservationWindowOptions;
 
 // constants
 const SIZE = GreenhouseEffectObservationWindow.SIZE;
@@ -147,7 +151,8 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     // pdom - responsive descriptions
     this.gasConcentrationAlerter = new GasConcentrationAlerter( model, {
       descriptionAlertNode: this,
-      enabledProperty: new DisplayedProperty( this )
+      enabledProperty: new DisplayedProperty( this ),
+      energyRepresentation: options.energyRepresentation
     } );
   }
 
@@ -263,5 +268,4 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 }
 
 greenhouseEffect.register( 'LandscapeObservationWindow', LandscapeObservationWindow );
-export type { LandscapeObservationWindowOptions };
 export default LandscapeObservationWindow;

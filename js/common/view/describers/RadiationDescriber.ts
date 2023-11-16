@@ -12,6 +12,7 @@ import GroundLayer from '../../model/GroundLayer.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
 import ConcentrationDescriber from './ConcentrationDescriber.js';
+import EnergyRepresentation from '../EnergyRepresentation.js';
 
 const infraredEmissionIntensityPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
 const infraredEmissionIntensityWithRedirectionPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPatternStringProperty;
@@ -35,11 +36,15 @@ class RadiationDescriber {
    * "Less infrared radiation redirecting back to surface." or
    * "No infrared radiation redirecting back to surface."
    */
-  public static getRadiationRedirectionDescription( newConcentration: number, oldConcentration: number ): string | null {
+  public static getRadiationRedirectionDescription( newConcentration: number,
+                                                    oldConcentration: number,
+                                                    energyRepresentation: EnergyRepresentation ): string | null {
+
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredRadiationRedirectingPatternStringProperty.value,
+      GreenhouseEffectStrings.a11y.infraredEnergyRedirectingPatternStringProperty.value,
       newConcentration,
       oldConcentration,
+      energyRepresentation,
       true // describe when no concentration is redirected from atmosphere
     );
   }
@@ -49,11 +54,15 @@ class RadiationDescriber {
    * "More infrared radiation emitting from surface." or
    * "Less infrared radiation emitting from surface.".
    */
-  public static getRadiationFromSurfaceChangeDescription( newConcentration: number, oldConcentration: number ): string | null {
+  public static getRadiationFromSurfaceChangeDescription( newConcentration: number,
+                                                          oldConcentration: number,
+                                                          energyRepresentation: EnergyRepresentation ): string | null {
+
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredRadiationEmittedFromSurfacePatternStringProperty.value,
+      GreenhouseEffectStrings.a11y.infraredEnergyEmittedFromSurfacePatternStringProperty.value,
       newConcentration,
-      oldConcentration
+      oldConcentration,
+      energyRepresentation
     );
   }
 
@@ -69,8 +78,13 @@ class RadiationDescriber {
    * @param oldConcentration
    * @param describeNoConcentration - If true, 'no' concentration case will be described. Otherwise, reaching zero
    *                                  concentration will be described as 'less'.
+   * @param energyRepresentation - Is the energy represented as a photon or wave?
    */
-  private static getRadiationChangeDescription( patternString: string, newConcentration: number, oldConcentration: number, describeNoConcentration?: boolean ): string | null {
+  private static getRadiationChangeDescription( patternString: string,
+                                                newConcentration: number,
+                                                oldConcentration: number,
+                                                energyRepresentation: EnergyRepresentation,
+                                                describeNoConcentration = false ): string | null {
     let response = null;
 
     if ( newConcentration !== oldConcentration ) {
@@ -79,12 +93,23 @@ class RadiationDescriber {
         changeString = GreenhouseEffectStrings.a11y.noStringProperty.value;
       }
       else {
-        changeString = newConcentration > oldConcentration ?
-                       GreenhouseEffectStrings.a11y.moreStringProperty.value :
-                       GreenhouseEffectStrings.a11y.lessStringProperty.value;
+
+        if ( newConcentration > oldConcentration ) {
+          changeString = GreenhouseEffectStrings.a11y.moreStringProperty.value;
+        }
+        else {
+
+          changeString = energyRepresentation === EnergyRepresentation.PHOTON ?
+                         GreenhouseEffectStrings.a11y.fewerStringProperty.value :
+                         GreenhouseEffectStrings.a11y.lessStringProperty.value;
+        }
       }
+
       response = StringUtils.fillIn( patternString, {
-        moreOrLess: changeString
+        changeDescription: changeString,
+        energyRepresentation: energyRepresentation === EnergyRepresentation.PHOTON ?
+                              GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty :
+                              GreenhouseEffectStrings.a11y.energyRepresentation.radiationStringProperty
       } );
     }
 

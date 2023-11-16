@@ -8,8 +8,6 @@
  */
 
 import { Shape } from '../../../../kite/js/imports.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { GridBox, Image, ImageOptions, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
@@ -20,6 +18,7 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import EnergyRepresentation from './EnergyRepresentation.js';
 
 // constants
 const WAVE_ICON_AMPLITUDE = 7;
@@ -31,13 +30,6 @@ const TOTAL_LEGEND_AREA_HEIGHT = 45;
 
 // margin for panel contents
 const PANEL_MARGIN = 8;
-
-// The legend can display photon or wave representation of energy, see energyRepresentation option
-class EnergyRepresentation extends EnumerationValue {
-  public static readonly PHOTON = new EnergyRepresentation();
-  public static readonly WAVE = new EnergyRepresentation();
-  public static readonly enumeration = new Enumeration( EnergyRepresentation );
-}
 
 type SelfOptions = {
   energyRepresentation?: EnergyRepresentation;

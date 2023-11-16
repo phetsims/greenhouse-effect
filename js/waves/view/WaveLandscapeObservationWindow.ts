@@ -13,14 +13,22 @@ import WavesCanvasNode from './WavesCanvasNode.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from './WaveLandscapeObservationWindowPDOMNode.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
-type SelfOptions = Pick<LandscapeObservationWindow, 'tandem'>;
-type WaveLandscapeObservationWindowOptions = SelfOptions & WithRequired<LandscapeObservationWindowOptions, 'tandem'>;
+type SelfOptions = EmptySelfOptions;
+type WaveLandscapeObservationWindowOptions =
+  SelfOptions &
+  PickRequired<LandscapeObservationWindowOptions, 'tandem'>;
 
 class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
 
-  public constructor( model: WavesModel, options: WaveLandscapeObservationWindowOptions ) {
+  public constructor( model: WavesModel, providedOptions?: WaveLandscapeObservationWindowOptions ) {
+
+    const options = optionize<WaveLandscapeObservationWindowOptions, SelfOptions, LandscapeObservationWindowOptions>()( {
+      energyRepresentation: EnergyRepresentation.WAVE
+    }, providedOptions );
 
     super( model, options );
 

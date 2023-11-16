@@ -33,7 +33,6 @@ class WavesScreenView extends GreenhouseEffectScreenView {
 
     // Create the observation window that will depict the ground, sky, light waves, etc.
     const observationWindow = new WaveLandscapeObservationWindow( model, {
-      isDisposable: false,
       tandem: tandem.createTandem( 'observationWindow' )
     } );
 

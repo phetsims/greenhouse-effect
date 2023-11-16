@@ -445,11 +445,11 @@
         "value": "Infrared radiation: red photons"
       }
     },
-    "infraredRadiationRedirectingPattern": {
-      "value": "{{moreOrLess}} infrared radiation redirecting back to surface."
+    "infraredEnergyRedirectingPattern": {
+      "value": "{{changeDescription}} infrared {{energyRepresentation}} redirecting back to surface."
     },
-    "infraredRadiationEmittedFromSurfacePattern": {
-      "value": "{{moreOrLess}} infrared radiation emitting from surface."
+    "infraredEnergyEmittedFromSurfacePattern": {
+      "value": "{{changeDescription}} infrared {{energyRepresentation}} emitting from surface."
     },
     "more": {
       "value": "More"
@@ -459,6 +459,17 @@
     },
     "no": {
       "value": "No"
+    },
+    "fewer": {
+      "value": "Fewer"
+    },
+    "energyRepresentation": {
+      "photons": {
+        "value": "photons"
+      },
+      "radiation": {
+        "value": "radiation"
+      }
     },
     "inflowToEarth": {
       "value": "inflow to Earth"

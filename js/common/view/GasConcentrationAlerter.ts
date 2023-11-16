@@ -16,7 +16,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -30,8 +30,14 @@ import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionPrope
 import { FluxMeterReadings } from '../model/FluxMeter.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import EnergyRepresentation from './EnergyRepresentation.js';
 
-export type GasConcentrationAlerterOptions = AlerterOptions;
+type SelfOptions = {
+
+  // Controls whether the descriptions for energy are for waves or photons.
+  energyRepresentation: EnergyRepresentation;
+};
+export type GasConcentrationAlerterOptions = SelfOptions & AlerterOptions;
 
 // number of decimal places to pay attention to in the temperature values
 const TEMPERATURE_DECIMAL_PLACES = 1;
@@ -146,9 +152,11 @@ class GasConcentrationAlerter extends Alerter {
   // description string property for the energy flux sensed by the flux meter
   private readonly energyFluxDescriptionProperty: TReadOnlyProperty<string> | null;
 
-  public constructor( model: ConcentrationModel, providedOptions?: GasConcentrationAlerterOptions ) {
+  private readonly energyRepresentation: EnergyRepresentation;
 
-    const options = optionize<GasConcentrationAlerterOptions, EmptySelfOptions, AlerterOptions>()( {
+  public constructor( model: ConcentrationModel, providedOptions: GasConcentrationAlerterOptions ) {
+
+    const options = optionize<GasConcentrationAlerterOptions, SelfOptions, AlerterOptions>()( {
 
       // This alerter and simulation does not support Voicing.
       alertToVoicing: false
@@ -160,6 +168,7 @@ class GasConcentrationAlerter extends Alerter {
     this.useVerboseSurfaceTemperatureAlert = true;
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
+    this.energyRepresentation = options.energyRepresentation;
 
     this.outgoingEnergyProperty = model.outerSpace.incomingUpwardMovingEnergyRateTracker.energyRateProperty;
     this.incomingEnergyProperty = model.sunEnergySource.outputEnergyRateTracker.energyRateProperty;
@@ -371,7 +380,11 @@ class GasConcentrationAlerter extends Alerter {
           // First, a description of the changing radiation redirecting back to the surface - this should only happen if
           // there was some change to the concentration.
           if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
-            const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription( currentConcentration, this.previousPeriodicNotificationModelState.concentration );
+            const radiationRedirectingAlert = RadiationDescriber.getRadiationRedirectionDescription(
+              currentConcentration,
+              this.previousPeriodicNotificationModelState.concentration,
+              this.energyRepresentation
+            );
             radiationRedirectingAlert && this.alert( radiationRedirectingAlert );
           }
 
@@ -380,7 +393,8 @@ class GasConcentrationAlerter extends Alerter {
           if ( this.model.isInfraredPresent() && currentConcentration !== this.previousPeriodicNotificationModelState.concentration ) {
             const surfaceRadiationAlertString = RadiationDescriber.getRadiationFromSurfaceChangeDescription(
               this.model.concentrationProperty.value,
-              this.previousPeriodicNotificationModelState.concentration
+              this.previousPeriodicNotificationModelState.concentration,
+              this.energyRepresentation
             );
             surfaceRadiationAlertString && this.alert( surfaceRadiationAlertString );
           }
