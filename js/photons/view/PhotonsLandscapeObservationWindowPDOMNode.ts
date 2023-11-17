@@ -149,20 +149,32 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
    * "A high amount of infrared photons emit from surface and travel to space. Very low proportion of infrared
    * photons are redirecting back to surface."
    */
-  private static getInfraredDescription( controlMode: ConcentrationControlMode, date: ConcentrationDate, concentration: number, surfaceTemperature: number ): string {
+  private static getInfraredDescription( controlMode: ConcentrationControlMode,
+                                         date: ConcentrationDate,
+                                         concentration: number,
+                                         surfaceTemperature: number ): string {
+
     const incomingAmountDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
       surfaceTemperature,
       controlMode,
       date
     );
-    const incomingInfraredDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.incomingInfraredPatternStringProperty, {
-      incomingAmountDescription: incomingAmountDescription
-    } );
+    const incomingInfraredDescription = StringUtils.fillIn(
+      GreenhouseEffectStrings.a11y.photons.observationWindow.incomingInfraredPatternStringProperty,
+      { incomingAmountDescription: incomingAmountDescription }
+    );
 
-    const outgoingAmountDescription = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
-    const outgoingInfraredDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.outgoingInfraredPatternStringProperty, {
-      outgoingAmountDescription: outgoingAmountDescription
-    } );
+    let outgoingInfraredDescription;
+
+    if ( concentration > 0 ) {
+      const outgoingAmountDescription = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
+      outgoingInfraredDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.outgoingInfraredPatternStringProperty, {
+        outgoingAmountDescription: outgoingAmountDescription
+      } );
+    }
+    else {
+      outgoingInfraredDescription = GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty;
+    }
 
     return StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.infraredDescriptionPatternStringProperty, {
       incomingInfraredDescription: incomingInfraredDescription,

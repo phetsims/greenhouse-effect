@@ -271,6 +271,7 @@ type StringsType = {
         'sunlightDescriptionPatternStringProperty': LocalizedStringProperty;
         'incomingInfraredPatternStringProperty': LocalizedStringProperty;
         'outgoingInfraredPatternStringProperty': LocalizedStringProperty;
+        'noOutgoingInfraredStringProperty': LocalizedStringProperty;
         'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
         'photonDensityDescriptionStringProperty': LocalizedStringProperty;
       }

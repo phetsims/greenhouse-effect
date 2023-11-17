@@ -641,6 +641,9 @@
         "outgoingInfraredPattern": {
           "value": "{{outgoingAmountDescription}} proportion of infrared photons are redirecting back to surface."
         },
+        "noOutgoingInfrared": {
+          "value": "No infrared photons are redirecting back to surface."
+        },
         "infraredDescriptionPattern": {
           "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
         },
