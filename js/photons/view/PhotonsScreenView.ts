@@ -104,6 +104,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
       greenhouseGasConcentrationPanel,
       observationWindow.surfaceThermometer,
       observationWindow.instrumentVisibilityPanel,
+      observationWindow.fluxMeterNode!.fluxSensorNode,
       cloudCheckbox
     ];
     this.pdomControlAreaNode.pdomOrder = [

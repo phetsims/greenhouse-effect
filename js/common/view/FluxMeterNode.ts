@@ -106,6 +106,9 @@ class FluxMeterNode extends Node {
   private readonly sunlightFluxDisplay: EnergyFluxDisplay;
   private readonly infraredFluxDisplay: EnergyFluxDisplay;
 
+  // the Node for the flux sensor, public so that it's location in the PDOM can be manipulated
+  public readonly fluxSensorNode: FluxSensorNode;
+
   /**
    * @param model - model component for the FluxMeter
    * @param isPlayingProperty - a boolean Property that indicates whether the model in which the flux meter resides is
@@ -216,7 +219,7 @@ class FluxMeterNode extends Node {
 
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
-    const fluxSensorNode = new FluxSensorNode( model.fluxSensor, cloud, modelViewTransform, {
+    this.fluxSensorNode = new FluxSensorNode( model.fluxSensor, cloud, modelViewTransform, {
       startDrag: () => {
         model.fluxSensor.isDraggingProperty.set( true );
       },
@@ -236,14 +239,18 @@ class FluxMeterNode extends Node {
       },
       tandem: options.tandem.createTandem( 'fluxSensorNode' )
     } );
-    this.addChild( fluxSensorNode );
+    this.addChild( this.fluxSensorNode );
 
     // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
     // They can also be hidden by setting fluxSensorNode.inputEnabledProperty to false via PhET-iO/Studio, see
     // https://github.com/phetsims/greenhouse-effect/issues/312.
     this.wasDraggedProperty = new BooleanProperty( false );
     const cueingArrowsShownProperty = new DerivedProperty(
-      [ this.wasDraggedProperty, GreenhouseEffectPreferences.cueingArrowsEnabledProperty, fluxSensorNode.inputEnabledProperty ],
+      [
+        this.wasDraggedProperty,
+        GreenhouseEffectPreferences.cueingArrowsEnabledProperty,
+        this.fluxSensorNode.inputEnabledProperty
+      ],
       ( wasDragged, cueingArrowsEnabled, inputEnabled ) => !wasDragged && cueingArrowsEnabled && inputEnabled
     );
 
@@ -255,7 +262,7 @@ class FluxMeterNode extends Node {
         new ArrowNode( 0, 0, 0, -CUEING_ARROW_LENGTH, CUEING_ARROW_OPTIONS ),
         new ArrowNode( 0, 0, 0, CUEING_ARROW_LENGTH, CUEING_ARROW_OPTIONS )
       ],
-      centerX: fluxSensorNode.bounds.maxX,
+      centerX: this.fluxSensorNode.bounds.maxX,
       visibleProperty: cueingArrowsShownProperty
     } );
     this.addChild( cueingArrowsNode );
@@ -276,9 +283,9 @@ class FluxMeterNode extends Node {
 
     const fluxSensorAltitudeRange = model.fluxSensor.altitudeProperty.range;
 
-    fluxSensorNode.addInputListener( new DragListener( {
+    this.fluxSensorNode.addInputListener( new DragListener( {
       start: ( event: SceneryEvent ) => {
-        startOffset = fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( fluxSensorNode.center );
+        startOffset = this.fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( this.fluxSensorNode.center );
         model.fluxSensor.isDraggingProperty.set( true );
       },
       drag: ( event: SceneryEvent ) => {
@@ -293,7 +300,7 @@ class FluxMeterNode extends Node {
         }
 
         // Get the view position of the sensor.
-        const viewPoint = fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( startOffset );
+        const viewPoint = this.fluxSensorNode.globalToParentPoint( event.pointer.point ).subtract( startOffset );
 
         // Constrain the Y position in model space to just below the top of the atmosphere at the high end and just
         // above the ground at the low end.
@@ -334,7 +341,7 @@ class FluxMeterNode extends Node {
 
     // never disposed, no need to unlink
     model.fluxSensor.altitudeProperty.link( altitude => {
-      fluxSensorNode.centerY = modelViewTransform.modelToViewY( altitude );
+      this.fluxSensorNode.centerY = modelViewTransform.modelToViewY( altitude );
     } );
   }
 
