@@ -237,6 +237,7 @@ type StringsType = {
       'observationWindow': {
         'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
         'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
+        'sunlightWavesTravelFromSpaceStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
@@ -279,7 +280,6 @@ type StringsType = {
         'photonDensityDescriptionStringProperty': LocalizedStringProperty;
       }
     };
-    'sunlightWavesTravelFromSpaceStringProperty': LocalizedStringProperty;
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
     'cloudRefectionStringProperty': LocalizedStringProperty;
     'cloudAndGlacierRefectionStringProperty': LocalizedStringProperty;

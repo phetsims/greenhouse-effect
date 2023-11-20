@@ -35,7 +35,8 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
                                    date === ConcentrationDate.ICE_AGE;
           this.sunlightItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
             cloudEnabled,
-            isGlacierPresent
+            isGlacierPresent,
+            EnergyRepresentation.WAVE
           );
 
           // if the sun isn't shining yet, hide this portion of the content

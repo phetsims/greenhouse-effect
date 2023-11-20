@@ -177,7 +177,7 @@ class RadiationDescriber {
       }
       else if ( energyRepresentation === EnergyRepresentation.PHOTON ) {
         radiationIntensityDescription += ' ' +
-          GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty.value;
+                                         GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty.value;
       }
     }
 
@@ -189,15 +189,21 @@ class RadiationDescriber {
    * back to space.
    */
   public static getSunlightTravelDescription( includeCloudReflection: boolean,
-                                              includeGlacierReflection: boolean ): string {
+                                              includeGlacierReflection: boolean,
+                                              energyRepresentation: EnergyRepresentation ): string {
+
+    // Use somewhat different wording when representing light using waves versus photons.
+    const sunlightDescriptionProperty = energyRepresentation === EnergyRepresentation.WAVE ?
+                                        GreenhouseEffectStrings.a11y.waves.observationWindow.sunlightWavesTravelFromSpaceStringProperty :
+                                        GreenhouseEffectStrings.a11y.photons.observationWindow.sunlightPhotonsDescriptionStringProperty;
 
     let descriptionString;
     if ( !includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty.value;
+      descriptionString = sunlightDescriptionProperty.value;
     }
     else if ( includeCloudReflection && !includeGlacierReflection ) {
       descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
-        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty,
+        sunlightDescription: sunlightDescriptionProperty,
         reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefectionStringProperty
       } );
     }
@@ -209,7 +215,7 @@ class RadiationDescriber {
     }
     else {
       descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
-        sunlightDescription: GreenhouseEffectStrings.a11y.sunlightWavesTravelFromSpaceStringProperty,
+        sunlightDescription: sunlightDescriptionProperty,
         reflectionDescription: GreenhouseEffectStrings.a11y.cloudAndGlacierRefectionStringProperty
       } );
     }

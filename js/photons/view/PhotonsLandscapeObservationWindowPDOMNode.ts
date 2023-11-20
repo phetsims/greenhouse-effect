@@ -111,7 +111,8 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
                                    date === ConcentrationDate.ICE_AGE;
           this.sunlightItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
             cloudEnabled,
-            isGlacierPresent
+            isGlacierPresent,
+            EnergyRepresentation.PHOTON
           );
 
           // if the sun isn't shining yet, hide this portion of the content

@@ -546,6 +546,9 @@
         },
         "infraredEmissionIntensityWithRedirectionPattern": {
           "value": "{{surfaceEmission}} {{value}} infrared energy is redirecting back to surface."
+        },
+        "sunlightWavesTravelFromSpace": {
+          "value": "Sunlight waves travel from space to surface."
         }
       }
     },
@@ -656,9 +659,6 @@
           "value": "Higher density of infrared photons near surface."
         }
       }
-    },
-    "sunlightWavesTravelFromSpace": {
-      "value": "Sunlight waves travel from space to surface."
     },
     "sunlightAndReflectionPattern": {
       "value": "{{sunlightDescription}} {{reflectionDescription}}"
