@@ -12,7 +12,7 @@ import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObser
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
@@ -86,19 +86,38 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
       this.sunlightItemNode.pdomVisible = isShining;
     } );
 
-    // Without greenhouse gases, density of photons is constant so skip this statement if concentration = 0.
     Multilink.multilink( [
       model.sunEnergySource.isShiningProperty,
       model.photonCollection.showAllSimulatedPhotonsInViewProperty,
       model.concentrationProperty
     ], ( isShining, showAllPhotons, concentration ) => {
+
+      // Without greenhouse gases the density of photons is constant, so hide this statement if concentration is zero.
       this.densityItemNode.pdomVisible = isShining && showAllPhotons && concentration > 0;
     } );
 
     if ( model.cloud ) {
-      model.cloud.enabledProperty.link( cloudEnabled => {
-        this.sunlightItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getSunlightDescription( cloudEnabled );
-      } );
+
+      Multilink.multilink(
+        [
+          model.cloud.enabledProperty,
+          model.sunEnergySource.isShiningProperty,
+          model.concentrationControlModeProperty,
+          model.dateProperty
+        ],
+        ( cloudEnabled, isShining, concentrationControlMode, date ) => {
+
+          const isGlacierPresent = concentrationControlMode === ConcentrationControlMode.BY_DATE &&
+                                   date === ConcentrationDate.ICE_AGE;
+          this.sunlightItemNode.innerContent = RadiationDescriber.getSunlightTravelDescription(
+            cloudEnabled,
+            isGlacierPresent
+          );
+
+          // if the sun isn't shining yet, hide this portion of the content
+          this.sunlightItemNode.pdomVisible = isShining;
+        }
+      );
     }
 
     Multilink.multilink(
@@ -133,31 +152,15 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
    * @param ppmItemNode - The Node to set the description on
    * @param patternStringProperty - The pattern string to use for the description
    */
-  private static registerConcentrationListener( concentrationProperty: NumberProperty, ppmItemNode: Node, patternStringProperty: LocalizedStringProperty ): void {
+  private static registerConcentrationListener( concentrationProperty: NumberProperty,
+                                                ppmItemNode: Node,
+                                                patternStringProperty: LocalizedStringProperty ): void {
+
     concentrationProperty.link( concentration => {
       ppmItemNode.innerContent = StringUtils.fillIn( patternStringProperty.value, {
         value: concentration
       } );
     } );
-  }
-
-  /**
-   * Returns a description of the sunlight travel for this observation window. Returns something like:
-   *
-   * "Sunlight photons travel from space to surface. Cloud reflects some sunlight back into space."
-   */
-  private static getSunlightDescription( cloudEnabled: boolean ): LocalizedStringProperty | string {
-    const sunlightTravelStringProperty = GreenhouseEffectStrings.a11y.photons.observationWindow.sunlightPhotonsDescriptionStringProperty;
-
-    if ( cloudEnabled ) {
-      return StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
-        sunlightDescription: sunlightTravelStringProperty,
-        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefectionStringProperty
-      } );
-    }
-    else {
-      return sunlightTravelStringProperty;
-    }
   }
 }
 
