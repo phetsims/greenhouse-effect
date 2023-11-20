@@ -1,10 +1,10 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * Responsible for descriptions about the observation window that are specific to the Photons screen. Sets up PDOM
- * structure for a descriptive list the graphical state of the observation window. Uses an "extra" scene graph
- * Nodes for this because the observation window itself does not have graphical objects that support the required
- * PDOM structure.
+ * PhotonsLandscapeObservationWindowPDOMNode is responsible for descriptions about the observation window that are
+ * specific to the Photons screen. It sets up PDOM structure for a descriptive list of the graphical state of the
+ * observation window. It uses an "extra" scene graph Node for this because the observation window itself does not have
+ * graphical objects that support the needed PDOM structure.
  */
 
 import PhotonsModel from '../model/PhotonsModel.js';
@@ -39,13 +39,13 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
 
     this.densityItemNode.innerContent = GreenhouseEffectStrings.a11y.photons.observationWindow.photonDensityDescriptionStringProperty;
 
-    // This Node holds the overall description of concentration. In a 'p' under the concentration item so that
-    // the concentration item can also hold a sublist with additional descriptions.
+    // This Node holds the overall description of concentration. In a 'p' under the concentration item so that the
+    // concentration item can also hold a sublist with additional descriptions.
     const concentrationItemDescriptionNode = new Node( { tagName: 'p' } );
     this.concentrationItemNode.addChild( concentrationItemDescriptionNode );
 
-    // An additional list of information about the distribution of gases in the atmosphere will appear
-    // under the concentration item.
+    // An additional list of information about the distribution of gases in the atmosphere will appear under the
+    // concentration item.
     const ppmItemParentNode = new Node( { tagName: 'ul' } );
     ppmItemParentNode.children = [
       this.carbonDioxidePPMItemNode,
@@ -54,7 +54,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     ];
     this.concentrationItemNode.addChild( ppmItemParentNode );
 
-    // The density item is requested to come before the surface temperature item
+    // The density item is requested to come before the surface temperature item.
     this.insertChild( this.indexOfChild( this.surfaceTemperatureItemNode ), this.densityItemNode );
 
     const gasConcentrations = new GreenhouseGasConcentrations( model.dateProperty );
@@ -76,13 +76,14 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
         model.dateProperty
       ],
       ( controlMode, concentration, date ) => {
-        concentrationItemDescriptionNode.innerContent = LandscapeObservationWindowPDOMNode.getConcentrationDescription( controlMode, concentration, date );
+        concentrationItemDescriptionNode.innerContent = LandscapeObservationWindowPDOMNode.getConcentrationDescription(
+          controlMode, concentration, date
+        );
       }
     );
 
     model.sunEnergySource.isShiningProperty.link( isShining => {
       this.sunlightItemNode.pdomVisible = isShining;
-      this.infraredItemNode.pdomVisible = isShining;
     } );
 
     // Without greenhouse gases, density of photons is constant so skip this statement if concentration = 0.
@@ -108,9 +109,16 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
         model.surfaceTemperatureKelvinProperty
       ],
       ( controlMode, date, concentration, surfaceTemperature ) => {
-        this.infraredItemNode.innerContent = RadiationDescriber.getInfraredRadiationIntensityDescription(
+        const description = RadiationDescriber.getInfraredRadiationIntensityDescription(
           surfaceTemperature, controlMode, date, concentration, EnergyRepresentation.PHOTON
         );
+        if ( description ) {
+          this.infraredItemNode.pdomVisible = true;
+          this.infraredItemNode.innerContent = description;
+        }
+        else {
+          this.infraredItemNode.pdomVisible = false;
+        }
       }
     );
   }
