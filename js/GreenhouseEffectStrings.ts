@@ -174,6 +174,7 @@ type StringsType = {
       'topOfAtmosphereStringProperty': LocalizedStringProperty;
     };
     'amountOfPatternStringProperty': LocalizedStringProperty;
+    'proportionOfPatternStringProperty': LocalizedStringProperty;
     'levelsOfPatternStringProperty': LocalizedStringProperty;
     'timePeriodDescriptions': {
       'iceAgeStringProperty': LocalizedStringProperty;
@@ -232,6 +233,10 @@ type StringsType = {
         'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
         'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
         'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
+      };
+      'observationWindow': {
+        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
@@ -267,10 +272,8 @@ type StringsType = {
       };
       'observationWindow': {
         'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
-        'cloudReflectionDescriptionStringProperty': LocalizedStringProperty;
-        'sunlightDescriptionPatternStringProperty': LocalizedStringProperty;
-        'incomingInfraredPatternStringProperty': LocalizedStringProperty;
-        'outgoingInfraredPatternStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
         'noOutgoingInfraredStringProperty': LocalizedStringProperty;
         'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
         'photonDensityDescriptionStringProperty': LocalizedStringProperty;
@@ -283,8 +286,6 @@ type StringsType = {
     'surfaceTemperatureIsQuantitativePatternStringProperty': LocalizedStringProperty;
     'surfaceTemperatureIsQualitativePatternStringProperty': LocalizedStringProperty;
     'surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty': LocalizedStringProperty;
-    'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
-    'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
     'startSunlightHintStringProperty': LocalizedStringProperty;
     'startSunlightButtonHelpTextStringProperty': LocalizedStringProperty;
     'sunlightStartedStringProperty': LocalizedStringProperty;

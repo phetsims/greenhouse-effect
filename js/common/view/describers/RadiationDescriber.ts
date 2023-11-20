@@ -14,8 +14,6 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../model/Concent
 import ConcentrationDescriber from './ConcentrationDescriber.js';
 import EnergyRepresentation from '../EnergyRepresentation.js';
 
-const infraredEmissionIntensityPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
-const infraredEmissionIntensityWithRedirectionPatternStringProperty = GreenhouseEffectStrings.a11y.infraredEmissionIntensityWithRedirectionPatternStringProperty;
 const sunlightStartedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedStringProperty;
 const sunlightStartedSimPausedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedSimPausedStringProperty;
 
@@ -118,23 +116,28 @@ class RadiationDescriber {
 
   private static getRedirectedInfraredDescription( concentration: number,
                                                    concentrationControlMode: ConcentrationDate,
-                                                   date: ConcentrationDate ): string {
+                                                   date: ConcentrationDate,
+                                                   energyRepresentation: EnergyRepresentation ): string {
 
-    // Get the description from the concentration describer, since the amount of IR that is redirected it completely
+    // Get the description from the concentration describer, since the amount of IR that is redirected is completely
     // dependent on the concentration level.
     const qualitativeDescriptionOfRedirection = concentrationControlMode === ConcentrationControlMode.BY_VALUE ?
                                                 ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
                                                 ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
 
-    return StringUtils.capitalize( StringUtils.fillIn( GreenhouseEffectStrings.a11y.amountOfPatternStringProperty, {
+    const enclosingPhraseProperty = energyRepresentation === EnergyRepresentation.WAVE ?
+                                    GreenhouseEffectStrings.a11y.amountOfPatternStringProperty :
+                                    GreenhouseEffectStrings.a11y.proportionOfPatternStringProperty;
+
+    return StringUtils.capitalize( StringUtils.fillIn( enclosingPhraseProperty, {
       qualitativeDescription: qualitativeDescriptionOfRedirection
     } ) );
   }
 
   /**
    * Gets a description of the infrared radiation intensity at the surface, and the intensity of radiation redirected
-   * back to the surface. The intensity of radiation emitted from the surface is directly correlated with the surface
-   * temperature. Will return something like:
+   * back to the surface by the atmosphere. The intensity of radiation emitted from the surface is directly correlated
+   * with the surface temperature. Will return something like:
    * "Infrared waves emit with high intensity from surface and travel to space." or
    * "Infrared waves emit with low intensity from surface and travel to space. Low amount of infrared energy is
    * redirected back to surface."
@@ -142,28 +145,39 @@ class RadiationDescriber {
   public static getInfraredRadiationIntensityDescription( surfaceTemperature: number,
                                                           concentrationControlMode: ConcentrationControlMode,
                                                           date: ConcentrationDate,
-                                                          concentration: number ): string | null {
+                                                          concentration: number,
+                                                          energyRepresentation: EnergyRepresentation ): string | null {
     let radiationIntensityDescription = null;
 
     if ( surfaceTemperature > GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE ) {
+
       const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
         surfaceTemperature,
-        concentrationControlMode,
-        date
+        concentrationControlMode
       );
 
-      radiationIntensityDescription = StringUtils.fillIn( infraredEmissionIntensityPatternStringProperty, {
-        value: intensityDescription
-      } );
+      const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
+                                        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
+                                        GreenhouseEffectStrings.a11y.photons.observationWindow.infraredEmissionIntensityPatternStringProperty;
+      radiationIntensityDescription = StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } );
+
+      const irDescriptionWithRedirectionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
+                                                          GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty :
+                                                          GreenhouseEffectStrings.a11y.photons.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty;
 
       if ( concentration > 0 ) {
-        radiationIntensityDescription = StringUtils.fillIn(
-          infraredEmissionIntensityWithRedirectionPatternStringProperty,
-          {
+
+        radiationIntensityDescription = StringUtils.fillIn( irDescriptionWithRedirectionPatternProperty, {
             surfaceEmission: radiationIntensityDescription,
-            value: RadiationDescriber.getRedirectedInfraredDescription( concentration, concentrationControlMode, date )
+            value: RadiationDescriber.getRedirectedInfraredDescription(
+              concentration, concentrationControlMode, date, energyRepresentation
+            )
           }
         );
+      }
+      else if ( energyRepresentation === EnergyRepresentation.PHOTON ) {
+        radiationIntensityDescription += ' ' +
+          GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty.value;
       }
     }
 

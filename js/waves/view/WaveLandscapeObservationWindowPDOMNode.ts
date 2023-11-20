@@ -12,6 +12,7 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowPDOMNode {
 
@@ -61,7 +62,8 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
           surfaceTemperature,
           model.concentrationControlModeProperty.value,
           model.dateProperty.value,
-          concentration
+          concentration,
+          EnergyRepresentation.WAVE
         );
         if ( description ) {
           this.infraredItemNode.pdomVisible = true;

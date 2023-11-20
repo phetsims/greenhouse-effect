@@ -382,6 +382,9 @@
     "amountOfPattern": {
       "value": "{{qualitativeDescription}} amount of"
     },
+    "proportionOfPattern": {
+      "value": "{{qualitativeDescription}} proportion of"
+    },
     "levelsOfPattern": {
       "value": "{{qualitativeDescription}} levels of"
     },
@@ -536,6 +539,14 @@
         "qualitativeAndQuantitativeTemperatureDescriptionPattern": {
           "value": "{{qualitativeDescription}}, {{quantitativeDescription}}"
         }
+      },
+      "observationWindow": {
+        "infraredEmissionIntensityPattern": {
+          "value": "Infrared waves emit with {{value}} intensity from surface and travel to space."
+        },
+        "infraredEmissionIntensityWithRedirectionPattern": {
+          "value": "{{surfaceEmission}} {{value}} infrared energy is redirecting back to surface."
+        }
       }
     },
     "timePeriodDescriptionPattern": {
@@ -629,17 +640,11 @@
         "sunlightPhotonsDescription": {
           "value": "Sunlight photons travel from space to surface."
         },
-        "cloudReflectionDescription": {
-          "value": "Cloud reflects some sunlight back into space."
+        "infraredEmissionIntensityPattern": {
+          "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
         },
-        "sunlightDescriptionPattern": {
-          "value": "{{sunlightDescription}} {{reflectionDescription}}"
-        },
-        "incomingInfraredPattern": {
-          "value": "A {{incomingAmountDescription}} amount of infrared photons emit from surface and travel to space."
-        },
-        "outgoingInfraredPattern": {
-          "value": "{{outgoingAmountDescription}} proportion of infrared photons are redirecting back to surface."
+        "infraredEmissionIntensityWithRedirectionPattern": {
+          "value": "{{surfaceEmission}} {{value}} infrared photons are redirecting back to surface."
         },
         "noOutgoingInfrared": {
           "value": "No infrared photons are redirecting back to surface."
@@ -672,12 +677,6 @@
     },
     "surfaceTemperatureIsQuantitativeAndQualitativePattern": {
       "value": "The surface temperature is {{description}}, {{value}}."
-    },
-    "infraredEmissionIntensityPattern": {
-      "value": "Infrared waves emit with {{value}} intensity from surface and travel to space."
-    },
-    "infraredEmissionIntensityWithRedirectionPattern": {
-      "value": "{{surfaceEmission}} {{value}} infrared energy is redirecting back to surface."
     },
     "startSunlightHint": {
       "value": "Start sunlight to play."

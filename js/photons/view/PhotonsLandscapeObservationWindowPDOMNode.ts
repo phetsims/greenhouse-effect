@@ -12,14 +12,14 @@ import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObser
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import ConcentrationDescriber from '../../common/view/describers/ConcentrationDescriber.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
-import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
 
@@ -100,10 +100,19 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
       } );
     }
 
-    Multilink.multilink( [ model.concentrationControlModeProperty, model.dateProperty, model.concentrationProperty, model.surfaceTemperatureKelvinProperty ],
+    Multilink.multilink(
+      [
+        model.concentrationControlModeProperty,
+        model.dateProperty,
+        model.concentrationProperty,
+        model.surfaceTemperatureKelvinProperty
+      ],
       ( controlMode, date, concentration, surfaceTemperature ) => {
-        this.infraredItemNode.innerContent = PhotonsLandscapeObservationWindowPDOMNode.getInfraredDescription( controlMode, date, concentration, surfaceTemperature );
-      } );
+        this.infraredItemNode.innerContent = RadiationDescriber.getInfraredRadiationIntensityDescription(
+          surfaceTemperature, controlMode, date, concentration, EnergyRepresentation.PHOTON
+        );
+      }
+    );
   }
 
   /**
@@ -133,53 +142,14 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     const sunlightTravelStringProperty = GreenhouseEffectStrings.a11y.photons.observationWindow.sunlightPhotonsDescriptionStringProperty;
 
     if ( cloudEnabled ) {
-      return StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.sunlightDescriptionPatternStringProperty, {
+      return StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
         sunlightDescription: sunlightTravelStringProperty,
-        reflectionDescription: GreenhouseEffectStrings.a11y.photons.observationWindow.cloudReflectionDescriptionStringProperty
+        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefectionStringProperty
       } );
     }
     else {
       return sunlightTravelStringProperty;
     }
-  }
-
-  /**
-   * Returns a description of how the infrared photons are behaving in this observation window. Returns something like
-   *
-   * "A high amount of infrared photons emit from surface and travel to space. Very low proportion of infrared
-   * photons are redirecting back to surface."
-   */
-  private static getInfraredDescription( controlMode: ConcentrationControlMode,
-                                         date: ConcentrationDate,
-                                         concentration: number,
-                                         surfaceTemperature: number ): string {
-
-    const incomingAmountDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
-      surfaceTemperature,
-      controlMode,
-      date
-    );
-    const incomingInfraredDescription = StringUtils.fillIn(
-      GreenhouseEffectStrings.a11y.photons.observationWindow.incomingInfraredPatternStringProperty,
-      { incomingAmountDescription: incomingAmountDescription }
-    );
-
-    let outgoingInfraredDescription;
-
-    if ( concentration > 0 ) {
-      const outgoingAmountDescription = ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
-      outgoingInfraredDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.outgoingInfraredPatternStringProperty, {
-        outgoingAmountDescription: outgoingAmountDescription
-      } );
-    }
-    else {
-      outgoingInfraredDescription = GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty;
-    }
-
-    return StringUtils.fillIn( GreenhouseEffectStrings.a11y.photons.observationWindow.infraredDescriptionPatternStringProperty, {
-      incomingInfraredDescription: incomingInfraredDescription,
-      outgoingInfraredDescription: outgoingInfraredDescription
-    } );
   }
 }
 

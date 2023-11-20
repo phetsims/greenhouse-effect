@@ -91,11 +91,9 @@ class TemperatureDescriber {
    *
    * @param value - the temperature in kelvin
    * @param concentrationControlMode - the mode for how concentration is controlled, either by value or by date
-   * @param date - the selected date
    */
   public static getQualitativeTemperatureDescriptionString( value: number,
-                                                            concentrationControlMode: ConcentrationControlMode,
-                                                            date: ConcentrationDate ): string {
+                                                            concentrationControlMode: ConcentrationControlMode ): string {
 
     let qualitativeDescriptionString;
 
@@ -136,7 +134,7 @@ class TemperatureDescriber {
                                                                    concentrationControlMode: ConcentrationControlMode,
                                                                    date: ConcentrationDate ): string {
     return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePatternStringProperty, {
-      description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode, date )
+      description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode )
     } );
   }
 
@@ -244,8 +242,7 @@ class TemperatureDescriber {
       stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionAndValueStringProperty, {
         qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
-          concentrationControlMode,
-          date
+          concentrationControlMode
         ),
         quantitativeDescription: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
       } );
@@ -259,8 +256,7 @@ class TemperatureDescriber {
       stableTemperatureString = StringUtils.fillIn( surfaceTemperatureStableWithDescriptionStringProperty, {
         qualitativeDescription: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
-          concentrationControlMode,
-          date
+          concentrationControlMode
         )
       } );
     }
@@ -293,8 +289,7 @@ class TemperatureDescriber {
         {
           description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
             temperature,
-            concentrationControlMode,
-            date
+            concentrationControlMode
           ),
           value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, unitsValue )
         }
@@ -309,8 +304,7 @@ class TemperatureDescriber {
       surfaceTemperatureDescriptionString = StringUtils.fillIn( surfaceTemperatureIsQualitativePatternStringProperty, {
         description: TemperatureDescriber.getQualitativeTemperatureDescriptionString(
           temperature,
-          concentrationControlMode,
-          date
+          concentrationControlMode
         )
       } );
     }
