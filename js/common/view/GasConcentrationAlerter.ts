@@ -89,6 +89,7 @@ type PreviousPeriodicNotificationModelState = {
   concentration: number;
   outgoingEnergy: number;
   netInflowOfEnergy: number;
+  date: ConcentrationDate;
 
   // This is in both periodic and immediate state - when this changes we need to describe some information immediately
   // and some information at the next alert interval.
@@ -277,7 +278,8 @@ class GasConcentrationAlerter extends Alerter {
       concentration: 0,
       outgoingEnergy: 0,
       netInflowOfEnergy: 0,
-      concentrationControlMode: this.model.concentrationControlModeProperty.value
+      concentrationControlMode: this.model.concentrationControlModeProperty.value,
+      date: this.model.dateProperty.value
     };
 
     this.previousPeriodicNotificationModelState.temperature = this.getCurrentTemperature();
@@ -285,6 +287,7 @@ class GasConcentrationAlerter extends Alerter {
     this.previousPeriodicNotificationModelState.outgoingEnergy = this.outgoingEnergyProperty.value;
     this.previousPeriodicNotificationModelState.netInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
     this.previousPeriodicNotificationModelState.concentrationControlMode = this.model.concentrationControlModeProperty.value;
+    this.previousPeriodicNotificationModelState.date = this.model.dateProperty.value;
 
     return this.previousPeriodicNotificationModelState;
   }
@@ -503,8 +506,10 @@ class GasConcentrationAlerter extends Alerter {
           );
           const fluxChangeTotal = fluxChanges.reduce( ( totalSoFar, change ) => totalSoFar + change, 0 );
 
-          // Did the altitude or energy flux measurements change in such a way that we should do a new alert?
-          if ( altitudeChangeOverThreshold || fluxChangeOverThreshold ) {
+          const didDateChange = this.model.dateProperty.value !== this.previousPeriodicNotificationModelState.date;
+
+          // Did the altitude, energy flux measurements or date change in such a way that we should do a new alert?
+          if ( altitudeChangeOverThreshold || fluxChangeOverThreshold || didDateChange ) {
             if ( altitudeChangeOverThreshold && !fluxChangeOverThreshold ) {
               const littleOrNoChangeString = StringUtils.fillIn(
                 GreenhouseEffectStrings.a11y.fluxMeterSmallChangePatternStringProperty,
@@ -517,7 +522,7 @@ class GasConcentrationAlerter extends Alerter {
               this.alert( littleOrNoChangeString );
               this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
             }
-            else if ( fluxChangeOverThreshold ) {
+            else if ( fluxChangeOverThreshold || didDateChange ) {
               this.alert( this.energyFluxDescriptionProperty!.value );
               this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
             }
