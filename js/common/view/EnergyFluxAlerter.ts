@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * EnergyFluxAlerter is responsible for generating and timing alerts related to energy flux measured by the flux meter.
