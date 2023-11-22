@@ -102,15 +102,19 @@ class FluxSensor extends PhetioObject {
 
     // Create the energy rate trackers.
     this.visibleLightDownEnergyRateTracker = new EnergyRateTracker( {
+      accumulationPeriod: FluxSensor.MEASUREMENT_ACCUMULATION_TIME,
       tandem: options.tandem?.createTandem( 'visibleLightDownEnergyRateTracker' )
     } );
     this.visibleLightUpEnergyRateTracker = new EnergyRateTracker( {
+      accumulationPeriod: FluxSensor.MEASUREMENT_ACCUMULATION_TIME,
       tandem: options.tandem?.createTandem( 'visibleLightUpEnergyRateTracker' )
     } );
     this.infraredLightDownEnergyRateTracker = new EnergyRateTracker( {
+      accumulationPeriod: FluxSensor.MEASUREMENT_ACCUMULATION_TIME,
       tandem: options.tandem?.createTandem( 'infraredLightDownEnergyRateTracker' )
     } );
     this.infraredLightUpEnergyRateTracker = new EnergyRateTracker( {
+      accumulationPeriod: FluxSensor.MEASUREMENT_ACCUMULATION_TIME,
       tandem: options.tandem?.createTandem( 'infraredLightUpEnergyRateTracker' )
     } );
 
@@ -193,6 +197,9 @@ class FluxSensor extends PhetioObject {
     this.clearEnergyTrackers();
     this.altitudeProperty.reset();
   }
+
+  // The size of the time window for accumulating and averaging the energy flux.  In seconds.
+  public static readonly MEASUREMENT_ACCUMULATION_TIME = 1;
 }
 
 greenhouseEffect.register( 'FluxSensor', FluxSensor );

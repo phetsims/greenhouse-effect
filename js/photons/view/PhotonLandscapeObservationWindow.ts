@@ -16,6 +16,8 @@ import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonsLandscapeObservationWindowPDOMNode from './PhotonsLandscapeObservationWindowPDOMNode.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
+import { DisplayedProperty } from '../../../../scenery/js/imports.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PhotonLandscapeObservationWindowOptions =
@@ -24,6 +26,7 @@ export type PhotonLandscapeObservationWindowOptions =
 
 class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly photonsNode: PhotonSprites;
+  private readonly energyFluxAlerter: EnergyFluxAlerter;
 
   public constructor( model: PhotonsModel, providedOptions?: PhotonLandscapeObservationWindowOptions ) {
 
@@ -36,6 +39,12 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // Add the node that will render the photons.
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
+
+    // alerter for energy flux
+    this.energyFluxAlerter = new EnergyFluxAlerter( model, {
+      descriptionAlertNode: this,
+      enabledProperty: new DisplayedProperty( this )
+    } );
 
     // pdom - manages descriptions for the observation window
     const observationWindowPDOMNode = new PhotonsLandscapeObservationWindowPDOMNode( model );
@@ -57,6 +66,14 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   public override step( dt: number ): void {
     this.photonsNode.update();
     super.step( dt );
+  }
+
+  /**
+   * Step our alerter(s).  See docs in parent class for more info.
+   */
+  public override stepAlerters( dt: number ): void {
+    this.energyFluxAlerter.step();
+    super.stepAlerters( dt );
   }
 }
 
