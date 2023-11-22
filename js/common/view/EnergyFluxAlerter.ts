@@ -1,9 +1,8 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * EnergyFluxAlerter is responsible for generating and timing alerts related to energy flux measured by the flux meter.
- * A polling method is used to time the alerts and determine how model variables have changed to create an accurate
- * description.
+ * EnergyFluxAlerter is responsible for generating alerts related to energy flux measured by the flux meter. A
+ * combination of timed polling and monitoring of model state is used to decide when to generate the alerts.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg (PhET Interactive Simulations)
@@ -24,7 +23,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 type SelfOptions = EmptySelfOptions;
 export type EnergyFluxAlerterOptions = SelfOptions & AlerterOptions;
 
-// in seconds, how frequently to send an alert to the UtteranceQueue describing changing concentrations
+// The periods for checking whether new alerts should be made.  Different values are used when playing versus stepping.
 const ALERT_INTERVAL_WHILE_PLAYING = 4;
 const ALERT_INTERVAL_WHILE_STEPPING = 1;
 
@@ -33,12 +32,12 @@ const ALERT_INTERVAL_WHILE_STEPPING = 1;
 const ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS = 4000000;
 
 // The amount of change in energy flux necessary to announce the full description after the sensor is moved.  Below this
-// value the alerter will say that either a negligible or no change occurred.
+// value the alerter will say that either a negligible or no change occurred.  In watts, empirically determined.
 const NON_NEGLIGIBLE_FLUX_CHANGE = 300000;
 
 // The change of energy flux measured by the flux meter that must occur for it to be considered any change at all.  A
-// change below this threshold is described as no change.
-const APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD = 10000;
+// change below this threshold is described as no change.  In watts, empirically determined.
+const APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD = 30000;
 
 type PartialMomentaryModelState = {
   date: ConcentrationDate;
@@ -93,6 +92,8 @@ class EnergyFluxAlerter extends Alerter {
     // that have accumulated while the flux meter was parked at a single altitude.
     model.fluxMeter!.fluxSensor.isDraggingProperty.lazyLink( isDragging => {
       if ( isDragging ) {
+
+        // Get a fresh set of flux meter readings at the start of a drag for comparison shortly after the drag completes.
         this.previousFluxMeterReadings = model.fluxMeter!.readMeter();
       }
       else {
@@ -142,7 +143,7 @@ class EnergyFluxAlerter extends Alerter {
   public step(): void {
 
     // Calculate the time since the last alert based on the time experienced by the model.  There is no need to do
-    // alerts if the model hasn't changed.
+    // alerts about energy flux changes if the model hasn't changed.
     const elapsedModelTime = Math.max( this.model.totalElapsedTime - this.previousElapsedModelTime, 0 );
 
     // Update the countdown timer for alerts.
@@ -150,7 +151,6 @@ class EnergyFluxAlerter extends Alerter {
 
     // See if it's time to consider doing an alert.
     if ( this.alertCountdownTimer === 0 ) {
-
 
       if ( this.model.fluxMeter &&
            this.model.fluxMeterVisibleProperty.value &&
@@ -188,22 +188,19 @@ class EnergyFluxAlerter extends Alerter {
           0
         );
 
-        // Total up all the flux changes.
-        const fluxChangeTotal = fluxChangeValues.reduce( ( totalSoFar, change ) => totalSoFar + change, 0 );
-
+        // Check some other things that might motivate an alert.
         const dateChanged = this.model.dateProperty.value !== this.previousModelState.date;
         const concentrationModeChanged = this.model.concentrationControlModeProperty.value !==
                                          this.previousModelState.concentrationControlMode;
+
+        let alerted = false;
 
         // Did one or more of the flux values change enough to warrant an alert?
         if ( largestFluxChange > ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS ) {
 
           // The flux change is over the threshold, so do an alert of the current energy flux description.
           this.alert( this.energyFluxDescriptionProperty.value );
-
-          // Update internal state for the next timeout.
-          this.previousFluxMeterReadings = fluxMeterReadings;
-          this.sensorMovedSinceLastAlert = false;
+          alerted = true;
         }
 
         // Did anything else change that would warrant a new alert?
@@ -221,23 +218,25 @@ class EnergyFluxAlerter extends Alerter {
             const littleOrNoChangeString = StringUtils.fillIn(
               GreenhouseEffectStrings.a11y.fluxMeterSmallChangePatternStringProperty,
               {
-                negligibleOrNo: fluxChangeTotal < APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD ?
+                negligibleOrNo: largestFluxChange < APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD ?
                                 GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty :
                                 GreenhouseEffectStrings.a11y.negligibleStringProperty
               }
             );
             this.alert( littleOrNoChangeString );
           }
+          alerted = true;
+        }
 
-          // Update internal state for the next timeout.
-          this.previousFluxMeterReadings = this.model.fluxMeter.readMeter();
+        // If an alert was performed, record the state for future comparison.
+        if ( alerted ) {
+          this.previousModelState = this.getModelState();
+          this.previousFluxMeterReadings = fluxMeterReadings;
           this.sensorMovedSinceLastAlert = false;
         }
       }
 
-      this.previousModelState = this.getModelState();
-
-      // Use a different value for the time between alerts when stepping.
+      // Reset the countdown timer.  Use a different value for the time between alerts when stepping.
       this.alertCountdownTimer = this.model.isPlayingProperty.value ?
                                  ALERT_INTERVAL_WHILE_PLAYING :
                                  ALERT_INTERVAL_WHILE_STEPPING;
