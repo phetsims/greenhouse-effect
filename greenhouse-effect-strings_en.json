@@ -660,6 +660,39 @@
         }
       }
     },
+    "layerModel": {
+      "homeScreenDescription": {
+        "value": "Experiment with infrared absorbing layers in the atmosphere.."
+      },
+      "screenSummary": {
+        "playAreaDescription": {
+          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  It has controls to adjust the solar intensity, surface albedo, and to add infrared absorbing layers to the atmosphere. It also has controls to measure the energy balance and energy flux."
+        },
+        "controlAreaDescription": {
+          "value": "The Control Area has options for changing the temperature units. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+        }
+      },
+      "observationWindow": {
+        "sunlightPhotonsDescription": {
+          "value": "Sunlight photons travel from space to surface."
+        },
+        "infraredEmissionIntensityPattern": {
+          "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
+        },
+        "infraredEmissionIntensityWithRedirectionPattern": {
+          "value": "{{surfaceEmission}} {{value}} infrared photons are redirecting back to surface."
+        },
+        "noOutgoingInfrared": {
+          "value": "No infrared photons are redirecting back to surface."
+        },
+        "infraredDescriptionPattern": {
+          "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
+        },
+        "photonDensityDescription": {
+          "value": "Higher density of infrared photons near surface."
+        }
+      }
+    },
     "sunlightAndReflectionPattern": {
       "value": "{{sunlightDescription}} {{reflectionDescription}}"
     },

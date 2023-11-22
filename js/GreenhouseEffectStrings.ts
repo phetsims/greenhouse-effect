@@ -280,6 +280,21 @@ type StringsType = {
         'photonDensityDescriptionStringProperty': LocalizedStringProperty;
       }
     };
+    'layerModel': {
+      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenSummary': {
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
+      };
+      'observationWindow': {
+        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
+        'noOutgoingInfraredStringProperty': LocalizedStringProperty;
+        'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
+        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
+      }
+    };
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
     'cloudRefectionStringProperty': LocalizedStringProperty;
     'cloudAndGlacierRefectionStringProperty': LocalizedStringProperty;

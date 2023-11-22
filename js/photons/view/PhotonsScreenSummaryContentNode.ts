@@ -1,7 +1,7 @@
 // Copyright 2023, University of Colorado Boulder
 
 /**
- * A Node that manages PDOM content and structure for the screen summary of the waves screen.
+ * A Node that manages PDOM content and structure for the screen summary of the "Photons" screen.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */

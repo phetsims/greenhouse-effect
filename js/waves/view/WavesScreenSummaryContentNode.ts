@@ -1,7 +1,7 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * The Node that manages and updates the screen summary for the Waves screen in the PDOM.
+ * The Node that manages and updates the screen summary for the "Waves" screen in the PDOM.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */

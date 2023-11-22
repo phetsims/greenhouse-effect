@@ -16,6 +16,7 @@ import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredPanel from './InfraredPanel.js';
 import SunlightPanel from './SunlightPanel.js';
 import TemperatureUnitsControl from './TemperatureUnitsControl.js';
+import LayerModelScreenSummaryContentNode from './LayerModelScreenSummaryContentNode.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -34,7 +35,10 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       useClippingFrame: true,
 
       // phet-io
-      tandem: tandem
+      tandem: tandem,
+
+      // pdom
+      screenSummaryContent: new LayerModelScreenSummaryContentNode( model )
     } );
 
     const temperatureUnitsControl = new TemperatureUnitsControl(
