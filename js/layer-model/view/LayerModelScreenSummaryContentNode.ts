@@ -96,15 +96,15 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
 
         // second sentence
         if ( !sunIsShining || ( sunIsShining && !isPlaying ) ) {
-          currentDescription += ' ' + capitalizeFirstLetter( irAbsorbingLayersPhrase ) + '.';
+          currentDescription += ' ' + StringUtils.capitalize( irAbsorbingLayersPhrase ) + '.';
         }
         else if ( surfaceThermometerVisible && sunIsShining ) {
-          currentDescription += ' ' + capitalizeFirstLetter( surfaceTemperaturePhrase ) + '.';
+          currentDescription += ' ' + StringUtils.capitalize( surfaceTemperaturePhrase ) + '.';
         }
 
         // third sentence
         if ( surfaceThermometerVisible && sunIsShining && !isPlaying ) {
-          currentDescription += ' ' + capitalizeFirstLetter( surfaceTemperaturePhrase ) + '.';
+          currentDescription += ' ' + StringUtils.capitalize( surfaceTemperaturePhrase ) + '.';
         }
 
         // Return the composited phrase.
@@ -117,24 +117,5 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
     } );
   }
 }
-
-// TODO: Should we make this the utility function? see https://github.com/phetsims/greenhouse-effect/issues/374
-const capitalizeFirstLetter = ( str: string ) => {
-
-  // Find the index of the first non-control character.
-  const firstCharIndex = str.search( /[A-Za-z0-9]/ );
-
-  if ( firstCharIndex === -1 ) {
-
-    // No characters were found in the string that can be capitalized, so return an unchanged copy.
-    return str.slice( 0 );
-  }
-
-  const preChangeString = firstCharIndex > 0 ? str.slice( 0, firstCharIndex ) : '';
-  const capitalizedCharacter = str.charAt( firstCharIndex ).toUpperCase();
-  const postChangeString = firstCharIndex + 1 < str.length ? str.slice( firstCharIndex + 1 ) : '';
-
-  return preChangeString + capitalizedCharacter + postChangeString;
-};
 
 greenhouseEffect.register( 'LayerModelScreenSummaryContentNode', LayerModelScreenSummaryContentNode );
