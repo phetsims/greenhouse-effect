@@ -677,6 +677,12 @@
       },
       "solarIntensityHelpText": {
         "value": "Set intensity of incoming sunlight."
+      },
+      "sameAsOurSun": {
+        "value": "same as our Sun"
+      },
+      "percentOfOurSunPattern": {
+        "value": "{{value}}% of our Sun"
       }
     },
     "sunlightAndReflectionPattern": {

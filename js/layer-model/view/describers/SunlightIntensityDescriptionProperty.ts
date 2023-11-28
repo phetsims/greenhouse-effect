@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * An observable string that will describe the value of sunlight intensity. This description is relative to
@@ -14,6 +14,8 @@ import StringProperty from '../../../../../axon/js/StringProperty.js';
 import Multilink from '../../../../../axon/js/Multilink.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
+import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 
 class SunlightIntensityDescriptionProperty extends StringProperty {
   public constructor( intensityProperty: TRangedProperty ) {
@@ -24,10 +26,12 @@ class SunlightIntensityDescriptionProperty extends StringProperty {
       const describedIntensityPercentage = Utils.toFixedNumber( intensity, 2 ) * 100;
 
       if ( describedIntensityPercentage === 100 ) {
-        this.value = 'same as our sun';
+        this.value = GreenhouseEffectStrings.a11y.layerModel.sameAsOurSunStringProperty.value;
       }
       else {
-        this.value = `${describedIntensityPercentage}% of our sun`;
+        this.value = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.percentOfOurSunPatternStringProperty, {
+          value: describedIntensityPercentage
+        } );
       }
     } );
   }
