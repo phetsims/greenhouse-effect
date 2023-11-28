@@ -217,27 +217,57 @@ type StringsType = {
     'noFlowOfEnergyHintDescriptionStringProperty': LocalizedStringProperty;
     'lessThanStringProperty': LocalizedStringProperty;
     'greaterThanStringProperty': LocalizedStringProperty;
+    'currentlyStringProperty': LocalizedStringProperty;
+    'currentlySimIsPausedStringProperty': LocalizedStringProperty;
+    'currentlyNoSunlightStringProperty': LocalizedStringProperty;
+    'currentlySimIsPausedNoSunlightStringProperty': LocalizedStringProperty;
+    'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'waves': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
-        'currentlyStringProperty': LocalizedStringProperty;
-        'currentlySimIsPausedStringProperty': LocalizedStringProperty;
-        'currentlyNoSunlightStringProperty': LocalizedStringProperty;
-        'currentlySimIsPausedNoSunlightStringProperty': LocalizedStringProperty;
         'greenhouseGasesInAtmospherePatternStringProperty': LocalizedStringProperty;
         'greenhouseGasesValuePatternStringProperty': LocalizedStringProperty;
         'timePeriodPatternStringProperty': LocalizedStringProperty;
         'summaryWithTemperaturePatternStringProperty': LocalizedStringProperty;
         'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
-        'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
         'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'observationWindow': {
         'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
         'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
         'sunlightWavesTravelFromSpaceStringProperty': LocalizedStringProperty;
+      }
+    };
+    'photons': {
+      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenSummary': {
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
+      };
+      'observationWindow': {
+        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
+        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
+        'noOutgoingInfraredStringProperty': LocalizedStringProperty;
+        'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
+        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
+      }
+    };
+    'layerModel': {
+      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenSummary': {
+        'playAreaDescriptionStringProperty': LocalizedStringProperty;
+        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
+      };
+      'sameAsOurSunStringProperty': LocalizedStringProperty;
+      'percentOfOurSunPatternStringProperty': LocalizedStringProperty;
+      'surfaceAlbedoHelpTextStringProperty': LocalizedStringProperty;
+      'sunlightControlsStringProperty': LocalizedStringProperty;
+      'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
+      'observationWindow': {
+        'numberOfAbsorbingLayersPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
@@ -265,33 +295,6 @@ type StringsType = {
     'thermometerRemovedAlertStringProperty': LocalizedStringProperty;
     'qualitativeSurfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'observationWindowTimePeriodPatternStringProperty': LocalizedStringProperty;
-    'photons': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
-      'screenSummary': {
-        'playAreaDescriptionStringProperty': LocalizedStringProperty;
-        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
-      };
-      'observationWindow': {
-        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
-        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
-        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
-        'noOutgoingInfraredStringProperty': LocalizedStringProperty;
-        'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
-        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
-      }
-    };
-    'layerModel': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
-      'screenSummary': {
-        'playAreaDescriptionStringProperty': LocalizedStringProperty;
-        'controlAreaDescriptionStringProperty': LocalizedStringProperty;
-      };
-      'sunlightControlsStringProperty': LocalizedStringProperty;
-      'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
-      'sameAsOurSunStringProperty': LocalizedStringProperty;
-      'percentOfOurSunPatternStringProperty': LocalizedStringProperty;
-      'surfaceAlbedoHelpTextStringProperty': LocalizedStringProperty;
-    };
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
     'cloudRefectionStringProperty': LocalizedStringProperty;
     'cloudAndGlacierRefectionStringProperty': LocalizedStringProperty;

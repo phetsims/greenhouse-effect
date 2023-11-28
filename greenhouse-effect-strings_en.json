@@ -495,6 +495,21 @@
     "greaterThan": {
       "value": "greater than"
     },
+    "currently": {
+      "value": "Currently,"
+    },
+    "currentlySimIsPaused": {
+      "value": "Currently, sim is paused."
+    },
+    "currentlyNoSunlight": {
+      "value": "Currently, no sunlight in observation window."
+    },
+    "currentlySimIsPausedNoSunlight": {
+      "value": "Currently, sim is paused. No sunlight in observation window."
+    },
+    "surfaceTemperaturePattern": {
+      "value": "Earth's surface temperature is {{temperatureDescription}}"
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."
@@ -505,18 +520,6 @@
         },
         "controlAreaDescription": {
           "value": "The Control Area has options for displaying the surface temperature of Earth. You can pause the action that happens in the observation window."
-        },
-        "currently": {
-          "value": "Currently,"
-        },
-        "currentlySimIsPaused": {
-          "value": "Currently, sim is paused."
-        },
-        "currentlyNoSunlight": {
-          "value": "Currently, no sunlight in observation window."
-        },
-        "currentlySimIsPausedNoSunlight": {
-          "value": "Currently, sim is paused. No sunlight in observation window."
         },
         "greenhouseGasesInAtmospherePattern": {
           "value": "{{valueDescription}} greenhouse gases in atmosphere."
@@ -533,9 +536,6 @@
         "summaryWithoutTemperaturePattern": {
           "value": "{{currentlyDescription}} {{concentrationDescription}} {{skyDescription}}"
         },
-        "surfaceTemperaturePattern": {
-          "value": "Earth's surface temperature is {{temperatureDescription}}"
-        },
         "qualitativeAndQuantitativeTemperatureDescriptionPattern": {
           "value": "{{qualitativeDescription}}, {{quantitativeDescription}}"
         }
@@ -549,6 +549,72 @@
         },
         "sunlightWavesTravelFromSpace": {
           "value": "Sunlight waves travel from space to surface."
+        }
+      }
+    },
+    "photons": {
+      "homeScreenDescription": {
+        "value": "Explore greenhouse effect with photon representation."
+      },
+      "screenSummary": {
+        "playAreaDescription": {
+          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  Experiment with the greenhouse gas concentration or explore and compare historical time periods. It also has controls to add a cloud and measure the energy balance or energy flux."
+        },
+        "controlAreaDescription": {
+          "value": "The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+        }
+      },
+      "observationWindow": {
+        "sunlightPhotonsDescription": {
+          "value": "Sunlight photons travel from space to surface."
+        },
+        "infraredEmissionIntensityPattern": {
+          "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
+        },
+        "infraredEmissionIntensityWithRedirectionPattern": {
+          "value": "{{surfaceEmission}} {{value}} infrared photons are redirecting back to surface."
+        },
+        "noOutgoingInfrared": {
+          "value": "No infrared photons are redirecting back to surface."
+        },
+        "infraredDescriptionPattern": {
+          "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
+        },
+        "photonDensityDescription": {
+          "value": "Higher density of infrared photons near surface."
+        }
+      }
+    },
+    "layerModel": {
+      "homeScreenDescription": {
+        "value": "Experiment with infrared absorbing layers in the atmosphere."
+      },
+      "screenSummary": {
+        "playAreaDescription": {
+          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  It has controls to adjust the solar intensity, surface albedo, and to add infrared absorbing layers to the atmosphere. It also has controls to measure the energy balance and energy flux."
+        },
+        "controlAreaDescription": {
+          "value": "The Control Area has options for changing the temperature units. You can control how fast the action happens in the observation window including buttons to pause and step forward."
+        }
+      },
+      "sameAsOurSun": {
+        "value": "same as our Sun"
+      },
+      "percentOfOurSunPattern": {
+        "value": "{{value}}% of our Sun"
+      },
+      "surfaceAlbedoHelpText": {
+        "value": "Set reflectance of Earth’s surface."
+      },
+      "sunlightControls": {
+        "value": "Sunlight Controls"
+      },
+      "solarIntensityHelpText": {
+        "value": "Set intensity of incoming sunlight."
+      },
+      "observationWindow": {
+        "numberOfAbsorbingLayersPattern": {
+          "value": "{{number}} infrared absorbing layer{{s}} in atmosphere"
         }
       }
     },
@@ -626,67 +692,6 @@
     },
     "observationWindowTimePeriodPattern": {
       "value": "Now {{timePeriodDescription}}."
-    },
-    "photons": {
-      "homeScreenDescription": {
-        "value": "Explore greenhouse effect with photon representation."
-      },
-      "screenSummary": {
-        "playAreaDescription": {
-          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  Experiment with the greenhouse gas concentration or explore and compare historical time periods. It also has controls to add a cloud and measure the energy balance or energy flux."
-        },
-        "controlAreaDescription": {
-          "value": "The Control Area has options for displaying the surface temperature of Earth. You can control how fast the action happens in the observation window including buttons to pause and step forward."
-        }
-      },
-      "observationWindow": {
-        "sunlightPhotonsDescription": {
-          "value": "Sunlight photons travel from space to surface."
-        },
-        "infraredEmissionIntensityPattern": {
-          "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
-        },
-        "infraredEmissionIntensityWithRedirectionPattern": {
-          "value": "{{surfaceEmission}} {{value}} infrared photons are redirecting back to surface."
-        },
-        "noOutgoingInfrared": {
-          "value": "No infrared photons are redirecting back to surface."
-        },
-        "infraredDescriptionPattern": {
-          "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
-        },
-        "photonDensityDescription": {
-          "value": "Higher density of infrared photons near surface."
-        }
-      }
-    },
-    "layerModel": {
-      "homeScreenDescription": {
-        "value": "Experiment with infrared absorbing layers in the atmosphere."
-      },
-      "screenSummary": {
-        "playAreaDescription": {
-          "value": "The Play Area is an observation window showing a scene extending from the surface of the Earth to outer space.  It has controls to adjust the solar intensity, surface albedo, and to add infrared absorbing layers to the atmosphere. It also has controls to measure the energy balance and energy flux."
-        },
-        "controlAreaDescription": {
-          "value": "The Control Area has options for changing the temperature units. You can control how fast the action happens in the observation window including buttons to pause and step forward."
-        }
-      },
-      "sunlightControls": {
-        "value": "Sunlight Controls"
-      },
-      "solarIntensityHelpText": {
-        "value": "Set intensity of incoming sunlight."
-      },
-      "sameAsOurSun": {
-        "value": "same as our Sun"
-      },
-      "percentOfOurSunPattern": {
-        "value": "{{value}}% of our Sun"
-      },
-      "surfaceAlbedoHelpText": {
-        "value": "Set reflectance of Earth’s surface."
-      }
     },
     "sunlightAndReflectionPattern": {
       "value": "{{sunlightDescription}} {{reflectionDescription}}"

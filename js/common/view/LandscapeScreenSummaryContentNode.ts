@@ -1,8 +1,8 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * A class that manages PDOM structure and content for the screen descriptions for the "Landscape" screens
- * (Waves and Photons screens at this time).
+ * A class that manages PDOM structure and content for the screen descriptions for the "Landscape" screens, which
+ * include the Waves and Photons screens.
  */
 
 import GreenhouseEffectScreenSummaryContentNode from './GreenhouseEffectScreenSummaryContentNode.js';
@@ -17,13 +17,13 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 // constants
-const currentlyStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyStringProperty;
-const currentlySimIsPausedStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedStringProperty;
-const currentlyNoSunlightStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlyNoSunlightStringProperty;
-const currentlySimIsPausedNoSunlightStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.currentlySimIsPausedNoSunlightStringProperty;
+const currentlyStringProperty = GreenhouseEffectStrings.a11y.currentlyStringProperty;
+const currentlySimIsPausedStringProperty = GreenhouseEffectStrings.a11y.currentlySimIsPausedStringProperty;
+const currentlyNoSunlightStringProperty = GreenhouseEffectStrings.a11y.currentlyNoSunlightStringProperty;
+const currentlySimIsPausedNoSunlightStringProperty = GreenhouseEffectStrings.a11y.currentlySimIsPausedNoSunlightStringProperty;
 const summaryWithTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithTemperaturePatternStringProperty;
 const summaryWithoutTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.summaryWithoutTemperaturePatternStringProperty;
-const surfaceTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.surfaceTemperaturePatternStringProperty;
+const surfaceTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty;
 const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty;
 
 export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
@@ -94,8 +94,8 @@ export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectS
     // the final description
     let descriptionString;
 
-    // the leading portion of the summary may include an extra hint that sunlight isn't shining yet or that
-    // the sim is paused
+    // The leading portion of the summary may include an extra hint that sunlight isn't shining yet or that the sim is
+    // paused.
     const currentlyDescriptionString = ( sunIsShining && isPlaying ) ? currentlyStringProperty.value :
                                        ( sunIsShining && !isPlaying ) ? currentlySimIsPausedStringProperty.value :
                                        ( !sunIsShining && isPlaying ) ? currentlyNoSunlightStringProperty.value :
