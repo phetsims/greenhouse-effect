@@ -268,6 +268,11 @@ type StringsType = {
       'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
       'observationWindow': {
         'numberOfAbsorbingLayersPatternStringProperty': LocalizedStringProperty;
+        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
+        'passingThroughLayersPatternStringProperty': LocalizedStringProperty;
+        'solarIntensityPatternStringProperty': LocalizedStringProperty;
+        'surfaceReflectsNoSunlightStringProperty': LocalizedStringProperty;
+        'surfaceReflectsSunlightPercentagePatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

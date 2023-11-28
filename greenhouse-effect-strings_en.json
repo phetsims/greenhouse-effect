@@ -615,6 +615,21 @@
       "observationWindow": {
         "numberOfAbsorbingLayersPattern": {
           "value": "{{number}} infrared absorbing layer{{s}} in atmosphere"
+        },
+        "sunlightPhotonsDescription": {
+          "value": "Sunlight photons travel from space to surface"
+        },
+        "passingThroughLayersPattern" : {
+          "value": "passing through layer{{s}}"
+        },
+        "solarIntensityPattern" : {
+          "value": "Solar intensity is {{percentage}}% of our sun."
+        },
+        "surfaceReflectsNoSunlight" : {
+          "value": "Surface reflects no sunlight back into space."
+        },
+        "surfaceReflectsSunlightPercentagePattern" : {
+          "value": "Surface reflects {{percentage}}% of sunlight back into space."
         }
       }
     },
