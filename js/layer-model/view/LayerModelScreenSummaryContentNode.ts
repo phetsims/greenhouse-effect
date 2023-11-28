@@ -13,6 +13,7 @@ import GreenhouseEffectScreenSummaryContentNode from '../../common/view/Greenhou
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
 
 export default class LayerModelScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
 
@@ -25,28 +26,9 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
       GreenhouseEffectStrings.a11y.layerModel.screenSummary.controlAreaDescriptionStringProperty
     );
 
-    // A derived Property containing a string that represents the number of infrared-absorbing layers in the atmosphere,
-    // for example, "one infrared absorbing layer in atmosphere".
-    const infraredAbsorbingLayersPhraseProperty = new DerivedProperty(
-      [ model.numberOfActiveAtmosphereLayersProperty ],
-      numberOfActiveAtmosphereLayers => {
-
-        // parameter checking
-        assert && assert(
-          numberOfActiveAtmosphereLayers >= 0,
-          `numberOfActiveAtmosphereLayers must be positive, got ${numberOfActiveAtmosphereLayers}`
-        );
-
-        return StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.numberOfAbsorbingLayersPatternStringProperty,
-          {
-            number: numberOfActiveAtmosphereLayers > 0 ?
-                    numberOfActiveAtmosphereLayers :
-                    GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty, // say 'no' for zero
-            s: numberOfActiveAtmosphereLayers === 1 ? '' : 's' // use plural except for a single layer
-          }
-        );
-      }
+    // a string Property that describes the number of infrared-absorbing layers in the atmosphere
+    const infraredAbsorbingLayersPhraseProperty = new InfraredAbsorbingLayersDescriptionProperty(
+      model.numberOfActiveAtmosphereLayersProperty
     );
 
     // A derived property containing a string that describes the surface temperature, for example, "Earth's surface

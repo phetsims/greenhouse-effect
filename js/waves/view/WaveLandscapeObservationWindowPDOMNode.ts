@@ -39,7 +39,7 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
             EnergyRepresentation.WAVE
           );
 
-          // if the sun isn't shining yet, hide this portion of the content
+          // If the sun isn't shining yet, hide this portion of the content.
           this.sunlightItemNode.pdomVisible = isShining;
         }
       );
