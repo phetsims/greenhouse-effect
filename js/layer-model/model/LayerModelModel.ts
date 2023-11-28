@@ -44,6 +44,7 @@ class LayerModelModel extends LayersModel {
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false,
       groundLayerOptions: {
+        initialAlbedo: 0.3,
         minimumTemperature: MINIMUM_GROUND_TEMPERATURE,
         albedoPhetioReadOnly: false,
         tandem: providedOptions.tandem.createTandem( 'groundLayer' )
