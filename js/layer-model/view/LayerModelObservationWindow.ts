@@ -19,6 +19,7 @@ import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhoto
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -120,6 +121,18 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // sound generation
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
+
+    // pdom - manages descriptions for the observation window
+    const layerModelObservationWindowPDOMNode = new LayerModelObservationWindowPDOMNode( model );
+    this.addChild( layerModelObservationWindowPDOMNode );
+
+    // pdom - order of contents in the PDOM for traversal and screen readers
+    this.pdomOrder = [
+      this.focusableHeadingNode,
+      this.startSunlightButton,
+      layerModelObservationWindowPDOMNode,
+      this.energyBalancePanel
+    ];
   }
 
   public override step( dt: number ): void {
