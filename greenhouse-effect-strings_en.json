@@ -683,6 +683,9 @@
       },
       "percentOfOurSunPattern": {
         "value": "{{value}}% of our Sun"
+      },
+      "surfaceAlbedoHelpText": {
+        "value": "Set reflectance of Earth’s surface."
       }
     },
     "sunlightAndReflectionPattern": {

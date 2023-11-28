@@ -50,6 +50,9 @@ export default class SurfaceAlbedoControl extends VBox {
         keyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
         shiftKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
         pageKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE * 2,
+        labelContent: GreenhouseEffectStrings.surfaceAlbedoStringProperty,
+        labelTagName: 'label',
+        helpText: GreenhouseEffectStrings.a11y.layerModel.surfaceAlbedoHelpTextStringProperty,
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
           minSoundPlayer: surfaceAlbedoSoundPlayer,

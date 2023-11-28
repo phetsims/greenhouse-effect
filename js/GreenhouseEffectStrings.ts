@@ -290,6 +290,7 @@ type StringsType = {
       'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
       'sameAsOurSunStringProperty': LocalizedStringProperty;
       'percentOfOurSunPatternStringProperty': LocalizedStringProperty;
+      'surfaceAlbedoHelpTextStringProperty': LocalizedStringProperty;
     };
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
     'cloudRefectionStringProperty': LocalizedStringProperty;
