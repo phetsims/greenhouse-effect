@@ -12,8 +12,6 @@ import LayerModelModel from '../model/LayerModelModel.js';
 import GreenhouseEffectScreenSummaryContentNode from '../../common/view/GreenhouseEffectScreenSummaryContentNode.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import SceneryPhetStrings from '../../../../scenery-phet/js/SceneryPhetStrings.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 
 export default class LayerModelScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
@@ -32,14 +30,19 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
     const infraredAbsorbingLayersPhraseProperty = new DerivedProperty(
       [ model.numberOfActiveAtmosphereLayersProperty ],
       numberOfActiveAtmosphereLayers => {
+
+        // parameter checking
         assert && assert(
-          numberOfActiveAtmosphereLayers === 0 || numberToStringPropertyMap.has( numberOfActiveAtmosphereLayers ),
-          `no string for numberOfActiveAtmosphereLayers = ${numberOfActiveAtmosphereLayers}`
+          numberOfActiveAtmosphereLayers >= 0,
+          `numberOfActiveAtmosphereLayers must be positive, got ${numberOfActiveAtmosphereLayers}`
         );
+
         return StringUtils.fillIn(
           GreenhouseEffectStrings.a11y.layerModel.observationWindow.numberOfAbsorbingLayersPatternStringProperty,
           {
-            number: numberToStringPropertyMap.get( numberOfActiveAtmosphereLayers )!.value,
+            number: numberOfActiveAtmosphereLayers > 0 ?
+                    numberOfActiveAtmosphereLayers :
+                    GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty, // say 'no' for zero
             s: numberOfActiveAtmosphereLayers === 1 ? '' : 's' // use plural except for a single layer
           }
         );
@@ -115,21 +118,11 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
   }
 }
 
-// TODO: Is SceneryPhetStrings a reasonable place to get the words for the strings?  see https://github.com/phetsims/greenhouse-effect/issues/374
-const numberToStringPropertyMap = new Map<number, TReadOnlyProperty<string>>(
-  [
-    [ 0, GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty ],
-    [ 1, SceneryPhetStrings.oneStringProperty ],
-    [ 2, SceneryPhetStrings.twoStringProperty ],
-    [ 3, SceneryPhetStrings.threeStringProperty ]
-  ]
-);
-
 // TODO: Should we make this the utility function? see https://github.com/phetsims/greenhouse-effect/issues/374
 const capitalizeFirstLetter = ( str: string ) => {
 
-  // Find the index of the first non-control character
-  const firstCharIndex = str.search( /[A-Za-z]/ );
+  // Find the index of the first non-control character.
+  const firstCharIndex = str.search( /[A-Za-z0-9]/ );
 
   if ( firstCharIndex === -1 ) {
 
