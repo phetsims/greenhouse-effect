@@ -33,36 +33,20 @@ class LayersModelTimeControlNode extends TimeControlNode {
 
     super( model.isPlayingProperty, options );
 
-    // There are unique descriptions depending on combinations of play/pause and whether the sun is shining. When
-    // the sun is not shining it will be silent even when playing so we add hints to guide the user to start
-    // the sunlight. There is no description when playing and sunlight is on because the sim will naturally
-    // provide responsive descriptions about what is changing.
+    // There are unique descriptions depending on combinations of play/pause and whether the sun is shining. When the
+    // sun is not shining it will be silent even when playing, so we add hints to guide the user to start the sunlight.
+    // There is no description when playing and sunlight is on because the sim will naturally provide responsive
+    // descriptions about what is changing.
     model.isPlayingProperty.lazyLink( isPlaying => {
       if ( !isPlaying ) {
-        if ( !model.sunEnergySource.isShiningProperty.value ) {
 
-          // Sim is paused but the sun is not shining, add an additional hint about the sunlight being off
-          // to guide the user to turn it on.
-          this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPausedSunlightOffAlertStringProperty
-          );
-        }
-        else {
+        // By design, the sim cannot be paused until the sunlight has been started.  Make sure that hasn't changed.
+        assert && assert( model.sunEnergySource.isShiningProperty.value, 'unexpected model state' );
 
-          // Paused while the sunlight is on - generic alert about the step button
-          this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty
-          );
-        }
-      }
-      else {
-        if ( !model.sunEnergySource.isShiningProperty.value ) {
-
-          // playing while the sun is off - hint to turn the sunlight on
-          this.alertDescriptionUtterance(
-            GreenhouseEffectStrings.a11y.timeControls.simPlayingSunlightOffAlertStringProperty
-          );
-        }
+        // generic alert about the step button
+        this.alertDescriptionUtterance(
+          GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty
+        );
       }
     } );
 

@@ -14,9 +14,6 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../model/Concent
 import ConcentrationDescriber from './ConcentrationDescriber.js';
 import EnergyRepresentation from '../EnergyRepresentation.js';
 
-const sunlightStartedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedStringProperty;
-const sunlightStartedSimPausedStringProperty = GreenhouseEffectStrings.a11y.sunlightStartedSimPausedStringProperty;
-
 class RadiationDescriber {
 
   public constructor() {
@@ -221,18 +218,6 @@ class RadiationDescriber {
     }
 
     return descriptionString;
-  }
-
-  /**
-   * A description that describes when the sunlight starts in the simulation, with an extra hint
-   * when the sim is paused to describe that nothing will happen until animation starts. Returns
-   * something like
-   *
-   * "Sunlight started." or
-   * "Sunlight started, sim paused."
-   */
-  public static getSunlightStartedDescription( isPlaying: boolean ): string {
-    return isPlaying ? sunlightStartedStringProperty.value : sunlightStartedSimPausedStringProperty.value;
   }
 }
 

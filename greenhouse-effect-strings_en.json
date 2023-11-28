@@ -735,9 +735,6 @@
     "sunlightStarted": {
       "value": "Sunlight started."
     },
-    "sunlightStartedSimPaused": {
-      "value": "Sunlight started, sim paused."
-    },
     "cloudCheckboxHelpText": {
       "value": "Experiment with cloudy sky."
     },
@@ -1170,9 +1167,6 @@
       },
       "simPausedSunlightOffAlert": {
         "value": "Sim paused. Sunlight not started."
-      },
-      "simPlayingSunlightOffAlert": {
-        "value": "Turn sunlight on to play sim."
       },
       "playPauseButtonPlayingDescription": {
         "value": "Pause action in observation window."

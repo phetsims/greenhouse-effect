@@ -309,7 +309,6 @@ type StringsType = {
     'startSunlightHintStringProperty': LocalizedStringProperty;
     'startSunlightButtonHelpTextStringProperty': LocalizedStringProperty;
     'sunlightStartedStringProperty': LocalizedStringProperty;
-    'sunlightStartedSimPausedStringProperty': LocalizedStringProperty;
     'cloudCheckboxHelpTextStringProperty': LocalizedStringProperty;
     'surfaceTemperatureChangeWithValuePatternStringProperty': LocalizedStringProperty;
     'surfaceTemperatureChangeWithoutValuePatternStringProperty': LocalizedStringProperty;
@@ -463,7 +462,6 @@ type StringsType = {
       'playPauseButtonPausedWithSpeedDescriptionStringProperty': LocalizedStringProperty;
       'stepHintAlertStringProperty': LocalizedStringProperty;
       'simPausedSunlightOffAlertStringProperty': LocalizedStringProperty;
-      'simPlayingSunlightOffAlertStringProperty': LocalizedStringProperty;
       'playPauseButtonPlayingDescriptionStringProperty': LocalizedStringProperty;
       'playPauseButtonPausedDescriptionStringProperty': LocalizedStringProperty;
     }

@@ -27,6 +27,7 @@ import EnergyDescriber from './describers/EnergyDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import EnergyRepresentation from './EnergyRepresentation.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 type SelfOptions = {
 
@@ -209,12 +210,10 @@ class GasConcentrationAlerter extends Alerter {
       this.describeTemperatureAsStabilizing = true;
     } );
 
-    // Alert when the sun starts shining, with unique hint that warns nothing will happen if the sim is paused. This
-    // alert is unrelated to concentration and temperature alerts that happen in the polling, so it can stay in a
-    // linked listener. But it could move to the polling implementation in "immediate state model" if that is more
-    // clear.
+    // Alert when the sun starts shining. This alert is unrelated to concentration and temperature alerts that happen
+    // in the polling, so it can stay in a linked listener.
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
-      this.alert( RadiationDescriber.getSunlightStartedDescription( model.isPlayingProperty.value ) );
+      this.alert( GreenhouseEffectStrings.a11y.sunlightStartedStringProperty );
     } );
 
     // Monitor the "playing" state and reset the accumulated time since the last alert when changes occur.  This keeps
