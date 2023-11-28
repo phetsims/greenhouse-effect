@@ -286,14 +286,8 @@ type StringsType = {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
       };
-      'observationWindow': {
-        'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
-        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
-        'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
-        'noOutgoingInfraredStringProperty': LocalizedStringProperty;
-        'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
-        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
-      }
+      'sunlightControlsStringProperty': LocalizedStringProperty;
+      'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
     };
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
     'cloudRefectionStringProperty': LocalizedStringProperty;

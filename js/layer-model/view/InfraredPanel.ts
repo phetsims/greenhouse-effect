@@ -35,7 +35,9 @@ export default class InfraredPanel extends LayerScreenControlPanel {
       width,
       layersModel,
       GreenhouseEffectStrings.infraredStringProperty,
-      tandem
+      {
+        tandem: tandem
+      }
     );
   }
 }

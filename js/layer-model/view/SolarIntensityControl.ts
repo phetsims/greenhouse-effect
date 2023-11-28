@@ -21,6 +21,7 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import SunlightIntensityDescriptionProperty from './describers/SunlightIntensityDescriptionProperty.js';
 
 const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
@@ -40,6 +41,10 @@ export default class SolarIntensityControl extends VBox {
       font: GreenhouseEffectConstants.LABEL_FONT
     } );
 
+    // A description of the sunlight intensity, for the aria-valuetext of the slider.
+    // TODO: Next add the context response for the value change, see https://github.com/phetsims/greenhouse-effect/issues/374
+    const sunlightIntensityDescriptionProperty = new SunlightIntensityDescriptionProperty( proportionateOutputRateProperty );
+
     // Slider
     const slider = new HSlider(
       proportionateOutputRateProperty,
@@ -50,6 +55,10 @@ export default class SolarIntensityControl extends VBox {
         keyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
         shiftKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
         pageKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE * 2,
+        labelContent: GreenhouseEffectStrings.solarIntensityStringProperty,
+        helpText: GreenhouseEffectStrings.a11y.layerModel.solarIntensityHelpTextStringProperty,
+        labelTagName: 'label',
+        a11yCreateAriaValueText: () => sunlightIntensityDescriptionProperty.value,
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: solarIntensitySoundPlayer,
           middleMovingDownSoundPlayer: solarIntensitySoundPlayer,

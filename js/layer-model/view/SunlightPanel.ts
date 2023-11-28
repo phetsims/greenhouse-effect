@@ -35,7 +35,10 @@ export default class SunlightPanel extends LayerScreenControlPanel {
       width,
       layersModel,
       GreenhouseEffectStrings.sunlightStringProperty,
-      tandem
+      {
+        tandem: tandem,
+        labelContent: GreenhouseEffectStrings.a11y.layerModel.sunlightControlsStringProperty
+      }
     );
   }
 }

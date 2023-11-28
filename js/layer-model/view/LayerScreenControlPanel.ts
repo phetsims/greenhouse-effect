@@ -7,16 +7,25 @@
  */
 
 import { Node, Text, VBox } from '../../../../scenery/js/imports.js';
-import Panel from '../../../../sun/js/Panel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
+import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 
 // constants
 const PANEL_MARGIN = 5;
+
+type LayerScreenControlPanelSelfOptions = EmptySelfOptions;
+
+// You must provide a tandem, but you can optionally provide a labelContent.
+type LayerScreenControlPanelOptions = LayerScreenControlPanelSelfOptions &
+  PickRequired<PanelOptions, 'tandem'> &
+  PickOptional<PanelOptions, 'labelContent'>;
 
 export default class LayerScreenControlPanel extends Panel {
 
@@ -24,10 +33,9 @@ export default class LayerScreenControlPanel extends Panel {
                       width: number,
                       layersModel: LayerModelModel,
                       titleStringProperty: TReadOnlyProperty<string>,
-                      tandem: Tandem ) {
+                      providedOptions: LayerScreenControlPanelOptions ) {
 
-    const options = {
-
+    const options = optionize<LayerScreenControlPanelOptions, LayerScreenControlPanelSelfOptions, PanelOptions>()( {
       minWidth: width,
       maxWidth: width,
       xMargin: PANEL_MARGIN,
@@ -42,11 +50,10 @@ export default class LayerScreenControlPanel extends Panel {
       labelContent: titleStringProperty,
 
       // phet-io
-      tandem: tandem,
       visiblePropertyOptions: {
         phetioFeatured: true
       }
-    };
+    }, providedOptions );
 
     // Title text for the panel.
     const titleText = new Text( titleStringProperty, {

@@ -671,6 +671,12 @@
         "controlAreaDescription": {
           "value": "The Control Area has options for changing the temperature units. You can control how fast the action happens in the observation window including buttons to pause and step forward."
         }
+      },
+      "sunlightControls": {
+        "value": "Sunlight Controls"
+      },
+      "solarIntensityHelpText": {
+        "value": "Set intensity of incoming sunlight."
       }
     },
     "sunlightAndReflectionPattern": {
