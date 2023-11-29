@@ -612,6 +612,18 @@
       "solarIntensityHelpText": {
         "value": "Set intensity of incoming sunlight."
       },
+      "infraredControls": {
+        "value": "Infrared Controls"
+      },
+      "absorbingLayersHelpText": {
+        "value": "Add or remove infrared absorbing layers from atmosphere."
+      },
+      "absorbanceValuePattern": {
+        "value": "{{value}}%"
+      },
+      "absorbanceHelpText": {
+        "value": "Set infrared absorbance of all layers."
+      },
       "observationWindow": {
         "numberOfAbsorbingLayersPattern": {
           "value": "{{number}} infrared absorbing layer{{s}} in atmosphere"
@@ -619,16 +631,16 @@
         "sunlightPhotonsDescription": {
           "value": "Sunlight photons travel from space to surface"
         },
-        "passingThroughLayersPattern" : {
+        "passingThroughLayersPattern": {
           "value": "passing through layer{{s}}"
         },
-        "solarIntensityPattern" : {
+        "solarIntensityPattern": {
           "value": "Solar intensity is {{percentage}}% of our sun."
         },
-        "surfaceReflectsNoSunlight" : {
+        "surfaceReflectsNoSunlight": {
           "value": "Surface reflects no sunlight back into space."
         },
-        "surfaceReflectsSunlightPercentagePattern" : {
+        "surfaceReflectsSunlightPercentagePattern": {
           "value": "Surface reflects {{percentage}}% of sunlight back into space."
         }
       }

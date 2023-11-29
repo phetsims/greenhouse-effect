@@ -43,7 +43,13 @@ export default class AbsorbingLayersControl extends HBox {
 
         // phet-io
         tandem: tandem.createTandem( 'picker' ),
-        phetioVisiblePropertyInstrumented: false
+        phetioVisiblePropertyInstrumented: false,
+
+        // pdom
+        labelContent: GreenhouseEffectStrings.absorbingLayersStringProperty,
+        helpText: GreenhouseEffectStrings.a11y.layerModel.absorbingLayersHelpTextStringProperty,
+        labelTagName: 'label',
+        pageKeyboardStep: 1 // page up/page down have same size as default step
       }
     );
 

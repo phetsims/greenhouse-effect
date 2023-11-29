@@ -19,6 +19,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
@@ -51,9 +52,22 @@ export default class InfraredAbsorbanceControl extends VBox {
         minorTickLength: GreenhouseEffectConstants.HORIZONTAL_SLIDER_THUMB_SIZE.height * 0.25,
         tickLabelSpacing: 2,
         constrainValue: ( value: number ) => Utils.roundToInterval( value, IR_ABSORBANCE_STEP_SIZE ),
+
+        // pdom
+        labelContent: GreenhouseEffectStrings.infraredAbsorbanceStringProperty,
+        labelTagName: 'label',
+        a11yCreateAriaValueText: ( value: number ) => {
+
+          // just the model value as a percentage
+          return StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.absorbanceValuePatternStringProperty, {
+            value: value * 100
+          } );
+        },
+        helpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
         keyboardStep: IR_ABSORBANCE_STEP_SIZE,
         shiftKeyboardStep: IR_ABSORBANCE_STEP_SIZE,
         pageKeyboardStep: IR_ABSORBANCE_STEP_SIZE * 2,
+
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
           middleMovingUpSoundPlayer: irAbsorbanceSoundPlayer,

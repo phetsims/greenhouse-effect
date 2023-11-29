@@ -266,6 +266,10 @@ type StringsType = {
       'surfaceAlbedoHelpTextStringProperty': LocalizedStringProperty;
       'sunlightControlsStringProperty': LocalizedStringProperty;
       'solarIntensityHelpTextStringProperty': LocalizedStringProperty;
+      'infraredControlsStringProperty': LocalizedStringProperty;
+      'absorbingLayersHelpTextStringProperty': LocalizedStringProperty;
+      'absorbanceValuePatternStringProperty': LocalizedStringProperty;
+      'absorbanceHelpTextStringProperty': LocalizedStringProperty;
       'observationWindow': {
         'numberOfAbsorbingLayersPatternStringProperty': LocalizedStringProperty;
         'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;

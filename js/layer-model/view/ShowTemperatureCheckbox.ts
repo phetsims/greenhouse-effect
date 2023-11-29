@@ -10,13 +10,13 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Color, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import { Color, NodeTranslationOptions, ParallelDOMOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & PickRequired<CheckboxOptions, 'tandem'>;
+export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & ParallelDOMOptions & PickRequired<CheckboxOptions, 'tandem'>;
 
 class ShowTemperatureCheckbox extends Checkbox {
   public constructor( property: Property<boolean>, providedOptions?: ShowTemperatureCheckboxOptions ) {

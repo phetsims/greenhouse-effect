@@ -20,6 +20,7 @@ import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffec
 import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -77,7 +78,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
-      tandem: tandem.createTandem( 'showThermometerCheckbox' )
+      tandem: tandem.createTandem( 'showThermometerCheckbox' ),
+
+      // pdom - content for the surface thermometer checkbox
+      accessibleName: GreenhouseEffectStrings.surfaceThermometerStringProperty,
+      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );
 
