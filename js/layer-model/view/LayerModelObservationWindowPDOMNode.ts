@@ -187,15 +187,48 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     this.addChild( surfaceTemperatureListItemNode );
 
     // Update the surface temperature description when the temperature changes.
-    model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
-      surfaceTemperatureListItemNode.innerContent = TemperatureDescriber.getSurfaceTemperatureIsString(
-        surfaceTemperature, true, false, model.temperatureUnitsProperty.value, ConcentrationControlMode.BY_VALUE
-      );
-    } );
+    Multilink.multilink(
+      [ model.surfaceTemperatureKelvinProperty, model.temperatureUnitsProperty ],
+      ( temperature, temperatureUnits ) => {
+        surfaceTemperatureListItemNode.innerContent = TemperatureDescriber.getSurfaceTemperatureIsString(
+          temperature, true, false, temperatureUnits, ConcentrationControlMode.BY_VALUE
+        );
+      }
+    );
 
     // Only show the surface temperature description when the surface thermometer is visible.
     model.surfaceThermometerVisibleProperty.link( surfaceThermometerVisible => {
       surfaceTemperatureListItemNode.pdomVisible = surfaceThermometerVisible;
+    } );
+
+    // Create a set of scenery Nodes that will insert descriptions of the layer temperatures into the PDOM.
+    model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
+
+      // Create and add the Node.
+      const atmosphereLayerListItemNode = new Node( { tagName: 'li' } );
+      this.addChild( atmosphereLayerListItemNode );
+
+      // Update the description of the node as the temperature changes.
+      Multilink.multilink(
+        [ atmosphereLayer.temperatureProperty, model.temperatureUnitsProperty ],
+        ( temperature, temperatureUnits ) => {
+          atmosphereLayerListItemNode.innerContent = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerTemperaturePatternStringProperty,
+            {
+              layerNumber: index + 1,
+              temperatureWithUnits: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, temperatureUnits )
+            }
+          );
+        }
+      );
+
+      // Only show this node in the PDOM when the layer is visible and its thermometer checkbox is checked.
+      Multilink.multilink(
+        [ atmosphereLayer.isActiveProperty ],
+        layerIsActiveProperty => {
+          atmosphereLayerListItemNode.pdomVisible = layerIsActiveProperty;
+        }
+      );
     } );
   }
 }

@@ -654,6 +654,9 @@
         },
         "percentageOfPhotonsAbsorbedPattern": {
           "value": "{{absorbedPercentage}}% of infrared photons are absorbed by layer{{s}} and re-emitted randomly up or down while {{passThroughPercentage}}% are passing through layer{{s}}."
+        },
+        "layerTemperaturePattern": {
+          "value": "Layer {{layerNumber}} temperature is {{temperatureWithUnits}}."
         }
       }
     },

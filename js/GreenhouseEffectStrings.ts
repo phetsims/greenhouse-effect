@@ -281,6 +281,7 @@ type StringsType = {
         'layerThermometerCheckboxHelpTextStringProperty': LocalizedStringProperty;
         'allPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
         'percentageOfPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
+        'layerTemperaturePatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
