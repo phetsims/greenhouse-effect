@@ -151,7 +151,8 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       this.focusableHeadingNode,
       this.startSunlightButton,
       layerModelObservationWindowPDOMNode,
-      this.energyBalancePanel
+      this.energyBalancePanel,
+      this.fluxMeterNode
     ];
   }
 
