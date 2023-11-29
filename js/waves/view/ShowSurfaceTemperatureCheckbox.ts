@@ -40,8 +40,7 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
     surfaceTemperatureKelvinProperty.link( temperatureKelvin => {
       checkedUtterance.alert = TemperatureDescriber.getQualitativeSurfaceTemperatureDescriptionString(
         temperatureKelvin,
-        concentrationControlModeProperty.value,
-        dateProperty.value
+        concentrationControlModeProperty.value
       );
     } );
 

@@ -11,7 +11,7 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
+import { ConcentrationControlMode } from '../../model/ConcentrationModel.js';
 import TemperatureUnits from '../../model/TemperatureUnits.js';
 
 // strings used to describe temperature
@@ -131,8 +131,7 @@ class TemperatureDescriber {
    * "Surface temperature is somewhat high."
    */
   public static getQualitativeSurfaceTemperatureDescriptionString( temperatureKelvin: number,
-                                                                   concentrationControlMode: ConcentrationControlMode,
-                                                                   date: ConcentrationDate ): string {
+                                                                   concentrationControlMode: ConcentrationControlMode ): string {
     return StringUtils.fillIn( GreenhouseEffectStrings.a11y.qualitativeSurfaceTemperaturePatternStringProperty, {
       description: TemperatureDescriber.getQualitativeTemperatureDescriptionString( temperatureKelvin, concentrationControlMode )
     } );
@@ -234,8 +233,7 @@ class TemperatureDescriber {
                                                    thermometerVisible: boolean,
                                                    surfaceTemperatureIndicationVisible: boolean,
                                                    unitsValue: TemperatureUnits,
-                                                   concentrationControlMode: ConcentrationControlMode,
-                                                   date: ConcentrationDate ): string {
+                                                   concentrationControlMode: ConcentrationControlMode ): string {
 
     let stableTemperatureString = '';
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {
@@ -279,8 +277,7 @@ class TemperatureDescriber {
                                                thermometerVisible: boolean,
                                                surfaceTemperatureIndicationVisible: boolean,
                                                unitsValue: TemperatureUnits,
-                                               concentrationControlMode: ConcentrationControlMode,
-                                               date: ConcentrationDate ): string | null {
+                                               concentrationControlMode: ConcentrationControlMode ): string | null {
 
     let surfaceTemperatureDescriptionString = null;
     if ( thermometerVisible && surfaceTemperatureIndicationVisible ) {

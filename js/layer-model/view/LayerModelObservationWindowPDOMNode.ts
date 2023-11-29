@@ -12,6 +12,8 @@ import RadiationDescriber from '../../common/view/describers/RadiationDescriber.
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
@@ -30,7 +32,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       model.numberOfActiveAtmosphereLayersProperty
     );
 
-    // Create a scenery Node that will place the description of IR layers into the PDOM.
+    // Create a scenery Node that will add the description of IR layers into the PDOM.
     const irLayersListItemNode = new Node( {
       tagName: 'li'
     } );
@@ -93,7 +95,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       }
     );
 
-    // Create a scenery Node that will place the description of the visible photon behavior into the PDOM.
+    // Create a scenery Node that will add the description of the visible photon behavior into the PDOM.
     const visiblePhotonsListItemNode = new Node( { tagName: 'li' } );
     this.addChild( visiblePhotonsListItemNode );
 
@@ -146,7 +148,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       }
     );
 
-    // Create a scenery Node that will place the description of the infrared photon behavior into the PDOM.
+    // Create a scenery Node that will add the description of the infrared photon behavior into the PDOM.
     const infraredPhotonsListItemNode = new Node( { tagName: 'li' } );
     this.addChild( infraredPhotonsListItemNode );
 
@@ -160,7 +162,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       infraredPhotonsListItemNode.pdomVisible = surfaceTemperature > model.groundLayer.minimumTemperature;
     } );
 
-    // Create a scenery Node that will add a description of the infrared photon concentration into the PDOM.
+    // Create a scenery Node that will insert a description of the infrared photon concentration into the PDOM.
     const infraredPhotonDensityListItemNode = new Node( { tagName: 'li' } );
     infraredPhotonDensityListItemNode.innerContent =
       GreenhouseEffectStrings.a11y.photonDensityDescriptionStringProperty.value;
@@ -179,6 +181,22 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
                                                         numberOfActiveLayers > 0;
       }
     );
+
+    // Create a scenery Node that will insert a description of the surface temperature into the PDOM.
+    const surfaceTemperatureListItemNode = new Node( { tagName: 'li' } );
+    this.addChild( surfaceTemperatureListItemNode );
+
+    // Update the surface temperature description when the temperature changes.
+    model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+      surfaceTemperatureListItemNode.innerContent = TemperatureDescriber.getSurfaceTemperatureIsString(
+        surfaceTemperature, true, false, model.temperatureUnitsProperty.value, ConcentrationControlMode.BY_VALUE
+      );
+    } );
+
+    // Only show the surface temperature description when the surface thermometer is visible.
+    model.surfaceThermometerVisibleProperty.link( surfaceThermometerVisible => {
+      surfaceTemperatureListItemNode.pdomVisible = surfaceThermometerVisible;
+    } );
   }
 }
 
