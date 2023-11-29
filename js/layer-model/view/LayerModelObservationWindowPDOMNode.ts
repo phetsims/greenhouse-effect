@@ -86,9 +86,9 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
           // third sentence, which describes the amount of sunlight reflected by the surface
           description += ' ';
           description += groundAlbedo === 0 ?
-                         GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty :
+                         GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value :
                          StringUtils.fillIn(
-                           GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty,
+                           GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty.value,
                            { percentage: groundAlbedo * 100 }
                          );
         }
