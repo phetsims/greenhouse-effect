@@ -8,9 +8,13 @@ import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbs
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 /**
- * Responsible for PDOM content related to the observation window used in the waves screen.
+ * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
+ * unnumbered list with dynamic information about what is going on in the observation window.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -26,14 +30,14 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     );
 
     // Create a scenery Node that will place the description of IR layers into the PDOM.
-    const irLayersItemNode = new Node( {
+    const irLayersListItemNode = new Node( {
       tagName: 'li'
     } );
-    this.addChild( irLayersItemNode );
+    this.addChild( irLayersListItemNode );
 
     // Update the PDOM item for the IR-absorbing layers when the description string changes.
     infraredAbsorbingLayersPhraseProperty.link( infraredAbsorbingLayersPhrase => {
-      irLayersItemNode.innerContent = StringUtils.capitalize( infraredAbsorbingLayersPhrase ) + '.';
+      irLayersListItemNode.innerContent = StringUtils.capitalize( infraredAbsorbingLayersPhrase ) + '.';
     } );
 
     // Create a string Property that will describe the behavior of the visible photons.  For example, "Sunlight photons
@@ -89,17 +93,66 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     );
 
     // Create a scenery Node that will place the description of the visible photon behavior into the PDOM.
-    const visiblePhotonsItemNode = new Node( { tagName: 'li' } );
-    this.addChild( visiblePhotonsItemNode );
+    const visiblePhotonsListItemNode = new Node( { tagName: 'li' } );
+    this.addChild( visiblePhotonsListItemNode );
 
-    // Update the PDOM item for the visible photons behavior when the description string changes.
+    // Update the PDOM list item that describes the visible photons when the description string changes.
     visiblePhotonsDescriptionProperty.link( visiblePhotonsDescription => {
-      visiblePhotonsItemNode.innerContent = visiblePhotonsDescription;
+      visiblePhotonsListItemNode.innerContent = visiblePhotonsDescription;
+    } );
+
+    // Create a string Property that describes the behavior of the IR photons.
+    const infraredPhotonsDescriptionProperty = new DerivedProperty(
+      [
+        model.surfaceTemperatureKelvinProperty,
+        model.numberOfActiveAtmosphereLayersProperty,
+        model.layersInfraredAbsorbanceProperty
+      ],
+      ( surfaceTemperatureInKelvin, numberOfActiveAtmosphereLayers, layersInfraredAbsorbance ) => {
+
+        // Add the first part of description, which is about the photons coming from the ground.
+        let description = RadiationDescriber.getInfraredSurfaceEmissionDescription(
+          surfaceTemperatureInKelvin, EnergyRepresentation.PHOTON
+        );
+
+        // Potentially add the second part of description, which is about how the photons interact with the layers.
+        // This is omitted if there are no active layers.
+        if ( numberOfActiveAtmosphereLayers > 0 ) {
+          description += ' ';
+          if ( layersInfraredAbsorbance === 1 ) {
+            description += StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
+              { s: numberOfActiveAtmosphereLayers > 1 ? 's' : '' }
+            );
+          }
+          else {
+            description += StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+              {
+                absorbedPercentage: layersInfraredAbsorbance * 100,
+                passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
+                s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
+              }
+            );
+          }
+        }
+        return description;
+      }
+    );
+
+    // Create a scenery Node that will place the description of the infrared photon behavior into the PDOM.
+    const infraredPhotonsListItemNode = new Node( { tagName: 'li' } );
+    this.addChild( infraredPhotonsListItemNode );
+
+    // Update the PDOM list item that describes the infrared photons when the description string changes.
+    infraredPhotonsDescriptionProperty.link( infraredPhotonsDescription => {
+      infraredPhotonsListItemNode.innerContent = infraredPhotonsDescription;
     } );
 
     // Some of the items are only visible in the PDOM when the sun is shining.
     model.sunEnergySource.isShiningProperty.link( isSunShining => {
-      visiblePhotonsItemNode.pdomVisible = isSunShining;
+      visiblePhotonsListItemNode.pdomVisible = isSunShining;
+      infraredPhotonsListItemNode.pdomVisible = isSunShining;
     } );
   }
 }

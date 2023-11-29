@@ -136,8 +136,8 @@ class RadiationDescriber {
    * back to the surface by the atmosphere. The intensity of radiation emitted from the surface is directly correlated
    * with the surface temperature. Will return something like:
    * "Infrared waves emit with high intensity from surface and travel to space." or
-   * "Infrared waves emit with low intensity from surface and travel to space. Low amount of infrared energy is
-   * redirected back to surface."
+   * "A low amount of infrared photons emit from surface and travel to space. Moderate proportion of infrared photons
+   * are redirecting back to surface."
    */
   public static getInfraredRadiationIntensityDescription( surfaceTemperature: number,
                                                           concentrationControlMode: ConcentrationControlMode,
@@ -148,15 +148,9 @@ class RadiationDescriber {
 
     if ( surfaceTemperature > GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE ) {
 
-      const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
-        surfaceTemperature,
-        concentrationControlMode
+      radiationIntensityDescription = RadiationDescriber.getInfraredSurfaceEmissionDescription(
+        surfaceTemperature, energyRepresentation, concentrationControlMode
       );
-
-      const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
-                                        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
-                                        GreenhouseEffectStrings.a11y.photons.observationWindow.infraredEmissionIntensityPatternStringProperty;
-      radiationIntensityDescription = StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } );
 
       const irDescriptionWithRedirectionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
                                                           GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty :
@@ -179,6 +173,25 @@ class RadiationDescriber {
     }
 
     return radiationIntensityDescription;
+  }
+
+  /**
+   * Gets a description of the IR that is being emitted from the surface.  Example: A low amount of infrared photons
+   * emit from surface and travel toward space.
+   */
+  public static getInfraredSurfaceEmissionDescription( surfaceTemperature: number,
+                                                       energyRepresentation: EnergyRepresentation,
+                                                       concentrationControlMode = ConcentrationControlMode.BY_VALUE ): string {
+
+    const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
+      surfaceTemperature,
+      concentrationControlMode
+    );
+
+    const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
+                                      GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
+                                      GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
+    return StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } );
   }
 
   /**

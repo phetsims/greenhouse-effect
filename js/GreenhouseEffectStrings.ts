@@ -222,6 +222,7 @@ type StringsType = {
     'currentlyNoSunlightStringProperty': LocalizedStringProperty;
     'currentlySimIsPausedNoSunlightStringProperty': LocalizedStringProperty;
     'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
+    'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
     'waves': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
       'screenSummary': {
@@ -248,7 +249,6 @@ type StringsType = {
       };
       'observationWindow': {
         'sunlightPhotonsDescriptionStringProperty': LocalizedStringProperty;
-        'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
         'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
         'noOutgoingInfraredStringProperty': LocalizedStringProperty;
         'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
@@ -279,6 +279,8 @@ type StringsType = {
         'surfaceReflectsSunlightPercentagePatternStringProperty': LocalizedStringProperty;
         'layerThermometerCheckboxLabelPatternStringProperty': LocalizedStringProperty;
         'layerThermometerCheckboxHelpTextStringProperty': LocalizedStringProperty;
+        'allPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
+        'percentageOfPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

@@ -510,6 +510,9 @@
     "surfaceTemperaturePattern": {
       "value": "Earth's surface temperature is {{temperatureDescription}}"
     },
+    "infraredEmissionIntensityPattern": {
+      "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."
@@ -567,9 +570,6 @@
       "observationWindow": {
         "sunlightPhotonsDescription": {
           "value": "Sunlight photons travel from space to surface."
-        },
-        "infraredEmissionIntensityPattern": {
-          "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
         },
         "infraredEmissionIntensityWithRedirectionPattern": {
           "value": "{{surfaceEmission}} {{value}} infrared photons are redirecting back to surface."
@@ -648,6 +648,12 @@
         },
         "layerThermometerCheckboxHelpText": {
           "value": "Measure Layer {{number}} temperature."
+        },
+        "allPhotonsAbsorbedPattern": {
+          "value": "All infrared photons are absorbed by layer{{s}} and re-emitted randomly up or down."
+        },
+        "percentageOfPhotonsAbsorbedPattern": {
+          "value": "{{absorbedPercentage}}% of infrared photons are absorbed by layer{{s}} and re-emitted randomly up or down while {{passThroughPercentage}}% are passing through layer{{s}}."
         }
       }
     },
