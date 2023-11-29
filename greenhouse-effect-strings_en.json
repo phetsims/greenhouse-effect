@@ -642,6 +642,12 @@
         },
         "surfaceReflectsSunlightPercentagePattern": {
           "value": "Surface reflects {{percentage}}% of sunlight back into space."
+        },
+        "layerThermometerCheckboxLabelPattern": {
+          "value": "Layer {{number}} Thermometer"
+        },
+        "layerThermometerCheckboxHelpText": {
+          "value": "Measure Layer {{number}} temperature."
         }
       }
     },

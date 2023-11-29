@@ -277,6 +277,8 @@ type StringsType = {
         'solarIntensityPatternStringProperty': LocalizedStringProperty;
         'surfaceReflectsNoSunlightStringProperty': LocalizedStringProperty;
         'surfaceReflectsSunlightPercentagePatternStringProperty': LocalizedStringProperty;
+        'layerThermometerCheckboxLabelPatternStringProperty': LocalizedStringProperty;
+        'layerThermometerCheckboxHelpTextStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

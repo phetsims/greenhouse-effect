@@ -21,6 +21,7 @@ import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -42,11 +43,23 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     // Add the visual representations of the atmosphere layers.
     model.atmosphereLayers.forEach( ( atmosphereLayer, index ) => {
+      const presentedIndex = index + 1;
+
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
       const atmosphereLayerNodeOptions: AtmosphereLayerNodeOptions = {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
         layerThickness: correspondingPhotonAbsorbingLayer.thickness,
-        tandem: tandem.createTandem( `atmosphereLayer${index + 1}` )
+        tandem: tandem.createTandem( `atmosphereLayer${presentedIndex}` ),
+
+        // pdom
+        showTemperatureCheckboxOptions: {
+          accessibleName: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxLabelPatternStringProperty, {
+            number: presentedIndex
+          } ),
+          helpText: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
+            number: presentedIndex
+          } )
+        }
       };
 
       const atmosphereLayerNode = new AtmosphereLayerNode(

@@ -19,13 +19,14 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
+import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
 import GreenhouseEffectUtils from '../../common/GreenhouseEffectUtils.js';
 import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -38,6 +39,9 @@ const TEMPERATURE_DISPLAY_DEFAULT_INDENT = 20; // Y offset for the temperature c
 type SelfOptions = {
   numberDisplayEnabledProperty?: BooleanProperty | null;
   layerThickness?: number;
+
+  // Nested options for the ShowTemperatureCheckbox.
+  showTemperatureCheckboxOptions?: StrictOmit<ShowTemperatureCheckboxOptions, 'tandem'>;
 };
 export type AtmosphereLayerNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -56,10 +60,16 @@ class AtmosphereLayerNode extends Node {
                       modelViewTransform: ModelViewTransform2,
                       providedOptions: AtmosphereLayerNodeOptions ) {
 
+    const tandem = providedOptions.tandem;
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,
       numberDisplayEnabledProperty: null,
-      isDisposable: false
+      isDisposable: false,
+      showTemperatureCheckboxOptions: {
+
+        // @ts-expect-error TODO: StrictOmit is not working as expected for this nested option, see #374
+        tandem: tandem.createTandem( 'showTemperatureCheckbox' )
+      }
     }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
@@ -99,9 +109,9 @@ class AtmosphereLayerNode extends Node {
       tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
       phetioFeatured: true
     } );
-    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, {
-      tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
-    } );
+
+    // @ts-expect-error: TODO: StrictOmit is not working as I expected for nested option, see #374
+    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, options.showTemperatureCheckboxOptions );
 
     // Create a derived property for the value that will be displayed as the temperature.
     const temperatureValueProperty = new DerivedProperty(
