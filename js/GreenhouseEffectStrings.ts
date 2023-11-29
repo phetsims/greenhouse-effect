@@ -223,6 +223,7 @@ type StringsType = {
     'currentlySimIsPausedNoSunlightStringProperty': LocalizedStringProperty;
     'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
+    'photonDensityDescriptionStringProperty': LocalizedStringProperty;
     'waves': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
       'screenSummary': {
@@ -252,7 +253,6 @@ type StringsType = {
         'infraredEmissionIntensityWithRedirectionPatternStringProperty': LocalizedStringProperty;
         'noOutgoingInfraredStringProperty': LocalizedStringProperty;
         'infraredDescriptionPatternStringProperty': LocalizedStringProperty;
-        'photonDensityDescriptionStringProperty': LocalizedStringProperty;
       }
     };
     'layerModel': {

@@ -37,7 +37,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
 
     super( model, model.sunEnergySource.isShiningProperty );
 
-    this.densityItemNode.innerContent = GreenhouseEffectStrings.a11y.photons.observationWindow.photonDensityDescriptionStringProperty;
+    this.densityItemNode.innerContent = GreenhouseEffectStrings.a11y.photonDensityDescriptionStringProperty;
 
     // This Node holds the overall description of concentration. In a 'p' under the concentration item so that the
     // concentration item can also hold a sublist with additional descriptions.

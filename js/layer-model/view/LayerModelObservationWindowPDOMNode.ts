@@ -11,6 +11,7 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
@@ -158,6 +159,26 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
       infraredPhotonsListItemNode.pdomVisible = surfaceTemperature > model.groundLayer.minimumTemperature;
     } );
+
+    // Create a scenery Node that will add a description of the infrared photon concentration into the PDOM.
+    const infraredPhotonDensityListItemNode = new Node( { tagName: 'li' } );
+    infraredPhotonDensityListItemNode.innerContent =
+      GreenhouseEffectStrings.a11y.photonDensityDescriptionStringProperty.value;
+    this.addChild( infraredPhotonDensityListItemNode );
+
+    // Only show the infrared photon density description when the surface temperature is above the minimum value and
+    // there is at least one active IR-absorbing layer.
+    Multilink.multilink(
+      [
+        model.photonCollection.showAllSimulatedPhotonsInViewProperty,
+        model.surfaceTemperatureKelvinProperty,
+        model.numberOfActiveAtmosphereLayersProperty ],
+      ( showingAllPhotons, surfaceTemperature, numberOfActiveLayers ) => {
+        infraredPhotonDensityListItemNode.pdomVisible = showingAllPhotons &&
+                                                        surfaceTemperature > model.groundLayer.minimumTemperature &&
+                                                        numberOfActiveLayers > 0;
+      }
+    );
   }
 }
 

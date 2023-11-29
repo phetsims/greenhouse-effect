@@ -513,6 +513,9 @@
     "infraredEmissionIntensityPattern": {
       "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
     },
+    "photonDensityDescription": {
+      "value": "Higher density of infrared photons near surface."
+    },
     "waves": {
       "homeScreenDescription": {
         "value": "Explore greenhouse effect with wave representation."
@@ -579,9 +582,6 @@
         },
         "infraredDescriptionPattern": {
           "value": "{{incomingInfraredDescription}} {{outgoingInfraredDescription}}"
-        },
-        "photonDensityDescription": {
-          "value": "Higher density of infrared photons near surface."
         }
       }
     },
