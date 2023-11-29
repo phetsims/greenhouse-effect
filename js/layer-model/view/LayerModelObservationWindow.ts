@@ -141,7 +141,9 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     soundManager.addSoundGenerator( new AtmosphericPhotonsSoundGenerator( model.photonCollection ) );
 
     // pdom - manages descriptions for the observation window
-    const layerModelObservationWindowPDOMNode = new LayerModelObservationWindowPDOMNode( model );
+    const layerModelObservationWindowPDOMNode = new LayerModelObservationWindowPDOMNode(
+      model, this.atmosphereLayerNodes
+    );
     this.addChild( layerModelObservationWindowPDOMNode );
 
     // pdom - order of contents in the PDOM for traversal and screen readers

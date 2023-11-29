@@ -47,7 +47,8 @@ export type AtmosphereLayerNodeOptions = SelfOptions & PickRequired<NodeOptions,
 
 class AtmosphereLayerNode extends Node {
 
-  private readonly showTemperatureProperty: BooleanProperty;
+  // whether the temperature value should be displayed
+  public readonly showTemperatureProperty: BooleanProperty;
 
   // the checkbox, icon, and readout for displaying the temperature of the layer
   public readonly temperatureDisplay: Node;
@@ -174,7 +175,7 @@ class AtmosphereLayerNode extends Node {
     // This node should only be visible when the atmosphere layer is active.
     atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );
 
-    // Make the temperature property available for reset.
+    // Make the temperature property available for reset and external reading.
     this.showTemperatureProperty = showTemperatureProperty;
 
     // Make the temperature display available externally so that external nodes can be aligned with it.
