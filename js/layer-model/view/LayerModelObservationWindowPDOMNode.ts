@@ -101,6 +101,11 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       visiblePhotonsListItemNode.innerContent = visiblePhotonsDescription;
     } );
 
+    // Only show the visible photon description when the sun is shining.
+    model.sunEnergySource.isShiningProperty.link( isSunShining => {
+      visiblePhotonsListItemNode.pdomVisible = isSunShining;
+    } );
+
     // Create a string Property that describes the behavior of the IR photons.
     const infraredPhotonsDescriptionProperty = new DerivedProperty(
       [
@@ -149,10 +154,9 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       infraredPhotonsListItemNode.innerContent = infraredPhotonsDescription;
     } );
 
-    // Some of the items are only visible in the PDOM when the sun is shining.
-    model.sunEnergySource.isShiningProperty.link( isSunShining => {
-      visiblePhotonsListItemNode.pdomVisible = isSunShining;
-      infraredPhotonsListItemNode.pdomVisible = isSunShining;
+    // Only show the infrared photon description when the surface temperature is above the minimum value.
+    model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
+      infraredPhotonsListItemNode.pdomVisible = surfaceTemperature > model.groundLayer.minimumTemperature;
     } );
   }
 }
