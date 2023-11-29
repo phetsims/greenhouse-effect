@@ -77,6 +77,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
+      this.energyLegend,
       sunlightPanel,
       infraredPanel,
       observationWindow.showThermometerCheckbox,
