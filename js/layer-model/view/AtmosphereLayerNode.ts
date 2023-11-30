@@ -12,7 +12,7 @@ import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js'
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -61,16 +61,11 @@ class AtmosphereLayerNode extends Node {
                       modelViewTransform: ModelViewTransform2,
                       providedOptions: AtmosphereLayerNodeOptions ) {
 
-    const tandem = providedOptions.tandem;
     const options = optionize<AtmosphereLayerNodeOptions, SelfOptions, NodeOptions>()( {
       layerThickness: DEFAULT_LAYER_THICKNESS,
       numberDisplayEnabledProperty: null,
       isDisposable: false,
-      showTemperatureCheckboxOptions: {
-
-        // @ts-expect-error TODO: StrictOmit is not working as expected for this nested option, see #374
-        tandem: tandem.createTandem( 'showTemperatureCheckbox' )
-      }
+      showTemperatureCheckboxOptions: {}
     }, providedOptions );
 
     // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
@@ -111,8 +106,12 @@ class AtmosphereLayerNode extends Node {
       phetioFeatured: true
     } );
 
-    // @ts-expect-error: TODO: StrictOmit is not working as I expected for nested option, see #374
-    const showTemperatureCheckbox = new ShowTemperatureCheckbox( showTemperatureProperty, options.showTemperatureCheckboxOptions );
+    const showTemperatureCheckbox = new ShowTemperatureCheckbox(
+      showTemperatureProperty,
+      combineOptions<ShowTemperatureCheckboxOptions>( {
+        tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
+      }, options.showTemperatureCheckboxOptions )
+    );
 
     // Create a derived property for the value that will be displayed as the temperature.
     const temperatureValueProperty = new DerivedProperty(
