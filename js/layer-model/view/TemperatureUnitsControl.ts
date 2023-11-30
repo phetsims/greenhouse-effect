@@ -39,17 +39,20 @@ class TemperatureUnitsControl extends VBox {
       {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, textOptions ),
         value: TemperatureUnits.KELVIN,
-        tandemName: 'kelvinRadioButton'
+        tandemName: 'kelvinRadioButton',
+        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty
       },
       {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, textOptions ),
         value: TemperatureUnits.CELSIUS,
-        tandemName: 'celsiusRadioButton'
+        tandemName: 'celsiusRadioButton',
+        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty
       },
       {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, textOptions ),
         value: TemperatureUnits.FAHRENHEIT,
-        tandemName: 'fahrenheitRadioButton'
+        tandemName: 'fahrenheitRadioButton',
+        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
       }
     ];
 
