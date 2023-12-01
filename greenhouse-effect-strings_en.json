@@ -221,6 +221,9 @@
     "fluxMeter": {
       "helpText": {
         "value": "Measure incoming and outgoing energy throughout atmosphere."
+      },
+      "zoomButtonHelpText": {
+        "value": "Adjust visual range."
       }
     },
     "fluxMeterUncheckedAlert": {

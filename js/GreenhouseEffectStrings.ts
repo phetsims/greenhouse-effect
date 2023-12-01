@@ -112,6 +112,7 @@ type StringsType = {
     };
     'fluxMeter': {
       'helpTextStringProperty': LocalizedStringProperty;
+      'zoomButtonHelpTextStringProperty': LocalizedStringProperty;
     };
     'fluxMeterUncheckedAlertStringProperty': LocalizedStringProperty;
     'fluxMeterCheckedAlertStringProperty': LocalizedStringProperty;

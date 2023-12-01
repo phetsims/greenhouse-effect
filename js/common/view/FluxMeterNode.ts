@@ -207,7 +207,8 @@ class FluxMeterNode extends Node {
           glassRadius: 6
         },
         buttonOptions: {
-          baseColor: PhetColorScheme.PHET_LOGO_BLUE
+          baseColor: PhetColorScheme.PHET_LOGO_BLUE,
+          helpText: GreenhouseEffectStrings.a11y.fluxMeter.zoomButtonHelpTextStringProperty
         },
         tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
         visiblePropertyOptions: {
