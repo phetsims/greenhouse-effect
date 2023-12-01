@@ -224,6 +224,15 @@
       },
       "zoomButtonHelpText": {
         "value": "Adjust visual range."
+      },
+      "energyFluxRangeZoomPattern": {
+        "value": "Energy Flux Range Zoom {{inOrOut}}"
+      },
+      "in": {
+        "value": "In"
+      },
+      "out": {
+        "value": "Out"
       }
     },
     "fluxMeterUncheckedAlert": {

@@ -44,6 +44,8 @@ import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionPrope
 import FluxSensorAltitudeDescriptionProperty from './describers/FluxSensorAltitudeDescriptionProperty.js';
 import Cloud from '../model/Cloud.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
+import ZoomButtonGroup from '../../../../scenery-phet/js/ZoomButtonGroup.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -108,6 +110,9 @@ class FluxMeterNode extends Node {
 
   // the Node for the flux sensor, public so that it's location in the PDOM can be manipulated
   public readonly fluxSensorNode: FluxSensorNode;
+
+  // the button group used for zooming in or out, may be null if not enabled via options
+  public readonly zoomButtonGroup: ZoomButtonGroup | null;
 
   /**
    * @param model - model component for the FluxMeter
@@ -197,7 +202,7 @@ class FluxMeterNode extends Node {
 
     // zoom buttons conditionally added to the view
     if ( options.includeZoomButtons ) {
-      const zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
+      this.zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
         spacing: 5,
         touchAreaXDilation: 2,
         touchAreaYDilation: 5,
@@ -215,7 +220,20 @@ class FluxMeterNode extends Node {
           phetioFeatured: true
         }
       } );
-      contentChildren.push( zoomButtonGroup );
+      contentChildren.push( this.zoomButtonGroup );
+      this.zoomButtonGroup.zoomInButton.accessibleName = StringUtils.fillIn(
+        GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
+        { inOrOut: GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty }
+      );
+      this.zoomButtonGroup.zoomOutButton.accessibleName = StringUtils.fillIn(
+        GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
+        { inOrOut: GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty }
+      );
+    }
+    else {
+
+      // no zoom button group on this instance
+      this.zoomButtonGroup = null;
     }
 
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
