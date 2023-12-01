@@ -82,7 +82,8 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       infraredPanel,
       observationWindow.showThermometerCheckbox,
       ...observationWindow.atmosphereLayerNodes,
-      observationWindow.instrumentVisibilityPanel
+      observationWindow.instrumentVisibilityPanel,
+      observationWindow.fluxMeterNode!.fluxSensorNode
     ];
     this.pdomControlAreaNode.pdomOrder = [
 
