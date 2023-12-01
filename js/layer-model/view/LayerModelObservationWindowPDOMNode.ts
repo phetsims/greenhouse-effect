@@ -100,7 +100,8 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     const visiblePhotonsListItemNode = new Node( { tagName: 'li' } );
     this.addChild( visiblePhotonsListItemNode );
 
-    // Update the PDOM list item that describes the visible photons when the description string changes.
+    // Update the PDOM list
+    // item that describes the visible photons when the description string changes.
     visiblePhotonsDescriptionProperty.link( visiblePhotonsDescription => {
       visiblePhotonsListItemNode.innerContent = visiblePhotonsDescription;
     } );
