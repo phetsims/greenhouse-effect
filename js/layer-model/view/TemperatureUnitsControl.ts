@@ -69,8 +69,9 @@ class TemperatureUnitsControl extends VBox {
       phetioVisiblePropertyInstrumented: false, // see https://github.com/phetsims/greenhouse-effect/issues/318
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
-      accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty
+      labelTagName: 'h3',
+      labelContent: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
+      helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
     } );
 
     // Put the label and radio buttons together in the VBox.
