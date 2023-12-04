@@ -19,7 +19,7 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
@@ -41,8 +41,6 @@ import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
-import FluxSensorAltitudeDescriptionProperty from './describers/FluxSensorAltitudeDescriptionProperty.js';
-import Cloud from '../model/Cloud.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import ZoomButtonGroup from '../../../../scenery-phet/js/ZoomButtonGroup.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -85,6 +83,9 @@ type SelfOptions = {
   // Whether to include a ZoomButtonGroup on this FluxMeterNode. Buttons allow "zooming" into the meter by scaling
   // the display arrows.
   includeZoomButtons?: boolean;
+
+  // Nested options for the FluxSensorNode
+  fluxSensorNodeOptions?: StrictOmit<FluxSensorNodeOptions, 'tandem'>;
 };
 export type FluxMeterNodeOptions = SelfOptions & PickRequired<NodeOptions, 'tandem'>;
 
@@ -119,7 +120,6 @@ class FluxMeterNode extends Node {
    * @param isPlayingProperty - a boolean Property that indicates whether the model in which the flux meter resides is
    *                            running
    * @param visibleProperty - a boolean Property that controls whether this node is visible
-   * @param cloud - model of a cloud that the flux sensor may be above or below
    * @param modelViewTransform
    * @param observationWindowViewBounds - bounds for the ObservationWindow to constrain dragging of the sensor
    * @param providedOptions
@@ -127,15 +127,15 @@ class FluxMeterNode extends Node {
   public constructor( model: FluxMeter,
                       isPlayingProperty: TReadOnlyProperty<boolean>,
                       visibleProperty: TReadOnlyProperty<boolean>,
-                      cloud: Cloud | null,
                       modelViewTransform: ModelViewTransform2,
                       observationWindowViewBounds: Bounds2,
-                      providedOptions?: FluxMeterNodeOptions ) {
+                      providedOptions: FluxMeterNodeOptions ) {
 
     const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
       includeZoomButtons: false,
       visibleProperty: visibleProperty,
       phetioFeatured: true,
+      fluxSensorNodeOptions: {},
 
       // pdom
       tagName: 'div',
@@ -238,7 +238,7 @@ class FluxMeterNode extends Node {
 
     const content = new VBox( { children: contentChildren, spacing: METER_SPACING } );
 
-    this.fluxSensorNode = new FluxSensorNode( model.fluxSensor, cloud, modelViewTransform, {
+    this.fluxSensorNode = new FluxSensorNode( model.fluxSensor, modelViewTransform, combineOptions<FluxSensorNodeOptions>( {
       startDrag: () => {
         model.fluxSensor.isDraggingProperty.set( true );
       },
@@ -257,7 +257,7 @@ class FluxMeterNode extends Node {
         model.fluxSensor.isDraggingProperty.set( false );
       },
       tandem: options.tandem.createTandem( 'fluxSensorNode' )
-    } );
+    }, options.fluxSensorNodeOptions ) );
     this.addChild( this.fluxSensorNode );
 
     // The cueing arrows for the flux sensor are shown initially if globally enabled, then hidden after the first drag.
@@ -574,35 +574,10 @@ type FluxSensorNodeOptions = NodeOptions &
 
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
   public constructor( fluxSensor: FluxSensor,
-                      cloud: Cloud | null,
                       modelViewTransform: ModelViewTransform2,
                       providedOptions?: FluxSensorNodeOptions ) {
 
     const fluxSensorAltitudeRangeProperty = fluxSensor.altitudeProperty.rangeProperty;
-
-    // Create description of the flux meter sensor's altitude.
-    const sensorAltitudeDescriptionProperty = new FluxSensorAltitudeDescriptionProperty( fluxSensor.altitudeProperty );
-
-    // The cloud may or may not be provided.  If it isn't, create a dummy instance that will always be disabled.
-    const cloudModel = cloud ? cloud : new Cloud( Vector2.ZERO, 10, 10, new BooleanProperty( false ) );
-
-    // Create a description of the relationship between the flux sensor and the cloud.  If the cloud is not enabled the
-    // description will be an empty string.
-    const fluxSensorAndCloudDescriptionProperty = new DerivedProperty(
-      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty ],
-      ( cloudEnabled, sensorAltitude ) => {
-        let description = '';
-        if ( cloudEnabled ) {
-          if ( sensorAltitude > cloudModel.position.y ) {
-            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
-          }
-          else {
-            description = GreenhouseEffectStrings.a11y.belowCloudStringProperty.value;
-          }
-        }
-        return description;
-      }
-    );
 
     const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
@@ -610,8 +585,6 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       keyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 10,
       pageKeyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 5,
       shiftKeyboardStep: fluxSensorAltitudeRangeProperty.value.getLength() / 20,
-      a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
-      a11yDependencies: [ fluxSensorAndCloudDescriptionProperty ],
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
       helpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
       ariaOrientation: Orientation.VERTICAL,

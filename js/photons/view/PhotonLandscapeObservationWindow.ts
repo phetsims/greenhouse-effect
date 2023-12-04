@@ -18,6 +18,9 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 import { DisplayedProperty } from '../../../../scenery/js/imports.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PhotonLandscapeObservationWindowOptions =
@@ -29,9 +32,41 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   private readonly energyFluxAlerter: EnergyFluxAlerter;
 
   public constructor( model: PhotonsModel, providedOptions?: PhotonLandscapeObservationWindowOptions ) {
+    assert && assert( model.cloud, 'The cloud should exist for the Photons observation window.' );
+    const cloudModel = model.cloud!;
+
+    assert && assert( model.fluxMeter, 'The flux meter should exist for the Photons observation window.' );
+    const fluxSensor = model.fluxMeter!.fluxSensor;
+
+    // Create a description of the relationship between the flux sensor and the cloud.  If the cloud is not enabled the
+    // description will be an empty string.
+    const fluxSensorAndCloudDescriptionProperty = new DerivedProperty(
+      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty ],
+      ( cloudEnabled, sensorAltitude ) => {
+        let description = '';
+        if ( cloudEnabled ) {
+          if ( sensorAltitude > cloudModel.position.y ) {
+            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
+          }
+          else {
+            description = GreenhouseEffectStrings.a11y.belowCloudStringProperty.value;
+          }
+        }
+        return description;
+      }
+    );
+
+    // Create description of the flux meter sensor's altitude.
+    const sensorAltitudeDescriptionProperty = new FluxSensorAltitudeDescriptionProperty( fluxSensor.altitudeProperty );
 
     const options = optionize<PhotonLandscapeObservationWindowOptions, SelfOptions, LandscapeObservationWindowOptions>()( {
-      energyRepresentation: EnergyRepresentation.PHOTON
+      energyRepresentation: EnergyRepresentation.PHOTON,
+      fluxMeterNodeOptions: {
+        fluxSensorNodeOptions: {
+          a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
+          a11yDependencies: [ fluxSensorAndCloudDescriptionProperty ]
+        }
+      }
     }, providedOptions );
 
     super( model, options );

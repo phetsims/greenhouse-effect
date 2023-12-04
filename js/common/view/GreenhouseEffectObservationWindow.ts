@@ -290,7 +290,6 @@ class GreenhouseEffectObservationWindow extends Node {
         model.fluxMeter,
         model.isPlayingProperty,
         model.fluxMeterVisibleProperty,
-        model.cloud,
         this.modelViewTransform,
         this.windowFrame.bounds,
         combineOptions<FluxMeterNodeOptions>( {

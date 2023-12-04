@@ -32,7 +32,10 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     super( model, {
       fluxMeterNodeOptions: {
-        includeZoomButtons: true
+        includeZoomButtons: true,
+        fluxSensorNodeOptions: {
+          a11yCreateAriaValueText: () => 'HELLO THERE'
+        }
       },
       tandem: tandem
     } );
