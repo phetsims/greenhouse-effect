@@ -9,7 +9,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
+import { PDOMPeer, Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
@@ -85,6 +85,16 @@ class TemperatureUnitsControl extends VBox {
       tandem: tandem,
       isDisposable: false
     } );
+
+    // The radio buttons are aria-labelledby their own heading label, so that the heading is read
+    // by the screen reader when the user first finds it.
+    temperatureUnitsRadioButtonGroup.ariaLabelledbyAssociations = [
+      {
+        otherNode: temperatureUnitsRadioButtonGroup,
+        otherElementName: PDOMPeer.LABEL_SIBLING,
+        thisElementName: PDOMPeer.PRIMARY_SIBLING
+      }
+    ];
   }
 }
 
