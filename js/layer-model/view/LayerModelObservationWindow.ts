@@ -22,6 +22,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
+import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -30,11 +32,25 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
   public constructor( model: LayerModelModel, tandem: Tandem ) {
 
+    assert && assert( model.fluxMeter, 'The flux meter should exist for the Layer Model observation window.' );
+    const fluxSensor = model.fluxMeter!.fluxSensor;
+
+    // Create description of the flux meter sensor's altitude.
+    const sensorAltitudeDescriptionProperty = new FluxSensorAltitudeDescriptionProperty( fluxSensor.altitudeProperty );
+
+    // Create description of the flux meter's altitude relative to the atmosphere layers.
+    const fluxSensorLayerRelationshipProperty = new FluxSensorLayerRelationshipProperty(
+      fluxSensor.altitudeProperty,
+      model.numberOfActiveAtmosphereLayersProperty,
+      model.atmosphereLayers
+    );
+
     super( model, {
       fluxMeterNodeOptions: {
         includeZoomButtons: true,
         fluxSensorNodeOptions: {
-          a11yCreateAriaValueText: () => 'HELLO THERE'
+          a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorLayerRelationshipProperty.value}`,
+          a11yDependencies: [ sensorAltitudeDescriptionProperty, fluxSensorLayerRelationshipProperty ]
         }
       },
       tandem: tandem

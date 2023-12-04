@@ -286,6 +286,11 @@ type StringsType = {
         'allPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
         'percentageOfPhotonsAbsorbedPatternStringProperty': LocalizedStringProperty;
         'layerTemperaturePatternStringProperty': LocalizedStringProperty;
+        'justAboveLayerPatternStringProperty': LocalizedStringProperty;
+        'justBelowLayerPatternStringProperty': LocalizedStringProperty;
+        'betweenLayersPatternStringProperty': LocalizedStringProperty;
+        'aboveLayerPatternStringProperty': LocalizedStringProperty;
+        'belowLayerPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

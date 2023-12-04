@@ -669,6 +669,21 @@
         },
         "layerTemperaturePattern": {
           "value": "Layer {{layerNumber}} temperature is {{temperatureWithUnits}}."
+        },
+        "justAboveLayerPattern": {
+          "value": "just above layer {{layerNumber}}"
+        },
+        "justBelowLayerPattern": {
+          "value": "just below layer {{layerNumber}}"
+        },
+        "betweenLayersPattern": {
+          "value": "between layers {{layerNumber}} and {{nextLayerNumber}}"
+        },
+        "aboveLayerPattern": {
+          "value": "above layer {{layerNumber}}"
+        },
+        "belowLayerPattern": {
+          "value": "below layer {{layerNumber}}"
         }
       }
     },
