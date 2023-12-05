@@ -31,6 +31,7 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
 
     // Create the node that will allow the user to play and pause the simulation.
     const timeControlNode = new LayersModelTimeControlNode( model, {
+      timeSpeedProperty: model.timeSpeedProperty,
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 

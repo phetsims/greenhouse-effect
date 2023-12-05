@@ -17,7 +17,6 @@ import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreen
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
 import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import InfraredWavesSoundGenerator from './InfraredWavesSoundGenerator.js';
@@ -37,16 +36,8 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
 
     const timeControlNode = new LayersModelTimeControlNode( model, {
-
-      // Requested in https://github.com/phetsims/greenhouse-effect/issues/158 that the TimeControlNode
-      // for this screen does not have speed radio buttons or a step forward button
-      timeSpeedProperty: null,
       playPauseStepButtonOptions: {
-        includeStepForwardButton: false,
-
-        // unique description about the observation window since there are no speed or step buttons in this case
-        playingDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingDescriptionStringProperty,
-        pausedDescription: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedDescriptionStringProperty
+        includeStepForwardButton: false
       },
       tandem: tandem.createTandem( 'timeControlNode' )
     } );

@@ -1222,11 +1222,20 @@
       "simPausedSunlightOffAlert": {
         "value": "Sim paused. Sunlight not started."
       },
-      "playPauseButtonPlayingDescription": {
+      "playPauseButtonObservationWindowPlayingDescription": {
         "value": "Pause action in observation window."
       },
-      "playPauseButtonPausedDescription": {
+      "playPauseButtonObservationWindowPausedDescription": {
         "value": "Resume action in observation window."
+      },
+      "playPauseButtonObservationWindowPlayingWithSpeedDescription": {
+        "value": "Pause action in observation window for closer observations or to step forward little by little."
+      },
+      "playPauseButtonObservationWindowPausedWithSpeedDescription": {
+        "value": "Resume action in observation window or step forward little by little."
+      },
+      "speedRadioButtonsDescription": {
+        "value": "For slower observations play sim on slow speed."
       }
     }
   }

@@ -26,6 +26,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     const observationWindow = new LayerModelObservationWindow( model, tandem.createTandem( 'observationWindow' ) );
 
     const timeControlNode = new LayersModelTimeControlNode( model, {
+      timeSpeedProperty: model.timeSpeedProperty,
       tandem: tandem.createTandem( 'timeControlNode' )
     } );
 

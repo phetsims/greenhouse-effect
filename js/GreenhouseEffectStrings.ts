@@ -480,8 +480,11 @@ type StringsType = {
       'playPauseButtonPausedWithSpeedDescriptionStringProperty': LocalizedStringProperty;
       'stepHintAlertStringProperty': LocalizedStringProperty;
       'simPausedSunlightOffAlertStringProperty': LocalizedStringProperty;
-      'playPauseButtonPlayingDescriptionStringProperty': LocalizedStringProperty;
-      'playPauseButtonPausedDescriptionStringProperty': LocalizedStringProperty;
+      'playPauseButtonObservationWindowPlayingDescriptionStringProperty': LocalizedStringProperty;
+      'playPauseButtonObservationWindowPausedDescriptionStringProperty': LocalizedStringProperty;
+      'playPauseButtonObservationWindowPlayingWithSpeedDescriptionStringProperty': LocalizedStringProperty;
+      'playPauseButtonObservationWindowPausedWithSpeedDescriptionStringProperty': LocalizedStringProperty;
+      'speedRadioButtonsDescriptionStringProperty': LocalizedStringProperty;
     }
   }
 };
