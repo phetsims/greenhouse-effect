@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Color, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
+import { Color, DisplayedProperty, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
@@ -24,11 +24,13 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
 import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
+import LayerModelAlerter from '../../common/view/LayerModelAlerter.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
   public readonly showThermometerCheckbox: ShowTemperatureCheckbox;
+  private readonly alerter: LayerModelAlerter;
 
   public constructor( model: LayerModelModel, tandem: Tandem ) {
 
@@ -173,11 +175,25 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       this.energyBalancePanel,
       this.fluxMeterNode
     ];
+
+    // responsive descriptions
+    this.alerter = new LayerModelAlerter( model, {
+      descriptionAlertNode: this,
+      enabledProperty: new DisplayedProperty( this )
+    } );
   }
 
   public override step( dt: number ): void {
     this.photonsNode.update();
     super.step( dt );
+  }
+
+  /**
+   * Step alerters of this ObservationWindow (mostly to support polling descriptions). This is separate from
+   * step() because this needs to be stepped even while the sim is paused.
+   */
+  public override stepAlerters( dt: number ): void {
+    this.alerter.step();
   }
 
   public override reset(): void {
