@@ -1,7 +1,7 @@
 // Copyright 2021-2023, University of Colorado Boulder
 
 /**
- * The base model class for Greenhouse Effect.
+ * The base class for all models used in the Greenhouse Effect simulation.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
