@@ -10,7 +10,7 @@ import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import TemperatureDescriber from './TemperatureDescriber.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../../model/ConcentrationModel.js';
+import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 import ConcentrationDescriber from './ConcentrationDescriber.js';
 import EnergyRepresentation from '../EnergyRepresentation.js';
 
@@ -112,13 +112,13 @@ class RadiationDescriber {
   }
 
   private static getRedirectedInfraredDescription( concentration: number,
-                                                   concentrationControlMode: ConcentrationDate,
+                                                   useHistoricalDescription: boolean,
                                                    date: ConcentrationDate,
                                                    energyRepresentation: EnergyRepresentation ): string {
 
     // Get the description from the concentration describer, since the amount of IR that is redirected is completely
     // dependent on the concentration level.
-    const qualitativeDescriptionOfRedirection = concentrationControlMode === ConcentrationControlMode.BY_VALUE ?
+    const qualitativeDescriptionOfRedirection = useHistoricalDescription ?
                                                 ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
                                                 ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
 
@@ -140,7 +140,7 @@ class RadiationDescriber {
    * are redirecting back to surface."
    */
   public static getInfraredRadiationIntensityDescription( surfaceTemperature: number,
-                                                          concentrationControlMode: ConcentrationControlMode,
+                                                          useHistoricalDescription: boolean,
                                                           date: ConcentrationDate,
                                                           concentration: number,
                                                           energyRepresentation: EnergyRepresentation ): string | null {
@@ -149,7 +149,7 @@ class RadiationDescriber {
     if ( surfaceTemperature > GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE ) {
 
       radiationIntensityDescription = RadiationDescriber.getInfraredSurfaceEmissionDescription(
-        surfaceTemperature, energyRepresentation, concentrationControlMode
+        surfaceTemperature, energyRepresentation, useHistoricalDescription
       );
 
       const irDescriptionWithRedirectionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
@@ -161,7 +161,7 @@ class RadiationDescriber {
         radiationIntensityDescription = StringUtils.fillIn( irDescriptionWithRedirectionPatternProperty, {
             surfaceEmission: radiationIntensityDescription,
             value: RadiationDescriber.getRedirectedInfraredDescription(
-              concentration, concentrationControlMode, date, energyRepresentation
+              concentration, useHistoricalDescription, date, energyRepresentation
             )
           }
         );
@@ -181,11 +181,11 @@ class RadiationDescriber {
    */
   public static getInfraredSurfaceEmissionDescription( surfaceTemperature: number,
                                                        energyRepresentation: EnergyRepresentation,
-                                                       concentrationControlMode = ConcentrationControlMode.BY_VALUE ): string {
+                                                       useHistoricalDescription = false ): string {
 
     const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
       surfaceTemperature,
-      concentrationControlMode
+      useHistoricalDescription
     );
 
     const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?

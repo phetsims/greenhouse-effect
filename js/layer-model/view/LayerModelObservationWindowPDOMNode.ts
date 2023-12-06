@@ -13,7 +13,6 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
-import { ConcentrationControlMode } from '../../common/model/ConcentrationModel.js';
 import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 
 /**
@@ -193,7 +192,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       [ model.surfaceTemperatureKelvinProperty, model.temperatureUnitsProperty ],
       ( temperature, temperatureUnits ) => {
         surfaceTemperatureListItemNode.innerContent = TemperatureDescriber.getSurfaceTemperatureIsString(
-          temperature, true, false, temperatureUnits, ConcentrationControlMode.BY_VALUE
+          temperature, true, false, temperatureUnits, false
         );
       }
     );

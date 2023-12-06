@@ -24,13 +24,13 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
 import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
-import LayerModelAlerter from '../../common/view/LayerModelAlerter.js';
+import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
   public readonly showThermometerCheckbox: ShowTemperatureCheckbox;
-  private readonly alerter: LayerModelAlerter;
+  private readonly alerter: LayerModelModelAlerter;
 
   public constructor( model: LayerModelModel, tandem: Tandem ) {
 
@@ -177,7 +177,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     ];
 
     // responsive descriptions
-    this.alerter = new LayerModelAlerter( model, {
+    this.alerter = new LayerModelModelAlerter( model, {
       descriptionAlertNode: this,
       enabledProperty: new DisplayedProperty( this )
     } );

@@ -167,7 +167,7 @@ class GasConcentrationAlerter extends Alerter {
           model.surfaceThermometerVisibleProperty.value,
           model.surfaceTemperatureVisibleProperty.value,
           model.temperatureUnitsProperty.value,
-          model.concentrationControlModeProperty.value
+          model.concentrationControlModeProperty.value === ConcentrationControlMode.BY_DATE
         ) );
       }
     } );

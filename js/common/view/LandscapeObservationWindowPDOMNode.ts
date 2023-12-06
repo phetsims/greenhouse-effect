@@ -66,8 +66,9 @@ export default class LandscapeObservationWindowPDOMNode extends ObservationWindo
       model.temperatureUnitsProperty,
       model.concentrationControlModeProperty
     ], ( temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits, concentrationControlMode ) => {
+      const useHistoricalDescription = concentrationControlMode === ConcentrationControlMode.BY_DATE;
       const temperatureDescription = TemperatureDescriber.getSurfaceTemperatureIsString(
-        temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits, concentrationControlMode
+        temperature, thermometerVisible, surfaceTemperatureVisible, temperatureUnits, useHistoricalDescription
       );
 
       // There will not be a description at all if temperature displays are disabled

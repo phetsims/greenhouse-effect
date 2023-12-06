@@ -133,7 +133,7 @@ export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectS
       // representation we include a qualitative description of the temperature.
       const qualitativeTemperatureDescriptionString = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
         surfaceTemperatureKelvin,
-        concentrationControlMode
+        concentrationControlMode === ConcentrationControlMode.BY_DATE
       );
       const quantitativeTemperatureDescriptionString = TemperatureDescriber.getQuantitativeTemperatureDescription(
         surfaceTemperatureKelvin,
