@@ -611,7 +611,7 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       keyboardStep: averageAllowedAltitudeStep,
       shiftKeyboardStep: averageAllowedAltitudeStep,
       pageKeyboardStep: averageAllowedAltitudeStep * 2,
-      constrainValue: constrainAltitude,
+      a11yMapValue: constrainAltitude,
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
       helpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
       ariaOrientation: Orientation.VERTICAL,
