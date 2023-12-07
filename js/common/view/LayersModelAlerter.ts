@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * LayersModelAlerter is the base class for the "alerters" (objects that provided responsive description for
