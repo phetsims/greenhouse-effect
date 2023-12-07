@@ -11,11 +11,9 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import { Shape } from '../../../../kite/js/imports.js';
@@ -62,10 +60,6 @@ const NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER = 5E-6;
 // determined in conjunction with others to make sure that the max outgoing IR will fix in the flux meter.
 const FLUX_ARROW_ZOOM_FACTOR = 2.5;
 
-// number of zoom levels in each direction
-const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
-const NUMBER_OF_ZOOM_IN_LEVELS = 1;
-
 const CUEING_ARROW_OPTIONS = {
   fill: SENSOR_STROKE_COLOR,
   lineWidth: 0.5,
@@ -80,10 +74,6 @@ const SENSOR_VIEW_HEIGHT = 10;
 
 type SelfOptions = {
 
-  // Whether to include a ZoomButtonGroup on this FluxMeterNode. Buttons allow "zooming" into the meter by scaling
-  // the display arrows.
-  includeZoomButtons?: boolean;
-
   // Nested options for the FluxSensorNode
   fluxSensorNodeOptions?: StrictOmit<FluxSensorNodeOptions, 'tandem'>;
 };
@@ -96,9 +86,6 @@ class FluxMeterNode extends Node {
 
   // a Property that tracks whether the sensor was dragged since startup or last reset, used to hide the queuing errors
   private readonly wasDraggedProperty: BooleanProperty;
-
-  // zoom factor, only used if the zoom feature is enabled
-  private readonly zoomFactorProperty: NumberProperty;
 
   // sound generator for this node
   private readonly soundGenerator: FluxMeterSoundGenerator;
@@ -132,7 +119,6 @@ class FluxMeterNode extends Node {
                       providedOptions: FluxMeterNodeOptions ) {
 
     const options = optionize<FluxMeterNodeOptions, SelfOptions, NodeOptions>()( {
-      includeZoomButtons: false,
       visibleProperty: visibleProperty,
       phetioFeatured: true,
       fluxSensorNodeOptions: {},
@@ -168,14 +154,7 @@ class FluxMeterNode extends Node {
       maxWidth: ( FLUX_PANEL_X_MARGIN * 2 + EnergyFluxDisplay.WIDTH * 2 + METER_SPACING ) * 0.9
     } );
 
-    this.zoomFactorProperty = new NumberProperty( 0, {
-      range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS ),
-      tandem: options.tandem.createTandem( 'zoomFactorProperty' ),
-      phetioReadOnly: !options.includeZoomButtons,
-      phetioFeatured: true
-    } );
-
-    const fluxToIndicatorLengthProperty = new DerivedProperty( [ this.zoomFactorProperty ], zoomFactor =>
+    const fluxToIndicatorLengthProperty = new DerivedProperty( [ model.zoomFactorProperty ], zoomFactor =>
       NOMINAL_FLUX_TO_ARROW_LENGTH_MULTIPLIER * Math.pow( FLUX_ARROW_ZOOM_FACTOR, zoomFactor )
     );
 
@@ -201,8 +180,8 @@ class FluxMeterNode extends Node {
     const contentChildren: Node[] = [ titleText, fluxArrows ];
 
     // zoom buttons conditionally added to the view
-    if ( options.includeZoomButtons ) {
-      this.zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.zoomFactorProperty, {
+    if ( model.zoomEnabled ) {
+      this.zoomButtonGroup = new MagnifyingGlassZoomButtonGroup( model.zoomFactorProperty, {
         spacing: 5,
         touchAreaXDilation: 2,
         touchAreaYDilation: 5,
@@ -223,11 +202,11 @@ class FluxMeterNode extends Node {
       contentChildren.push( this.zoomButtonGroup );
       this.zoomButtonGroup.zoomInButton.accessibleName = StringUtils.fillIn(
         GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
-        { inOrOut: GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty }
+        { inOrOut: StringUtils.capitalize( GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty.value ) }
       );
       this.zoomButtonGroup.zoomOutButton.accessibleName = StringUtils.fillIn(
         GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
-        { inOrOut: GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty }
+        { inOrOut: StringUtils.capitalize( GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty.value ) }
       );
     }
     else {
@@ -372,7 +351,6 @@ class FluxMeterNode extends Node {
 
   public reset(): void {
     this.wasDraggedProperty.reset();
-    this.zoomFactorProperty.reset();
     this.soundGenerator.reset();
   }
 }

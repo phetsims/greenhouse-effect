@@ -23,6 +23,8 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import FluxSensor, { FluxSensorOptions } from './FluxSensor.js';
 import LayersModel from './LayersModel.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // constants
 const MIN_LAYER_TO_SENSOR_DISTANCE = 2200; // in meters, empirically determined
@@ -42,16 +44,25 @@ type SelfOptions = {
   // near one.
   moveSensorOffLayers?: boolean;
 
+  // A boolean flag that determines whether the view should be allowed to zoom in and out.
+  zoomEnabled?: boolean;
+
   // Options passed through to the flux sensor.  No tandem should be specified since it will be created locally.
   fluxSensorOptions?: StrictOmit<FluxSensorOptions, 'tandem'>;
 };
 export type FluxMeterOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
+
+// constants
 
 // The size of the flux sensor.  Note that this is parallel to the ground, so "height" is actually the Z dimension.
 const FLUX_SENSOR_SIZE = new Dimension2(
   GreenhouseEffectConstants.SUNLIGHT_SPAN.width * 0.76,
   GreenhouseEffectConstants.SUNLIGHT_SPAN.height
 );
+
+// number of zoom levels in each direction
+const NUMBER_OF_ZOOM_OUT_LEVELS = 2;
+const NUMBER_OF_ZOOM_IN_LEVELS = 1;
 
 class FluxMeter extends PhetioObject {
 
@@ -64,10 +75,17 @@ class FluxMeter extends PhetioObject {
   public readonly wireMeterAttachmentPositionProperty: Vector2Property;
   public readonly wireSensorAttachmentPositionProperty: TReadOnlyProperty<Vector2>;
 
+  // whether zoom is supported
+  public readonly zoomEnabled: boolean;
+
+  // the zoom factor used when graphically portraying the flux
+  public readonly zoomFactorProperty: NumberProperty;
+
   public constructor( atmosphereLayers: AtmosphereLayer[], providedOptions?: FluxMeterOptions ) {
 
     const options = optionize<FluxMeterOptions, SelfOptions, PhetioObjectOptions>()( {
       moveSensorOffLayers: false,
+      zoomEnabled: false,
       fluxSensorOptions: {
 
         // The initial position for the flux sensor, which is placed at a level in the Photons screen where there is
@@ -124,6 +142,14 @@ class FluxMeter extends PhetioObject {
     this.atmosphereLayers.forEach( atmosphereLayer => {
       atmosphereLayer.isActiveProperty.lazyLink( checkAndUpdateSensorPosition );
     } );
+
+    this.zoomEnabled = options.zoomEnabled;
+    this.zoomFactorProperty = new NumberProperty( 0, {
+      range: new Range( -NUMBER_OF_ZOOM_OUT_LEVELS, NUMBER_OF_ZOOM_IN_LEVELS ),
+      tandem: options.tandem.createTandem( 'zoomFactorProperty' ),
+      phetioReadOnly: !options.zoomEnabled,
+      phetioFeatured: true
+    } );
   }
 
   /**
@@ -131,6 +157,7 @@ class FluxMeter extends PhetioObject {
    */
   public reset(): void {
     this.fluxSensor.reset();
+    this.zoomFactorProperty.reset();
   }
 
   /**

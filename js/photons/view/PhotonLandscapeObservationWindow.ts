@@ -21,6 +21,8 @@ import { DisplayedProperty } from '../../../../scenery/js/imports.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PhotonLandscapeObservationWindowOptions =
@@ -75,10 +77,17 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     this.photonsNode = new PhotonSprites( model.photonCollection, this.modelViewTransform );
     this.presentationLayer.addChild( this.photonsNode );
 
+    // Create an emitter that will be used to trigger alerts in the energyFluxAlerter under some circumstances.
+    const triggerEnergyFluxAlertEmitter = new TinyEmitter<[boolean]>();
+    Multilink.multilink( [ model.concentrationControlModeProperty, model.dateProperty ], () => {
+      triggerEnergyFluxAlertEmitter.emit( true );
+    } );
+
     // alerter for energy flux
     this.energyFluxAlerter = new EnergyFluxAlerter( model, {
       descriptionAlertNode: this,
-      enabledProperty: new DisplayedProperty( this )
+      enabledProperty: new DisplayedProperty( this ),
+      motivateEnergyFluxAlertEmitter: triggerEnergyFluxAlertEmitter
     } );
 
     // pdom - manages descriptions for the observation window

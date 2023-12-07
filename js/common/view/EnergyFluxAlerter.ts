@@ -9,18 +9,22 @@
  */
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 import { FluxMeterReadings } from '../model/FluxMeter.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FluxSensor from '../model/FluxSensor.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import LayersModel from '../model/LayersModel.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
 
-type SelfOptions = EmptySelfOptions;
+type SelfOptions = {
+
+  // an Emitter that can be used to essentially force a new alert for the energy flux state
+  motivateEnergyFluxAlertEmitter?: null | TEmitter<[ boolean ]>;
+};
 export type EnergyFluxAlerterOptions = SelfOptions & AlerterOptions;
 
 // The periods for checking whether new alerts should be made.  Different values are used when playing versus stepping.
@@ -39,15 +43,10 @@ const NON_NEGLIGIBLE_FLUX_CHANGE = 300000;
 // change below this threshold is described as no change.  In watts, empirically determined.
 const APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD = 30000;
 
-type PartialMomentaryModelState = {
-  date: ConcentrationDate;
-  concentrationControlMode: ConcentrationControlMode;
-};
-
 class EnergyFluxAlerter extends Alerter {
 
   // reference to the model, used in the methods
-  private readonly model: ConcentrationModel;
+  private readonly model: LayersModel;
 
   // Time that has passed since last alert, in seconds.  When the difference between this and the current time gets big
   // enough a new alert is announced.
@@ -56,9 +55,8 @@ class EnergyFluxAlerter extends Alerter {
   // The elapsed time from the model during the previous step of this alerter.
   private previousElapsedModelTime = 0;
 
-  // A snapshot of the model state information that is used to decide when to do alerts.  Note that this does NOT
-  // represent the complete model state, just the bits that are needed for this alerter.
-  private previousModelState: PartialMomentaryModelState;
+  // a flag that can be used to force an alert at the next timeout regardless of the state change
+  private performFullAlertNextCycle = false;
 
   // Snapshot of the previous flux meter state, used to decide when to make alerts about the flux meter.
   private previousFluxMeterReadings: FluxMeterReadings;
@@ -69,11 +67,13 @@ class EnergyFluxAlerter extends Alerter {
   // boolean flag that tracks whether the flux sensor has moved since the last alert was announced
   private sensorMovedSinceLastAlert = false;
 
-  public constructor( model: ConcentrationModel, providedOptions: EnergyFluxAlerterOptions ) {
+  public constructor( model: LayersModel, providedOptions: EnergyFluxAlerterOptions ) {
 
     assert && assert( model.fluxMeter, 'This alerter should not be used when flux meter isn\'t present.' );
 
     const options = optionize<EnergyFluxAlerterOptions, SelfOptions, AlerterOptions>()( {
+
+      motivateEnergyFluxAlertEmitter: null,
 
       // This alerter and simulation does not support Voicing.
       alertToVoicing: false
@@ -83,7 +83,6 @@ class EnergyFluxAlerter extends Alerter {
 
     this.model = model;
     this.alertCountdownTimer = ALERT_INTERVAL_WHILE_PLAYING;
-    this.previousModelState = this.getModelState();
     this.energyFluxDescriptionProperty = new FluxMeterDescriptionProperty( model.fluxMeter! );
     this.previousFluxMeterReadings = model.fluxMeter!.readMeter();
 
@@ -105,19 +104,28 @@ class EnergyFluxAlerter extends Alerter {
       }
     } );
 
-    // When certain aspects of the model state changes we want to reset the alert interval to give the flux meter some
-    // time for new measurements to settle in.
-    Multilink.multilink(
-      [ model.concentrationControlModeProperty, model.dateProperty ],
-      () => {
+    // Monitor the zoom property and trigger an alert when it occurs.
+    model.fluxMeter!.zoomFactorProperty.lazyLink( ( zoomFactor, oldZoomFactor ) => {
+      const zoomOutString = StringUtils.fillIn(
+        GreenhouseEffectStrings.a11y.fluxMeter.visualScaleZoomedPatternStringProperty,
+        {
+          inOrOut: zoomFactor > oldZoomFactor ?
+                   GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty :
+                   GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty
+        }
+      );
 
-        // After changing the concentration control mode, reset the alert timer so that we have a full delay before
-        // describing the new scene.
-        this.alertCountdownTimer = model.isPlayingProperty ?
-                                   ALERT_INTERVAL_WHILE_PLAYING :
-                                   ALERT_INTERVAL_WHILE_STEPPING;
-      }
-    );
+      // Perform the alert.
+      this.alert( `${zoomOutString} ${StringUtils.capitalize( this.energyFluxDescriptionProperty.value )}` );
+    } );
+
+    if ( options.motivateEnergyFluxAlertEmitter ) {
+
+      // Monitor the provided emitter and force a new alert on the next cycle when it fires.
+      options.motivateEnergyFluxAlertEmitter.addListener( ( resetCountdown: boolean ) => {
+        this.forceAlertNextCycle( model.isPlayingProperty.value, resetCountdown );
+      } );
+    }
 
     // Monitor the "playing" state and reset the countdown timer when changes occur to half of the full alert time.
     model.isPlayingProperty.link( isPlaying => {
@@ -126,13 +134,21 @@ class EnergyFluxAlerter extends Alerter {
   }
 
   /**
-   * Get the current state values for portions of the model state that are used by this alerter.
+   * Force an alert to occur on the next timeout cycle regardless of the changes in flux.
+   * @param isModelPlaying - whether the model is playing
+   * @param resetCountdown - whether to reset the countdown timer, which can be useful for letting the model stabilize
+   *                         before performing the alert
    */
-  private getModelState(): PartialMomentaryModelState {
-    return {
-      concentrationControlMode: this.model.concentrationControlModeProperty.value,
-      date: this.model.dateProperty.value
-    };
+  private forceAlertNextCycle( isModelPlaying: boolean, resetCountdown: boolean ): void {
+
+    // Set the flag to perform an alert on the next timeout.
+    this.performFullAlertNextCycle = true;
+
+    // If the flag is set, reset the countdown timer.  This can be useful for allowing the model to stabilize before
+    // making the alert.
+    if ( resetCountdown ) {
+      this.alertCountdownTimer = isModelPlaying ? ALERT_INTERVAL_WHILE_PLAYING : ALERT_INTERVAL_WHILE_STEPPING;
+    }
   }
 
   /**
@@ -188,23 +204,19 @@ class EnergyFluxAlerter extends Alerter {
           0
         );
 
-        // Check some other things that might motivate an alert.
-        const dateChanged = this.model.dateProperty.value !== this.previousModelState.date;
-        const concentrationModeChanged = this.model.concentrationControlModeProperty.value !==
-                                         this.previousModelState.concentrationControlMode;
-
         let alerted = false;
 
-        // Did one or more of the flux values change enough to warrant an alert?
-        if ( largestFluxChange > ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS ) {
+        // Did one or more of the flux values change enough to warrant an alert?  Or did something else happen to
+        // trigger a full alert?
+        if ( largestFluxChange > ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS || this.performFullAlertNextCycle ) {
 
           // The flux change is over the threshold, so do an alert of the current energy flux description.
           this.alert( this.energyFluxDescriptionProperty.value );
           alerted = true;
         }
 
-        // Did anything else change that would warrant a new alert?
-        else if ( dateChanged || concentrationModeChanged || this.sensorMovedSinceLastAlert ) {
+        // If the flux sensor was moved, an alert will be made, but it can potentially be shorter than the full one.
+        else if ( this.sensorMovedSinceLastAlert ) {
 
           // Was the change in flux large enough to announce the full description even though it wasn't enough to
           // trigger a new alert on its own?
@@ -230,9 +242,9 @@ class EnergyFluxAlerter extends Alerter {
 
         // If an alert was performed, record the state for future comparison.
         if ( alerted ) {
-          this.previousModelState = this.getModelState();
           this.previousFluxMeterReadings = fluxMeterReadings;
           this.sensorMovedSinceLastAlert = false;
+          this.performFullAlertNextCycle = false;
         }
       }
 
@@ -250,7 +262,7 @@ class EnergyFluxAlerter extends Alerter {
    */
   public reset(): void {
     this.alertCountdownTimer = ALERT_INTERVAL_WHILE_PLAYING;
-    this.previousModelState = this.getModelState();
+    this.performFullAlertNextCycle = false;
     this.previousFluxMeterReadings = this.model.fluxMeter!.readMeter();
   }
 }

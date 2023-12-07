@@ -280,6 +280,7 @@ class LayersModelAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
+    this.savePeriodicNotificationModelState();
   }
 }
 

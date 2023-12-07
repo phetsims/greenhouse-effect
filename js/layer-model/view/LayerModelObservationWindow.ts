@@ -25,12 +25,14 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
 import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
 import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
+import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
   public readonly showThermometerCheckbox: ShowTemperatureCheckbox;
   private readonly alerter: LayerModelModelAlerter;
+  private readonly energyFluxAlerter: EnergyFluxAlerter;
 
   public constructor( model: LayerModelModel, tandem: Tandem ) {
 
@@ -49,7 +51,6 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
     super( model, {
       fluxMeterNodeOptions: {
-        includeZoomButtons: true,
         fluxSensorNodeOptions: {
           a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorLayerRelationshipProperty.value}`,
           a11yDependencies: [ sensorAltitudeDescriptionProperty, fluxSensorLayerRelationshipProperty ]
@@ -181,6 +182,12 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       descriptionAlertNode: this,
       enabledProperty: new DisplayedProperty( this )
     } );
+
+    // alerter for energy flux
+    this.energyFluxAlerter = new EnergyFluxAlerter( model, {
+      descriptionAlertNode: this,
+      enabledProperty: new DisplayedProperty( this )
+    } );
   }
 
   public override step( dt: number ): void {
@@ -193,12 +200,15 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
    * step() because this needs to be stepped even while the sim is paused.
    */
   public override stepAlerters( dt: number ): void {
+    this.energyFluxAlerter.step();
     this.alerter.step();
   }
 
   public override reset(): void {
     this.atmosphereLayerNodes.forEach( aln => { aln.reset(); } );
     this.fluxMeterNode?.reset();
+    this.alerter.reset();
+    this.energyFluxAlerter.reset();
   }
 
   /**

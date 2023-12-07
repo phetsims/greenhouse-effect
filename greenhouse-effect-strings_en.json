@@ -229,10 +229,13 @@
         "value": "Energy Flux Range Zoom {{inOrOut}}"
       },
       "in": {
-        "value": "In"
+        "value": "in"
       },
       "out": {
-        "value": "Out"
+        "value": "out"
+      },
+      "visualScaleZoomedPattern": {
+        "value": "Visual scale zoomed {{inOrOut}}."
       }
     },
     "fluxMeterUncheckedAlert": {
