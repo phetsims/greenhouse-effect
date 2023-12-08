@@ -119,8 +119,8 @@ class RadiationDescriber {
     // Get the description from the concentration describer, since the amount of IR that is redirected is completely
     // dependent on the concentration level.
     const qualitativeDescriptionOfRedirection = useHistoricalDescription ?
-                                                ConcentrationDescriber.getQualitativeConcentrationDescription( concentration ) :
-                                                ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date );
+                                                ConcentrationDescriber.getHistoricalQualitativeConcentrationDescription( date ) :
+                                                ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
 
     const enclosingPhraseProperty = energyRepresentation === EnergyRepresentation.WAVE ?
                                     GreenhouseEffectStrings.a11y.amountOfPatternStringProperty :
