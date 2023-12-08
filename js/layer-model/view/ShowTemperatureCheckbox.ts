@@ -16,7 +16,8 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 type SelfOptions = EmptySelfOptions;
-export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & ParallelDOMOptions & PickRequired<CheckboxOptions, 'tandem'>;
+export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & ParallelDOMOptions &
+  CheckboxOptions & PickRequired<CheckboxOptions, 'tandem'>;
 
 class ShowTemperatureCheckbox extends Checkbox {
   public constructor( property: Property<boolean>, providedOptions?: ShowTemperatureCheckboxOptions ) {

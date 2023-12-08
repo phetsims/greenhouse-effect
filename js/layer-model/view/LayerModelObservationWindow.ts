@@ -26,6 +26,8 @@ import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/
 import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
 import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
 import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
+import LayerTemperatureCheckedDescriptionProperty from './describers/LayerTemperatureCheckedDescriptionProperty.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
@@ -68,6 +70,14 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       const presentedIndex = index + 1;
 
       const correspondingPhotonAbsorbingLayer = model.photonCollection.photonAbsorbingEmittingLayers[ index ];
+
+      const checkedContextResponseProperty = new LayerTemperatureCheckedDescriptionProperty(
+        presentedIndex,
+        atmosphereLayer.temperatureProperty,
+        model.temperatureUnitsProperty,
+        correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty
+      );
+
       const atmosphereLayerNodeOptions: AtmosphereLayerNodeOptions = {
         numberDisplayEnabledProperty: correspondingPhotonAbsorbingLayer.atLeastOnePhotonAbsorbedProperty,
         layerThickness: correspondingPhotonAbsorbingLayer.thickness,
@@ -80,6 +90,12 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
           } ),
           helpText: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
             number: presentedIndex
+          } ),
+          checkedContextResponse: checkedContextResponseProperty,
+          uncheckedContextResponse: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
+            surfaceOrLayer: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerPatternStringProperty, {
+              layerNumber: presentedIndex
+            } )
           } )
         }
       };
@@ -109,6 +125,13 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
     } );
 
     // checkbox for thermometer visibility
+    const groundThermometerCheckedContextResponseProperty = new LayerTemperatureCheckedDescriptionProperty(
+      0,
+      model.groundLayer.temperatureProperty,
+      model.temperatureUnitsProperty,
+      new BooleanProperty( true ) // The ground layer always has a temperature.
+    );
+
     this.showThermometerCheckbox = new ShowTemperatureCheckbox( model.surfaceThermometerVisibleProperty, {
       left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
@@ -117,7 +140,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
       // pdom - content for the surface thermometer checkbox
       accessibleName: GreenhouseEffectStrings.surfaceThermometerStringProperty,
-      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty
+      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty,
+      checkedContextResponse: groundThermometerCheckedContextResponseProperty,
+      uncheckedContextResponse: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
+        surfaceOrLayer: GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty
+      } )
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );
 

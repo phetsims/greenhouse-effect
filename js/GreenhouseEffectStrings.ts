@@ -292,6 +292,10 @@ type StringsType = {
         'betweenLayersPatternStringProperty': LocalizedStringProperty;
         'aboveLayerPatternStringProperty': LocalizedStringProperty;
         'belowLayerPatternStringProperty': LocalizedStringProperty;
+        'thermometerMeasuringSurfacePatternStringProperty': LocalizedStringProperty;
+        'surfaceStringProperty': LocalizedStringProperty;
+        'layerPatternStringProperty': LocalizedStringProperty;
+        'thermometerRemovedFromStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

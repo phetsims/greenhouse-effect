@@ -687,6 +687,18 @@
         },
         "belowLayerPattern": {
           "value": "below layer {{layerNumber}}"
+        },
+        "thermometerMeasuringSurfacePattern": {
+          "value": "Thermometer measuring {{surfaceOrLayer}}"
+        },
+        "surface": {
+          "value": "surface"
+        },
+        "layerPattern": {
+          "value": "layer {{layerNumber}}"
+        },
+        "thermometerRemovedFrom": {
+          "value": "Thermometer removed from {{surfaceOrLayer}}."
         }
       }
     },
