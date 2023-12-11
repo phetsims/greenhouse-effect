@@ -20,12 +20,13 @@ import Utils from '../../../../dot/js/Utils.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
 
 export default class InfraredAbsorbanceControl extends VBox {
 
-  public constructor( infraredAbsorbanceProperty: NumberProperty, trackSize: Dimension2, tandem: Tandem ) {
+  public constructor( infraredAbsorbanceProperty: NumberProperty, sunIsShiningProperty: TReadOnlyProperty<boolean>, trackSize: Dimension2, tandem: Tandem ) {
 
     // convenience variable
     const infraredAbsorbanceRange = infraredAbsorbanceProperty.range;
@@ -62,6 +63,27 @@ export default class InfraredAbsorbanceControl extends VBox {
           return StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.absorbanceValuePatternStringProperty, {
             value: value * 100
           } );
+        },
+
+        // A context response describing the change in absorption for the layers. Will return something like
+        // "All layers now absorbing 60% of infrared photons, 40% passing through layers."
+        a11yCreateContextResponseAlert: ( mappedValue, value, previousValue ) => {
+
+          let response = '';
+          if ( sunIsShiningProperty.value ) {
+            if ( value === 1 ) {
+              response = GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
+            }
+            else {
+              const absorbedPercentage = value * 100;
+              const passThroughPercentage = Utils.roundToInterval( 1 - value, 0.01 ) * 100;
+              response = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty, {
+                absorbedPercentage: absorbedPercentage,
+                passThroughPercentage: passThroughPercentage
+              } );
+            }
+          }
+          return response;
         },
         helpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
         keyboardStep: IR_ABSORBANCE_STEP_SIZE,

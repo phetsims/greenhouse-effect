@@ -26,6 +26,7 @@ export default class InfraredPanel extends LayerScreenControlPanel {
 
     const infraredAbsorbanceControl = new InfraredAbsorbanceControl(
       layersModel.layersInfraredAbsorbanceProperty,
+      layersModel.sunEnergySource.isShiningProperty,
       new Dimension2( width * 0.75, 1 ),
       tandem.createTandem( 'infraredAbsorbanceControl' )
     );

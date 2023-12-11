@@ -717,6 +717,12 @@
         },
         "layerRemovedContextResponsePattern": {
           "value": "Layer {{number}} removed."
+        },
+        "fullAbsorptionContextResponse": {
+          "value": "All layers now absorbing 100% of infrared photons."
+        },
+        "absorptionChangeContextResponsePattern": {
+          "value": "All layers now absorbing {{absorbedPercentage}}% of infrared photons, {{passThroughPercentage}}% passing through layers."
         }
       }
     },

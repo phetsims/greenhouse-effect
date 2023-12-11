@@ -302,6 +302,8 @@ type StringsType = {
         'layerAddedAboveSurfacePatternStringProperty': LocalizedStringProperty;
         'layerAddedContextResponsePatternStringProperty': LocalizedStringProperty;
         'layerRemovedContextResponsePatternStringProperty': LocalizedStringProperty;
+        'fullAbsorptionContextResponseStringProperty': LocalizedStringProperty;
+        'absorptionChangeContextResponsePatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
