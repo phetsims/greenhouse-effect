@@ -297,6 +297,11 @@ type StringsType = {
         'layerPatternStringProperty': LocalizedStringProperty;
         'thermometerRemovedFromStringProperty': LocalizedStringProperty;
         'sunlightPhotonsPatternStringProperty': LocalizedStringProperty;
+        'multipleLayersAddedStringProperty': LocalizedStringProperty;
+        'multipleLayersRemovedStringProperty': LocalizedStringProperty;
+        'layerAddedAboveSurfacePatternStringProperty': LocalizedStringProperty;
+        'layerAddedContextResponsePatternStringProperty': LocalizedStringProperty;
+        'layerRemovedContextResponsePatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

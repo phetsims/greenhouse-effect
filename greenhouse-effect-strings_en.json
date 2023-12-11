@@ -702,6 +702,21 @@
         },
         "sunlightPhotonsPattern": {
           "value": "{{moreFewer}} sunlight photons entering atmosphere."
+        },
+        "multipleLayersAdded": {
+          "value": "Multiple layers added."
+        },
+        "multipleLayersRemoved": {
+          "value": "Multiple layers removed."
+        },
+        "layerAddedAboveSurfacePattern": {
+          "value": "Layer {{number}} added above surface."
+        },
+        "layerAddedContextResponsePattern": {
+          "value": "Layer {{aboveNumber}} added above layer {{belowNumber}}."
+        },
+        "layerRemovedContextResponsePattern": {
+          "value": "Layer {{number}} removed."
         }
       }
     },
