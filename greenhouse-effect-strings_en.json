@@ -699,6 +699,9 @@
         },
         "thermometerRemovedFrom": {
           "value": "Thermometer removed from {{surfaceOrLayer}}."
+        },
+        "sunlightPhotonsPattern": {
+          "value": "{{moreFewer}} sunlight photons entering atmosphere."
         }
       }
     },

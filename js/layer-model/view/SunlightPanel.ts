@@ -23,7 +23,10 @@ export default class SunlightPanel extends LayerScreenControlPanel {
 
     const solarIntensityControl = new SolarIntensityControl(
       layersModel.sunEnergySource.proportionateOutputRateProperty,
-      sliderTrackSize, tandem.createTandem( 'solarIntensityControl' ) );
+      sliderTrackSize,
+      layersModel.sunEnergySource.isShiningProperty,
+      tandem.createTandem( 'solarIntensityControl' )
+    );
 
     const surfaceAlbedoControl = new SurfaceAlbedoControl(
       layersModel.groundLayer.albedoProperty,

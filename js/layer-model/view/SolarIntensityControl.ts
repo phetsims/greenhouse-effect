@@ -22,12 +22,17 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import Utils from '../../../../dot/js/Utils.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import SunlightIntensityDescriptionProperty from './describers/SunlightIntensityDescriptionProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 
 export default class SolarIntensityControl extends VBox {
 
-  public constructor( proportionateOutputRateProperty: TRangedProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
+  public constructor( proportionateOutputRateProperty: TRangedProperty,
+                      sliderTrackSize: Dimension2,
+                      isSunShiningProperty: TReadOnlyProperty<boolean>,
+                      tandem: Tandem ) {
 
     // convenience variable
     const solarIntensityProportionRange = proportionateOutputRateProperty.range;
@@ -59,6 +64,19 @@ export default class SolarIntensityControl extends VBox {
         helpText: GreenhouseEffectStrings.a11y.layerModel.solarIntensityHelpTextStringProperty,
         labelTagName: 'label',
         a11yCreateAriaValueText: () => sunlightIntensityDescriptionProperty.value,
+        a11yCreateContextResponseAlert: ( mappedValue, currentValue, previousValue ) => {
+          let responseAlert = '';
+          if ( isSunShiningProperty.value && previousValue !== null && previousValue !== currentValue ) {
+            const moreOrFewerProperty = currentValue > previousValue ?
+                                        GreenhouseEffectStrings.a11y.moreStringProperty :
+                                        GreenhouseEffectStrings.a11y.fewerStringProperty;
+            responseAlert = StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsPatternStringProperty,
+              { moreFewer: moreOrFewerProperty }
+            );
+          }
+          return responseAlert;
+        },
         valueChangeSoundGeneratorOptions: {
           middleMovingUpSoundPlayer: solarIntensitySoundPlayer,
           middleMovingDownSoundPlayer: solarIntensitySoundPlayer,

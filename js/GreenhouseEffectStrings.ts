@@ -296,6 +296,7 @@ type StringsType = {
         'surfaceStringProperty': LocalizedStringProperty;
         'layerPatternStringProperty': LocalizedStringProperty;
         'thermometerRemovedFromStringProperty': LocalizedStringProperty;
+        'sunlightPhotonsPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
