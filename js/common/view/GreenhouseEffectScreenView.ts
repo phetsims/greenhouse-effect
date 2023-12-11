@@ -20,6 +20,7 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 const FRAME_WIDTH = 12; // in screen coords, empirically determined to do the job
 
@@ -31,7 +32,7 @@ type SelfOptions = {
   // passed along to the EnergyLegend
   energyLegendOptions?: EnergyLegendOptions;
 };
-export type GreenhouseEffectScreenViewOptions = SelfOptions & ScreenViewOptions;
+export type GreenhouseEffectScreenViewOptions = SelfOptions & WithRequired<ScreenViewOptions, 'tandem'>;
 
 class GreenhouseEffectScreenView extends ScreenView {
   protected readonly model: GreenhouseEffectModel;
