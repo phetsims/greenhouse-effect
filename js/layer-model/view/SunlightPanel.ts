@@ -30,7 +30,9 @@ export default class SunlightPanel extends LayerScreenControlPanel {
 
     const surfaceAlbedoControl = new SurfaceAlbedoControl(
       layersModel.groundLayer.albedoProperty,
-      sliderTrackSize, tandem.createTandem( 'surfaceAlbedoControl' )
+      sliderTrackSize,
+      layersModel.sunEnergySource.isShiningProperty,
+      tandem.createTandem( 'surfaceAlbedoControl' )
     );
 
     super(

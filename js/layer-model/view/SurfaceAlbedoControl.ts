@@ -21,12 +21,17 @@ import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
 import Utils from '../../../../dot/js/Utils.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
 
 export default class SurfaceAlbedoControl extends VBox {
 
-  public constructor( surfaceAlbedoProperty: TRangedProperty, sliderTrackSize: Dimension2, tandem: Tandem ) {
+  public constructor( surfaceAlbedoProperty: TRangedProperty,
+                      sliderTrackSize: Dimension2,
+                      isSunShiningProperty: TReadOnlyProperty<boolean>,
+                      tandem: Tandem ) {
 
     // convenience variable
     const surfaceAlbedoRange = surfaceAlbedoProperty.range;
@@ -59,6 +64,21 @@ export default class SurfaceAlbedoControl extends VBox {
           maxSoundPlayer: surfaceAlbedoSoundPlayer,
           middleMovingUpSoundPlayer: surfaceAlbedoSoundPlayer,
           middleMovingDownSoundPlayer: surfaceAlbedoSoundPlayer
+        },
+        a11yCreateContextResponseAlert: albedo => {
+          let responseAlert = '';
+          if ( isSunShiningProperty.value ) {
+            if ( albedo === 0 ) {
+              responseAlert = GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value;
+            }
+            else {
+              responseAlert = StringUtils.fillIn(
+                GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty,
+                { percentage: Utils.roundToInterval( albedo * 100, 1 ) }
+              );
+            }
+          }
+          return responseAlert;
         },
         isDisposable: false,
         tandem: tandem.createTandem( 'slider' ),
