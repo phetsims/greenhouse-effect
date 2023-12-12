@@ -555,6 +555,7 @@ type FluxSensorNodeOptions = NodeOptions &
 const ALLOWED_KEYBOARD_NAV_ALTITUDES = [ 750, 5525, 10300, 14700, 18750, 22800, 27200, 31250, 35300, 39700, 44500, 49300 ];
 
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
+
   public constructor( fluxSensor: FluxSensor,
                       modelViewTransform: ModelViewTransform2,
                       providedOptions?: FluxSensorNodeOptions ) {
