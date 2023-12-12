@@ -42,6 +42,7 @@ import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionPrope
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import ZoomButtonGroup from '../../../../scenery-phet/js/ZoomButtonGroup.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import LayersModel from '../model/LayersModel.js';
 
 const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
 const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
@@ -550,10 +551,6 @@ type FluxSensorNodeOptions = NodeOptions &
   StrictOmit<AccessibleSliderOptions, 'valueProperty' | 'enabledRangeProperty'> &
   PickRequired<NodeOptions, 'tandem'>;
 
-// Create a list of altitudes that are allowed for the flux sensor when using keyboard nav.  These came from the
-// description spec and are intended to prevent the sensor from ever landing on the layers.
-const ALLOWED_KEYBOARD_NAV_ALTITUDES = [ 750, 5525, 10300, 14700, 18750, 22800, 27200, 31250, 35300, 39700, 44500, 49300 ];
-
 class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
 
   public constructor( fluxSensor: FluxSensor,
@@ -562,35 +559,12 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
 
     const fluxSensorAltitudeRangeProperty = fluxSensor.altitudeProperty.rangeProperty;
 
-    // Calculate the average difference between the allowed altitudes.
-    let totalDiffs = 0;
-    for ( let i = 0; i < ALLOWED_KEYBOARD_NAV_ALTITUDES.length - 1; i++ ) {
-      totalDiffs += ALLOWED_KEYBOARD_NAV_ALTITUDES[ i + 1 ] - ALLOWED_KEYBOARD_NAV_ALTITUDES[ i ];
-    }
-    const averageAllowedAltitudeStep = totalDiffs / ( ALLOWED_KEYBOARD_NAV_ALTITUDES.length - 1 );
-
-    // Define a function that will constrain the provided altitude to the closest allowed value.
-    const constrainAltitude = ( unconstrainedAltitude: number ) => {
-      let closestAllowedAltitude = ALLOWED_KEYBOARD_NAV_ALTITUDES[ 0 ];
-      let distanceToClosestAltitude = Math.abs( unconstrainedAltitude - closestAllowedAltitude );
-      for ( let i = 1; i < ALLOWED_KEYBOARD_NAV_ALTITUDES.length; i++ ) {
-        const candidateAltitude = ALLOWED_KEYBOARD_NAV_ALTITUDES[ i ];
-        const distanceToCandidateAltitude = Math.abs( unconstrainedAltitude - candidateAltitude );
-        if ( distanceToCandidateAltitude < distanceToClosestAltitude ) {
-          distanceToClosestAltitude = distanceToCandidateAltitude;
-          closestAllowedAltitude = candidateAltitude;
-        }
-      }
-      return closestAllowedAltitude;
-    };
-
     const options = optionize<FluxSensorNodeOptions, FluxSensorNodeSelfOptions, FluxSensorNodeParentOptions>()( {
       valueProperty: fluxSensor.altitudeProperty,
       enabledRangeProperty: fluxSensorAltitudeRangeProperty,
-      keyboardStep: averageAllowedAltitudeStep,
-      shiftKeyboardStep: averageAllowedAltitudeStep,
-      pageKeyboardStep: averageAllowedAltitudeStep * 2,
-      a11yMapValue: constrainAltitude,
+      keyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 10,
+      shiftKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 20,
+      pageKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 5,
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
       helpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
       ariaOrientation: Orientation.VERTICAL,

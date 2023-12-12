@@ -29,6 +29,12 @@ import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 import LayerTemperatureCheckedDescriptionProperty from './describers/LayerTemperatureCheckedDescriptionProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
+// constants
+
+// Create a list of altitudes that are allowed for the flux sensor when using keyboard nav.  These came from the
+// description spec and are intended to prevent the sensor from ever landing on the layers.
+const ALLOWED_KEYBOARD_NAV_ALTITUDES = [ 750, 5525, 10300, 14700, 18750, 22800, 27200, 31250, 35300, 39700, 44500, 49300 ];
+
 class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly photonsNode: PhotonSprites;
   public readonly atmosphereLayerNodes: AtmosphereLayerNode[] = [];
@@ -51,9 +57,35 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       model.atmosphereLayers
     );
 
+    // Calculate the average difference between the allowed altitudes.
+    let totalDiffs = 0;
+    for ( let i = 0; i < ALLOWED_KEYBOARD_NAV_ALTITUDES.length - 1; i++ ) {
+      totalDiffs += ALLOWED_KEYBOARD_NAV_ALTITUDES[ i + 1 ] - ALLOWED_KEYBOARD_NAV_ALTITUDES[ i ];
+    }
+    const averageAllowedAltitudeStep = totalDiffs / ( ALLOWED_KEYBOARD_NAV_ALTITUDES.length - 1 );
+
+    // Define a function that will constrain the provided altitude to the closest allowed value.
+    const constrainAltitude = ( unconstrainedAltitude: number ) => {
+      let closestAllowedAltitude = ALLOWED_KEYBOARD_NAV_ALTITUDES[ 0 ];
+      let distanceToClosestAltitude = Math.abs( unconstrainedAltitude - closestAllowedAltitude );
+      for ( let i = 1; i < ALLOWED_KEYBOARD_NAV_ALTITUDES.length; i++ ) {
+        const candidateAltitude = ALLOWED_KEYBOARD_NAV_ALTITUDES[ i ];
+        const distanceToCandidateAltitude = Math.abs( unconstrainedAltitude - candidateAltitude );
+        if ( distanceToCandidateAltitude < distanceToClosestAltitude ) {
+          distanceToClosestAltitude = distanceToCandidateAltitude;
+          closestAllowedAltitude = candidateAltitude;
+        }
+      }
+      return closestAllowedAltitude;
+    };
+
     super( model, {
       fluxMeterNodeOptions: {
         fluxSensorNodeOptions: {
+          keyboardStep: averageAllowedAltitudeStep,
+          shiftKeyboardStep: averageAllowedAltitudeStep,
+          pageKeyboardStep: averageAllowedAltitudeStep * 2,
+          a11yMapValue: constrainAltitude,
           a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorLayerRelationshipProperty.value}`,
           a11yDependencies: [ sensorAltitudeDescriptionProperty, fluxSensorLayerRelationshipProperty ]
         }
