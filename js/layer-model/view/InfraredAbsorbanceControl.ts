@@ -70,7 +70,7 @@ export default class InfraredAbsorbanceControl extends VBox {
         a11yCreateContextResponseAlert: ( mappedValue, value, previousValue ) => {
 
           let response = '';
-          if ( sunIsShiningProperty.value ) {
+          if ( sunIsShiningProperty.value && value !== previousValue ) {
             if ( value === 1 ) {
               response = GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
             }
