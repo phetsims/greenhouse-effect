@@ -57,7 +57,7 @@ export default class AbsorbingLayersControl extends HBox {
         // 'Layer 1 removed.'
         a11yCreateContextResponseAlert: ( mappedValue, value, previousValue ) => {
           let response = '';
-          if ( previousValue !== null ) {
+          if ( previousValue !== null && value !== previousValue ) {
             const difference = Math.abs( value - previousValue );
 
             if ( value > previousValue ) {
