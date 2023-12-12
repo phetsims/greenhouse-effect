@@ -22,6 +22,7 @@ import LayersModel from '../model/LayersModel.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnergyDescriber from './describers/EnergyDescriber.js';
 
 type SelfOptions = {
 
@@ -122,8 +123,8 @@ class LayersModelAlerter extends Alerter {
       }
     } );
 
-    // When the temperature units change, announce the temperature immediately. This is unrelated to the temperature
-    // change alerts that happen in the polling implementation and doesn't need to be in a specific order with them,so
+    // Announce the temperature immediately when the temperature units change. This is unrelated to the temperature
+    // change alerts that happen in the polling implementation and doesn't need to be in a specific order with them, so
     // it doesn't need to be in the 'step' function.
     model.temperatureUnitsProperty.lazyLink( temperatureUnits => {
       this.alert( TemperatureDescriber.getQuantitativeTemperatureDescription(
@@ -176,6 +177,51 @@ class LayersModelAlerter extends Alerter {
   }
 
   /**
+   * Set the internal state such that a new alert will occur relatively soon.
+   */
+  protected setUpQuickAlert(): void {
+    const proportion = 0.75;
+    this.timeSinceLastAlert = this.model.isPlayingProperty.value ?
+                              ALERT_INTERVAL_WHILE_PLAYING * proportion :
+                              ALERT_INTERVAL_WHILE_STEPPING * proportion;
+  }
+
+  /**
+   * Reset the alert time.  This will cause there to be a full interval before the next check for timed alerts.
+   */
+  protected resetAlertTime(): void {
+    this.timeSinceLastAlert = 0;
+  }
+
+  /**
+   * Check whether the energy balance has changed in such a way that an alert should be performed and, if so, do it.
+   * This is in a separate function so that subclasses can control when it is done.
+   */
+  protected checkAndPerformEnergyBalanceAlerts(): void {
+
+    if ( this.model.energyBalanceVisibleProperty.value ) {
+
+      // Did the energy balance change in such a way that we need to describe it?
+      const currentNetInflowOfEnergy = this.model.netInflowOfEnergyProperty.value;
+      const previousNetInflowOfEnergy = this.previousPeriodicNotificationModelState.netInflowOfEnergy;
+      if ( ( previousNetInflowOfEnergy < -LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+             currentNetInflowOfEnergy > -LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+           ( previousNetInflowOfEnergy > LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+             currentNetInflowOfEnergy < LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ||
+           ( Math.abs( previousNetInflowOfEnergy ) < LayersModel.RADIATIVE_BALANCE_THRESHOLD &&
+             Math.abs( currentNetInflowOfEnergy ) > LayersModel.RADIATIVE_BALANCE_THRESHOLD ) ) {
+
+        // Yep.
+        const outgoingEnergyAlertString = EnergyDescriber.getNetEnergyAtAtmosphereDescription(
+          currentNetInflowOfEnergy,
+          this.model.inRadiativeBalanceProperty.value
+        );
+        outgoingEnergyAlertString && this.alert( outgoingEnergyAlertString );
+      }
+    }
+  }
+
+  /**
    * Check if the model state has changed in such a way since the last step that any new announcements are needed and,
    * if so, make them.  This function is called from the step function and is intended to be overridden in descendent
    * classes.
@@ -189,7 +235,35 @@ class LayersModelAlerter extends Alerter {
    * needed and, if so, make them.  This function is called based on the periodic alert interval.
    */
   protected checkAndPerformPeriodicAlerts(): void {
-    // This does nothing in the base class.
+
+    // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
+    // this response is created. Temperature must also be visible in the view.
+    const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value &&
+                                    this.temperatureChangeAlertCount === 0;
+
+    const currentTemperature = this.getCurrentTemperature();
+
+    const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+      this.previousPeriodicNotificationModelState.temperature,
+      currentTemperature,
+      includeTemperatureValue,
+      this.model.temperatureUnitsProperty.value,
+      this.useVerboseSurfaceTemperatureAlert,
+
+      // When the control mode changes, it was requested that the temperature be described as 'stabilizing'
+      // instead of 'warming' or 'cooling'.  See
+      // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+      this.describeTemperatureAsStabilizing
+    );
+    temperatureAlertString && this.alert( temperatureAlertString );
+
+    // reset counter if we have spoken the terse form of the temperature change alert enough times
+    this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+
+    // Save state information needed for next periodic alert.
+    this.savePeriodicNotificationModelState();
+    this.useVerboseSurfaceTemperatureAlert = false;
+    this.describeTemperatureAsStabilizing = false;
   }
 
   /**
@@ -212,8 +286,7 @@ class LayersModelAlerter extends Alerter {
   /**
    * Create new alerts if the state of the simulation has changed and timing variables indicate it is time. This step
    * function should be called every view step, regardless of whether the model is playing because certain alerts
-   * describe updates that are unrelated to the changing concentration model (see
-   * "previousImmediateNotificationModelState").
+   * describe updates that can change when the model is paused.
    */
   public step(): void {
 
@@ -231,44 +304,8 @@ class LayersModelAlerter extends Alerter {
 
     // If it's time, speak the periodic alerts.
     if ( this.timeSinceLastAlert > alertInterval ) {
-
-      // Then, a description of the changing temperature - this should get described at interval even if there
-      // is no change in concentration. There is a delay after concentration changes to avoid spamming the user with
-      // too much information after concentration changes. Depending on how many times it has been spoken a terse
-      // form of it may be used (handled in getSurfaceTemperatureChangeString).
-
-      // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
-      // this response is created. Temperature must also be visible in the view.
-      const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value &&
-                                      this.temperatureChangeAlertCount === 0;
-
-      const currentTemperature = this.getCurrentTemperature();
-
-      const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-        this.previousPeriodicNotificationModelState.temperature,
-        currentTemperature,
-        includeTemperatureValue,
-        this.model.temperatureUnitsProperty.value,
-        this.useVerboseSurfaceTemperatureAlert,
-
-        // when the control mode changes, it was requested that the temperature be described as 'stabilizing'
-        // instead of 'warming' or 'cooling',
-        // see https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
-        this.describeTemperatureAsStabilizing
-      );
-      temperatureAlertString && this.alert( temperatureAlertString );
-
-      // reset counter if we have spoken the terse form of the temperature change alert enough times
-      this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
-
-      // Call the method for subclass-specific alerts.
       this.checkAndPerformPeriodicAlerts();
-
-      // Save state information needed for next periodic alert.
-      this.savePeriodicNotificationModelState();
-      this.timeSinceLastAlert = 0;
-      this.useVerboseSurfaceTemperatureAlert = false;
-      this.describeTemperatureAsStabilizing = false;
+      this.resetAlertTime();
     }
 
     this.previousElapsedModelTime = this.model.totalElapsedTime;

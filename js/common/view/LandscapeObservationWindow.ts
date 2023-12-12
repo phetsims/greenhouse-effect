@@ -27,7 +27,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
-import GasConcentrationAlerter from './GasConcentrationAlerter.js';
+import ConcentrationModelAlerter from './ConcentrationModelAlerter.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
@@ -50,7 +50,7 @@ const SIZE = GreenhouseEffectObservationWindow.SIZE;
 const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
-  private readonly gasConcentrationAlerter: GasConcentrationAlerter;
+  private readonly gasConcentrationAlerter: ConcentrationModelAlerter;
   private readonly isPlayingProperty: TReadOnlyProperty<boolean>;
 
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
@@ -149,7 +149,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
     }
 
     // pdom - responsive descriptions
-    this.gasConcentrationAlerter = new GasConcentrationAlerter( model, {
+    this.gasConcentrationAlerter = new ConcentrationModelAlerter( model, {
       descriptionAlertNode: this,
       enabledProperty: new DisplayedProperty( this ),
       energyRepresentation: options.energyRepresentation
