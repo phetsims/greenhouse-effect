@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * Responsible for generating and timing alerts related to the ConcentrationModel subclasses in this sim. A polling
