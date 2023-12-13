@@ -94,7 +94,7 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( () => {
 
-      // TODO: Do these need to be separate like this, or could we have a single function in the base class that is called?  See #274.
+      // TODO: Do these need to be separate like this, or could we have a single function in the base class that is called?  See #374.
       this.useVerboseTemperatureDescriptionAtNextAlert();
       this.useVerboseTemperatureAtNextAlert();
 
