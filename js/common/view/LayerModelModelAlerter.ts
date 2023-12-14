@@ -15,6 +15,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utils from '../../../../dot/js/Utils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 export type LayerModelModelAlerterOptions = SelfOptions & LayersModelAlerterOptions;
@@ -63,6 +64,27 @@ class LayerModelModelAlerter extends LayersModelAlerter {
 
     this.layerModelModel = model;
     this.previousImmediateNotificationState = this.saveLayerModelImmediateNotificationState();
+
+    Multilink.multilink(
+      [
+        model.numberOfActiveAtmosphereLayersProperty,
+        model.layersInfraredAbsorbanceProperty,
+        model.groundLayer.albedoProperty
+      ],
+      () => {
+
+        // A model parameter has changed in a way that is likely to affect the temperature, so use the more verbose
+        // alert at the next alert interval.
+        this.useVerboseTemperatureAtNextAlert();
+
+        if ( model.isPlayingProperty.value ) {
+
+          // Reset the alert time so that the effects of the parameter change can potentially take effect before the
+          // alert is made.
+          this.resetAlertTime();
+        }
+      }
+    );
   }
 
   private saveLayerModelImmediateNotificationState(): LayerModelModelState {

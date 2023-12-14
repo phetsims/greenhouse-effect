@@ -161,7 +161,7 @@ class LayersModelAlerter extends Alerter {
    * for use by the subclasses.
    */
   protected useVerboseTemperatureAtNextAlert(): void {
-    this.temperatureChangeAlertCount = 0;
+    this.useVerboseSurfaceTemperatureAlert = true;
   }
 
   /**
@@ -170,10 +170,6 @@ class LayersModelAlerter extends Alerter {
    */
   protected useStabilizingTemperatureAtNextAlert(): void {
     this.describeTemperatureAsStabilizing = true;
-  }
-
-  protected useVerboseTemperatureDescriptionAtNextAlert(): void {
-    this.useVerboseSurfaceTemperatureAlert = true;
   }
 
   /**
@@ -243,27 +239,34 @@ class LayersModelAlerter extends Alerter {
 
     const currentTemperature = this.getCurrentTemperature();
 
-    const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
-      this.previousPeriodicNotificationModelState.temperature,
-      currentTemperature,
-      includeTemperatureValue,
-      this.model.temperatureUnitsProperty.value,
-      this.useVerboseSurfaceTemperatureAlert,
+    if ( currentTemperature !== this.previousPeriodicNotificationModelState.temperature ) {
+      const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
+        this.previousPeriodicNotificationModelState.temperature,
+        currentTemperature,
+        includeTemperatureValue,
+        this.model.temperatureUnitsProperty.value,
+        this.useVerboseSurfaceTemperatureAlert,
 
-      // When the control mode changes, it was requested that the temperature be described as 'stabilizing'
-      // instead of 'warming' or 'cooling'.  See
-      // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
-      this.describeTemperatureAsStabilizing
-    );
-    temperatureAlertString && this.alert( temperatureAlertString );
+        // When the control mode changes, it was requested that the temperature be described as 'stabilizing'
+        // instead of 'warming' or 'cooling'.  See
+        // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
+        this.describeTemperatureAsStabilizing
+      );
+      console.log( `temperatureAlertString = ${temperatureAlertString}` );
+      temperatureAlertString && this.alert( temperatureAlertString );
 
-    // reset counter if we have spoken the terse form of the temperature change alert enough times
-    this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ? 0 : this.temperatureChangeAlertCount + 1;
+      // Reset the change alert counter if we have spoken the terse form of the temperature change alert enough times.
+      this.temperatureChangeAlertCount = this.temperatureChangeAlertCount >= NUMBER_OF_TERSE_TEMPERATURE_ALERTS ?
+                                         0 :
+                                         this.temperatureChangeAlertCount + 1;
+
+      // Reset the flags that may have been set to affect the temperature alert.
+      this.useVerboseSurfaceTemperatureAlert = false;
+      this.describeTemperatureAsStabilizing = false;
+    }
 
     // Save state information needed for next periodic alert.
     this.savePeriodicNotificationModelState();
-    this.useVerboseSurfaceTemperatureAlert = false;
-    this.describeTemperatureAsStabilizing = false;
   }
 
   /**
@@ -317,6 +320,7 @@ class LayersModelAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
+    this.useVerboseSurfaceTemperatureAlert = false;
     this.savePeriodicNotificationModelState();
   }
 }

@@ -178,42 +178,40 @@ class TemperatureDescriber {
                                                    unitsValue: TemperatureUnits,
                                                    includeSurfaceTemperatureFragment: boolean,
                                                    describeAsStabilizing: boolean ): string | null {
-    let changeString = null;
-    let patternString = null;
+    let changeString;
+    let patternString;
 
-    if ( oldTemperature !== currentTemperature ) {
-      let qualitativeDescriptionString = describeAsStabilizing ?
-                                         stabilizingStringProperty.value :
-                                         ( currentTemperature > oldTemperature ?
-                                           warmingStringProperty.value :
-                                           coolingStringProperty.value );
+    let qualitativeDescriptionString = describeAsStabilizing ?
+                                       stabilizingStringProperty.value :
+                                       ( currentTemperature > oldTemperature ?
+                                         warmingStringProperty.value :
+                                         coolingStringProperty.value );
 
-      // If we are not including the surface temperature fragment, the qualitative description is the first word.
-      // This is NOT i18n friendly, but PhET's policy is that is OK for now.
-      if ( !includeSurfaceTemperatureFragment ) {
-        qualitativeDescriptionString = StringUtils.capitalize( qualitativeDescriptionString );
-      }
+    // If we are not including the surface temperature fragment, the qualitative description is the first word.
+    // This is NOT i18n friendly, but PhET's policy is that is OK for now.
+    if ( !includeSurfaceTemperatureFragment ) {
+      qualitativeDescriptionString = StringUtils.capitalize( qualitativeDescriptionString );
+    }
 
-      if ( thermometerVisible ) {
-        const temperatureValueString = TemperatureDescriber.getQuantitativeTemperatureDescription( currentTemperature, unitsValue );
+    if ( thermometerVisible ) {
+      const temperatureValueString = TemperatureDescriber.getQuantitativeTemperatureDescription( currentTemperature, unitsValue );
 
-        patternString = includeSurfaceTemperatureFragment ?
-                        surfaceTemperatureChangeWithValuePatternStringProperty.value :
-                        temperatureChangeWithValuePatternStringProperty.value;
-        changeString = StringUtils.fillIn( patternString, {
-          qualitativeDescription: qualitativeDescriptionString,
-          temperature: temperatureValueString
-        } );
-      }
-      else {
+      patternString = includeSurfaceTemperatureFragment ?
+                      surfaceTemperatureChangeWithValuePatternStringProperty.value :
+                      temperatureChangeWithValuePatternStringProperty.value;
+      changeString = StringUtils.fillIn( patternString, {
+        qualitativeDescription: qualitativeDescriptionString,
+        temperature: temperatureValueString
+      } );
+    }
+    else {
 
-        patternString = includeSurfaceTemperatureFragment ?
-                        surfaceTemperatureChangeWithoutValuePatternStringProperty.value :
-                        temperatureChangeWithoutValuePatternStringProperty.value;
-        changeString = StringUtils.fillIn( patternString, {
-          qualitativeDescription: qualitativeDescriptionString
-        } );
-      }
+      patternString = includeSurfaceTemperatureFragment ?
+                      surfaceTemperatureChangeWithoutValuePatternStringProperty.value :
+                      temperatureChangeWithoutValuePatternStringProperty.value;
+      changeString = StringUtils.fillIn( patternString, {
+        qualitativeDescription: qualitativeDescriptionString
+      } );
     }
 
     return changeString;
