@@ -252,7 +252,6 @@ class LayersModelAlerter extends Alerter {
         // https://github.com/phetsims/greenhouse-effect/issues/199#issuecomment-1211220790
         this.describeTemperatureAsStabilizing
       );
-      console.log( `temperatureAlertString = ${temperatureAlertString}` );
       temperatureAlertString && this.alert( temperatureAlertString );
 
       // Reset the change alert counter if we have spoken the terse form of the temperature change alert enough times.
