@@ -14,6 +14,7 @@ import LayersModelAlerter, { LayersModelAlerterOptions } from './LayersModelAler
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Utils from '../../../../dot/js/Utils.js';
 
 type SelfOptions = EmptySelfOptions;
 export type LayerModelModelAlerterOptions = SelfOptions & LayersModelAlerterOptions;
@@ -22,8 +23,16 @@ export type LayerModelModelAlerterOptions = SelfOptions & LayersModelAlerterOpti
 type LayerModelModelState = {
   solarIntensity: number;
   surfaceAlbedo: number;
-  numberOfAbsorbingLayers: number;
+  numberOfActiveLayers: number;
   infraredAbsorbance: number;
+};
+
+// constants
+const UTTERANCE_OPTIONS = {
+
+  // Delay the utterances a bit to give the utterance queue an opportunity to consolidate them if there are several
+  // that are close in time.  This helps prevent large batches of duplicated alerts.  Value empirically determined.
+  alertStableDelay: 1500
 };
 
 class LayerModelModelAlerter extends LayersModelAlerter {
@@ -35,13 +44,12 @@ class LayerModelModelAlerter extends LayersModelAlerter {
   // changes that determine if alerts are needed.
   private previousImmediateNotificationState: LayerModelModelState;
 
-  // A reusable utterances prevents the content of this alert to be spoken every time a change is detected.
-  private infraredChangeUtterance = new Utterance( {
-
-    // A longer delay is used so that the alert about infrared changes comes after the context response from the
-    // change from a UI component.
-    alertStableDelay: 1500
-  } );
+  // Reusable utterances that are used to prevent the alerts from being spoken every time a change is detected.
+  private infraredChangeUtterance = new Utterance( UTTERANCE_OPTIONS );
+  private solarIntensityChangeUtterance = new Utterance( UTTERANCE_OPTIONS );
+  private surfaceAlbedoChangeUtterance = new Utterance( UTTERANCE_OPTIONS );
+  private numberOfLayersChangeUtterance = new Utterance( UTTERANCE_OPTIONS );
+  private infraredAbsorbanceChangeUtterance = new Utterance( UTTERANCE_OPTIONS );
 
   public constructor( model: LayerModelModel, providedOptions: LayerModelModelAlerterOptions ) {
 
@@ -61,13 +69,13 @@ class LayerModelModelAlerter extends LayersModelAlerter {
     this.previousImmediateNotificationState = this.previousImmediateNotificationState || {
       solarIntensity: 0,
       surfaceAlbedo: 0,
-      numberOfAbsorbingLayers: 0,
+      numberOfActiveLayers: 0,
       infraredAbsorbance: 0
     };
 
     this.previousImmediateNotificationState.solarIntensity = this.layerModelModel.sunEnergySource.proportionateOutputRateProperty.value;
     this.previousImmediateNotificationState.surfaceAlbedo = this.layerModelModel.groundLayer.albedoProperty.value;
-    this.previousImmediateNotificationState.numberOfAbsorbingLayers = this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value;
+    this.previousImmediateNotificationState.numberOfActiveLayers = this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value;
     this.previousImmediateNotificationState.infraredAbsorbance = this.layerModelModel.layersInfraredAbsorbanceProperty.value;
 
     return this.previousImmediateNotificationState;
@@ -77,23 +85,118 @@ class LayerModelModelAlerter extends LayersModelAlerter {
    * Check if anything has changed in this model that deserves an alert that isn't handled by the base class.
    */
   protected override checkAndPerformImmediateAlerts(): void {
+
+    // Determine the changes that have occurred since the last time this method was called.
     const solarIntensityChange = this.layerModelModel.sunEnergySource.proportionateOutputRateProperty.value -
                                  this.previousImmediateNotificationState.solarIntensity;
     const surfaceAlbedoChange = this.layerModelModel.groundLayer.albedoProperty.value -
                                 this.previousImmediateNotificationState.surfaceAlbedo;
     const numberOfAbsorbingLayersChange = this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value -
-                                          this.previousImmediateNotificationState.numberOfAbsorbingLayers;
+                                          this.previousImmediateNotificationState.numberOfActiveLayers;
     const infraredAbsorbanceChange = this.layerModelModel.layersInfraredAbsorbanceProperty.value -
                                      this.previousImmediateNotificationState.infraredAbsorbance;
+
+    // Alert if the number of absorbing layers has changed.
+    if ( numberOfAbsorbingLayersChange !== 0 ) {
+      const numberOfActiveLayers = this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value;
+      if ( numberOfAbsorbingLayersChange > 0 ) {
+        if ( numberOfAbsorbingLayersChange > 1 ) {
+          this.numberOfLayersChangeUtterance.alert =
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.multipleLayersAddedStringProperty.value;
+        }
+        else if ( numberOfActiveLayers === 1 ) {
+
+          // The first layer was added, describe relative to ground layer.
+          this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedAboveSurfacePatternStringProperty,
+            { number: numberOfActiveLayers }
+          );
+        }
+        else {
+          this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedContextResponsePatternStringProperty,
+            {
+              aboveNumber: numberOfActiveLayers,
+              belowNumber: numberOfActiveLayers - 1
+            }
+          );
+        }
+      }
+      else {
+        if ( numberOfAbsorbingLayersChange < -1 ) {
+          this.numberOfLayersChangeUtterance.alert =
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.multipleLayersRemovedStringProperty.value;
+        }
+        else {
+          this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerRemovedContextResponsePatternStringProperty,
+            { number: numberOfActiveLayers + 1 }
+          );
+        }
+      }
+
+      this.alert( this.numberOfLayersChangeUtterance );
+    }
+
+    // Some of the alerts are only performed if the sun is shining.
+    if ( this.layerModelModel.sunEnergySource.isShiningProperty.value ) {
+
+      // Alert if the solar intensity has changed.
+      if ( solarIntensityChange !== 0 ) {
+        const moreOrFewerProperty = solarIntensityChange > 0 ?
+                                    GreenhouseEffectStrings.a11y.moreStringProperty :
+                                    GreenhouseEffectStrings.a11y.fewerStringProperty;
+        this.solarIntensityChangeUtterance.alert = StringUtils.fillIn(
+          GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsPatternStringProperty,
+          { moreFewer: moreOrFewerProperty }
+        );
+        this.alert( this.solarIntensityChangeUtterance );
+      }
+
+      // Alert if the surface albedo has changed.
+      if ( surfaceAlbedoChange !== 0 ) {
+        const albedo = this.layerModelModel.groundLayer.albedoProperty.value;
+        if ( albedo === 0 ) {
+          this.surfaceAlbedoChangeUtterance.alert =
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value;
+        }
+        else {
+          this.surfaceAlbedoChangeUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty,
+            { percentage: Utils.roundToInterval( albedo * 100, 1 ) }
+          );
+        }
+        this.alert( this.surfaceAlbedoChangeUtterance );
+      }
+
+      // Alert if the IR absorbance setting for the layers has changed.
+      if ( infraredAbsorbanceChange !== 0 ) {
+        const currentIRAbsorbance = this.layerModelModel.layersInfraredAbsorbanceProperty.value;
+        if ( currentIRAbsorbance === 1 ) {
+          this.infraredAbsorbanceChangeUtterance.alert =
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
+        }
+        else {
+          const absorbedPercentage = currentIRAbsorbance * 100;
+          const passThroughPercentage = Utils.roundToInterval( 1 - currentIRAbsorbance, 0.01 ) * 100;
+          this.infraredAbsorbanceChangeUtterance.alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty,
+            {
+              absorbedPercentage: absorbedPercentage,
+              passThroughPercentage: passThroughPercentage
+            }
+          );
+        }
+        this.alert( this.infraredAbsorbanceChangeUtterance );
+      }
+    }
 
     const doIrAlert = solarIntensityChange !== 0 ||
                       surfaceAlbedoChange !== 0 ||
                       numberOfAbsorbingLayersChange !== 0 ||
                       infraredAbsorbanceChange !== 0;
 
-
-    if ( doIrAlert && this.layerModelModel.isInfraredPresent() ) {
-
+    if ( this.layerModelModel.isInfraredPresent() && doIrAlert ) {
       let moreOrFewerString = '';
       let alertFromSurfaceStringFirst = true;
 
