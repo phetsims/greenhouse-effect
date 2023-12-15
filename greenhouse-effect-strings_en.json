@@ -718,6 +718,9 @@
         "layerRemovedContextResponsePattern": {
           "value": "Layer {{number}} removed."
         },
+        "layerTemperatureStablePattern": {
+          "value": "Layer {{number}} temperature stable at {{temperature}}."
+        },
         "fullAbsorptionContextResponse": {
           "value": "All layers now absorbing 100% of infrared photons."
         },

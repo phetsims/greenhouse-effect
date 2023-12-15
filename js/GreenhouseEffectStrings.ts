@@ -302,6 +302,7 @@ type StringsType = {
         'layerAddedAboveSurfacePatternStringProperty': LocalizedStringProperty;
         'layerAddedContextResponsePatternStringProperty': LocalizedStringProperty;
         'layerRemovedContextResponsePatternStringProperty': LocalizedStringProperty;
+        'layerTemperatureStablePatternStringProperty': LocalizedStringProperty;
         'fullAbsorptionContextResponseStringProperty': LocalizedStringProperty;
         'absorptionChangeContextResponsePatternStringProperty': LocalizedStringProperty;
       }

@@ -47,9 +47,6 @@ export type AtmosphereLayerNodeOptions = SelfOptions & PickRequired<NodeOptions,
 
 class AtmosphereLayerNode extends Node {
 
-  // whether the temperature value should be displayed
-  public readonly showTemperatureProperty: BooleanProperty;
-
   // the checkbox, icon, and readout for displaying the temperature of the layer
   public readonly temperatureDisplay: Node;
 
@@ -100,14 +97,8 @@ class AtmosphereLayerNode extends Node {
       mainBody.stroke = LAYER_RECTANGLE_STROKE_BASE_COLOR.withAlpha( opacity );
     } );
 
-    // Create the property and associated checkbox that will control whether the temperature readout is visible.
-    const showTemperatureProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
-      phetioFeatured: true
-    } );
-
     const showTemperatureCheckbox = new ShowTemperatureCheckbox(
-      showTemperatureProperty,
+      atmosphereLayer.showTemperatureProperty,
       combineOptions<ShowTemperatureCheckboxOptions>( {
         tandem: options.tandem.createTandem( 'showTemperatureCheckbox' )
       }, options.showTemperatureCheckboxOptions )
@@ -129,7 +120,7 @@ class AtmosphereLayerNode extends Node {
 
     // Create the temperature readout.
     const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
-      visibleProperty: showTemperatureProperty,
+      visibleProperty: atmosphereLayer.showTemperatureProperty,
       backgroundStroke: Color.BLACK,
       minBackgroundWidth: 70, // empirically determined to fit largest number
       valuePattern: new PatternStringProperty(
@@ -174,9 +165,6 @@ class AtmosphereLayerNode extends Node {
     // This node should only be visible when the atmosphere layer is active.
     atmosphereLayer.isActiveProperty.linkAttribute( this, 'visible' );
 
-    // Make the temperature property available for reset and external reading.
-    this.showTemperatureProperty = showTemperatureProperty;
-
     // Make the temperature display available externally so that external nodes can be aligned with it.
     this.temperatureDisplay = temperatureDisplay;
 
@@ -190,13 +178,6 @@ class AtmosphereLayerNode extends Node {
    */
   public getTemperatureReadoutCenter(): Vector2 {
     return this.temperatureReadout.parentToGlobalPoint( this.temperatureReadout.getCenter() );
-  }
-
-  /**
-   * Restore initial state.
-   */
-  public reset(): void {
-    this.showTemperatureProperty.reset();
   }
 
   public static readonly TEMPERATURE_DISPLAY_DEFAULT_INDENT = TEMPERATURE_DISPLAY_DEFAULT_INDENT;

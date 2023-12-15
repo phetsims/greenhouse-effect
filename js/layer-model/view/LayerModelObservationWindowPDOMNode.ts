@@ -13,7 +13,6 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
-import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
@@ -24,7 +23,7 @@ import AtmosphereLayerNode from './AtmosphereLayerNode.js';
 
 class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
-  public constructor( model: LayerModelModel, atmosphereLayerNodes: AtmosphereLayerNode[] ) {
+  public constructor( model: LayerModelModel ) {
     super( model.sunEnergySource.isShiningProperty );
 
     // Create a string Property that describes the number of infrared-absorbing layers in the atmosphere.
@@ -225,7 +224,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
       // Only show this node in the PDOM when the layer is visible and its thermometer checkbox is checked.
       Multilink.multilink(
-        [ atmosphereLayer.isActiveProperty, atmosphereLayerNodes[ index ].showTemperatureProperty ],
+        [ atmosphereLayer.isActiveProperty, atmosphereLayer.showTemperatureProperty ],
         ( layerIsActiveProperty, showTemperature ) => {
           atmosphereLayerListItemNode.pdomVisible = layerIsActiveProperty && showTemperature;
         }

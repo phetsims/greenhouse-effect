@@ -92,6 +92,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   // temperature.  Non-absorbed energy is simply passed from the input to the output.
   public readonly energyAbsorptionProportionProperty: NumberProperty;
 
+  // tracks whether the temperature should be shown in the view
+  public readonly showTemperatureProperty: BooleanProperty;
+
   // Other fields whose meaning should be reasonably obvious.
   private readonly substance: Substance;
   private readonly mass: number;
@@ -143,6 +146,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioReadOnly: true,
       phetioFeatured: true,
       phetioDocumentation: 'Proportion, from 0 to 1, of light energy absorbed for interacting wavelengths.'
+    } );
+
+    this.showTemperatureProperty = new BooleanProperty( true, {
+      tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
+      phetioFeatured: true
     } );
 
     // A property that is true when this layer is in equilibrium, meaning that the amount of energy coming in is equal

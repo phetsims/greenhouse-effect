@@ -16,6 +16,7 @@ import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 type SelfOptions = EmptySelfOptions;
 export type LayerModelModelAlerterOptions = SelfOptions & LayersModelAlerterOptions;
@@ -26,6 +27,7 @@ type LayerModelModelState = {
   surfaceAlbedo: number;
   numberOfActiveLayers: number;
   infraredAbsorbance: number;
+  layerAtEquilibrium: boolean[];
 };
 
 // constants
@@ -85,6 +87,10 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         }
       }
     );
+
+    model.atmosphereLayers[ 0 ].atEquilibriumProperty.link( atEquilibrium => {
+      console.log( `layer 1 atEquilibrium = ${atEquilibrium}` );
+    } );
   }
 
   private saveLayerModelImmediateNotificationState(): LayerModelModelState {
@@ -92,13 +98,17 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       solarIntensity: 0,
       surfaceAlbedo: 0,
       numberOfActiveLayers: 0,
-      infraredAbsorbance: 0
+      infraredAbsorbance: 0,
+      layerAtEquilibrium: []
     };
 
     this.previousImmediateNotificationState.solarIntensity = this.layerModelModel.sunEnergySource.proportionateOutputRateProperty.value;
     this.previousImmediateNotificationState.surfaceAlbedo = this.layerModelModel.groundLayer.albedoProperty.value;
     this.previousImmediateNotificationState.numberOfActiveLayers = this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value;
     this.previousImmediateNotificationState.infraredAbsorbance = this.layerModelModel.layersInfraredAbsorbanceProperty.value;
+    this.layerModelModel.atmosphereLayers.forEach( ( layer, index ) => {
+      this.previousImmediateNotificationState.layerAtEquilibrium[ index ] = layer.atEquilibriumProperty.value;
+    } );
 
     return this.previousImmediateNotificationState;
   }
@@ -117,6 +127,11 @@ class LayerModelModelAlerter extends LayersModelAlerter {
                                           this.previousImmediateNotificationState.numberOfActiveLayers;
     const infraredAbsorbanceChange = this.layerModelModel.layersInfraredAbsorbanceProperty.value -
                                      this.previousImmediateNotificationState.infraredAbsorbance;
+    const layerReachedEquilibrium: boolean[] = [];
+    this.layerModelModel.atmosphereLayers.forEach( ( layer, index ) => {
+      layerReachedEquilibrium[ index ] = layer.atEquilibriumProperty.value &&
+                                         !this.previousImmediateNotificationState.layerAtEquilibrium[ index ];
+    } );
 
     // Alert if the number of absorbing layers has changed.
     if ( numberOfAbsorbingLayersChange !== 0 ) {
@@ -211,6 +226,24 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         }
         this.alert( this.infraredAbsorbanceChangeUtterance );
       }
+
+      // For each active layer, alert if the layer has reached equilibrium.
+      this.layerModelModel.atmosphereLayers.forEach( ( layer, index ) => {
+        if ( layer.isActiveProperty.value && layer.showTemperatureProperty.value && layerReachedEquilibrium[ index ] ) {
+          const alert = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerTemperatureStablePatternStringProperty,
+            {
+              number: index + 1,
+              temperature: TemperatureDescriber.getQuantitativeTemperatureDescription(
+                this.layerModelModel.surfaceTemperatureKelvinProperty.value,
+                this.layerModelModel.temperatureUnitsProperty.value
+              )
+            }
+          );
+          this.alert( alert );
+        }
+      } );
+
     }
 
     const doIrAlert = solarIntensityChange !== 0 ||

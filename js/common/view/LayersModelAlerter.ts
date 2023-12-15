@@ -110,7 +110,7 @@ class LayersModelAlerter extends Alerter {
       } );
 
     // When we reach equilibrium at the ground layer, announce that state immediately. This doesn't need to be ordered
-    // in with the other alerts, so it doesn't need to be in the 'step' method.
+    // in with the other alerts, so the alert can be performed right away.
     model.groundLayer.atEquilibriumProperty.lazyLink( atEquilibrium => {
       if ( atEquilibrium ) {
         this.alert( TemperatureDescriber.getSurfaceTemperatureStableString(

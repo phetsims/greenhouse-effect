@@ -27,39 +27,45 @@ class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
    * @param temperatureUnitsProperty
    * @param atLeastOnePhotonAbsorbedProperty
    */
-  public constructor(
-    layerNumber: number,
-    temperatureProperty: TReadOnlyProperty<number>,
-    temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
-    atLeastOnePhotonAbsorbedProperty: TReadOnlyProperty<boolean> ) {
+  public constructor( layerNumber: number,
+                      temperatureProperty: TReadOnlyProperty<number>,
+                      temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
+                      atLeastOnePhotonAbsorbedProperty: TReadOnlyProperty<boolean> ) {
 
     super( '' );
 
-    Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty, atLeastOnePhotonAbsorbedProperty ], ( temperature, temperatureUnits, atLeastOnePhotonAbsorbed ) => {
-      let layerDescription: LocalizedStringProperty | string;
-      if ( layerNumber === 0 ) {
+    Multilink.multilink(
+      [ temperatureProperty, temperatureUnitsProperty, atLeastOnePhotonAbsorbedProperty ],
+      ( temperature, temperatureUnits, atLeastOnePhotonAbsorbed ) => {
+        let layerDescription: LocalizedStringProperty | string;
+        if ( layerNumber === 0 ) {
 
-        // This is the ground layer.
-        layerDescription = GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty;
+          // This is the ground layer.
+          layerDescription = GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty;
+        }
+        else {
+          layerDescription = StringUtils.fillIn(
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerPatternStringProperty,
+            { layerNumber: layerNumber }
+          );
+        }
+
+        let layerDescriptionString = StringUtils.fillIn(
+          GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerMeasuringSurfacePatternStringProperty,
+          { surfaceOrLayer: layerDescription }
+        );
+
+        // The temperature is displayed when the layer gets some non-zero energy, so that is when additional temperature
+        // description is included.
+        if ( atLeastOnePhotonAbsorbed ) {
+          layerDescriptionString += `, ${TemperatureDescriber.getQuantitativeTemperatureDescription(
+            temperature, temperatureUnits
+          )}`;
+        }
+
+        this.value = layerDescriptionString;
       }
-      else {
-        layerDescription = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty, {
-          layerNumber: layerNumber
-        } );
-      }
-
-      let layerDescriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerMeasuringSurfacePatternStringProperty, { surfaceOrLayer: layerDescription } );
-
-      // The temperature is displayed when the layer gets some non-zero energy, so that is when additional temperature
-      // description is included.
-      if ( atLeastOnePhotonAbsorbed ) {
-        layerDescriptionString += `, ${TemperatureDescriber.getQuantitativeTemperatureDescription(
-          temperature, temperatureUnits
-        )}`;
-      }
-
-      this.value = layerDescriptionString;
-    } );
+    );
   }
 }
 
