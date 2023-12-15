@@ -279,13 +279,29 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         changeDescription: moreOrFewerString,
         energyRepresentation: GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty
       } );
-      const backToSurfaceAlert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.infraredEnergyRedirectingPatternStringProperty, {
-        changeDescription: moreOrFewerString,
-        energyRepresentation: GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty
-      } );
 
-      this.infraredChangeUtterance.alert = alertFromSurfaceStringFirst ? `${fromSurfaceAlert}  ${backToSurfaceAlert}` :
-                                           `${backToSurfaceAlert} ${fromSurfaceAlert}`;
+      // The alert that describes IR photons coming back to the surface is only used if there are some active layers
+      // in the atmosphere, since otherwise there won't be any IR photons coming back.
+      let backToSurfaceAlert = '';
+      if ( this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
+        backToSurfaceAlert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.infraredEnergyRedirectingPatternStringProperty, {
+          changeDescription: moreOrFewerString,
+          energyRepresentation: GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty
+        } );
+      }
+
+      if ( backToSurfaceAlert ) {
+
+        // Put the two sentences together into one alert.  The order varies a bit based on what parameter was changed
+        // since it may make the causal relationship more clear.
+        this.infraredChangeUtterance.alert = alertFromSurfaceStringFirst ?
+                                             `${fromSurfaceAlert}  ${backToSurfaceAlert}` :
+                                             `${backToSurfaceAlert} ${fromSurfaceAlert}`;
+      }
+      else {
+        this.infraredChangeUtterance.alert = fromSurfaceAlert;
+      }
+
       this.alert( this.infraredChangeUtterance );
     }
 
