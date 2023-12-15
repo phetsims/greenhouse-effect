@@ -206,8 +206,9 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         this.alert( this.surfaceAlbedoChangeUtterance );
       }
 
-      // Alert if the IR absorbance setting for the layers has changed.
-      if ( infraredAbsorbanceChange !== 0 ) {
+      // Alert if the IR absorbance setting for the layers has changed, but only if there are active layers in the
+      // atmosphere.
+      if ( infraredAbsorbanceChange !== 0 && this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
         const currentIRAbsorbance = this.layerModelModel.layersInfraredAbsorbanceProperty.value;
         if ( currentIRAbsorbance === 1 ) {
           this.infraredAbsorbanceChangeUtterance.alert =
@@ -243,15 +244,20 @@ class LayerModelModelAlerter extends LayersModelAlerter {
           this.alert( alert );
         }
       } );
-
     }
 
-    const doIrAlert = solarIntensityChange !== 0 ||
-                      surfaceAlbedoChange !== 0 ||
-                      numberOfAbsorbingLayersChange !== 0 ||
-                      infraredAbsorbanceChange !== 0;
+    // If IR is present and any of the parameters changed, so an announcement describing how the change will likely
+    // affect the behavior of the IR photons.
+    const doIrAlert = this.layerModelModel.isInfraredPresent() &&
+                      ( solarIntensityChange !== 0 ||
+                        surfaceAlbedoChange !== 0 ||
+                        numberOfAbsorbingLayersChange !== 0 ||
+                        ( infraredAbsorbanceChange !== 0 &&
+                          this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0
+                        )
+                      );
 
-    if ( this.layerModelModel.isInfraredPresent() && doIrAlert ) {
+    if ( doIrAlert ) {
       let moreOrFewerString = '';
       let alertFromSurfaceStringFirst = true;
 
