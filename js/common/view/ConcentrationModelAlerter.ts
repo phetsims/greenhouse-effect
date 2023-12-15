@@ -94,7 +94,7 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
     // Whenever the concentration changes, use the most verbose form of the temperature change alert.
     model.concentrationProperty.link( () => {
 
-      this.useVerboseTemperatureAtNextAlert();
+      this.useCompleteTemperatureAtNextAlert();
 
       if ( model.isPlayingProperty.value ) {
 

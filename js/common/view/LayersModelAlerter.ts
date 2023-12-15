@@ -157,11 +157,12 @@ class LayersModelAlerter extends Alerter {
   }
 
   /**
-   * Use a verbose temperature alert instead of a terse one the next time a temperature alert is made.  This is intended
-   * for use by the subclasses.
+   * Use a more complete temperature alert instead of a terse one the next time a temperature alert is made, including
+   * the temperature value with units and "Surface temperature" as a full sentence.
    */
-  protected useVerboseTemperatureAtNextAlert(): void {
+  protected useCompleteTemperatureAtNextAlert(): void {
     this.useVerboseSurfaceTemperatureAlert = true;
+    this.temperatureChangeAlertCount = 0;
   }
 
   /**

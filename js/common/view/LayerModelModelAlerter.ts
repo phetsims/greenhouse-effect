@@ -77,7 +77,7 @@ class LayerModelModelAlerter extends LayersModelAlerter {
 
         // A model parameter has changed in a way that is likely to affect the temperature, so use the more verbose
         // alert at the next alert interval.
-        this.useVerboseTemperatureAtNextAlert();
+        this.useCompleteTemperatureAtNextAlert();
 
         if ( model.isPlayingProperty.value ) {
 
