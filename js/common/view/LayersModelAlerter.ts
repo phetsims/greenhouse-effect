@@ -319,7 +319,7 @@ class LayersModelAlerter extends Alerter {
   public reset(): void {
     this.temperatureChangeAlertCount = 0;
     this.timeSinceLastAlert = 0;
-    this.useVerboseSurfaceTemperatureAlert = false;
+    this.useVerboseSurfaceTemperatureAlert = true;
     this.savePeriodicNotificationModelState();
   }
 }
