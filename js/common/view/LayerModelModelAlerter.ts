@@ -241,7 +241,7 @@ class LayerModelModelAlerter extends LayersModelAlerter {
             {
               number: index + 1,
               temperature: TemperatureDescriber.getQuantitativeTemperatureDescription(
-                this.layerModelModel.surfaceTemperatureKelvinProperty.value,
+                layer.temperatureProperty.value,
                 this.layerModelModel.temperatureUnitsProperty.value
               )
             }
