@@ -113,6 +113,11 @@ class LayerModelModelAlerter extends LayersModelAlerter {
     return this.previousImmediateNotificationState;
   }
 
+  protected override checkAndPerformPeriodicAlerts(): void {
+    this.checkAndPerformEnergyBalanceAlerts();
+    super.checkAndPerformPeriodicAlerts();
+  }
+
   /**
    * Check if anything has changed in this model that deserves an alert that isn't handled by the base class.
    */
