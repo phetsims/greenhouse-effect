@@ -234,11 +234,6 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
       }
     }
 
-    // If the control mode has changed see if the energy balance has also changed enough to cause an alert.
-    if ( previousControlModeFromPeriodicState === currentControlMode ) {
-      this.checkAndPerformEnergyBalanceAlerts();
-    }
-
     // Save state for the next round.
     this.saveConcentrationModelPeriodicNotificationState();
   }

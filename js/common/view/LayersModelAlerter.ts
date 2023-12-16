@@ -265,6 +265,8 @@ class LayersModelAlerter extends Alerter {
       this.describeTemperatureAsStabilizing = false;
     }
 
+    this.checkAndPerformEnergyBalanceAlerts();
+
     // Save state information needed for next periodic alert.
     this.savePeriodicNotificationModelState();
   }
