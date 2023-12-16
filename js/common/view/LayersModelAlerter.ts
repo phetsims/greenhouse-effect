@@ -240,7 +240,9 @@ class LayersModelAlerter extends Alerter {
 
     const currentTemperature = this.getCurrentTemperature();
 
-    if ( currentTemperature !== this.previousPeriodicNotificationModelState.temperature ) {
+    if ( currentTemperature !== this.previousPeriodicNotificationModelState.temperature &&
+         !this.model.groundLayer.atEquilibriumProperty.value ) {
+
       const temperatureAlertString = TemperatureDescriber.getSurfaceTemperatureChangeString(
         this.previousPeriodicNotificationModelState.temperature,
         currentTemperature,
