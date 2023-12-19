@@ -42,7 +42,7 @@ export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectS
         model.surfaceTemperatureKelvinProperty,
         model.concentrationControlModeProperty,
         model.surfaceTemperatureVisibleProperty,
-        model.surfaceThermometerVisibleProperty,
+        model.groundLayer.showTemperatureProperty,
         model.temperatureUnitsProperty,
         model.cloudEnabledInManualConcentrationModeProperty
       ],

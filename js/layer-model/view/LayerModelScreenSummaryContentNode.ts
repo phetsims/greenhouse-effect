@@ -52,7 +52,7 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
       [
         model.isPlayingProperty,
         model.sunEnergySource.isShiningProperty,
-        model.surfaceThermometerVisibleProperty,
+        model.groundLayer.showTemperatureProperty,
         infraredAbsorbingLayersPhraseProperty,
         surfaceTemperaturePhraseProperty
       ],

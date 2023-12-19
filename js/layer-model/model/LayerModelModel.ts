@@ -43,6 +43,7 @@ class LayerModelModel extends LayersModel {
       numberOfAtmosphereLayers: 3,
       initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
       atmosphereLayersInitiallyActive: false,
+      supportShowTemperatureInAtmosphereLayers: true,
       groundLayerOptions: {
         initialAlbedo: 0.3,
         minimumTemperature: MINIMUM_GROUND_TEMPERATURE,

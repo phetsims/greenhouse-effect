@@ -164,7 +164,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       new BooleanProperty( true ) // The ground layer always has a temperature.
     );
 
-    this.showThermometerCheckbox = new ShowTemperatureCheckbox( model.surfaceThermometerVisibleProperty, {
+    this.showThermometerCheckbox = new ShowTemperatureCheckbox( model.groundLayer.showTemperatureProperty, {
       left: this.atmosphereLayerNodes[ 0 ].temperatureDisplay.left,
       bottom: GreenhouseEffectObservationWindow.SIZE.height -
               GreenhouseEffectObservationWindow.CONTROL_AND_INSTRUMENT_INSET,
@@ -193,7 +193,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       model.temperatureUnitsProperty,
       {
 
-        visibleProperty: model.surfaceThermometerVisibleProperty,
+        visibleProperty: model.groundLayer.showTemperatureProperty,
         minTemperature: model.groundLayer.minimumTemperature - 5,
         maxTemperature: 475, // empirically determined
 

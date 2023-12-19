@@ -320,7 +320,7 @@ class GreenhouseEffectObservationWindow extends Node {
     // Create a derived property that is true when either of the visual surface temperature indicators are enabled.
     const surfaceTemperatureIndicatorEnabledProperty = new DerivedProperty(
       [
-        model.surfaceThermometerVisibleProperty,
+        model.groundLayer.showTemperatureProperty,
         model.surfaceTemperatureVisibleProperty
       ],
       ( thermometerVisible, temperatureVisible ) => thermometerVisible || temperatureVisible

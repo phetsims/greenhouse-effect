@@ -19,6 +19,7 @@ import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 
@@ -73,8 +74,17 @@ const VOLUME = SURFACE_DIMENSIONS.width * SURFACE_DIMENSIONS.height * LAYER_THIC
 
 type SelfOptions = {
   substance?: Substance;
+
+  // initial setting for the absorption proportion, must be from 0 to 1 inclusive
   initialEnergyAbsorptionProportion?: number;
+
+  // The minimum temperature that this layer can get to, in Kelvin.  This will also be the temperature at
+  // which it is originally set to.  When at this temperature, the layer will radiate no energy.  This is a bit of
+  // a violation of the actual physics, since anything that is above absolute zero radiates some energy, but was a
+  // necessary simplification to have the Earth at a stable initial temperature that is reasonable (i.e. not
+  // absolute zero).
   minimumTemperature?: number;
+  supportsShowTemperature?: boolean;
 };
 export type EnergyAbsorbingEmittingLayerOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
@@ -93,7 +103,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public readonly energyAbsorptionProportionProperty: NumberProperty;
 
   // tracks whether the temperature should be shown in the view
-  public readonly showTemperatureProperty: BooleanProperty;
+  public readonly showTemperatureProperty: Property<boolean>;
 
   // Other fields whose meaning should be reasonably obvious.
   private readonly substance: Substance;
@@ -110,15 +120,11 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       // default to glass
       substance: Substance.GLASS,
 
-      // initial setting for the absorption proportion, must be from 0 to 1 inclusive
       initialEnergyAbsorptionProportion: 1,
 
-      // The minimum temperature that this layer can get to, in degrees Kelvin.  This will also be the temperature at
-      // which it is originally set to.  When at this temperature, the layer will radiate no energy.  This is a bit of
-      // a violation of the actual physics, since anything that is above absolute zero radiates some energy, but was a
-      // necessary simplification to have the Earth at a stable initial temperature that is reasonable (i.e. not
-      // absolute zero).
       minimumTemperature: 0,
+
+      supportsShowTemperature: false,
 
       // phet-io
       phetioReadOnly: true,
@@ -148,10 +154,15 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       phetioDocumentation: 'Proportion, from 0 to 1, of light energy absorbed for interacting wavelengths.'
     } );
 
-    this.showTemperatureProperty = new BooleanProperty( true, {
-      tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
-      phetioFeatured: true
-    } );
+    // Create the Property that controls whether the temperature of this layer will be depicted in the view.  If this
+    // instance does not support showing the temperature a dummy property is created that is not instrumented and should
+    // not be used.
+    this.showTemperatureProperty = options.supportsShowTemperature ?
+                                   new BooleanProperty( true, {
+                                     tandem: options.tandem.createTandem( 'showTemperatureProperty' ),
+                                     phetioFeatured: true
+                                   } ) :
+                                   new BooleanProperty( true );
 
     // A property that is true when this layer is in equilibrium, meaning that the amount of energy coming in is equal
     // to or at least very close to the amount of energy going out.
@@ -279,6 +290,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   public reset(): void {
     this.temperatureProperty.reset();
     this.atEquilibriumProperty.reset();
+    this.showTemperatureProperty.value = true;
   }
 
   // statics

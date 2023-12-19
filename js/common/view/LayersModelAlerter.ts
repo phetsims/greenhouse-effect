@@ -115,7 +115,7 @@ class LayersModelAlerter extends Alerter {
       if ( atEquilibrium ) {
         this.alert( TemperatureDescriber.getSurfaceTemperatureStableString(
           model.surfaceTemperatureKelvinProperty.value,
-          model.surfaceThermometerVisibleProperty.value,
+          model.groundLayer.showTemperatureProperty.value,
           model.surfaceTemperatureVisibleProperty.value,
           model.temperatureUnitsProperty.value,
           options.useHistoricalAlertsProperty.value
@@ -235,7 +235,7 @@ class LayersModelAlerter extends Alerter {
 
     // To reduce verbosity the temperature value is included only every NUMBER_OF_TERSE_TEMPERATURE_ALERTS that
     // this response is created. Temperature must also be visible in the view.
-    const includeTemperatureValue = this.model.surfaceThermometerVisibleProperty.value &&
+    const includeTemperatureValue = this.model.groundLayer.showTemperatureProperty.value &&
                                     this.temperatureChangeAlertCount === 0;
 
     const currentTemperature = this.getCurrentTemperature();

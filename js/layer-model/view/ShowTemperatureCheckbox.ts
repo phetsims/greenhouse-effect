@@ -7,13 +7,13 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Color, NodeTranslationOptions, ParallelDOMOptions } from '../../../../scenery/js/imports.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = EmptySelfOptions;
 export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & ParallelDOMOptions &

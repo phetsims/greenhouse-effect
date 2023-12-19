@@ -56,7 +56,7 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     } );
 
     const surfaceThermometerCheckbox = new SurfaceThermometerCheckbox(
-      model.surfaceThermometerVisibleProperty,
+      model.groundLayer.showTemperatureProperty,
       model.surfaceTemperatureKelvinProperty,
       model.temperatureUnitsProperty,
       tandem.createTandem( 'surfaceThermometerCheckbox' )

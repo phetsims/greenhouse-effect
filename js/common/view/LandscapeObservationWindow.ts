@@ -73,7 +73,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       model.surfaceTemperatureFahrenheitProperty,
       model.temperatureUnitsProperty,
       {
-        visibleProperty: model.surfaceThermometerVisibleProperty,
+        visibleProperty: model.groundLayer.showTemperatureProperty,
         minTemperature: model.groundLayer.minimumTemperature - 5,
 
         // phet-io

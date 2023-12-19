@@ -57,6 +57,9 @@ type SelfOptions = {
   // proportion of energy that crosses an atmosphere layer that is absorbed, 0 for none, 1 for 100%
   initialAtmosphereLayerAbsorptionProportion?: number;
 
+  // whether to support showing the temperature of the atmosphere layers, only used if these layers are shown in view
+  supportShowTemperatureInAtmosphereLayers?: boolean;
+
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
 
@@ -111,9 +114,6 @@ class LayersModel extends GreenhouseEffectModel {
   // model of a meter that can measure the energy flux moving through the atmosphere
   public readonly fluxMeter: FluxMeter | null;
 
-  // whether the thermometer measuring surface temperature is visible
-  public readonly surfaceThermometerVisibleProperty: BooleanProperty;
-
   // whether the "Energy Balance" display is visible
   public readonly energyBalanceVisibleProperty: BooleanProperty;
 
@@ -136,6 +136,7 @@ class LayersModel extends GreenhouseEffectModel {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
       initialAtmosphereLayerAbsorptionProportion: 0,
       atmosphereLayersInitiallyActive: true,
+      supportShowTemperatureInAtmosphereLayers: false,
       fluxMeterPresent: false,
       groundLayerOptions: {
         tandem: providedOptions.tandem.createTandem( 'groundLayer' )
@@ -168,11 +169,6 @@ class LayersModel extends GreenhouseEffectModel {
           this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
         }
       } );
-
-    this.surfaceThermometerVisibleProperty = new BooleanProperty( true, {
-      tandem: surfaceTemperatureTandem.createTandem( 'surfaceThermometerVisibleProperty' ),
-      phetioFeatured: true
-    } );
 
     this.surfaceTemperatureVisibleProperty = new BooleanProperty( false, {
       tandem: surfaceTemperatureTandem.createTandem( 'surfaceTemperatureVisibleProperty' ),
@@ -282,7 +278,8 @@ class LayersModel extends GreenhouseEffectModel {
         {
           tandem: this.atmosphereLayersTandem.createTandem( `layer${index + 1}` ),
           initiallyActive: options.atmosphereLayersInitiallyActive,
-          initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion
+          initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion,
+          supportsShowTemperature: options.supportShowTemperatureInAtmosphereLayers
         }
       );
       this.atmosphereLayers.push( atmosphereLayer );
@@ -382,7 +379,6 @@ class LayersModel extends GreenhouseEffectModel {
     this.netInflowOfEnergyProperty.reset();
     this.fluxMeterVisibleProperty.reset();
     this.energyBalanceVisibleProperty.reset();
-    this.surfaceThermometerVisibleProperty.reset();
     this.temperatureUnitsProperty.set( DEFAULT_TEMPERATURE_UNITS_PROPERTY.value );
     this.sunEnergySource.reset();
     this.groundLayer.reset();

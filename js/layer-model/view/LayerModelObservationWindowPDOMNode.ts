@@ -197,7 +197,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     );
 
     // Only show the surface temperature description when the surface thermometer is visible.
-    model.surfaceThermometerVisibleProperty.link( surfaceThermometerVisible => {
+    model.groundLayer.showTemperatureProperty.link( surfaceThermometerVisible => {
       surfaceTemperatureListItemNode.pdomVisible = surfaceThermometerVisible;
     } );
 

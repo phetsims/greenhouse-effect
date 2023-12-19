@@ -61,7 +61,7 @@ export default class LandscapeObservationWindowPDOMNode extends ObservationWindo
 
     Multilink.multilink( [
       model.surfaceTemperatureKelvinProperty,
-      model.surfaceThermometerVisibleProperty,
+      model.groundLayer.showTemperatureProperty,
       model.surfaceTemperatureVisibleProperty,
       model.temperatureUnitsProperty,
       model.concentrationControlModeProperty

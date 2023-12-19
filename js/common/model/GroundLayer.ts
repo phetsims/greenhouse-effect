@@ -44,6 +44,7 @@ class GroundLayer extends EnergyAbsorbingEmittingLayer {
 
       substance: EnergyAbsorbingEmittingLayer.Substance.EARTH,
       initialEnergyAbsorptionProportion: 1,
+      supportsShowTemperature: true,
 
       // Set the minimum temperature to a value that is reasonable for surface of the Earth.
       minimumTemperature: MINIMUM_EARTH_AT_NIGHT_TEMPERATURE,
