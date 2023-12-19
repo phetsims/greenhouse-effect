@@ -87,10 +87,6 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         }
       }
     );
-
-    model.atmosphereLayers[ 0 ].atEquilibriumProperty.link( atEquilibrium => {
-      console.log( `layer 1 atEquilibrium = ${atEquilibrium}` );
-    } );
   }
 
   private saveLayerModelImmediateNotificationState(): LayerModelModelState {
