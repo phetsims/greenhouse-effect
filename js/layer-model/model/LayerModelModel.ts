@@ -41,14 +41,23 @@ class LayerModelModel extends LayersModel {
 
     const options = optionize<LayerModelModelOptions, SelfOptions, LayersModelOptions>()( {
       numberOfAtmosphereLayers: 3,
-      initialAtmosphereLayerAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
-      atmosphereLayersInitiallyActive: false,
-      supportShowTemperatureInAtmosphereLayers: true,
       groundLayerOptions: {
         initialAlbedo: 0.3,
         minimumTemperature: MINIMUM_GROUND_TEMPERATURE,
         albedoPhetioReadOnly: false,
-        tandem: providedOptions.tandem.createTandem( 'groundLayer' )
+        tandem: providedOptions.tandem.createTandem( 'groundLayer' ),
+
+        // Configure the equilibrium detection algorithm to be more stable in this model.  This is necessary due to the
+        // more extreme situations that can be set up on this screen.  See
+        // https://github.com/phetsims/greenhouse-effect/issues/378.
+        atEquilibriumTime: 3,
+        outOfEquilibriumTime: 1
+      },
+      atmosphereLayerOptions: {
+        initiallyActive: false,
+        initialEnergyAbsorptionProportion: INITIAL_ABSORPTION_PROPORTION,
+        supportsShowTemperature: true,
+        outOfEquilibriumTime: 1
       },
       fluxMeterPresent: true,
       fluxMeterOptions: {

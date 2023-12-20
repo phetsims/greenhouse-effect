@@ -21,7 +21,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import AtmosphereLayer from './AtmosphereLayer.js';
+import AtmosphereLayer, { AtmosphereLayerOptions } from './AtmosphereLayer.js';
 import Cloud from './Cloud.js';
 import EMEnergyPacket, { EMEnergyPacketStateObject } from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
@@ -37,6 +37,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import { PhetioState } from '../../../../tandem/js/TandemConstants.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters
@@ -51,20 +52,14 @@ type SelfOptions = {
   // the number of energy absorbing and emitting layers in the atmosphere
   numberOfAtmosphereLayers?: number;
 
-  // indicates whether the layers in the atmosphere are initially active or inactive
-  atmosphereLayersInitiallyActive?: boolean;
-
-  // proportion of energy that crosses an atmosphere layer that is absorbed, 0 for none, 1 for 100%
-  initialAtmosphereLayerAbsorptionProportion?: number;
-
-  // whether to support showing the temperature of the atmosphere layers, only used if these layers are shown in view
-  supportShowTemperatureInAtmosphereLayers?: boolean;
-
   // whether a flux meter should be present in this model
   fluxMeterPresent?: boolean;
 
   // options that are passed through to the ground layer
   groundLayerOptions?: GroundLayerOptions;
+
+  // options that are passed through to all atmosphere layers
+  atmosphereLayerOptions?: StrictOmit<AtmosphereLayerOptions, 'tandem'>;
 
   // options that are passed through to the flux meter if present
   fluxMeterOptions?: FluxMeterOptions;
@@ -134,13 +129,11 @@ class LayersModel extends GreenhouseEffectModel {
 
     const options = optionize<LayersModelOptions, SelfOptions, GreenhouseEffectModelOptions>()( {
       numberOfAtmosphereLayers: DEFAULT_NUMBER_OF_ATMOSPHERE_LAYERS,
-      initialAtmosphereLayerAbsorptionProportion: 0,
-      atmosphereLayersInitiallyActive: true,
-      supportShowTemperatureInAtmosphereLayers: false,
       fluxMeterPresent: false,
       groundLayerOptions: {
         tandem: providedOptions.tandem.createTandem( 'groundLayer' )
       },
+      atmosphereLayerOptions: {},
       fluxMeterOptions: {
         tandem: providedOptions.tandem.createTandem( 'fluxMeter' )
       },
@@ -275,12 +268,10 @@ class LayersModel extends GreenhouseEffectModel {
     _.times( options.numberOfAtmosphereLayers, index => {
       const atmosphereLayer = new AtmosphereLayer(
         distanceBetweenAtmosphereLayers * ( index + 1 ),
-        {
-          tandem: this.atmosphereLayersTandem.createTandem( `layer${index + 1}` ),
-          initiallyActive: options.atmosphereLayersInitiallyActive,
-          initialEnergyAbsorptionProportion: options.initialAtmosphereLayerAbsorptionProportion,
-          supportsShowTemperature: options.supportShowTemperatureInAtmosphereLayers
-        }
+        combineOptions<AtmosphereLayerOptions>(
+          { tandem: this.atmosphereLayersTandem.createTandem( `layer${index + 1}` ) },
+          options.atmosphereLayerOptions
+        )
       );
       this.atmosphereLayers.push( atmosphereLayer );
     } );
