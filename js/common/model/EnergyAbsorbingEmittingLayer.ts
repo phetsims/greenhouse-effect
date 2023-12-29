@@ -20,22 +20,7 @@ import EnergyDirection from './EnergyDirection.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 import Property from '../../../../axon/js/Property.js';
-
-// constants
-
-// A value used when determining whether this layer is in energy equilibrium.  It is in Watts per square meter, and
-// when the difference between the incoming energy and the outgoing energy is less than this, that is considered to be
-// at equilibrium.  This was empirically determined, see https://github.com/phetsims/greenhouse-effect/issues/137.
-const AT_EQUILIBRIUM_THRESHOLD = 0.004;
-
-// This constant defines the amount of time that the incoming and outgoing energies have to be equal (within a
-// threshold) before deciding that the layer is at thermal equilibrium.  This is in seconds, and was empirically
-// determined, see https://github.com/phetsims/greenhouse-effect/issues/137.
-const DEFAULT_EQUILIBRATION_TIME = 2.0;
-
-// This constant defines the amount of time that the incoming and outgoing energies have to be unequal, with the
-// difference exceeding a threshold, before the layer will transition from in-equilibrium to out-of-equilibrium.
-const DEFAULT_OUT_OF_EQUILIBRIUM_TIME = 0.02;
+import MovingSampleWindow from './MovingSampleWindow.js';
 
 // The various substances that this layer can model.
 class Substance extends EnumerationValue {
@@ -89,11 +74,16 @@ type SelfOptions = {
   // absolute zero).
   minimumTemperature?: number;
 
-  // The following values, which are both in seconds, are used by the algorithm that determines whether the layer is
-  // currently in energy equilibrium, meaning that the incoming and outgoing energy are roughly equal.  These can be
-  // adjusted to make the algorithm either more stable (higher values) or more responsive (lower values).
-  atEquilibriumTime?: number;
-  outOfEquilibriumTime?: number;
+  // The temperature span that this layer must stay within for the equilibrium time window for this layer to be
+  // considered in energy equilibrium.  In Kelvin.
+  inEquilibriumTemperatureSpan?: number;
+
+  // The temperature span that, if exceeded during the equilibrium time window, will cause this layer to be considered
+  // out of energy equilibrium. In Kelvin.
+  outOfEquilibriumTemperatureSpan?: number;
+
+  // The length of time used to determine whether this layer is at or out of energy equilibrium.  In seconds.
+  equilibriumTime?: number;
 
   // Whether this layer supports displaying its temperature in the view.  This is basically here so that we can have
   // the "showTemperatureProperty" in the model when needed, but absent in some cases, so that we don't have
@@ -119,19 +109,12 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
   // tracks whether the temperature should be shown in the view
   public readonly showTemperatureProperty: Property<boolean>;
 
-  // The amount of time that equilibrium must be detected before transitioning to at-equilibrium.
-  private readonly atEquilibriumTimeThreshold: number;
+  // a moving window of temperature samples, used in deciding whether the layer is in energy equilibrium
+  private readonly movingTemperatureSampleWindow: MovingSampleWindow;
 
-  // The amount of time that this layer has been at equilibrium, meaning that the incoming and outgoing energy are
-  // equal within a threshold.  In seconds.
-  private atEquilibriumTime: number;
-
-  // The amount of time that non-equilibrium must be detected before transitioning to out-of-equilibrium.
-  private readonly outOfEquilibriumTimeThreshold: number;
-
-  // The amount of time that this layer has been out of equilibrium, meaning that the difference between the incoming
-  // and outgoing energy levels has exceeded the equilibrium threshold.
-  private outOfEquilibriumTime: number;
+  // temperature spans used when deciding whether this layer is in equilibrium, in Kelvin
+  private readonly inEquilibriumTemperatureSpan: number;
+  private readonly outOfEquilibriumTemperatureSpan: number;
 
   // Other fields whose meaning should be reasonably obvious.
   private readonly substance: Substance;
@@ -150,8 +133,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
       initialEnergyAbsorptionProportion: 1,
       minimumTemperature: 0,
       supportsShowTemperature: false,
-      atEquilibriumTime: DEFAULT_EQUILIBRATION_TIME,
-      outOfEquilibriumTime: DEFAULT_OUT_OF_EQUILIBRIUM_TIME,
+      inEquilibriumTemperatureSpan: 0.05,
+      outOfEquilibriumTemperatureSpan: 0.1,
+      equilibriumTime: 4,
 
       // phet-io
       phetioReadOnly: true,
@@ -204,10 +188,9 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     this.mass = VOLUME * options.substance.density;
     this.specificHeatCapacity = options.substance.specificHeatCapacity;
     this.minimumTemperature = options.minimumTemperature!;
-    this.atEquilibriumTime = 0;
-    this.outOfEquilibriumTime = 0;
-    this.atEquilibriumTimeThreshold = options.atEquilibriumTime;
-    this.outOfEquilibriumTimeThreshold = options.outOfEquilibriumTime;
+    this.inEquilibriumTemperatureSpan = options.inEquilibriumTemperatureSpan;
+    this.outOfEquilibriumTemperatureSpan = options.outOfEquilibriumTemperatureSpan;
+    this.movingTemperatureSampleWindow = new MovingSampleWindow( options.equilibriumTime );
   }
 
   /**
@@ -278,49 +261,20 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     // emission.
     this.temperatureProperty.set( this.temperatureProperty.value + netTemperatureChange );
 
-    // Calculate the energy imbalance, which is the difference between the rate of incoming and outgoing energy per unit
-    // surface area.
-    const energyImbalance = Math.abs( absorbedEnergy - totalRadiatedEnergyThisStep ) / SURFACE_AREA / dt;
+    // Add the temperature value to the moving window that tracks these.
+    this.movingTemperatureSampleWindow.addSample( this.temperatureProperty.value, dt );
 
-    // Update the state of the at-equilibrium indicator.  Being at equilibrium in this model requires that the incoming
-    // and outgoing energy values are equal for a certain amount of time.
-    if ( energyImbalance < AT_EQUILIBRIUM_THRESHOLD ) {
-
-      // This layer is currently in energy equilibrium.  First, adjust the time accumulators.
-      this.atEquilibriumTime = Math.min( this.atEquilibriumTime + dt, this.atEquilibriumTimeThreshold );
-      this.outOfEquilibriumTime = 0;
-
-      // See if it's time for a state change.
-      if ( !this.atEquilibriumProperty.value && this.atEquilibriumTime >= this.atEquilibriumTimeThreshold ) {
-
-        // Transition the at-equilibrium state indicator from out-of-equilibrium to in-equilibrium.
-        this.atEquilibriumProperty.value = true;
-        if ( this.altitude === 0 ) {
-          // console.log( 'transitioning to in' );
-        }
-      }
+    // Update the equilibrium state.  This uses a moving history of the temperature values in combination with threshold
+    // values to decide whether the layer is in or out of equilibrium, meaning that the amount of incoming energy is
+    // equal to the amount of outgoing energy, so the temperature is remaining constant.  In truth, it would take near
+    // infinite time for the layers to fully equilibrate, so some thresholds are used to decide when it is close enough.
+    // See https://github.com/phetsims/greenhouse-effect/issues/378 for some of the history on this.
+    const temperatureSpanInSampleWindow = this.movingTemperatureSampleWindow.getMaxSampleDifference();
+    if ( this.atEquilibriumProperty.value && temperatureSpanInSampleWindow > this.outOfEquilibriumTemperatureSpan ) {
+      this.atEquilibriumProperty.value = false;
     }
-    else {
-
-      // The layer is out of equilibrium for this step.  Adjust the time accumulators.
-      // this.outOfEquilibriumTime = Math.min( this.outOfEquilibriumTime + dt, this.outOfEquilibriumTimeThreshold );
-      this.outOfEquilibriumTime = this.outOfEquilibriumTime + dt;
-      if ( this.outOfEquilibriumTime > dt ) {
-        // console.log( `this.outOfEquilibriumTime = ${this.outOfEquilibriumTime}` );
-      }
-      this.atEquilibriumTime = 0;
-
-      // See if it's time for a state change.  There is a bit of an important special case in this 'if' clause: If the
-      // layer is at its minimum temperature, don't wait for the accumulator, go ahead and make the out-of-
-      // equilibrium transition right away.  This helps make timely updates for the initial transition, but then
-      // supports a bit of hysteresis thereafter.
-      if ( this.atEquilibriumProperty.value &&
-           ( this.temperatureProperty.value === this.minimumTemperature ||
-             this.outOfEquilibriumTime >= this.outOfEquilibriumTimeThreshold ) ) {
-
-        // Transition the at-equilibrium state indicator from in-equilibrium to out-of-equilibrium.
-        this.atEquilibriumProperty.value = false;
-      }
+    else if ( !this.atEquilibriumProperty.value && temperatureSpanInSampleWindow < this.inEquilibriumTemperatureSpan ) {
+      this.atEquilibriumProperty.value = true;
     }
 
     // Send out the radiated energy by adding new EM energy packets.
@@ -351,8 +305,7 @@ class EnergyAbsorbingEmittingLayer extends PhetioObject {
     this.temperatureProperty.reset();
     this.atEquilibriumProperty.reset();
     this.showTemperatureProperty.value = true;
-    this.atEquilibriumTime = 0;
-    this.outOfEquilibriumTime = 0;
+    this.movingTemperatureSampleWindow.reset();
   }
 
   // statics
