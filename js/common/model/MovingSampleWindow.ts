@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2023, University of Colorado Boulder
 
 /**
  * MovingSampleWindow is a utility class that is used to track a set of numerical values over a span of time.  It can be
