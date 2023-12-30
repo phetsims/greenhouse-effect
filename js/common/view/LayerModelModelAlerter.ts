@@ -310,6 +310,11 @@ class LayerModelModelAlerter extends LayersModelAlerter {
     // Save state for the next round.
     this.saveLayerModelImmediateNotificationState();
   }
+
+  public override reset(): void {
+    super.reset();
+    this.saveLayerModelImmediateNotificationState();
+  }
 }
 
 greenhouseEffect.register( 'LayerModelModelAlerter', LayerModelModelAlerter );
