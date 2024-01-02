@@ -10,7 +10,8 @@
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { ConcentrationDate } from '../model/ConcentrationModel.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // gas concentration maps - all values in Parts Per Million (PPM)
 const CARBON_DIOXIDE_CONCENTRATION_DATA = new Map( [
@@ -34,38 +35,38 @@ const NITROUS_OXIDE_CONCENTRATION_DATA = new Map( [
 
 class GreenhouseGasConcentrations {
 
-  // TODO: See if other devs can help me (jbphet) make DerivedProperty and TReadOnlyProperty work.  See https://github.com/phetsims/greenhouse-effect/issues/368.
-  // public readonly carbonDioxideConcentrationProperty: TReadOnlyProperty<number>;
-
   // concentration of carbon dioxide in Parts per Million (ppm)
-  public readonly carbonDioxideConcentrationProperty: NumberProperty;
+  public readonly carbonDioxideConcentrationProperty: TReadOnlyProperty<number>;
 
   // concentration of carbon dioxide in Parts per Billion (ppb)
-  public readonly methaneConcentrationProperty: NumberProperty;
+  public readonly methaneConcentrationProperty: TReadOnlyProperty<number>;
 
   // concentration of carbon dioxide in Parts per Billion (ppb)
-  public readonly nitrousOxideConcentrationProperty: NumberProperty;
+  public readonly nitrousOxideConcentrationProperty: TReadOnlyProperty<number>;
 
   public constructor( dateProperty: EnumerationProperty<ConcentrationDate> ) {
 
-    // this.carbonDioxideConcentrationProperty = new DerivedProperty(
-    //   [ dateProperty ],
-    //   date => {
-    //     assert && assert( CARBON_DIOXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for date' );
-    //     return CARBON_DIOXIDE_CONCENTRATION_DATA.get( date );
-    //   }
-    // );
-    this.carbonDioxideConcentrationProperty = new NumberProperty( 0 );
-    this.methaneConcentrationProperty = new NumberProperty( 0 );
-    this.nitrousOxideConcentrationProperty = new NumberProperty( 0 );
-    dateProperty.link( date => {
-      assert && assert( CARBON_DIOXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for provided date' );
-      this.carbonDioxideConcentrationProperty.set( CARBON_DIOXIDE_CONCENTRATION_DATA.get( date )! );
-      assert && assert( METHANE_CONCENTRATION_DATA.has( date ), 'no concentration data for provided date' );
-      this.methaneConcentrationProperty.set( METHANE_CONCENTRATION_DATA.get( date )! * 1000 );
-      assert && assert( NITROUS_OXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for provided date' );
-      this.nitrousOxideConcentrationProperty.set( NITROUS_OXIDE_CONCENTRATION_DATA.get( date )! * 1000 );
-    } );
+    this.carbonDioxideConcentrationProperty = new DerivedProperty(
+      [ dateProperty ],
+      date => {
+        assert && assert( CARBON_DIOXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for date' );
+        return CARBON_DIOXIDE_CONCENTRATION_DATA.get( date )!;
+      }
+    );
+    this.methaneConcentrationProperty = new DerivedProperty(
+      [ dateProperty ],
+      date => {
+        assert && assert( CARBON_DIOXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for date' );
+        return METHANE_CONCENTRATION_DATA.get( date )! * 1000;
+      }
+    );
+    this.nitrousOxideConcentrationProperty = new DerivedProperty(
+      [ dateProperty ],
+      date => {
+        assert && assert( CARBON_DIOXIDE_CONCENTRATION_DATA.has( date ), 'no concentration data for date' );
+        return NITROUS_OXIDE_CONCENTRATION_DATA.get( date )! * 1000;
+      }
+    );
   }
 }
 

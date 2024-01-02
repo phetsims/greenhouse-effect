@@ -17,9 +17,9 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
 import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
 
@@ -154,7 +154,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
    * @param ppmItemNode - The Node to set the description on
    * @param patternStringProperty - The pattern string to use for the description
    */
-  private static registerConcentrationListener( concentrationProperty: NumberProperty,
+  private static registerConcentrationListener( concentrationProperty: TReadOnlyProperty<number>,
                                                 ppmItemNode: Node,
                                                 patternStringProperty: LocalizedStringProperty ): void {
 
