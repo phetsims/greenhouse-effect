@@ -3,6 +3,8 @@
 /**
  * A Node that manages PDOM content and structure for the screen summary of a greenhouse effect screen.
  * This is a superclass for subclasses that will fill in content and implement state descriptions.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';

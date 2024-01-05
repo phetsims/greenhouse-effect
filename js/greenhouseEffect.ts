@@ -2,6 +2,8 @@
 
 /**
  * Creates the namespace for this simulation.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 // modules

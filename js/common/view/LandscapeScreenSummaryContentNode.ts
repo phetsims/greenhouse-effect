@@ -3,6 +3,9 @@
 /**
  * A class that manages PDOM structure and content for the screen descriptions for the "Landscape" screens, which
  * include the Waves and Photons screens.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import GreenhouseEffectScreenSummaryContentNode from './GreenhouseEffectScreenSummaryContentNode.js';

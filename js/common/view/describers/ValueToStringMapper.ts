@@ -3,6 +3,8 @@
 /**
  * ValueToStringMapper is a utility object that maps a numerical value to a string based on a set of thresholds and
  * strings provided at construction.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import greenhouseEffect from '../../../greenhouseEffect.js';

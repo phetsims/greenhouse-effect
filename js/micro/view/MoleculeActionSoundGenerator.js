@@ -4,6 +4,8 @@
  * A sound generator that produces sounds for the various actions that a molecule can take, such as vibrating, rotating,
  * becoming energized, and so forth.  This type watches a list of active molecules and hooks up listeners to each one
  * that will generate the various sounds.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import merge from '../../../../phet-core/js/merge.js';

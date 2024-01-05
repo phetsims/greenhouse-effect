@@ -5,7 +5,11 @@
  *
  * This class sets up the PDOM structure. The superclass is represented as a `ul`, and items in this subclass
  * are represented as `li` elements.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
+
 import ObservationWindowPDOMNode from './ObservationWindowPDOMNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';

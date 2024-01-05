@@ -3,6 +3,9 @@
 /**
  * MicroPhoton absorption strategy that causes a molecule to rotate after absorbing a photon, and re-emit the photon after
  * some length of time.  This is to be inherited by the general PhotonAbsorptionStrategy class.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';

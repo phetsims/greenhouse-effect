@@ -5,6 +5,9 @@
  * specific to the Photons screen. It sets up PDOM structure for a descriptive list of the graphical state of the
  * observation window. It uses an "extra" scene graph Node for this because the observation window itself does not have
  * graphical objects that support the needed PDOM structure.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import PhotonsModel from '../model/PhotonsModel.js';
