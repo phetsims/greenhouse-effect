@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * A Node that manages PDOM content and structure for the screen summary of a greenhouse effect screen.

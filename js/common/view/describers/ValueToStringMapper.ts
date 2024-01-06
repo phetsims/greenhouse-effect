@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * ValueToStringMapper is a utility object that maps a numerical value to a string based on a set of thresholds and
