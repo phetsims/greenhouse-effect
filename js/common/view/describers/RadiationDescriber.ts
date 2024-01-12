@@ -191,7 +191,8 @@ class RadiationDescriber {
     const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
                                       GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
                                       GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
-    return StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } );
+
+    return StringUtils.capitalize( StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } ) );
   }
 
   /**

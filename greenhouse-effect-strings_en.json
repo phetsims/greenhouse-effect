@@ -526,7 +526,7 @@
       "value": "Earth's surface temperature is {{temperatureDescription}}"
     },
     "infraredEmissionIntensityPattern": {
-      "value": "A {{value}} amount of infrared photons emit from surface and travel to space."
+      "value": "{{value}} amount of infrared photons emit from surface and travel to space."
     },
     "photonDensityDescription": {
       "value": "Higher density of infrared photons near surface."
