@@ -42,8 +42,10 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
             temperatureUnits
           )
         } );
-      }
-    );
+      }, {
+        //TODO https://github.com/phetsims/greenhouse-effect/issues/383 Add missing dependencies.
+        strictAxonDependencies: false
+      } );
 
     // A derived Property containing a string with a brief, general description of the sim that starts with the word
     // "Currently", such as "Currently, no sunlight in observation window."  The contained string is updated based on
@@ -54,9 +56,21 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
         model.sunEnergySource.isShiningProperty,
         model.groundLayer.showTemperatureProperty,
         infraredAbsorbingLayersPhraseProperty,
-        surfaceTemperaturePhraseProperty
+        surfaceTemperaturePhraseProperty,
+        GreenhouseEffectStrings.a11y.currentlyNoSunlightStringProperty,
+        GreenhouseEffectStrings.a11y.currentlySimIsPausedStringProperty,
+        GreenhouseEffectStrings.a11y.currentlyStringProperty
       ],
-      ( isPlaying, sunIsShining, surfaceThermometerVisible, irAbsorbingLayersPhrase, surfaceTemperaturePhrase ) => {
+      (
+        isPlaying,
+        sunIsShining,
+        surfaceThermometerVisible,
+        irAbsorbingLayersPhrase,
+        surfaceTemperaturePhrase,
+        currentlyNoSunlightString,
+        currentlySimIsPausedString,
+        currentlyString
+      ) => {
         let currentDescription;
 
         // The general description can consist of one to three sentences depending on the model state.  In an effort to
@@ -66,14 +80,13 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
 
         // first sentence
         if ( !sunIsShining ) {
-          currentDescription = GreenhouseEffectStrings.a11y.currentlyNoSunlightStringProperty.value;
+          currentDescription = currentlyNoSunlightString;
         }
         else if ( !isPlaying ) {
-          currentDescription = GreenhouseEffectStrings.a11y.currentlySimIsPausedStringProperty.value;
+          currentDescription = currentlySimIsPausedString;
         }
         else {
-          currentDescription = GreenhouseEffectStrings.a11y.currentlyStringProperty.value + ' ' +
-                               irAbsorbingLayersPhrase + '.';
+          currentDescription = currentlyString + ' ' + irAbsorbingLayersPhrase + '.';
         }
 
         // second sentence
