@@ -114,9 +114,23 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       [
         model.surfaceTemperatureKelvinProperty,
         model.numberOfActiveAtmosphereLayersProperty,
-        model.layersInfraredAbsorbanceProperty
+        model.layersInfraredAbsorbanceProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+
+        // Used in getInfraredSurfaceEmissionDescription
+        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty,
+        GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty
       ],
-      ( surfaceTemperatureInKelvin, numberOfActiveAtmosphereLayers, layersInfraredAbsorbance ) => {
+      (
+        surfaceTemperatureInKelvin,
+        numberOfActiveAtmosphereLayers,
+        layersInfraredAbsorbance,
+        allPhotonsAbsorbedPatternString,
+        percentageOfPhotonsAbsorbedPatternString,
+        observationWindowInfraredEmissionIntensityPatternString,
+        infraredEmissionIntensityPatternString
+      ) => {
 
         // Add the first part of description, which is about the photons coming from the ground.
         let description = RadiationDescriber.getInfraredSurfaceEmissionDescription(
@@ -128,20 +142,16 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         if ( numberOfActiveAtmosphereLayers > 0 ) {
           description += ' ';
           if ( layersInfraredAbsorbance === 1 ) {
-            description += StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
-              { s: numberOfActiveAtmosphereLayers > 1 ? 's' : '' }
-            );
+            description += StringUtils.fillIn( allPhotonsAbsorbedPatternString, {
+              s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
+            } );
           }
           else {
-            description += StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
-              {
-                absorbedPercentage: layersInfraredAbsorbance * 100,
-                passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
-                s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
-              }
-            );
+            description += StringUtils.fillIn( percentageOfPhotonsAbsorbedPatternString, {
+              absorbedPercentage: layersInfraredAbsorbance * 100,
+              passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
+              s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
+            } );
           }
         }
         return description;

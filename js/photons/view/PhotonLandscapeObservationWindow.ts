@@ -43,15 +43,15 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // Create a description of the relationship between the flux sensor and the cloud.  If the cloud is not enabled the
     // description will be an empty string.
     const fluxSensorAndCloudDescriptionProperty = new DerivedProperty(
-      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty ],
-      ( cloudEnabled, sensorAltitude ) => {
+      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty, GreenhouseEffectStrings.a11y.aboveCloudStringProperty, GreenhouseEffectStrings.a11y.belowCloudStringProperty ],
+      ( cloudEnabled, sensorAltitude, aboveCloudString, belowCloudString ) => {
         let description = '';
         if ( cloudEnabled ) {
           if ( sensorAltitude > cloudModel.position.y ) {
-            description = GreenhouseEffectStrings.a11y.aboveCloudStringProperty.value;
+            description = aboveCloudString;
           }
           else {
-            description = GreenhouseEffectStrings.a11y.belowCloudStringProperty.value;
+            description = belowCloudString;
           }
         }
         return description;
