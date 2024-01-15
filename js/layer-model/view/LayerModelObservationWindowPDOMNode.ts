@@ -49,9 +49,24 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.sunEnergySource.isShiningProperty,
         model.numberOfActiveAtmosphereLayersProperty,
         model.sunEnergySource.proportionateOutputRateProperty,
-        model.groundLayer.albedoProperty
+        model.groundLayer.albedoProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsDescriptionStringProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.passingThroughLayersPatternStringProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.solarIntensityPatternStringProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty,
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty
       ],
-      ( isSunShining, numberOfActiveAtmosphereLayer, sunOutputProportion, groundAlbedo ) => {
+      (
+        isSunShining,
+        numberOfActiveAtmosphereLayer,
+        sunOutputProportion,
+        groundAlbedo,
+        sunlightPhotonsDescriptionString,
+        passingThroughLayersPatternString,
+        solarIntensityPatternString,
+        surfaceReflectsNoSunlightString,
+        surfaceReflectsSunlightPercentagePatternString
+      ) => {
 
         // The description is a paragraph that can have as many as three sentences.  The code below assembles the
         // possible sentences one by one in an effort to make this reasonably maintainable versus using a complex string
@@ -61,34 +76,29 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         if ( isSunShining ) {
 
           // first sentence, which is a general description of what the photons are doing
-          description = GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsDescriptionStringProperty.value;
+          description = sunlightPhotonsDescriptionString;
 
           if ( numberOfActiveAtmosphereLayer > 0 ) {
-            description += ', ' + StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.passingThroughLayersPatternStringProperty,
-              {
-                s: numberOfActiveAtmosphereLayer === 1 ? '' : 's'
-              }
-            );
+            description += ', ' + StringUtils.fillIn( passingThroughLayersPatternString, {
+              s: numberOfActiveAtmosphereLayer === 1 ? '' : 's'
+            } );
           }
           description += '.';
 
           // second sentence, which describes solar intensity and may be skipped
           if ( sunOutputProportion !== 1 ) {
-            description += ' ' + StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.solarIntensityPatternStringProperty,
-              { percentage: sunOutputProportion * 100 }
-            );
+            description += ' ' + StringUtils.fillIn( solarIntensityPatternString, {
+              percentage: sunOutputProportion * 100
+            } );
           }
 
           // third sentence, which describes the amount of sunlight reflected by the surface
           description += ' ';
           description += groundAlbedo === 0 ?
-                         GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value :
-                         StringUtils.fillIn(
-                           GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty.value,
-                           { percentage: groundAlbedo * 100 }
-                         );
+                         surfaceReflectsNoSunlightString :
+                         StringUtils.fillIn( surfaceReflectsSunlightPercentagePatternString, {
+                           percentage: groundAlbedo * 100
+                         } );
         }
         return description;
       }
