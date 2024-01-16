@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * PhotonLandscapeObservationWindow adds the ability to depict photons to its parent class.

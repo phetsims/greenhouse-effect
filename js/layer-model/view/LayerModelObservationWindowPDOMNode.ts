@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
