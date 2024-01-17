@@ -541,24 +541,6 @@
         },
         "controlAreaDescription": {
           "value": "The Control Area has options for displaying the surface temperature of Earth. You can pause the action that happens in the observation window."
-        },
-        "greenhouseGasesInAtmospherePattern": {
-          "value": "{{valueDescription}} greenhouse gases in atmosphere."
-        },
-        "greenhouseGasesValuePattern": {
-          "value": "{{valueDescription}} greenhouse gases."
-        },
-        "timePeriodPattern": {
-          "value": "the time period is the {{timePeriodDescription}}."
-        },
-        "summaryWithTemperaturePattern": {
-          "value": "{{currentlyDescription}} {{concentrationDescription}} {{temperatureDescription}}. {{skyDescription}}"
-        },
-        "summaryWithoutTemperaturePattern": {
-          "value": "{{currentlyDescription}} {{concentrationDescription}} {{skyDescription}}"
-        },
-        "qualitativeAndQuantitativeTemperatureDescriptionPattern": {
-          "value": "{{qualitativeDescription}}, {{quantitativeDescription}}"
         }
       },
       "observationWindow": {
@@ -731,6 +713,24 @@
           "value": "Temperature units {{temperatureUnits}}"
         }
       }
+    },
+    "greenhouseGasesInAtmospherePattern": {
+      "value": "{{valueDescription}} greenhouse gases in atmosphere."
+    },
+    "greenhouseGasesValuePattern": {
+      "value": "{{valueDescription}} greenhouse gases."
+    },
+    "timePeriodPattern": {
+      "value": "the time period is the {{timePeriodDescription}}."
+    },
+    "summaryWithTemperaturePattern": {
+      "value": "{{currentlyDescription}} {{concentrationDescription}} {{temperatureDescription}}. {{skyDescription}}"
+    },
+    "summaryWithoutTemperaturePattern": {
+      "value": "{{currentlyDescription}} {{concentrationDescription}} {{skyDescription}}"
+    },
+    "qualitativeAndQuantitativeTemperatureDescriptionPattern": {
+      "value": "{{qualitativeDescription}}, {{quantitativeDescription}}"
     },
     "timePeriodDescriptionPattern": {
       "value": "{{timePeriod}} and {{description}}"

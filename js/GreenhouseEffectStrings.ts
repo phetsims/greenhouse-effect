@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.
@@ -229,17 +229,17 @@ type StringsType = {
     'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
     'photonDensityDescriptionStringProperty': LocalizedStringProperty;
+    'greenhouseGasesInAtmospherePatternStringProperty': LocalizedStringProperty;
+    'greenhouseGasesValuePatternStringProperty': LocalizedStringProperty;
+    'timePeriodPatternStringProperty': LocalizedStringProperty;
+    'summaryWithTemperaturePatternStringProperty': LocalizedStringProperty;
+    'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
+    'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
     'waves': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
-        'greenhouseGasesInAtmospherePatternStringProperty': LocalizedStringProperty;
-        'greenhouseGasesValuePatternStringProperty': LocalizedStringProperty;
-        'timePeriodPatternStringProperty': LocalizedStringProperty;
-        'summaryWithTemperaturePatternStringProperty': LocalizedStringProperty;
-        'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
-        'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
       };
       'observationWindow': {
         'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;

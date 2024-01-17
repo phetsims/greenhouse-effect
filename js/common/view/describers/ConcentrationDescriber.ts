@@ -13,8 +13,8 @@ import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 
 // constants
-const greenhouseGasesInAtmospherePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesInAtmospherePatternStringProperty;
-const greenhouseGasesValuePatternStringProperty = GreenhouseEffectStrings.a11y.waves.screenSummary.greenhouseGasesValuePatternStringProperty;
+const greenhouseGasesInAtmospherePatternStringProperty = GreenhouseEffectStrings.a11y.greenhouseGasesInAtmospherePatternStringProperty;
+const greenhouseGasesValuePatternStringProperty = GreenhouseEffectStrings.a11y.greenhouseGasesValuePatternStringProperty;
 
 // strings used to describe the levels of concentration in the model
 const noStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty;
@@ -204,7 +204,7 @@ class ConcentrationDescriber {
   public static getFullTimePeriodDescription( timePeriodValue: ConcentrationDate, capitalize: boolean ): string {
     const describedTimePeriod = ConcentrationDescriber.getDescribedTimePeriodString( timePeriodValue );
     let fullTimePeriodDescription = StringUtils.fillIn(
-      GreenhouseEffectStrings.a11y.waves.screenSummary.timePeriodPatternStringProperty,
+      GreenhouseEffectStrings.a11y.timePeriodPatternStringProperty,
       { timePeriodDescription: describedTimePeriod }
     );
 
@@ -372,10 +372,8 @@ class ConcentrationDescriber {
   }
 
   /**
-   * Returns a description of the amount of greenhouse concentration in the atmosphere by value. Will return
-   * something like
-   * "Very high levels of greenhouse gases in atmosphere." or
-   * "No greenhouse gases in atmosphere."
+   * Returns a description of the amount of greenhouse concentration in the atmosphere by value. Will return something
+   * like "Very high levels of greenhouse gases in atmosphere" or "No greenhouse gases in atmosphere".
    *
    * OR, "in atmosphere" can be excluded:
    *
