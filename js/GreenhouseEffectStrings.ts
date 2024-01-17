@@ -305,6 +305,7 @@ type StringsType = {
         'layerTemperatureStablePatternStringProperty': LocalizedStringProperty;
         'fullAbsorptionContextResponseStringProperty': LocalizedStringProperty;
         'absorptionChangeContextResponsePatternStringProperty': LocalizedStringProperty;
+        'temperatureUnitsPatternStringProperty': LocalizedStringProperty;
       }
     };
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;

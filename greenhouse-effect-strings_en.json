@@ -726,6 +726,9 @@
         },
         "absorptionChangeContextResponsePattern": {
           "value": "All layers now absorbing {{absorbedPercentage}}% of infrared photons, {{passThroughPercentage}}% passing through layers."
+        },
+        "temperatureUnitsPattern": {
+          "value": "Temperature units {{temperatureUnits}}"
         }
       }
     },

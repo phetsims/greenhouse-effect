@@ -23,6 +23,7 @@ import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 type SelfOptions = {
 
@@ -123,14 +124,29 @@ class LayersModelAlerter extends Alerter {
       }
     } );
 
-    // Announce the temperature immediately when the temperature units change. This is unrelated to the temperature
-    // change alerts that happen in the polling implementation and doesn't need to be in a specific order with them, so
-    // it doesn't need to be in the 'step' function.
+    // Monitor the temperature units Property and perform alerts when it changes.  The nature of the alert varies a bit
+    // depending on whether the ground thermometer is visible.  This is unrelated to the temperature change alerts that
+    // happen in the polling implementation and doesn't need to be in a specific order with them, so it doesn't need to
+    // be in the 'step' function.
     model.temperatureUnitsProperty.lazyLink( temperatureUnits => {
-      this.alert( TemperatureDescriber.getQuantitativeTemperatureDescription(
-        model.surfaceTemperatureKelvinProperty.value,
-        temperatureUnits
-      ) );
+      let alertMessage;
+      if ( model.groundLayer.showTemperatureProperty.value ) {
+
+        // Describe the temperature with units.
+        alertMessage = TemperatureDescriber.getQuantitativeTemperatureDescription(
+          model.surfaceTemperatureKelvinProperty.value,
+          temperatureUnits
+        );
+      }
+      else {
+
+        // The thermometer is not currently visible, so just describe the units and leave out the temperature.
+        alertMessage = StringUtils.fillIn(
+          GreenhouseEffectStrings.a11y.layerModel.observationWindow.temperatureUnitsPatternStringProperty,
+          { temperatureUnits: TemperatureDescriber.getTemperatureUnitsString( model.temperatureUnitsProperty.value ) }
+        );
+      }
+      this.alert( alertMessage );
     } );
 
     // Alert when the sun starts shining. This alert is unrelated to concentration and temperature alerts that happen
