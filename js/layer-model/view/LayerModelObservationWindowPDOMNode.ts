@@ -126,11 +126,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.numberOfActiveAtmosphereLayersProperty,
         model.layersInfraredAbsorbanceProperty,
         GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
-
-        // Used in getInfraredSurfaceEmissionDescription
-        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty,
-        GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty
       ],
       (
         surfaceTemperatureInKelvin,
@@ -166,8 +162,9 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
           }
         }
         return description;
-      }
-    );
+      }, {
+        strictAxonDependencies: false
+      } );
 
     // Create a scenery Node that will add the description of the infrared photon behavior into the PDOM.
     const infraredPhotonsListItemNode = new Node( { tagName: 'li' } );
