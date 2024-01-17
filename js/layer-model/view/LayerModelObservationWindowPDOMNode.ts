@@ -137,14 +137,15 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         numberOfActiveAtmosphereLayers,
         layersInfraredAbsorbance,
         allPhotonsAbsorbedPatternString,
-        percentageOfPhotonsAbsorbedPatternString,
-        observationWindowInfraredEmissionIntensityPatternString,
-        infraredEmissionIntensityPatternString
+        percentageOfPhotonsAbsorbedPatternString
       ) => {
 
         // Add the first part of description, which is about the photons coming from the ground.
         let description = RadiationDescriber.getInfraredSurfaceEmissionDescription(
-          surfaceTemperatureInKelvin, EnergyRepresentation.PHOTON
+          surfaceTemperatureInKelvin,
+          EnergyRepresentation.PHOTON,
+          false,
+          true
         );
 
         // Potentially add the second part of description, which is about how the photons interact with the layers.

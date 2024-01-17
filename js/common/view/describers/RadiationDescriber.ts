@@ -141,6 +141,7 @@ class RadiationDescriber {
    */
   public static getInfraredRadiationIntensityDescription( surfaceTemperature: number,
                                                           useHistoricalDescription: boolean,
+                                                          useExtendedMapping: boolean,
                                                           date: ConcentrationDate,
                                                           concentration: number,
                                                           energyRepresentation: EnergyRepresentation ): string | null {
@@ -149,7 +150,7 @@ class RadiationDescriber {
     if ( surfaceTemperature > GroundLayer.MINIMUM_EARTH_AT_NIGHT_TEMPERATURE ) {
 
       radiationIntensityDescription = RadiationDescriber.getInfraredSurfaceEmissionDescription(
-        surfaceTemperature, energyRepresentation, useHistoricalDescription
+        surfaceTemperature, energyRepresentation, useHistoricalDescription, useExtendedMapping
       );
 
       const irDescriptionWithRedirectionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
@@ -181,11 +182,13 @@ class RadiationDescriber {
    */
   public static getInfraredSurfaceEmissionDescription( surfaceTemperature: number,
                                                        energyRepresentation: EnergyRepresentation,
-                                                       useHistoricalDescription = false ): string {
+                                                       useHistoricalDescription: boolean,
+                                                       useExtendedMapping = false ): string {
 
     const intensityDescription = TemperatureDescriber.getQualitativeTemperatureDescriptionString(
       surfaceTemperature,
-      useHistoricalDescription
+      useHistoricalDescription,
+      useExtendedMapping
     );
 
     const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?

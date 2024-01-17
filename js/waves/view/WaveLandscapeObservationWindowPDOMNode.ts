@@ -62,6 +62,7 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
         const description = RadiationDescriber.getInfraredRadiationIntensityDescription(
           surfaceTemperature,
           model.concentrationControlModeProperty.value === ConcentrationControlMode.BY_DATE,
+          false,
           model.dateProperty.value,
           concentration,
           EnergyRepresentation.WAVE

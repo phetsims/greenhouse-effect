@@ -60,6 +60,12 @@ things simple and consistent in the behavior of the model.
 
 TODO: Pick it up here.  See https://github.com/phetsims/greenhouse-effect/issues/326.
 
+TODO: Add, somewhere, a bit about why the describers are static (check with Jesse on this, but I (jbphet) think it is
+because they are accessed from code that is all over the place, and many of the places won't have all the necessary
+model bits needed to create a stateful describer).  Note that it has caused difficulties, and might not be a great
+pattern to imitate.  In other words, stateful describers may have been a better choice.  The main problem with the
+static approach is passing in a bunch of flags to the static method to control the descriptions they produce.
+
 # General Notes on the Layer-Based Model
 
 TODO: Flesh this out when it's done.

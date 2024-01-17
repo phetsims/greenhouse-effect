@@ -12,6 +12,7 @@ import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import TemperatureUnits from '../../model/TemperatureUnits.js';
+import ValueToStringMapper from './ValueToStringMapper.js';
 
 // strings used to describe temperature
 const extremelyHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty;
@@ -20,6 +21,10 @@ const highStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescrip
 const moderateStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty;
 const lowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty;
 const veryLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty;
+const exceptionallyLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty;
+const exceptionallyHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty;
+const somewhatLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatLowStringProperty;
+const somewhatHighStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty;
 const extremelyLowStringProperty = GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty;
 const historicallyLowStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty;
 const historicallyModerateStringProperty = GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty;
@@ -39,24 +44,33 @@ const surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty = Gree
 const surfaceTemperatureIsQuantitativePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQuantitativePatternStringProperty;
 const surfaceTemperatureIsQualitativePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperatureIsQualitativePatternStringProperty;
 
-const qualitativeTemperatureDescriptionStrings = [
-  extremelyLowStringProperty.value,
-  veryLowStringProperty.value,
-  lowStringProperty.value,
-  moderateStringProperty.value,
-  highStringProperty.value,
-  veryHighStringProperty.value,
-  extremelyHighStringProperty.value
-];
+const NORMAL_QUALITATIVE_DESCRIPTION_MAPPING = new ValueToStringMapper(
+  [
+    [ 260, extremelyLowStringProperty ],
+    [ 275, veryLowStringProperty ],
+    [ 283, lowStringProperty ],
+    [ 288, moderateStringProperty ],
+    [ 293, highStringProperty ],
+    [ 301, veryHighStringProperty ],
+    [ Number.POSITIVE_INFINITY, extremelyHighStringProperty ]
+  ]
+);
 
-// The minimum values for temperatures in kelvin each description used in the above array when describing the
-// temperature qualitatively.
-const qualitativeTemperatureDescriptionThresholds = [
-  260, 275, 283, 288, 293, 301
-];
-
-assert && assert( qualitativeTemperatureDescriptionThresholds.length + 1 === qualitativeTemperatureDescriptionStrings.length,
-  'thresholds for finding the description needs to match the length of descriptions to find the qualitative temperature description' );
+const EXTENDED_QUALITATIVE_DESCRIPTION_MAPPING = new ValueToStringMapper(
+  [
+    [ 160, extremelyLowStringProperty ],
+    [ 190, exceptionallyLowStringProperty ],
+    [ 220, veryLowStringProperty ],
+    [ 250, lowStringProperty ],
+    [ 280, somewhatLowStringProperty ],
+    [ 310, moderateStringProperty ],
+    [ 340, somewhatHighStringProperty ],
+    [ 370, highStringProperty ],
+    [ 400, veryHighStringProperty ],
+    [ 430, exceptionallyHighStringProperty ],
+    [ Number.POSITIVE_INFINITY, extremelyHighStringProperty ]
+  ]
+);
 
 // Range used for categorizing temperature values into historical descriptions.  This was empirically determined based
 // on the emergent behavior of the model, so it may need updating if the model changes.
@@ -89,10 +103,12 @@ class TemperatureDescriber {
    * or "moderate" or "historically high"
    *
    * @param value - the temperature in Kelvin
-   * @param useHistoricalDescription
+   * @param useHistoricalDescription - whether to describe in historical terms, such as "historically low"
+   * @param useExtendedMapping - which of the two available mappings to use for qualitative words, normal or extended
    */
   public static getQualitativeTemperatureDescriptionString( value: number,
-                                                            useHistoricalDescription: boolean ): string {
+                                                            useHistoricalDescription: boolean,
+                                                            useExtendedMapping = false ): string {
 
     let qualitativeDescriptionString;
 
@@ -109,15 +125,10 @@ class TemperatureDescriber {
     }
     else {
 
-      qualitativeDescriptionString = qualitativeTemperatureDescriptionStrings[ 0 ];
-
-      // Use the minimum values in the "thresholds" array to find the correct qualitative description
-      for ( let i = 0; i < qualitativeTemperatureDescriptionThresholds.length; i++ ) {
-        const thresholdMin = qualitativeTemperatureDescriptionThresholds[ i ];
-        if ( value >= thresholdMin ) {
-          qualitativeDescriptionString = qualitativeTemperatureDescriptionStrings[ i + 1 ];
-        }
-      }
+      // Get a qualitative, non-historical description.
+      qualitativeDescriptionString = useExtendedMapping ?
+                                     EXTENDED_QUALITATIVE_DESCRIPTION_MAPPING.getStringForValue( value ) :
+                                     NORMAL_QUALITATIVE_DESCRIPTION_MAPPING.getStringForValue( value );
     }
 
     return qualitativeDescriptionString;

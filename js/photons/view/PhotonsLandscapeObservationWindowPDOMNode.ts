@@ -134,7 +134,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
       ( controlMode, date, concentration, surfaceTemperature ) => {
         const useHistoricalDescription = controlMode === ConcentrationControlMode.BY_DATE;
         const description = RadiationDescriber.getInfraredRadiationIntensityDescription(
-          surfaceTemperature, useHistoricalDescription, date, concentration, EnergyRepresentation.PHOTON
+          surfaceTemperature, useHistoricalDescription, false, date, concentration, EnergyRepresentation.PHOTON
         );
         if ( description ) {
           this.infraredItemNode.pdomVisible = true;
