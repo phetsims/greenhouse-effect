@@ -46,7 +46,6 @@ export default class SolarIntensityControl extends VBox {
     } );
 
     // A description of the sunlight intensity, for the aria-valuetext of the slider.
-    // TODO: Next add the context response for the value change, see https://github.com/phetsims/greenhouse-effect/issues/374
     const sunlightIntensityDescriptionProperty = new SunlightIntensityDescriptionProperty( proportionateOutputRateProperty );
 
     // Slider
