@@ -43,8 +43,7 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
           )
         } );
       }, {
-        //TODO https://github.com/phetsims/greenhouse-effect/issues/383 Add missing dependencies.
-        strictAxonDependencies: false
+        strictAxonDependencies: false //TODO https://github.com/phetsims/greenhouse-effect/issues/383
       } );
 
     // A derived Property containing a string with a brief, general description of the sim that starts with the word

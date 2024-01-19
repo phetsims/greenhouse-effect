@@ -163,7 +163,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         }
         return description;
       }, {
-        strictAxonDependencies: false
+        strictAxonDependencies: false //TODO https://github.com/phetsims/greenhouse-effect/issues/383
       } );
 
     // Create a scenery Node that will add the description of the infrared photon behavior into the PDOM.
