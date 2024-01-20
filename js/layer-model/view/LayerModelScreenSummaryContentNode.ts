@@ -34,7 +34,15 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
     // A derived property containing a string that describes the surface temperature, for example, "Earth's surface
     // temperature is 70.5 degrees Celsius".
     const surfaceTemperaturePhraseProperty = new DerivedProperty(
-      [ model.temperatureUnitsProperty, model.surfaceTemperatureKelvinProperty ],
+      [
+        model.temperatureUnitsProperty,
+        model.surfaceTemperatureKelvinProperty,
+        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+        GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty,
+        GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty,
+        GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty,
+        GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
+      ],
       ( temperatureUnits, temperatureInKelvin ) => {
         return StringUtils.fillIn( GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty, {
           temperatureDescription: TemperatureDescriber.getQuantitativeTemperatureDescription(
@@ -42,9 +50,8 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
             temperatureUnits
           )
         } );
-      }, {
-        strictAxonDependencies: false //TODO https://github.com/phetsims/greenhouse-effect/issues/383
-      } );
+      }
+    );
 
     // A derived Property containing a string with a brief, general description of the sim that starts with the word
     // "Currently", such as "Currently, no sunlight in observation window."  The contained string is updated based on

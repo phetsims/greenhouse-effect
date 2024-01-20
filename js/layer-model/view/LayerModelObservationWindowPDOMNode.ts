@@ -13,6 +13,7 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
@@ -119,52 +120,74 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       visiblePhotonsListItemNode.pdomVisible = isSunShining;
     } );
 
-    // Create a string Property that describes the behavior of the IR photons.
-    const infraredPhotonsDescriptionProperty = new DerivedProperty(
+    // Create a string Property and a multilink that describes the state of the infrared photons.
+    const infraredPhotonsDescriptionProperty = new StringProperty( '' );
+    Multilink.multilinkAny(
       [
         model.surfaceTemperatureKelvinProperty,
         model.numberOfActiveAtmosphereLayersProperty,
         model.layersInfraredAbsorbanceProperty,
+
+        // The following long list of string Properties is intended to list all the strings that could be used to
+        // formulate the description of IR photons.  This is a bit silly, and will be hard to maintain, but using
+        // DerivedProperty with strict dependencies didn't work because the number of parameters exceeded that allowed
+        // by the type.  This is a good example of the unscalability of the approach of creating description explicitly
+        // in the code and expecting to have dynamic strings.  See
+        // https://github.com/phetsims/greenhouse-effect/issues/383.
         GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty
+        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatLowStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty,
+        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty,
+        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty,
+        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty,
+        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty
       ],
-      (
-        surfaceTemperatureInKelvin,
-        numberOfActiveAtmosphereLayers,
-        layersInfraredAbsorbance,
-        allPhotonsAbsorbedPatternString,
-        percentageOfPhotonsAbsorbedPatternString
-      ) => {
+      () => {
 
         // Add the first part of description, which is about the photons coming from the ground.
         let description = RadiationDescriber.getInfraredSurfaceEmissionDescription(
-          surfaceTemperatureInKelvin,
+          model.surfaceTemperatureKelvinProperty.value,
           EnergyRepresentation.PHOTON,
           false,
           true
         );
+
+        const numberOfActiveAtmosphereLayers = model.numberOfActiveAtmosphereLayersProperty.value;
+        const layersInfraredAbsorbance = model.layersInfraredAbsorbanceProperty.value;
 
         // Potentially add the second part of description, which is about how the photons interact with the layers.
         // This is omitted if there are no active layers.
         if ( numberOfActiveAtmosphereLayers > 0 ) {
           description += ' ';
           if ( layersInfraredAbsorbance === 1 ) {
-            description += StringUtils.fillIn( allPhotonsAbsorbedPatternString, {
-              s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
-            } );
+            description += StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
+              { s: numberOfActiveAtmosphereLayers > 1 ? 's' : '' }
+            );
           }
           else {
-            description += StringUtils.fillIn( percentageOfPhotonsAbsorbedPatternString, {
-              absorbedPercentage: layersInfraredAbsorbance * 100,
-              passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
-              s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
-            } );
+            description += StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+              {
+                absorbedPercentage: layersInfraredAbsorbance * 100,
+                passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
+                s: numberOfActiveAtmosphereLayers > 1 ? 's' : ''
+              }
+            );
           }
         }
-        return description;
-      }, {
-        strictAxonDependencies: false //TODO https://github.com/phetsims/greenhouse-effect/issues/383
-      } );
+        infraredPhotonsDescriptionProperty.set( description );
+      }
+    );
 
     // Create a scenery Node that will add the description of the infrared photon behavior into the PDOM.
     const infraredPhotonsListItemNode = new Node( { tagName: 'li' } );
