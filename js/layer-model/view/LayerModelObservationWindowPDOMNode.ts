@@ -126,11 +126,10 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.numberOfActiveAtmosphereLayersProperty,
         model.layersInfraredAbsorbanceProperty,
 
-        // The following long list of string Properties is intended to list all the strings that could be used to
-        // formulate the description of IR photons.  This is a bit silly, and will be hard to maintain, but using
-        // DerivedProperty with strict dependencies didn't work because the number of parameters exceeded that allowed
-        // by the type.  This is a good example of the unscalability of the approach of creating description explicitly
-        // in the code and expecting to have dynamic strings.  See
+        // The following long list of string Properties is necessary because of the way the IR photons description
+        // string is put together.  There are a number of pieces that go into it, all of which now have potentially
+        // dynamic values. This is a bit silly, and is a good example of the unscalability of the approach of creating
+        // descriptions explicitly in the code and using dynamic strings.  See
         // https://github.com/phetsims/greenhouse-effect/issues/383.
         GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
         GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
