@@ -13,7 +13,6 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
@@ -120,9 +119,8 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       visiblePhotonsListItemNode.pdomVisible = isSunShining;
     } );
 
-    // Create a string Property and a multilink that describes the state of the infrared photons.
-    const infraredPhotonsDescriptionProperty = new StringProperty( '' );
-    Multilink.multilinkAny(
+    // Create a string Property that will describe the state of the infrared photons.
+    const infraredPhotonsDescriptionProperty = DerivedProperty.deriveAny(
       [
         model.surfaceTemperatureKelvinProperty,
         model.numberOfActiveAtmosphereLayersProperty,
@@ -147,9 +145,11 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatLowStringProperty,
         GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty,
         GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty,
+        GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty,
         GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty,
         GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty,
-        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty
+        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty,
+        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty
       ],
       () => {
 
@@ -185,7 +185,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
             );
           }
         }
-        infraredPhotonsDescriptionProperty.set( description );
+        return description;
       }
     );
 
