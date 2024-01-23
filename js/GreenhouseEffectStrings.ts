@@ -229,12 +229,6 @@ type StringsType = {
     'surfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
     'photonDensityDescriptionStringProperty': LocalizedStringProperty;
-    'greenhouseGasesInAtmospherePatternStringProperty': LocalizedStringProperty;
-    'greenhouseGasesValuePatternStringProperty': LocalizedStringProperty;
-    'timePeriodPatternStringProperty': LocalizedStringProperty;
-    'summaryWithTemperaturePatternStringProperty': LocalizedStringProperty;
-    'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
-    'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
     'waves': {
       'homeScreenDescriptionStringProperty': LocalizedStringProperty;
       'screenSummary': {
@@ -308,6 +302,12 @@ type StringsType = {
         'temperatureUnitsPatternStringProperty': LocalizedStringProperty;
       }
     };
+    'greenhouseGasesInAtmospherePatternStringProperty': LocalizedStringProperty;
+    'greenhouseGasesValuePatternStringProperty': LocalizedStringProperty;
+    'timePeriodPatternStringProperty': LocalizedStringProperty;
+    'summaryWithTemperaturePatternStringProperty': LocalizedStringProperty;
+    'summaryWithoutTemperaturePatternStringProperty': LocalizedStringProperty;
+    'qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty': LocalizedStringProperty;
     'timePeriodDescriptionPatternStringProperty': LocalizedStringProperty;
     'thereAreManyHomesAndFactoriesStringProperty': LocalizedStringProperty;
     'thereAreAFewHomesAndFactoriesStringProperty': LocalizedStringProperty;
