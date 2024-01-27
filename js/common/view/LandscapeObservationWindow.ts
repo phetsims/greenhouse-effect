@@ -52,6 +52,7 @@ const SURFACE_TEMPERATURE_OPACITY_SCALING_RANGE = new Range( 250, 295 );
 class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   private readonly gasConcentrationAlerter: ConcentrationModelAlerter;
   private readonly isPlayingProperty: TReadOnlyProperty<boolean>;
+  private readonly cloudNode: CloudNode | null;
 
   // Surface thermometer with value readout and units ComboBox, public for pdomOrder.
   public readonly surfaceThermometer: ThermometerAndReadout;
@@ -138,14 +139,14 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
         phetioReadOnly: true,
         phetioFeatured: false
       } );
-      this.backgroundLayer.addChild(
-        new CloudNode( model.cloud, this.modelViewTransform, this.cloudSeedProperty )
-      );
+      this.cloudNode = new CloudNode( model.cloud, this.modelViewTransform, this.cloudSeedProperty );
+      this.backgroundLayer.addChild( this.cloudNode );
     }
     else {
 
-      // The cloud seed property is unused, so just initialize it to a fixed value.
+      // The cloud seed property is unused, so just initialize it to a fixed value and stub the node.
       this.cloudSeedProperty = new NumberProperty( 0 );
+      this.cloudNode = null;
     }
 
     // pdom - responsive descriptions
@@ -173,6 +174,7 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
 
   public override reset(): void {
     this.gasConcentrationAlerter.reset();
+    this.cloudNode && this.cloudNode.reset();
     super.reset();
   }
 

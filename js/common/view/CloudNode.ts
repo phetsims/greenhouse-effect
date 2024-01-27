@@ -32,6 +32,9 @@ type SelfOptions = {
 type CloudNodeOptions = SelfOptions;
 
 class CloudNode extends Node {
+  private readonly cloudPath: Path;
+  private randomlyGeneratedCloudShape: Shape;
+  private isAlternative = false;
   private readonly disposeCloudNode: () => void;
 
   public constructor( cloud: Cloud,
@@ -45,24 +48,27 @@ class CloudNode extends Node {
 
     super( options );
 
-    const cloudPath = new Path( null, {
+    this.cloudPath = new Path( null, {
       fill: CLOUD_FILL,
       stroke: CLOUD_BACKGROUND_STROKE,
       miterLimit: 1
     } );
-    this.addChild( cloudPath );
+    this.addChild( this.cloudPath );
+
+    // Create an initial dummy shape to keep TypeScript from complaining.
+    this.randomlyGeneratedCloudShape = Shape.rect( 0, 0, 10, 10 );
 
     // Create the cloud shape, and update it if and when the random seed changes.  This is done for phet-io, so that the
     // clouds will look the same in the state wrappers and when configured and saved in Studio.
     randomNumberGeneratorSeedProperty.link( seed => {
       const random = new Random( { seed: seed } );
-      const cloudShape = CloudNode.createCloudShape(
+      this.randomlyGeneratedCloudShape = CloudNode.createCloudShape(
         modelViewTransform.modelToViewPosition( cloud.position ),
         Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
         Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) ),
         random
       );
-      cloudPath.setShape( cloudShape );
+      this.cloudPath.setShape( this.randomlyGeneratedCloudShape );
     } );
 
     // If specified, show an ellipse that corresponds to the strict model shape of the cloud.  This is useful for debug.
@@ -84,7 +90,6 @@ class CloudNode extends Node {
 
     // Happy Easter!
     const dragPoints: Vector2[] = [];
-    let isAlternative = false;
     this.addInputListener( new DragListener( {
       start: () => {
         dragPoints.length = 0;
@@ -93,7 +98,7 @@ class CloudNode extends Node {
         dragPoints.push( this.globalToParentPoint( event.pointer.point ) );
       },
       end: () => {
-        if ( !isAlternative ) {
+        if ( !this.isAlternative ) {
 
           // Are all points within the bounds of the cloud?
           const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
@@ -114,7 +119,6 @@ class CloudNode extends Node {
               dragPoints.reduce( ( maxYSoFar, dp ) => Math.max( maxYSoFar, dp.y ), Number.NEGATIVE_INFINITY )
             );
 
-
             // The drag bounds must have a minimum size.
             if ( dragPointsBounds.width > this.width / 4 && dragPointsBounds.height > this.height / 4 ) {
 
@@ -127,7 +131,6 @@ class CloudNode extends Node {
               );
 
               // The shape being tested here is essentially an infinity sign.
-
               const createZone = ( centerX: number, centerY: number, zoneLength: number ) =>
                 new Bounds2(
                   centerX - zoneLength / 2,
@@ -170,29 +173,32 @@ class CloudNode extends Node {
 
               // Are the required zones all occupied and the excluded zones clear?
               if ( occupiedRZones.length === rZones.length && occupiedXZones.length === 0 ) {
-                cloudPath.setShape( CloudNode.createAlternativeShape(
+                this.cloudPath.setShape( CloudNode.createAlternativeShape(
                   modelViewTransform.modelToViewPosition( cloud.position ),
                   Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
                   Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
                 ) );
-                isAlternative = true;
+                this.isAlternative = true;
               }
             }
           }
         }
         else {
-          cloudPath.setShape( CloudNode.createCloudShape(
-            modelViewTransform.modelToViewPosition( cloud.position ),
-            Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
-            Math.abs( modelViewTransform.modelToViewDeltaY( cloud.height ) )
-          ) );
-          isAlternative = false;
+          this.cloudPath.setShape( this.randomlyGeneratedCloudShape );
+          this.isAlternative = false;
         }
       },
 
       // phet-io
       tandem: Tandem.OPT_OUT
     } ) );
+  }
+
+  public reset(): void {
+    if ( this.isAlternative ) {
+      this.cloudPath.setShape( this.randomlyGeneratedCloudShape );
+      this.isAlternative = false;
+    }
   }
 
   /**
