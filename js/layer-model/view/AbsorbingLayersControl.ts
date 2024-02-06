@@ -68,15 +68,19 @@ export default class AbsorbingLayersControl extends HBox {
               else if ( value === 1 ) {
 
                 // describe relative to ground layer
-                response = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedAboveSurfacePatternStringProperty, {
-                  number: value
-                } );
+                response = StringUtils.fillIn(
+                  GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedAboveSurfacePatternStringProperty,
+                  { number: value }
+                );
               }
               else {
-                response = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedContextResponsePatternStringProperty, {
-                  aboveNumber: value,
-                  belowNumber: previousValue
-                } );
+                response = StringUtils.fillIn(
+                  GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedContextResponsePatternStringProperty,
+                  {
+                    aboveNumber: value,
+                    belowNumber: previousValue
+                  }
+                );
               }
             }
             else {
@@ -84,9 +88,10 @@ export default class AbsorbingLayersControl extends HBox {
                 response = GreenhouseEffectStrings.a11y.layerModel.observationWindow.multipleLayersRemovedStringProperty.value;
               }
               else {
-                response = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerRemovedContextResponsePatternStringProperty, {
-                  number: previousValue
-                } );
+                response = StringUtils.fillIn(
+                  GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerRemovedContextResponsePatternStringProperty,
+                  { number: previousValue }
+                );
               }
             }
           }
