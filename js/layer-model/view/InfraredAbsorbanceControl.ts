@@ -64,27 +64,6 @@ export default class InfraredAbsorbanceControl extends VBox {
             value: value * 100
           } );
         },
-
-        // A context response describing the change in absorption for the layers. Will return something like
-        // "All layers now absorbing 60% of infrared photons, 40% passing through layers."
-        a11yCreateContextResponseAlert: ( mappedValue, value, previousValue ) => {
-
-          let response = '';
-          if ( sunIsShiningProperty.value && value !== previousValue ) {
-            if ( value === 1 ) {
-              response = GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
-            }
-            else {
-              const absorbedPercentage = value * 100;
-              const passThroughPercentage = Utils.roundToInterval( 1 - value, 0.01 ) * 100;
-              response = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty, {
-                absorbedPercentage: absorbedPercentage,
-                passThroughPercentage: passThroughPercentage
-              } );
-            }
-          }
-          return response;
-        },
         helpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
         keyboardStep: IR_ABSORBANCE_STEP_SIZE,
         shiftKeyboardStep: IR_ABSORBANCE_STEP_SIZE,
