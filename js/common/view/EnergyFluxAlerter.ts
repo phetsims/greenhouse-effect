@@ -64,6 +64,9 @@ class EnergyFluxAlerter extends Alerter {
   // description string property for the energy flux sensed by the flux meter
   private readonly energyFluxDescriptionProperty: TReadOnlyProperty<string>;
 
+  // Previous alert string - used to decide if a change has occurred since the last alert.
+  private previousEnergyFluxDescriptionAlert = '';
+
   // boolean flag that tracks whether the flux sensor has moved since the last alert was announced
   private sensorMovedSinceLastAlert = false;
 
@@ -208,10 +211,13 @@ class EnergyFluxAlerter extends Alerter {
 
         // Did one or more of the flux values change enough to warrant an alert?  Or did something else happen to
         // trigger a full alert?
-        if ( largestFluxChange > ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS || this.performFullAlertNextCycle ) {
+        if ( ( largestFluxChange > ENERGY_FLUX_THRESHOLD_FOR_INDEPENDENT_ALERTS &&
+               this.energyFluxDescriptionProperty.value !== this.previousEnergyFluxDescriptionAlert ) ||
+             this.performFullAlertNextCycle ) {
 
-          // The flux change is over the threshold, so do an alert of the current energy flux description.
+          // Do a full alert.
           this.alert( this.energyFluxDescriptionProperty.value );
+          this.previousEnergyFluxDescriptionAlert = this.energyFluxDescriptionProperty.value;
           alerted = true;
         }
 
@@ -222,6 +228,7 @@ class EnergyFluxAlerter extends Alerter {
           // trigger a new alert on its own?
           if ( largestFluxChange > NON_NEGLIGIBLE_FLUX_CHANGE ) {
             this.alert( this.energyFluxDescriptionProperty.value );
+            this.previousEnergyFluxDescriptionAlert = this.energyFluxDescriptionProperty.value;
           }
           else {
 
