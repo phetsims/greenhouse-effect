@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.3.0-dev.5 Wed Feb 21 2024 16:12:25 GMT-0700 (Mountain Standard Time)",
+  "comment": "# greenhouse-effect 1.3.0-dev.6 Wed Feb 21 2024 16:29:47 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "dd61947e1ba2c0655a242bebad9b887b397b01dd",
     "branch": "main"
@@ -25,7 +25,7 @@
     "branch": "main"
   },
   "greenhouse-effect": {
-    "sha": "f063df8dc3e5cddbb7e06cc1df7da81142050fcc",
+    "sha": "677fc9ece2be1cb6439a3221ff53c16975bf62e5",
     "branch": "main"
   },
   "joist": {
@@ -73,7 +73,7 @@
     "branch": "main"
   },
   "scenery": {
-    "sha": "c776de3c8ef568b820dd0ca100692e43a19acfe4",
+    "sha": "97bbf848f77b0f683e4f8f5ebc16dfdcde4a37fb",
     "branch": "main"
   },
   "scenery-phet": {
@@ -89,7 +89,7 @@
     "branch": "main"
   },
   "sun": {
-    "sha": "55f1190c795a3962c66558e5bad3d1d0ae84d95a",
+    "sha": "52809d1359f3b4ee8e121b3b7ae390102f8a51c6",
     "branch": "main"
   },
   "tambo": {
