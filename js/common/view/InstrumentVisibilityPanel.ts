@@ -121,7 +121,7 @@ class InstrumentVisibilityPanel extends Panel {
       // Create a describer for the energy flux.
       const energyFluxDescriptionProperty = new FluxMeterDescriptionProperty( model.fluxMeter! );
 
-      // Create the utterance (for screen readers) that will be used by the energy balance checkbox.
+      // Create the utterance (for screen readers) that will be used by the flux meter checkbox.
       const fluxMeterCheckedUtterance = new Utterance();
       Multilink.multilink(
         [
@@ -131,7 +131,6 @@ class InstrumentVisibilityPanel extends Panel {
         ( sunIsShining, energyFluxDescription ) => {
 
           if ( sunIsShining && model.fluxMeter!.isSensingFlux() ) {
-          // if ( sunIsShining ) {
             fluxMeterCheckedUtterance.alert = StringUtils.fillIn(
               GreenhouseEffectStrings.a11y.fluxMeterCheckedPatternStringProperty,
               {
@@ -142,7 +141,7 @@ class InstrumentVisibilityPanel extends Panel {
           }
           else {
 
-            // If the sun isn't shining, don't include a description of the energy balance.  See
+            // If the sun isn't shining, don't include a description of the energy flux.  See
             // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
             fluxMeterCheckedUtterance.alert = GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty;
           }
