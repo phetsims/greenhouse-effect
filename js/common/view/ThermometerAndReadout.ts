@@ -121,21 +121,21 @@ class ThermometerAndReadout extends Node {
           temperatureInKelvinProperty,
           temperatureInKelvinProperty.range,
           TemperatureUnits.KELVIN,
-          `kelvin${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          'kelvinItem'
         ),
         ThermometerAndReadout.createComboBoxItem(
           celsiusUnitsStringProperty,
           temperatureInCelsiusProperty,
           celsiusRange,
           TemperatureUnits.CELSIUS,
-          `celsius${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          'celsiusItem'
         ),
         ThermometerAndReadout.createComboBoxItem(
           fahrenheitUnitsStringProperty,
           temperatureInFahrenheitProperty,
           fahrenheitRange,
           TemperatureUnits.FAHRENHEIT,
-          `fahrenheit${ComboBox.ITEM_TANDEM_NAME_SUFFIX}`
+          'fahrenheitItem'
         )
       ];
 
