@@ -117,6 +117,7 @@ type StringsType = {
       'inStringProperty': LocalizedStringProperty;
       'outStringProperty': LocalizedStringProperty;
       'visualScaleZoomedPatternStringProperty': LocalizedStringProperty;
+      'noChangeStringProperty': LocalizedStringProperty;
     };
     'fluxMeterUncheckedAlertStringProperty': LocalizedStringProperty;
     'fluxMeterCheckedAlertStringProperty': LocalizedStringProperty;

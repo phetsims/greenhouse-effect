@@ -107,7 +107,7 @@ class EnergyFluxAlerter extends Alerter {
       }
     } );
 
-    // Monitor the zoom property and trigger an alert when it occurs.
+    // Monitor the zoom property and trigger an alert when changes occur.
     model.fluxMeter!.zoomFactorProperty.lazyLink( ( zoomFactor, oldZoomFactor ) => {
       const zoomOutString = StringUtils.fillIn(
         GreenhouseEffectStrings.a11y.fluxMeter.visualScaleZoomedPatternStringProperty,
@@ -119,7 +119,7 @@ class EnergyFluxAlerter extends Alerter {
       );
 
       // Perform the alert.
-      this.alert( `${zoomOutString} ${StringUtils.capitalize( this.energyFluxDescriptionProperty.value )}` );
+      this.alert( `${zoomOutString} ${GreenhouseEffectStrings.a11y.fluxMeter.noChangeStringProperty.value}` );
     } );
 
     if ( options.motivateEnergyFluxAlertEmitter ) {

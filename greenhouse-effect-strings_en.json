@@ -236,6 +236,9 @@
       },
       "visualScaleZoomedPattern": {
         "value": "Visual scale zoomed {{inOrOut}}."
+      },
+      "noChange": {
+        "value": "No change in energy flux."
       }
     },
     "fluxMeterUncheckedAlert": {
