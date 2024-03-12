@@ -34,6 +34,7 @@ import ThermometerAndReadout from './ThermometerAndReadout.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import EnergyRepresentation from './EnergyRepresentation.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 type SelfOptions = {
 
@@ -76,6 +77,11 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
       {
         visibleProperty: model.groundLayer.showTemperatureProperty,
         minTemperature: model.groundLayer.minimumTemperature - 5,
+
+        // pdom
+        tagName: 'div',
+        labelTagName: 'h4',
+        labelContent: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
 
         // phet-io
         tandem: options.tandem.createTandem( 'surfaceThermometer' )
