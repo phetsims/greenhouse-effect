@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "75e355a12172f48fd76a3d52ddf84d2ab2eb1cbb",
+    "sha": "74bd36df27820a69b137cc100b3a550abb050028",
     "branch": "1.2"
   },
   "joist": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "03a066a842a315c8978fd7a940aef26498fddf6f",
+    "sha": "c748dfc7364495e7fd4b3b079f11933b37bf6fea",
     "branch": "HEAD"
   },
   "phetmarks": {
