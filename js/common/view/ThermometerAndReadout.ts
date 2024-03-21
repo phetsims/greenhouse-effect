@@ -19,7 +19,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Color, Node, NodeOptions, NodeTranslationOptions, ParallelDOMOptions } from '../../../../scenery/js/imports.js';
+import { Color, Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -60,7 +60,6 @@ type SelfOptions = {
 type ThermometerAndReadoutOptions =
   SelfOptions &
   NodeTranslationOptions &
-  ParallelDOMOptions &
   PickRequired<NodeOptions, 'tandem' | 'visibleProperty'>;
 
 class ThermometerAndReadout extends Node {
@@ -152,6 +151,8 @@ class ThermometerAndReadout extends Node {
 
         // pdom
         helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
+        accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
+        tagName: 'h4',
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
