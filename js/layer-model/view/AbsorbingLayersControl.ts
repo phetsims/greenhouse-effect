@@ -68,4 +68,3 @@ export default class AbsorbingLayersControl extends HBox {
 }
 
 greenhouseEffect.register( 'AbsorbingLayersControl', AbsorbingLayersControl );
-
