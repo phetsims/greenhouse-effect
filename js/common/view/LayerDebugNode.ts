@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * Node that represents a layer that absorbs and emits energy.  This is for debugging the behavior of the model, and

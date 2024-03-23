@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * Window frame for the Molecules and Light observation window.  This uses canvas node in order to draw certain shapes

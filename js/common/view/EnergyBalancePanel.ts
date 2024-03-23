@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * EnergyBalancePanel is a panel that portrays a plot of the energy balance at a point in the atmosphere, showing the

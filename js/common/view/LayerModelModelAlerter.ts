@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * LayerModelModelAlerter is responsible for generating alerts for changes in the Layer Model screen.

@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * FluxSensorLayerRelationshipProperty is a Property<string> that describes the relationship between the flux sensor
