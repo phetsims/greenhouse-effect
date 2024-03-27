@@ -151,8 +151,9 @@ class ThermometerAndReadout extends Node {
 
         // pdom
         helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
+
         accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
-        tagName: 'h4',
+        buttonLabelTagName: 'h4',
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
