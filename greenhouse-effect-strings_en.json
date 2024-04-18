@@ -316,6 +316,9 @@
     "historicalLevelsOfGreenhouseGassesPattern": {
       "value": "{{historical}} levels of greenhouse gases in atmosphere."
     },
+    "temperatureOptionsLabel": {
+      "value": "Temperature Options"
+    },
     "temperatureUnitsLabel": {
       "value": "Temperature Units"
     },
@@ -809,6 +812,9 @@
     },
     "energyBalanceUncheckedAlert": {
       "value": "Energy Balance hidden."
+    },
+    "thermometers": {
+      "value": "Thermometers"
     },
     "thermometerShownAlertPattern": {
       "value": "Thermometer measuring surface temperature, {{value}}."

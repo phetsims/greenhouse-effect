@@ -150,8 +150,9 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
+        labelTagName: 'h3',
+        labelContent: GreenhouseEffectStrings.a11y.temperatureOptionsLabelStringProperty,
         helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
-
         accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
         buttonLabelTagName: 'h4',
 

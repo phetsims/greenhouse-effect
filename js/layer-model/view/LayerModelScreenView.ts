@@ -17,6 +17,8 @@ import InfraredPanel from './InfraredPanel.js';
 import SunlightPanel from './SunlightPanel.js';
 import TemperatureUnitsControl from './TemperatureUnitsControl.js';
 import LayerModelScreenSummaryContentNode from './LayerModelScreenSummaryContentNode.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 
@@ -75,12 +77,20 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     );
     this.legendAndControlsVBox.addChild( infraredPanel );
 
+    // Add a Node that will show a header for the thermometer checkboxes in the PDOM, but won't appear on the screen.
+    const thermometerHeadingNode = new Node( {
+      tagName: 'h3',
+      innerContent: GreenhouseEffectStrings.a11y.thermometersStringProperty
+    } );
+    this.addChild( thermometerHeadingNode );
+
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
       this.observationWindow,
       this.energyLegend,
       sunlightPanel,
       infraredPanel,
+      thermometerHeadingNode,
       observationWindow.showThermometerCheckbox,
       ...observationWindow.atmosphereLayerNodes,
       observationWindow.instrumentVisibilityPanel,

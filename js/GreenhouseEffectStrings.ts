@@ -148,6 +148,7 @@ type StringsType = {
       'lowStringProperty': LocalizedStringProperty;
     };
     'historicalLevelsOfGreenhouseGassesPatternStringProperty': LocalizedStringProperty;
+    'temperatureOptionsLabelStringProperty': LocalizedStringProperty;
     'temperatureUnitsLabelStringProperty': LocalizedStringProperty;
     'temperatureUnitsHelpTextStringProperty': LocalizedStringProperty;
     'temperatureUnits': {
@@ -334,6 +335,7 @@ type StringsType = {
     'energyBalanceCheckedAlertStringProperty': LocalizedStringProperty;
     'energyBalanceCheckedPatternStringProperty': LocalizedStringProperty;
     'energyBalanceUncheckedAlertStringProperty': LocalizedStringProperty;
+    'thermometersStringProperty': LocalizedStringProperty;
     'thermometerShownAlertPatternStringProperty': LocalizedStringProperty;
     'thermometerRemovedAlertStringProperty': LocalizedStringProperty;
     'qualitativeSurfaceTemperaturePatternStringProperty': LocalizedStringProperty;

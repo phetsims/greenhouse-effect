@@ -122,11 +122,11 @@ class WavesScreenView extends GreenhouseEffectScreenView {
       this.observationWindow,
       this.energyLegend,
       greenhouseGasConcentrationPanel,
-      observationWindow.surfaceThermometer,
       observationWindow.instrumentVisibilityPanel,
       cloudCheckbox
     ];
     this.pdomControlAreaNode.pdomOrder = [
+      observationWindow.surfaceThermometer,
       visibilityBox,
       this.timeControlNode,
       this.resetAllButton
