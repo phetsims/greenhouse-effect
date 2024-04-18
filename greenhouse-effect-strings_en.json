@@ -789,6 +789,15 @@
     "significantlyLower": {
       "value": "significantly lower"
     },
+    "concentrationControlReplacedPattern": {
+      "value": "{{replacedControl}} replaced with {{visibleControl}}."
+    },
+    "greenhouseGasConcentrationSlider": {
+      "value": "Greenhouse Gas Concentration slider"
+    },
+    "timePeriodRadioButtonGroup": {
+      "value": "Time Period radio button group"
+    },
     "energyBalanceCheckedAlert": {
       "value": "Energy Balance added to Observation Window."
     },

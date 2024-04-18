@@ -327,6 +327,9 @@ type StringsType = {
     'lowerStringProperty': LocalizedStringProperty;
     'muchLowerStringProperty': LocalizedStringProperty;
     'significantlyLowerStringProperty': LocalizedStringProperty;
+    'concentrationControlReplacedPatternStringProperty': LocalizedStringProperty;
+    'greenhouseGasConcentrationSliderStringProperty': LocalizedStringProperty;
+    'timePeriodRadioButtonGroupStringProperty': LocalizedStringProperty;
     'energyBalanceCheckedAlertStringProperty': LocalizedStringProperty;
     'energyBalanceCheckedPatternStringProperty': LocalizedStringProperty;
     'energyBalanceUncheckedAlertStringProperty': LocalizedStringProperty;

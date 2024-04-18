@@ -1,8 +1,10 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
 /**
- * Responsible for generating and timing alerts related to the ConcentrationModel subclasses in this sim. A polling
- * method is used to time the alerts and determine how model variables have changed to create an accurate description.
+ * ConcentrationModelAlerter is responsible for generating and timing alerts related to the ConcentrationModel
+ * subclasses in this sim. Some alerts are generated immediately when the model changes while others are based on a
+ * periodic polling approach so that the alerts can be produced at a reasonable frequency (such as those related to
+ * temperature changes) and so that the order of alerts can be better controlled.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
@@ -17,6 +19,8 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import EnergyRepresentation from './EnergyRepresentation.js';
 import LayersModelAlerter from './LayersModelAlerter.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 type SelfOptions = {
 
@@ -154,12 +158,25 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
 
     const currentControlMode = this.concentrationModel.concentrationControlModeProperty.value;
     if ( this.previousImmediateNotificationConcentrationModelState.concentrationControlMode !== currentControlMode ) {
+
       if ( currentControlMode === ConcentrationControlMode.BY_DATE ) {
 
-        // If controlling by date, include a description of the selected date.
+        // Make an alert about the change to the UI that just occurred.
+        this.alert( StringUtils.fillIn( GreenhouseEffectStrings.a11y.concentrationControlReplacedPatternStringProperty, {
+          visibleControl: GreenhouseEffectStrings.a11y.timePeriodRadioButtonGroupStringProperty,
+          replacedControl: GreenhouseEffectStrings.a11y.greenhouseGasConcentrationSliderStringProperty
+        } ) );
+
+        // Since the concentration is now being controlled by date, include a description of the selected date.
         this.alert( ConcentrationDescriber.getTimePeriodChangeDescription( this.concentrationModel.dateProperty.value ) );
       }
       else {
+
+        // Make an alert about the change to the UI that just occurred.
+        this.alert( StringUtils.fillIn( GreenhouseEffectStrings.a11y.concentrationControlReplacedPatternStringProperty, {
+          visibleControl: GreenhouseEffectStrings.a11y.greenhouseGasConcentrationSliderStringProperty,
+          replacedControl: GreenhouseEffectStrings.a11y.timePeriodRadioButtonGroupStringProperty
+        } ) );
 
         // In manual mode, describe the relative level of concentration.
         this.alert( ConcentrationDescriber.getCurrentConcentrationLevelsDescription( this.concentrationModel.concentrationProperty.value ) );
