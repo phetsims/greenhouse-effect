@@ -202,22 +202,33 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         this.alert( this.surfaceAlbedoChangeUtterance );
       }
 
-      // Alert if the IR absorbance setting for the layers has changed, but only if there are active layers in the
-      // atmosphere.
-      if ( infraredAbsorbanceChange !== 0 && this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
+      // Alert if the IR absorbance setting for the layers has changed.
+      if ( infraredAbsorbanceChange !== 0 ) {
+
         const currentIRAbsorbance = this.layerModelModel.layersInfraredAbsorbanceProperty.value;
-        if ( currentIRAbsorbance === 1 ) {
-          this.infraredAbsorbanceChangeUtterance.alert =
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
+        const absorbedPercentage = currentIRAbsorbance * 100;
+
+        if ( this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
+          if ( currentIRAbsorbance === 1 ) {
+            this.infraredAbsorbanceChangeUtterance.alert =
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
+          }
+          else {
+            const passThroughPercentage = Utils.roundToInterval( 1 - currentIRAbsorbance, 0.01 ) * 100;
+            this.infraredAbsorbanceChangeUtterance.alert = StringUtils.fillIn(
+              GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty,
+              {
+                absorbedPercentage: absorbedPercentage,
+                passThroughPercentage: passThroughPercentage
+              }
+            );
+          }
         }
         else {
-          const absorbedPercentage = currentIRAbsorbance * 100;
-          const passThroughPercentage = Utils.roundToInterval( 1 - currentIRAbsorbance, 0.01 ) * 100;
           this.infraredAbsorbanceChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty,
+            GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeWithNoLayersContextResponsePatternStringProperty,
             {
-              absorbedPercentage: absorbedPercentage,
-              passThroughPercentage: passThroughPercentage
+              absorbedPercentage: absorbedPercentage
             }
           );
         }
