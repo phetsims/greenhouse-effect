@@ -11,7 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Color, DragListener, Node, NodeOptions, Path, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, NodeOptions, Path, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
 import Random from '../../../../dot/js/Random.js';
@@ -35,6 +35,8 @@ class CloudNode extends Node {
   private readonly cloudPath: Path;
   private randomlyGeneratedCloudShape: Shape;
   private isAlternative = false;
+  private dragEventCount = 0;
+  private readonly dragPoints: Vector2[] = [];
   private readonly disposeCloudNode: () => void;
 
   public constructor( cloud: Cloud,
@@ -89,20 +91,31 @@ class CloudNode extends Node {
     };
 
     // Happy Easter!
-    const dragPoints: Vector2[] = [];
+    let mostRecentDragEventTime = Number.NEGATIVE_INFINITY;
+    let testLayer: Node;
     this.addInputListener( new DragListener( {
       start: () => {
-        dragPoints.length = 0;
+        if ( this.dragEventCount !== 1 || mostRecentDragEventTime + 4000 < phet.joist.elapsedTime ) {
+          this.dragPoints.length = 0;
+          this.dragEventCount = 0;
+          if ( testLayer && this.hasChild( testLayer ) ) {
+            this.removeChild( testLayer );
+          }
+        }
       },
       drag: ( event: SceneryEvent ) => {
-        dragPoints.push( this.globalToParentPoint( event.pointer.point ) );
+        this.dragPoints.push( this.globalToParentPoint( event.pointer.point ) );
       },
       end: () => {
-        if ( !this.isAlternative ) {
+        this.dragEventCount++;
+        mostRecentDragEventTime = phet.joist.elapsedTime;
+        if ( !this.isAlternative && this.dragEventCount === 2 ) {
+          testLayer = new Node();
+          this.addChild( testLayer );
 
           // Are all points within the bounds of the cloud?
           const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
-          const allPointsInCloudBounds = dragPoints.reduce(
+          const allPointsInCloudBounds = this.dragPoints.reduce(
             ( allInCloud, currentValue ) => {
               return cloudBounds.containsPoint( currentValue ) && allInCloud;
             },
@@ -112,67 +125,41 @@ class CloudNode extends Node {
           if ( allPointsInCloudBounds ) {
 
             // Calculate the bounds of the points created by the user's drag action.
-            const dragPointsBounds = new Bounds2(
-              dragPoints.reduce( ( minXSoFar, dp ) => Math.min( minXSoFar, dp.x ), Number.POSITIVE_INFINITY ),
-              dragPoints.reduce( ( minYSoFar, dp ) => Math.min( minYSoFar, dp.y ), Number.POSITIVE_INFINITY ),
-              dragPoints.reduce( ( maxXSoFar, dp ) => Math.max( maxXSoFar, dp.x ), Number.NEGATIVE_INFINITY ),
-              dragPoints.reduce( ( maxYSoFar, dp ) => Math.max( maxYSoFar, dp.y ), Number.NEGATIVE_INFINITY )
-            );
+            const draggedLinesBounds = Bounds2.NOTHING.copy();
+            for ( const dragPoint of this.dragPoints ) {
+              draggedLinesBounds.minX = Math.min( draggedLinesBounds.minX, dragPoint.x );
+              draggedLinesBounds.minY = Math.min( draggedLinesBounds.minY, dragPoint.y );
+              draggedLinesBounds.maxX = Math.max( draggedLinesBounds.maxX, dragPoint.x );
+              draggedLinesBounds.maxY = Math.max( draggedLinesBounds.maxY, dragPoint.y );
+            }
 
-            // The drag bounds must have a minimum size.
-            if ( dragPointsBounds.width > this.width / 4 && dragPointsBounds.height > this.height / 4 ) {
-
-              // Normalize the drag points such that x and y values are all from 0 to 1 inclusive.
-              const normalizedDragPoints = dragPoints.map(
-                dp => new Vector2(
-                  ( dp.x - dragPointsBounds.minX ) / dragPointsBounds.width,
-                  ( dp.y - dragPointsBounds.minY ) / dragPointsBounds.height
-                )
+            // Are the bounds big enough and roughly rectangular?
+            const area = draggedLinesBounds.width * draggedLinesBounds.height;
+            const aspectRatio = draggedLinesBounds.width / draggedLinesBounds.height;
+            if ( area > 200 && aspectRatio > 0.5 && aspectRatio < 1.5 ) {
+              const centerBounds = draggedLinesBounds.dilatedXY(
+                -draggedLinesBounds.width / 3,
+                -draggedLinesBounds.height / 3
               );
+              testLayer.addChild( Rectangle.bounds( draggedLinesBounds, { stroke: 'orange' } ) );
+              testLayer.addChild( Rectangle.bounds( centerBounds, { stroke: 'red' } ) );
+              const leftEdgeTestArea = centerBounds.shiftedX( -draggedLinesBounds.width / 2 );
+              testLayer.addChild( Rectangle.bounds( leftEdgeTestArea, { fill: 'blue' } ) );
+              const rightEdgeTestArea = centerBounds.shiftedX( draggedLinesBounds.width / 2 );
+              testLayer.addChild( Rectangle.bounds( rightEdgeTestArea, { fill: 'yellow' } ) );
+              const topEdgeTestArea = centerBounds.shiftedY( -draggedLinesBounds.height / 2 );
+              testLayer.addChild( Rectangle.bounds( topEdgeTestArea, { fill: 'green' } ) );
+              const bottomEdgeTestArea = centerBounds.shiftedY( draggedLinesBounds.height / 2 );
+              testLayer.addChild( Rectangle.bounds( bottomEdgeTestArea, { fill: 'cyan' } ) );
 
-              // The shape being tested here is essentially an infinity sign.
-              const createZone = ( centerX: number, centerY: number, zoneLength: number ) =>
-                new Bounds2(
-                  centerX - zoneLength / 2,
-                  centerY - zoneLength / 2,
-                  centerX + zoneLength / 2,
-                  centerY + zoneLength / 2
-                );
+              // Are the points in the right places and not in the wrong places?
+              if ( CloudNode.boundsContainsPointFromList( centerBounds, this.dragPoints ) &&
+                   !CloudNode.boundsContainsPointFromList( leftEdgeTestArea, this.dragPoints ) &&
+                   !CloudNode.boundsContainsPointFromList( rightEdgeTestArea, this.dragPoints ) &&
+                   !CloudNode.boundsContainsPointFromList( topEdgeTestArea, this.dragPoints ) &&
+                   !CloudNode.boundsContainsPointFromList( bottomEdgeTestArea, this.dragPoints ) ) {
 
-              // Create a set of zones where at least one point is required.
-              const rZones = [
-                createZone( 0.5, 0.5, 0.1 ),
-                createZone( 0.25, 0.1, 0.2 ),
-                createZone( 0.75, 0.1, 0.2 ),
-                createZone( 0.25, 0.9, 0.2 ),
-                createZone( 0.75, 0.9, 0.2 )
-              ];
-              const occupiedRZones: Bounds2[] = [];
-
-              // Create a set of zones where no points should be.
-              const xZones = [
-                createZone( 0.5, 0.05, 0.1 ),
-                createZone( 0.5, 0.95, 0.1 ),
-                createZone( 0.25, 0.5, 0.1 ),
-                createZone( 0.75, 0.5, 0.1 )
-              ];
-              const occupiedXZones: Bounds2[] = [];
-
-              normalizedDragPoints.forEach( dp => {
-                const rZone = rZones.find( rZone => rZone.containsPoint( dp ) );
-                if ( rZone && !occupiedRZones.includes( rZone ) ) {
-                  occupiedRZones.push( rZone );
-                }
-                if ( !rZone ) {
-                  const xZone = xZones.find( xZone => xZone.containsPoint( dp ) );
-                  if ( xZone && !occupiedXZones.includes( xZone ) ) {
-                    occupiedXZones.push( xZone );
-                  }
-                }
-              } );
-
-              // Are the required zones all occupied and the excluded zones clear?
-              if ( occupiedRZones.length === rZones.length && occupiedXZones.length === 0 ) {
+                // I want to believe.
                 this.cloudPath.setShape( CloudNode.createAlternativeShape(
                   modelViewTransform.modelToViewPosition( cloud.position ),
                   Math.abs( modelViewTransform.modelToViewDeltaX( cloud.width ) ),
@@ -182,10 +169,18 @@ class CloudNode extends Node {
               }
             }
           }
+          this.dragEventCount = 0;
         }
-        else {
+        else if ( this.isAlternative ) {
           this.cloudPath.setShape( this.randomlyGeneratedCloudShape );
           this.isAlternative = false;
+          this.dragEventCount = 0;
+        }
+        else if ( this.dragEventCount === 1 && this.dragPoints.length < 4 ) {
+
+          // This is just a click, so start things over.
+          this.dragEventCount = 0;
+          this.dragPoints.length = 0;
         }
       },
 
@@ -198,6 +193,8 @@ class CloudNode extends Node {
     if ( this.isAlternative ) {
       this.cloudPath.setShape( this.randomlyGeneratedCloudShape );
       this.isAlternative = false;
+      this.dragPoints.length = 0;
+      this.dragEventCount = 0;
     }
   }
 
@@ -322,6 +319,18 @@ class CloudNode extends Node {
     shape.ellipticalArcTo( portalRadius, portalRadius, 0, false, false, smileCenter.x + smileWidth / 2, smileCenter.y );
 
     return shape;
+  }
+
+  /**
+   * Test a set of points to see if at least one is contained within the provided bounds.
+   */
+  private static boundsContainsPointFromList( bounds: Bounds2, pointList: Vector2[] ): boolean {
+    for ( const point of pointList ) {
+      if ( bounds.containsPoint( point ) ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
