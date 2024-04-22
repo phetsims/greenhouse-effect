@@ -77,12 +77,18 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     );
     this.legendAndControlsVBox.addChild( infraredPanel );
 
-    // Add a Node that will show a header for the thermometer checkboxes in the PDOM, but won't appear on the screen.
-    const thermometerHeadingNode = new Node( {
-      tagName: 'h3',
-      innerContent: GreenhouseEffectStrings.a11y.thermometersStringProperty
+    // Add a Node that will contain the thermometer heading and controls in the PDOM.  This will not appear in the scene
+    // graph.
+    const thermometerPdomSection = new Node( {
+      tagName: 'div',
+      labelTagName: 'h3',
+      labelContent: GreenhouseEffectStrings.a11y.thermometersStringProperty,
+      pdomOrder: [
+        observationWindow.showThermometerCheckbox,
+        ...observationWindow.atmosphereLayerNodes
+      ]
     } );
-    this.addChild( thermometerHeadingNode );
+    this.addChild( thermometerPdomSection );
 
     // pdom - override the pdomOrders for the supertype to insert subtype components
     this.pdomPlayAreaNode.pdomOrder = [
@@ -90,9 +96,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
       this.energyLegend,
       sunlightPanel,
       infraredPanel,
-      thermometerHeadingNode,
-      observationWindow.showThermometerCheckbox,
-      ...observationWindow.atmosphereLayerNodes,
+      thermometerPdomSection,
       observationWindow.instrumentVisibilityPanel,
       observationWindow.fluxMeterNode!.fluxSensorNode
     ];
