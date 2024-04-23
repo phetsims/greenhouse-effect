@@ -11,7 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Color, DragListener, Node, NodeOptions, Path, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { Circle, Color, DragListener, Node, NodeOptions, Path, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
 import Random from '../../../../dot/js/Random.js';
@@ -19,6 +19,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );
@@ -110,8 +111,16 @@ class CloudNode extends Node {
         this.dragEventCount++;
         mostRecentDragEventTime = phet.joist.elapsedTime;
         if ( !this.isAlternative && this.dragEventCount === 2 ) {
-          testLayer = new Node();
+          testLayer = new Node( { visible: false } );
           this.addChild( testLayer );
+
+          // Add the points to the test layer.
+          this.dragPoints.forEach( dp => {
+            testLayer.addChild( new Circle( 0.5, {
+              stroke: 'red',
+              center: dp
+            } ) );
+          } );
 
           // Are all points within the bounds of the cloud?
           const cloudBounds = modelViewTransform.modelToViewShape( cloud.modelShape ).getBounds();
@@ -143,21 +152,32 @@ class CloudNode extends Node {
               );
               testLayer.addChild( Rectangle.bounds( draggedLinesBounds, { stroke: 'orange' } ) );
               testLayer.addChild( Rectangle.bounds( centerBounds, { stroke: 'red' } ) );
-              const leftEdgeTestArea = centerBounds.shiftedX( -draggedLinesBounds.width / 2 );
-              testLayer.addChild( Rectangle.bounds( leftEdgeTestArea, { fill: 'blue' } ) );
-              const rightEdgeTestArea = centerBounds.shiftedX( draggedLinesBounds.width / 2 );
-              testLayer.addChild( Rectangle.bounds( rightEdgeTestArea, { fill: 'yellow' } ) );
-              const topEdgeTestArea = centerBounds.shiftedY( -draggedLinesBounds.height / 2 );
-              testLayer.addChild( Rectangle.bounds( topEdgeTestArea, { fill: 'green' } ) );
-              const bottomEdgeTestArea = centerBounds.shiftedY( draggedLinesBounds.height / 2 );
-              testLayer.addChild( Rectangle.bounds( bottomEdgeTestArea, { fill: 'cyan' } ) );
+              const minDimension = Math.min( centerBounds.width, centerBounds.height );
+              const squaredCenterBounds = new Bounds2(
+                centerBounds.centerX - minDimension / 2,
+                centerBounds.centerY - minDimension / 2,
+                centerBounds.centerX + minDimension / 2,
+                centerBounds.centerY + minDimension / 2
+              );
+              const createTestShape = ( xTranslation: number, yTranslation: number ) => Shape
+                .bounds( squaredCenterBounds )
+                .transformed( Matrix3.rotationAround( Math.PI / 4, centerBounds.centerX, centerBounds.centerY ) )
+                .transformed( Matrix3.translation( xTranslation, yTranslation ) );
+              const leftEdgeTestShape = createTestShape( -draggedLinesBounds.width / 2, 0 );
+              testLayer.addChild( new Path( leftEdgeTestShape, { fill: 'blue' } ) );
+              const rightEdgeTestShape = createTestShape( draggedLinesBounds.width / 2, 0 );
+              testLayer.addChild( new Path( rightEdgeTestShape, { fill: 'yellow' } ) );
+              const topEdgeTestShape = createTestShape( 0, draggedLinesBounds.height / 2 );
+              testLayer.addChild( new Path( topEdgeTestShape, { fill: 'green' } ) );
+              const bottomEdgeTestShape = createTestShape( 0, -draggedLinesBounds.height / 2 );
+              testLayer.addChild( new Path( bottomEdgeTestShape, { fill: 'cyan' } ) );
 
               // Are the points in the right places and not in the wrong places?
               if ( CloudNode.boundsContainsPointFromList( centerBounds, this.dragPoints ) &&
-                   !CloudNode.boundsContainsPointFromList( leftEdgeTestArea, this.dragPoints ) &&
-                   !CloudNode.boundsContainsPointFromList( rightEdgeTestArea, this.dragPoints ) &&
-                   !CloudNode.boundsContainsPointFromList( topEdgeTestArea, this.dragPoints ) &&
-                   !CloudNode.boundsContainsPointFromList( bottomEdgeTestArea, this.dragPoints ) ) {
+                   !CloudNode.shapeContainsPointFromList( leftEdgeTestShape, this.dragPoints ) &&
+                   !CloudNode.shapeContainsPointFromList( rightEdgeTestShape, this.dragPoints ) &&
+                   !CloudNode.shapeContainsPointFromList( topEdgeTestShape, this.dragPoints ) &&
+                   !CloudNode.shapeContainsPointFromList( bottomEdgeTestShape, this.dragPoints ) ) {
 
                 // I want to believe.
                 this.cloudPath.setShape( CloudNode.createAlternativeShape(
@@ -327,6 +347,18 @@ class CloudNode extends Node {
   private static boundsContainsPointFromList( bounds: Bounds2, pointList: Vector2[] ): boolean {
     for ( const point of pointList ) {
       if ( bounds.containsPoint( point ) ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Test a set of points to see if at least one is contained within the provided Shape.
+   */
+  private static shapeContainsPointFromList( shape: Shape, pointList: Vector2[] ): boolean {
+    for ( const point of pointList ) {
+      if ( shape.containsPoint( point ) ) {
         return true;
       }
     }
