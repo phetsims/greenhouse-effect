@@ -163,7 +163,7 @@ class MoleculeSelectionPanel extends Panel {
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
-    const groupCoefficient = HighlightPath.getGroupDilationCoefficient( radioButtonGroup ) + HIGHLIGHT_DILATION;
+    const groupCoefficient = HighlightPath.getDefaultGroupDilationCoefficient() + HIGHLIGHT_DILATION;
     radioButtonGroup.groupFocusHighlight = new HighlightPath( Shape.bounds( radioButtonGroup.bounds.dilated( groupCoefficient ) ), {
       outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH,
