@@ -155,11 +155,7 @@ class MoleculeSelectionPanel extends Panel {
         },
         cornerRadius: 7
       },
-      tandem: tandem.createTandem( 'radioButtonGroup' ),
-
-      // pdom
-      a11yHighlightXDilation: HIGHLIGHT_DILATION,
-      a11yHighlightYDilation: HIGHLIGHT_DILATION
+      tandem: tandem.createTandem( 'radioButtonGroup' )
     } );
 
     // custom group focus highlight so there is enough spacing between button highlight and group highlight
