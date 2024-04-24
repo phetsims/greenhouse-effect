@@ -26,9 +26,9 @@ const simOptions: SimOptions = {
   credits: {
     leadDesign: 'Kathy Perkins, Amy Rouinfar',
     softwareDevelopment: 'John Blanco, Jesse Greenberg, Sam Reid',
-    team: 'Wendy Adams, Danielle Harlow, Kelly Lancaster, Trish Loeblein, Robert Parson, Carl Wieman',
+    team: 'Wendy Adams, Wanda D\u00edaz Merced, Anne U. Gold, Danielle Harlow, Kelly Lancaster, Trish Loeblein, <br>Matthew Moore, Ariel Paul, Robert Parson, Taliesin Smith, Carl Wieman',
     qualityAssurance: 'Jaron Droder, Clifford Hardin, Amanda McGarry, Emily Miller, Nancy Salpepi,<br>Marla Schulz, Kathryn Woessner',
-    graphicArts: '',
+    graphicArts: 'Mariah Hermsmeyer',
     soundDesign: 'Ashton Morris',
     thanks: 'Dedicated to the memory of Ron LeMaster.'
   },
