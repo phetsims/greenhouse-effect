@@ -47,8 +47,12 @@ class LayersModelTimeControlNode extends TimeControlNode {
     model.isPlayingProperty.lazyLink( isPlaying => {
       if ( !isPlaying ) {
 
-        // By design, the sim cannot be paused until the sunlight has been started.  Make sure that hasn't changed.
-        assert && assert( model.sunEnergySource.isShiningProperty.value, 'unexpected model state' );
+        if ( !model.sunEnergySource.isShiningProperty.value ) {
+
+          // The sim has been paused while the sun wasn't shining.  Through the UI this isn't possible, but it *can*
+          // happen via the phet-io API, so we have to handle it.  Force the sun to start shining in response.
+          model.sunEnergySource.isShiningProperty.value = true;
+        }
 
         // generic alert about the step button
         this.alertDescriptionUtterance(
