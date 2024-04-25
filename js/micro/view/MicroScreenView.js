@@ -219,11 +219,10 @@ class MicroScreenView extends ScreenView {
 
     // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
     // in time
-    const keyboardListener = new KeyboardListener( {
+    KeyboardListener.createGlobal( timeControlNode, {
       keys: [ 'alt+l' ],
-      global: true,
-      listenerFireTrigger: 'up',
-      callback: () => {
+      fireOnDown: false,
+      fire: () => {
         if ( !photonAbsorptionModel.runningProperty.get() ) {
 
           // The global hotkey step has a larger time step so that it is easier for the photon to reach the molecule
@@ -237,7 +236,6 @@ class MicroScreenView extends ScreenView {
         }
       }
     } );
-    timeControlNode.addInputListener( keyboardListener );
 
     // the light spectrum dialog and emission frequency control panel are removed in the
     // Open Sci Ed version
