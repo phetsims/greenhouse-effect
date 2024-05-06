@@ -155,7 +155,14 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
-    this.photonTargetProperty.link( photonTarget => this.updateActiveMolecule( photonTarget, tandem ) );
+    this.photonTargetProperty.link( photonTarget => {
+      if ( !isSettingPhetioStateProperty.value ) {
+        this.updateActiveMolecule( photonTarget, tandem );
+
+        // TODO: When instrumenting for phet-io state, please review this.updateActiveMolecule's implementation and see
+        // what other parts need to be supported, see https://github.com/phetsims/molecules-and-light/issues/203
+      }
+    } );
 
     // when the photon emitter is on, set to default "on" and "off" period
     this.photonEmitterOnProperty.link( emitterOn => {
