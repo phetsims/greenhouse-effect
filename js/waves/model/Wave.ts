@@ -367,6 +367,9 @@ class Wave extends PhetioObject {
 
         // Create a new intensity wave to depict the change in intensity traveling with the wave.
         this.intensityChanges.push( new WaveIntensityChange( this.intensityAtStart, INTENSITY_CHANGE_DISTANCE_BUMP ) );
+
+        // Make sure the intensity changes are in the correct order in the array.
+        this.sortIntensityChanges();
       }
 
       // Set the new intensity value at the start.
