@@ -77,7 +77,7 @@ class Wave extends PhetioObject {
   // usually either the top of the atmosphere or the ground.
   private readonly propagationLimit: number;
 
-  // the length of this wave from the start point to where it ends, in meters
+  // the length of this wave from the start point to where it ends
   public length: number;
 
   // Angle of phase offset, in radians.  This is here primarily in support of the view, but it has to be available in
@@ -90,7 +90,7 @@ class Wave extends PhetioObject {
 
   // Changes in this wave's intensity that can exist at various locations along its length.  This list must remain
   // sorted in order of increasing distance from the start of the wave that it can be correctly rendered by the view.
-  public intensityChanges: OrderedIntensityChanges;
+  public intensityChanges: WaveIntensityChange[];
 
   // indicates whether this wave is coming from a sourced point (e.g. the ground) or just propagating on its own
   public isSourced: boolean;
@@ -160,7 +160,7 @@ class Wave extends PhetioObject {
     this.isSourced = true;
     this.phaseOffsetAtOrigin = options.initialPhaseOffset;
     this.intensityAtStart = options.intensityAtStart;
-    this.intensityChanges = new OrderedIntensityChanges();
+    this.intensityChanges = [];
     this.modelObjectToAttenuatorMap = new Map<PhetioObject, WaveAttenuator>();
     this.renderingWavelength = WavesModel.REAL_TO_RENDERING_WAVELENGTH_MAP.get( wavelength )!;
   }
@@ -275,14 +275,12 @@ class Wave extends PhetioObject {
     } );
 
     // Remove any intensity changes that are now off of the wave.
-    const intensityChangesNowOffWave = this.intensityChanges.filter(
-      intensityChange => intensityChange.distanceFromStart > this.length
+    this.intensityChanges = this.intensityChanges.filter(
+      intensityChange => intensityChange.distanceFromStart < this.length
     );
-    intensityChangesNowOffWave.forEach( intensityChange => this.intensityChanges.remove( intensityChange ) );
 
-    // Sort the intensity changes.  This is necessary because some intensity changes can move past others as a wave
-    // propagates, and this must be in order by distance from start for correct rendering in the view.
-    this.intensityChanges.updateOrder();
+    // Sort the intensity changes.  This is necessary for correct rendering in the view.
+    this.sortIntensityChanges();
 
     // Update other aspects of the wave that evolve over time.
     this.phaseOffsetAtOrigin = this.phaseOffsetAtOrigin + PHASE_RATE * dt;
@@ -320,7 +318,8 @@ class Wave extends PhetioObject {
     // In other words, intensity changes only take effect AFTER their position, not exactly AT their position.  Also
     // note that this algorithm assumes the intensity changes are ordered by their distance from the waves starting
     // point.
-    for ( const intensityChange of this.intensityChanges ) {
+    for ( let i = 0; i < this.intensityChanges.length; i++ ) {
+      const intensityChange = this.intensityChanges[ i ];
       if ( intensityChange.distanceFromStart < distanceFromStart ) {
         intensity = intensityChange.postChangeIntensity;
       }
@@ -368,6 +367,9 @@ class Wave extends PhetioObject {
 
         // Create a new intensity wave to depict the change in intensity traveling with the wave.
         this.intensityChanges.push( new WaveIntensityChange( this.intensityAtStart, INTENSITY_CHANGE_DISTANCE_BUMP ) );
+
+        // Make sure the intensity changes are in the correct order in the array.
+        this.sortIntensityChanges();
       }
 
       // Set the new intensity value at the start.
@@ -417,6 +419,9 @@ class Wave extends PhetioObject {
       this.getIntensityAtDistance( distanceFromStart ),
       distanceFromStart + INTENSITY_CHANGE_DISTANCE_BUMP
     ) );
+
+    // Sort the intensity changes.  This is necessary for correct rendering in the view.
+    this.sortIntensityChanges();
   }
 
   /**
@@ -526,7 +531,7 @@ class Wave extends PhetioObject {
       }
 
       // Make sure the intensity changes are in the required order.
-      this.intensityChanges.updateOrder();
+      this.sortIntensityChanges();
     }
   }
 
@@ -543,6 +548,15 @@ class Wave extends PhetioObject {
    */
   public getPhaseAt( distanceFromOrigin: number ): number {
     return ( this.phaseOffsetAtOrigin + ( distanceFromOrigin / this.renderingWavelength ) * TWO_PI ) % TWO_PI;
+  }
+
+  /**
+   * Make sure the intensity changes are ordered from closest to furthest from the start point of the wave.
+   */
+  private sortIntensityChanges(): void {
+    if ( this.intensityChanges.length > 1 ) {
+      this.intensityChanges.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
+    }
   }
 
   /**
@@ -595,39 +609,6 @@ type WaveStateObject = {
   modelObjectToAttenuatorMap: MapStateObject<ReferenceIOState, WaveAttenuatorStateObject>;
   _renderingWavelength: number;
 };
-
-/**
- * OrderedIntensityChanges is an extension of Array that is specialized to hold intensity changes for Wave instances.
- * The main benefit of having this is that it sorts the array after a push, which helps to make sure that the intensity
- * changes are always in the correct order, which is vital for correct rendering.
- */
-class OrderedIntensityChanges extends Array<WaveIntensityChange> {
-
-  public override push( intensityChange: WaveIntensityChange ): number {
-    const newLength = super.push( intensityChange );
-    this.updateOrder();
-    return newLength;
-  }
-
-  /**
-   * Sort this array so that the items within are ordered by their distance from the start of the wave.
-   */
-  public updateOrder(): void {
-    if ( this.length > 1 ) {
-      this.sort( ( a, b ) => a.distanceFromStart - b.distanceFromStart );
-    }
-  }
-
-  /**
-   * Remove an intensity change from the array.
-   */
-  public remove( intensityChange: WaveIntensityChange ): number {
-    const index = this.indexOf( intensityChange );
-    assert && assert( index !== -1, 'provided intensity change not in array' );
-    this.splice( index, 1 );
-    return this.length;
-  }
-}
 
 greenhouseEffect.register( 'Wave', Wave );
 export default Wave;

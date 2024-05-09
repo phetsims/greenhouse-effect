@@ -164,8 +164,8 @@ class WavesCanvasNode extends CanvasNode {
 
       if ( x >= nextIntensityChangePosition ) {
 
-        // The rendering has reached the point of the next intensity change.  Finish drawing what we've got so far, then
-        // adjust the line width to represent the new intensity.
+        // The rendering has reached the point of the next intensity change.  Draw what we've got so far, and then
+        // adjust the line width to represent this change.
         context.stroke();
         context.beginPath();
         context.moveTo( ptX, ptY );
