@@ -1,16 +1,15 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
 /**
- * ThermometerAndReadout is a Scenery Node that depicts a thermometer and a numerical readout that indicates the
+ * ThermometerAndReadout is a Scenery Node that depicts a thermometer and a numerical readout indicating the
  * temperature.  Based on configuration options, the readout can either be a combo box from which the user can select
- * different units (e.g. Fahrenheit or Celsius), or a simple readout that just shows the temperature.  Options can be
- * used to adjust the size and appearance.
+ * different units (e.g. Fahrenheit or Celsius), or a simple readout that simply displays the temperature.  Options can
+ * be used to adjust the size and appearance.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -19,7 +18,7 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Color, Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -30,10 +29,10 @@ import GroundLayer from '../model/GroundLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import TemperatureReadout from './TemperatureReadout.js';
 
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
@@ -173,46 +172,9 @@ class ThermometerAndReadout extends Node {
     }
     else {
 
-      // Create a derived property for the value that will be displayed as the temperature.
-      const temperatureValueProperty = new DerivedProperty(
-        [ temperatureInKelvinProperty, unitsProperty ],
-        ( temperature, temperatureUnits ) =>
-          temperatureUnits === TemperatureUnits.KELVIN ? temperature :
-          temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperature ) :
-          GreenhouseEffectUtils.kelvinToFahrenheit( temperature )
-      );
-
-      const unitsStringProperty = new DerivedStringProperty(
-        [
-          unitsProperty,
-          GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
-          GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
-          GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
-        ],
-        ( units, kelvinUnitsString, celsiusUnitsString, fahrenheitUnitsString ) => {
-          return units === TemperatureUnits.KELVIN ? kelvinUnitsString :
-                 units === TemperatureUnits.CELSIUS ? celsiusUnitsString :
-                 fahrenheitUnitsString;
-        }
-      );
-
-      // Create the temperature readout.
-      const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
-        centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
-        backgroundStroke: Color.BLACK,
-        decimalPlaces: DECIMAL_PLACES_IN_READOUT,
-        minBackgroundWidth: 70, // empirically determined to fit largest number
-        noValueAlign: 'center',
-        cornerRadius: 3,
-        textOptions: {
-          font: GreenhouseEffectConstants.CONTENT_FONT,
-          maxWidth: 100
-        },
-        valuePattern: new PatternStringProperty(
-          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
-          { units: unitsStringProperty }
-        ),
-        phetioVisiblePropertyInstrumented: false
+      // Create a non-interactive temperature readout.
+      const temperatureReadout = new TemperatureReadout( temperatureInKelvinProperty, unitsProperty, {
+        centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE )
       } );
       this.addChild( temperatureReadout );
     }

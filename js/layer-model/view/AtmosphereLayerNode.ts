@@ -7,26 +7,20 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
-import GreenhouseEffectUtils from '../../common/GreenhouseEffectUtils.js';
 import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import TemperatureReadout from '../../common/view/TemperatureReadout.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -54,7 +48,7 @@ class AtmosphereLayerNode extends Node {
   private readonly temperatureReadout: NumberDisplay;
 
   public constructor( atmosphereLayer: AtmosphereLayer,
-                      temperatureUnitsProperty: TReadOnlyProperty<TemperatureUnits>,
+                      temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>,
                       modelViewTransform: ModelViewTransform2,
                       providedOptions: AtmosphereLayerNodeOptions ) {
 
@@ -64,9 +58,6 @@ class AtmosphereLayerNode extends Node {
       isDisposable: false,
       showTemperatureCheckboxOptions: {}
     }, providedOptions );
-
-    // If there is an option provided to enable the display, use it, otherwise create an always-true Property.
-    const numberDisplayEnabledProperty = options.numberDisplayEnabledProperty || new BooleanProperty( true );
 
     // If a thickness value is provided, use the model-view transform to convert it to view coordinates, otherwise use
     // the default.
@@ -104,52 +95,10 @@ class AtmosphereLayerNode extends Node {
       }, options.showTemperatureCheckboxOptions )
     );
 
-    // Create a derived property for the value that will be displayed as the temperature.
-    const temperatureValueProperty = new DerivedProperty(
-      [ atmosphereLayer.temperatureProperty, temperatureUnitsProperty, numberDisplayEnabledProperty ],
-      ( temperature, temperatureUnits, numberDisplayEnabled ) => {
-        let temperatureValue = null;
-        if ( numberDisplayEnabled ) {
-          temperatureValue = temperatureUnits === TemperatureUnits.KELVIN ? temperature :
-                             temperatureUnits === TemperatureUnits.CELSIUS ? GreenhouseEffectUtils.kelvinToCelsius( temperature ) :
-                             GreenhouseEffectUtils.kelvinToFahrenheit( temperature );
-        }
-        return temperatureValue;
-      }
-    );
-
     // Create the temperature readout.
-    const temperatureReadout = new NumberDisplay( temperatureValueProperty, new Range( 0, 999 ), {
+    const temperatureReadout = new TemperatureReadout( atmosphereLayer.temperatureProperty, temperatureUnitsProperty, {
       visibleProperty: atmosphereLayer.showTemperatureProperty,
-      backgroundStroke: Color.BLACK,
-      minBackgroundWidth: 70, // empirically determined to fit largest number
-      valuePattern: new PatternStringProperty(
-        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
-        {
-          units: new DerivedStringProperty(
-            [
-              temperatureUnitsProperty,
-              numberDisplayEnabledProperty,
-              GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
-              GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
-              GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
-            ],
-            ( temperatureUnits, numberDisplayEnabled, kelvinString, celsiusString, fahrenheitString ) => {
-              return !numberDisplayEnabled ? '' :
-                     temperatureUnits === TemperatureUnits.KELVIN ? kelvinString :
-                     temperatureUnits === TemperatureUnits.CELSIUS ? celsiusString :
-                     fahrenheitString;
-            }
-          )
-        }
-      ),
-      decimalPlaces: 1,
-      cornerRadius: 3,
-      noValueAlign: 'center',
-      textOptions: {
-        font: GreenhouseEffectConstants.CONTENT_FONT,
-        maxWidth: 100
-      }
+      numberDisplayEnabledProperty: options.numberDisplayEnabledProperty || new BooleanProperty( true )
     } );
 
     const temperatureDisplay = new HBox( {
