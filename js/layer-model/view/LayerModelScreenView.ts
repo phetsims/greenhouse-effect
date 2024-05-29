@@ -103,8 +103,8 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     this.pdomControlAreaNode.pdomOrder = [
 
       // Put the flux meter zoom buttons here because they are very secondary, so don't need to be with flux meter.
-      this.observationWindow.fluxMeterNode!.zoomButtonGroup!.zoomInButton,
       this.observationWindow.fluxMeterNode!.zoomButtonGroup!.zoomOutButton,
+      this.observationWindow.fluxMeterNode!.zoomButtonGroup!.zoomInButton,
 
       temperatureUnitsControl,
       morePhotonsCheckbox,
