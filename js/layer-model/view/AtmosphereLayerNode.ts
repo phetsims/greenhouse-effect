@@ -15,7 +15,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -27,6 +26,7 @@ import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec
@@ -147,8 +147,8 @@ class AtmosphereLayerNode extends Node {
       cornerRadius: 3,
       noValueAlign: 'center',
       textOptions: {
-        font: new PhetFont( 14 ),
-        maxWidth: 120
+        font: GreenhouseEffectConstants.CONTENT_FONT,
+        maxWidth: 100
       }
     } );
 
