@@ -201,10 +201,9 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
         backgroundStroke: Color.BLACK,
         decimalPlaces: DECIMAL_PLACES_IN_READOUT,
+        minBackgroundWidth: 70, // empirically determined to fit largest number
         noValueAlign: 'center',
         cornerRadius: 3,
-        xMargin: 12,
-        yMargin: 3,
         textOptions: {
           font: GreenhouseEffectConstants.CONTENT_FONT,
           maxWidth: 100
