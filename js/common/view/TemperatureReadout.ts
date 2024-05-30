@@ -87,7 +87,7 @@ class TemperatureReadout extends NumberDisplay {
         GreenhouseEffectUtils.kelvinToFahrenheit( temperature )
     );
 
-    super( temperatureValueProperty, new Range( 0, 999 ), options );
+    super( temperatureValueProperty, new Range( -999, 999 ), options );
   }
 
 }

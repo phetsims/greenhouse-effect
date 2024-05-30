@@ -10,7 +10,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
@@ -45,7 +44,7 @@ class AtmosphereLayerNode extends Node {
   public readonly temperatureDisplay: Node;
 
   // the readout portion of the temperature display
-  private readonly temperatureReadout: NumberDisplay;
+  private readonly temperatureReadout: TemperatureReadout;
 
   public constructor( atmosphereLayer: AtmosphereLayer,
                       temperatureUnitsProperty: EnumerationProperty<TemperatureUnits>,
