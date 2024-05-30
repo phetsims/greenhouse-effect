@@ -1,8 +1,8 @@
 // Copyright 2022-2023, University of Colorado Boulder
 
 /**
- * IrAbsorbanceSoundPlayer is used to produce sounds for the slider that controls the infrared (IR) absorbance of a set
- * of IR-absorbing layers in an atmosphere.  It does this by cross-fading between two sound clips.
+ * IrAbsorbanceSoundPlayer is used to produce sounds for the slider that controls the absorbance of a set of IR
+ * (infrared) absorbing layers in an atmosphere.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
@@ -18,8 +18,7 @@ import Disposable from '../../../../axon/js/Disposable.js';
 
 class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
-  // sound clip played for sounds in the middle, i.e. not at either the min or max
-  // private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3 );
+  // sound clip played for sounds in the middle range, i.e. not at either the min or max
   private readonly middleSoundClip: SoundClip = new SoundClip( layerModelBaseSliderSound_mp3, {
     initialPlaybackRate: 1 / Math.pow( 2, 1 / 6 ) // one musical step below the natural playback rate
   } );
@@ -40,21 +39,26 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
     // Make the parameters available to the methods.
     this.irAbsorbanceProperty = irAbsorbanceProperty;
 
-    // Create a low-pass filter that will change as the solar intensity changes.
+    // Create a low-pass filter that will change as the IR absorbance changes.
     const lowPassFilter = new BiquadFilterNode( phetAudioContext );
     lowPassFilter.type = 'lowpass';
 
     // Connect the filter to the audio output path.
     lowPassFilter.connect( this.mainGainNode );
 
-    // Adjust the cutoff frequency of the filter as the solar intensity changes.
-    irAbsorbanceProperty.link( solarIntensity => {
-      const normalizedIrAbsorbance = ( solarIntensity - irAbsorbanceProperty.range.min ) /
+    // Adjust the cutoff frequency of the filter as the absorbance changes.
+    irAbsorbanceProperty.link( irAbsorbance => {
+
+      // Calculate a normalized value for this setting.
+      const normalizedIrAbsorbance = ( irAbsorbance - irAbsorbanceProperty.range.min ) /
                                      irAbsorbanceProperty.range.getLength();
 
-      // Map the IR absorbance into a cutoff frequency.  This is a very empirical mapping, and is quite dependent on
-      // the frequency content of the underlying sound, so feel free to adjust as needed.
-      const cutoffFrequency = Math.pow( 1 - 0.75 * normalizedIrAbsorbance, 3 ) * 8000;
+      // Adjust the normalized value so that it doesn't go all the way to zero, which would entirely must the sound.
+      const minProportion = 0.2;
+      const adjustedNormalizedIrAbsorbance = minProportion + ( normalizedIrAbsorbance * ( 1 - minProportion ) );
+
+      // Map the IR absorbance into a cutoff frequency.
+      const cutoffFrequency = Math.pow( adjustedNormalizedIrAbsorbance, 2 ) * 5000;
 
       // Set the cutoff frequency.
       lowPassFilter.frequency.setTargetAtTime( cutoffFrequency, phetAudioContext.currentTime, 0.015 );
