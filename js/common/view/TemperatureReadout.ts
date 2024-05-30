@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2024, University of Colorado Boulder
 
 /**
  * TemperatureReadout is a node for displaying temperature values with units in a consistent way.
