@@ -173,6 +173,7 @@ class GreenhouseGasConcentrationPanel extends Panel {
     // Only one form of controls is visible at a time.
     concentrationModel.concentrationControlModeProperty.link( concentrationControlMode => {
       concentrationControl.visible = ConcentrationControlMode.BY_VALUE === concentrationControlMode;
+      concentrationControl.interruptSubtreeInput(); // Make sure nothing is dragging the slider after mode change.
       dateControl.visible = ConcentrationControlMode.BY_DATE === concentrationControlMode;
 
       if ( compositionDataNode ) {
