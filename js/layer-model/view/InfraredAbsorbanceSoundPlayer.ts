@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * IrAbsorbanceSoundPlayer is used to produce sounds for the slider that controls the absorbance of a set of IR
