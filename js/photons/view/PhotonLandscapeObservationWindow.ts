@@ -65,8 +65,8 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
       energyRepresentation: EnergyRepresentation.PHOTON,
       fluxMeterNodeOptions: {
         fluxSensorNodeOptions: {
-          a11yCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
-          a11yDependencies: [ fluxSensorAndCloudDescriptionProperty ]
+          pdomCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorAndCloudDescriptionProperty.value}`,
+          pdomDependencies: [ fluxSensorAndCloudDescriptionProperty ]
         }
       }
     }, providedOptions );
