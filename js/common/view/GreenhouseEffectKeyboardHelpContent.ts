@@ -11,7 +11,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import BasicActionsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/BasicActionsKeyboardHelpSection.js';
 import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
-import TimeControlKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlKeyboardHelpSection.js';
+import TimingControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimingControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -46,7 +46,7 @@ class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     const basicActionsHelpSection = new BasicActionsKeyboardHelpSection( {
       withCheckboxContent: true
     } );
-    const timingControlsHelpSection = new TimeControlKeyboardHelpSection();
+    const timingControlsHelpSection = new TimingControlsKeyboardHelpSection();
 
     // Vertically align the left sections.
     KeyboardHelpSection.alignHelpSectionIcons( [ sliderHelpSection, timingControlsHelpSection ] );
