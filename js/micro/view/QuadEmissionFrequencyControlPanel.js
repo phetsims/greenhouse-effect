@@ -45,7 +45,7 @@ const ARROW_COLOR = 'black';
 // Create a layout box which holds a single panel of this control panel.
 const createRadioButtonContent = ( emitterImage, photonNode ) => {
   emitterImage.scale( 0.27 ); // Scale emitter image to fit in the panel, scale factor determined empirically.
-  return new HBox( { spacing: 10, children: [ emitterImage, photonNode ] } );
+  return new HBox( { spacing: 10, sizable: false, children: [ emitterImage, photonNode ] } );
 };
 
 class QuadEmissionFrequencyControlPanel extends Node {
