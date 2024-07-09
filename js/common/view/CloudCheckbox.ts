@@ -12,7 +12,7 @@ import Property from '../../../../axon/js/Property.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { Color, Path } from '../../../../scenery/js/imports.js';
+import { Color, GatedVisibleProperty, Path } from '../../../../scenery/js/imports.js';
 import CloudNode from './CloudNode.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -21,8 +21,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
@@ -44,14 +42,6 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
-    // This is a PhET-iO only Property, provided so that the instructional designer can totally hide the 'Cloud'
-    // checkbox, regardless of ConcentrationControlMode. See https://github.com/phetsims/greenhouse-effect/issues/297
-    const showCloudCheckboxProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'showCloudCheckboxProperty' ),
-      phetioFeatured: true,
-      phetioDocumentation: 'The sim controls cloudCheckbox.visibleProperty. Set this to false to permanently hide the Cloud checkbox.'
-    } );
-
     super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectStrings.cloudStringProperty, {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
@@ -60,13 +50,13 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       touchAreaYDilation: 5,
 
       // This checkbox is only shown in 'by value' mode, where the concentration is controlled manually.
-      // Clouds are always enabled in 'by date' mode. showCloudCheckboxProperty can be used to permanently
+      // Clouds are always enabled in 'by date' mode. The internal selfVisibleProperty can be used to permanently
       // hide the checkbox, regardless of mode.
-      visibleProperty: new DerivedProperty( [ concentrationControlModeProperty, showCloudCheckboxProperty ],
-        ( mode, showCloudCheckbox ) => ( mode === ConcentrationControlMode.BY_VALUE ) && showCloudCheckbox, {
-          tandem: tandem.createTandem( 'visibleProperty' ),
-          phetioValueType: BooleanIO
-        } ),
+      visibleProperty: new GatedVisibleProperty(
+        new DerivedProperty( [ concentrationControlModeProperty ],
+          mode => mode === ConcentrationControlMode.BY_VALUE ),
+        tandem ),
+
       tandem: tandem
     } );
   }
