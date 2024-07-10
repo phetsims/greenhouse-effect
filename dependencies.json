@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "3866b5e35f4a832cc778b13dad1037f720c7b5ca",
+    "sha": "6630763830d098acace627170aa1d90af8d4f2b7",
     "branch": "1.0"
   },
   "joist": {
@@ -73,7 +73,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "3726b60af4ea0ebb74b3efbf994b0e50e1640b13",
+    "sha": "193fdc6092b38950471703017e10912f51b453ba",
     "branch": "HEAD"
   },
   "scenery-phet": {
