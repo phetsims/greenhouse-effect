@@ -56,7 +56,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     const moleculeEnergizedLoop = new SoundClip( energized_mp3, {
       loop: true,
       initialOutputLevel: 0.3,
-      enableControlProperties: [ simIsRunningProperty ]
+      enabledProperty: simIsRunningProperty
     } );
     moleculeEnergizedLoop.connect( this.soundSourceDestination );
     const updateMoleculeEnergizedSound = moleculeEnergized => {
@@ -72,7 +72,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     const rotationLoopOptions = {
       initialOutputLevel: 0.3,
       loop: true,
-      enableControlProperties: [ simIsRunningProperty ]
+      enabledProperty: simIsRunningProperty
     };
 
     // clockwise normal speed
@@ -141,7 +141,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     const vibrationLoopOptions = {
       initialOutputLevel: 0.4,
       loop: true,
-      enableControlProperties: [ simIsRunningProperty ]
+      enabledProperty: simIsRunningProperty
     };
 
     // vibration normal speed
@@ -152,7 +152,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     const moleculeVibrationSlowMotionLoop = new SoundClip( vibrationSlowMotion_mp3, {
       initialOutputLevel: 0.4,
       loop: true,
-      enableControlProperties: [ simIsRunningProperty ]
+      enabledProperty: simIsRunningProperty
     } );
     moleculeVibrationSlowMotionLoop.connect( this.soundSourceDestination );
 

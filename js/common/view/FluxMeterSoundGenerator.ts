@@ -15,6 +15,9 @@ import irFluxDownA_mp3 from '../../../sounds/irFluxDownA_mp3.js';
 import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // amount of time before starting to fade where flux change is below the threshold, in seconds
 const PRE_FADE_TIME = 0.25;
@@ -56,16 +59,20 @@ class FluxMeterSoundGenerator extends SoundGenerator {
   private readonly irFluxUpRateChangeSamples: number[] = [];
   private readonly irFluxDownRateChangeSamples: number[] = [];
 
-  public constructor( visibleFluxUpProperty: TReadOnlyProperty<number>,
-                      visibleFluxDownProperty: TReadOnlyProperty<number>,
-                      irFluxUpProperty: TReadOnlyProperty<number>,
+  public constructor( irFluxUpProperty: TReadOnlyProperty<number>,
                       irFluxDownProperty: TReadOnlyProperty<number>,
+                      associatedViewNode: Node,
                       isPlayingProperty: TReadOnlyProperty<boolean>,
-                      visibleProperty: TReadOnlyProperty<boolean> ) {
+                      fluxMeterVisibleProperty: TReadOnlyProperty<boolean> ) {
 
     super( {
       initialOutputLevel: 0.15,
-      enableControlProperties: [ isPlayingProperty, visibleProperty ]
+      associatedViewNode: associatedViewNode,
+      sonificationLevel: SoundLevelEnum.EXTRA,
+      enabledProperty: new DerivedProperty(
+        [ isPlayingProperty, fluxMeterVisibleProperty ],
+        ( isPlaying, fluxMeterVisible ) => isPlaying && fluxMeterVisible
+      )
     } );
 
     // Make the properties that track the flux rates available to the methods.

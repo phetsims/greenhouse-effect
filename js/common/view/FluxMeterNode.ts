@@ -27,7 +27,6 @@ import WireNode from '../../../../scenery-phet/js/WireNode.js';
 import { Color, ColorProperty, DragListener, HBox, Line, Node, NodeOptions, Path, Rectangle, SceneryEvent, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
-import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -319,17 +318,13 @@ class FluxMeterNode extends Node {
 
     // Add sound generation.
     this.soundGenerator = new FluxMeterSoundGenerator(
-      model.fluxSensor.visibleLightUpEnergyRateTracker.energyRateProperty,
-      model.fluxSensor.visibleLightDownEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty,
       model.fluxSensor.infraredLightDownEnergyRateTracker.energyRateProperty,
+      this,
       isPlayingProperty,
       visibleProperty
     );
-    soundManager.addSoundGenerator( this.soundGenerator, {
-      sonificationLevel: SoundLevelEnum.EXTRA,
-      associatedViewNode: this
-    } );
+    soundManager.addSoundGenerator( this.soundGenerator );
 
     // Hook up the state describer.
     const fluxMeterDescriptionProperty = new FluxMeterDescriptionProperty( model );

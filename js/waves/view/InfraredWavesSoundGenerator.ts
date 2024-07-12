@@ -35,7 +35,9 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
                       wavesView: WavesScreenView,
                       providedOptions?: IrWavesSoundGeneratorOptions ) {
 
-    const options = optionize<IrWavesSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {}, providedOptions );
+    const options = optionize<IrWavesSoundGeneratorOptions, SelfOptions, SoundClipOptions>()( {
+      associatedViewNode: wavesView
+    }, providedOptions );
 
     super( options );
 
@@ -45,9 +47,7 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
       const soundGenerator = new SoundClip( wavesIrReemissionLoop_mp3, {
         initialOutputLevel: WAVE_LOOP_MAX_OUTPUT_LEVEL,
         loop: true,
-        enableControlProperties: [
-          wavesModel.isPlayingProperty
-        ]
+        enabledProperty: wavesModel.isPlayingProperty
       } );
       soundGenerator.connect( this.mainGainNode );
       irWaveRadiatingFromAtmosphereSoundGenerators.push( soundGenerator );

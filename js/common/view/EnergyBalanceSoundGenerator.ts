@@ -10,12 +10,13 @@
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import SunEnergySource from '../model/SunEnergySource.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 
 // constants
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
@@ -44,9 +45,10 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
                       inRadiativeBalanceProperty: TReadOnlyProperty<boolean>,
                       energyBalanceVisibleProperty: TReadOnlyProperty<boolean> ) {
 
-    const options = {
+    const options: SoundGeneratorOptions = {
       initialOutputLevel: 0.3,
-      enableControlProperties: [ energyBalanceVisibleProperty ]
+      enabledProperty: energyBalanceVisibleProperty,
+      sonificationLevel: SoundLevelEnum.EXTRA
     };
 
     super( options );
@@ -68,7 +70,7 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     reverbGainNode.connect( this.mainGainNode );
 
     this.netEnergyBalanceProperty = netEnergyBalanceProperty;
-    this.fullVolumeLevel = options.initialOutputLevel;
+    this.fullVolumeLevel = options.initialOutputLevel || 0.5;
     this.previousEnergyRate = netEnergyBalanceProperty.value;
 
     // Define the listener that will update the state of sound generation based on the model state.

@@ -15,6 +15,8 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import temperatureBaseAmbience4Octaves_mp3 from '../../../sounds/temperatureBaseAmbience4Octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const FILTER_FREQUENCY_RANGE = new Range( 120, 2500 );
@@ -29,11 +31,16 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
                       isSunShiningProperty: Property<boolean>,
                       expectedTemperatureRange: Range,
                       surfaceTemperatureIndicatorEnabledProperty: TReadOnlyProperty<boolean>,
-                      isPlayingProperty: TReadOnlyProperty<boolean> ) {
+                      isPlayingProperty: TReadOnlyProperty<boolean>,
+                      associatedViewNode: Node ) {
 
     super( {
       initialOutputLevel: 0.045,
-      enableControlProperties: [ surfaceTemperatureIndicatorEnabledProperty, isPlayingProperty ]
+      associatedViewNode: associatedViewNode,
+      enabledProperty: new DerivedProperty(
+        [ surfaceTemperatureIndicatorEnabledProperty, isPlayingProperty ],
+        ( surfaceTemperatureIndicatorEnabled, isPlaying ) => surfaceTemperatureIndicatorEnabled && isPlaying
+      )
     } );
 
     // loop which will be filtered to produce the sounds

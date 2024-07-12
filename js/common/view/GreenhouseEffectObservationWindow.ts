@@ -186,9 +186,10 @@ class GreenhouseEffectObservationWindow extends Node {
 
     // sound generation for sunlight starting
     const sunlightStartingSoundClip = new SoundClip( startSunlightChord_mp3, {
-      initialOutputLevel: 0.4
+      initialOutputLevel: 0.4,
+      associatedViewNode: this
     } );
-    soundManager.addSoundGenerator( sunlightStartingSoundClip, { associatedViewNode: this } );
+    soundManager.addSoundGenerator( sunlightStartingSoundClip );
 
     const startSunlightButtonTandem = options.tandem.createTandem( 'startSunlightButton' );
 
@@ -333,8 +334,9 @@ class GreenhouseEffectObservationWindow extends Node {
         model.sunEnergySource.isShiningProperty,
         new Range( model.groundLayer.minimumTemperature, EXPECTED_MAX_TEMPERATURE ),
         surfaceTemperatureIndicatorEnabledProperty,
-        model.isPlayingProperty ),
-      { associatedViewNode: this }
+        model.isPlayingProperty,
+        this
+      )
     );
   }
 

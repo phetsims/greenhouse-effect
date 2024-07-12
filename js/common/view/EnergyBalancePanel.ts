@@ -23,7 +23,6 @@ import { Shape } from '../../../../kite/js/imports.js';
 import Orientation from '../../../../phet-core/js/Orientation.js';
 import { Node, scenery, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
-import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -112,7 +111,7 @@ class EnergyBalancePanel extends Panel {
       model.inRadiativeBalanceProperty,
       model.energyBalanceVisibleProperty
     );
-    soundManager.addSoundGenerator( this.energyBalanceSoundGenerator, { sonificationLevel: SoundLevelEnum.EXTRA } );
+    soundManager.addSoundGenerator( this.energyBalanceSoundGenerator );
 
     // pdom
     Multilink.multilink(
