@@ -20,8 +20,8 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import { AriaHasPopUpMutator, KeyboardListener, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import nullSoundPlayer from '../../../../tambo/js/shared-sound-players/nullSoundPlayer.js';
-import stepForwardSoundPlayer from '../../../../tambo/js/shared-sound-players/stepForwardSoundPlayer.js';
+import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
+import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -216,6 +216,9 @@ class MicroScreenView extends ScreenView {
     // pdom - the accessible order for contents in each PDOM section
     this.pdomPlayAreaNode.pdomOrder = [ this.observationWindow, photonEmissionControlPanel, moleculeControlPanel ];
     this.pdomControlAreaNode.pdomOrder = [ timeControlNode, showLightSpectrumButton, resetAllButton ];
+
+    // sound generation
+    const stepForwardSoundPlayer = sharedSoundPlayers.get( 'stepForward' );
 
     // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
     // in time
