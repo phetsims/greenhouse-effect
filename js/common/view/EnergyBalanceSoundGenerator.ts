@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * EnergyBalanceSoundGenerator is used to produce sounds that represent the balance of energy at the top of the
