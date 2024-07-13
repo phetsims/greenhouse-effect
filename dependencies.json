@@ -1,5 +1,5 @@
 {
-  "comment": "# greenhouse-effect 1.2.10-rc.2 Wed Jul 10 2024 14:41:35 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# greenhouse-effect 1.2.10 Fri Jul 12 2024 18:13:14 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "341a1ea19c78e594bf5e6498ab8be75450da85c2",
     "branch": "HEAD"
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "a9383fac2cf6a302ae31b5de275c332ca4dcb53e",
+    "sha": "202f62f6ce9b2363fbe11efc2c252dc171cd94d6",
     "branch": "1.2"
   },
   "joist": {
