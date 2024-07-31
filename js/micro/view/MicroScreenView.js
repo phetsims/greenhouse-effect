@@ -9,6 +9,7 @@
  *
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -18,7 +19,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, KeyboardListener, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, HotkeyData, KeyboardListener, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
@@ -220,10 +221,9 @@ class MicroScreenView extends ScreenView {
     // sound generation
     const stepForwardSoundPlayer = sharedSoundPlayers.get( 'stepForward' );
 
-    // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
-    // in time
+
     KeyboardListener.createGlobal( timeControlNode, {
-      keys: [ 'alt+l' ],
+      keyStringProperties: MicroScreenView.STEP_FORWARD_HOTKEY_DATA.keyStringProperties,
       fireOnDown: false,
       fire: () => {
         if ( !photonAbsorptionModel.runningProperty.get() ) {
@@ -270,6 +270,18 @@ class MicroScreenView extends ScreenView {
   step( dt ) {
     this.observationWindow.step( dt );
   }
+
+  // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
+  // in time
+  static STEP_FORWARD_HOTKEY_DATA = new HotkeyData( {
+    keyStringProperties: [ new Property( 'alt+l' ) ],
+
+    // TODO: This string lives in molecules-and-light, determine the best way to move it to greenhouse-effect,
+    //   See https://github.com/phetsims/greenhouse-effect/issues/271
+    binderName: 'When action is paused step forward in bigger steps',
+    repoName: greenhouseEffect.name,
+    global: true
+  } );
 }
 
 greenhouseEffect.register( 'MicroScreenView', MicroScreenView );
