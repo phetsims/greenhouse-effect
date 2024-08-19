@@ -481,13 +481,15 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
   const width = rightBoundaryX - leftBoundaryX;
   const centerX = leftBoundaryX + width / 2;
 
+  const contentNode = new Node();
+
   // Create and add the label.
   const labelText = new RichText( labelString, {
     replaceNewlines: true,
     align: 'center',
     font: LABEL_FONT
   } );
-  thisNode.addChild( labelText );
+  contentNode.addChild( labelText );
 
   if ( ( labelText.width + 10 ) > width ) {
     // Scale the label to fit with a little bit of padding on each side.
@@ -496,7 +498,9 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
   labelText.setCenter( new Vector2( centerX, STRIP_HEIGHT / 2 ) );
 
   // pdom
-  addFrequencyAndLabelDescriptions( labelText, pdomLabel, frequencyDescription, wavelengthDescription );
+  addFrequencyAndLabelDescriptions( contentNode, pdomLabel, frequencyDescription, wavelengthDescription );
+
+  thisNode.addChild( contentNode );
 };
 
 /**
