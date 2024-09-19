@@ -642,7 +642,7 @@ Molecule.PHOTON_ABSORPTION_DISTANCE = PHOTON_ABSORPTION_DISTANCE;
 Molecule.MoleculeIO = new IOType( 'MoleculeIO', {
   valueType: Molecule,
   toStateObject: molecule => molecule.toStateObject(),
-  fromStateObject: Molecule.fromStateObject,
+  fromStateObject: x => Molecule.fromStateObject( x ),
   stateSchema: {
     highElectronicEnergyState: BooleanIO,
     centerOfGravity: Vector2.Vector2IO,
