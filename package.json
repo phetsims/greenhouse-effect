@@ -48,7 +48,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../greenhouse-effect/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
