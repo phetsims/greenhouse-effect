@@ -28,7 +28,7 @@ class MovingSampleWindow {
    */
   public addSample( sampleValue: number, dt: number ): void {
 
-    // Put the new energy information into the queue.
+    // Put the new information into the queue.
     this.sampleQueue.push( new Sample( sampleValue, dt ) );
 
     // Variables for the accumulator calculation.
