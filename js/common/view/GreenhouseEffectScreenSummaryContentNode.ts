@@ -12,8 +12,9 @@ import { Node } from '../../../../scenery/js/imports.js';
 import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 
-export default class GreenhouseEffectScreenSummaryContentNode extends Node {
+export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSummaryContent {
 
   // The main description for the screen which updates with the model.
   protected readonly simStateDescriptionNode: Node;
@@ -24,7 +25,7 @@ export default class GreenhouseEffectScreenSummaryContentNode extends Node {
    * @param controlAreaDescription - a description string for the control area
    */
   public constructor( model: GreenhouseEffectModel, playAreaDescription: LocalizedStringProperty, controlAreaDescription: LocalizedStringProperty ) {
-    super( { isDisposable: false } );
+    super( null, { isDisposable: false } );
 
     const playAreaDescriptionNode = new Node( {
       tagName: 'p',

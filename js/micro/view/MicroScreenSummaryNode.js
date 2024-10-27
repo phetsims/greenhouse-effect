@@ -7,6 +7,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -28,32 +29,23 @@ const emitsPhotonsOnSlowSpeedStringProperty = GreenhouseEffectStrings.a11y.emits
 const isOffAndPointsStringProperty = GreenhouseEffectStrings.a11y.isOffAndPointsStringProperty;
 const emptySpaceStringProperty = GreenhouseEffectStrings.a11y.emptySpaceStringProperty;
 
-class MicroScreenSummaryNode extends Node {
+class MicroScreenSummaryNode extends ScreenSummaryContent {
 
   /**
    * @param {PhotonAbsorptionModel} model
    * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
   constructor( model, returnMoleculeButtonVisibleProperty ) {
-    super();
+    super( [
+      playAreaSummaryStringProperty,
+      controlAreaSummaryStringProperty
+    ] );
 
     // @private {PhotonAbsorptionModel}
     this.model = model;
 
     // @private {BooleanProperty}
     this.returnMoleculeButtonVisibleProperty = returnMoleculeButtonVisibleProperty;
-
-    // static summary of the play area
-    this.addChild( new Node( {
-      tagName: 'p',
-      accessibleName: playAreaSummaryStringProperty.value
-    } ) );
-
-    // static summary of the control area
-    this.addChild( new Node( {
-      tagName: 'p',
-      accessibleName: controlAreaSummaryStringProperty.value
-    } ) );
 
     // dynamic overview that stays up to date with sim
     const dynamicDescription = new Node( { tagName: 'p' } );
