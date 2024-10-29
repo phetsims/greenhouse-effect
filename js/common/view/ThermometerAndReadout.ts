@@ -208,7 +208,7 @@ class ThermometerAndReadout extends Node {
         phetioVisiblePropertyInstrumented: false
       } ),
       tandemName: tandemName,
-      a11yName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
+      accessibleName: TemperatureDescriber.getTemperatureUnitsString( propertyValue )
     };
   }
 
