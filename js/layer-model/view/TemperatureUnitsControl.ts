@@ -12,10 +12,10 @@ import Property from '../../../../axon/js/Property.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
 import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 
 const UNITS_LABEL_MAX_WIDTH = 50;
 
@@ -40,19 +40,25 @@ class TemperatureUnitsControl extends VBox {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, textOptions ),
         value: TemperatureUnits.KELVIN,
         tandemName: 'kelvinRadioButton',
-        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty
+        }
       },
       {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, textOptions ),
         value: TemperatureUnits.CELSIUS,
         tandemName: 'celsiusRadioButton',
-        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty
+        }
       },
       {
         createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, textOptions ),
         value: TemperatureUnits.FAHRENHEIT,
         tandemName: 'fahrenheitRadioButton',
-        labelContent: GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
+        }
       }
     ];
 

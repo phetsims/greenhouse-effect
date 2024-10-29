@@ -18,6 +18,7 @@ import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { Circle, Color, FlowBox, HBox, Line, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import calendarAltRegularShape from '../../../../sherpa/js/fontawesome-5/calendarAltRegularShape.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem, RectangularRadioButtonGroupOptions } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -31,7 +32,6 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationSliderSoundGenerator from './ConcentrationSliderSoundGenerator.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import GreenhouseGasConcentrations from './GreenhouseGasConcentrations.js';
 
 // constants
@@ -207,25 +207,33 @@ class DateControl extends HBox {
       {
         createNode: () => new Text( STRING_2020, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_2020,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty
+        },
         tandemName: 'twentyTwentyRadioButton'
       },
       {
         createNode: () => new Text( STRING_1950, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1950,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty
+        },
         tandemName: 'nineteenFiftyRadioButton'
       },
       {
         createNode: () => new Text( STRING_1750, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1750,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty
+        },
         tandemName: 'seventeenFiftyRadioButton'
       },
       {
         createNode: () => new Text( iceAgeStringProperty, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty
+        },
         tandemName: 'iceAgeRadioButton'
       }
     ];
@@ -503,13 +511,17 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
           tandem: Tandem.OPT_OUT
         } ),
         value: ConcentrationControlMode.BY_VALUE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty
+        },
         tandemName: 'byValueRadioButton'
       },
       {
         createNode: () => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty,
+        options: {
+          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty
+        },
         tandemName: 'byDateRadioButton'
       }
     ];

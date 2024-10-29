@@ -106,25 +106,33 @@ class QuadEmissionFrequencyControlPanel extends Node {
         font: labelFont
       } ),
       tandemName: microwaveTandemName,
-      labelContent: quadWavelengthSelectorMicrowaveStringProperty.value
+      options: {
+        accessibleName: quadWavelengthSelectorMicrowaveStringProperty.value
+      }
     }, {
       createNode: () => infraredPhotonRadioButtonContent,
       value: WavelengthConstants.IR_WAVELENGTH,
       label: new Text( quadWavelengthSelectorInfraredStringProperty, { font: labelFont } ),
       tandemName: infraredTandemName,
-      labelContent: quadWavelengthSelectorInfraredStringProperty.value
+      options: {
+        accessibleName: quadWavelengthSelectorInfraredStringProperty.value
+      }
     }, {
       createNode: () => visiblePhotonRadioButtonContent,
       value: WavelengthConstants.VISIBLE_WAVELENGTH,
       label: new Text( quadWavelengthSelectorVisibleStringProperty, { font: labelFont } ),
       tandemName: visibleTandemName,
-      labelContent: quadWavelengthSelectorVisibleStringProperty.value
+      options: {
+        accessibleName: quadWavelengthSelectorVisibleStringProperty.value
+      }
     }, {
       createNode: () => ultravioletPhotonRadioButtonContent,
       value: WavelengthConstants.UV_WAVELENGTH,
       label: new Text( quadWavelengthSelectorUltravioletStringProperty, { font: labelFont } ),
       tandemName: ultravioletTandemName,
-      labelContent: quadWavelengthSelectorUltravioletStringProperty.value
+      options: {
+        accessibleName: quadWavelengthSelectorUltravioletStringProperty.value
+      }
     } ];
 
     // Scale the radio button text.  This is done mostly to support translations.

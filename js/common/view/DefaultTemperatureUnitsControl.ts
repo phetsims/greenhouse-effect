@@ -91,9 +91,9 @@ const createItem = ( value: TemperatureUnits,
       maxWidth: 500
     } ),
     tandemName: itemTandemName,
-
-    // pdom
-    labelContent: labelStringProperty
+    options: {
+      accessibleName: labelStringProperty
+    }
   };
 };
 

@@ -105,7 +105,9 @@ class MoleculeSelectionPanel extends Panel {
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
         value: photonTarget,
         tandemName: tandemName,
-        labelContent: createPDOMLabel( molecule )
+        options: {
+          accessibleName: createPDOMLabel( molecule )
+        }
       };
     };
     const moleculeOptions = { isForIcon: true };
