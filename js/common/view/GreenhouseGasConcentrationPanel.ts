@@ -244,7 +244,7 @@ class DateControl extends HBox {
 
         // pdom
         labelTagName: 'h4',
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
+        accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
         helpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpTextStringProperty,
 
         // phet-io
@@ -544,7 +544,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
 
         // pdom
         labelTagName: 'h4',
-        labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
+        accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
         helpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
 
         // phet-io
