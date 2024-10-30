@@ -76,7 +76,7 @@ class TemperatureUnitsControl extends VBox {
 
       // pdom
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
+      accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
       helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
     } );
 

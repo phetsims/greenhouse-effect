@@ -31,7 +31,7 @@ class LayersModelTimeControlNode extends TimeControlNode {
 
     const options = optionize<LayersModelTimeControlNodeOptions, SelfOptions, TimeControlNodeOptions>()( {
       speedRadioButtonGroupOptions: {
-        descriptionContent: GreenhouseEffectStrings.a11y.timeControls.speedRadioButtonsDescriptionStringProperty
+        helpText: GreenhouseEffectStrings.a11y.timeControls.speedRadioButtonsDescriptionStringProperty
       },
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {

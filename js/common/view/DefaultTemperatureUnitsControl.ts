@@ -55,7 +55,7 @@ export default class DefaultTemperatureUnitsControl extends VBox {
       phetioVisiblePropertyInstrumented: false,
 
       // pdom
-      labelContent: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
+      accessibleName: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
     } );
 
     super( {
