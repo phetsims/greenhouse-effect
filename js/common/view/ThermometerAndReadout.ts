@@ -138,6 +138,14 @@ class ThermometerAndReadout extends Node {
         )
       ];
 
+      // A Node that wraps the comboBox with additional markup to match the requested heading levels. There is an h3
+      // for the label so that the button itself is an h4 under it.
+      const comboBoxWrapper = new Node( {
+        tagName: 'div',
+        labelTagName: 'h3',
+        accessibleName: GreenhouseEffectStrings.a11y.temperatureOptionsLabelStringProperty
+      } );
+
       const comboBox = new ComboBox( unitsProperty, comboBoxItems, options.listParentNode || this, {
         align: 'right',
         listPosition: 'above',
@@ -149,16 +157,16 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        labelTagName: 'h3',
-        labelContent: GreenhouseEffectStrings.a11y.temperatureOptionsLabelStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
         accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
+        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
         buttonLabelTagName: 'h4',
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
       } );
-      this.addChild( comboBox );
+
+      comboBoxWrapper.addChild( comboBox );
+      this.addChild( comboBoxWrapper );
 
       // Make sure the NumberDisplays are all the same width.  This has to be done after the ComboBox is constructed
       // because the ComboBox creates these nodes using a passed-in creator function.  See
