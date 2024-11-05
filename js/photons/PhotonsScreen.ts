@@ -27,7 +27,7 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.photonsStringProperty,
-      descriptionContent: GreenhouseEffectStrings.a11y.photons.homeScreenDescriptionStringProperty,
+      screenButtonsHelpText: GreenhouseEffectStrings.a11y.photons.screenButtonsHelpTextStringProperty,
       createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent( { includeFluxMeterHelp: true } ),
       isDisposable: false
     };

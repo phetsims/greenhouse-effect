@@ -538,7 +538,7 @@
       "value": "Higher density of infrared photons near surface."
     },
     "waves": {
-      "homeScreenDescription": {
+      "screenButtonsHelpText": {
         "value": "Explore greenhouse effect with wave representation."
       },
       "screenSummary": {
@@ -562,7 +562,7 @@
       }
     },
     "photons": {
-      "homeScreenDescription": {
+      "screenButtonsHelpText": {
         "value": "Explore greenhouse effect with photon representation."
       },
       "screenSummary": {
@@ -589,7 +589,7 @@
       }
     },
     "layerModel": {
-      "homeScreenDescription": {
+      "screenButtonsHelpText": {
         "value": "Experiment with infrared absorbing layers in the atmosphere."
       },
       "screenSummary": {

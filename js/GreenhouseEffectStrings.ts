@@ -233,7 +233,7 @@ type StringsType = {
     'infraredEmissionIntensityPatternStringProperty': LocalizedStringProperty;
     'photonDensityDescriptionStringProperty': LocalizedStringProperty;
     'waves': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenButtonsHelpTextStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
@@ -245,7 +245,7 @@ type StringsType = {
       }
     };
     'photons': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenButtonsHelpTextStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;
@@ -258,7 +258,7 @@ type StringsType = {
       }
     };
     'layerModel': {
-      'homeScreenDescriptionStringProperty': LocalizedStringProperty;
+      'screenButtonsHelpTextStringProperty': LocalizedStringProperty;
       'screenSummary': {
         'playAreaDescriptionStringProperty': LocalizedStringProperty;
         'controlAreaDescriptionStringProperty': LocalizedStringProperty;

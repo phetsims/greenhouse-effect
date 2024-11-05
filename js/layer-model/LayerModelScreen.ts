@@ -27,7 +27,7 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
       name: GreenhouseEffectStrings.screen.layerModelStringProperty,
-      descriptionContent: GreenhouseEffectStrings.a11y.layerModel.homeScreenDescriptionStringProperty,
+      screenButtonsHelpText: GreenhouseEffectStrings.a11y.layerModel.screenButtonsHelpTextStringProperty,
       createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent( { includeFluxMeterHelp: true } ),
       isDisposable: false
     };
