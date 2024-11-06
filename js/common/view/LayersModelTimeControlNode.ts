@@ -37,8 +37,8 @@ class LayersModelTimeControlNode extends TimeControlNode {
         stepForwardButtonOptions: {
           listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
         },
-        playingDescription: playingDescriptionProperty,
-        pausedDescription: pausedDescriptionProperty
+        playingHelpText: playingDescriptionProperty,
+        pausedHelpText: pausedDescriptionProperty
       }
     }, providedOptions );
 
