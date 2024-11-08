@@ -9,7 +9,7 @@
 
 
 // modules
-// const Shape = require( '/kite/js/Shape' );  // See below for comment on temporary replacement of clipArea shape.
+// const Shape = require( '/kite/js/Shape.js' );  // See below for comment on temporary replacement of clipArea shape.
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
