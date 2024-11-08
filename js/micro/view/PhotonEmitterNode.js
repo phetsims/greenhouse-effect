@@ -76,11 +76,6 @@ class PhotonEmitterNode extends Node {
       tandem: tandem.createTandem( 'button' )
     } );
 
-    // pdom - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
-    // supertype) as using both sounds best in NVDA
-    const setAriaPressed = value => this.button.setPDOMAttribute( 'aria-checked', value );
-    model.photonEmitterOnProperty.link( setAriaPressed );
-
     // update the photon emitter upon changes to the photon wavelength
     model.photonWavelengthProperty.link( photonWavelength => {
       const emitterTandemName = WavelengthConstants.getTandemName( photonWavelength );
