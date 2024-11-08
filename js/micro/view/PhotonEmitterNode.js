@@ -76,9 +76,6 @@ class PhotonEmitterNode extends Node {
       tandem: tandem.createTandem( 'button' )
     } );
 
-    // pdom - this button is indicated as a 'switch' for assistive technology
-    this.button.setAriaRole( 'switch' );
-
     // pdom - signify button is 'pressed' when down - note this is used in addition to aria-pressed (set in the
     // supertype) as using both sounds best in NVDA
     const setAriaPressed = value => this.button.setPDOMAttribute( 'aria-checked', value );
