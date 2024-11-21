@@ -36,7 +36,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import { FullPhetioState } from '../../../../tandem/js/TandemConstants.js';
+import { FullPhetioState } from '../../../../tandem/js/phet-io-types.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
 
