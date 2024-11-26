@@ -7,6 +7,7 @@
  * @author Jesse Greenberg
  */
 
+import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -17,6 +18,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
@@ -186,10 +188,10 @@ class MoleculeSelectionPanel extends Panel {
  * @returns {string}
  */
 const createPDOMLabel = molecule => {
-  return StringUtils.fillIn( moleculeButtonLabelPatternStringProperty.value, {
-    molecularName: MoleculeUtils.getMolecularName( molecule ),
+  return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.moleculeButtonLabelPatternMessageProperty, {
+    photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
-    geometryTitle: MoleculeUtils.getGeometryTitleString( molecule )
+    geometryTitle: MoleculeUtils.getGeometryEnum( molecule )
   } );
 };
 

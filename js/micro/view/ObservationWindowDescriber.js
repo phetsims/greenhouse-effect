@@ -17,19 +17,17 @@
  * @author Jesse Greenberg
  */
 
+import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
-const emptySpaceStringProperty = GreenhouseEffectStrings.a11y.emptySpaceStringProperty;
-const photonEmitterOffDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.photonEmitterOffDescriptionPatternStringProperty;
-const targetMoleculePatternStringProperty = GreenhouseEffectStrings.a11y.targetMoleculePatternStringProperty;
-const inactiveAndPassesPhaseDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.inactiveAndPassesPhaseDescriptionPatternStringProperty;
 const emissionPhaseDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.emissionPhaseDescriptionPatternStringProperty;
 const moleculePiecesGoneStringProperty = GreenhouseEffectStrings.a11y.moleculePiecesGoneStringProperty;
 const breakApartDescriptionWithFloatPatternStringProperty = GreenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPatternStringProperty;
@@ -167,7 +165,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = StringUtils.fillIn( breakApartDescriptionWithFloatPatternStringProperty.value, {
+      descriptionNode.innerContent = StringUtils.fillIn( GreenhouseEffectFluentMessages.breakApartDescriptionWithFloatPatternMessageProperty.value, {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -219,28 +217,21 @@ class ObservationWindowDescriber {
 
     const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
 
-    let targetString;
-    if ( targetMolecule ) {
-      targetString = StringUtils.fillIn( targetMoleculePatternStringProperty.value, {
-        photonTarget: PhotonTarget.getMoleculeName( photonTarget )
-      } );
-    }
-    else {
-      targetString = emptySpaceStringProperty.value;
-    }
-
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      return StringUtils.fillIn( photonEmitterOffDescriptionPatternStringProperty.value, {
-        lightSource: lightSourceString,
-        target: targetString
-      } );
+      // TODO: Redo this function so that it works with dynamic locales.
+      return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.photonEmitterOffDescriptionPatternMessageProperty, {
+        lightSource: this.model.lightSourceEnumProperty,
+        targetMolecule: this.model.photonTargetProperty
+      } )
     }
     else {
-      return StringUtils.fillIn( inactiveAndPassesPhaseDescriptionPatternStringProperty.value, {
-        lightSource: lightSourceString,
-        target: targetString
+
+      // TODO: Redo this function so that it works with dynamic locales.
+      return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
+        lightSource: this.model.lightSourceEnumProperty,
+        targetMolecule: this.model.photonTargetProperty
       } );
     }
   }
@@ -254,18 +245,13 @@ class ObservationWindowDescriber {
    * @returns {string}
    */
   getEmissionPhaseDescription( photon ) {
-    const photonTargetString = PhotonTarget.getMoleculeName( this.model.photonTargetProperty.get() );
-    const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
+    const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
 
-    const emissionAngle = Math.atan2( photon.vy, photon.vx );
-    const directionString = MovementAlerter.getDirectionDescriptionFromAngle( emissionAngle, {
-      modelViewTransform: this.modelViewTransform
-    } );
-
-    return StringUtils.fillIn( emissionPhaseDescriptionPatternStringProperty.value, {
-      photonTarget: photonTargetString,
-      lightSource: lightSourceString,
-      direction: directionString
+    // TODO: Make a PatternMessageProperty for dynamic locales?
+    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.emissionPhaseDescriptionPatternMessageProperty, {
+      photonTarget: this.model.photonTargetProperty,
+      lightSource: this.model.lightSourceEnumProperty,
+      direction: directionEnum
     } );
   }
 }

@@ -11,6 +11,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MoleculeUtils from './MoleculeUtils.js';
@@ -191,8 +192,8 @@ class ObservationWindowAlertManager extends Alerter {
   getPhotonEmittedAlert( photon ) {
     const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
 
-    return StringUtils.fillIn( pausedPhotonEmittedPatternStringProperty.value, {
-      lightSource: lightSourceString
+    return StringUtils.fillIn( GreenhouseEffectFluentMessages.pausedPhotonEmittedPatternMessageProperty, {
+      lightSource: this.model.lightSourceEnumProperty
     } );
   }
 

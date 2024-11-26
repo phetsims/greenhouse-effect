@@ -17,12 +17,14 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
+import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 
 const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectStrings.ButtonNode.ReturnMoleculeStringProperty;
 const observationWindowLabelStringProperty = GreenhouseEffectStrings.a11y.observationWindowLabelStringProperty;
@@ -229,8 +231,8 @@ class MicroObservationWindow extends Rectangle {
     photonAbsorptionModel.photonTargetProperty.link( () => {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
 
-      geometryLabelItem.accessibleName = StringUtils.fillIn( geometryLabelPatternStringProperty.value, {
-        geometry: MoleculeUtils.getGeometryLabel( targetMolecule )
+      geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.geometryLabelPatternMessageProperty, {
+        geometry: MoleculeUtils.getGeometryEnum( targetMolecule )
       } );
       geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );
     } );

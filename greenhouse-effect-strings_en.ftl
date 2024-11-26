@@ -131,23 +131,137 @@ light-source-button-unpressed-help-text = Turn light source on to start photons.
 
 light-sources = Light Sources
 
+photon-emitter-off-description-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} light source is off and points directly at { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule.
 
-#---------------------------------------------
-# Still need to use the following strings
-#---------------------------------------------
-photon-emitter-off-description-pattern = { $lightSource } light source is off and points directly at { $target }.
+inactive-and-passes-phase-description-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon passes through { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule.
 
-inactive-and-passes-phase-description-pattern = { $lightSource } photon passes through { $target }.
+absorption-phase-bonds-description-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon absorbed, bonds of { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule { $excitedRepresentation ->
+  [BEND_UP_AND_DOWN] bend up and down
+  [STRETCH_BACK_AND_FORTH] stretch back and forth
+  *[ UNKNOWN ] Unknown
+}.
 
-target-molecule-pattern = { $photonTarget } molecule
+absorption-phase-molecule-description-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon absorbed, { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule { $excitedRepresentation ->
+ [GLOWING] glows
+ [ROTATES_CLOCKWISE] rotates clockwise
+ [ROTATES_COUNTER_CLOCKWISE] rotates counter-clockwise
+ *[ UNKNOWN ] Unknown
+}.
 
-absorption-phase-bonds-description-pattern = { $lightSource } photon absorbed, bonds of { $photonTarget } molecule { $excitedRepresentation }.
+# Note that the actual resulting molecules are not translatable because the molecular formula
+# is used. A note in the implementation states that the molecular formula should not be
+# translatable.
+break-apart-phase-description-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon absorbed, { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule breaks into { $firstMolecule } and { $secondMolecule }.
 
-absorption-phase-molecule-description-pattern = { $lightSource } photon absorbed, { $photonTarget } molecule { $excitedRepresentation }.
+emission-phase-description-pattern = Absorbed { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon emitted from { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule { $direction ->
+  [LEFT] left
+  [RIGHT] right
+  [UP] up
+  [DOWN] down
+  [UP_LEFT] up and to the left
+  [UP_RIGHT] up and to the right
+  [DOWN_LEFT] down and to the left
+  [DOWN_RIGHT] down and to the right
+  *[UNKNOWN] unknown
+}.
 
-break-apart-phase-description-pattern = { $lightSource } photon absorbed, { $photonTarget } molecule breaks into { $firstMolecule } and { $secondMolecule }.
+short-stretching-alert = Stretching.
 
-emission-phase-description-pattern = Absorbed { $lightSource } photon emitted from { $photonTarget } molecule { $direction }.
+long-stretching-alert = Bonds of molecule stretch back and forth.
+
+short-bending-alert = Bending.
+
+long-bending-alert = Bonds of molecule bend up and down.
 
 bend-up-and-down = bend up and down
 
@@ -169,7 +283,22 @@ molecules = Molecules
 
 molecules-radio-button-help-text = Choose molecule for observation window.
 
-molecule-button-label-pattern = { $molecularName }, { $molecularFormula }, { $geometryTitle }
+# Molecular formulas are not translatable.
+molecule-button-label-pattern = { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+}, { $molecularFormula }, { $geometryTitle ->
+  [LINEAR] linear
+  [BENT] bent
+  [TETRAHEDRAL] tetrahedral
+  *[DIATOMIC] diatomic
+}
 
 spectrum-button-label = Light Spectrum Diagram
 
@@ -255,21 +384,18 @@ tetrahedral = tetrahedral
 
 diatomic = diatomic
 
-geometry-label-pattern = This molecule has { $geometry } geometry.
+geometry-label-pattern = This molecule has { $geometry ->
+  [LINEAR] linear
+  [BENT] bent
+  [TETRAHEDRAL] tetrahedral
+  *[DIATOMIC] diatomic
+} geometry.
 
 linear-geometry-description = Linear, a molecule with two or three atoms bonded to form a straight line. Bond angle is 180 degrees.
 
 bent-geometry-description = Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees.
 
 tetrahedral-geometry-description = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
-
-short-stretching-alert = Stretching.
-
-long-stretching-alert = Bonds of molecule stretch back and forth.
-
-short-bending-alert = Bending.
-
-long-bending-alert = Bonds of molecule bend up and down.
 
 short-rotating-alert = Rotating.
 
@@ -279,33 +405,84 @@ short-glowing-alert = Glowing.
 
 long-glowing-alert = Molecule glows.
 
+# The molecular formulas in this pattern are not translatable.
 breaks-apart-alert-pattern = Molecule breaks apart into { $firstMolecule } and { $secondMolecule }.
 
-paused-emitting-pattern = Absorbed photon emitted from molecule { $direction }.
+paused-emitting-pattern = Absorbed photon emitted from molecule { $direction ->
+  [LEFT] left
+  [RIGHT] right
+  [UP] up
+  [DOWN] down
+  [UP_LEFT] up and to the left
+  [UP_RIGHT] up and to the right
+  [DOWN_LEFT] down and to the left
+  [DOWN_RIGHT] down and to the right
+  *[UNKNOWN] unknown
+}.
 
-paused-passing-pattern = { $lightSource } photon passes through { $molecularName } molecule.
+paused-passing-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon passes through { $molecularName } molecule.
 
-slow-motion-passing-pattern = { $lightSource } photons passing through { $molecularName } molecule.
+slow-motion-passing-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photons passing through { $molecularName } molecule.
 
 photon-passes = Photon passes.
 
 photons-passing = Photons passing.
 
-slow-motion-vibrating-pattern = Photon absorbed. Bonds of molecule { $excitedRepresentation }.
+slow-motion-vibrating-pattern = Photon absorbed. Bonds of molecule { $excitedRepresentation ->
+  [BEND_UP_AND_DOWN] bend up and down
+  [STRETCH_BACK_AND_FORTH] stretch back and forth
+  *[ UNKNOWN ] Unknown
+}.
 
-slow-motion-absorbed-molecule-excited-pattern = Photon absorbed. Molecule { $excitedRepresentation }.
+slow-motion-absorbed-short-pattern = Photon absorbed. { $excitedRepresentation ->
+  [BEND_UP_AND_DOWN] Bending
+  [STRETCH_BACK_AND_FORTH] Stretching
+  [ROTATING] Rotating
+  [GLOWING] Glowing
+  *[ UNKNOWN ] Unknown
+}.
 
-slow-motion-absorbed-short-pattern = Photon absorbed. { $excitedRepresentation }
+slow-motion-absorbed-molecule-excited-pattern = Photon absorbed. Molecule { $excitedRepresentation ->
+ [GLOWING] glows
+ [ROTATES_CLOCKWISE] rotates clockwise
+ [ROTATES_COUNTER_CLOCKWISE] rotates counter-clockwise
+ *[ UNKNOWN ] Unknown
+}.
 
+# The molecular formulas are not translatable.
 slow-motion-break-apart-pattern = Photon absorbed. Molecule breaks apart. { $firstMolecule } and { $secondMolecule } float away.
 
+# The molecular formulas are not translatable.
 molecules-floating-away-pattern = { $firstMolecule } and { $secondMolecule } floating away.
 
+# NOTE: Is this pattern translatable??
 break-apart-description-with-float-pattern = { $description } { $floatDescription }
 
 molecule-pieces-gone = Molecule pieces gone. Reset or change molecule.
 
-slow-motion-emitted-pattern = Photon emitted { $direction }.
+slow-motion-emitted-pattern = Photon emitted { $direction ->
+  [LEFT] left
+  [RIGHT] right
+  [UP] up
+  [DOWN] down
+  [UP_LEFT] up and to the left
+  [UP_RIGHT] up and to the right
+  [DOWN_LEFT] down and to the left
+  [DOWN_RIGHT] down and to the right
+  *[UNKNOWN] unknown
+}.
 
 reset-or-change-molecule = Reset or change molecule.
 
@@ -319,7 +496,13 @@ photon-emitter-photons-on-sim-paused = Photons on. Sim paused.
 
 photon-emitter-photons-on-slow-speed-sim-paused = Photons on slow speed. Sim paused.
 
-paused-photon-emitted-pattern = { $lightSource } photon leaves light source.
+paused-photon-emitted-pattern = { $lightSource ->
+  [ MICRO ] Microwave
+  [ INFRARED ] Infrared
+  [ VISIBLE ] Visible
+  [ ULTRAVIOLET ] Ultraviolet
+  *[ UNKNOWN ] Unknown
+} photon leaves light source.
 
 time-controls-sim-paused-emitter-on-alert = Sim paused. Play to continue exploration.
 

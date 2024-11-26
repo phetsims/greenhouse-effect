@@ -24,6 +24,7 @@ import NO2 from '../model/molecules/NO2.js';
 import O from '../model/molecules/O.js';
 import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
+import PhotonTarget from '../model/PhotonTarget.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
 const carbonDioxideStringProperty = GreenhouseEffectStrings.a11y.carbonDioxideStringProperty;
@@ -105,6 +106,26 @@ const MoleculeUtils = {
   },
 
   /**
+   * From a molecule, return the equivalent value from the PhotonTarget enumeration.
+   * @param molecule
+   */
+  getPhotonTargetEnum( molecule ) {
+    const targetEnum = molecule instanceof CO ? PhotonTarget.SINGLE_CO_MOLECULE :
+                       molecule instanceof N2 ? PhotonTarget.SINGLE_N2_MOLECULE :
+                       molecule instanceof O2 ? PhotonTarget.SINGLE_O2_MOLECULE :
+                       molecule instanceof CO2 ? PhotonTarget.SINGLE_CO2_MOLECULE :
+                       molecule instanceof NO2 ? PhotonTarget.SINGLE_NO2_MOLECULE :
+                       molecule instanceof H2O ? PhotonTarget.SINGLE_H2O_MOLECULE :
+                       molecule instanceof O3 ? PhotonTarget.SINGLE_O3_MOLECULE :
+                       molecule instanceof CH4 ? PhotonTarget.SINGLE_CH4_MOLECULE :
+                       molecule instanceof NO ? PhotonTarget.SINGLE_NO2_MOLECULE :
+                       null;
+
+    assert && assert( targetEnum, 'Unknown target enumeration value for molecule.' );
+    return targetEnum;
+  },
+
+  /**
    * Get a label string for the geometry of a molecule. To be seen by the user in some context. Will
    * return something like 'linear' or 'bent'.
    *
@@ -162,6 +183,13 @@ const MoleculeUtils = {
     }
 
     return titleString;
+  },
+
+  /**
+   * For a given molecule, returns the geometry.
+   */
+  getGeometryEnum( molecule ) {
+    return MolecularGeometryMap.get( molecule.constructor );
   },
 
   /**
