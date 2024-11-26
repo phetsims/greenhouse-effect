@@ -11,7 +11,6 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Image, Node, Text } from '../../../../scenery/js/imports.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
@@ -24,12 +23,11 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
+import PatternMessageProperty from '../../../../chipper/js/PatternMessageProperty.js';
 
-const lightSourceButtonLabelPatternStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonLabelPatternStringProperty;
-const lightSourcePressedButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonPressedHelpTextStringProperty;
-const lightSourceUnpressedButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSource.buttonUnpressedHelpTextStringProperty;
 const openSciEdEnergySourceStringProperty = GreenhouseEffectStrings.openSciEd.energySourceStringProperty;
 
 class PhotonEmitterNode extends Node {
@@ -82,6 +80,13 @@ class PhotonEmitterNode extends Node {
       this.updateImage( width, photonWavelength, tandem, emitterTandemName );
     } );
 
+    // pdom - update button label when the light source changes, or when the
+    // string pattern changes (dynamic locales).
+    this.button.innerContent = new PatternMessageProperty(
+      GreenhouseEffectFluentMessages.lightSourceButtonLabelPatternMessageProperty, {
+        lightSource: model.lightSourceEnumProperty
+      } );
+
     model.photonEmitterOnProperty.link( on => {
       if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
         this.photonEmitterOnImage.visible = on;
@@ -89,8 +94,8 @@ class PhotonEmitterNode extends Node {
 
       // pdom - update the help text for the emitter
       this.button.descriptionContent = on ?
-                                       lightSourcePressedButtonHelpTextStringProperty.value :
-                                       lightSourceUnpressedButtonHelpTextStringProperty.value;
+                                       GreenhouseEffectFluentMessages.lightSourceButtonPressedHelpTextMessageProperty :
+                                       GreenhouseEffectFluentMessages.lightSourceButtonUnpressedHelpTextMessageProperty;
     } );
   }
 
@@ -146,11 +151,6 @@ class PhotonEmitterNode extends Node {
       this.addChild( this.lightSourceLabel );
       this.lightSourceLabel.centerTop = this.photonEmitterOnImage.centerBottom.plusXY( 0, 5 );
     }
-
-    // pdom - update the accessible name for the button
-    this.button.innerContent = StringUtils.fillIn( lightSourceButtonLabelPatternStringProperty.value, {
-      lightSource: WavelengthConstants.getLightSourceName( photonWavelength )
-    } );
 
     // add the button to the correct position on the photon emitter
     this.button.left = this.photonEmitterOffImage.centerX - 20;

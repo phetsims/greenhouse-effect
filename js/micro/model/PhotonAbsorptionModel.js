@@ -107,6 +107,11 @@ class PhotonAbsorptionModel extends PhetioObject {
       ]
     } );
 
+    // A Property whose value is the enumeration for the current wavelength of emitted photons.
+    this.lightSourceEnumProperty = new DerivedProperty( [ this.photonWavelengthProperty ], wavelength => {
+      return WavelengthConstants.getLightSourceEnum( wavelength );
+    } );
+
     // @public (read-only) {Property.<PhotonTarget>}
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),

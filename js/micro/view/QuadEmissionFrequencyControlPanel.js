@@ -22,6 +22,7 @@ import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
@@ -61,7 +62,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
     super( {
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: lightSourcesStringProperty.value,
+      labelContent: GreenhouseEffectFluentMessages.lightSourcesMessageProperty,
       descriptionContent: lightSourceRadioButtonHelpTextStringProperty.value
     } );
 

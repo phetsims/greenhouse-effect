@@ -9,11 +9,23 @@
 
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 const quadWavelengthSelectorInfraredString = GreenhouseEffectStrings.QuadWavelengthSelector.Infrared;
 const quadWavelengthSelectorMicrowaveString = GreenhouseEffectStrings.QuadWavelengthSelector.Microwave;
 const quadWavelengthSelectorUltravioletString = GreenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
 const quadWavelengthSelectorVisibleString = GreenhouseEffectStrings.QuadWavelengthSelector.Visible;
+
+// An enumeration describing one of the possible values for the wavelength of a photon.
+class Wavelength extends EnumerationValue {
+  static SUNLIGHT = new Wavelength();
+  static MICRO = new Wavelength();
+  static INFRARED = new Wavelength();
+  static VISIBLE = new Wavelength();
+  static ULTRAVIOLET = new Wavelength();
+  static enumeration = new Enumeration( Wavelength );
+}
 
 const WavelengthConstants = {
 
@@ -50,6 +62,19 @@ const WavelengthConstants = {
            wavelength === this.IR_WAVELENGTH ? quadWavelengthSelectorInfraredString :
            wavelength === this.VISIBLE_WAVELENGTH ? quadWavelengthSelectorVisibleString :
            wavelength === this.UV_WAVELENGTH ? quadWavelengthSelectorUltravioletString :
+           assert( false, 'unknown' );
+  },
+
+  /**
+   * Given the wavelength value, map to the correct light source enum.
+   * @param wavelength
+   * @returns {PhotonTarget|void}
+   */
+  getLightSourceEnum( wavelength ) {
+    return wavelength === this.MICRO_WAVELENGTH ? Wavelength.MICRO :
+           wavelength === this.IR_WAVELENGTH ? Wavelength.INFRARED :
+           wavelength === this.VISIBLE_WAVELENGTH ? Wavelength.VISIBLE :
+           wavelength === this.UV_WAVELENGTH ? Wavelength.ULTRAVIOLET :
            assert( false, 'unknown' );
   }
 };
