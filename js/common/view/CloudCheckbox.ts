@@ -8,19 +8,20 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import { GatedVisibleProperty } from '../../../../axon/js/GatedBooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import { Color, GatedVisibleProperty, Path } from '../../../../scenery/js/imports.js';
-import CloudNode from './CloudNode.js';
-import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
+import { Color, Path } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import CloudNode from './CloudNode.js';
+import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
 // constants
 const CLOUD_ICON_WIDTH = 40;
