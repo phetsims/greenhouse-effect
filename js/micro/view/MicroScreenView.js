@@ -146,8 +146,8 @@ class MicroScreenView extends ScreenView {
       playPauseStepButtonOptions: {
 
         // pdom
-        playingHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescription,
-        pausedHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPausedWithSpeedDescription,
+        playingHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescriptionMessageProperty,
+        pausedHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPausedWithSpeedDescriptionMessageProperty,
 
         playPauseButtonOptions: {
           radius: 23

@@ -7,7 +7,6 @@
  * @author Jesse Greenberg
  */
 
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -243,7 +242,7 @@ class ObservationWindowAlertManager extends Alerter {
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
     // TODO: Dynamic locales, see https://github.com/phetsims/joist/issues/992
-    return StringUtils.fillIn( GreenhouseEffectFluentMessages.moleculesFloatingAwayPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.moleculesFloatingAwayPatternMessageProperty, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

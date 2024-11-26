@@ -46,7 +46,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       descriptionAlertNode: observationWindow
     } );
 
-    // @privates
+    // @private
     this.photonAbsorptionModel = photonAbsorptionModel;
     this.modelViewTransform = modelViewTransform;
 
@@ -250,8 +250,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
     // TODO: Replace with Properties? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
-      lightSource: this.model.lightSourceEnumProperty,
-      photonTarget: this.model.photonTargetProperty,
+      lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
+      photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       excitedRepresentation: 'GLOWING'
     } );
   }
@@ -271,8 +271,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
     // TODO: Replace with a PatternMessageProperty? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
-      lightSource: this.model.lightSourceEnumProperty,
-      photonTarget: this.model.photonTargetProperty,
+      lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
+      photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       excitedRepresentation: rotationEnum
     } );
   }
@@ -292,8 +292,8 @@ class ActiveMoleculeAlertManager extends Alerter {
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
     return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.breakApartPhaseDescriptionPatternMessageProperty, {
-      lightSource: this.model.lightSourceEnumProperty,
-      photonTarget: this.model.photonTargetProperty,
+      lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
+      photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );
@@ -323,14 +323,14 @@ class ActiveMoleculeAlertManager extends Alerter {
       let patternString;
       if ( this.firstVibrationAlert ) {
         excitedRepresentationString = stretches ?
-                                      GreenhouseEffectFluentMessages.stretchBackAndForthMessageProperty :
-                                      GreenhouseEffectFluentMessages.bendUpAndDownMessageProperty;
+                                      'STRETCH_BACK_AND_FORTH' :
+                                      'BEND_UP_AND_DOWN';
         patternString = GreenhouseEffectFluentMessages.slowMotionVibratingPatternMessageProperty;
       }
       else {
         excitedRepresentationString = stretches ?
-                                      GreenhouseEffectFluentMessages.shortStretchingAlertMessageProperty :
-                                      GreenhouseEffectFluentMessages.shortBendingAlertMessageProperty;
+                                      'STRETCH_BACK_AND_FORTH' :
+                                      'BEND_UP_AND_DOWN';
         patternString = GreenhouseEffectFluentMessages.slowMotionAbsorbedShortPatternMessageProperty;
       }
 
@@ -577,8 +577,8 @@ class ActiveMoleculeAlertManager extends Alerter {
    */
   getDetailedPassThroughAlert( photon, patternMessageProperty ) {
     return FluentUtils.formatMessage( patternMessageProperty, {
-      lightSource: this.model.lightSourceEnumProperty,
-      molecularName: this.model.photonTargetProperty
+      lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
+      molecularName: this.photonAbsorptionModel.photonTargetProperty
     } );
   }
 
