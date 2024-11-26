@@ -71,10 +71,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
    * @returns {string}
    */
   getSummaryString() {
-    const targetMolecule = this.model.targetMolecule;
-    const lightSourceString = WavelengthConstants.getLightSourceName( this.model.photonWavelengthProperty.get() );
     const emitterOn = this.model.photonEmitterOnProperty.get();
-    const slowMotion = this.model.slowMotionProperty.get();
 
     const lightSourceEnum = WavelengthConstants.getLightSourceEnum( this.model.photonWavelengthProperty.get() );
     const timeSpeedEnum = this.model.timeSpeedProperty;

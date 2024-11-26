@@ -18,19 +18,10 @@
  */
 
 import FluentUtils from '../../../../chipper/js/FluentUtils.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import PhotonTarget from '../model/PhotonTarget.js';
-import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
-
-const emissionPhaseDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.emissionPhaseDescriptionPatternStringProperty;
-const moleculePiecesGoneStringProperty = GreenhouseEffectStrings.a11y.moleculePiecesGoneStringProperty;
-const breakApartDescriptionWithFloatPatternStringProperty = GreenhouseEffectStrings.a11y.breakApartDescriptionWithFloatPatternStringProperty;
 
 class ObservationWindowDescriber {
 
@@ -165,7 +156,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = StringUtils.fillIn( GreenhouseEffectFluentMessages.breakApartDescriptionWithFloatPatternMessageProperty.value, {
+      descriptionNode.innerContent = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.breakApartDescriptionWithFloatPatternMessageProperty, {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -184,7 +175,7 @@ class ObservationWindowDescriber {
 
             // cant use this here because the active molecule
             if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
-              descriptionNode.innerContent = moleculePiecesGoneStringProperty.value;
+              descriptionNode.innerContent = GreenhouseEffectFluentMessages.moleculePiecesGoneMessageProperty;
             }
           }
         };
@@ -213,22 +204,18 @@ class ObservationWindowDescriber {
    * @returns {string}
    */
   getInitialPhaseDescription( emitterOn, photonWavelength, photonTarget ) {
-    const targetMolecule = this.model.targetMolecule;
-
-    const lightSourceString = WavelengthConstants.getLightSourceName( photonWavelength );
-
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      // TODO: Redo this function so that it works with dynamic locales.
+      // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
       return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.photonEmitterOffDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
-      } )
+      } );
     }
     else {
 
-      // TODO: Redo this function so that it works with dynamic locales.
+      // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
       return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
@@ -247,7 +234,7 @@ class ObservationWindowDescriber {
   getEmissionPhaseDescription( photon ) {
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
 
-    // TODO: Make a PatternMessageProperty for dynamic locales?
+    // TODO: Make a PatternMessageProperty for dynamic locales? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.emissionPhaseDescriptionPatternMessageProperty, {
       photonTarget: this.model.photonTargetProperty,
       lightSource: this.model.lightSourceEnumProperty,

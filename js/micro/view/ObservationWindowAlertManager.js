@@ -12,27 +12,8 @@ import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerte
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import WavelengthConstants from '../model/WavelengthConstants.js';
+import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import MoleculeUtils from './MoleculeUtils.js';
-
-const moleculesFloatingAwayPatternStringProperty = GreenhouseEffectStrings.a11y.moleculesFloatingAwayPatternStringProperty;
-const photonsOnStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnStringProperty;
-const photonsOffStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOffStringProperty;
-const photonsOnSlowSpeedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedStringProperty;
-const photonsOnSimPausedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSimPausedStringProperty;
-const photonsOnSlowSpeedSimPausedStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.photonsOnSlowSpeedSimPausedStringProperty;
-const simPausedEmitterOnAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty;
-const simPausedEmitterOffAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOffAlertStringProperty;
-const simPlayingHintAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.simPlayingHintAlertStringProperty;
-const stepHintAlertStringProperty = GreenhouseEffectStrings.a11y.timeControls.stepHintAlertStringProperty;
-const pausedPhotonEmittedPatternStringProperty = GreenhouseEffectStrings.a11y.photonEmitter.alerts.pausedPhotonEmittedPatternStringProperty;
-const shortRotatingAlertStringProperty = GreenhouseEffectStrings.a11y.shortRotatingAlertStringProperty;
-const shortStretchingAlertStringProperty = GreenhouseEffectStrings.a11y.shortStretchingAlertStringProperty;
-const shortBendingAlertStringProperty = GreenhouseEffectStrings.a11y.shortBendingAlertStringProperty;
-const shortGlowingAlertStringProperty = GreenhouseEffectStrings.a11y.shortGlowingAlertStringProperty;
-const moleculePiecesGoneStringProperty = GreenhouseEffectStrings.a11y.moleculePiecesGoneStringProperty;
-const resetOrChangeMoleculeStringProperty = GreenhouseEffectStrings.a11y.resetOrChangeMoleculeStringProperty;
 
 class ObservationWindowAlertManager extends Alerter {
 
@@ -120,7 +101,7 @@ class ObservationWindowAlertManager extends Alerter {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        this.alertDescriptionUtterance( resetOrChangeMoleculeStringProperty.value );
+        this.alertDescriptionUtterance( GreenhouseEffectFluentMessages.resetOrChangeMoleculeMessageProperty );
       }
     } );
   }
@@ -137,10 +118,10 @@ class ObservationWindowAlertManager extends Alerter {
   getRunningStateAlert( emitterOn, running ) {
     let alert;
     if ( running && !emitterOn ) {
-      alert = simPlayingHintAlertStringProperty.value;
+      alert = GreenhouseEffectFluentMessages.timeControlsSimPlayingHintAlertMessageProperty;
     }
     else {
-      alert = emitterOn ? simPausedEmitterOnAlertStringProperty.value : simPausedEmitterOffAlertStringProperty.value;
+      alert = emitterOn ? GreenhouseEffectFluentMessages.timeControlsSimPausedEmitterOnAlertMessageProperty : GreenhouseEffectFluentMessages.timeControlsSimPausedEmitterOffAlertMessageProperty;
     }
 
     assert && assert( alert );
@@ -159,23 +140,23 @@ class ObservationWindowAlertManager extends Alerter {
    */
   getPhotonEmitterStateAlert( on, running, slowMotion ) {
     if ( !on ) {
-      return photonsOffStringProperty.value;
+      return GreenhouseEffectFluentMessages.photonEmitterPhotonsOffMessageProperty;
     }
     else {
       if ( !running ) {
         if ( slowMotion ) {
-          return photonsOnSlowSpeedSimPausedStringProperty.value;
+          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSlowSpeedSimPausedMessageProperty;
         }
         else {
-          return photonsOnSimPausedStringProperty.value;
+          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSimPausedMessageProperty;
         }
       }
       else {
         if ( slowMotion ) {
-          return photonsOnSlowSpeedStringProperty.value;
+          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSlowSpeedMessageProperty;
         }
         else {
-          return photonsOnStringProperty.value;
+          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnMessageProperty;
         }
       }
     }
@@ -190,9 +171,7 @@ class ObservationWindowAlertManager extends Alerter {
    * @returns {string}
    */
   getPhotonEmittedAlert( photon ) {
-    const lightSourceString = WavelengthConstants.getLightSourceName( photon.wavelength );
-
-    return StringUtils.fillIn( GreenhouseEffectFluentMessages.pausedPhotonEmittedPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.pausedPhotonEmittedPatternMessageProperty, {
       lightSource: this.model.lightSourceEnumProperty
     } );
   }
@@ -217,19 +196,19 @@ class ObservationWindowAlertManager extends Alerter {
       const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
 
       if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
-        alert = stepHintAlertStringProperty.value;
+        alert = GreenhouseEffectFluentMessages.stepHintAlertMessageProperty;
       }
       else if ( photonAbsorbed ) {
         if ( targetMolecule.rotatingProperty.get() ) {
-          alert = shortRotatingAlertStringProperty.value;
+          alert = GreenhouseEffectFluentMessages.shortRotatingAlertMessageProperty;
         }
         else if ( targetMolecule.vibratingProperty.get() ) {
           alert = targetMolecule.vibratesByStretching() ?
-                  shortStretchingAlertStringProperty.value :
-                  shortBendingAlertStringProperty.value;
+                  GreenhouseEffectFluentMessages.shortStretchingAlertMessageProperty :
+                  GreenhouseEffectFluentMessages.shortBendingAlertMessageProperty;
         }
         else if ( targetMolecule.highElectronicEnergyStateProperty.get() ) {
-          alert = shortGlowingAlertStringProperty.value;
+          alert = GreenhouseEffectFluentMessages.shortGlowingAlertMessageProperty;
         }
       }
     }
@@ -237,7 +216,7 @@ class ObservationWindowAlertManager extends Alerter {
       if ( !this.model.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
         // no target molecule and constituents have been removed
-        alert = moleculePiecesGoneStringProperty.value;
+        alert = GreenhouseEffectFluentMessages.moleculePiecesGoneMessageProperty;
       }
       else {
 
@@ -263,7 +242,8 @@ class ObservationWindowAlertManager extends Alerter {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return StringUtils.fillIn( moleculesFloatingAwayPatternStringProperty.value, {
+    // TODO: Dynamic locales, see https://github.com/phetsims/joist/issues/992
+    return StringUtils.fillIn( GreenhouseEffectFluentMessages.moleculesFloatingAwayPatternMessageProperty, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

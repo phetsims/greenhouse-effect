@@ -12,7 +12,6 @@
 // const Shape = require( '/kite/js/Shape.js' );  // See below for comment on temporary replacement of clipArea shape.
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -27,8 +26,6 @@ import PhotonEmitterNode from './PhotonEmitterNode.js';
 import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 
 const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectStrings.ButtonNode.ReturnMoleculeStringProperty;
-const observationWindowLabelStringProperty = GreenhouseEffectStrings.a11y.observationWindowLabelStringProperty;
-const geometryLabelPatternStringProperty = GreenhouseEffectStrings.a11y.geometryLabelPatternStringProperty;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;
@@ -55,7 +52,7 @@ class MicroObservationWindow extends Rectangle {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: observationWindowLabelStringProperty.value
+      labelContent: GreenhouseEffectFluentMessages.observationWindowLabelMessageProperty
     } );
 
     this.modelViewTransform = modelViewTransform; // @private

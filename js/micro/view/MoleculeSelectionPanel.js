@@ -34,9 +34,6 @@ import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
 const molecularNamePatternStringProperty = GreenhouseEffectStrings.molecularNamePatternStringProperty;
-const moleculesStringProperty = GreenhouseEffectStrings.a11y.moleculesStringProperty;
-const moleculesRadioButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.moleculesRadioButtonHelpTextStringProperty;
-const moleculeButtonLabelPatternStringProperty = GreenhouseEffectStrings.a11y.moleculeButtonLabelPatternStringProperty;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except
@@ -175,8 +172,8 @@ class MoleculeSelectionPanel extends Panel {
       tandem: tandem,
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: moleculesStringProperty.value,
-      descriptionContent: moleculesRadioButtonHelpTextStringProperty.value
+      labelContent: GreenhouseEffectFluentMessages.moleculesMessageProperty,
+      descriptionContent: GreenhouseEffectFluentMessages.moleculesRadioButtonHelpTextMessageProperty
     } );
   }
 }

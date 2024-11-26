@@ -33,8 +33,6 @@ const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectStrings.Qua
 const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.MicrowaveStringProperty;
 const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.UltravioletStringProperty;
 const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
-const lightSourcesStringProperty = GreenhouseEffectStrings.a11y.lightSourcesStringProperty;
-const lightSourceRadioButtonHelpTextStringProperty = GreenhouseEffectStrings.a11y.lightSourceRadioButtonHelpTextStringProperty;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;
@@ -63,7 +61,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
       tagName: 'div',
       labelTagName: 'h3',
       labelContent: GreenhouseEffectFluentMessages.lightSourcesMessageProperty,
-      descriptionContent: lightSourceRadioButtonHelpTextStringProperty.value
+      descriptionContent: GreenhouseEffectFluentMessages.lightSourceRadioButtonHelpTextMessageProperty
     } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon

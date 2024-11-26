@@ -202,10 +202,10 @@ absorption-phase-molecule-description-pattern = { $lightSource ->
   [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
   *[ SINGLE_O3_MOLECULE ] Ozone
 } molecule { $excitedRepresentation ->
- [GLOWING] glows
- [ROTATES_CLOCKWISE] rotates clockwise
- [ROTATES_COUNTER_CLOCKWISE] rotates counter-clockwise
- *[ UNKNOWN ] Unknown
+  [GLOWING] glows
+  [ROTATES_CLOCKWISE] rotates clockwise
+  [ROTATES_COUNTER_CLOCKWISE] rotates counter-clockwise
+  *[ UNKNOWN ] Unknown
 }.
 
 # Note that the actual resulting molecules are not translatable because the molecular formula
@@ -294,10 +294,10 @@ molecule-button-label-pattern = { $photonTarget ->
   [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
   *[ SINGLE_O3_MOLECULE ] Ozone
 }, { $molecularFormula }, { $geometryTitle ->
-  [LINEAR] linear
-  [BENT] bent
-  [TETRAHEDRAL] tetrahedral
-  *[DIATOMIC] diatomic
+  [LINEAR] Linear
+  [BENT] Bent
+  [TETRAHEDRAL] Tetrahedral
+  *[DIATOMIC] Diatomic
 }
 
 spectrum-button-label = Light Spectrum Diagram
@@ -426,7 +426,16 @@ paused-passing-pattern = { $lightSource ->
   [ VISIBLE ] Visible
   [ ULTRAVIOLET ] Ultraviolet
   *[ UNKNOWN ] Unknown
-} photon passes through { $molecularName } molecule.
+} photon passes through { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule.
 
 slow-motion-passing-pattern = { $lightSource ->
   [ MICRO ] Microwave
@@ -434,7 +443,16 @@ slow-motion-passing-pattern = { $lightSource ->
   [ VISIBLE ] Visible
   [ ULTRAVIOLET ] Ultraviolet
   *[ UNKNOWN ] Unknown
-} photons passing through { $molecularName } molecule.
+} photons passing through { $photonTarget ->
+  [ SINGLE_CO_MOLECULE ] Carbon Monoxide
+  [ SINGLE_N2_MOLECULE ] Nitrogen
+  [ SINGLE_O2_MOLECULE ] Oxygen
+  [ SINGLE_CO2_MOLECULE ] Carbon Dioxide
+  [ SINGLE_CH4_MOLECULE ] Methane
+  [ SINGLE_H2O_MOLECULE ] Water
+  [ SINGLE_NO2_MOLECULE ] Nitrogen Dioxide
+  *[ SINGLE_O3_MOLECULE ] Ozone
+} molecule.
 
 photon-passes = Photon passes.
 

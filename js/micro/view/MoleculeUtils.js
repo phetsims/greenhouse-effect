@@ -13,7 +13,7 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -26,23 +26,6 @@ import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
-
-const carbonDioxideStringProperty = GreenhouseEffectStrings.a11y.carbonDioxideStringProperty;
-const carbonMonoxideStringProperty = GreenhouseEffectStrings.a11y.carbonMonoxideStringProperty;
-const diatomicOxygenStringProperty = GreenhouseEffectStrings.a11y.diatomicOxygenStringProperty;
-const methaneStringProperty = GreenhouseEffectStrings.a11y.methaneStringProperty;
-const nitrogenDioxideStringProperty = GreenhouseEffectStrings.a11y.nitrogenDioxideStringProperty;
-const nitrogenStringProperty = GreenhouseEffectStrings.a11y.nitrogenStringProperty;
-const oxygenStringProperty = GreenhouseEffectStrings.a11y.oxygenStringProperty;
-const ozoneStringProperty = GreenhouseEffectStrings.a11y.ozoneStringProperty;
-const waterStringProperty = GreenhouseEffectStrings.a11y.waterStringProperty;
-const linearStringProperty = GreenhouseEffectStrings.a11y.linearStringProperty;
-const bentStringProperty = GreenhouseEffectStrings.a11y.bentStringProperty;
-const tetrahedralStringProperty = GreenhouseEffectStrings.a11y.tetrahedralStringProperty;
-const diatomicStringProperty = GreenhouseEffectStrings.a11y.diatomicStringProperty;
-const bentGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.bentGeometryDescriptionStringProperty;
-const tetrahedralGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.tetrahedralGeometryDescriptionStringProperty;
-const linearGeometryDescriptionStringProperty = GreenhouseEffectStrings.a11y.linearGeometryDescriptionStringProperty;
 
 // constants
 class Geometry extends EnumerationValue {
@@ -67,24 +50,6 @@ MolecularGeometryMap.set( NO2, Geometry.BENT );
 MolecularGeometryMap.set( O, Geometry.DIATOMIC );
 
 const MoleculeUtils = {
-
-  /**
-   * Get the full molecular name of a molecule. Returns something like "Carbon Dioxide" or "Oxygen".
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
-   */
-  getMolecularName( molecule ) {
-    return molecule instanceof CO ? carbonMonoxideStringProperty.value :
-           molecule instanceof N2 ? nitrogenStringProperty.value :
-           molecule instanceof O2 ? oxygenStringProperty.value :
-           molecule instanceof CO2 ? carbonDioxideStringProperty.value :
-           molecule instanceof NO2 ? nitrogenDioxideStringProperty.value :
-           molecule instanceof H2O ? waterStringProperty.value :
-           molecule instanceof O3 ? ozoneStringProperty.value :
-           molecule instanceof CH4 ? methaneStringProperty.value :
-           diatomicOxygenStringProperty.value;
-  },
 
   /**
    * Get the molecular formula for an instance of a Molecule. Returns something like 'CO' or 'N2'.
@@ -126,66 +91,6 @@ const MoleculeUtils = {
   },
 
   /**
-   * Get a label string for the geometry of a molecule. To be seen by the user in some context. Will
-   * return something like 'linear' or 'bent'.
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
-   */
-  getGeometryLabel( molecule ) {
-    let labelString = '';
-
-    const geometry = MolecularGeometryMap.get( molecule.constructor );
-    if ( geometry === Geometry.LINEAR ) {
-      labelString = linearStringProperty.value;
-    }
-    else if ( geometry === Geometry.BENT ) {
-      labelString = bentStringProperty.value;
-    }
-    else if ( geometry === Geometry.TETRAHEDRAL ) {
-      labelString = tetrahedralStringProperty.value;
-    }
-    else if ( geometry === Geometry.DIATOMIC ) {
-      labelString = diatomicStringProperty.value;
-    }
-    else {
-      throw new Error( 'requesting geometry label for a geometry that is not registered' );
-    }
-
-    return labelString;
-  },
-
-  /**
-   * Returns a title of the molecular geometry, meant to describe geometry on its own. Will return
-   * something like "Linear" or "Bent".
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
-   */
-  getGeometryTitleString( molecule ) {
-    let titleString = '';
-
-    const geometry = MolecularGeometryMap.get( molecule.constructor );
-    if ( geometry === Geometry.LINEAR ) {
-      titleString = linearStringProperty.value;
-    }
-    else if ( geometry === Geometry.BENT ) {
-      titleString = bentStringProperty.value;
-    }
-    else if ( geometry === Geometry.TETRAHEDRAL ) {
-      titleString = tetrahedralStringProperty.value;
-    }
-    else if ( geometry === Geometry.DIATOMIC ) {
-      titleString = diatomicStringProperty.value;
-    }
-    else {
-      throw new Error( 'requesting geometry label for a geometry that is not registered' );
-    }
-
-    return titleString;
-  },
-
-  /**
    * For a given molecule, returns the geometry.
    */
   getGeometryEnum( molecule ) {
@@ -207,13 +112,13 @@ const MoleculeUtils = {
 
     const geometry = MolecularGeometryMap.get( molecule.constructor );
     if ( geometry === Geometry.LINEAR ) {
-      descriptionString = linearGeometryDescriptionStringProperty.value;
+      descriptionString = GreenhouseEffectFluentMessages.linearGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.BENT ) {
-      descriptionString = bentGeometryDescriptionStringProperty.value;
+      descriptionString = GreenhouseEffectFluentMessages.bentGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      descriptionString = tetrahedralGeometryDescriptionStringProperty.value;
+      descriptionString = GreenhouseEffectFluentMessages.tetrahedralGeometryDescriptionMessageProperty;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );

@@ -26,6 +26,7 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -40,8 +41,8 @@ import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
 const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectStrings.SpectrumWindow.buttonCaptionStringProperty;
-const spectrumButtonLabelStringProperty = GreenhouseEffectStrings.a11y.spectrumButtonLabelStringProperty;
-const spectrumButtonDescriptionStringProperty = GreenhouseEffectStrings.a11y.spectrumButtonDescriptionStringProperty;
+const spectrumButtonLabelMessageProperty = GreenhouseEffectFluentMessages.spectrumButtonLabelMessageProperty;
+const spectrumButtonDescriptionMessageProperty = GreenhouseEffectFluentMessages.spectrumButtonDescriptionMessageProperty;
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -145,8 +146,8 @@ class MicroScreenView extends ScreenView {
       playPauseStepButtonOptions: {
 
         // pdom
-        playingHelpText: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPlayingWithSpeedDescription,
-        pausedHelpText: GreenhouseEffectStrings.a11y.timeControls.playPauseButtonPausedWithSpeedDescription,
+        playingHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescription,
+        pausedHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPausedWithSpeedDescription,
 
         playPauseButtonOptions: {
           radius: 23
@@ -198,8 +199,8 @@ class MicroScreenView extends ScreenView {
       soundPlayer: nullSoundPlayer,
 
       // pdom
-      innerContent: spectrumButtonLabelStringProperty.value,
-      descriptionContent: spectrumButtonDescriptionStringProperty.value,
+      innerContent: spectrumButtonLabelMessageProperty,
+      descriptionContent: spectrumButtonDescriptionMessageProperty,
       appendDescription: true,
       containerTagName: 'div'
     } );
