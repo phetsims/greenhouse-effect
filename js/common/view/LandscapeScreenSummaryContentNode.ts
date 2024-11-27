@@ -9,7 +9,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
+import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
