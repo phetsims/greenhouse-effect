@@ -261,7 +261,7 @@ molecule-button-label-pattern = { $photonTarget ->
 # Context responses (real-time feedback) that occurs while the sim is running.
 # ..................................................................
 
-# ..
+# ...
 # Spoken when a photon is re-emitted from a molecule.
 emission-phase-description-pattern = Absorbed { $lightSource ->
   [ MICRO ] Microwave
@@ -290,20 +290,22 @@ emission-phase-description-pattern = Absorbed { $lightSource ->
   *[UNKNOWN] unknown
 }.
 
-# Describing a molecule stretching. A short form is spoken more often to reduce verbocity.
+# ...
+# Molecule excitations. The long form is spoken on first excitation, then the short form is spoken to reduce verbocity.
+# Streching
 short-stretching-alert = Stretching.
 long-stretching-alert = Bonds of molecule stretch back and forth.
 
-# Describing a molecule bending. A short form is spoken more often to reduce verbocity.
+# Bending
 short-bending-alert = Bending.
 long-bending-alert = Bonds of molecule bend up and down.
 
+# Rotating/rotation
 short-rotating-alert = Rotating.
-
 long-rotating-alert = Molecule rotates.
 
+# Glowing
 short-glowing-alert = Glowing.
-
 long-glowing-alert = Molecule glows.
 
 # The molecular formulas in this pattern are not translatable.
@@ -403,10 +405,10 @@ slow-motion-emitted-pattern = Photon emitted { $direction ->
   *[UNKNOWN] unknown
 }.
 
-# A hint that is spoken when the user steps forward but there is no photon target.
+# When the user steps forward but there is no photon target, the reset hint provides important context.
 reset-or-change-molecule = Reset or change molecule.
 
-# When the emitter is turned on or off. Longer forms when in slow motion or when the sim is paused.
+# Context responses for the light source emitter button. Longer responses describe the full context when in slow motion or when the sim is paused.
 photon-emitter-photons-off = Photons off.
 photon-emitter-photons-on = Photons on.
 photon-emitter-photons-on-slow-speed = Photons on slow speed.
@@ -421,7 +423,7 @@ paused-photon-emitted-pattern = { $lightSource ->
   *[ UNKNOWN ] Unknown
 } photon leaves light source.
 
-# Alerts that occur when the sim is paused. Additional hints provide guidance on how to
+# Context responses that occur when the sim is paused. Additional hints provide guidance on how to
 # continue interacting with the sim.
 time-controls-sim-paused-emitter-on-alert = Sim paused. Play to continue exploration.
 time-controls-sim-paused-emitter-off-alert = Sim paused. Light source off.
@@ -431,7 +433,7 @@ time-controls-play-pause-button-paused-with-speed-description = Step forward lit
 time-controls-step-hint-alert = Turn light source on to use Step Forward.
 
 # ..................................................................
-# Content for the Spectrum diagram Dialog.
+# A Static State Description describes the Light Spectrum Diagram.
 # ..................................................................
 spectrum-button-label = Light Spectrum Diagram
 spectrum-button-description = Examine details of full light spectrum.
