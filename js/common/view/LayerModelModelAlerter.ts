@@ -7,16 +7,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
-import LayersModelAlerter, { LayersModelAlerterOptions } from './LayersModelAlerter.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Utils from '../../../../dot/js/Utils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import Utils from '../../../../dot/js/Utils.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import LayersModelAlerter, { LayersModelAlerterOptions } from './LayersModelAlerter.js';
 
 type SelfOptions = EmptySelfOptions;
 export type LayerModelModelAlerterOptions = SelfOptions & LayersModelAlerterOptions;

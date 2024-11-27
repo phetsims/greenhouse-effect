@@ -7,8 +7,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 export default class EnergyRepresentation extends EnumerationValue {

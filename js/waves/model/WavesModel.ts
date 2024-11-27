@@ -24,13 +24,13 @@ import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js
 import ConcentrationModel, { ConcentrationModelOptions, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
+import isInfrared from '../../common/model/isInfrared.js';
+import isVisible from '../../common/model/isVisible.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
-import isInfrared from '../../common/model/isInfrared.js';
-import isVisible from '../../common/model/isVisible.js';
 
 type SelfOptions = EmptySelfOptions;
 type WaveModelOptions = SelfOptions & ConcentrationModelOptions;

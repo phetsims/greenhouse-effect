@@ -7,17 +7,17 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import irFluxDownA_mp3 from '../../../sounds/irFluxDownA_mp3.js';
 import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // amount of time before starting to fade where flux change is below the threshold, in seconds
 const PRE_FADE_TIME = 0.25;

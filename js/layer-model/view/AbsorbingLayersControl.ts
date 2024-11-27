@@ -7,17 +7,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import { HBox, Text } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import { HBox, Text } from '../../../../scenery/js/imports.js';
+import NumberPicker from '../../../../sun/js/NumberPicker.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 
 export default class AbsorbingLayersControl extends HBox {
 

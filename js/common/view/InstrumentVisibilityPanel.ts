@@ -8,17 +8,17 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
+import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 
 const LABEL_FONT = new PhetFont( {

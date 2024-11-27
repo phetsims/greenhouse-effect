@@ -6,23 +6,23 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import { DisplayedProperty } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
+import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
+import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonsLandscapeObservationWindowPDOMNode from './PhotonsLandscapeObservationWindowPDOMNode.js';
-import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
-import { DisplayedProperty } from '../../../../scenery/js/imports.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
-import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = EmptySelfOptions;
 export type PhotonLandscapeObservationWindowOptions =

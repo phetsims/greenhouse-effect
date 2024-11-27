@@ -13,11 +13,18 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { FullPhetioState } from '../../../../tandem/js/phet-io-types.js';
+import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
@@ -27,18 +34,11 @@ import EMEnergyPacket, { EMEnergyPacketStateObject } from './EMEnergyPacket.js';
 import EnergyAbsorbingEmittingLayer from './EnergyAbsorbingEmittingLayer.js';
 import FluxMeter, { FluxMeterOptions } from './FluxMeter.js';
 import GreenhouseEffectModel, { GreenhouseEffectModelOptions } from './GreenhouseEffectModel.js';
+import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
 import GroundLayer, { GroundLayerOptions } from './GroundLayer.js';
 import SpaceEnergySink from './SpaceEnergySink.js';
 import SunEnergySource from './SunEnergySource.js';
 import TemperatureUnits from './TemperatureUnits.js';
-import GreenhouseEffectPreferences from './GreenhouseEffectPreferences.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
-import { FullPhetioState } from '../../../../tandem/js/phet-io-types.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import phetioStateSetEmitter from '../../../../tandem/js/phetioStateSetEmitter.js';
 
 // constants
 const HEIGHT_OF_ATMOSPHERE = 50000; // in meters

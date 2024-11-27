@@ -11,6 +11,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import { Path, VBox } from '../../../../scenery/js/imports.js';
@@ -20,7 +21,6 @@ import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 import EnergyLegend, { EnergyLegendOptions } from './EnergyLegend.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 const FRAME_WIDTH = 12; // in screen coords, empirically determined to do the job
 

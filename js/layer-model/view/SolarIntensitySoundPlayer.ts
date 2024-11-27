@@ -7,15 +7,15 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import Range from '../../../../dot/js/Range.js';
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import Range from '../../../../dot/js/Range.js';
+import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
+import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class SolarIntensitySoundPlayer extends SoundGenerator implements TSoundPlayer {
 

@@ -6,18 +6,18 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
-import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
 class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 

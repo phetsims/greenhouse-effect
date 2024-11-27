@@ -9,13 +9,13 @@
 import { VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
+import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
+import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import CloudCheckbox from '../../common/view/CloudCheckbox.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 import PhotonsScreenSummaryContentNode from './PhotonsScreenSummaryContentNode.js';

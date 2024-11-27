@@ -13,18 +13,18 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../scenery/js/imports.js';
+import Range from '../../../dot/js/Range.js';
+import Vector2 from '../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../scenery/js/imports.js';
 import infraredPhoton_png from '../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../images/visiblePhoton_png.js';
-import Vector2 from '../../../dot/js/Vector2.js';
-import PhotonCollection from './model/PhotonCollection.js';
-import { ShowState } from './model/Photon.js';
-import Range from '../../../dot/js/Range.js';
-import LayersModel from './model/LayersModel.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import GreenhouseEffectObservationWindow from './view/GreenhouseEffectObservationWindow.js';
 import isVisible from './model/isVisible.js';
+import LayersModel from './model/LayersModel.js';
+import { ShowState } from './model/Photon.js';
+import PhotonCollection from './model/PhotonCollection.js';
+import GreenhouseEffectObservationWindow from './view/GreenhouseEffectObservationWindow.js';
 
 // constants
 const TARGET_PHOTON_IMAGE_WIDTH = 17; // empirically determined to match the design

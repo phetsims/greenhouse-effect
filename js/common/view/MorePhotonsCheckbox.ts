@@ -7,11 +7,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 
 class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 

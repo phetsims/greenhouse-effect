@@ -15,18 +15,18 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import LayersModel from './LayersModel.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import isVisible from './isVisible.js';
+import LayersModel from './LayersModel.js';
 
 type ReflectivityValues = {
 

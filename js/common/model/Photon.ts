@@ -6,6 +6,9 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
+import TinyProperty from '../../../../axon/js/TinyProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
@@ -15,9 +18,6 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import TinyProperty from '../../../../axon/js/TinyProperty.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 // constants
 const PHOTON_SPEED = GreenhouseEffectConstants.SPEED_OF_LIGHT;

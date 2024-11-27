@@ -6,18 +6,18 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import { LinearGradient, Rectangle } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import Utterance from '../../../../utterance-queue/js/Utterance.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
+import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import Property from '../../../../axon/js/Property.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   public constructor( property: Property<boolean>,

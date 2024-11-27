@@ -7,19 +7,19 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Color, HBox, Node, NodeOptions, Rectangle } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
 import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import TemperatureReadout from '../../common/view/TemperatureReadout.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
 
 // constants
 const DEFAULT_LAYER_THICKNESS = 26; // in screen coordinates, empirically determined to match design spec

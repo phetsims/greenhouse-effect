@@ -7,13 +7,13 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../../axon/js/Multilink.js';
+import StringProperty from '../../../../../axon/js/StringProperty.js';
+import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import LayersModel from '../../model/LayersModel.js';
-import StringProperty from '../../../../../axon/js/StringProperty.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
 import ValueToStringMapper from './ValueToStringMapper.js';
-import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 
 class FluxSensorAltitudeDescriptionProperty extends StringProperty {
 

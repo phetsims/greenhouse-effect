@@ -8,20 +8,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import HSlider from '../../../../sun/js/HSlider.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { SliderOptions } from '../../../../sun/js/Slider.js';
-import Utils from '../../../../dot/js/Utils.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { Text, VBox } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import { SliderOptions } from '../../../../sun/js/Slider.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
 

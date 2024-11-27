@@ -27,10 +27,10 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
+import LayersModel from '../model/LayersModel.js';
 import SunEnergySource from '../model/SunEnergySource.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import EnergyBalanceSoundGenerator from './EnergyBalanceSoundGenerator.js';
-import LayersModel from '../model/LayersModel.js';
 
 // constants
 const BAR_COLOR = 'rgb(0,187,115)';

@@ -11,8 +11,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import InfraredAbsorbanceControl from './InfraredAbsorbanceControl.js';
 import AbsorbingLayersControl from './AbsorbingLayersControl.js';
+import InfraredAbsorbanceControl from './InfraredAbsorbanceControl.js';
 import LayerScreenControlPanel from './LayerScreenControlPanel.js';
 
 export default class InfraredPanel extends LayerScreenControlPanel {

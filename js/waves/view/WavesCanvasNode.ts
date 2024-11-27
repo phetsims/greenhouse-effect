@@ -10,16 +10,16 @@
 
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { CanvasNode, CanvasNodeOptions, ColorProperty } from '../../../../scenery/js/imports.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from '../model/Wave.js';
 import WavesModel from '../model/WavesModel.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;

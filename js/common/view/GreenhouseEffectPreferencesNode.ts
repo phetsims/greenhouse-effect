@@ -10,12 +10,12 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import { VBox, VBoxOptions } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import DefaultTemperatureUnitsControl from './DefaultTemperatureUnitsControl.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 
 type SelfOptions = EmptySelfOptions;
 type GreenhouseEffectPreferencesNodeOptions = SelfOptions & WithRequired<VBoxOptions, 'tandem'>;

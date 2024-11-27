@@ -12,10 +12,10 @@ import SoundClip, { SoundClipOptions } from '../../../../tambo/js/sound-generato
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import wavesIrReemissionLoop_mp3 from '../../../sounds/wavesIrReemissionLoop_mp3.js';
 import wavesIrReemissionStartingSound_mp3 from '../../../sounds/wavesIrReemissionStartingSound_mp3.js';
+import isInfrared from '../../common/model/isInfrared.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenView from './WavesScreenView.js';
-import isInfrared from '../../common/model/isInfrared.js';
 
 // constants
 const MAX_IR_WAVES_FROM_ATMOSPHERE = 3;

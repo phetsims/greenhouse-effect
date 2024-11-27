@@ -8,18 +8,18 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
-import Property from '../../../../axon/js/Property.js';
 import MovingSampleWindow from './MovingSampleWindow.js';
 
 // The various substances that this layer can model.

@@ -8,21 +8,21 @@
  */
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Utils from '../../../../dot/js/Utils.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import { Text, VBox } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import HSlider from '../../../../sun/js/HSlider.js';
 import { SliderOptions } from '../../../../sun/js/Slider.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import Utils from '../../../../dot/js/Utils.js';
-import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import SunlightIntensityDescriptionProperty from './describers/SunlightIntensityDescriptionProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 
 const SOLAR_INTENSITY_SLIDER_STEP_SIZE = 0.25;
 

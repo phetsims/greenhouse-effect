@@ -11,9 +11,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
+import LayerScreenControlPanel from './LayerScreenControlPanel.js';
 import SolarIntensityControl from './SolarIntensityControl.js';
 import SurfaceAlbedoControl from './SurfaceAlbedoControl.js';
-import LayerScreenControlPanel from './LayerScreenControlPanel.js';
 
 export default class SunlightPanel extends LayerScreenControlPanel {
   public constructor( width: number, layersModel: LayerModelModel, tandem: Tandem ) {

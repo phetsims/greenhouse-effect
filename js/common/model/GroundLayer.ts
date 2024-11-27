@@ -8,12 +8,12 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
-import EnergyDirection from './EnergyDirection.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
+import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
+import EnergyDirection from './EnergyDirection.js';
 import isVisible from './isVisible.js';
 
 // constants

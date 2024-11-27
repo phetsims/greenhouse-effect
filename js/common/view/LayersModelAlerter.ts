@@ -11,19 +11,19 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayersModel from '../model/LayersModel.js';
-import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import TemperatureDescriber from './describers/TemperatureDescriber.js';
 
 type SelfOptions = {
 

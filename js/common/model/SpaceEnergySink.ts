@@ -9,12 +9,12 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 class SpaceEnergySink {
   private readonly altitude: number;

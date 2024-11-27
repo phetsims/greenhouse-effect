@@ -7,9 +7,9 @@
  */
 
 import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
-import PhotonsModel from '../model/PhotonsModel.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import PhotonsModel from '../model/PhotonsModel.js';
 
 export default class PhotonsScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
   public constructor( model: PhotonsModel ) {

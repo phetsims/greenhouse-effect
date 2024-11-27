@@ -7,8 +7,8 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 
 class ValueToStringMapper {
 

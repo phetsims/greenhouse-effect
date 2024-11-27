@@ -10,13 +10,13 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2, { Bounds2StateObject } from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate, ConcentrationModelOptions, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
+import isVisible from '../../common/model/isVisible.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import isVisible from '../../common/model/isVisible.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 type PhotonModelOptions = SelfOptions & ConcentrationModelOptions;

@@ -10,12 +10,15 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
 import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
@@ -29,9 +32,6 @@ import GroundLayer from '../model/GroundLayer.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectObservationWindow from './GreenhouseEffectObservationWindow.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TemperatureReadout from './TemperatureReadout.js';
 
 // constants

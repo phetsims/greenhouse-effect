@@ -7,15 +7,15 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
+import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
-import WavesCanvasNode from './WavesCanvasNode.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from './WaveLandscapeObservationWindowPDOMNode.js';
-import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import WavesCanvasNode from './WavesCanvasNode.js';
 
 type SelfOptions = EmptySelfOptions;
 type WaveLandscapeObservationWindowOptions =

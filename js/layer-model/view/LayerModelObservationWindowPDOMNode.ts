@@ -1,18 +1,18 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import Utils from '../../../../dot/js/Utils.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
+import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import LayerModelModel from '../model/LayerModelModel.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
-import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
-import Utils from '../../../../dot/js/Utils.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
+import LayerModelModel from '../model/LayerModelModel.js';
+import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an

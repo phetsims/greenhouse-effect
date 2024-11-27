@@ -7,13 +7,13 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
-import EMEnergyPacket from './EMEnergyPacket.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
+import EMEnergyPacket from './EMEnergyPacket.js';
+import EnergyAbsorbingEmittingLayer, { EnergyAbsorbingEmittingLayerOptions } from './EnergyAbsorbingEmittingLayer.js';
 
 type SelfOptions = {
   initiallyActive?: boolean;

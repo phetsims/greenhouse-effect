@@ -7,11 +7,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import { ConcentrationDate } from '../model/ConcentrationModel.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import { ConcentrationDate } from '../model/ConcentrationModel.js';
 
 // gas concentration maps - all values in Parts Per Million (PPM)
 const CARBON_DIOXIDE_CONCENTRATION_DATA = new Map( [

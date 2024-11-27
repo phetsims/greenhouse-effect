@@ -6,10 +6,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavesModel from '../model/WavesModel.js';
-import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
 
 class WavesScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
 

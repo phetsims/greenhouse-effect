@@ -9,6 +9,7 @@
 
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { GridBox, Image, ImageOptions, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
@@ -17,7 +18,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import EnergyRepresentation from './EnergyRepresentation.js';
 
 // constants

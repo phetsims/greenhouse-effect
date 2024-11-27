@@ -9,9 +9,9 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * A simple class that specifies the X value for where waves will be produced and a direction of travel.

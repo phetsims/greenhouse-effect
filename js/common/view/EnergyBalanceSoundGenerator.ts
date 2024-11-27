@@ -11,12 +11,12 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import SunEnergySource from '../model/SunEnergySource.js';
-import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 
 // constants
 const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;

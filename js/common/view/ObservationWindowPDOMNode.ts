@@ -7,10 +7,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 class ObservationWindowPDOMNode extends Node {
 
