@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * PhotonAbsorbingEmittingLayer is a model element that is responsible for absorbing and re-emitting individual photons

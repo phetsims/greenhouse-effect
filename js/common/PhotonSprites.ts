@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * PhotonSprites is a class that can be used to perform high-performance rendering of a set of photons.  It uses

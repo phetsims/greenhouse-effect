@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';

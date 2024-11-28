@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * Yes, it's kind of a ridiculous name, but there was already a base class called "LayersModel", and we wanted to stick

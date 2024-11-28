@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';

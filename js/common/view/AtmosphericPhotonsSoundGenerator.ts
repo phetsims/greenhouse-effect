@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * AtmosphericPhotonsSoundGenerator is used to produce sounds related to photons being emitted by or absorbed into the

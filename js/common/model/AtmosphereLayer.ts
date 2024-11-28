@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * AtmosphereLayer is a subclass of EnergyAbsorbingEmittingLayer and adds the behavior that is specific to the

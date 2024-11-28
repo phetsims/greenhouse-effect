@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 import Wave from '../../waves/model/Wave.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';

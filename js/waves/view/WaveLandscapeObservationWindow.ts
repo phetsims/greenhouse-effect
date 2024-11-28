@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * WaveLandscapeObservationWindow is a specialization class that adds the ability to depict electromagnetic waves to its
