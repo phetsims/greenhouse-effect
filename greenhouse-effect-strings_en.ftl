@@ -21,8 +21,8 @@
 
 # ..
 # Bond movement for excited states descriptions
- -bend-up-and-down = bend up and down
- -stretch-back-and-forth = stretch back and forth
+-bend-up-and-down = bend up and down
+-stretch-back-and-forth = stretch back and forth
 
 # ..
 # Molecule description phrases for excited states.
