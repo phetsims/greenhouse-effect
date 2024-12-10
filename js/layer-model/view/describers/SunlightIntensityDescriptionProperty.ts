@@ -1,5 +1,10 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
+import Multilink from '../../../../../axon/js/Multilink.js';
+import StringProperty from '../../../../../axon/js/StringProperty.js';
+import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
+import Utils from '../../../../../dot/js/Utils.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 /**
  * An observable string that will describe the value of sunlight intensity. This description is relative to
  * our sun, and will return something like
@@ -10,12 +15,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import StringProperty from '../../../../../axon/js/StringProperty.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
-import Utils from '../../../../../dot/js/Utils.js';
-import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
-import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 
 class SunlightIntensityDescriptionProperty extends StringProperty {
   public constructor( intensityProperty: TRangedProperty ) {

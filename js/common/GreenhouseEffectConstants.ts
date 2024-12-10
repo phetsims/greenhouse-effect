@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * Constants used throughout this simulation.
@@ -9,9 +9,9 @@
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import greenhouseEffect from '../greenhouseEffect.js';
-import { SliderOptions } from '../../../sun/js/Slider.js';
 import { TextOptions } from '../../../scenery/js/imports.js';
+import { SliderOptions } from '../../../sun/js/Slider.js';
+import greenhouseEffect from '../greenhouseEffect.js';
 
 const HORIZONTAL_SLIDER_THUMB_SIZE = new Dimension2( 13, 26 );
 

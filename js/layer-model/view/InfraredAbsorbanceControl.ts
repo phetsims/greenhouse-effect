@@ -7,20 +7,20 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import { Text, VBox } from '../../../../scenery/js/imports.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import InfraredAbsorbanceSoundPlayer from './InfraredAbsorbanceSoundPlayer.js';
-import soundManager from '../../../../tambo/js/soundManager.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import HSlider from '../../../../sun/js/HSlider.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
-import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { Text, VBox } from '../../../../scenery/js/imports.js';
+import HSlider from '../../../../sun/js/HSlider.js';
+import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import InfraredAbsorbanceSoundPlayer from './InfraredAbsorbanceSoundPlayer.js';
 
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
 

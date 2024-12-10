@@ -8,17 +8,17 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TEmitter from '../../../../axon/js/TEmitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
-import { FluxMeterReadings } from '../model/FluxMeter.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { FluxMeterReadings } from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
+import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 
 type SelfOptions = {
 

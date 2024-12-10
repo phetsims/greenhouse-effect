@@ -6,13 +6,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-import WavesModel from '../model/WavesModel.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
+import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import WavesModel from '../model/WavesModel.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowPDOMNode {
 

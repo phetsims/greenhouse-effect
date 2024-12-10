@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * FluxSensor is a two-dimensional sensor which is modeled as a rectangle that is parallel to the ground and measures
@@ -19,12 +19,12 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
-import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 import EnergyDirection from './EnergyDirection.js';
+import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
-import LayersModel from './LayersModel.js';
-import isVisible from './isVisible.js';
 import isInfrared from './isInfrared.js';
+import isVisible from './isVisible.js';
+import LayersModel from './LayersModel.js';
 
 // types
 type SelfOptions = {

@@ -6,19 +6,19 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import { Node } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
-import LayerModelObservationWindow from './LayerModelObservationWindow.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredPanel from './InfraredPanel.js';
+import LayerModelObservationWindow from './LayerModelObservationWindow.js';
+import LayerModelScreenSummaryContentNode from './LayerModelScreenSummaryContentNode.js';
 import SunlightPanel from './SunlightPanel.js';
 import TemperatureUnitsControl from './TemperatureUnitsControl.js';
-import LayerModelScreenSummaryContentNode from './LayerModelScreenSummaryContentNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
 class LayerModelScreenView extends GreenhouseEffectScreenView {
 

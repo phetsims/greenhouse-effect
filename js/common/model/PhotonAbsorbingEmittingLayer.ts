@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * PhotonAbsorbingEmittingLayer is a model element that is responsible for absorbing and re-emitting individual photons
@@ -14,15 +14,15 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Photon from './Photon.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 
 // enum that enumerates the possible results when testing whether a photon crossed a layer
 class PhotonCrossingTestResult extends EnumerationValue {

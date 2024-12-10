@@ -14,6 +14,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -21,6 +22,8 @@ import { AlignBox, Color, FocusableHeadingNode, LinearGradient, ManualConstraint
 import TextPushButton from '../../../../sun/js/buttons/TextPushButton.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
@@ -32,9 +35,6 @@ import EnergyBalancePanel from './EnergyBalancePanel.js';
 import FluxMeterNode, { FluxMeterNodeOptions } from './FluxMeterNode.js';
 import InstrumentVisibilityPanel from './InstrumentVisibilityPanel.js';
 import TemperatureSoundGeneratorFiltered from './TemperatureSoundGeneratorFiltered.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import isSettingPhetioStateProperty from '../../../../tandem/js/isSettingPhetioStateProperty.js';
 
 // constants
 const SIZE = new Dimension2( 780, 525 ); // in screen coordinates

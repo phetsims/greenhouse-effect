@@ -1,12 +1,12 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * WaveIntensityChange is a type that represents a change in a propagating wave's intensity at a point along a wave that

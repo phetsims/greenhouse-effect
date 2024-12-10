@@ -7,12 +7,12 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
+import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSummaryContent {
 

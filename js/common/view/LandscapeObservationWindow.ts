@@ -9,7 +9,9 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
@@ -28,12 +30,10 @@ import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
 import ConcentrationModelAlerter from './ConcentrationModelAlerter.js';
+import EnergyRepresentation from './EnergyRepresentation.js';
 import GreenhouseEffectObservationWindow, { GreenhouseEffectObservationWindowOptions } from './GreenhouseEffectObservationWindow.js';
 import LayerDebugNode from './LayerDebugNode.js';
 import ThermometerAndReadout from './ThermometerAndReadout.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import EnergyRepresentation from './EnergyRepresentation.js';
 
 type SelfOptions = {
 

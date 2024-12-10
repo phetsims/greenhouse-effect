@@ -7,14 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
+import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
-import Disposable from '../../../../axon/js/Disposable.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 

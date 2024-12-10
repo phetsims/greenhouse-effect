@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * EMWaveSource produces simulated waves of electromagnetic energy.
@@ -6,17 +6,17 @@
  * @author @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 type SelfOptions = {
 

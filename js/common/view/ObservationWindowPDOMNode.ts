@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * A Node that supports Interactive Description for the observation window, with PDOM structure and descriptions for the
@@ -7,10 +7,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 class ObservationWindowPDOMNode extends Node {
 

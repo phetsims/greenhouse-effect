@@ -9,9 +9,10 @@
 
 
 // modules
-// const Shape = require( '/kite/js/Shape.js' );  // See below for comment on temporary replacement of clipArea shape.
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -23,7 +24,6 @@ import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
-import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 
 const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectStrings.ButtonNode.ReturnMoleculeStringProperty;
 
@@ -81,17 +81,15 @@ class MicroObservationWindow extends Rectangle {
     photonEmitterNode.rightCenter = ( modelViewTransform.modelToViewPosition( photonAbsorptionModel.getPhotonEmissionPosition().plus( EMITTER_OFFSET ) ).plus( new Vector2( 0, photonEmitterNode.openSciEdLabelHeight / 2 ) ) );
     photonEmitterLayer.addChild( photonEmitterNode );
 
-    // TODO: (see https://github.com/phetsims/molecules-and-light/issues/105 and
-    //       https://github.com/phetsims/scenery/issues/412) This clip area has been replaced with a layered rectangle
-    //       in MicroScreenView because of a Safari specific SVG bug caused by clipping.  Once we discover the cause of
-    //       this bug, the clipping area can replace the layered rectangle in MicroScreenView.
     // Add a clip area around the edge of the window frame to clean up photon and molecule removal from screen.
-    //    this.clipArea = new Shape().roundRect(
-    //      this.left,
-    //      this.top,this.width,
-    //
-    //      this.height,
-    //      CORNER_RADIUS, CORNER_RADIUS ); // @private
+    this.clipArea = new Shape().roundRect(
+      this.left,
+      this.top,
+      this.width,
+      this.height,
+      CORNER_RADIUS,
+      CORNER_RADIUS
+    ); // @private
 
     // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
     // clipping area so that particles have a chance to cleanly slide out of the window before being removed.

@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * AtmosphericPhotonsSoundGenerator is used to produce sounds related to photons being emitted by or absorbed into the
@@ -7,14 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
-import PhotonCollection from '../model/PhotonCollection.js';
-import Photon from '../model/Photon.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import isInfrared from '../model/isInfrared.js';
+import Photon from '../model/Photon.js';
+import PhotonCollection from '../model/PhotonCollection.js';
 
 // constants
 const PLAY_DECISION_THRESHOLD = 0.5; // controls what proportion of emissions cause sounds

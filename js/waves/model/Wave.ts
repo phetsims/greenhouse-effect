@@ -9,6 +9,8 @@
  */
 import Vector2, { Vector2StateObject } from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
@@ -21,8 +23,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
-import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // constants
 const TWO_PI = 2 * Math.PI;

@@ -9,15 +9,15 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../../greenhouseEffect.js';
+import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import TemperatureUnits from '../../../common/model/TemperatureUnits.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
+import LocalizedStringProperty from '../../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
+import TemperatureUnits from '../../../common/model/TemperatureUnits.js';
 import TemperatureDescriber from '../../../common/view/describers/TemperatureDescriber.js';
+import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
-import LocalizedStringProperty from '../../../../../chipper/js/LocalizedStringProperty.js';
 
 class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
 

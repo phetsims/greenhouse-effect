@@ -1,5 +1,9 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
+import Multilink from '../../../../../axon/js/Multilink.js';
+import StringProperty from '../../../../../axon/js/StringProperty.js';
+import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 /**
  * InfraredAbsorbingLayersDescriptionProperty is a Property<string> that describes the current number of the IR-
  * absorbing layers in the atmosphere.  For example, one possible value is "2 infrared absorbing layers in atmosphere".
@@ -7,11 +11,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import StringProperty from '../../../../../axon/js/StringProperty.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
-import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
-import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 
 class InfraredAbsorbingLayersDescriptionProperty extends StringProperty {
   public constructor( numberOfActiveAtmosphereLayersProperty: TRangedProperty ) {

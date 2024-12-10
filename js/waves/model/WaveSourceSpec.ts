@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * WaveSourceSpec is a simple class that is used to specify where waves can be produced - or sourced - by a wave source.
@@ -9,9 +9,9 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * A simple class that specifies the X value for where waves will be produced and a direction of travel.

@@ -7,19 +7,19 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Random from '../../../../dot/js/Random.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, Color, DragListener, Node, NodeOptions, Path, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
-import Random from '../../../../dot/js/Random.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Matrix3 from '../../../../dot/js/Matrix3.js';
 
 // constants
 const CLOUD_FILL = new Color( 255, 255, 255, 0.75 );

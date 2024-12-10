@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * NumberOfLayersSoundPlayer is a sound generator that plays sounds that are intended to indicate the number of infrared
@@ -7,15 +7,15 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
-import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
-import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
-import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
-import Disposable from '../../../../axon/js/Disposable.js';
+import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
+import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
+import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 

@@ -1,4 +1,4 @@
-// Copyright 2020-2023, University of Colorado Boulder
+// Copyright 2020-2024, University of Colorado Boulder
 
 /**
  * Yes, it's kind of a ridiculous name, but there was already a base class called "LayersModel", and we wanted to stick
@@ -12,14 +12,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import LayersModel, { LayersModelOptions } from '../../common/model/LayersModel.js';
-import PhotonCollection from '../../common/model/PhotonCollection.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import LayersModel, { LayersModelOptions } from '../../common/model/LayersModel.js';
+import PhotonCollection from '../../common/model/PhotonCollection.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = EmptySelfOptions;
 type LayerModelModelOptions = SelfOptions & LayersModelOptions;

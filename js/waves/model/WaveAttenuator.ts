@@ -1,9 +1,9 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Disposable from '../../../../axon/js/Disposable.js';
 
 /**
  * WaveAttenuator is a simple class that is used to keep track of points along a wave where attenuation (reduction in

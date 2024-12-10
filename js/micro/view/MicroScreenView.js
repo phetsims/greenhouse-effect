@@ -19,7 +19,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, HotkeyData, KeyboardListener, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { AriaHasPopUpMutator, HotkeyData, KeyboardListener, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
@@ -50,12 +50,6 @@ const INTERMEDIATE_RENDERING_SIZE = new Dimension2( 500, 300 );
 
 // Position for the top left corner of the observation window.
 const OBSERVATION_WINDOW_POSITION = new Vector2( 15, 15 );
-
-// Corner radius of the observation window.
-const CORNER_RADIUS = 7;
-
-// Line width of the observation window frame
-const FRAME_LINE_WIDTH = 5;
 
 class MicroScreenView extends ScreenView {
 
@@ -95,25 +89,12 @@ class MicroScreenView extends ScreenView {
 
     this.addChild( this.observationWindow );
 
-    // This rectangle hides photons that are outside the observation window.
-    // TODO: (see https://github.com/phetsims/molecules-and-light/issues/105 and
-    //       https://github.com/phetsims/scenery/issues/412. This rectangle is a temporary workaround that replaces the
-    //       clipping area in MicroObservationWindow because of a Safari specific SVG bug caused by clipping.
-    const clipRectangle = new Rectangle( this.observationWindow.bounds.copy().dilate( 4 * FRAME_LINE_WIDTH ),
-      CORNER_RADIUS, CORNER_RADIUS, {
-        stroke: '#C5D6E8',
-        lineWidth: 8 * FRAME_LINE_WIDTH,
-        pickable: false
-      } );
-    this.addChild( clipRectangle );
-
     // Create the window frame node that borders the observation window.
     const windowFrameNode = new WindowFrameNode( this.observationWindow, '#BED0E7', '#4070CE' );
     this.addChild( windowFrameNode );
 
     // Set positions of the observation window and window frame.
     this.observationWindow.translate( OBSERVATION_WINDOW_POSITION );
-    clipRectangle.translate( OBSERVATION_WINDOW_POSITION );
     windowFrameNode.translate( OBSERVATION_WINDOW_POSITION );
 
     // Create the control panel for photon emission frequency.

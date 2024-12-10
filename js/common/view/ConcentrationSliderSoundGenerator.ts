@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * ConcentrationSliderSoundGenerator is a sound generator specifically designed to produce sounds for the concentration
@@ -7,16 +7,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueChangeSoundPlayer.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import Range from '../../../../dot/js/Range.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
-import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
+import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 

@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * ConcentrationModel is a GreenhouseEffectModel that adds in the ability to set the concentration of greenhouse gases
@@ -11,22 +11,22 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from './Cloud.js';
 import GroundLayer from './GroundLayer.js';
 import LayersModel, { LayersModelOptions, LayersModelStateObject } from './LayersModel.js';
-import Property from '../../../../axon/js/Property.js';
-import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = EmptySelfOptions;
 type ConcentrationModelOptions = SelfOptions & LayersModelOptions;

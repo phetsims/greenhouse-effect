@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * Controls for the layers in the Layers model, which controls how much infrared energy is absorbed.
@@ -11,8 +11,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
-import InfraredAbsorbanceControl from './InfraredAbsorbanceControl.js';
 import AbsorbingLayersControl from './AbsorbingLayersControl.js';
+import InfraredAbsorbanceControl from './InfraredAbsorbanceControl.js';
 import LayerScreenControlPanel from './LayerScreenControlPanel.js';
 
 export default class InfraredPanel extends LayerScreenControlPanel {

@@ -7,27 +7,27 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { Color, DisplayedProperty, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-import LayerModelModel from '../model/LayerModelModel.js';
-import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import LayersModel from '../../common/model/LayersModel.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
-import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';
-import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
-import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/FluxSensorAltitudeDescriptionProperty.js';
-import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
-import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
 import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
+import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
+import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
+import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import LayerModelModel from '../model/LayerModelModel.js';
+import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
+import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
 import LayerTemperatureCheckedDescriptionProperty from './describers/LayerTemperatureCheckedDescriptionProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import LayerModelObservationWindowPDOMNode from './LayerModelObservationWindowPDOMNode.js';
+import ShowTemperatureCheckbox from './ShowTemperatureCheckbox.js';
 
 // constants
 

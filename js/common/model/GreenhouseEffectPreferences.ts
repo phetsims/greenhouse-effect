@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * GreenhouseEffectPreferences is the model for sim-specific preferences.  The values declared here can be updated via
@@ -7,12 +7,12 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import TemperatureUnits from './TemperatureUnits.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // map used to set the default temperature units based on the value of a query parameter
 const mapLetterToTemperatureUnits = new Map<string, TemperatureUnits>( [

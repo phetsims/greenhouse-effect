@@ -7,14 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../../axon/js/Multilink.js';
+import StringProperty from '../../../../../axon/js/StringProperty.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 import FluxMeter from '../../model/FluxMeter.js';
-import StringProperty from '../../../../../axon/js/StringProperty.js';
-import Multilink from '../../../../../axon/js/Multilink.js';
-import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import ValueToStringMapper from './ValueToStringMapper.js';
 import FluxSensorAltitudeDescriptionProperty from './FluxSensorAltitudeDescriptionProperty.js';
+import ValueToStringMapper from './ValueToStringMapper.js';
 
 const fluxToValueStringMapper = new ValueToStringMapper(
   [

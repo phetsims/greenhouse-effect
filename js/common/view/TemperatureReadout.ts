@@ -6,24 +6,24 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
+import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
-import TemperatureUnits from '../model/TemperatureUnits.js';
-import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
-import DerivedStringProperty from '../../../../axon/js/DerivedStringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import TemperatureUnits from '../model/TemperatureUnits.js';
 
 // constants
 const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditionalTemperatureDigits ? 3 : 1;

@@ -7,16 +7,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import LinearFunction from '../../../../dot/js/LinearFunction.js';
 import Range from '../../../../dot/js/Range.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import temperatureBaseAmbience4Octaves_mp3 from '../../../sounds/temperatureBaseAmbience4Octaves_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const FILTER_FREQUENCY_RANGE = new Range( 120, 2500 );

@@ -8,11 +8,11 @@
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
-import GroundLayer from '../../model/GroundLayer.js';
-import TemperatureDescriber from './TemperatureDescriber.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
-import ConcentrationDescriber from './ConcentrationDescriber.js';
+import GroundLayer from '../../model/GroundLayer.js';
 import EnergyRepresentation from '../EnergyRepresentation.js';
+import ConcentrationDescriber from './ConcentrationDescriber.js';
+import TemperatureDescriber from './TemperatureDescriber.js';
 
 class RadiationDescriber {
 

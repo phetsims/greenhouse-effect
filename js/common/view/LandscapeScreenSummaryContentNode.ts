@@ -8,16 +8,16 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import GreenhouseEffectScreenSummaryContentNode from './GreenhouseEffectScreenSummaryContentNode.js';
-import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
-import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import TemperatureUnits from '../model/TemperatureUnits.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
+import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
+import TemperatureUnits from '../model/TemperatureUnits.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
+import GreenhouseEffectScreenSummaryContentNode from './GreenhouseEffectScreenSummaryContentNode.js';
 
 // constants
 const currentlyStringProperty = GreenhouseEffectStrings.a11y.currentlyStringProperty;

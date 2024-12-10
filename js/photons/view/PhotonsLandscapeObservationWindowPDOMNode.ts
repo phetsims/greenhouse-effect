@@ -10,19 +10,19 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import PhotonsModel from '../model/PhotonsModel.js';
-import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import LocalizedStringProperty from '../../../../chipper/js/LocalizedStringProperty.js';
-import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
+import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import PhotonsModel from '../model/PhotonsModel.js';
 
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
 
