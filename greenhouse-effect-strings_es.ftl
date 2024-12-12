@@ -3,21 +3,38 @@
 # ..................................................................
 # ..
 # Light sources
--microwave = Microondas
--infrared = Infrarrojo
--visible = Visible
--Ultraviolet = Ultravioleta
+-microwave = microondas
+-infrared = infrarrojo
+-visible = visible
+-ultraviolet = ultravioleta
+
+-infrared-feminine = infrarroja
+-infrared-feminine-capitalized = Infrarroja
+
+-microwave-capitalized = Microondas
+-infrared-capitalized = Infrarrojo
+-visible-capitalized = Visible
+-ultraviolet-capitalized = Ultravioleta
 
 # ..
 # Target molecules
--carbon-monoxide = Monóxido de Carbono
--nitrogetn = Nitrógeno
--oxygen = Oxígeno
--carbon-dioxide = Dióxido de Carbono
--methane = Metano
--water = Agua
--nitrogen-dioxide = Dióxido de Nitrógeno
--ozone = Ozono
+-carbon-monoxide = monóxido de carbono
+-nitrogen = nitrógeno
+-oxygen = oxígeno
+-carbon-dioxide = dióxido de carbono
+-methane = metano
+-water = agua
+-nitrogen-dioxide = dióxido de nitrógeno
+-ozone = ozono
+
+-carbon-monoxide-capitalized = Monóxido de carbono
+-nitrogen-capitalized = Nitrógeno
+-oxygen-capitalized = Oxígeno
+-carbon-dioxide-capitalized = Dióxido de Carbono
+-methane-capitalized = Metano
+-water-capitalized = Agua
+-nitrogen-dioxide-capitalized = Dióxido de Nitrógeno
+-ozone-capitalized = Ozono
 
 # ..
 # Bond movement for excited states descriptions
@@ -32,14 +49,14 @@
 
 # ..
 # Photon and molecule movement directions
-left = izquierda
-right = derecha
-up = arriba
-down = abajo
-up-and-to-the-left = arriba y a la izquierda
-up-and-to-the-right = arriba y a la derecha
-down-and-to-the-left = abajo y a la izquierda
-down-and-to-the-right = abajo y a la derecha
+-left = la izquierda
+-right = la derecha
+-up = arriba
+-down = abajo
+-up-and-to-the-left = arriba y a la izquierda
+-up-and-to-the-right = arriba y a la derecha
+-down-and-to-the-left = abajo y a la izquierda
+-down-and-to-the-right = abajo y a la derecha
 
 # ..
 # Unknown catch
@@ -59,7 +76,7 @@ interaction-hint = Encienda la fuente de luz para explorar.
 # Describing the simulation when the sim is playing and the photon emitter is on.
 dynamic-playing-emitter-on-screen-summary-pattern = Actualmente, la fuente de luz { $lightSource ->
   [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
+  [ INFRARED ] { -infrared-feminine }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
@@ -80,7 +97,7 @@ dynamic-playing-emitter-on-screen-summary-pattern = Actualmente, la fuente de lu
 # Describing the simulation when the sim is playing and the photon emitter is off.
 dynamic-playing-emitter-off-screen-summary-pattern = Actualmente, la fuente de luz { $lightSource ->
   [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
+  [ INFRARED ] { -infrared-feminine }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
@@ -101,7 +118,7 @@ dynamic-paused-emitter-on-screen-summary-pattern = Actualmente, la simulación {
   *[ SLOW ] está pausada a velocidad lenta
 }. La fuente de luz { $lightSource ->
   [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
+  [ INFRARED ] { -infrared-feminine }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
@@ -122,7 +139,7 @@ dynamic-paused-emitter-off-screen-summary-pattern = Actualmente, la simulación 
   *[ SLOW ] está pausada a velocidad lenta
 }. La fuente de luz { $lightSource ->
   [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
+  [ INFRARED ] { -infrared-feminine }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
@@ -150,7 +167,7 @@ observation-window-label = Ventana de Observación
 # Description of the light source when it is off.
 photon-emitter-off-description-pattern = La fuente de luz { $lightSource ->
   [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
+  [ INFRARED ] { -infrared-feminine }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
@@ -275,10 +292,10 @@ tetrahedral-geometry-description = Tetraédrica, molécula con un átomo central
 # Descriptions for the light source button.
 # ..................................................................
 light-source-button-label-pattern = Fuente de Luz { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwave-capitalized }
+  [ INFRARED ] { -infrared-feminine-capitalized }
+  [ VISIBLE ] { -visible-capitalized }
+  [ ULTRAVIOLET ] { -ultraviolet-capitalized }
   *[ UNKNOWN ] { -unknown }
 }
 light-source-button-pressed-help-text = Apague la fuente de luz para detener los fotones.
@@ -295,14 +312,14 @@ molecules-radio-button-help-text = Elija molécula para la ventana de observaci�
 
 # Pattern for the labels for the molecule radio buttons. Molecular formulas are not translatable.
 molecule-button-label-pattern = { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide-capitalized }
+  [ SINGLE_N2_MOLECULE ] { -nitrogen-capitalized }
+  [ SINGLE_O2_MOLECULE ] { -oxygen-capitalized }
+  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide-capitalized }
+  [ SINGLE_CH4_MOLECULE ] { -methane-capitalized }
+  [ SINGLE_H2O_MOLECULE ] { -water-capitalized }
+  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide-capitalized }
+  *[ SINGLE_O3_MOLECULE ] { -ozone-capitalized }
 }, { $molecularFormula }, { $geometryTitle ->
   [LINEAR] Lineal
   [BENT] Angular
@@ -332,8 +349,8 @@ emission-phase-description-pattern = Fotón { $lightSource ->
   [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
   *[ SINGLE_O3_MOLECULE ] { -ozone }
 } hacia { $direction ->
-  [LEFT] la izquierda
-  [RIGHT] la derecha
+  [LEFT] { -left }
+  [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
@@ -365,8 +382,8 @@ long-glowing-alert = La molécula brilla.
 breaks-apart-alert-pattern = La molécula se rompe en { $firstMolecule } y { $secondMolecule }.
 
 paused-emitting-pattern = Fotón absorbido emitido desde la molécula hacia { $direction ->
-  [LEFT] la derecha
-  [RIGHT] la izquierda
+  [LEFT] { -left }
+  [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
@@ -447,8 +464,8 @@ break-apart-description-with-float-pattern = { $description } { $floatDescriptio
 molecule-pieces-gone = Piezas de molécula desaparecidas. Restablecer o cambiar molécula.
 
 slow-motion-emitted-pattern = Fotón emitido hacia { $direction ->
-  [LEFT] la izquierda
-  [RIGHT] la derecha
+  [LEFT] { -left }
+  [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
