@@ -21,8 +21,8 @@
 
 # ..
 # Bond movement for excited states descriptions
--bend-up-and-down = se dobla de arriba abajo
--stretch-back-and-forth = se estira de un lado a otro
+-bend-up-and-down = se doblan de arriba abajo
+-stretch-back-and-forth = se estiran de un lado a otro
 
 # ..
 # Molecule description phrases for excited states.
@@ -66,7 +66,7 @@ dynamic-playing-emitter-on-screen-summary-pattern = Actualmente, la fuente de lu
 } emite fotones { $simSpeed ->
     [ NORMAL ] directamente a
     *[ SLOW ] a velocidad lenta directamente a
-} directamente a la molécula { $targetMolecule ->
+}  la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -84,7 +84,7 @@ dynamic-playing-emitter-off-screen-summary-pattern = Actualmente, la fuente de l
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} está apagada y apunta directamente a la molécula { $targetMolecule ->
+} está apagada y apunta directamente a la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -105,7 +105,7 @@ dynamic-paused-emitter-on-screen-summary-pattern = Actualmente, la simulación {
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} emite fotones directamente a la molécula { $targetMolecule ->
+} emite fotones directamente a la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -120,7 +120,13 @@ dynamic-paused-emitter-on-screen-summary-pattern = Actualmente, la simulación {
 dynamic-paused-emitter-off-screen-summary-pattern = Actualmente, la simulación { $simSpeed ->
    [ NORMAL ] está pausada
   *[ SLOW ] está pausada a velocidad lenta
-}. La fuente de luz infrarroja está apagada y apunta directamente a la molécula { $targetMolecule ->
+}. La fuente de luz { $lightSource ->
+  [ MICRO ] { -microwave }
+  [ INFRARED ] { -infrared }
+  [ VISIBLE ] { -visible }
+  [ ULTRAVIOLET ] { -ultraviolet }
+  *[ UNKNOWN ] { -unknown }
+}  está apagada y apunta directamente a la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -148,7 +154,7 @@ photon-emitter-off-description-pattern = La fuente de luz { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} está apagada y apunta directamente a la molécula { $targetMolecule ->
+} está apagada y apunta directamente a la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -168,7 +174,7 @@ inactive-and-passes-phase-description-pattern = El fotón { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} pasa a través de la molécula { $targetMolecule ->
+} pasa a través de la molécula de { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -188,7 +194,7 @@ absorption-phase-bonds-description-pattern = Fotón { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} absorbido, enlaces de la molécula { $photonTarget ->
+} absorbido,los enlaces de la molécula { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -249,7 +255,7 @@ break-apart-phase-description-pattern = Fotón { $lightSource ->
   [ SINGLE_H2O_MOLECULE ] { -water }
   [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
   *[ SINGLE_O3_MOLECULE ] { -ozone }
-} se divide en { $firstMolecule } y { $secondMolecule }.
+} se divide en { $firstMolecule } y { $secondMolecule }. { $firstMolecule } y { $secondMolecule } flotan alejandose.
 
 # ..
 # Description of the geometry of the active molecule.
@@ -261,7 +267,7 @@ geometry-label-pattern = Esta molécula tiene una geometría { $geometry ->
 }.
 
 # More information about the molecular geometry.
-linear-geometry-description = Lineal, una molécula con dos o tres átomos unidos para formar una línea recta. El ángulo de enlace es de 180 grados.
+linear-geometry-description = Lineal, molécula con dos o tres átomos unidos para formar una línea recta. El ángulo de enlace es de 180 grados.
 bent-geometry-description = Angular, molécula con un átomo central unido a otros dos átomos que forman un ángulo. El ángulo de enlace varía por debajo de los 120 grados.
 tetrahedral-geometry-description = Tetraédrica, molécula con un átomo central unido a otros cuatro átomos formando un tetraedro con ángulos de 109.5° entre ellos, como un dado de cuatro caras.
 
@@ -282,7 +288,7 @@ light-source-button-unpressed-help-text = Encienda la fuente de luz para iniciar
 # Descriptions for the light source and molecule radio buttons.
 # ..................................................................
 light-sources = Fuentes de Luz
-light-source-radio-button-help-text = Elija fuente de luz para la ventana de observación ordenada de baja a alta energía.
+light-source-radio-button-help-text = Elija la fuente de luz para la ventana de observación ordenada de baja a alta energía.
 
 molecules = Moléculas
 molecules-radio-button-help-text = Elija molécula para la ventana de observación.
@@ -305,18 +311,18 @@ molecule-button-label-pattern = { $photonTarget ->
 }
 
 # ..................................................................
-# Context responses (real-time feedback) that occurs while the sim is running.
+# Dinamic description in observation window that occurs while the sim is running.
 # ..................................................................
 
 # ...
 # Spoken when a photon is re-emitted from a molecule.
-emission-phase-description-pattern = Fotón absorbido { $lightSource ->
+emission-phase-description-pattern = Fotón { $lightSource ->
   [ MICRO ] { -microwave }
   [ INFRARED ] { -infrared }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} emitido desde la molécula { $photonTarget ->
+} absorbido y emitido desde la molécula de { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -325,9 +331,9 @@ emission-phase-description-pattern = Fotón absorbido { $lightSource ->
   [ SINGLE_H2O_MOLECULE ] { -water }
   [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
   *[ SINGLE_O3_MOLECULE ] { -ozone }
-} { $direction ->
-  [LEFT] { -left }
-  [RIGHT] { -right }
+} hacia { $direction ->
+  [LEFT] la izquierda
+  [RIGHT] la derecha
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
@@ -358,9 +364,9 @@ long-glowing-alert = La molécula brilla.
 # The molecular formulas in this pattern are not translatable.
 breaks-apart-alert-pattern = La molécula se rompe en { $firstMolecule } y { $secondMolecule }.
 
-paused-emitting-pattern = Fotón absorbido emitido desde la molécula { $direction ->
-  [LEFT] { -left }
-  [RIGHT] { -right }
+paused-emitting-pattern = Fotón absorbido emitido desde la molécula hacia { $direction ->
+  [LEFT] la derecha
+  [RIGHT] la izquierda
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
@@ -376,7 +382,7 @@ paused-passing-pattern = Fotón { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} pasa a través de la molécula { $photonTarget ->
+} pasa a través de la molécula de { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
@@ -414,11 +420,11 @@ slow-motion-vibrating-pattern = Fotón absorbido. Enlaces de la molécula { $exc
   *[ UNKNOWN ] { -unknown }
 }.
 
-slow-motion-absorbed-short-pattern = Fotón absorbido. { $excitedRepresentation ->
-  [BEND_UP_AND_DOWN] Doblado
-  [STRETCH_BACK_AND_FORTH] Estiramiento
-  [ROTATING] Rotación
-  [GLOWING] Brillo
+slow-motion-absorbed-short-pattern = Fotón absorbido.{ $excitedRepresentation ->
+  [BEND_UP_AND_DOWN] Doblando
+  [STRETCH_BACK_AND_FORTH] Estirando
+  [ROTATING] Rotando
+  [GLOWING] Brillando
   *[ UNKNOWN ] { -unknown }
 }.
 
@@ -430,7 +436,7 @@ slow-motion-absorbed-molecule-excited-pattern = Fotón absorbido. La molécula {
 }.
 
 # The molecular formulas are not translatable.
-slow-motion-break-apart-pattern = Fotón absorbido. La molécula se rompe. { $firstMolecule } y { $secondMolecule } flotan lejos.
+slow-motion-break-apart-pattern = Fotón absorbido. La molécula se rompe. { $firstMolecule } y { $secondMolecule } flotando lejos.
 
 # The molecular formulas are not translatable.
 molecules-floating-away-pattern = { $firstMolecule } y { $secondMolecule } flotando lejos.
@@ -440,9 +446,9 @@ break-apart-description-with-float-pattern = { $description } { $floatDescriptio
 
 molecule-pieces-gone = Piezas de molécula desaparecidas. Restablecer o cambiar molécula.
 
-slow-motion-emitted-pattern = Fotón emitido { $direction ->
-  [LEFT] { -left }
-  [RIGHT] { -right }
+slow-motion-emitted-pattern = Fotón emitido hacia { $direction ->
+  [LEFT] la izquierda
+  [RIGHT] la derecha
   [UP] { -up }
   [DOWN] { -down }
   [UP_LEFT] { -up-and-to-the-left }
@@ -496,9 +502,9 @@ spectrum-window-labelled-spectrum-visible-label = Visible, rango pequeño:
 spectrum-window-labelled-spectrum-ultraviolet-label = Ultravioleta, rango pequeño:
 spectrum-window-labelled-spectrum-xray-label = Rayos X, rango medio:
 spectrum-window-labelled-spectrum-gamma-ray-label = Rayos Gamma, rango medio:
-spectrum-window-labelled-spectrum-radio-frequency-description = Frecuencias menores de 10⁴ Hertz a 10⁹ Hertz.
-spectrum-window-labelled-spectrum-radio-wavelength-description = Longitudes de onda mayores de 10⁴ metros a 5 × 10⁻¹ metros.
-spectrum-window-labelled-spectrum-microwave-frequency-description = Frecuencias de 10⁹ a 5 × 10¹¹ Hertz.
+spectrum-window-labelled-spectrum-radio-frequency-description = Frecuencias menores de 10 a la 4 Hertz a 10 a la 9 Hertz.
+spectrum-window-labelled-spectrum-radio-wavelength-description = Longitudes de onda mayores de 10 a la 4 metros a 5 times 10 a la menos 1 metros.
+spectrum-window-labelled-spectrum-microwave-frequency-description = Frecuencias de 10 to the 9 a 5 veces 10 ¹¹ Hertz.
 spectrum-window-labelled-spectrum-microwave-wavelength-description = Longitudes de onda de 10⁻¹ a 10⁻³ metros.
 spectrum-window-labelled-spectrum-infrared-frequency-description = Frecuencias de 5 × 10¹¹ a 4 × 10¹⁴ Hertz.
 spectrum-window-labelled-spectrum-infrared-wavelength-description = Longitudes de onda de 10⁻³ a 7 × 10⁻⁷ metros.
