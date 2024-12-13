@@ -3,15 +3,21 @@
 # ..................................................................
 # ..
 # Light sources
--microwave = Micro-onde
--infrared = Infrarouge
--visible = Visible
--Ultraviolet = Ultraviolet
+-microwave = micro-onde
+-infrared = infrarouge
+-visible = visible
+-ultraviolet = ultraviolet
+
+# Light sources - which need to be pluralized (adjective)
+-plural-microwave = micro-ondes
+-plural-infrared = infrarouges
+-plural-visible = visibles
+-plural-ultraviolet = ultraviolets
 
 # ..
 # Target molecules
 -carbon-monoxide = Monoxyde de carbone
--nitrogetn = Azote
+-nitrogen = Azote
 -oxygen = Oxygène
 -carbon-dioxide = Dioxyde de carbone
 -methane = Méthane
@@ -19,10 +25,21 @@
 -nitrogen-dioxide = Dioxyde d'azote
 -ozone = Ozone
 
+# Target molecules with leading particle
+-particle-carbon-monoxide = de monoxyde de carbone
+-particle-nitrogen = d'azote
+-particle-oxygen = d'oxygène
+-particle-carbon-dioxide = de dioxyde de carbone
+-particle-methane = de méthane
+-particle-water = d'eau
+-particle-nitrogen-dioxide = de dioxyde d'azote
+-particle-ozone = d'ozone
+
+
 # ..
-# Bond movement for excited states descriptions
--bend-up-and-down = se plie de haut en bas
--stretch-back-and-forth = s'étire d'avant en arrière
+# Bond movement for excited states descriptions (pluralized)
+-bend-up-and-down = se plient de haut en bas
+-stretch-back-and-forth = s'étirent d'avant en arrière
 
 # ..
 # Molecule description phrases for excited states.
@@ -32,10 +49,10 @@
 
 # ..
 # Photon and molecule movement directions
-left = gauche
-right = droite
-up = haut
-down = bas
+left = la gauche
+right = la droite
+up = le haut
+down = le bas
 up-and-to-the-left = en haut à gauche
 up-and-to-the-right = en haut à droite
 down-and-to-the-left = en bas à gauche
@@ -44,6 +61,7 @@ down-and-to-the-right = en bas à droite
 # ..
 # Unknown catch
 -unknown = INCONNU
+-plural-unknown = inconnus
 
 # ..................................................................
 # Overall screen summary descriptions.
@@ -57,7 +75,7 @@ interaction-hint = Allumez la source de lumière pour explorer.
 # Only one of these 4 descriptions will be shown at a time to describe the current state of the sim.
 
 # Describing the simulation when the sim is playing and the photon emitter is on.
-dynamic-playing-emitter-on-screen-summary-pattern = Actuellement, la source de lumière { $lightSource ->
+dynamic-playing-emitter-on-screen-summary-pattern = Présentement, la source de lumière { $lightSource ->
   [ MICRO ] { -microwave }
   [ INFRARED ] { -infrared }
   [ VISIBLE ] { -visible }
@@ -65,38 +83,38 @@ dynamic-playing-emitter-on-screen-summary-pattern = Actuellement, la source de l
   *[ UNKNOWN ] { -unknown }
 } émet des photons { $simSpeed ->
     [ NORMAL ] directement sur
-    *[ SLOW ] à vitesse réduite directement sur
+    *[ SLOW ] à vitesse réduite directement sur la molécule
 } { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-} molécule.
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
+}.
 
 # Describing the simulation when the sim is playing and the photon emitter is off.
-dynamic-playing-emitter-off-screen-summary-pattern = Actuellement, la source de lumière { $lightSource ->
+dynamic-playing-emitter-off-screen-summary-pattern = Présentement, la source de lumière { $lightSource ->
   [ MICRO ] { -microwave }
   [ INFRARED ] { -infrared }
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} est éteinte et pointe directement vers { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-} molécule.
+} est éteinte et pointe directement vers la molécule { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
+}.
 
 # Describing the simulation when the sim is paused and the photon emitter is on.
-dynamic-paused-emitter-on-screen-summary-pattern = Actuellement, la sim { $simSpeed ->
+dynamic-paused-emitter-on-screen-summary-pattern = Présentement, la simulation { $simSpeed ->
    [ NORMAL ] est en pause
   *[ SLOW ] est en pause à vitesse réduite
 }. La source de lumière { $lightSource ->
@@ -105,31 +123,31 @@ dynamic-paused-emitter-on-screen-summary-pattern = Actuellement, la sim { $simSp
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} émet des photons directement vers { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-} molécule.
+} émet des photons directement vers la molécule { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
+}.
 
 # Describing the simulation when the sim is paused and the photon emitter is off.
-dynamic-paused-emitter-off-screen-summary-pattern = Actuellement, la sim { $simSpeed ->
+dynamic-paused-emitter-off-screen-summary-pattern = Présentement, la simulation { $simSpeed ->
    [ NORMAL ] est en pause
   *[ SLOW ] est en pause à vitesse réduite
-}. La source de lumière infrarouge est éteinte et pointe directement vers { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-} molécule.
+}. La source de lumière infrarouge est éteinte et pointe directement vers la molécule { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
+}.
 
 # When the target molecule has broken apart, the above screen summaries include this
 # hint to continue the sim. The $summary variable is the sentence constructed above.
@@ -148,16 +166,16 @@ photon-emitter-off-description-pattern = La source de lumière { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} est éteinte et pointe directement vers { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-} molécule.
+} est éteinte et pointe directement vers la molécule { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
+}.
 
 # ..
 # Description of the light source when it is on and emitting photons that do not
@@ -168,17 +186,16 @@ inactive-and-passes-phase-description-pattern = Le photon { $lightSource ->
   [ VISIBLE ] { -visible }
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
-} traverse la molécule { $targetMolecule ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+} traverse la molécule  { $targetMolecule ->
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
 }.
-
 # ..
 # Description of the light source when it is on and emitting photons that interact
 # with the target molecule in bending and stretching visuals.
@@ -189,14 +206,14 @@ absorption-phase-bonds-description-pattern = Le photon { $lightSource ->
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
 } est absorbé, les liaisons de la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
 } { $excitedRepresentation ->
   [BEND_UP_AND_DOWN] { -bend-up-and-down }
   [STRETCH_BACK_AND_FORTH] { -stretch-back-and-forth }
@@ -213,14 +230,14 @@ absorption-phase-molecule-description-pattern = Le photon { $lightSource ->
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
 } est absorbé, la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
 } { $excitedRepresentation ->
   [GLOWING] { -glows }
   [ROTATES_CLOCKWISE] { -rotates-clockwise }
@@ -241,14 +258,14 @@ break-apart-phase-description-pattern = Le photon { $lightSource ->
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
 } est absorbé, la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
 } se brise en { $firstMolecule } et { $secondMolecule }.
 
 # ..
@@ -317,14 +334,14 @@ emission-phase-description-pattern = Photon { $lightSource ->
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
 } absorbé réémis de la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }
 } vers { $direction ->
   [LEFT] { -left }
   [RIGHT] { -right }
@@ -358,7 +375,7 @@ long-glowing-alert = La molécule luit.
 # The molecular formulas in this pattern are not translatable.
 breaks-apart-alert-pattern = La molécule se brise en { $firstMolecule } et { $secondMolecule }.
 
-paused-emitting-pattern = Photon absorbé réémis de la molécule vers { $direction ->
+paused-emitting-pattern = Photon absorbé réémis par la molécule vers { $direction ->
   [LEFT] { -left }
   [RIGHT] { -right }
   [UP] { -up }
@@ -377,31 +394,31 @@ paused-passing-pattern = Le photon { $lightSource ->
   [ ULTRAVIOLET ] { -ultraviolet }
   *[ UNKNOWN ] { -unknown }
 } traverse la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }.
 }.
 
 slow-motion-passing-pattern = Les photons { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
-  *[ UNKNOWN ] { -unknown }
+  [ MICRO ] { -plural-microwave }
+  [ INFRARED ] { -plural-infrared }
+  [ VISIBLE ] { -plural-visible }
+  [ ULTRAVIOLET ] { -plural-ultraviolet }
+  *[ UNKNOWN ] { -plural-unknown }
 } traversent la molécule { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbon-monoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbon-dioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogen-dioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
+  [ SINGLE_CO_MOLECULE ] { -particle-carbon-monoxide }
+  [ SINGLE_N2_MOLECULE ] { -particle-nitrogen }
+  [ SINGLE_O2_MOLECULE ] { -particle-oxygen }
+  [ SINGLE_CO2_MOLECULE ] { -particle-carbon-dioxide }
+  [ SINGLE_CH4_MOLECULE ] { -particle-methane }
+  [ SINGLE_H2O_MOLECULE ] { -particle-water }
+  [ SINGLE_NO2_MOLECULE ] { -particle-nitrogen-dioxide }
+  *[ SINGLE_O3_MOLECULE ] { -particle-ozone }.
 }.
 
 photon-passes = Le photon passe.
@@ -459,8 +476,8 @@ reset-or-change-molecule = Réinitialisez ou changez de molécule.
 photon-emitter-photons-off = Photons éteints.
 photon-emitter-photons-on = Photons allumés.
 photon-emitter-photons-on-slow-speed = Photons à vitesse lente.
-photon-emitter-photons-on-sim-paused = Photons allumés. Sim en pause.
-photon-emitter-photons-on-slow-speed-sim-paused = Photons à vitesse lente. Sim en pause.
+photon-emitter-photons-on-sim-paused = Photons allumés. Simulation en pause.
+photon-emitter-photons-on-slow-speed-sim-paused = Photons à vitesse lente. Simulation en pause.
 
 paused-photon-emitted-pattern = Le photon { $lightSource ->
   [ MICRO ] { -microwave }
@@ -472,9 +489,9 @@ paused-photon-emitted-pattern = Le photon { $lightSource ->
 
 # Context responses that occur when the sim is paused. Additional hints provide guidance on how to
 # continue interacting with the sim.
-time-controls-sim-paused-emitter-on-alert = Sim en pause. Cliquez sur "Jouer" pour poursuivre l'exploration.
-time-controls-sim-paused-emitter-off-alert = Sim en pause. Source de lumière éteinte.
-time-controls-sim-playing-hint-alert = Allumez la source de lumière pour jouer la sim.
+time-controls-sim-paused-emitter-on-alert = Simulation en pause. Cliquez sur "Jouer" pour poursuivre l'exploration.
+time-controls-sim-paused-emitter-off-alert = Simulation en pause. Source de lumière éteinte.
+time-controls-sim-playing-hint-alert = Allumez la source de lumière pour jouer la simulation.
 time-controls-play-pause-button-playing-with-speed-description = Mettez en pause pour avancer pas à pas, ou continuez à jouer à la vitesse choisie.
 time-controls-play-pause-button-paused-with-speed-description = Avancez pas à pas, ou jouez à la vitesse choisie.
 time-controls-step-hint-alert = Allumez la source de lumière pour utiliser "Avancer".
