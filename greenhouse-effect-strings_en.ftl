@@ -356,8 +356,8 @@ emission-phase-description-pattern = Absorbed { $lightSource ->
 }.
 
 # ...
-# Molecule excitations. The long form is spoken on first excitation, then the short form is spoken to reduce verbocity.
-# Streching
+# Molecule excitations. The long form is spoken on first excitation, then the short form is spoken to reduce verbosity.
+# Stretching
 short-stretching-alert = Stretching.
 long-stretching-alert = Bonds of molecule stretch back and forth.
 
