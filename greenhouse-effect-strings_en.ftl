@@ -2,31 +2,31 @@
 # Reusable strings that may be used in patterns below.
 # ..................................................................
 # ..
-# Light sources (capitalized)
--Microwave = Microwave
--Infrared = Infrared
--Visible = Visible
--Ultraviolet = Ultraviolet
+# Light sources (capitalized) NEW-need to adjust
+-microwave-capitalized = Microwave
+-infrared-capitalized = Infrared
+-visible-capitalized = Visible
+-Ultraviolet-capitalized = Ultraviolet
 
-# .. NEW-not yet used
+# .. 
 # Light sources (lower-case)
 -microwave = microwave
 -infrared = infrared
 -visible = visible
--ultraviolet = ultraviolet
+-Ultraviolet = ultraviolet
 
 # ..
-# Target molecules (capitalized)
--Carbon-Monoxide = Carbon Monoxide
--Nitrogetn = Nitrogen
--Oxygen = Oxygen
--Carbon-Dioxide = Carbon Dioxide
--Methane = Methane
--Water = Water
--Nitrogen-Dioxide = Nitrogen Dioxide
--Ozone = Ozone
+# Target molecules (capitalized) NEW-need to adjust
+-carbon-monoxide-capitalized = Carbon Monoxide
+-nitrogen-capitalized = Nitrogen
+-oxygen-capitalized = Oxygen
+-carbon-dioxide-capitalized = Carbon Dioxide
+-methane-capitalized = Methane
+-water-capitalized = Water
+-nitrogen-dioxide-capitalized = Nitrogen Dioxide
+-ozone-capitalized = Ozone
 
-# .. NEW-not yet used
+# ..
 # Target molecules (lower-case)
 -carbon-monoxide = carbon monoxide
 -nitrogetn = nitrogen
@@ -49,7 +49,7 @@
 -rotates-counter-clockwise = rotates counter-clockwise
 
 # ..
-# Photon and molecule movement directions
+# Photon and molecule emission direction
 left = left
 right = right
 up = up
