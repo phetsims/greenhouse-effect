@@ -22,84 +22,84 @@
   window.phet.chipper = window.phet.chipper || {};
   window.phet.chipper.packageObject =
     {
-      "name": "greenhouse-effect",
-      "version": "1.4.0-dev.0",
-      "license": "GPL-3.0",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/phetsims/greenhouse-effect.git"
+      'name': 'greenhouse-effect',
+      'version': '1.4.0-dev.0',
+      'license': 'GPL-3.0',
+      'repository': {
+        'type': 'git',
+        'url': 'https://github.com/phetsims/greenhouse-effect.git'
       },
-      "devDependencies": {
-        "grunt": "~1.5.3"
+      'devDependencies': {
+        'grunt': '~1.5.3'
       },
-      "phet": {
-        "requirejsNamespace": "GREENHOUSE_EFFECT",
-        "phetLibs": [
-          "nitroglycerin",
-          "bamboo"
+      'phet': {
+        'requirejsNamespace': 'GREENHOUSE_EFFECT',
+        'phetLibs': [
+          'nitroglycerin',
+          'bamboo'
         ],
-        "simulation": true,
-        "runnable": true,
-        "supportedBrands": [
-          "phet",
-          "phet-io",
-          "adapted-from-phet"
+        'simulation': true,
+        'runnable': true,
+        'supportedBrands': [
+          'phet',
+          'phet-io',
+          'adapted-from-phet'
         ],
-        "preload": [
-          "../sherpa/lib/fluent-0.13.0.min.js",
-          "../chipper/js/load-unbuilt-fluent-strings.js"
+        'preload': [
+          '../sherpa/lib/fluent-0.13.0.min.js',
+          '../chipper/js/load-unbuilt-fluent-strings.js'
         ],
-        "simFeatures": {
-          "supportsDynamicLocale": true,
-          "supportsSound": true,
-          "supportsExtraSound": true,
-          "supportsInteractiveDescription": true
+        'simFeatures': {
+          'supportsDynamicLocale': true,
+          'supportsSound': true,
+          'supportsExtraSound': true,
+          'supportsInteractiveDescription': true
         },
-        "supportsOutputJS": true,
-        "published": true,
-        "screenNameKeys": [
-          "GREENHOUSE_EFFECT/screen.waves",
-          "GREENHOUSE_EFFECT/screen.photons",
-          "GREENHOUSE_EFFECT/screen.layerModel"
+        'supportsOutputJS': true,
+        'published': true,
+        'screenNameKeys': [
+          'GREENHOUSE_EFFECT/screen.waves',
+          'GREENHOUSE_EFFECT/screen.photons',
+          'GREENHOUSE_EFFECT/screen.layerModel'
         ],
-        "phet-io": {
-          "compareDesignedAPIChanges": true
+        'phet-io': {
+          'compareDesignedAPIChanges': true
         }
       }
     };
   window.phet.chipper.stringRepos =
     [
       {
-        "repo": "bamboo",
-        "requirejsNamespace": "BAMBOO"
+        'repo': 'bamboo',
+        'requirejsNamespace': 'BAMBOO'
       },
       {
-        "repo": "greenhouse-effect",
-        "requirejsNamespace": "GREENHOUSE_EFFECT"
+        'repo': 'greenhouse-effect',
+        'requirejsNamespace': 'GREENHOUSE_EFFECT'
       },
       {
-        "repo": "joist",
-        "requirejsNamespace": "JOIST"
+        'repo': 'joist',
+        'requirejsNamespace': 'JOIST'
       },
       {
-        "repo": "nitroglycerin",
-        "requirejsNamespace": "NITROGLYCERIN"
+        'repo': 'nitroglycerin',
+        'requirejsNamespace': 'NITROGLYCERIN'
       },
       {
-        "repo": "scenery-phet",
-        "requirejsNamespace": "SCENERY_PHET"
+        'repo': 'scenery-phet',
+        'requirejsNamespace': 'SCENERY_PHET'
       },
       {
-        "repo": "sun",
-        "requirejsNamespace": "SUN"
+        'repo': 'sun',
+        'requirejsNamespace': 'SUN'
       },
       {
-        "repo": "tambo",
-        "requirejsNamespace": "TAMBO"
+        'repo': 'tambo',
+        'requirejsNamespace': 'TAMBO'
       },
       {
-        "repo": "twixt",
-        "requirejsNamespace": "TWIXT"
+        'repo': 'twixt',
+        'requirejsNamespace': 'TWIXT'
       }
     ];
   window.phet.chipper.allowLocaleSwitching = true;
@@ -124,9 +124,9 @@
     '../sherpa/lib/seedrandom-2.4.2.js',
     '../sherpa/lib/base64-js-1.2.0.js',
     '../sherpa/lib/TextEncoderLite-3c9f6f0.js',
-    '../tandem/js/PhetioIDUtils.js',
     '../sherpa/lib/fluent-0.13.0.min.js',
-    '../chipper/js/load-unbuilt-fluent-strings.js'
+    '../chipper/js/load-unbuilt-fluent-strings.js',
+    '../sherpa/lib/TextEncoderLite-3c9f6f0.js'
   ];
 
   if ( brand === 'phet-io' ) {
