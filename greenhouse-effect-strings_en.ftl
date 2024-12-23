@@ -38,12 +38,15 @@
 -ozone = ozone
 
 # ..
-# Bond movement for excited states descriptions
+# Molecule bond movement excitation - dynamic state description parameters.
+# Example: Infrared photon absorbed, bonds of Carbon Monoxide molecule {{stretch back and forth}}.
 -bend-up-and-down = bend up and down
 -stretch-back-and-forth = stretch back and forth
 
 # ..
-# Molecule description phrases for excited states.
+# Molecule excitations - dynamic state description parameters.
+# Example: Visible photon absorbed, Nitrogen Dioxide molecule {{glows}}.
+# Example: Microwave photon absorbed, Carbon Monoxide molecule {{rotates counter-clockwise}}.
 -glows = glows
 -rotates-clockwise = rotates clockwise
 -rotates-counter-clockwise = rotates counter-clockwise
