@@ -12,8 +12,8 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -112,13 +112,13 @@ const MoleculeUtils = {
 
     const geometry = MolecularGeometryMap.get( molecule.constructor );
     if ( geometry === Geometry.LINEAR ) {
-      descriptionString = GreenhouseEffectFluentMessages.linearGeometryDescriptionMessageProperty;
+      descriptionString = GreenhouseEffectMessages.linearGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.BENT ) {
-      descriptionString = GreenhouseEffectFluentMessages.bentGeometryDescriptionMessageProperty;
+      descriptionString = GreenhouseEffectMessages.bentGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      descriptionString = GreenhouseEffectFluentMessages.tetrahedralGeometryDescriptionMessageProperty;
+      descriptionString = GreenhouseEffectMessages.tetrahedralGeometryDescriptionMessageProperty;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );

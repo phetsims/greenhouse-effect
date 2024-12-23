@@ -10,7 +10,7 @@
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
@@ -100,7 +100,7 @@ class ObservationWindowAlertManager extends Alerter {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        this.alertDescriptionUtterance( GreenhouseEffectFluentMessages.resetOrChangeMoleculeMessageProperty );
+        this.alertDescriptionUtterance( GreenhouseEffectMessages.resetOrChangeMoleculeMessageProperty );
       }
     } );
   }
@@ -117,10 +117,10 @@ class ObservationWindowAlertManager extends Alerter {
   getRunningStateAlert( emitterOn, running ) {
     let alert;
     if ( running && !emitterOn ) {
-      alert = GreenhouseEffectFluentMessages.timeControlsSimPlayingHintAlertMessageProperty;
+      alert = GreenhouseEffectMessages.timeControlsSimPlayingHintAlertMessageProperty;
     }
     else {
-      alert = emitterOn ? GreenhouseEffectFluentMessages.timeControlsSimPausedEmitterOnAlertMessageProperty : GreenhouseEffectFluentMessages.timeControlsSimPausedEmitterOffAlertMessageProperty;
+      alert = emitterOn ? GreenhouseEffectMessages.timeControlsSimPausedEmitterOnAlertMessageProperty : GreenhouseEffectMessages.timeControlsSimPausedEmitterOffAlertMessageProperty;
     }
 
     assert && assert( alert );
@@ -139,23 +139,23 @@ class ObservationWindowAlertManager extends Alerter {
    */
   getPhotonEmitterStateAlert( on, running, slowMotion ) {
     if ( !on ) {
-      return GreenhouseEffectFluentMessages.photonEmitterPhotonsOffMessageProperty;
+      return GreenhouseEffectMessages.photonEmitterPhotonsOffMessageProperty;
     }
     else {
       if ( !running ) {
         if ( slowMotion ) {
-          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSlowSpeedSimPausedMessageProperty;
+          return GreenhouseEffectMessages.photonEmitterPhotonsOnSlowSpeedSimPausedMessageProperty;
         }
         else {
-          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSimPausedMessageProperty;
+          return GreenhouseEffectMessages.photonEmitterPhotonsOnSimPausedMessageProperty;
         }
       }
       else {
         if ( slowMotion ) {
-          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnSlowSpeedMessageProperty;
+          return GreenhouseEffectMessages.photonEmitterPhotonsOnSlowSpeedMessageProperty;
         }
         else {
-          return GreenhouseEffectFluentMessages.photonEmitterPhotonsOnMessageProperty;
+          return GreenhouseEffectMessages.photonEmitterPhotonsOnMessageProperty;
         }
       }
     }
@@ -170,7 +170,7 @@ class ObservationWindowAlertManager extends Alerter {
    * @returns {string}
    */
   getPhotonEmittedAlert( photon ) {
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.pausedPhotonEmittedPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.pausedPhotonEmittedPatternMessageProperty, {
       lightSource: this.model.lightSourceEnumProperty
     } );
   }
@@ -195,19 +195,19 @@ class ObservationWindowAlertManager extends Alerter {
       const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
 
       if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
-        alert = GreenhouseEffectFluentMessages.stepHintAlertMessageProperty;
+        alert = GreenhouseEffectMessages.stepHintAlertMessageProperty;
       }
       else if ( photonAbsorbed ) {
         if ( targetMolecule.rotatingProperty.get() ) {
-          alert = GreenhouseEffectFluentMessages.shortRotatingAlertMessageProperty;
+          alert = GreenhouseEffectMessages.shortRotatingAlertMessageProperty;
         }
         else if ( targetMolecule.vibratingProperty.get() ) {
           alert = targetMolecule.vibratesByStretching() ?
-                  GreenhouseEffectFluentMessages.shortStretchingAlertMessageProperty :
-                  GreenhouseEffectFluentMessages.shortBendingAlertMessageProperty;
+                  GreenhouseEffectMessages.shortStretchingAlertMessageProperty :
+                  GreenhouseEffectMessages.shortBendingAlertMessageProperty;
         }
         else if ( targetMolecule.highElectronicEnergyStateProperty.get() ) {
-          alert = GreenhouseEffectFluentMessages.shortGlowingAlertMessageProperty;
+          alert = GreenhouseEffectMessages.shortGlowingAlertMessageProperty;
         }
       }
     }
@@ -215,7 +215,7 @@ class ObservationWindowAlertManager extends Alerter {
       if ( !this.model.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
         // no target molecule and constituents have been removed
-        alert = GreenhouseEffectFluentMessages.moleculePiecesGoneMessageProperty;
+        alert = GreenhouseEffectMessages.moleculePiecesGoneMessageProperty;
       }
       else {
 
@@ -242,7 +242,7 @@ class ObservationWindowAlertManager extends Alerter {
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
     // TODO: Dynamic locales, see https://github.com/phetsims/joist/issues/992
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.moleculesFloatingAwayPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculesFloatingAwayPatternMessageProperty, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );

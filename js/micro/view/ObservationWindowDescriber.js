@@ -18,8 +18,8 @@
  */
 
 import FluentUtils from '../../../../chipper/js/FluentUtils.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
@@ -156,7 +156,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.breakApartDescriptionWithFloatPatternMessageProperty, {
+      descriptionNode.innerContent = FluentUtils.formatMessage( GreenhouseEffectMessages.breakApartDescriptionWithFloatPatternMessageProperty, {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -175,7 +175,7 @@ class ObservationWindowDescriber {
 
             // cant use this here because the active molecule
             if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
-              descriptionNode.innerContent = GreenhouseEffectFluentMessages.moleculePiecesGoneMessageProperty;
+              descriptionNode.innerContent = GreenhouseEffectMessages.moleculePiecesGoneMessageProperty;
             }
           }
         };
@@ -208,7 +208,7 @@ class ObservationWindowDescriber {
 
       // no photons moving, indicate to the user to begin firing photons
       // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
-      return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.photonEmitterOffDescriptionPatternMessageProperty, {
+      return FluentUtils.formatMessage( GreenhouseEffectMessages.photonEmitterOffDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
       } );
@@ -216,7 +216,7 @@ class ObservationWindowDescriber {
     else {
 
       // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
-      return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
+      return FluentUtils.formatMessage( GreenhouseEffectMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
       } );
@@ -235,7 +235,7 @@ class ObservationWindowDescriber {
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
 
     // TODO: Make a PatternMessageProperty for dynamic locales? https://github.com/phetsims/joist/issues/992
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.emissionPhaseDescriptionPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
       photonTarget: this.model.photonTargetProperty,
       lightSource: this.model.lightSourceEnumProperty,
       direction: directionEnum

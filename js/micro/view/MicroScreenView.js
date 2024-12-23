@@ -26,7 +26,6 @@ import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -37,12 +36,13 @@ import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
 import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
 import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
 const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectStrings.SpectrumWindow.buttonCaptionStringProperty;
-const spectrumButtonLabelMessageProperty = GreenhouseEffectFluentMessages.spectrumButtonLabelMessageProperty;
-const spectrumButtonDescriptionMessageProperty = GreenhouseEffectFluentMessages.spectrumButtonDescriptionMessageProperty;
+const spectrumButtonLabelMessageProperty = GreenhouseEffectMessages.spectrumButtonLabelMessageProperty;
+const spectrumButtonDescriptionMessageProperty = GreenhouseEffectMessages.spectrumButtonDescriptionMessageProperty;
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -127,8 +127,8 @@ class MicroScreenView extends ScreenView {
       playPauseStepButtonOptions: {
 
         // pdom
-        playingHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescriptionMessageProperty,
-        pausedHelpText: GreenhouseEffectFluentMessages.timeControlsPlayPauseButtonPausedWithSpeedDescriptionMessageProperty,
+        playingHelpText: GreenhouseEffectMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescriptionMessageProperty,
+        pausedHelpText: GreenhouseEffectMessages.timeControlsPlayPauseButtonPausedWithSpeedDescriptionMessageProperty,
 
         playPauseButtonOptions: {
           radius: 23

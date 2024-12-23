@@ -22,7 +22,7 @@ import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
@@ -60,8 +60,8 @@ class QuadEmissionFrequencyControlPanel extends Node {
     super( {
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectFluentMessages.lightSourcesMessageProperty,
-      descriptionContent: GreenhouseEffectFluentMessages.lightSourceRadioButtonHelpTextMessageProperty
+      labelContent: GreenhouseEffectMessages.lightSourcesMessageProperty,
+      descriptionContent: GreenhouseEffectMessages.lightSourceRadioButtonHelpTextMessageProperty
     } );
 
     // Initialize the photon nodes for the control panel.  Identity model view transform is used because these photon

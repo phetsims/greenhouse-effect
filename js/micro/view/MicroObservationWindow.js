@@ -16,8 +16,8 @@ import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
@@ -52,7 +52,7 @@ class MicroObservationWindow extends Rectangle {
       // pdom
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectFluentMessages.observationWindowLabelMessageProperty
+      labelContent: GreenhouseEffectMessages.observationWindowLabelMessageProperty
     } );
 
     this.modelViewTransform = modelViewTransform; // @private
@@ -226,7 +226,7 @@ class MicroObservationWindow extends Rectangle {
     photonAbsorptionModel.photonTargetProperty.link( () => {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
 
-      geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.geometryLabelPatternMessageProperty, {
+      geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectMessages.geometryLabelPatternMessageProperty, {
         geometry: MoleculeUtils.getGeometryEnum( targetMolecule )
       } );
       geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );

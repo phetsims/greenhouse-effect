@@ -18,7 +18,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
@@ -172,8 +172,8 @@ class MoleculeSelectionPanel extends Panel {
       tandem: tandem,
       tagName: 'div',
       labelTagName: 'h3',
-      labelContent: GreenhouseEffectFluentMessages.moleculesMessageProperty,
-      descriptionContent: GreenhouseEffectFluentMessages.moleculesRadioButtonHelpTextMessageProperty
+      labelContent: GreenhouseEffectMessages.moleculesMessageProperty,
+      descriptionContent: GreenhouseEffectMessages.moleculesRadioButtonHelpTextMessageProperty
     } );
   }
 }
@@ -185,7 +185,7 @@ class MoleculeSelectionPanel extends Panel {
  * @returns {string}
  */
 const createPDOMLabel = molecule => {
-  return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.moleculeButtonLabelPatternMessageProperty, {
+  return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculeButtonLabelPatternMessageProperty, {
     photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
     geometryTitle: MoleculeUtils.getGeometryEnum( molecule )

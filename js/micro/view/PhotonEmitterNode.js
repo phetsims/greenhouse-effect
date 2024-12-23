@@ -23,7 +23,7 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import PatternMessageProperty from '../../../../chipper/js/PatternMessageProperty.js';
@@ -83,7 +83,7 @@ class PhotonEmitterNode extends Node {
     // pdom - update button label when the light source changes, or when the
     // string pattern changes (dynamic locales).
     this.button.innerContent = new PatternMessageProperty(
-      GreenhouseEffectFluentMessages.lightSourceButtonLabelPatternMessageProperty, {
+      GreenhouseEffectMessages.lightSourceButtonLabelPatternMessageProperty, {
         lightSource: model.lightSourceEnumProperty
       } );
 
@@ -94,8 +94,8 @@ class PhotonEmitterNode extends Node {
 
       // pdom - update the help text for the emitter
       this.button.descriptionContent = on ?
-                                       GreenhouseEffectFluentMessages.lightSourceButtonPressedHelpTextMessageProperty :
-                                       GreenhouseEffectFluentMessages.lightSourceButtonUnpressedHelpTextMessageProperty;
+                                       GreenhouseEffectMessages.lightSourceButtonPressedHelpTextMessageProperty :
+                                       GreenhouseEffectMessages.lightSourceButtonUnpressedHelpTextMessageProperty;
     } );
   }
 

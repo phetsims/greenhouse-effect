@@ -13,7 +13,6 @@ import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerte
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MoleculeUtils from './MoleculeUtils.js';
@@ -218,7 +217,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     if ( targetMolecule.vibratesByStretching() ) {
 
       // TODO: Update with Properties for dynamic locale. https://github.com/phetsims/joist/issues/992
-      descriptionString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
+      descriptionString = FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
         lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
         photonTarget: this.photonAbsorptionModel.photonTargetProperty,
         excitedRepresentation: 'STRETCH_BACK_AND_FORTH'
@@ -228,7 +227,7 @@ class ActiveMoleculeAlertManager extends Alerter {
 
       // TODO: Update with Properties for dynamic locale. https://github.com/phetsims/joist/issues/992
       // more than atoms have non-linear geometry
-      descriptionString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
+      descriptionString = FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
         lightSource: lightSourceString,
         photonTarget: photonTargetString,
         excitedRepresentation: 'BEND_UP_AND_DOWN'
@@ -249,7 +248,7 @@ class ActiveMoleculeAlertManager extends Alerter {
   getHighElectronicEnergyPhaseDescription() {
 
     // TODO: Replace with Properties? https://github.com/phetsims/joist/issues/992
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       excitedRepresentation: 'GLOWING'
@@ -270,7 +269,7 @@ class ActiveMoleculeAlertManager extends Alerter {
                            'ROTATES_COUNTER_CLOCKWISE';
 
     // TODO: Replace with a PatternMessageProperty? https://github.com/phetsims/joist/issues/992
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       excitedRepresentation: rotationEnum
@@ -291,7 +290,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.breakApartPhaseDescriptionPatternMessageProperty, {
+    return FluentUtils.formatMessage( GreenhouseEffectMessages.breakApartPhaseDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
       firstMolecule: firstMolecularFormula,
@@ -325,13 +324,13 @@ class ActiveMoleculeAlertManager extends Alerter {
         excitedRepresentationString = stretches ?
                                       'STRETCH_BACK_AND_FORTH' :
                                       'BEND_UP_AND_DOWN';
-        patternString = GreenhouseEffectFluentMessages.slowMotionVibratingPatternMessageProperty;
+        patternString = GreenhouseEffectMessages.slowMotionVibratingPatternMessageProperty;
       }
       else {
         excitedRepresentationString = stretches ?
                                       'STRETCH_BACK_AND_FORTH' :
                                       'BEND_UP_AND_DOWN';
-        patternString = GreenhouseEffectFluentMessages.slowMotionAbsorbedShortPatternMessageProperty;
+        patternString = GreenhouseEffectMessages.slowMotionAbsorbedShortPatternMessageProperty;
       }
 
       // we are running in slow motion
@@ -344,13 +343,13 @@ class ActiveMoleculeAlertManager extends Alerter {
       // we are running at normal speed
       if ( this.firstVibrationAlert ) {
         alert = stretches ?
-                GreenhouseEffectFluentMessages.longStretchingAlertMessageProperty :
-                GreenhouseEffectFluentMessages.longBendingAlertMessageProperty;
+                GreenhouseEffectMessages.longStretchingAlertMessageProperty :
+                GreenhouseEffectMessages.longBendingAlertMessageProperty;
       }
       else {
         alert = stretches ?
-                GreenhouseEffectFluentMessages.shortStretchingAlertMessageProperty :
-                GreenhouseEffectFluentMessages.shortBendingAlertMessageProperty;
+                GreenhouseEffectMessages.shortStretchingAlertMessageProperty :
+                GreenhouseEffectMessages.shortBendingAlertMessageProperty;
       }
     }
 
@@ -378,10 +377,10 @@ class ActiveMoleculeAlertManager extends Alerter {
       let patternString;
       const excitationEnum = 'GLOWING';
       if ( this.firstExcitationAlert ) {
-        patternString = GreenhouseEffectFluentMessages.slowMotionAbsorbedMoleculeExcitedPatternMessageProperty;
+        patternString = GreenhouseEffectMessages.slowMotionAbsorbedMoleculeExcitedPatternMessageProperty;
       }
       else {
-        patternString = GreenhouseEffectFluentMessages.slowMotionAbsorbedShortPatternMessageProperty;
+        patternString = GreenhouseEffectMessages.slowMotionAbsorbedShortPatternMessageProperty;
       }
 
       // we are running in slow motion
@@ -392,7 +391,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     else {
 
       // we are running at normal speed
-      alert = this.firstExcitationAlert ? GreenhouseEffectFluentMessages.longGlowingAlertMessageProperty : GreenhouseEffectFluentMessages.shortGlowingAlertMessageProperty;
+      alert = this.firstExcitationAlert ? GreenhouseEffectMessages.longGlowingAlertMessageProperty : GreenhouseEffectMessages.shortGlowingAlertMessageProperty;
     }
 
     this.firstExcitationAlert = false;
@@ -424,11 +423,11 @@ class ActiveMoleculeAlertManager extends Alerter {
         representation = molecule.rotationDirectionClockwiseProperty.get() ?
                                'ROTATES_CLOCKWISE' :
                                'ROTATES_COUNTER_CLOCKWISE';
-        stringPatternProperty = GreenhouseEffectFluentMessages.slowMotionAbsorbedMoleculeExcitedPatternMessageProperty;
+        stringPatternProperty = GreenhouseEffectMessages.slowMotionAbsorbedMoleculeExcitedPatternMessageProperty;
       }
       else {
         representation = 'ROTATING';
-        stringPatternProperty = GreenhouseEffectFluentMessages.slowMotionAbsorbedShortPatternMesageProperty;
+        stringPatternProperty = GreenhouseEffectMessages.slowMotionAbsorbedShortPatternMesageProperty;
       }
 
       alert = FluentUtils.formatMessage( stringPatternProperty, {
@@ -439,10 +438,10 @@ class ActiveMoleculeAlertManager extends Alerter {
 
       //  we are playing at normal speed
       if ( this.firstRotationAlert ) {
-        alert = GreenhouseEffectFluentMessages.longRotatingAlertMessageProperty;
+        alert = GreenhouseEffectMessages.longRotatingAlertMessageProperty;
       }
       else {
-        alert = GreenhouseEffectFluentMessages.shortRotatingAlertMessageProperty;
+        alert = GreenhouseEffectMessages.shortRotatingAlertMessageProperty;
       }
     }
 
@@ -472,7 +471,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
 
       //  playing in slow motion
-      alert = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.slowMotionBreakApartPatternMessageProperty, {
+      alert = FluentUtils.formatMessage( GreenhouseEffectMessages.slowMotionBreakApartPatternMessageProperty, {
         firstMolecule: firstMolecularFormula,
         secondMolecule: secondMolecularFormula
       } );
@@ -480,7 +479,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     else {
 
       // playing at normal speed
-      alert = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.breaksApartAlertPatternMessageProperty, {
+      alert = FluentUtils.formatMessage( GreenhouseEffectMessages.breaksApartAlertPatternMessageProperty, {
         firstMolecule: firstMolecularFormula,
         secondMolecule: secondMolecularFormula
       } );
@@ -502,12 +501,12 @@ class ActiveMoleculeAlertManager extends Alerter {
 
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
     if ( !this.photonAbsorptionModel.runningProperty.get() ) {
-      alert = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.pausedEmittingPatternMessageProperty, {
+      alert = FluentUtils.formatMessage( GreenhouseEffectMessages.pausedEmittingPatternMessageProperty, {
         direction: directionEnum
       } );
     }
     else if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
-      alert = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.slowMotionEmittedPatternMessageProperty, {
+      alert = FluentUtils.formatMessage( GreenhouseEffectMessages.slowMotionEmittedPatternMessageProperty, {
         direction: directionEnum
       } );
     }
@@ -540,20 +539,20 @@ class ActiveMoleculeAlertManager extends Alerter {
       if ( strategy === null ) {
         if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
           if ( this.photonAbsorptionModel.slowMotionProperty.get() ) {
-            alert = this.getDetailedPassThroughAlert( photon, GreenhouseEffectFluentMessages.slowMotionPassingPatternMessageProperty );
+            alert = this.getDetailedPassThroughAlert( photon, GreenhouseEffectMessages.slowMotionPassingPatternMessageProperty );
           }
           else {
-            alert = GreenhouseEffectFluentMessages.photonsPassingMessageProperty;
+            alert = GreenhouseEffectMessages.photonsPassingMessageProperty;
           }
         }
       }
     }
     else {
       if ( molecule.isPhotonAbsorbed() ) {
-        alert = GreenhouseEffectFluentMessages.photonPassesMessageProperty;
+        alert = GreenhouseEffectMessages.photonPassesMessageProperty;
       }
       else {
-        alert = this.getDetailedPassThroughAlert( photon, GreenhouseEffectFluentMessages.pausedPassingPatternMessageProperty );
+        alert = this.getDetailedPassThroughAlert( photon, GreenhouseEffectMessages.pausedPassingPatternMessageProperty );
       }
     }
 

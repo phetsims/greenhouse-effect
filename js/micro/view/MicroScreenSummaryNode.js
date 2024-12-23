@@ -11,7 +11,7 @@ import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectFluentMessages from '../../GreenhouseEffectFluentMessages.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 class MicroScreenSummaryNode extends ScreenSummaryContent {
@@ -23,8 +23,8 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
   constructor( model, returnMoleculeButtonVisibleProperty ) {
 
     super( [
-      GreenhouseEffectFluentMessages.playAreaSummaryMessageProperty,
-      GreenhouseEffectFluentMessages.controlAreaSummaryMessageProperty
+      GreenhouseEffectMessages.playAreaSummaryMessageProperty,
+      GreenhouseEffectMessages.controlAreaSummaryMessageProperty
     ] );
 
     // @private {PhotonAbsorptionModel}
@@ -58,7 +58,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
-    const interactionHint = new Node( { tagName: 'p', innerContent: GreenhouseEffectFluentMessages.interactionHintMessageProperty } );
+    const interactionHint = new Node( { tagName: 'p', innerContent: GreenhouseEffectMessages.interactionHintMessageProperty } );
     this.addChild( interactionHint );
   }
 
@@ -81,14 +81,14 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
 
     if ( this.model.runningProperty.get() ) {
       if ( emitterOn ) {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.dynamicPlayingEmitterOnScreenSummaryPatternMessageProperty, {
+        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOnScreenSummaryPatternMessageProperty, {
           lightSource: lightSourceEnum,
           simSpeed: timeSpeedEnum,
           targetMolecule: photonTargetEnum
         } );
       }
       else {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.dynamicPlayingEmitterOffScreenSummaryPatternMessageProperty, {
+        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOffScreenSummaryPatternMessageProperty, {
           lightSource: lightSourceEnum,
           targetMolecule: photonTargetEnum
         } );
@@ -96,14 +96,14 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     }
     else {
       if ( emitterOn ) {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.dynamicPausedEmitterOnScreenSummaryPatternMessageProperty, {
+        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOnScreenSummaryPatternMessageProperty, {
           simSpeed: timeSpeedEnum,
           lightSource: lightSourceEnum,
           targetMolecule: photonTargetEnum
         } );
       }
       else {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectFluentMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
+        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
           simSpeed: timeSpeedEnum,
           targetMolecule: photonTargetEnum
         } );
@@ -113,7 +113,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     // TODO: How would we do this? See https://github.com/phetsims/joist/issues/992.
     // if the "New Molecule" button is visible, include a description of its existence in the screen summary
     if ( this.returnMoleculeButtonVisibleProperty.get() ) {
-      return FluentUtils.formatMessage( GreenhouseEffectFluentMessages.screenSUmmaryWithHintPatternMessageProperty, {
+      return FluentUtils.formatMessage( GreenhouseEffectMessages.screenSUmmaryWithHintPatternMessageProperty, {
         summary: finalString
       } );
     }
