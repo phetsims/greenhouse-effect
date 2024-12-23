@@ -53,6 +53,8 @@
 
 # ..
 # Photon and molecule emission direction
+# Example: Absorbed Infrared photon emitted from Carbon Monoxide molecule {{down}}.
+# Example: Absorbed Infrared photon emitted from Carbon Monoxide molecule {{down and to the right}}.
 left = left
 right = right
 up = up
