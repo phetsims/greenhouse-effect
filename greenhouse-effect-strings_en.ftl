@@ -2,22 +2,40 @@
 # Reusable strings that may be used in patterns below.
 # ..................................................................
 # ..
-# Light sources
--microwave = Microwave
--infrared = Infrared
--visible = Visible
+# Light sources (capitalized)
+-Microwave = Microwave
+-Infrared = Infrared
+-Visible = Visible
 -Ultraviolet = Ultraviolet
 
+# .. NEW-not yet used
+# Light sources (lower-case)
+-microwave = microwave
+-infrared = infrared
+-visible = visible
+-ultraviolet = ultraviolet
+
 # ..
-# Target molecules
--carbon-monoxide = Carbon Monoxide
--nitrogetn = Nitrogen
--oxygen = Oxygen
--carbon-dioxide = Carbon Dioxide
--methane = Methane
--water = Water
--nitrogen-dioxide = Nitrogen Dioxide
--ozone = Ozone
+# Target molecules (capitalized)
+-Carbon-Monoxide = Carbon Monoxide
+-Nitrogetn = Nitrogen
+-Oxygen = Oxygen
+-Carbon-Dioxide = Carbon Dioxide
+-Methane = Methane
+-Water = Water
+-Nitrogen-Dioxide = Nitrogen Dioxide
+-Ozone = Ozone
+
+# .. NEW-not yet used
+# Target molecules (lower-case)
+-carbon-monoxide = carbon monoxide
+-nitrogetn = nitrogen
+-oxygen = oxygen
+-carbon-dioxide = carbon dioxide
+-methane = methane
+-water = water
+-nitrogen-dioxide = nitrogen dioxide
+-ozone = ozone
 
 # ..
 # Bond movement for excited states descriptions
