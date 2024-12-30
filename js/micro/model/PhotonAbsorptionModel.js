@@ -98,6 +98,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @public
     this.photonWavelengthProperty = new NumberProperty( WavelengthConstants.IR_WAVELENGTH, {
       tandem: tandem.createTandem( 'photonWavelengthProperty' ),
+      phetioFeatured: true,
       units: 'm',
       validValues: [
         WavelengthConstants.MICRO_WAVELENGTH,
@@ -110,6 +111,7 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @public (read-only) {Property.<PhotonTarget>}
     this.photonTargetProperty = new Property( initialPhotonTarget, {
       tandem: tandem.createTandem( 'photonTargetProperty' ),
+      phetioFeatured: true,
       phetioValueType: EnumerationIO( PhotonTarget ),
       validValues: PhotonTarget.VALUES,
 
@@ -131,7 +133,8 @@ class PhotonAbsorptionModel extends PhetioObject {
     // @public controls play speed of the simulation
     this.timeSpeedProperty = new EnumerationProperty( TimeSpeed.NORMAL, {
       validValues: [ TimeSpeed.NORMAL, TimeSpeed.SLOW ],
-      tandem: tandem.createTandem( 'timeSpeedProperty' )
+      tandem: tandem.createTandem( 'timeSpeedProperty' ),
+      phetioFeatured: true
     } );
 
     // @public - convenience Property, indicating whether sim is running in slow motion
