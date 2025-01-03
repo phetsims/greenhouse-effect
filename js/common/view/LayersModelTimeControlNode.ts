@@ -64,7 +64,7 @@ class LayersModelTimeControlNode extends TimeControlNode {
     // Don't allow users to pause the sim until the sun has been started.  This link does not need to be disposed or
     // unlinked since it persists for the life of the sim.
     model.sunEnergySource.isShiningProperty.link( isSunShining => {
-      this.playPauseStepButtons.enabled = isSunShining;
+      this.pushButtonGroup.enabled = isSunShining;
     } );
   }
 }
