@@ -123,7 +123,6 @@ class MicroScreenView extends ScreenView {
 
     const timeControlNode = new TimeControlNode( photonAbsorptionModel.runningProperty, {
       timeSpeedProperty: photonAbsorptionModel.timeSpeedProperty,
-      speedRadioButtonGroupPlacement: 'before',
       playPauseStepButtonOptions: {
 
         // pdom
