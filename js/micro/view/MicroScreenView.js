@@ -144,7 +144,7 @@ class MicroScreenView extends ScreenView {
           maxWidth: 100 // i18n
         }
       },
-      buttonGroupXSpacing: 25,
+      flowBoxSpacing: 25,
 
       centerBottom: moleculeControlPanel.centerBottom.plusXY( 0, 65 ),
 
