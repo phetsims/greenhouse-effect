@@ -25,7 +25,7 @@ export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSumm
    * @param controlAreaDescription - a description string for the control area
    */
   public constructor( model: GreenhouseEffectModel, playAreaDescription: LocalizedStringProperty, controlAreaDescription: LocalizedStringProperty ) {
-    super( null, { isDisposable: false } );
+    super( { isDisposable: false } );
 
     const playAreaDescriptionNode = new Node( {
       tagName: 'p',

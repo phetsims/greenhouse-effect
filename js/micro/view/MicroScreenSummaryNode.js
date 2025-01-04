@@ -10,8 +10,8 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 class MicroScreenSummaryNode extends ScreenSummaryContent {
@@ -21,11 +21,12 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
    * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
   constructor( model, returnMoleculeButtonVisibleProperty ) {
-
-    super( [
-      GreenhouseEffectMessages.playAreaSummaryMessageProperty,
-      GreenhouseEffectMessages.controlAreaSummaryMessageProperty
-    ] );
+    super( {
+      additionalContent: [
+        playAreaSummaryStringProperty,
+        controlAreaSummaryStringProperty
+      ]
+    } );
 
     // @private {PhotonAbsorptionModel}
     this.model = model;
