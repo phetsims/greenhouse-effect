@@ -36,10 +36,12 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
    * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
   constructor( model, returnMoleculeButtonVisibleProperty ) {
-    super( [
-      playAreaSummaryStringProperty,
-      controlAreaSummaryStringProperty
-    ] );
+    super( {
+      additionalContent: [
+        playAreaSummaryStringProperty,
+        controlAreaSummaryStringProperty
+      ]
+    } );
 
     // @private {PhotonAbsorptionModel}
     this.model = model;
