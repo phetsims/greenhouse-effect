@@ -132,7 +132,8 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     // @public (BooleanProperty) - Whether or the simulation is currently playing or paused
     this.runningProperty = new BooleanProperty( true, {
-      tandem: tandem.createTandem( 'runningProperty' )
+      tandem: tandem.createTandem( 'runningProperty' ),
+      phetioFeatured: true
     } );
 
     // @public controls play speed of the simulation
