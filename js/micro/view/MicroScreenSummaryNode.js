@@ -11,7 +11,7 @@ import FluentUtils from '../../../../chipper/js/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
-import GreenhouseEffectStrings from '../../../strings/GreenhouseEffectStrings.js';
+import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
@@ -24,8 +24,8 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
   constructor( model, returnMoleculeButtonVisibleProperty ) {
     super( {
       additionalContent: [
-        GreenhouseEffectStrings.a11y.playAreaSummaryStringProperty,
-        GreenhouseEffectStrings.a11y.controlAreaSummaryStringProperty
+        GreenhouseEffectMessages.playAreaSummaryMessageProperty,
+        GreenhouseEffectMessages.controlAreaSummaryMessageProperty
       ]
     } );
 
