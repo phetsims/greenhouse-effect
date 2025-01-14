@@ -7,7 +7,7 @@
  * @author Jesse Greenberg
  */
 
-import FluentUtils from '../../../../chipper/js/FluentUtils.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';

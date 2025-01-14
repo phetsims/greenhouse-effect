@@ -8,7 +8,7 @@
  * @author Jesse Greenberg
  */
 
-import FluentUtils from '../../../../chipper/js/FluentUtils.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';

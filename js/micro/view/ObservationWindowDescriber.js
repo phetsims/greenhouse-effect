@@ -17,7 +17,7 @@
  * @author Jesse Greenberg
  */
 
-import FluentUtils from '../../../../chipper/js/FluentUtils.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';

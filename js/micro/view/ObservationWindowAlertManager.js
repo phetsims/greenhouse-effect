@@ -11,7 +11,7 @@ import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerte
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
-import FluentUtils from '../../../../chipper/js/FluentUtils.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
 class ObservationWindowAlertManager extends Alerter {
