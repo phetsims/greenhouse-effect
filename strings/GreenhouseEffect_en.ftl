@@ -29,7 +29,7 @@
 # ..
 # Target molecules (lower-case)
 -carbonMonoxide = carbon monoxide
--nitrogetn = nitrogen
+-nitrogen = nitrogen
 -oxygen = oxygen
 -carbonDioxide = carbon dioxide
 -methane = methane
@@ -216,8 +216,8 @@ absorptionPhaseBondsDescriptionPattern = { $lightSource ->
   [ SINGLE_NO2_MOLECULE ] { -nitrogenDioxide }
   *[ SINGLE_O3_MOLECULE ] { -ozone }
 } molecule { $excitedRepresentation ->
-  [BEND_UP_AND_DOWN] { -bend-up-and-down }
-  [STRETCH_BACK_AND_FORTH] { -stretch-back-and-forth }
+  [BEND_UP_AND_DOWN] { -bendUpAndDown }
+  [STRETCH_BACK_AND_FORTH] { -stretchBackAndForth }
   *[ UNKNOWN ] { -unknown }
 }.
 
@@ -241,8 +241,8 @@ absorptionPhaseMoleculeDescriptionPattern = { $lightSource ->
   *[ SINGLE_O3_MOLECULE ] { -ozone }
 } molecule { $excitedRepresentation ->
   [GLOWING] { -glows }
-  [ROTATES_CLOCKWISE] { -rotates-clockwise }
-  [ROTATES_COUNTER_CLOCKWISE] { -rotates-counter-clockwise }
+  [ROTATES_CLOCKWISE] { -rotatesClockwise }
+  [ROTATES_COUNTER_CLOCKWISE] { -rotatesCounterClockwise }
   *[ UNKNOWN ] { -unknown }
 }.
 
@@ -427,8 +427,8 @@ photonPasses = Photon passes.
 photonsPassing = Photons passing.
 
 slowMotionVibratingPattern = Photon absorbed. Bonds of molecule { $excitedRepresentation ->
-  [BEND_UP_AND_DOWN] { -bend-up-and-down }
-  [STRETCH_BACK_AND_FORTH] { -stretch-back-and-forth }
+  [BEND_UP_AND_DOWN] { -bendUpAndDown }
+  [STRETCH_BACK_AND_FORTH] { -stretchBackAndForth }
   *[ UNKNOWN ] { -unknown }
 }.
 
@@ -442,8 +442,8 @@ slowMotionAbsorbedShortPattern = Photon absorbed. { $excitedRepresentation ->
 
 slowMotionAbsorbedMoleculeExcitedPattern = Photon absorbed. Molecule { $excitedRepresentation ->
  [GLOWING] { -glows }
- [ROTATES_CLOCKWISE] { -rotates-clockwise }
- [ROTATES_COUNTER_CLOCKWISE] { -rotates-counter-clockwise }
+ [ROTATES_CLOCKWISE] { -rotatesClockwise }
+ [ROTATES_COUNTER_CLOCKWISE] { -rotatesCounterClockwise }
  *[ UNKNOWN ] { -unknown }
 }.
 
@@ -463,10 +463,10 @@ slowMotionEmittedPattern = Photon emitted { $direction ->
   [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
-  [UP_LEFT] { -up-and-to-the-left }
-  [UP_RIGHT] { -up-and-to-the-right }
-  [DOWN_LEFT] { -down-and-to-the-left }
-  [DOWN_RIGHT] { -down-and-to-the-right }
+  [UP_LEFT] { -upAndToTheLeft }
+  [UP_RIGHT] { -upAndToTheRight }
+  [DOWN_LEFT] { -downAndToTheLeft }
+  [DOWN_RIGHT] { -downAndToTheRight }
   *[UNKNOWN] { -unknown }
 }.
 

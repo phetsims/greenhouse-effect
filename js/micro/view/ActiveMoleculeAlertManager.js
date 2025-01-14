@@ -13,6 +13,7 @@ import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerte
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MoleculeUtils from './MoleculeUtils.js';
