@@ -10,7 +10,7 @@
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import MoleculeUtils from './MoleculeUtils.js';
 

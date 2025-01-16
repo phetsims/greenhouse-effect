@@ -18,7 +18,7 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';

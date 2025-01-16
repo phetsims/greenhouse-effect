@@ -23,7 +23,7 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';

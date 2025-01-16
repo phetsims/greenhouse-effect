@@ -22,7 +22,7 @@ import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';

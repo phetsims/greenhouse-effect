@@ -10,8 +10,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import { Node } from '../../../../scenery/js/imports.js';
-import GreenhouseEffectMessages from '../../../strings/GreenhouseEffectMessages.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
