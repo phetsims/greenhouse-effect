@@ -1061,66 +1061,6 @@
     "spectrumWindowLabelledSpectrumRadioLabel": {
       "value": "Radio, large range:"
     },
-    "spectrumWindowLabelledSpectrumMicrowaveLabel": {
-      "value": "Microwave, medium range:"
-    },
-    "spectrumWindowLabelledSpectrumInfraredLabel": {
-      "value": "Infrared, medium range:"
-    },
-    "spectrumWindowLabelledSpectrumVisibleLabel": {
-      "value": "Visible, tiny range:"
-    },
-    "spectrumWindowLabelledSpectrumUltravioletLabel": {
-      "value": "Ultraviolet, small range:"
-    },
-    "spectrumWindowLabelledSpectrumXRayLabel": {
-      "value": "X-ray, medium range:"
-    },
-    "spectrumWindowLabelledSpectrumGammaRayLabel": {
-      "value": "Gamma ray, medium range:"
-    },
-    "spectrumWindowLabelledSpectrumRadioFrequencyDescription": {
-      "value": "Frequencies less than 10 to the 4 Hertz to 10 to the 9 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumRadioWavelengthDescription": {
-      "value": "Wavelengths greater than 10 to the 4 meters to 5 times 10 to the negative 1 meters."
-    },
-    "spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription": {
-      "value": "Frequencies 10 to the 9 to 5 times 10 to the 11 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription": {
-      "value": "Wavelengths 10 to the negative 1 to 10 to the negative 3 meters."
-    },
-    "spectrumWindowLabelledSpectrumInfraredFrequencyDescription": {
-      "value": "Frequencies 5 times 10 to the 11 to 4 times 10 to the 14 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumInfraredWavelengthDescription": {
-      "value": "Wavelengths 10 to the negative 3 to 7 times 10 to the negative 7 meters."
-    },
-    "spectrumWindowLabelledSpectrumVisibleFrequencyDescription": {
-      "value": "Frequencies 4 times 10 to the 14 to 7 times 10 to the 14 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumVisibleWavelengthDescription": {
-      "value": "Wavelengths 7 times 10 to the negative 7 to 4 times 10 to the negative 7 meters."
-    },
-    "spectrumWindowLabelledSpectrumVisibleGraphicalDescription": {
-      "value": "Shown as a rainbow starting with red and ending with violet (red, yellow, green, blue, indigo, violet)."
-    },
-    "spectrumWindowLabelledSpectrumUltravioletFrequencyDescription": {
-      "value": "Frequencies 10 to the 15 to 10 to the 16 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumUltravioletWavelengthDescription": {
-      "value": "Wavelengths 4 times 10 to the negative 7 to 10 to the negative 8 meters."
-    },
-    "spectrumWindowLabelledSpectrumXRayFrequencyDescription": {
-      "value": "Frequencies 10 to the 16 to 10 to the 19 Hertz."
-    },
-    "spectrumWindowLabelledSpectrumXRayWavelengthDescription": {
-      "value": "Wavelengths 10 to the negative 8 to 5 times 10 to the negative 11 meters."
-    },
-    "spectrumWindowLabelledSpectrumGammaRayFrequencyDescription": {
-      "value": "Frequencies 10 to the 19 Hertz to greater than 10 to the 20 Hertz."
-    },
     "spectrumWindowLabelledSpectrumGammaRayWavelengthDescription": {
       "value": "Wavelengths 5 times 10 to the negative 11 meters to less than 10 to the negative 12 meters."
     },

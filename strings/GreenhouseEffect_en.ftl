@@ -50,14 +50,14 @@
 
 # ..
 # Photon and molecule emission direction
-left = left
-right = right
-up = up
-down = down
-upAndToTheLeft = up and to the left
-upAndToTheRight = up and to the right
-downAndToTheLeft = down and to the left
-downAndToTheRight = down and to the right
+-left = left
+-right = right
+-up = up
+-down = down
+-upAndToTheLeft = up and to the left
+-upAndToTheRight = up and to the right
+-downAndToTheLeft = down and to the left
+-downAndToTheRight = down and to the right
 
 # ..
 # Unknown catch
@@ -348,10 +348,10 @@ emissionPhaseDescriptionPattern = Absorbed { $lightSource ->
   [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
-  [UP_LEFT] { -up-and-to-the-left }
-  [UP_RIGHT] { -up-and-to-the-right }
-  [DOWN_LEFT] { -down-and-to-the-left }
-  [DOWN_RIGHT] { -down-and-to-the-right }
+  [UP_LEFT] { -upAndToTheLeft }
+  [UP_RIGHT] { -upAndToTheRight }
+  [DOWN_LEFT] { -downAndToTheLeft }
+  [DOWN_RIGHT] { -downAndToTheRight }
   *[UNKNOWN] { -unknown }
 }.
 
@@ -381,10 +381,10 @@ pausedEmittingPattern = Absorbed photon emitted from molecule { $direction ->
   [RIGHT] { -right }
   [UP] { -up }
   [DOWN] { -down }
-  [UP_LEFT] { -up-and-to-the-left }
-  [UP_RIGHT] { -up-and-to-the-right }
-  [DOWN_LEFT] { -down-and-to-the-left }
-  [DOWN_RIGHT] { -down-and-to-the-right }
+  [UP_LEFT] { -upAndToTheLeft }
+  [UP_RIGHT] { -upAndToTheRight }
+  [DOWN_LEFT] { -downAndToTheLeft }
+  [DOWN_RIGHT] { -downAndToTheRight }
   *[UNKNOWN] { -unknown }
 }.
 
