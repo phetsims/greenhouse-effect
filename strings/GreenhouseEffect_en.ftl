@@ -280,8 +280,8 @@ geometryLabelPattern = This molecule has { $geometry ->
 
 # More information about the molecular geometry.
 linearGeometryDescription = Linear, a molecule with two or three atoms bonded to form a straight line. Bond angle is 180 degrees.
-bent-geometry-description = Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees.
-tetrahedral-geometry-description = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
+bentGeometryDescription = Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees.
+tetrahedralGeometryDescription = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
 
 # ..................................................................
 # Descriptions for the light source button.
