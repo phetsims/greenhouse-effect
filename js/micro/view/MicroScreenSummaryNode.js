@@ -106,6 +106,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
       else {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
           simSpeed: timeSpeedEnum,
+          lightSource: lightSourceEnum,
           targetMolecule: photonTargetEnum
         } );
       }

@@ -138,7 +138,13 @@ dynamicPausedEmitterOnScreenSummaryPattern = Currently, sim { $simSpeed ->
 dynamicPausedEmitterOffScreenSummaryPattern = Currently, sim { $simSpeed ->
    [ NORMAL ] is paused
   *[ SLOW ] is paused on slow speed
-}. Infrared light source is off and points directly at { $targetMolecule ->
+}. { $lightSource ->
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
+  *[ UNKNOWN ] { -unknown }
+} light source is off and points directly at { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
   [ SINGLE_N2_MOLECULE ] { -nitrogen }
   [ SINGLE_O2_MOLECULE ] { -oxygen }
