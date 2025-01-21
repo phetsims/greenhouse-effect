@@ -151,12 +151,12 @@ dynamicPausedEmitterOffScreenSummaryPattern = Currently, sim { $simSpeed ->
 
 # When the target molecule has broken apart, the above screen summaries include this
 # hint to continue the sim. The $summary variable is the sentence constructed above.
-screen-summary-with-hint-pattern = { $summary } Reset or change molecule.
+screenSummaryWithHintPattern = { $summary } Reset or change molecule.
 
 # ..................................................................
 # Descriptions for the Observation Window.
 # ..................................................................
-observation-window-label = Observation Window
+observationWindowLabel = Observation Window
 
 # ..
 # Description of the light source when it is off.
