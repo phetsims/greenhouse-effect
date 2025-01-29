@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "2a93d712c8ed9822a4e0118011262200972e7ace",
+    "sha": "03d5ad349409897e7e814e1d83379512175571fd",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "ce710fa3f04e3c174c11c9d8be622e5ba58ae4e4",
+    "sha": "c61eb99bb42943deab3bbfbed800461176273115",
     "branch": "1.2"
   },
   "joist": {
@@ -57,7 +57,7 @@
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
-    "sha": "bef47cd324d40b56aab158ca2e0b7f349c582796",
+    "sha": "0dcff2e9fe22c2fcc3da81ee66dfee88ac5e26a9",
     "branch": "HEAD"
   },
   "phetcommon": {
