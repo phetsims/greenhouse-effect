@@ -428,7 +428,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       }
       else {
         representation = 'ROTATING';
-        stringPatternProperty = GreenhouseEffectMessages.slowMotionAbsorbedShortPatternMesageProperty;
+        stringPatternProperty = GreenhouseEffectMessages.slowMotionAbsorbedShortPatternMessageProperty;
       }
 
       alert = FluentUtils.formatMessage( stringPatternProperty, {
