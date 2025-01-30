@@ -578,7 +578,7 @@ class ActiveMoleculeAlertManager extends Alerter {
   getDetailedPassThroughAlert( photon, patternMessageProperty ) {
     return FluentUtils.formatMessage( patternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
-      molecularName: this.photonAbsorptionModel.photonTargetProperty
+      photonTarget: this.photonAbsorptionModel.photonTargetProperty
     } );
   }
 
