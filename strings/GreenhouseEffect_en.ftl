@@ -1,8 +1,11 @@
-# ..................................................................
+# ....................................................................
 # Reusable strings that may be used in patterns below.
-# ..................................................................
+# Patterns also known as accessible descriptions. 
+# Reusable strings means the same strings can appear in more than one accessible description. 
+# ....................................................................
+
 # ..
-# Light sources (capitalized) NEW-need to adjust
+# Light sources (capitalized) NEW-need to adjust existing translations
 -microwaveCapitalized = Microwave
 -infraredCapitalized = Infrared
 -visibleCapitalized = Visible
@@ -16,7 +19,7 @@
 -ultraviolet = ultraviolet
 
 # ..
-# Target molecules (capitalized) NEW-need to adjust
+# Target molecules (capitalized) NEW-need to adjust existing translations
 -carbonMonoxideCapitalized = Carbon Monoxide
 -nitrogenCapitalized = Nitrogen
 -oxygenCapitalized = Oxygen
@@ -63,18 +66,26 @@
 # Unknown catch
 -unknown = UNKNOWN
 
-# ..................................................................
-# Overall screen summary descriptions.
-# ..................................................................
+# ....................................................................
+# Screen summary descriptions (Static and Dynamic State Descriptions)
+# ....................................................................
+
+# ..
+# Static state descriptions for the Sim Overview (Play Area and Control Area) and the Hint to get started.
+
 playAreaSummary = The Play Area is an observation window set up with a light source and a molecule. It has options for light source and molecule.
+
 controlAreaSummary = The Control Area has options for how fast the action happens in the observation window including buttons to pause and step forward. You can also access details about the light spectrum and reset the sim.
+
 interactionHint = Turn light source on to explore.
 
-# ...
-# Dynamic description describing the screen.
-# Only one of these 4 descriptions will be shown at a time to describe the current state of the sim.
+# ..
+# Dynamic state description for the most essential current details, i.e., a brief summary of the current state.
+# Note: Only one of these 4 descriptions will be shown at a time to describe the current state of the sim.
 
 # Describing the simulation when the sim is playing and the photon emitter is on.
+# EXAMPLE: Currently, ⁨{infrared⁩} light source emits photons ⁨{on slow speed} directly at⁩ directly at ⁨{carbon monoxide⁩} molecule.
+
 dynamicPlayingEmitterOnScreenSummaryPattern = Currently, { $lightSource ->
   [ MICRO ] { -microwave }
   [ INFRARED ] { -infrared }
@@ -96,6 +107,8 @@ dynamicPlayingEmitterOnScreenSummaryPattern = Currently, { $lightSource ->
 } molecule.
 
 # Describing the simulation when the sim is playing and the photon emitter is off.
+# EXAMPLE: Currently, ⁨{infrared⁩} light source is off and points directly at ⁨{carbon monoxide⁩} molecule.
+
 dynamicPlayingEmitterOffScreenSummaryPattern = Currently, { $lightSource ->
   [ MICRO ] { -microwave }
   [ INFRARED ] { -infrared }
@@ -114,6 +127,8 @@ dynamicPlayingEmitterOffScreenSummaryPattern = Currently, { $lightSource ->
 } molecule.
 
 # Describing the simulation when the sim is paused and the photon emitter is on.
+# EXAMPLE: Currently, sim ⁨{{is paused on slow speed⁩}}. ⁨{infrared⁩} light source emits photons directly at ⁨{carbon monoxide}⁩ molecule.
+
 dynamicPausedEmitterOnScreenSummaryPattern = Currently, sim { $simSpeed ->
    [ NORMAL ] is paused
   *[ SLOW ] is paused on slow speed
@@ -135,6 +150,8 @@ dynamicPausedEmitterOnScreenSummaryPattern = Currently, sim { $simSpeed ->
 } molecule.
 
 # Describing the simulation when the sim is paused and the photon emitter is off.
+# EXAMPLE: Currently, sim ⁨{is paused on slow speed⁩}. ⁨{Infrared⁩} light source is off and points directly at ⁨{carbon monoxide⁩} molecule.
+
 dynamicPausedEmitterOffScreenSummaryPattern = Currently, sim { $simSpeed ->
    [ NORMAL ] is paused
   *[ SLOW ] is paused on slow speed
@@ -157,20 +174,27 @@ dynamicPausedEmitterOffScreenSummaryPattern = Currently, sim { $simSpeed ->
 
 # When the target molecule has broken apart, the above screen summaries include this
 # hint to continue the sim. The $summary variable is the sentence constructed above.
+# EXAMPLE: Currently, ⁨{ultraviolet⁩} light source emits photons ⁨{on slow speed} directly at⁩ directly at ⁨{nitrogen dioxide⁩} molecule.⁩ {Reset or change molecule.}
+
 screenSummaryWithHintPattern = { $summary } Reset or change molecule.
 
 # ..................................................................
-# Descriptions for the Observation Window.
+# Descriptions for the Play Area 
 # ..................................................................
+
+# ... 
+# Descriptions for the Observation Window 
 observationWindowLabel = Observation Window
 
-# ..
-# Description of the light source when it is off.
+# .. 
+# BULLET 1: Description of the light source when it is off.
+# EXAMPLE: {Infrared}⁩ light source is off and points directly at ⁨{carbon monoxide⁩} molecule.
+
 photonEmitterOffDescriptionPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized}
+  [ VISIBLE ] { -visibleCapitalized}
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } light source is off and points directly at { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -184,13 +208,15 @@ photonEmitterOffDescriptionPattern = { $lightSource ->
 } molecule.
 
 # ..
-# Description of the light source when it is on and emitting photons that do not
+# BULLET 1: Description of the light source when it is on and emitting photons that do not
 # interact with the target molecule.
+# EXAMPLE: {visible⁩} photon passes through ⁨{carbon monoxide⁩} molecule.
+
 inactiveAndPassesPhaseDescriptionPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photon passes through { $targetMolecule ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -204,13 +230,15 @@ inactiveAndPassesPhaseDescriptionPattern = { $lightSource ->
 } molecule.
 
 # ..
-# Description of the light source when it is on and emitting photons that interact
+# BULLET 1: Description of the light source when it is on and emitting photons that interact
 # with the target molecule in bending and stretching visuals.
+# EXAMPLE: {Infrared⁩} photon absorbed, bonds of ⁨{carbon monoxide⁩} molecule ⁨{stretch back and forth⁩}.
+
 absorptionPhaseBondsDescriptionPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photon absorbed, bonds of { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -228,13 +256,15 @@ absorptionPhaseBondsDescriptionPattern = { $lightSource ->
 }.
 
 # ..
-# Description of the light source when it is on and emitting photons that interact
+# BULLET 1: Description of the light source when it is on and emitting photons that interact
 # with the target molecule in glowing and rotating visuals.
+#EXAMPLE: {Microwave⁩} photon absorbed, ⁨{carbon monoxide⁩} molecule ⁨{rotates clockwise⁩}.
+
 absorptionPhaseMoleculeDescriptionPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visiblCapitalizede }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photon absorbed, { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -253,16 +283,19 @@ absorptionPhaseMoleculeDescriptionPattern = { $lightSource ->
 }.
 
 # ..
-# Description of the light source when it is on and emitting photons that interact
+# BULLET 1: Description of the light source when it is on and emitting photons that interact
 # with the target molecule in breaking apart visuals.
 # Note that the actual resulting molecules are not translatable because the molecular formula
 # is used. A note in the implementation states that the molecular formula should not be
 # translatable.
+# EXAMPLE: {Ultraviolet⁩} photon absorbed, ⁨{ozone⁩} molecule breaks into {⁨O2}⁩ and {⁨O}⁩.⁩ ⁨⁨O2⁩ and ⁨O⁩ floating away.⁩
+# NOTE: Last part of example is shared with a context response, so is not included in the pattern.
+
 breakApartPhaseDescriptionPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photon absorbed, { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -276,7 +309,9 @@ breakApartPhaseDescriptionPattern = { $lightSource ->
 } molecule breaks into { $firstMolecule } and { $secondMolecule }.
 
 # ..
-# Description of the geometry of the active molecule.
+# BULLET 2: Description of the geometry of the active molecule.
+# EXAMPLE: This molecule has ⁨{tetrahedral⁩} geometry.
+
 geometryLabelPattern = This molecule has { $geometry ->
   [LINEAR] linear
   [BENT] bent
@@ -284,26 +319,31 @@ geometryLabelPattern = This molecule has { $geometry ->
   *[DIATOMIC] diatomic
 } geometry.
 
-# More information about the molecular geometry.
+# ..
+# BULLET 3: More information about the molecular geometry.
 linearGeometryDescription = Linear, a molecule with two or three atoms bonded to form a straight line. Bond angle is 180 degrees.
 bentGeometryDescription = Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees.
 tetrahedralGeometryDescription = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
 
 # ..................................................................
-# Descriptions for the light source button.
+# Descriptions for light source button.
 # ..................................................................
+
+# EXAMPLE: {Microwave} Light Source
+
 lightSourceButtonLabelPattern = { $lightSource ->
-  [ MICRO ] { -microwave }
-  [ INFRARED ] { -infrared }
-  [ VISIBLE ] { -visible }
-  [ ULTRAVIOLET ] { -ultraviolet }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized}
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } Light Source
+
 lightSourceButtonPressedHelpText = Turn light source off to stop photons.
 lightSourceButtonUnpressedHelpText = Turn light source on to start photons.
 
 # ..................................................................
-# Descriptions for the light source and molecule radio buttons.
+# Descriptions for light source and molecule radio buttons.
 # ..................................................................
 lightSources = Light Sources
 lightSourceRadioButtonHelpText = Choose light source for observation window ordered low to high energy.
@@ -311,17 +351,18 @@ lightSourceRadioButtonHelpText = Choose light source for observation window orde
 molecules = Molecules
 moleculesRadioButtonHelpText = Choose molecule for observation window.
 
-# Patern for the labels for the molecule radio buttons. Molecular formulas are not translatable.
+# Molecule radio button names include their full name, molecular formula, and geometry. Molecular formulas are not translatable.
+# EXMPLE: 
 moleculeButtonLabelPattern = { $photonTarget ->
-  [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
-  [ SINGLE_N2_MOLECULE ] { -nitrogen }
-  [ SINGLE_O2_MOLECULE ] { -oxygen }
-  [ SINGLE_CO2_MOLECULE ] { -carbonDioxide }
-  [ SINGLE_CH4_MOLECULE ] { -methane }
-  [ SINGLE_H2O_MOLECULE ] { -water }
-  [ SINGLE_NO2_MOLECULE ] { -nitrogenDioxide }
-  *[ SINGLE_O3_MOLECULE ] { -ozone }
-}, { $molecularFormula }, { $geometryTitle ->
+  [ SINGLE_CO_MOLECULE ] { -carbonMonoxideCapitalized }
+  [ SINGLE_N2_MOLECULE ] { -nitrogenCapitalized }
+  [ SINGLE_O2_MOLECULE ] { -oxygenCapitalized }
+  [ SINGLE_CO2_MOLECULE ] { -carbonDioxideCapitalized }
+  [ SINGLE_CH4_MOLECULE ] { -methaneCapitalized }
+  [ SINGLE_H2O_MOLECULE ] { -waterCapitalized}
+  [ SINGLE_NO2_MOLECULE ] { -nitrogenDioxideCapitalized }
+  *[ SINGLE_O3_MOLECULE ] { -ozoneCapitalized }
+}, { $molecularFormula }, { $geometryTitleCapitalized ->
   [LINEAR] Linear
   [BENT] Bent
   [TETRAHEDRAL] Tetrahedral
@@ -457,9 +498,10 @@ slowMotionAbsorbedMoleculeExcitedPattern = Photon absorbed. Molecule { $excitedR
 slowMotionBreakApartPattern = Photon absorbed. Molecule breaks apart. { $firstMolecule } and { $secondMolecule } float away.
 
 # The molecular formulas are not translatable.
+# NOTE: Used in dynamic state description (i.e. end of BULLET 1) and in context responses.
+
 moleculesFloatingAwayPattern = { $firstMolecule } and { $secondMolecule } floating away.
 
-# NOTE: Is this pattern translatable?? Combining two sentences like this seems risky.
 breakApartDescriptionWithFloatPattern = { $description } { $floatDescription }
 
 moleculePiecesGone = Molecule pieces gone. Reset or change molecule.
