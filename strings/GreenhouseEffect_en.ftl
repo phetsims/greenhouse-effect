@@ -1,7 +1,7 @@
 # ....................................................................
 # Reusable strings that may be used in patterns below.
-# Patterns also known as accessible descriptions. 
-# Reusable strings means the same strings can appear in more than one accessible description. 
+# Patterns also known as accessible descriptions.
+# Reusable strings means the same strings can appear in more than one accessible description.
 # ....................................................................
 
 # ..
@@ -179,14 +179,14 @@ dynamicPausedEmitterOffScreenSummaryPattern = Currently, sim { $simSpeed ->
 screenSummaryWithHintPattern = { $summary } Reset or change molecule.
 
 # ..................................................................
-# Descriptions for the Play Area 
+# Descriptions for the Play Area
 # ..................................................................
 
-# ... 
-# Descriptions for the Observation Window 
+# ...
+# Descriptions for the Observation Window
 observationWindowLabel = Observation Window
 
-# .. 
+# ..
 # BULLET 1: Description of the light source when it is off.
 # EXAMPLE: {Infrared}⁩ light source is off and points directly at ⁨{carbon monoxide⁩} molecule.
 
@@ -263,7 +263,7 @@ absorptionPhaseBondsDescriptionPattern = { $lightSource ->
 absorptionPhaseMoleculeDescriptionPattern = { $lightSource ->
   [ MICRO ] { -microwaveCapitalized }
   [ INFRARED ] { -infraredCapitalized }
-  [ VISIBLE ] { -visiblCapitalizede }
+  [ VISIBLE ] { -visibleCapitalized }
   [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photon absorbed, { $photonTarget ->
@@ -352,7 +352,7 @@ molecules = Molecules
 moleculesRadioButtonHelpText = Choose molecule for observation window.
 
 # Molecule radio button names include their full name, molecular formula, and geometry. Molecular formulas are not translatable.
-# EXMPLE: 
+# EXMPLE:
 moleculeButtonLabelPattern = { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxideCapitalized }
   [ SINGLE_N2_MOLECULE ] { -nitrogenCapitalized }
@@ -362,7 +362,7 @@ moleculeButtonLabelPattern = { $photonTarget ->
   [ SINGLE_H2O_MOLECULE ] { -waterCapitalized}
   [ SINGLE_NO2_MOLECULE ] { -nitrogenDioxideCapitalized }
   *[ SINGLE_O3_MOLECULE ] { -ozoneCapitalized }
-}, { $molecularFormula }, { $geometryTitleCapitalized ->
+}, { $molecularFormula }, { $geometryTitle ->
   [LINEAR] Linear
   [BENT] Bent
   [TETRAHEDRAL] Tetrahedral
@@ -562,18 +562,18 @@ spectrumWindowLabelledSpectrumVisibleLabel = Visible, tiny range:
 spectrumWindowLabelledSpectrumUltravioletLabel = Ultraviolet, small range:
 spectrumWindowLabelledSpectrumXrayLabel = X-ray, medium range:
 spectrumWindowLabelledSpectrumGammaRayLabel = Gamma ray, medium range:
-spectrumWindowLabelledSpectrumRadioFrequencyDescription = Frequencies less than 10⁴ Hertz to 10⁹ Hertz.
-spectrumWindowLabelledSpectrumRadioWavelengthDescription = Wavelengths greater than 10⁴ meters to 5 × 10⁻¹ meters.
-spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription = Frequencies 10⁹ to 5 × 10¹¹ Hertz.
-spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription = Wavelengths 10⁻¹ to 10⁻³ meters.
-spectrumWindowLabelledSpectrumInfraredFrequencyDescription = Frequencies 5 × 10¹¹ to 4 × 10¹⁴ Hertz.
-spectrumWindowLabelledSpectrumInfraredWavelengthDescription = Wavelengths 10⁻³ to 7 × 10⁻⁷ meters.
-spectrumWindowLabelledSpectrumVisibleFrequencyDescription = Frequencies 4 × 10¹⁴ to 7 × 10¹⁴ Hertz.
-spectrumWindowLabelledSpectrumVisibleWavelengthDescription = Wavelengths 7 × 10⁻⁷ to 4 × 10⁻⁷ meters.
+spectrumWindowLabelledSpectrumRadioFrequencyDescription = Frequencies less than 10 to the 4 Hertz to 10 to the 9 Hertz.
+spectrumWindowLabelledSpectrumRadioWavelengthDescription = Wavelengths greater than 10 to the 4 meters to 5 times 10 to the negative 1 meters.
+spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription = Frequencies 10 to the 9 to 5 times 10 to the 11 Hertz.
+spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription = Wavelengths 10 to the negative 1 to 10 to the negative 3 meters.
+spectrumWindowLabelledSpectrumInfraredFrequencyDescription = Frequencies 5 times 10 to the 11 to 4 times 10 to the 14 Hertz.
+spectrumWindowLabelledSpectrumInfraredWavelengthDescription = Wavelengths 10 to the negative 3 to 7 times 10 to the negative 7 meters.
+spectrumWindowLabelledSpectrumVisibleFrequencyDescription = Frequencies 4 times 10 to the 14 to 7 times 10 to the 14 Hertz.
+spectrumWindowLabelledSpectrumVisibleWavelengthDescription = Wavelengths 7 times 10 to the negative 7 to 4 times 10 to the negative 7 meters.
 spectrumWindowLabelledSpectrumVisibleGraphicalDescription = Shown as a rainbow starting with red and ending with violet (red, yellow, green, blue, indigo, violet).
-spectrumWindowLabelledSpectrumUltravioletFrequencyDescription = Frequencies 10¹⁵ to 10¹⁶ Hertz.
-spectrumWindowLabelledSpectrumUltravioletWavelengthDescription = Wavelengths 4 × 10⁻⁷ to 10⁻⁸ meters.
-spectrumWindowLabelledSpectrumXrayFrequencyDescription = Frequencies 10¹⁶ to 10¹⁹ Hertz.
-spectrumWindowLabelledSpectrumXrayWavelengthDescription = Wavelengths 10⁻⁸ to 5 × 10⁻¹¹ meters.
-spectrumWindowLabelledSpectrumGammaRayFrequencyDescription = Frequencies 10¹⁹ Hertz to greater than 10²⁰ Hertz.
-spectrumWindowLabelledSpectrumGammaRayWavelengthDescription = Wavelengths 5 × 10⁻¹¹ meters to less than 10⁻¹² meters.
+spectrumWindowLabelledSpectrumUltravioletFrequencyDescription = Frequencies 10 to the 15 to 10 to the 16 Hertz.
+spectrumWindowLabelledSpectrumUltravioletWavelengthDescription = Wavelengths 4 times 10 to the negative 7 to 10 to the negative 8 meters.
+spectrumWindowLabelledSpectrumXrayFrequencyDescription = Frequencies 10 to the 16 to 10 to the 19 Hertz.
+spectrumWindowLabelledSpectrumXrayWavelengthDescription = Wavelengths 10 to the negative 8 to 5 times 10 to the negative 11 meters.
+spectrumWindowLabelledSpectrumGammaRayFrequencyDescription = Frequencies 10 to the 19 Hertz to greater than 10 to the 20 Hertz.
+spectrumWindowLabelledSpectrumGammaRayWavelengthDescription = Wavelengths 5 times 10 to the negative 11 meters to less than 10 to the negative 12 meters.
