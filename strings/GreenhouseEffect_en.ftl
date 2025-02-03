@@ -1,6 +1,6 @@
 # ....................................................................
 # Reusable strings that may be used in accessible description patterns below.
-# These strings  can appear in more than one accessible description pattern, and
+# These strings can appear in more than one accessible description pattern, and
 # make the State and Responsive descriptions dynamic.
 # ....................................................................
 
@@ -98,7 +98,7 @@ interactionHint = Turn light source on to explore.
 
 # ..........
 # Current Details
-# Note: Only one of these 4 descriptions will be shown at a time to describe the current state of the sim.
+# Note: Only one of these 4 descriptions will be shown at a time to describe the current details.
 
 # Describing the simulation when the sim is playing and the photon emitter is on.
 # EXAMPLE: Currently, ⁨{infrared⁩} light source emits photons ⁨{on slow speed} directly at⁩ directly at ⁨{carbon monoxide⁩} molecule.
@@ -341,7 +341,7 @@ bentGeometryDescription = Bent, molecule with a central atom bonded to two other
 tetrahedralGeometryDescription = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
 
 # ..
-# Light Source Control
+# Light Source emitter control, i.e. on/off switch
 # EXAMPLE: {Microwave} Light Source
 
 lightSourceButtonLabelPattern = { $lightSource ->
@@ -353,13 +353,13 @@ lightSourceButtonLabelPattern = { $lightSource ->
 } Light Source
 
 # ..
-# Light Source Control Help Text
+# Light Source Switch Help Text
 lightSourceButtonPressedHelpText = Turn light source off to stop photons.
 lightSourceButtonUnpressedHelpText = Turn light source on to start photons.
 # COPY FOR REFERENCE: Turn light source on to stop photons.
 
 # ..
-# Light Sources and Molecules Group Controls - group names and help text 
+# Light Sources and Molecules radio button groups - group names and help text 
 
 lightSources = Light Sources
 lightSourceRadioButtonHelpText = Choose light source for observation window ordered low to high energy.
@@ -392,7 +392,7 @@ moleculeButtonLabelPattern = { $photonTarget ->
 # - real-time responses about what is happening with
 # light source and molecule
 # NOTE: slow speed and paused-step-through events 
-# provide lover responses with more detail 
+# provide longer responses with more detail 
 # ..................................................
 
 # ..........
@@ -460,7 +460,7 @@ longGlowingAlert = Molecule glows.
 breaksApartAlertPattern = Molecule breaks apart into { $firstMolecule } and { $secondMolecule }.
 
 # Absorbed photon emission and direction response when using step-through with paused sim.
-# EXAMPLE: Absorbed photon emitted from molecule ⁨up and to the left⁩.
+# EXAMPLE: Absorbed photon emitted from molecule ⁨{up and to the left}.
 pausedEmittingPattern = Absorbed photon emitted from molecule { $direction ->
   [LEFT] { -left }
   [RIGHT] { -right }
@@ -511,10 +511,10 @@ slowMotionPassingPattern = { $lightSource ->
   *[ SINGLE_O3_MOLECULE ] { -ozone }
 } molecule.
 
-# Photons passes, SHORT on normal speed
+# Photon passes, a singualr pass is described when using step-through with paused sim.
 photonPasses = Photon passes.
 
-# Photons passing, SHORT on normal speed
+# Photons passing, continuous passes are described on normal when no excitation is possible. 
 photonsPassing = Photons passing.
 
 # Absorption and Vibration, LONG on slow speed
