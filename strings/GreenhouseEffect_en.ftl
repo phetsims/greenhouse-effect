@@ -1,7 +1,7 @@
 # ....................................................................
-# Reusable strings that may be used in accessible description patterns below.
-# These strings can appear in more than one accessible description pattern, and
-# make the State and Responsive descriptions dynamic.
+# REUSABLE STRINGS
+# Strings that may be used in multiple patterns below to assemble 
+# accessible descriptions for both State and Responsive Descriptions.
 # ....................................................................
 
 # ..
@@ -388,15 +388,13 @@ moleculeButtonLabelPattern = { $photonTarget ->
 }
 
 # ..................................................
-# Context Responses for Observation Window
-# - real-time responses about what is happening with
-# light source and molecule
-# NOTE: slow speed and paused-step-through events 
-# provide longer responses with more detail 
+# Context Responses
 # ..................................................
 
 # ..........
-# RESPONSE OR STATE DESCRIPTION when an absorbed photon is emitted from molecule, includes direction of emission.
+# Context responses for when an absorbed photon is emitted from molecule, 
+# includes direction of emission.
+# NOTE: Alo used in state descriptions.
 # EXAMPLE: Absorbed {microwave} photon emitted from {carbon monoxide} molecule {down and to the right}.
 emissionPhaseDescriptionPattern = Absorbed { $lightSource ->
   [ MICRO ] { -microwave }
