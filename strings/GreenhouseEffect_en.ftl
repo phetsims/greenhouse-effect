@@ -1,13 +1,13 @@
 # ....................................................................
 # REUSABLE STRINGS
-# Strings that may be used in multiple patterns below to assemble 
+# Strings that may be used in multiple patterns below to assemble
 # accessible descriptions for both State and Responsive Descriptions.
 # ....................................................................
 
 # ..
 # Light sources (capitalized)
-# Used when light source/photon name needs capitalization, 
-# EXAMPLE: {Infrared} Light Source 
+# Used when light source/photon name needs capitalization,
+# EXAMPLE: {Infrared} Light Source
 -microwaveCapitalized = Microwave
 -infraredCapitalized = Infrared
 -visibleCapitalized = Visible
@@ -22,7 +22,7 @@
 
 # ..
 # Target molecules (capitalized) NEW-need to adjust existing translations
-# EAMPLE: {Carbon Monoxide⁩}, ⁨CO⁩, ⁨Linear⁩ 
+# EAMPLE: {Carbon Monoxide⁩}, ⁨CO⁩, ⁨Linear⁩
 -carbonMonoxideCapitalized = Carbon Monoxide
 -nitrogenCapitalized = Nitrogen
 -oxygenCapitalized = Oxygen
@@ -47,11 +47,11 @@
 # Molecule excitations
 
 # Bond movement
-# EXAMPLE: Bonds of molecule {bend up and down}. 
+# EXAMPLE: Bonds of molecule {bend up and down}.
 -bendUpAndDown = bend up and down
 -stretchBackAndForth = stretch back and forth
 
-# Glowing and Rotation 
+# Glowing and Rotation
 # EXAMPLE on slow speed: Photon absorbed. Molecule ⁨{rotates counter-clockwise⁩}.
 -glows = glows
 -rotatesClockwise = rotates clockwise
@@ -73,22 +73,22 @@
 -unknown = UNKNOWN
 
 # ..................................................
-# State descriptions for SCREEN SUMMARY 
+# State descriptions for SCREEN SUMMARY
 # - Sim Overview
 # - Current Details
-# - Interaction Hint 
+# - Interaction Hint
 # ..................................................
 
 # ..........
 # Sim Overview
 
 playAreaSummary = The Play Area is an observation window set up with a light source and a molecule. It has options for light source and molecule.
-# COPY FOR REFERENCE: The Play Area is an observation window set up with 
+# COPY FOR REFERENCE: The Play Area is an observation window set up with
 # a light source and a molecule. It has options for light source and molecule.
 
 controlAreaSummary = The Control Area has options for how fast the action happens in the observation window including buttons to pause and step forward. You can also access details about the light spectrum and reset the sim.
-# COPY FOR REFERENCE: The Control Area has options for how fast the action happens 
-# in the observation window including buttons to pause and step forward. 
+# COPY FOR REFERENCE: The Control Area has options for how fast the action happens
+# in the observation window including buttons to pause and step forward.
 # You can also access details about the light spectrum and reset the sim.
 
 # ..........
@@ -335,7 +335,7 @@ geometryLabelPattern = This molecule has { $geometry ->
 } geometry.
 
 # ..
-# DETAIL 3: More information about the molecular geometry. 
+# DETAIL 3: More information about the molecular geometry.
 linearGeometryDescription = Linear, a molecule with two or three atoms bonded to form a straight line. Bond angle is 180 degrees.
 bentGeometryDescription = Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees.
 tetrahedralGeometryDescription = Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice.
@@ -359,7 +359,7 @@ lightSourceButtonUnpressedHelpText = Turn light source on to start photons.
 # COPY FOR REFERENCE: Turn light source on to stop photons.
 
 # ..
-# Light Sources and Molecules radio button groups - group names and help text 
+# Light Sources and Molecules radio button groups - group names and help text
 
 lightSources = Light Sources
 lightSourceRadioButtonHelpText = Choose light source for observation window ordered low to high energy.
@@ -368,7 +368,7 @@ lightSourceRadioButtonHelpText = Choose light source for observation window orde
 molecules = Molecules
 moleculesRadioButtonHelpText = Choose molecule for observation window.
 
-# Molecule Controls include their full name, molecular formula, and geometry. 
+# Molecule Controls include their full name, molecular formula, and geometry.
 # NOTE: Molecular formulas are not translatable.
 # EXAMPLE: {Carbon Monoxide⁩}, ⁨CO⁩, ⁨{Linear⁩}
 moleculeButtonLabelPattern = { $photonTarget ->
@@ -392,7 +392,7 @@ moleculeButtonLabelPattern = { $photonTarget ->
 # ..................................................
 
 # ..........
-# Context responses for when an absorbed photon is emitted from molecule, 
+# Context responses for when an absorbed photon is emitted from molecule,
 # includes direction of emission.
 # NOTE: Alo used in state descriptions.
 # EXAMPLE: Absorbed {microwave} photon emitted from {carbon monoxide} molecule {down and to the right}.
@@ -424,30 +424,30 @@ emissionPhaseDescriptionPattern = Absorbed { $lightSource ->
 }.
 
 # ..........
-# Context Responses for molecule excitations 
+# Context Responses for molecule excitations
 # LONG responses occur once, then a SHORT response repeats reducing verbocity.
 # When on slow speed or when paused and using step-through, responses can also be LONG.
 
 # Streching
-# EXAMPLE SHORT: {Stretching}. 
+# EXAMPLE SHORT: {Stretching}.
 # EXAMPLE LONG: {Bonds of molecule stretch back and forth}.
 shortStretchingAlert = Stretching.
 longStretchingAlert = Bonds of molecule stretch back and forth.
 
 # Bending
-# EXAMPLE SHORT: {Bending}. 
+# EXAMPLE SHORT: {Bending}.
 # EXAMPLE LONG: {Bonds of molecule bend up and down}.
 shortBendingAlert = Bending.
 longBendingAlert = Bonds of molecule bend up and down.
 
 # Rotating
-# EXAMPLE: SHORT: {Rotating}. 
+# EXAMPLE: SHORT: {Rotating}.
 # EXAMPLE LONG: {Molecule rotates}.
 shortRotatingAlert = Rotating.
 longRotatingAlert = Molecule rotates.
 
 # Glowing
-# EXAMPLE: SHORT: {Glowing}. 
+# EXAMPLE: SHORT: {Glowing}.
 # EXAMPLE LONG: {Molecule glows}.
 shortGlowingAlert = Glowing.
 longGlowingAlert = Molecule glows.
@@ -471,7 +471,7 @@ pausedEmittingPattern = Absorbed photon emitted from molecule { $direction ->
   *[UNKNOWN] { -unknown }
 }.
 
-# Photon passes  
+# Photon passes
 # EXAMPLE: {Visible⁩} photon passes through ⁨{carbon monoxide⁩} molecule.
 pausedPassingPattern = { $lightSource ->
   [ MICRO ] { -microwaveCapitalized }
@@ -493,10 +493,10 @@ pausedPassingPattern = { $lightSource ->
 # Photons passing, LONG when on slow speed
 # EXAMPLE: {Ultraviolet⁩} photons passing through ⁨{carbon monoxide⁩} molecule.
 slowMotionPassingPattern = { $lightSource ->
-  [ MICRO ] { -microwaveCapitalize }
-  [ INFRARED ] { -infraredCapitalize }
-  [ VISIBLE ] { -visibleCapitalize }
-  [ ULTRAVIOLET ] { -ultravioletCapitalize }
+  [ MICRO ] { -microwaveCapitalized }
+  [ INFRARED ] { -infraredCapitalized }
+  [ VISIBLE ] { -visibleCapitalized }
+  [ ULTRAVIOLET ] { -ultravioletCapitalized }
   *[ UNKNOWN ] { -unknown }
 } photons passing through { $photonTarget ->
   [ SINGLE_CO_MOLECULE ] { -carbonMonoxide }
@@ -512,7 +512,7 @@ slowMotionPassingPattern = { $lightSource ->
 # Photon passes, a singualr pass is described when using step-through with paused sim.
 photonPasses = Photon passes.
 
-# Photons passing, continuous passes are described on normal when no excitation is possible. 
+# Photons passing, continuous passes are described on normal when no excitation is possible.
 photonsPassing = Photons passing.
 
 # Absorption and Vibration, LONG on slow speed
@@ -548,10 +548,10 @@ slowMotionAbsorbedMoleculeExcitedPattern = Photon absorbed. Molecule { $excitedR
 
 # Break apart and "float away" LONG response.
 # NOTE: The molecular formulas are not translatable.
-# EXAMPLE: Photon absorbed. Molecule breaks apart. ⁨NO⁩ and ⁨O⁩ float away. 
+# EXAMPLE: Photon absorbed. Molecule breaks apart. ⁨NO⁩ and ⁨O⁩ float away.
 slowMotionBreakApartPattern = Photon absorbed. Molecule breaks apart. { $firstMolecule } and { $secondMolecule } float away.
 
-# "Floating away", response when using step-through with paused sim. 
+# "Floating away", response when using step-through with paused sim.
 # NOTE: O2⁩ and ⁨O⁩ floating away.
 moleculesFloatingAwayPattern = { $firstMolecule } and { $secondMolecule } floating away.
 
@@ -579,7 +579,7 @@ slowMotionEmittedPattern = Photon emitted { $direction ->
 resetOrChangeMolecule = Reset or change molecule.
 
 # ..........
-# Context responses for the light Source emitter control. 
+# Context responses for the light Source emitter control.
 # LONG responses describe the full context when in slow motion or when using step-through with paused sim.
 
 photonEmitterPhotonsOff = Photons off.
@@ -609,15 +609,15 @@ timeControlsPlayPauseButtonPausedWithSpeedDescription = Step forward little by l
 timeControlsStepHintAlert = Turn light source on to use Step Forward.
 
 # ....................................................
-# Static State Descriptions for Light Spectrum Diagram 
+# Static State Descriptions for Light Spectrum Diagram
 # ....................................................
 
-# .. 
+# ..
 # Light Spectrum Diagram button and help text
 spectrumButtonLabel = Light Spectrum Diagram
 spectrumButtonDescription = Examine details of full light spectrum.
 
-# .. 
+# ..
 # Summary of Light Spectrum
 spectrumWindowDescription = The Light Spectrum shows the relative energy of the different classifications of light waves as defined by their characteristic wavelengths (measured in meters) and frequencies (measured in Hertz or inverse seconds).
 
@@ -625,7 +625,7 @@ spectrumWindowEnergyDescription = The order from lowest energy (lowest frequency
 
 spectrumWindowSinWaveDescription = A sine wave decreasing in wavelength (as measured by the distance from peak to peak) and increasing frequency (as measured by the number of waves per time interval) from Radio to Gamma Ray.
 
-# .. 
+# ..
 # Details for Frequncies and Wavelengths
 spectrumWindowLabelledSpectrumLabel = Frequency and Wavelength Ranges
 spectrumWindowLabelledSpectrumDescription = In detail, the frequency and wavelength ranges for each spectrum, listed from lowest to highest energy:
@@ -666,6 +666,6 @@ spectrumWindowLabelledSpectrumUltravioletWavelengthDescription = Wavelengths 4 t
 spectrumWindowLabelledSpectrumXrayFrequencyDescription = Frequencies 10 to the 16 to 10 to the 19 Hertz.
 spectrumWindowLabelledSpectrumXrayWavelengthDescription = Wavelengths 10 to the negative 8 to 5 times 10 to the negative 11 meters.
 
-# Gamma ray 
+# Gamma ray
 spectrumWindowLabelledSpectrumGammaRayFrequencyDescription = Frequencies 10 to the 19 Hertz to greater than 10 to the 20 Hertz.
 spectrumWindowLabelledSpectrumGammaRayWavelengthDescription = Wavelengths 5 times 10 to the negative 11 meters to less than 10 to the negative 12 meters.
