@@ -14,16 +14,16 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
-import SunEnergySource from '../model/SunEnergySource.js';
 
 // constants
-const MAX_EXPECTED_ENERGY_MAGNITUDE = SunEnergySource.OUTPUT_ENERGY_RATE * EnergyAbsorbingEmittingLayer.SURFACE_AREA * 2;
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
 const MIN_BLIPS_PER_SECOND_WHEN_PLAYING = 2;
 const MAX_BLIPS_PER_SECOND = 10;
-const VOLUME_UP_ENERGY_RATE = 10000; // threshold for turning up and maintaining volume, empirically determined
-const VOLUME_FADE_OUT_TIME = 40000; // in seconds
+const VOLUME_UP_ENERGY_RATE = 10; // threshold for turning up and maintaining volume, empirically determined
+const VOLUME_FADE_OUT_TIME = 4; // in seconds
+
+// The max expected net energy balance magnitude, in Watts.  This value was determined through empirical testing.
+const MAX_EXPECTED_ENERGY_MAGNITUDE = 350;
 
 class EnergyBalanceSoundGenerator extends SoundGenerator {
 
@@ -85,7 +85,8 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
 
         const netEnergyBalance = netEnergyBalanceProperty.value;
 
-        // Adjust the playback rate of the blip to be a higher pitch when the net energy is positive, lower when negative.
+        // Adjust the playback rate of the blip to be a higher pitch when the net energy is positive, lower pitch
+        // when negative.
         if ( netEnergyBalance > 0 && this.soundClip.playbackRate === 1 ) {
           this.soundClip.setPlaybackRate( HIGHER_SOUND_PLAYBACK_RATE );
         }
@@ -129,8 +130,8 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
     }
 
     // If the energy has changed significantly during this step, turn up the volume.
-    const energyChangeMagnitude = Math.abs( this.netEnergyBalanceProperty.value - this.previousEnergyRate );
-    if ( energyChangeMagnitude > VOLUME_UP_ENERGY_RATE ) {
+    const energyChangeRate = Math.abs( this.netEnergyBalanceProperty.value - this.previousEnergyRate ) / dt;
+    if ( energyChangeRate > VOLUME_UP_ENERGY_RATE ) {
       this.volumeFadeCountdown = VOLUME_FADE_OUT_TIME;
       this.soundClip.setOutputLevel( this.fullVolumeLevel );
     }

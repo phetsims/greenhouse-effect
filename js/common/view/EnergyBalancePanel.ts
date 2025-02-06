@@ -43,6 +43,7 @@ class EnergyBalancePanel extends Panel {
 
   private readonly energyBalanceSoundGenerator: EnergyBalanceSoundGenerator;
   private readonly balancePlot: EnergyBalancePlot;
+  private readonly isPlayingProperty: TReadOnlyProperty<boolean>;
 
   /**
    * @param model - a model of energy capture in an atmosphere based on energy absorbing and emitting layers
@@ -103,6 +104,8 @@ class EnergyBalancePanel extends Panel {
 
     super( content, options );
 
+    this.isPlayingProperty = model.isPlayingProperty;
+
     // Make the plot available to the step method.
     this.balancePlot = balancePlot;
 
@@ -131,7 +134,8 @@ class EnergyBalancePanel extends Panel {
         else {
           this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
         }
-      } );
+      }
+    );
   }
 
   /**
@@ -139,7 +143,7 @@ class EnergyBalancePanel extends Panel {
    * @param dt - delta time, in seconds
    */
   public step( dt: number ): void {
-    this.energyBalanceSoundGenerator.step( dt );
+    this.isPlayingProperty.value && this.energyBalanceSoundGenerator.step( dt );
     this.balancePlot.update();
   }
 }
