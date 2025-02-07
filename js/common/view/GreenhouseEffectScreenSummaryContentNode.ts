@@ -9,7 +9,7 @@
 
 import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';

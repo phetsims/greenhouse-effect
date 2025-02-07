@@ -9,12 +9,13 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ScreenView, { ScreenViewOptions } from '../../../../joist/js/ScreenView.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { Path, VBox } from '../../../../scenery/js/imports.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';

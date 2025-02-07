@@ -7,10 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { GridBox, Image, ImageOptions, Path, PathOptions, Text, VBox } from '../../../../scenery/js/imports.js';
+import GridBox from '../../../../scenery/js/layout/nodes/GridBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Image, { ImageOptions } from '../../../../scenery/js/nodes/Image.js';
+import Path, { PathOptions } from '../../../../scenery/js/nodes/Path.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';

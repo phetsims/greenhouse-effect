@@ -11,7 +11,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import TinyEmitter from '../../../../axon/js/TinyEmitter.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
-import { DisplayedProperty } from '../../../../scenery/js/imports.js';
+import DisplayedProperty from '../../../../scenery/js/util/DisplayedProperty.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import PhotonSprites from '../../common/PhotonSprites.js';
 import AtmosphericPhotonsSoundGenerator from '../../common/view/AtmosphericPhotonsSoundGenerator.js';

@@ -12,13 +12,15 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';

@@ -4,7 +4,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';

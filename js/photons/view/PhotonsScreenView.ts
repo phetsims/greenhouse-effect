@@ -6,7 +6,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import { VBox } from '../../../../scenery/js/imports.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import CloudCheckbox from '../../common/view/CloudCheckbox.js';

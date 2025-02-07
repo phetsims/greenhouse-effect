@@ -9,7 +9,12 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Color, DisplayedProperty, LinearGradient, ManualConstraint, Node, Path } from '../../../../scenery/js/imports.js';
+import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualConstraint.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import DisplayedProperty from '../../../../scenery/js/util/DisplayedProperty.js';
+import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LayersModel from '../../common/model/LayersModel.js';

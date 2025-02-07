@@ -9,7 +9,8 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HBox, Text } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import NumberPicker from '../../../../sun/js/NumberPicker.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';

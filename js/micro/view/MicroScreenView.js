@@ -19,7 +19,10 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
-import { AriaHasPopUpMutator, HotkeyData, KeyboardListener, Text } from '../../../../scenery/js/imports.js';
+import AriaHasPopUpMutator from '../../../../scenery/js/accessibility/pdom/AriaHasPopUpMutator.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
+import KeyboardListener from '../../../../scenery/js/listeners/KeyboardListener.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
@@ -27,6 +30,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
@@ -36,7 +40,6 @@ import MoleculeActionSoundGenerator from './MoleculeActionSoundGenerator.js';
 import MoleculeSelectionPanel from './MoleculeSelectionPanel.js';
 import PhotonEmissionSoundGenerator from './PhotonEmissionSoundGenerator.js';
 import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPanel.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 

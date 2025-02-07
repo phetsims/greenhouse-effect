@@ -14,7 +14,9 @@ import PickOptional from '../../../../phet-core/js/types/PickOptional.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import MathSymbols from '../../../../scenery-phet/js/MathSymbols.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Color, Line, Node, NodeOptions } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 

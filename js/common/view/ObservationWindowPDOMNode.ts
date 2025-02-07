@@ -9,7 +9,7 @@
 
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class ObservationWindowPDOMNode extends Node {

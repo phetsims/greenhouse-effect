@@ -10,9 +10,12 @@
  * @author Jesse Greenberg
  */
 
+import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Image, Node, Text } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
 import flashlightOff_png from '../../../images/flashlightOff_png.js';
 import infraredSourceOff_png from '../../../images/infraredSourceOff_png.js';
@@ -23,10 +26,9 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
-import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';
 
 const openSciEdEnergySourceStringProperty = GreenhouseEffectStrings.openSciEd.energySourceStringProperty;
 

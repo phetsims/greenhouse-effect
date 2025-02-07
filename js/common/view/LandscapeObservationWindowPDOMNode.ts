@@ -12,7 +12,7 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';

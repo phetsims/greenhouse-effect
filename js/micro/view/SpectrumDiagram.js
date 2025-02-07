@@ -10,15 +10,23 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
-import { Line, LinearGradient, Node, Path, PDOMPeer, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 
 const spectrumWindowCyclesPerSecondUnitsStringProperty = GreenhouseEffectStrings.SpectrumWindow.cyclesPerSecondUnitsStringProperty;
 const spectrumWindowFrequencyArrowLabelStringProperty = GreenhouseEffectStrings.SpectrumWindow.frequencyArrowLabelStringProperty;

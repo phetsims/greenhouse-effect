@@ -16,7 +16,10 @@
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Sprite, SpriteImage, SpriteInstance, SpriteInstanceTransformType, Sprites } from '../../../scenery/js/imports.js';
+import Sprites from '../../../scenery/js/nodes/Sprites.js';
+import Sprite from '../../../scenery/js/util/Sprite.js';
+import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
+import SpriteInstance, { SpriteInstanceTransformType } from '../../../scenery/js/util/SpriteInstance.js';
 import infraredPhoton_png from '../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../greenhouseEffect.js';

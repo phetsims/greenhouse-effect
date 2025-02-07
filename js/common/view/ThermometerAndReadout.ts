@@ -21,7 +21,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Node, NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/imports.js';
+import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';

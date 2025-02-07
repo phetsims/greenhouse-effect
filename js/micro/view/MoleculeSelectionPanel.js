@@ -9,17 +9,19 @@
 
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { HighlightPath, Rectangle, RichText } from '../../../../scenery/js/imports.js';
+import HighlightPath from '../../../../scenery/js/accessibility/HighlightPath.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';

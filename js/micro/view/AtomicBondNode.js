@@ -8,7 +8,8 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Line, Node } from '../../../../scenery/js/imports.js';
+import Line from '../../../../scenery/js/nodes/Line.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants that control the width of the bond representation with with respect to the average atom radius.

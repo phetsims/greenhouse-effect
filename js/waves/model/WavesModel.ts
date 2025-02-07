@@ -14,7 +14,7 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { Line } from '../../../../kite/js/imports.js';
+import { Line } from '../../../../kite/js/segments/Segment.js';
 import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
