@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * ThermometerAndReadout is a Scenery Node that depicts a thermometer and a numerical readout indicating the

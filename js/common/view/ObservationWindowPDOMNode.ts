@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * A Node that supports Interactive Description for the observation window, with PDOM structure and descriptions for the

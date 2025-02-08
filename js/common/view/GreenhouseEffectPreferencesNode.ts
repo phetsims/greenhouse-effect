@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * GreenhouseEffectPreferencesNode is the user interface for sim-specific preferences, accessed via the Preferences

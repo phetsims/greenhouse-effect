@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * TemperatureUnitsControl is a UI component that allows a user to select between Kelvin, degrees Celsius, or degrees

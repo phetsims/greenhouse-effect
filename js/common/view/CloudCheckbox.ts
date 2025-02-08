@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * A checkbox that is linked to a count of the number of active clouds, and sets the number of clouds to either 0 or 1

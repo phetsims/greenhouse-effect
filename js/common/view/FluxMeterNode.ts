@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * FluxMeterNode is the view portion of the energy flux meter for Greenhouse Effect. This includes a draggable sensor

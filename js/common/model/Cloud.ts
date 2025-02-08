@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * The Cloud class is a simple model of a cloud in the atmosphere.  Clouds can interact with light, generally reflecting

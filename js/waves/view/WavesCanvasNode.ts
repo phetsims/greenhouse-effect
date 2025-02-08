@@ -1,4 +1,4 @@
-// Copyright 2020-2024, University of Colorado Boulder
+// Copyright 2020-2025, University of Colorado Boulder
 
 /**
  * WavesCanvasNode is a Scenery CanvasNode used to render sinusoidal waves that represent different frequencies of light

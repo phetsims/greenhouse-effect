@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * TemperatureSoundGeneratorFiltered is used to create a sound indicating the temperature, and uses a sound loop and an
