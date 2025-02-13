@@ -110,7 +110,7 @@ class InstrumentVisibilityPanel extends Panel {
 
           // pdom
           accessibleName: GreenhouseEffectStrings.energyBalanceStringProperty,
-          helpText: GreenhouseEffectStrings.a11y.energyBalance.helpTextStringProperty,
+          accessibleHelpText: GreenhouseEffectStrings.a11y.energyBalance.accessibleHelpTextStringProperty,
           checkedContextResponse: energyBalanceCheckedUtterance,
           uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
         },
@@ -160,7 +160,7 @@ class InstrumentVisibilityPanel extends Panel {
 
           // pdom
           accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
-          helpText: GreenhouseEffectStrings.a11y.fluxMeter.helpTextStringProperty,
+          accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeter.accessibleHelpTextStringProperty,
           checkedContextResponse: fluxMeterCheckedUtterance,
           uncheckedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
         },

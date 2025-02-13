@@ -51,7 +51,7 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       touchAreaYDilation: 4,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.helpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.accessibleHelpTextStringProperty,
       checkedContextResponse: checkedUtterance,
       uncheckedContextResponse: GreenhouseEffectStrings.a11y.surfaceTemperatureScaleHiddenStringProperty,
 

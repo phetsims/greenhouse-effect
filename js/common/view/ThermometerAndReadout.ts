@@ -158,7 +158,7 @@ class ThermometerAndReadout extends Node {
 
         // pdom
         accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
         buttonLabelTagName: 'h4',
 
         // phet-io

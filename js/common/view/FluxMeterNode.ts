@@ -202,7 +202,7 @@ class FluxMeterNode extends Node {
         },
         buttonOptions: {
           baseColor: PhetColorScheme.PHET_LOGO_BLUE,
-          helpText: GreenhouseEffectStrings.a11y.fluxMeter.zoomButtonHelpTextStringProperty
+          accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeter.zoomButtonHelpTextStringProperty
         },
         tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
         visiblePropertyOptions: {
@@ -571,7 +571,7 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       shiftKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 20,
       pageKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 5,
       accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
-      helpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
       ariaOrientation: Orientation.VERTICAL,
       phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312

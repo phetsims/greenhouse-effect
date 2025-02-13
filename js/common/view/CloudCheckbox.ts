@@ -47,7 +47,7 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
     super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectStrings.cloudStringProperty, {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
-      helpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
 

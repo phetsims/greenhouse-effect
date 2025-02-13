@@ -233,7 +233,7 @@ class GreenhouseEffectObservationWindow extends Node {
       soundPlayer: sunlightStartingSoundClip,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.startSunlightButtonHelpTextStringProperty,
 
       // phet-io
       tandem: startSunlightButtonTandem,

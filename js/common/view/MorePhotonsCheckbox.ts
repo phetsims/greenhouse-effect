@@ -23,7 +23,7 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
       touchAreaYDilation: 4,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.morePhotonsHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.morePhotonsHelpTextStringProperty,
       checkedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsCheckedAlertStringProperty,
       uncheckedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsUncheckedAlertStringProperty,
 

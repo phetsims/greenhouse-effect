@@ -125,7 +125,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
           accessibleName: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxLabelPatternStringProperty, {
             number: presentedIndex
           } ),
-          helpText: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
+          accessibleHelpText: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
             number: presentedIndex
           } ),
           checkedContextResponse: checkedContextResponseProperty,
@@ -177,7 +177,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
       // pdom - content for the surface thermometer checkbox
       accessibleName: GreenhouseEffectStrings.surfaceThermometerStringProperty,
-      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
       checkedContextResponse: groundThermometerCheckedContextResponseProperty,
       uncheckedContextResponse: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
         surfaceOrLayer: GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty

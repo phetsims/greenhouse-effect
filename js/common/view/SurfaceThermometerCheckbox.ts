@@ -43,7 +43,7 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
       touchAreaXDilation: 5,
 
       // pdom
-      helpText: GreenhouseEffectStrings.a11y.surfaceThermometer.helpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
       checkedContextResponse: checkedUtterance,
       uncheckedContextResponse: GreenhouseEffectStrings.a11y.thermometerRemovedAlertStringProperty,
 

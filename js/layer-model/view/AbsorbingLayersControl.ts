@@ -48,7 +48,7 @@ export default class AbsorbingLayersControl extends HBox {
 
         // pdom
         labelContent: GreenhouseEffectStrings.absorbingLayersStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.layerModel.absorbingLayersHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.absorbingLayersHelpTextStringProperty,
         labelTagName: 'label',
         pageKeyboardStep: 1 // page up/page down have same size as default step
       }

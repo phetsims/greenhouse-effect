@@ -78,7 +78,7 @@ class TemperatureUnitsControl extends VBox {
       // pdom
       labelTagName: 'h3',
       accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
-      helpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
+      accessibleHelpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
     } );
 
     // Put the label and radio buttons together in the VBox.

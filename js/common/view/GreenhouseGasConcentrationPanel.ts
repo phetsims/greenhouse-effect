@@ -255,7 +255,7 @@ class DateControl extends HBox {
         // pdom
         labelTagName: 'h4',
         accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.helpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.accessibleHelpTextStringProperty,
 
         // phet-io
         tandem: tandem.createTandem( 'dateRadioButtonGroup' )
@@ -401,7 +401,7 @@ class ConcentrationControl extends VBox {
       // pdom
       labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentrationStringProperty,
       labelTagName: 'label',
-      helpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty,
       keyboardStep: 0.05,
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
@@ -555,7 +555,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         // pdom
         labelTagName: 'h4',
         accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
 
         // phet-io
         tandem: tandem

@@ -60,7 +60,7 @@ export default class SolarIntensityControl extends VBox {
         shiftKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
         pageKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE * 2,
         labelContent: GreenhouseEffectStrings.solarIntensityStringProperty,
-        helpText: GreenhouseEffectStrings.a11y.layerModel.solarIntensityHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.solarIntensityHelpTextStringProperty,
         labelTagName: 'label',
         pdomCreateAriaValueText: () => sunlightIntensityDescriptionProperty.value,
         valueChangeSoundGeneratorOptions: {

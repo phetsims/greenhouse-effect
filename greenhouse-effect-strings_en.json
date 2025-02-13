@@ -214,12 +214,12 @@
       "value": "Observation Window"
     },
     "energyBalance": {
-      "helpText": {
+      "accessibleHelpText": {
         "value": "Measure incoming and outgoing energy at top of atmosphere."
       }
     },
     "fluxMeter": {
-      "helpText": {
+      "accessibleHelpText": {
         "value": "Measure incoming and outgoing energy throughout atmosphere."
       },
       "zoomButtonHelpText": {
@@ -281,7 +281,7 @@
       "value": "below cloud"
     },
     "surfaceThermometer": {
-      "helpText": {
+      "accessibleHelpText": {
         "value": "Measure Earth’s surface temperature."
       }
     },
@@ -295,7 +295,7 @@
       "value": "Nitrous oxide {{value}} parts per billion"
     },
     "showSurfaceTemperature": {
-      "helpText": {
+      "accessibleHelpText": {
         "value": "Describe temperature on a scale."
       }
     },
@@ -911,7 +911,7 @@
         "label": {
           "value": "Time Period"
         },
-        "helpText": {
+        "accessibleHelpText": {
           "value": "Compare greenhouse gas levels at different historical time periods."
         },
         "yearTwentyTwenty": {

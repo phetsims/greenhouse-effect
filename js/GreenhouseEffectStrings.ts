@@ -111,10 +111,10 @@ type StringsType = {
   'a11y': {
     'observationWindowLabelStringProperty': LocalizedStringProperty;
     'energyBalance': {
-      'helpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'fluxMeter': {
-      'helpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
       'zoomButtonHelpTextStringProperty': LocalizedStringProperty;
       'energyFluxRangeZoomPatternStringProperty': LocalizedStringProperty;
       'inStringProperty': LocalizedStringProperty;
@@ -136,13 +136,13 @@ type StringsType = {
     'aboveCloudStringProperty': LocalizedStringProperty;
     'belowCloudStringProperty': LocalizedStringProperty;
     'surfaceThermometer': {
-      'helpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'carbonDioxidePPMPatternStringProperty': LocalizedStringProperty;
     'methanePPMPatternStringProperty': LocalizedStringProperty;
     'nitrousOxidePPMPatternStringProperty': LocalizedStringProperty;
     'showSurfaceTemperature': {
-      'helpTextStringProperty': LocalizedStringProperty;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
     };
     'surfaceTemperatureScaleHiddenStringProperty': LocalizedStringProperty;
     'historicalRelativeDescriptions': {
@@ -372,7 +372,7 @@ type StringsType = {
       'byTimePeriodStringProperty': LocalizedStringProperty;
       'timePeriod': {
         'labelStringProperty': LocalizedStringProperty;
-        'helpTextStringProperty': LocalizedStringProperty;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'yearTwentyTwentyStringProperty': LocalizedStringProperty;
         'yearNineteenFiftyStringProperty': LocalizedStringProperty;
         'yearSeventeenFiftyStringProperty': LocalizedStringProperty;

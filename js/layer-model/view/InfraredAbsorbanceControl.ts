@@ -65,7 +65,7 @@ export default class InfraredAbsorbanceControl extends VBox {
             value: value * 100
           } );
         },
-        helpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
         keyboardStep: IR_ABSORBANCE_STEP_SIZE,
         shiftKeyboardStep: IR_ABSORBANCE_STEP_SIZE,
         pageKeyboardStep: IR_ABSORBANCE_STEP_SIZE * 2,
