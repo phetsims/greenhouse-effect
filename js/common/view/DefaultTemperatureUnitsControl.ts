@@ -10,7 +10,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import PreferencesDialog from '../../../../joist/js/preferences/PreferencesDialog.js';
+import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
@@ -25,7 +25,7 @@ export default class DefaultTemperatureUnitsControl extends VBox {
   public constructor( defaultTemperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
-      font: PreferencesDialog.CONTENT_FONT,
+      font: PreferencesDialogConstants.CONTENT_FONT,
       maxWidth: 500
     } );
 
@@ -88,7 +88,7 @@ const createItem = ( value: TemperatureUnits,
   return {
     value: value,
     createNode: () => new Text( labelStringProperty, {
-      font: PreferencesDialog.CONTENT_FONT,
+      font: PreferencesDialogConstants.CONTENT_FONT,
       maxWidth: 500
     } ),
     tandemName: itemTandemName,
