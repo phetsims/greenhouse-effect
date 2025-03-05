@@ -207,15 +207,12 @@ class ObservationWindowDescriber {
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
       return FluentUtils.formatMessage( GreenhouseEffectMessages.photonEmitterOffDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
       } );
     }
     else {
-
-      // TODO: Redo this function so that it works with dynamic locales. https://github.com/phetsims/joist/issues/992
       return FluentUtils.formatMessage( GreenhouseEffectMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
         lightSource: this.model.lightSourceEnumProperty,
         targetMolecule: this.model.photonTargetProperty
@@ -233,8 +230,6 @@ class ObservationWindowDescriber {
    */
   getEmissionPhaseDescription( photon ) {
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
-
-    // TODO: Make a PatternMessageProperty for dynamic locales? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
       photonTarget: this.model.photonTargetProperty,
       lightSource: this.model.lightSourceEnumProperty,

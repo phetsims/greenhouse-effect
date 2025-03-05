@@ -241,7 +241,6 @@ class ObservationWindowAlertManager extends Alerter {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    // TODO: Dynamic locales, see https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculesFloatingAwayPatternMessageProperty, {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula

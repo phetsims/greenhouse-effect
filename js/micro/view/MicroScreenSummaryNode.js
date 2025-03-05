@@ -112,7 +112,6 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
       }
     }
 
-    // TODO: How would we do this? See https://github.com/phetsims/joist/issues/992.
     // if the "New Molecule" button is visible, include a description of its existence in the screen summary
     if ( this.returnMoleculeButtonVisibleProperty.get() ) {
       return FluentUtils.formatMessage( GreenhouseEffectMessages.screenSummaryWithHintPatternMessageProperty, {

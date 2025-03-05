@@ -217,7 +217,6 @@ class ActiveMoleculeAlertManager extends Alerter {
 
     if ( targetMolecule.vibratesByStretching() ) {
 
-      // TODO: Update with Properties for dynamic locale. https://github.com/phetsims/joist/issues/992
       descriptionString = FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
         lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
         photonTarget: this.photonAbsorptionModel.photonTargetProperty,
@@ -226,7 +225,6 @@ class ActiveMoleculeAlertManager extends Alerter {
     }
     else {
 
-      // TODO: Update with Properties for dynamic locale. https://github.com/phetsims/joist/issues/992
       // more than atoms have non-linear geometry
       descriptionString = FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseBondsDescriptionPatternMessageProperty, {
         lightSource: lightSourceString,
@@ -247,8 +245,6 @@ class ActiveMoleculeAlertManager extends Alerter {
    * @returns {string}
    */
   getHighElectronicEnergyPhaseDescription() {
-
-    // TODO: Replace with Properties? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
@@ -269,7 +265,6 @@ class ActiveMoleculeAlertManager extends Alerter {
                            'ROTATES_CLOCKWISE' :
                            'ROTATES_COUNTER_CLOCKWISE';
 
-    // TODO: Replace with a PatternMessageProperty? https://github.com/phetsims/joist/issues/992
     return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
