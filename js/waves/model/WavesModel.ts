@@ -21,6 +21,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
+import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
 import ConcentrationModel, { ConcentrationModelOptions, ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
@@ -536,9 +537,9 @@ class WaveAtmosphereInteraction {
         emittedWave: ReferenceIO( Wave.WaveIO )
       },
       fromStateObject: ( stateObject: WaveAtmosphereInteractionStateObject ) => new WaveAtmosphereInteraction(
-        ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ),
-        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ),
-        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) )
+        ReferenceIO( IOType.ObjectIO ).fromStateObject( stateObject.atmosphereLayer ) as AtmosphereLayer,
+        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.sourceWave ) as Wave,
+        ReferenceIO( Wave.WaveIO ).fromStateObject( stateObject.emittedWave ) as Wave )
     } );
 }
 

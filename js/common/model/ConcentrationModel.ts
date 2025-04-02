@@ -241,7 +241,7 @@ class ConcentrationModel extends LayersModel {
    * of the model class hierarchy only adds standard Property fields, its serialization is automatic.  So, this is
    * essentially stubbed but exists so that the IOType hierarchy matches the class hierarchy.
    */
-  public static readonly ConcentrationModelIO: IOType =
+  public static readonly ConcentrationModelIO =
     new IOType<ConcentrationModel, ConcentrationModelStateObject>( 'ConcentrationModelIO', {
       valueType: ConcentrationModel,
       supertype: LayersModel.LayersModelIO

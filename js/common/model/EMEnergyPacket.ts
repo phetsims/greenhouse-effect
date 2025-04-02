@@ -98,7 +98,7 @@ export type EMEnergyPacketStateObject = {
   energy: number;
   altitude: number;
   _previousAltitude: number;
-  direction: EnergyDirection;
+  direction: string;
 };
 
 greenhouseEffect.register( 'EMEnergyPacket', EMEnergyPacket );

@@ -389,7 +389,7 @@ class LayersModel extends GreenhouseEffectModel {
   /**
    * LayersModelIO uses reference serialization because this model element exists for the life of the sim.
    */
-  public static readonly LayersModelIO: IOType = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
+  public static readonly LayersModelIO = new IOType<LayersModel, LayersModelStateObject>( 'LayersModelIO', {
     valueType: LayersModel,
     stateSchema: {
 
