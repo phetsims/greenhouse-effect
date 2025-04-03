@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * LayersModel is a superclass for several of the models used in the screens of the Greenhouse Effect sim. It is
