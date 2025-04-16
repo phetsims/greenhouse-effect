@@ -53,8 +53,7 @@ class MicroObservationWindow extends Rectangle {
 
       // pdom
       tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectMessages.observationWindowLabelMessageProperty
+      accessibleHeading: GreenhouseEffectMessages.observationWindowLabelMessageProperty
     } );
 
     this.modelViewTransform = modelViewTransform; // @private
