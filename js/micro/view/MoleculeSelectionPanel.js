@@ -172,9 +172,7 @@ class MoleculeSelectionPanel extends Panel {
     super( radioButtonGroup, {
       fill: 'black',
       tandem: tandem,
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectMessages.moleculesMessageProperty,
+      accessibleHeading: GreenhouseEffectMessages.moleculesMessageProperty,
       descriptionContent: GreenhouseEffectMessages.moleculesRadioButtonHelpTextMessageProperty
     } );
   }

@@ -60,9 +60,7 @@ class EnergyLegend extends Panel {
       yMargin: PANEL_MARGIN,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
+      accessibleHeading: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
       descriptionTagName: 'p',
       descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty,
 

@@ -80,9 +80,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // Add a Node that will contain the thermometer heading and controls in the PDOM.  This will not appear in the scene
     // graph.
     const thermometerPdomSection = new Node( {
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.thermometersStringProperty,
+      accessibleHeading: GreenhouseEffectStrings.a11y.thermometersStringProperty,
       pdomOrder: [
         observationWindow.showThermometerCheckbox,
         ...observationWindow.atmosphereLayerNodes

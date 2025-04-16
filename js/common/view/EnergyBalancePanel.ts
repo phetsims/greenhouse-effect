@@ -59,9 +59,7 @@ class EnergyBalancePanel extends Panel {
       yMargin: 10,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h4',
-      labelContent: GreenhouseEffectStrings.energyBalancePanel.titleStringProperty
+      accessibleHeading: GreenhouseEffectStrings.energyBalancePanel.titleStringProperty
     };
 
     // title

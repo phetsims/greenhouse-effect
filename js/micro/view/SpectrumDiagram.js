@@ -98,13 +98,7 @@ class SpectrumDiagram extends VBox {
 
     // Add the title and scale for translations.
     const title = new Text( spectrumWindowTitleStringProperty, {
-      font: new PhetFont( 40 ),
-
-      tagName: 'h1',
-      innerContent: spectrumWindowTitleStringProperty.value,
-      descriptionTagName: 'p',
-      descriptionContent: spectrumWindowDescriptionMessageProperty, // a general description for the entirety of the Dialog content
-      appendDescription: true
+      font: new PhetFont( 40 )
     } );
     if ( title.width > SUBSECTION_WIDTH ) {
       title.scale( SUBSECTION_WIDTH / title.width );
@@ -153,21 +147,20 @@ class SpectrumDiagram extends VBox {
       spacing: 20,
 
       // pdom
-      tagName: 'div' // so that this Node can be aria-labelledby the title
+      accessibleHeading: spectrumWindowTitleStringProperty.value,
+      accessibleParagraph: spectrumWindowDescriptionMessageProperty // a general description for the entirety of the Dialog content
     } );
 
     // pdom - set label association so the title is read when focus enters the dialog
     this.addAriaLabelledbyAssociation( {
       thisElementName: PDOMPeer.PRIMARY_SIBLING,
-      otherNode: title,
-      otherElementName: PDOMPeer.PRIMARY_SIBLING
+      otherNode: this,
+      otherElementName: PDOMPeer.HEADING_SIBLING
     } );
 
     // pdom - in descriptions, the decreasing wavelength comes before the spectrum
-    this.pdomOrder = [ title, frequencyArrow, decreasingWavelengthNode, spectrum ];
+    this.pdomOrder = [ frequencyArrow, decreasingWavelengthNode, spectrum ];
   }
-
-
 }
 
 
@@ -246,8 +239,7 @@ class LabeledSpectrumNode extends Node {
 
       // the LabeledSpectrumNode is represented as a nested list describing the various ranges of wavelengths and frequencies
       tagName: 'ul',
-      labelTagName: 'h2',
-      labelContent: spectrumWindowLabelledSpectrumLabelMessageProperty,
+      accessibleHeading: spectrumWindowLabelledSpectrumLabelMessageProperty,
       descriptionTagName: 'p',
       descriptionContent: spectrumWindowLabelledSpectrumDescriptionMessageProperty
     } );

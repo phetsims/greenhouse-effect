@@ -61,9 +61,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
 
     // Supertype constructor
     super( {
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectMessages.lightSourcesMessageProperty,
+      accessibleHeading: GreenhouseEffectMessages.lightSourcesMessageProperty,
       descriptionContent: GreenhouseEffectMessages.lightSourceRadioButtonHelpTextMessageProperty
     } );
 
