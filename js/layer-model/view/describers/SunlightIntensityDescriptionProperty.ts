@@ -1,10 +1,5 @@
 // Copyright 2023-2024, University of Colorado Boulder
 
-import Multilink from '../../../../../axon/js/Multilink.js';
-import StringProperty from '../../../../../axon/js/StringProperty.js';
-import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
-import Utils from '../../../../../dot/js/Utils.js';
-import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 /**
  * An observable string that will describe the value of sunlight intensity. This description is relative to
  * our sun, and will return something like
@@ -14,6 +9,12 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
+
+import Multilink from '../../../../../axon/js/Multilink.js';
+import StringProperty from '../../../../../axon/js/StringProperty.js';
+import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
+import Utils from '../../../../../dot/js/Utils.js';
+import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
 

@@ -1,10 +1,5 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
-import Disposable from '../../../../axon/js/Disposable.js';
-import IOType from '../../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
-
 /**
  * WaveAttenuator is a simple class that is used to keep track of points along a wave where attenuation (reduction in
  * intensity) exist.  These are generally caused by something splitting off some portion of the energy earlier in the
@@ -12,6 +7,11 @@ import greenhouseEffect from '../../greenhouseEffect.js';
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
+
+import Disposable from '../../../../axon/js/Disposable.js';
+import IOType from '../../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
+import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WaveAttenuator {
 

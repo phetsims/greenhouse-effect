@@ -1,5 +1,12 @@
 // Copyright 2023-2025, University of Colorado Boulder
 
+/**
+ * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
+ * unnumbered list with dynamic information about what is going on in the observation window.
+ *
+ * @author John Blanco (PhET Interactive Simulations)
+ */
+
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -13,13 +20,6 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
-
-/**
- * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
- * unnumbered list with dynamic information about what is going on in the observation window.
- *
- * @author John Blanco (PhET Interactive Simulations)
- */
 
 class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
