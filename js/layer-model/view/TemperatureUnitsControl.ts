@@ -76,7 +76,6 @@ class TemperatureUnitsControl extends VBox {
       phetioVisiblePropertyInstrumented: false, // see https://github.com/phetsims/greenhouse-effect/issues/318
 
       // pdom
-      labelTagName: 'h3',
       accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
       accessibleHelpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
     } );

@@ -134,9 +134,8 @@ class FluxMeterNode extends Node {
       fluxSensorNodeOptions: {},
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h4',
-      labelContent: GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty
+      accessibleHeading: GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty,
+      accessibleHeadingIncrement: 2 // Because the observation window has a focusable heading and cannot use accessibleHeading
     }, providedOptions );
 
     super( options );

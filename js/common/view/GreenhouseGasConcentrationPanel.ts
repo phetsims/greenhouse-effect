@@ -123,9 +123,7 @@ class GreenhouseGasConcentrationPanel extends Panel {
       fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
+      accessibleHeading: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
 
       // phet-io
       visiblePropertyOptions: { phetioFeatured: true }
@@ -253,7 +251,6 @@ class DateControl extends HBox {
       combineOptions<RectangularRadioButtonGroupOptions>( {
 
         // pdom
-        labelTagName: 'h4',
         accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
         accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.accessibleHelpTextStringProperty,
 
@@ -553,7 +550,6 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         },
 
         // pdom
-        labelTagName: 'h4',
         accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
         accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
 

@@ -47,9 +47,7 @@ export default class LayerScreenControlPanel extends Panel {
       isDisposable: false,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: titleStringProperty,
+      accessibleHeading: titleStringProperty,
 
       // phet-io
       visiblePropertyOptions: {

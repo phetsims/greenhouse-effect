@@ -55,9 +55,7 @@ class InstrumentVisibilityPanel extends Panel {
       stroke: null,
 
       // pdom
-      tagName: 'div',
-      labelTagName: 'h3',
-      labelContent: 'Energy Measurement Tools',
+      accessibleHeading: 'Energy Measurement Tools',
 
       // phet-io
       visiblePropertyOptions: { phetioFeatured: true }
