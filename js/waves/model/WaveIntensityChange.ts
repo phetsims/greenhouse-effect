@@ -1,4 +1,4 @@
-// Copyright 2022-2024, University of Colorado Boulder
+// Copyright 2022-2025, University of Colorado Boulder
 
 /**
  * WaveIntensityChange is a type that represents a change in a propagating wave's intensity at a point along a wave that

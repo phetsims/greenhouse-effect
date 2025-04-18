@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * WaveAttenuator is a simple class that is used to keep track of points along a wave where attenuation (reduction in

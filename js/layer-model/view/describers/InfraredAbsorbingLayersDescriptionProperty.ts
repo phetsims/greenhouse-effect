@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * InfraredAbsorbingLayersDescriptionProperty is a Property<string> that describes the current number of the IR-
