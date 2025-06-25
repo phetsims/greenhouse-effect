@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
@@ -24,7 +24,7 @@ export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSumm
    * @param playAreaDescription - a description string for the play area
    * @param controlAreaDescription - a description string for the control area
    */
-  public constructor( model: GreenhouseEffectModel, playAreaDescription: LocalizedStringProperty, controlAreaDescription: LocalizedStringProperty ) {
+  public constructor( model: GreenhouseEffectModel, playAreaDescription: TReadOnlyProperty<string>, controlAreaDescription: TReadOnlyProperty<string> ) {
     super( { isDisposable: false } );
 
     const playAreaDescriptionNode = new Node( {

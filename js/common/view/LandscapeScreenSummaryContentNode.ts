@@ -9,7 +9,7 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
-import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -31,8 +31,8 @@ const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = Gr
 
 export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
   public constructor( model: ConcentrationModel,
-                      playAreaDescription: LocalizedStringProperty,
-                      controlAreaDescription: LocalizedStringProperty ) {
+                      playAreaDescription: TReadOnlyProperty<string>,
+                      controlAreaDescription: TReadOnlyProperty<string> ) {
 
     super( model, playAreaDescription, controlAreaDescription );
 

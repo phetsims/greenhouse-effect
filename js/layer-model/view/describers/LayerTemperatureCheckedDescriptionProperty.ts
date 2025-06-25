@@ -12,7 +12,6 @@
 import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
-import LocalizedStringProperty from '../../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureUnits from '../../../common/model/TemperatureUnits.js';
 import TemperatureDescriber from '../../../common/view/describers/TemperatureDescriber.js';
@@ -37,7 +36,7 @@ class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
     Multilink.multilink(
       [ temperatureProperty, temperatureUnitsProperty, atLeastOnePhotonAbsorbedProperty ],
       ( temperature, temperatureUnits, atLeastOnePhotonAbsorbed ) => {
-        let layerDescription: LocalizedStringProperty | string;
+        let layerDescription: TReadOnlyProperty<string> | string;
         if ( layerNumber === 0 ) {
 
           // This is the ground layer.

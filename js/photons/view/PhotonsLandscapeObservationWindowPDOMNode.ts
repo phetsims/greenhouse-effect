@@ -12,7 +12,6 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import LocalizedStringProperty from '../../../../chipper/js/browser/LocalizedStringProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
@@ -159,7 +158,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
    */
   private static registerConcentrationListener( concentrationProperty: TReadOnlyProperty<number>,
                                                 ppmItemNode: Node,
-                                                patternStringProperty: LocalizedStringProperty ): void {
+                                                patternStringProperty: TReadOnlyProperty<string> ): void {
 
     concentrationProperty.link( concentration => {
       ppmItemNode.innerContent = StringUtils.fillIn( patternStringProperty.value, {
