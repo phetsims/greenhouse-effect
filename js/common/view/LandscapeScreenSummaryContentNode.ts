@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * A class that manages PDOM structure and content for the screen descriptions for the "Landscape" screens, which
