@@ -52,8 +52,8 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       accessibleHelpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.accessibleHelpTextStringProperty,
-      checkedContextResponse: checkedUtterance,
-      uncheckedContextResponse: GreenhouseEffectStrings.a11y.surfaceTemperatureScaleHiddenStringProperty,
+      accessibleContextResponseChecked: checkedUtterance,
+      accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.surfaceTemperatureScaleHiddenStringProperty,
 
       // phetio
       tandem: tandem

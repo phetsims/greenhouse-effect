@@ -109,8 +109,8 @@ class InstrumentVisibilityPanel extends Panel {
           // pdom
           accessibleName: GreenhouseEffectStrings.energyBalanceStringProperty,
           accessibleHelpText: GreenhouseEffectStrings.a11y.energyBalance.accessibleHelpTextStringProperty,
-          checkedContextResponse: energyBalanceCheckedUtterance,
-          uncheckedContextResponse: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
+          accessibleContextResponseChecked: energyBalanceCheckedUtterance,
+          accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
         },
         tandemName: 'energyBalanceCheckbox'
       }
@@ -159,8 +159,8 @@ class InstrumentVisibilityPanel extends Panel {
           // pdom
           accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
           accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeter.accessibleHelpTextStringProperty,
-          checkedContextResponse: fluxMeterCheckedUtterance,
-          uncheckedContextResponse: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
+          accessibleContextResponseChecked: fluxMeterCheckedUtterance,
+          accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
         },
         tandemName: 'fluxMeterCheckbox'
       } );

@@ -44,8 +44,8 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       accessibleHelpText: GreenhouseEffectStrings.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
-      checkedContextResponse: checkedUtterance,
-      uncheckedContextResponse: GreenhouseEffectStrings.a11y.thermometerRemovedAlertStringProperty,
+      accessibleContextResponseChecked: checkedUtterance,
+      accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.thermometerRemovedAlertStringProperty,
 
       // phet-io
       tandem: tandem

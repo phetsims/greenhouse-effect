@@ -24,8 +24,8 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
 
       // pdom
       accessibleHelpText: GreenhouseEffectStrings.a11y.morePhotonsHelpTextStringProperty,
-      checkedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsCheckedAlertStringProperty,
-      uncheckedContextResponse: GreenhouseEffectStrings.a11y.morePhotonsUncheckedAlertStringProperty,
+      accessibleContextResponseChecked: GreenhouseEffectStrings.a11y.morePhotonsCheckedAlertStringProperty,
+      accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.morePhotonsUncheckedAlertStringProperty,
 
       // phet-io
       tandem: tandem
