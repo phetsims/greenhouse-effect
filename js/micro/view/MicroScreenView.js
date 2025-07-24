@@ -9,7 +9,6 @@
  *
  */
 
-import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
@@ -258,7 +257,7 @@ class MicroScreenView extends ScreenView {
   // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
   // in time
   static STEP_FORWARD_HOTKEY_DATA = new HotkeyData( {
-    keyStringProperties: [ new Property( 'alt+l' ) ],
+    keys: [ 'alt+l' ],
 
     // TODO: This string lives in molecules-and-light, determine the best way to move it to greenhouse-effect,
     //   See https://github.com/phetsims/greenhouse-effect/issues/271
