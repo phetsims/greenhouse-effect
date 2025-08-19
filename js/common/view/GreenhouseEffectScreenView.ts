@@ -55,7 +55,6 @@ class GreenhouseEffectScreenView extends ScreenView {
                          providedOptions: GreenhouseEffectScreenViewOptions ) {
 
     const options = optionize<GreenhouseEffectScreenViewOptions, SelfOptions, ScreenViewOptions>()( {
-      isDisposable: false,
       useClippingFrame: false,
       energyLegendOptions: { tandem: providedOptions.tandem.createTandem( 'energyLegend' ) }
     }, providedOptions );
