@@ -7,25 +7,27 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
-const quadWavelengthSelectorInfraredString = GreenhouseEffectStrings.QuadWavelengthSelector.Infrared;
-const quadWavelengthSelectorMicrowaveString = GreenhouseEffectStrings.QuadWavelengthSelector.Microwave;
-const quadWavelengthSelectorUltravioletString = GreenhouseEffectStrings.QuadWavelengthSelector.Ultraviolet;
-const quadWavelengthSelectorVisibleString = GreenhouseEffectStrings.QuadWavelengthSelector.Visible;
+const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.InfraredStringProperty;
+const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.MicrowaveStringProperty;
+const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.UltravioletStringProperty;
+const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
 
 // An enumeration describing one of the possible values for the wavelength of a photon.
 class Wavelength extends EnumerationValue {
-  static SUNLIGHT = new Wavelength();
-  static MICRO = new Wavelength();
-  static INFRARED = new Wavelength();
-  static VISIBLE = new Wavelength();
-  static ULTRAVIOLET = new Wavelength();
-  static enumeration = new Enumeration( Wavelength );
+  public static readonly SUNLIGHT = new Wavelength();
+  public static readonly MICRO = new Wavelength();
+  public static readonly INFRARED = new Wavelength();
+  public static readonly VISIBLE = new Wavelength();
+  public static readonly ULTRAVIOLET = new Wavelength();
+  public static readonly enumeration = new Enumeration( Wavelength );
 }
+
+type LightSource = 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight';
 
 const WavelengthConstants = {
 
@@ -41,41 +43,62 @@ const WavelengthConstants = {
   // This is required because the simulation is driven by the wavelength value.  If this code is too unmaintainable,
   // we could rewrite the sim to use Emitter instances, each of which has a wavelength and a tandem name
   // See, for example: PhotonEmitterNode
-  getTandemName( wavelength ) {
-    return wavelength === this.SUNLIGHT_WAVELENGTH ? 'sunlight' :
-           wavelength === this.MICRO_WAVELENGTH ? 'microwave' :
-           wavelength === this.IR_WAVELENGTH ? 'infrared' :
-           wavelength === this.VISIBLE_WAVELENGTH ? 'visible' :
-           wavelength === this.UV_WAVELENGTH ? 'ultraviolet' :
-           assert( false, 'unknown' );
+  getTandemName( wavelength: number ): LightSource {
+    if ( wavelength === this.SUNLIGHT_WAVELENGTH ) {
+      return 'sunlight';
+    }
+    if ( wavelength === this.MICRO_WAVELENGTH ) {
+      return 'microwave';
+    }
+    if ( wavelength === this.IR_WAVELENGTH ) {
+      return 'infrared';
+    }
+    if ( wavelength === this.VISIBLE_WAVELENGTH ) {
+      return 'visible';
+    }
+    if ( wavelength === this.UV_WAVELENGTH ) {
+      return 'ultraviolet';
+    }
+    throw new Error( 'Unknown wavelength' );
   },
-
 
   /**
    * Given a wavelength, get the name of the lightSource that it belongs too. This is used by a11y to get the correct
    * name of the wavelength in a readable form.
-   * @param {number} wavelength
-   * @returns {string}
    */
-  getLightSourceName( wavelength ) {
-    return wavelength === this.MICRO_WAVELENGTH ? quadWavelengthSelectorMicrowaveString :
-           wavelength === this.IR_WAVELENGTH ? quadWavelengthSelectorInfraredString :
-           wavelength === this.VISIBLE_WAVELENGTH ? quadWavelengthSelectorVisibleString :
-           wavelength === this.UV_WAVELENGTH ? quadWavelengthSelectorUltravioletString :
-           assert( false, 'unknown' );
+  getLightSourceName( wavelength: number ): string {
+    if ( wavelength === this.MICRO_WAVELENGTH ) {
+      return quadWavelengthSelectorMicrowaveStringProperty.value;
+    }
+    if ( wavelength === this.IR_WAVELENGTH ) {
+      return quadWavelengthSelectorInfraredStringProperty.value;
+    }
+    if ( wavelength === this.VISIBLE_WAVELENGTH ) {
+      return quadWavelengthSelectorVisibleStringProperty.value;
+    }
+    if ( wavelength === this.UV_WAVELENGTH ) {
+      return quadWavelengthSelectorUltravioletStringProperty.value;
+    }
+    throw new Error( 'Unknown wavelength' );
   },
 
   /**
    * Given the wavelength value, map to the correct light source enum.
-   * @param wavelength
-   * @returns {PhotonTarget|void}
    */
-  getLightSourceEnum( wavelength ) {
-    return wavelength === this.MICRO_WAVELENGTH ? Wavelength.MICRO :
-           wavelength === this.IR_WAVELENGTH ? Wavelength.INFRARED :
-           wavelength === this.VISIBLE_WAVELENGTH ? Wavelength.VISIBLE :
-           wavelength === this.UV_WAVELENGTH ? Wavelength.ULTRAVIOLET :
-           assert( false, 'unknown' );
+  getLightSourceEnum( wavelength: number ): Wavelength {
+    if ( wavelength === this.MICRO_WAVELENGTH ) {
+      return Wavelength.MICRO;
+    }
+    if ( wavelength === this.IR_WAVELENGTH ) {
+      return Wavelength.INFRARED;
+    }
+    if ( wavelength === this.VISIBLE_WAVELENGTH ) {
+      return Wavelength.VISIBLE;
+    }
+    if ( wavelength === this.UV_WAVELENGTH ) {
+      return Wavelength.ULTRAVIOLET;
+    }
+    throw new Error( 'Unknown wavelength' );
   }
 };
 
