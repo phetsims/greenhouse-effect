@@ -14,8 +14,11 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import Photon from '../../common/model/Photon.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Molecule from './Molecule.js';
 
 // photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
 const MIN_PHOTON_HOLD_TIME = 1.1; // seconds
@@ -23,20 +26,23 @@ const MAX_PHOTON_HOLD_TIME = 1.3; // seconds
 
 class PhotonAbsorptionStrategy {
 
+  // Property that contains the probability that a given photon will be absorbed.
+  private readonly photonAbsorptionProbabilityProperty: TProperty<number>;
+
+  protected readonly molecule: Molecule;
+
+  // variables involved in the holding and re-emitting of photons
+  protected isPhotonAbsorbed: boolean;
+  protected photonHoldCountdownTime: number; // seconds
+
   /**
    * Constructor for photon absorption strategy.
    *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
+   * @param molecule - The molecule which will use this strategy.
    */
-  constructor( molecule ) {
-
-    // Property that contains the probability that a given photon will be absorbed.
-    this.photonAbsorptionProbabilityProperty = new Property( 0.5 ); // @private
-
-    this.molecule = molecule; // @protected
-
-    // Variables involved in the holding and re-emitting of photons.
-    // @protected
+  public constructor( molecule: Molecule ) {
+    this.photonAbsorptionProbabilityProperty = new Property( 0.5 );
+    this.molecule = molecule;
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
   }
@@ -44,9 +50,8 @@ class PhotonAbsorptionStrategy {
 
   /**
    * Reset the strategy.
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.isPhotonAbsorbed = false;
     this.photonHoldCountdownTime = 0;
   }
@@ -54,12 +59,11 @@ class PhotonAbsorptionStrategy {
   /**
    * Decide whether the provided photon should be absorbed.  By design, a given photon should only be requested once,
    * not multiple times.
-   * @public
    *
-   * @param {Photon} photon
-   * @returns {boolean} absorbed
+   * @param photon
+   * @returns absorbed
    */
-  queryAndAbsorbPhoton( photon ) {
+  public queryAndAbsorbPhoton( photon: Photon ): boolean {
 
     // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
     // actually do it.  This essentially simulates the quantum nature of the absorption.
@@ -72,10 +76,7 @@ class PhotonAbsorptionStrategy {
     return absorbed;
   }
 
-  /**
-   * @public
-   */
-  step() {
+  public step(): void {
     throw new Error( 'step should be implemented in descendant photon absorption strategies.' );
   }
 }
