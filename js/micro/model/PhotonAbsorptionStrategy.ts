@@ -16,8 +16,8 @@
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import Photon from '../../common/model/Photon.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
 
 // photon hold time range, chosen so that there are generally no other photons over the molecule when re-emission occurs
@@ -60,10 +60,9 @@ class PhotonAbsorptionStrategy {
    * Decide whether the provided photon should be absorbed.  By design, a given photon should only be requested once,
    * not multiple times.
    *
-   * @param photon
-   * @returns absorbed
+   * @returns boolean absorbed
    */
-  public queryAndAbsorbPhoton( photon: Photon ): boolean {
+  public queryAndAbsorbPhoton( photon: MicroPhoton ): boolean {
 
     // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
     // actually do it.  This essentially simulates the quantum nature of the absorption.
