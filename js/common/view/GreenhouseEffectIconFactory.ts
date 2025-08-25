@@ -154,14 +154,22 @@ class GreenhouseEffectIconFactory {
     } );
   }
 
-  public static createMicroScreenHomeIcon(): Node {
-    return new Rectangle(
+  // Note that this is a placeholder icon. The micro screen is only used in the single screen version of
+  // molecules-and-light.
+  public static createMicroScreenHomeIcon(): ScreenIcon {
+
+    const content = new Rectangle(
       0,
       0,
       HOME_ICON_WIDTH,
       HOME_ICON_HEIGHT,
       { fill: Color.ORANGE }
     );
+
+    return new ScreenIcon( content, {
+      maxIconWidthProportion: 1,
+      maxIconHeightProportion: 1
+    } );
   }
 
   private static createGroundAndSkyBackground( groundBaseColor: Color = GRASS_BASE_COLOR ): Node {

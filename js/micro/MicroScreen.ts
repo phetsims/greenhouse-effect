@@ -7,18 +7,15 @@
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
 import MicroModel from './model/MicroModel.js';
 import MicroScreenView from './view/MicroScreenView.js';
 
-class MicroScreen extends Screen {
-
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+class MicroScreen extends Screen<MicroModel, MicroScreenView> {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       backgroundColorProperty: new Property( '#C5D6E8' ),
