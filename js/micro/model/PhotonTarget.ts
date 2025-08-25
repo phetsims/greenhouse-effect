@@ -7,48 +7,46 @@
  * @author Jesse Greenberg
  */
 
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 
-const controlPanelCarbonDioxideString = GreenhouseEffectStrings.ControlPanel.CarbonDioxide;
-const controlPanelCarbonMonoxideString = GreenhouseEffectStrings.ControlPanel.CarbonMonoxide;
-const controlPanelMethaneString = GreenhouseEffectStrings.ControlPanel.Methane;
-const controlPanelNitrogenDioxideString = GreenhouseEffectStrings.ControlPanel.NitrogenDioxide;
-const controlPanelNitrogenString = GreenhouseEffectStrings.ControlPanel.Nitrogen;
-const controlPanelOxygenString = GreenhouseEffectStrings.ControlPanel.Oxygen;
-const controlPanelOzoneString = GreenhouseEffectStrings.ControlPanel.Ozone;
-const controlPanelWaterString = GreenhouseEffectStrings.ControlPanel.Water;
+const controlPanelCarbonDioxideStringProperty = GreenhouseEffectStrings.ControlPanel.CarbonDioxideStringProperty;
+const controlPanelCarbonMonoxideStringProperty = GreenhouseEffectStrings.ControlPanel.CarbonMonoxideStringProperty;
+const controlPanelMethaneStringProperty = GreenhouseEffectStrings.ControlPanel.MethaneStringProperty;
+const controlPanelNitrogenDioxideStringProperty = GreenhouseEffectStrings.ControlPanel.NitrogenDioxideStringProperty;
+const controlPanelNitrogenStringProperty = GreenhouseEffectStrings.ControlPanel.NitrogenStringProperty;
+const controlPanelOxygenStringProperty = GreenhouseEffectStrings.ControlPanel.OxygenStringProperty;
+const controlPanelOzoneStringProperty = GreenhouseEffectStrings.ControlPanel.OzoneStringProperty;
+const controlPanelWaterStringProperty = GreenhouseEffectStrings.ControlPanel.WaterStringProperty;
 
 class PhotonTarget extends EnumerationValue {
-  static SINGLE_CO_MOLECULE = new PhotonTarget();
-  static SINGLE_N2_MOLECULE = new PhotonTarget();
-  static SINGLE_O2_MOLECULE = new PhotonTarget();
-  static SINGLE_CO2_MOLECULE = new PhotonTarget();
-  static SINGLE_CH4_MOLECULE = new PhotonTarget();
-  static SINGLE_H2O_MOLECULE = new PhotonTarget();
-  static SINGLE_NO2_MOLECULE = new PhotonTarget();
-  static SINGLE_O3_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_CO_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_N2_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_O2_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_CO2_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_CH4_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_H2O_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_NO2_MOLECULE = new PhotonTarget();
+  public static readonly SINGLE_O3_MOLECULE = new PhotonTarget();
 
-  static enumeration = new Enumeration( PhotonTarget );
+  public static enumeration = new Enumeration( PhotonTarget );
 
   /**
    * maps photon target to translatable string
-   * @param {PhotonTarget} photonTarget
-   * @returns {string} - the control panel molecule name
-   * @public
    */
-  static getMoleculeName( photonTarget ) {
-    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideString :
-           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenString :
-           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenString :
-           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideString :
-           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideString :
-           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterString :
-           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneString :
-           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneString :
-           assert && assert( false, 'unknown' );
+  public static getMoleculeName( photonTarget: PhotonTarget ): string {
+    return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? controlPanelCarbonMonoxideStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? controlPanelNitrogenStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_O2_MOLECULE ? controlPanelOxygenStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_CO2_MOLECULE ? controlPanelCarbonDioxideStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_NO2_MOLECULE ? controlPanelNitrogenDioxideStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_H2O_MOLECULE ? controlPanelWaterStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_O3_MOLECULE ? controlPanelOzoneStringProperty.value :
+           photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? controlPanelMethaneStringProperty.value :
+           ( () => { throw new Error( 'unknown photon target' ); } )();
 
   }
 }
