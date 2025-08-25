@@ -11,29 +11,41 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
-import merge from '../../../../phet-core/js/merge.js';
-import PhetioObject from '../../../../tandem/js/PhetioObject.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
+type SelfOptions = {
+  initialPosition?: Vector2;
+};
+
+type ParentOptions = PhetioObjectOptions;
+
+export type MicroPhotonOptions = SelfOptions & ParentOptions;
+
+
 class MicroPhoton extends PhetioObject {
+
+  public readonly positionProperty: Vector2Property;
+
+  private readonly wavelength: number;
+  private vx: number; // x component of the photon velocity
+  private vy: number; // y component of the photon velocity
 
   /**
    * Constructor for a photon.
-   *
-   * @param {Number} wavelength
-   * @param {Object} [options]
    */
-  constructor( wavelength, options ) {
+  public constructor( wavelength: number, providedOptions?: MicroPhotonOptions ) {
 
-    options = merge( {
+    const options = optionize<MicroPhotonOptions, SelfOptions, ParentOptions>()( {
       initialPosition: Vector2.ZERO,
       tandem: Tandem.REQUIRED,
       phetioType: MicroPhoton.PhotonIO,
       phetioDynamicElement: true
-    }, options );
+    }, providedOptions );
 
     super( options );
 
@@ -41,17 +53,12 @@ class MicroPhoton extends PhetioObject {
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
 
-    // @private
     this.wavelength = wavelength;
-    this.vx = 0; // x component of the photon velocity
-    this.vy = 0; // y component of the photon velocity
+    this.vx = 0;
+    this.vy = 0;
   }
 
-
-  /**
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.positionProperty.unlinkAll();
     this.positionProperty.dispose();
     super.dispose();
@@ -59,41 +66,39 @@ class MicroPhoton extends PhetioObject {
 
   /**
    * Set the velocity of this photon from vector components.
-   * @public
-   * @param {number} vx - The x component of the velocity vector.
-   * @param {number} vy - The y component of the velocity vector.
+   * @param vx - The x component of the velocity vector.
+   * @param vy - The y component of the velocity vector.
    */
-  setVelocity( vx, vy ) {
+  public setVelocity( vx: number, vy: number ): void {
     this.vx = vx;
     this.vy = vy;
   }
 
   /**
    * Change the state of this photon by stepping it in time.
-   * @public
    *
-   * @param {number} dt - The incremental time step.
+   * @param dt - The incremental time step.
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.positionProperty.set( new Vector2( this.positionProperty.get().x + this.vx * dt, this.positionProperty.get().y + this.vy * dt ) );
   }
+
+  public static readonly PhotonIO = new IOType( 'PhotonIO', {
+      valueType: MicroPhoton,
+      toStateObject: ( photon: MicroPhoton ) => ( {
+
+        // position is tracked via a child Property
+        wavelength: photon.wavelength
+      } ),
+      stateSchema: {
+        wavelength: NumberIO
+      },
+
+      stateObjectToCreateElementArguments: stateObject => [ stateObject.wavelength ]
+    }
+  );
 }
 
 greenhouseEffect.register( 'MicroPhoton', MicroPhoton );
-
-MicroPhoton.PhotonIO = new IOType( 'PhotonIO', {
-    valueType: MicroPhoton,
-    toStateObject: photon => ( {
-
-      // position is tracked via a child Property
-      wavelength: photon.wavelength
-    } ),
-    stateSchema: {
-      wavelength: NumberIO
-    },
-
-    stateObjectToCreateElementArguments: stateObject => [ stateObject.wavelength ]
-  }
-);
 
 export default MicroPhoton;
