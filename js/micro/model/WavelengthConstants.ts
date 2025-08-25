@@ -18,7 +18,7 @@ const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.
 const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
 
 // An enumeration describing one of the possible values for the wavelength of a photon.
-class Wavelength extends EnumerationValue {
+export class Wavelength extends EnumerationValue {
   public static readonly SUNLIGHT = new Wavelength();
   public static readonly MICRO = new Wavelength();
   public static readonly INFRARED = new Wavelength();

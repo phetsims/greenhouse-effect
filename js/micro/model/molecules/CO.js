@@ -70,7 +70,7 @@ class CO extends Molecule {
 
   /**
    * Initialize the atom offsets for the carbon and oxygen atoms which compose this molecule.
-   * @private
+   * @public
    */
   initializeAtomOffsets() {
 
