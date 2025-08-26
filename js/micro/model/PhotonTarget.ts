@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * MicroPhoton targets for a photon absorption model.  The photon target names correspond to molecules which the photons are
