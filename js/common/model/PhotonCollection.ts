@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * The PhotonCollection class is used to manage a set of photons in the Greenhouse Effect model.  This includes
