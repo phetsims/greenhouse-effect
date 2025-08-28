@@ -8,7 +8,7 @@
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';

@@ -12,7 +12,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import Disposable from '../../../../axon/js/Disposable.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';

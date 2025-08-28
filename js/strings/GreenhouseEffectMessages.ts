@@ -10,7 +10,7 @@
 import getFluentModule from '../../../chipper/js/browser/getFluentModule.js';
 import greenhouseEffect from '../../js/greenhouseEffect.js';
 import LocalizedMessageProperty from '../../../chipper/js/browser/LocalizedMessageProperty.js';
-import type TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import type { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 
 type GreenhouseEffectFluentType = {
   'playAreaSummaryMessageProperty': TReadOnlyProperty<string>;

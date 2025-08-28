@@ -9,7 +9,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';

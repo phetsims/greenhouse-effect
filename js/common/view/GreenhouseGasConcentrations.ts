@@ -9,7 +9,7 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import { ConcentrationDate } from '../model/ConcentrationModel.js';
 

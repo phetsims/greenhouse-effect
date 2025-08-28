@@ -11,7 +11,7 @@
 
 import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
-import TReadOnlyProperty from '../../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import AtmosphereLayer from '../../../common/model/AtmosphereLayer.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';

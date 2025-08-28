@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';

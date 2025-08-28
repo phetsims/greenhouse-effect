@@ -7,7 +7,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';

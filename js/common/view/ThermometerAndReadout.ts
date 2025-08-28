@@ -13,7 +13,7 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';

@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import phetAudioContext from '../../../../tambo/js/phetAudioContext.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';

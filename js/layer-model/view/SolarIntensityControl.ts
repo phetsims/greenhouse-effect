@@ -9,7 +9,7 @@
 
 import PatternStringProperty from '../../../../axon/js/PatternStringProperty.js';
 import TRangedProperty from '../../../../axon/js/TRangedProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
