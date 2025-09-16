@@ -11,29 +11,24 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 
 // Model Data for the nitrogen monoxide molecule.
 const INITIAL_NITROGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
 class NO extends Molecule {
 
+  private readonly nitrogenAtom = Atom.nitrogen();
+  private readonly oxygenAtom = Atom.oxygen();
+
   /**
    * Constructor for a nitrogen monoxide molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( options?: MoleculeOptions ) {
 
     // Supertype constructor
     super( options );
 
-    // Instance Data
-    // @private
-    this.nitrogenAtom = Atom.nitrogen();
-    this.oxygenAtom = Atom.oxygen();
-
-    // Configure the base class.
     this.addAtom( this.nitrogenAtom );
     this.addAtom( this.oxygenAtom );
     this.addAtomicBond( new AtomicBond( this.nitrogenAtom, this.oxygenAtom, { bondCount: 2 } ) );
@@ -46,9 +41,8 @@ class NO extends Molecule {
 
   /**
    * Initialize and set the COG positions for each atom which compose this NO molecule.
-   * @private
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.nitrogenAtom, new Vector2( -INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
