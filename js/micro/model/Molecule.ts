@@ -146,10 +146,10 @@ class Molecule {
   private readonly photonAbsorbedEmitter: Emitter<[ MicroPhoton ]>;
 
   // emitter for when a photon is emitted
-  private readonly photonEmittedEmitter: Emitter<[ MicroPhoton ]>;
+  public readonly photonEmittedEmitter: Emitter<[ MicroPhoton ]>;
 
   // emitter for when a photon passes through the molecule without absorptions
-  private readonly photonPassedThroughEmitter: Emitter<[ MicroPhoton ]>;
+  public readonly photonPassedThroughEmitter: Emitter<[ MicroPhoton ]>;
 
   // Emitter for 'brokeApart' event, when a molecule breaks into two new molecules
   public readonly brokeApartEmitter: Emitter<[ Molecule, Molecule ]>;

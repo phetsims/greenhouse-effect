@@ -32,8 +32,8 @@ class MicroPhoton extends PhetioObject {
   public readonly positionProperty: Vector2Property;
 
   public readonly wavelength: number;
-  private vx: number; // x component of the photon velocity
-  private vy: number; // y component of the photon velocity
+  public vx: number; // x component of the photon velocity
+  public vy: number; // y component of the photon velocity
 
   /**
    * Constructor for a photon.

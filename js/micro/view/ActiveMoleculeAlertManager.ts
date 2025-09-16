@@ -8,14 +8,23 @@
  * @author Jesse Greenberg
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
+import LocalizedMessageProperty from '../../../../chipper/js/browser/LocalizedMessageProperty.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import MovementAlerter from '../../../../scenery-phet/js/accessibility/describers/MovementAlerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import MicroPhoton from '../model/MicroPhoton.js';
+import Molecule from '../model/Molecule.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
+import MicroObservationWindow from './MicroObservationWindow.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
 // constants
@@ -32,12 +41,40 @@ const ALERT_DELAY = 5;
 
 class ActiveMoleculeAlertManager extends Alerter {
 
+  private readonly photonAbsorptionModel: PhotonAbsorptionModel;
+  private readonly modelViewTransform: ModelViewTransform2;
+
+  // persistent alert to avoid a pile up of too many in the utteranceQueue
+  private readonly absorptionUtterance = new Utterance();
+
+  // Keeps track of whether this is the first occurrence of an alert for a particular type of
+  // interaction.  After the first alert a much shorter form of the alert is provided to reduce AT speaking time.
+  private firstVibrationAlert = true;
+  private firstRotationAlert = true;
+  private firstExcitationAlert = true;
+
+  // amount of time that has passed since the first interaction between photon/molecule, we
+  // wait ALERT_DELAY before making an alert to provide the screen reader some space to finish speaking and
+  // prevent a queue
+  private timeSinceFirstAlert = 0;
+
+  // number of times photons of a particular wavelength have passed through the active molecule
+  // consecutively. Allows us to generate descriptions that indicate that no absorption is taking place after
+  // several pass through events have ocurred.
+  private passThroughCount = 0;
+
+  // while a photon is absorbed the model photonWavelengthProperty may change - we want
+  // to describe the absorbed photon not the photon wavelength currently being emitted
+  private wavelengthOnAbsorption: number;
+
   /**
-   * @param {PhotonAbsorptionModel} photonAbsorptionModel
-   * @param {MicroObservationWindow} observationWindow
-   * @param {ModelViewTransform2} modelViewTransform
+   * @param photonAbsorptionModel
+   * @param observationWindow
+   * @param modelViewTransform
    */
-  constructor( photonAbsorptionModel, observationWindow, modelViewTransform ) {
+  public constructor( photonAbsorptionModel: PhotonAbsorptionModel,
+                      observationWindow: MicroObservationWindow,
+                      modelViewTransform: ModelViewTransform2 ) {
 
     super( {
 
@@ -46,31 +83,9 @@ class ActiveMoleculeAlertManager extends Alerter {
       descriptionAlertNode: observationWindow
     } );
 
-    // @private
     this.photonAbsorptionModel = photonAbsorptionModel;
     this.modelViewTransform = modelViewTransform;
 
-    // @private - persistent alert to avoid a pile up of too many in the utteranceQueue
-    this.absorptionUtterance = new Utterance();
-
-    // @private {boolean} - Keeps track of whether this is the first occurrence of an alert for a particular type of
-    // interaction.  After the first alert a much shorter form of the alert is provided to reduce AT speaking time.
-    this.firstVibrationAlert = true;
-    this.firstRotationAlert = true;
-    this.firstExcitationAlert = true;
-
-    // @private {number} - amount of time that has passed since the first interaction between photon/molecule, we
-    // wait ALERT_DELAY before making an alert to provide the screen reader some space to finish speaking and
-    // prevent a queue
-    this.timeSinceFirstAlert = 0;
-
-    // @private {number} - number of times photons of a particular wavelength have passed through the active molecule
-    // consecutively. Allows us to generate descriptions that indicate that no absorption is taking place after
-    // several pass through events have ocurred.
-    this.passThroughCount = 0;
-
-    // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
-    // to describe the absorbed photon not the photon wavelength currently being emitted
     this.wavelengthOnAbsorption = photonAbsorptionModel.photonWavelengthProperty.get();
 
     // whenenver target molecule or light source changes, reset to describe a new molecule/photon combination
@@ -87,6 +102,7 @@ class ActiveMoleculeAlertManager extends Alerter {
     photonAbsorptionModel.photonEmitterOnProperty.link( () => { this.timeSinceFirstAlert = 0; } );
 
     // attach listeners to the first molecule already in the observation window
+    affirm( photonAbsorptionModel.targetMolecule, 'There should be a target molecule in the observation window when the ActiveMoleculeAlertManager is created' );
     this.attachAbsorptionAlertListeners( photonAbsorptionModel.targetMolecule );
 
     photonAbsorptionModel.slowMotionProperty.lazyLink( () => {
@@ -100,10 +116,8 @@ class ActiveMoleculeAlertManager extends Alerter {
   /**
    * Reset flags that indicate we are describing the first of a particular kind of interaction between photon
    * and molecule, and should be reset when the photon light source changes or the photon target changes.
-   *
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.firstVibrationAlert = true;
     this.firstRotationAlert = true;
     this.firstExcitationAlert = true;
@@ -113,11 +127,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Increment variables watching timing of alerts
-   * @public
-   *
-   * @param {number} dt [description]
    */
-  step( dt ) {
+  public step( dt: number ): void {
     if ( this.timeSinceFirstAlert <= ALERT_DELAY ) {
       this.timeSinceFirstAlert += dt;
     }
@@ -125,11 +136,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Attach listeners to a Molecule that alert when an interaction between photon and molecule occurs.
-   * @public
-   *
-   * @param {Molecule} molecule
    */
-  attachAbsorptionAlertListeners( molecule ) {
+  public attachAbsorptionAlertListeners( molecule: Molecule ): void {
 
     // vibration
     molecule.vibratingProperty.lazyLink( vibrating => {
@@ -153,13 +161,13 @@ class ActiveMoleculeAlertManager extends Alerter {
     molecule.highElectronicEnergyStateProperty.lazyLink( highEnergy => {
       if ( highEnergy ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
-        this.absorptionUtterance.alert = this.getExcitationAlert( molecule );
+        this.absorptionUtterance.alert = this.getExcitationAlert();
         this.addAccessibleResponse( this.absorptionUtterance );
       }
     } );
 
     // break apart
-    molecule.brokeApartEmitter.addListener( ( moleculeA, moleculeB ) => {
+    molecule.brokeApartEmitter.addListener( ( moleculeA: Molecule, moleculeB: Molecule ) => {
       this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
       this.absorptionUtterance.alert = this.getBreakApartAlert( moleculeA, moleculeB );
       this.addAccessibleResponse( this.absorptionUtterance );
@@ -202,16 +210,12 @@ class ActiveMoleculeAlertManager extends Alerter {
    *
    * "Infrared photon absorbed and bonds of carbon monoxide molecule stretching." or
    * "Infrared absorbed and bonds of ozone molecule bending up and down."
-   *
-   * @public
-   *
-   * @param {number} vibrationRadians
-   * @returns {string}
    */
-  getVibrationPhaseDescription( vibrationRadians ) {
+  public getVibrationPhaseDescription( vibrationRadians: number ): string {
     let descriptionString;
 
     const targetMolecule = this.photonAbsorptionModel.targetMolecule;
+    affirm( targetMolecule, 'There should be a target molecule in the observation window when getting vibration phase description' );
     const lightSourceString = WavelengthConstants.getLightSourceName( this.wavelengthOnAbsorption );
     const photonTargetString = PhotonTarget.getMoleculeName( this.photonAbsorptionModel.photonTargetProperty.get() );
 
@@ -240,11 +244,8 @@ class ActiveMoleculeAlertManager extends Alerter {
    * Get a string the describes the molecule when it starts to glow from its high electronic energy state
    * representation after absorption. Will return a string like
    * "‪Visible‬ photon absorbed and Nitrogen Dioxide‬ molecule starts glowing."
-   * @private
-   *
-   * @returns {string}
    */
-  getHighElectronicEnergyPhaseDescription() {
+  private getHighElectronicEnergyPhaseDescription(): string {
     return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,
@@ -255,12 +256,10 @@ class ActiveMoleculeAlertManager extends Alerter {
   /**
    * Get a description of the molecule in its rotation phase. Will return something like
    * "Microwave photon absorbed, water molecule rotates clockwise."
-   * @public
-   *
-   * @returns {string}
    */
-  getRotationPhaseDescription() {
+  public getRotationPhaseDescription(): string {
     const targetMolecule = this.photonAbsorptionModel.targetMolecule;
+    affirm( targetMolecule, 'Target molecule expected for description' );
     const rotationEnum = targetMolecule.rotationDirectionClockwiseProperty.get() ?
                            'ROTATES_CLOCKWISE' :
                            'ROTATES_COUNTER_CLOCKWISE';
@@ -277,12 +276,8 @@ class ActiveMoleculeAlertManager extends Alerter {
    * a string like
    *
    * "Infrared photon absorbed, Carbon Dioxide molecule breaks into CO and O."
-   *
-   * @public
-   *
-   * @returns {string}
    */
-  getBreakApartPhaseDescription( firstMolecule, secondMolecule ) {
+  public getBreakApartPhaseDescription( firstMolecule: Molecule, secondMolecule: Molecule ): string {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
@@ -296,12 +291,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Get an alert that describes the molecule in its "vibrating" state.
-   * @private
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
    */
-  getVibrationAlert( molecule ) {
+  private getVibrationAlert( molecule: Molecule ): string | TReadOnlyProperty<string> {
     let alert;
 
     const stretches = molecule.vibratesByStretching();
@@ -355,12 +346,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Get an alert that describes the Molecule in its "excited" (glowing) state.
-   * @private
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
    */
-  getExcitationAlert( molecule ) {
+  private getExcitationAlert(): string | TReadOnlyProperty<string> {
     let alert;
 
     if ( !this.photonAbsorptionModel.runningProperty.get() ) {
@@ -398,12 +385,8 @@ class ActiveMoleculeAlertManager extends Alerter {
    * Get an alert that describes the Molecules in its "rotating" state. Will return something like
    * "Molecule rotates." or
    * "MicroPhoton absorbed. Molecule rotates counterclockwise."
-   * @private
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
    */
-  getRotationAlert( molecule ) {
+  private getRotationAlert( molecule: Molecule ): string | TReadOnlyProperty<string> {
     let alert;
 
     if ( !this.photonAbsorptionModel.runningProperty.get() ) {
@@ -447,13 +430,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Get an alert that describes the molecule after it has broken up into constituent molecules.
-   * @private
-   *
-   * @param {Molecule} firstMolecule
-   * @param {Molecule} secondMolecule
-   * @returns {string}
    */
-  getBreakApartAlert( firstMolecule, secondMolecule ) {
+  private getBreakApartAlert( firstMolecule: Molecule, secondMolecule: Molecule ): string {
     let alert;
 
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
@@ -487,12 +465,8 @@ class ActiveMoleculeAlertManager extends Alerter {
   /**
    * Get an alert that describes a photon being emitted from othe molecule. Verbocity will depend on whether the sim
    * is paused or running in slow motion.
-   * @public
-   *
-   * @param {Photon} photon
-   * @returns {string}
    */
-  getEmissionAlert( photon ) {
+  public getEmissionAlert( photon: MicroPhoton ): string {
     let alert = '';
 
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
@@ -518,13 +492,8 @@ class ActiveMoleculeAlertManager extends Alerter {
    *
    * Describing each pass through takes a lot of time, so this is only used while the simulation is paused and
    * user is stepping through frame by frames.
-   * @public
-   *
-   * @param {Photon} photon
-   * @param {Molecule} molecule
-   * @returns {string|null}
    */
-  getPassThroughAlert( photon, molecule ) {
+  public getPassThroughAlert( photon: MicroPhoton, molecule: Molecule ): string | TReadOnlyProperty<string> | undefined {
     let alert;
 
     // we only have enough time to speak detailed information about the "pass through" while stepping through frame by
@@ -564,13 +533,12 @@ class ActiveMoleculeAlertManager extends Alerter {
    * "Microwave photon passes through Methane molecule"
    *
    * depending on the context and provided patternString.
-   * @private
    *
-   * @param {Photon} photon - the MicroPhoton passing through the photon target
-   * @param {string} patternMessageProperty - A fluent pattern to be filled in with light source and molecular names, changing
+   * @param photon - the MicroPhoton passing through the photon target
+   * @param patternMessageProperty - A fluent pattern to be filled in with light source and molecular names, changing
    *                                          the verb tense depending on context.
    */
-  getDetailedPassThroughAlert( photon, patternMessageProperty ) {
+  private getDetailedPassThroughAlert( photon: MicroPhoton, patternMessageProperty: LocalizedMessageProperty ): string {
     return FluentUtils.formatMessage( patternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty
@@ -579,12 +547,8 @@ class ActiveMoleculeAlertManager extends Alerter {
 
   /**
    * Get a DescriptionEnum for the direction of the photon's movement, based on its velocity.
-   *
-   * @public
-   * @param {Photon} photon
-   * @returns {DirectionEnum}
    */
-  static getPhotonDirectionDescription( photon ) {
+  public static getPhotonDirectionDescription( photon: MicroPhoton ): EnumerationDeprecated {
 
     // Negate the velocity in the y direction so the description is accurate for our coordinate frame.
     const emissionAngle = Math.atan2( -photon.vy, photon.vx );
