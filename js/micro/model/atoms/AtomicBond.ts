@@ -47,7 +47,7 @@ class AtomicBond {
    * @param atom2 - Atom involved in the bond
    * @param [providedOptions]
    */
-  public constructor( atom1: Atom, atom2: Atom, providedOptions: AtomicBondOptions ) {
+  public constructor( atom1: Atom, atom2: Atom, providedOptions?: AtomicBondOptions ) {
 
     const options = optionize<AtomicBondOptions>()( {
       bondCount: 1,

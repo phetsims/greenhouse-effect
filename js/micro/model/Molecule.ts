@@ -60,7 +60,7 @@ export type MoleculeStateObject = {
   currentRotationRadians: number;
 };
 
-type MoleculeOptions = SelfOptions;
+export type MoleculeOptions = SelfOptions;
 
 // utility method used for serialization
 function serializeArray( array: Atom[] ): AtomStateObject[];

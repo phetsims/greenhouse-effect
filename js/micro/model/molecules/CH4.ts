@@ -14,7 +14,7 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
 
@@ -36,22 +36,19 @@ const HYDROGEN_VIBRATION_DISTANCE_Y = HYDROGEN_VIBRATION_DISTANCE * Math.sin( HY
 
 class CH4 extends Molecule {
 
+  private readonly carbonAtom = Atom.carbon();
+  private readonly hydrogenAtom1 = Atom.hydrogen( { topLayer: true } );
+  private readonly hydrogenAtom2 = Atom.hydrogen();
+  private readonly hydrogenAtom3 = Atom.hydrogen();
+  private readonly hydrogenAtom4 = Atom.hydrogen( { topLayer: true } );
+
   /**
    * Constructor for a Methane molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( providedOptions?: MoleculeOptions ) {
 
     // Supertype constructor
-    super( options );
-
-    // Instance data for the CH4 molecule - @private
-    this.carbonAtom = Atom.carbon();
-    this.hydrogenAtom1 = Atom.hydrogen( { topLayer: true } );
-    this.hydrogenAtom2 = Atom.hydrogen();
-    this.hydrogenAtom3 = Atom.hydrogen();
-    this.hydrogenAtom4 = Atom.hydrogen( { topLayer: true } );
+    super( providedOptions );
 
     // Configure the base class.
     this.addAtom( this.carbonAtom );
@@ -74,10 +71,8 @@ class CH4 extends Molecule {
 
   /**
    * Set the initial positions of the atoms which compose this molecule.
-   * @private
-   * @override
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( 0, 0 ) );
     this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( -0,
@@ -96,11 +91,10 @@ class CH4 extends Molecule {
   /**
    * Set the vibration behavior for this CH4 molecule. Initialize and set center of gravity position offsets for the
    * composing atoms in its vibration cycle.
-   * @public
    *
-   * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+   * @param vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration( vibrationRadians ) {
+  public override setVibration( vibrationRadians: number ): void {
 
     // super.setVibration( vibrationRadians );
 
