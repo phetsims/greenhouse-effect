@@ -9,32 +9,20 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Molecule from './Molecule.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 class ExcitationStrategy extends PhotonHoldStrategy {
 
-  /**
-   * Constructor for the excitation strategy.
-   *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
-   */
-  constructor( molecule ) {
-
-    // Supertype constructor
+  public constructor( molecule: Molecule ) {
     super( molecule );
   }
 
-  /**
-   * @protected
-   */
-  photonAbsorbed() {
+  protected override photonAbsorbed(): void {
     this.molecule.highElectronicEnergyStateProperty.set( true );
   }
 
-  /**
-   * @protected
-   */
-  reemitPhoton() {
+  protected override reemitPhoton(): void {
     super.reemitPhoton();
     this.molecule.highElectronicEnergyStateProperty.set( false );
   }

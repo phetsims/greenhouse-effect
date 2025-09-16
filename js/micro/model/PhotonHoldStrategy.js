@@ -43,7 +43,7 @@ class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
 
   /**
    * Re-emit the absorbed photon and set the molecules absorption strategy to a Null strategy.
-   * @public
+   * @protected
    **/
   reemitPhoton() {
 
@@ -73,7 +73,7 @@ class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
 
   /**
    * @public
-   * @abstract
+   * @protected
    */
   photonAbsorbed() {
     console.error( 'Error: photonAbsorbed function should be implemented by descendant absorption strategies.' );
