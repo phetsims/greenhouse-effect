@@ -11,27 +11,24 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 
 // Model data for nitrogen molecule
 const INITIAL_OXYGEN_OXYGEN_DISTANCE = 170; // In picometers.
 
 class O2 extends Molecule {
 
+  // Instance data for the nitrogen molecule
+  private readonly oxygenAtom1 = Atom.oxygen();
+  private readonly oxygenAtom2 = Atom.oxygen();
+
   /**
    * Constructor for an oxygen molecule
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( options?: MoleculeOptions ) {
 
     // Supertype constructor
     super( options );
-
-    // Instance data for the nitrogen molecule
-    // @private
-    this.oxygenAtom1 = Atom.oxygen();
-    this.oxygenAtom2 = Atom.oxygen();
 
     // Configure the base class.
     this.addAtom( this.oxygenAtom1 );
@@ -46,9 +43,8 @@ class O2 extends Molecule {
 
   /**
    * Initialize and set the COG offsets for the oxygen atoms which compose this molecule.
-   * @private
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.oxygenAtom1, new Vector2( -INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom2, new Vector2( INITIAL_OXYGEN_OXYGEN_DISTANCE / 2, 0 ) );
