@@ -1,7 +1,7 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
 /**
- * Class that represents H2O ( water ) in the model.
+ * Class that represents H2O (water) in the model.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -11,7 +11,7 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -27,21 +27,21 @@ const INITIAL_HYDROGEN_HORIZONTAL_OFFSET = OXYGEN_HYDROGEN_BOND_LENGTH * Math.si
 
 class H2O extends Molecule {
 
+  private readonly oxygenAtom = Atom.oxygen();
+  private readonly hydrogenAtom1 = Atom.hydrogen();
+  private readonly hydrogenAtom2 = Atom.hydrogen();
+
+  private readonly totalMoleculeMass: number;
+  private readonly initialOxygenVerticalOffset: number;
+  private readonly initialHydrogenVerticalOffset: number;
+
   /**
    * Constructor for a water molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( options?: MoleculeOptions ) {
 
-    // Supertype constructor
     super( options );
 
-    // Instance Data
-    // @private
-    this.oxygenAtom = Atom.oxygen();
-    this.hydrogenAtom1 = Atom.hydrogen();
-    this.hydrogenAtom2 = Atom.hydrogen();
     this.totalMoleculeMass = this.oxygenAtom.mass + ( 2 * this.hydrogenAtom1.mass );
     this.initialOxygenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.hydrogenAtom1.mass ) / this.totalMoleculeMass );
     this.initialHydrogenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialOxygenVerticalOffset );
@@ -61,12 +61,10 @@ class H2O extends Molecule {
     this.initializeAtomOffsets();
   }
 
-
   /**
-   * Initialize and set the initial center of gravity positions for each atom in this molecule.
-   * @private
+   * Initialize the center-of-gravity offsets for the atoms in this molecule.
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, this.initialOxygenVerticalOffset ) );
     this.addInitialAtomCogOffset( this.hydrogenAtom1, new Vector2( INITIAL_HYDROGEN_HORIZONTAL_OFFSET, this.initialHydrogenVerticalOffset ) );
@@ -75,13 +73,11 @@ class H2O extends Molecule {
   }
 
   /**
-   * Set the vibration behavior for this water molecule.  Set the current angle in vibration cycle, update center of
-   * gravity offsets, and update the atom positions.
-   * @public
+   * Set the vibration behaviour for this water molecule.
    *
-   * @param {number} vibrationRadians - The current angle of the vibration cycle in radians.
+   * @param vibrationRadians – The current angle of the vibration cycle.
    */
-  setVibration( vibrationRadians ) {
+  public override setVibration( vibrationRadians: number ): void {
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
