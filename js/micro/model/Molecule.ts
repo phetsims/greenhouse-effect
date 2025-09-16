@@ -131,10 +131,10 @@ class Molecule {
 
   // Boolean values that track whether the molecule is vibrating or rotating.
   public readonly vibratingProperty: Property<boolean>;
-  private readonly rotatingProperty: Property<boolean>;
+  public readonly rotatingProperty: Property<boolean>;
 
   // Controls the direction of rotation.
-  private readonly rotationDirectionClockwiseProperty: Property<boolean>;
+  public readonly rotationDirectionClockwiseProperty: Property<boolean>;
 
   // is the molecule is "stretching" or "contracting" in its vibration.
   private readonly isStretchingProperty: TReadOnlyProperty<boolean>;
