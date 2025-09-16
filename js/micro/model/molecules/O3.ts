@@ -13,7 +13,7 @@ import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -40,25 +40,20 @@ const RAND = {
 
 class O3 extends Molecule {
 
+  // Instance data
+  private readonly centerOxygenAtom = Atom.oxygen();
+  private readonly leftOxygenAtom = Atom.oxygen();
+  private readonly rightOxygenAtom = Atom.oxygen();
+
+  // Tracks the side on which the double bond is shown.
+  private readonly doubleBondOnRight: boolean = RAND.nextBoolean();
+
   /**
    * Constructor for an ozone molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( options?: MoleculeOptions ) {
 
-    // Supertype constructor
     super( options );
-
-    // Instance Data
-    // @private
-    this.centerOxygenAtom = Atom.oxygen();
-    this.leftOxygenAtom = Atom.oxygen();
-    this.rightOxygenAtom = Atom.oxygen();
-
-    // Tracks the side on which the double bond is shown.  More on this where it is initialized.
-    // @private
-    this.doubleBondOnRight = RAND.nextBoolean();
 
     // Configure the base class.
     this.addAtom( this.centerOxygenAtom );
@@ -81,34 +76,29 @@ class O3 extends Molecule {
     this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
     this.setPhotonAbsorptionStrategy( WavelengthConstants.UV_WAVELENGTH, new BreakApartStrategy( this ) );
 
-    // Set the initial offsets.
     this.initializeAtomOffsets();
   }
-
 
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions
    * when the molecule is at rest (not rotating or vibrating).
-   * @private
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.centerOxygenAtom, new Vector2( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
     this.addInitialAtomCogOffset( this.leftOxygenAtom, new Vector2( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
     this.addInitialAtomCogOffset( this.rightOxygenAtom, new Vector2( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
 
     this.updateAtomPositions();
-
   }
 
   /**
    * Set the vibration behavior for this O3 molecule.  Sets the O3 molecule to a vibrating state then
    * calculates and sets the new position for each atom in the molecule.
-   * @public
    *
-   * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+   * @param vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration( vibrationRadians ) {
+  public override setVibration( vibrationRadians: number ): void {
 
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
@@ -118,14 +108,12 @@ class O3 extends Molecule {
     this.getVibrationAtomOffset( this.rightOxygenAtom ).setXY( -multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
     this.getVibrationAtomOffset( this.leftOxygenAtom ).setXY( multFactor * maxOuterOxygenDisplacement, -multFactor * maxOuterOxygenDisplacement );
     this.updateAtomPositions();
-
   }
 
   /**
    * Define the break apart behavior for the O3 molecule.  Initializes and sets the velocity of constituent molecules.
-   * @public
    */
-  breakApart() {
+  public override breakApart(): void {
 
     // Create the constituent molecules that result from breaking apart.
     const diatomicOxygenMolecule = new O2();
