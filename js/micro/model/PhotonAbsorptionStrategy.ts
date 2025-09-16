@@ -75,7 +75,7 @@ class PhotonAbsorptionStrategy {
     return absorbed;
   }
 
-  public step(): void {
+  public step( dt: number ): void {
     throw new Error( 'step should be implemented in descendant photon absorption strategies.' );
   }
 }

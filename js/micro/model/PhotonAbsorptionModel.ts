@@ -174,8 +174,6 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     this.activeMolecules = createObservableArray( {
       tandem: tandem.createTandem( 'activeMolecules' ),
-
-      // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
       phetioType: createObservableArray.ObservableArrayIO( Molecule.MoleculeIO )
     } );
 
@@ -438,8 +436,6 @@ class PhotonAbsorptionModel extends PhetioObject {
 
     newMolecule.photonGroup = this.photonGroup;
 
-
-    // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
     newMolecule.brokeApartEmitter.addListener( ( constituentMolecule1, constituentMolecule2 ) => {
 
       // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
