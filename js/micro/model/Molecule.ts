@@ -29,7 +29,7 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import Atom from './atoms/Atom.js';
+import Atom, { AtomStateObject } from './atoms/Atom.js';
 import AtomicBond from './atoms/AtomicBond.js';
 import MicroPhoton from './MicroPhoton.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
@@ -47,16 +47,6 @@ type SelfOptions = {
   initialPosition?: Vector2; // initial position of the molecule's center of gravity
   isForIcon?: boolean; // whether or not this molecule is being used in an icon, which means it doesn't need to be fully instrumented
 } & PickOptional<PhetioObjectOptions, 'tandem'>;
-
-// AtomStateObject type
-// TODO: Move to Atom.ts, see #423
-type AtomStateObject = {
-  representationColor: string;
-  radius: number;
-  mass: number;
-  uniqueID: number;
-  position: Vector2StateObject;
-};
 
 // AtomicBondStateObject type
 // TODO: Move to AtomicBond.ts, see #423

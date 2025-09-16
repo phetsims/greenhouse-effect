@@ -8,42 +8,66 @@
  */
 
 import Property from '../../../../../axon/js/Property.js';
-import Vector2 from '../../../../../dot/js/Vector2.js';
-import merge from '../../../../../phet-core/js/merge.js';
+import Vector2, { Vector2StateObject } from '../../../../../dot/js/Vector2.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../../../scenery-phet/js/PhetColorScheme.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 
 // Static data
 let instanceCount = 0; // Base count for the unique ID of this atom.
 
+// For serialization
+export type AtomStateObject = {
+  representationColor: string;
+  radius: number;
+  mass: number;
+  uniqueID: number;
+  position: Vector2StateObject;
+};
+
+type AtomOptions = {
+  initialPosition?: Vector2;
+
+  // if true, the atom will be on the top layer of atoms in the visualization, to support 3D looking molecules
+  topLayer?: boolean;
+
+  // used to override the generation of an ID, used only for deserialization
+  idOverride?: number | null;
+
+  // Nested options for the position property (phet-io)
+  positionPropertyOptions?: object;
+};
+
 class Atom {
+
+  public readonly positionProperty: Property<Vector2>;
+  public readonly topLayer: boolean;
+  public readonly representationColor: string;
+  public readonly radius: number;
+  public readonly mass: number;
+  public readonly uniqueID: number;
 
   /**
    * Constructor for creating an individual atom.  This is generally invoked using factory methods for specify atoms.
    *
-   * @param {string} representationColor - The desired color of the atom
-   * @param {number} radius - The radius of the model atom
-   * @param {number} mass - Mass of this atom
-   * @param {Object} [options]
+   * @param representationColor - The desired color of the atom
+   * @param radius - The radius of the model atom
+   * @param mass - Mass of this atom
+   * @param providedOptions - Atom options
    */
-  constructor( representationColor, radius, mass, options ) {
+  public constructor( representationColor: string, radius: number, mass: number, providedOptions?: AtomOptions ) {
 
-    options = merge( {
+    const options = optionize<AtomOptions>()( {
       initialPosition: Vector2.ZERO,
-
-      // if true, the atom will be on the top layer of atoms in the visualization, to support 3D looking molecules
       topLayer: false,
+      idOverride: null,
+      positionPropertyOptions: {}
+    }, providedOptions );
 
-      idOverride: null // used to override the generation of an ID, used only for deserialization
-    }, options );
+    this.positionProperty = new Property( options.initialPosition, options.positionPropertyOptions );
 
-    // @public
-    this.positionProperty = new Property( options.initialPosition, options );
-
-    // @public (read-only) {boolean}
     this.topLayer = options.topLayer;
 
-    // @public (read-only)
     this.representationColor = representationColor;
     this.radius = radius;
     this.mass = mass;
@@ -53,11 +77,10 @@ class Atom {
 
   /**
    * Set the position of this atom from a single vector.
-   * @private
    *
-   * @param {Vector2} position - The desired position of this atom as a Vector
+   * @param position - The desired position of this atom as a Vector
    */
-  setPositionVec( position ) {
+  private setPositionVec( position: Vector2 ): void {
     if ( this.positionProperty.get() !== position ) {
       this.positionProperty.set( position );
     }
@@ -65,20 +88,18 @@ class Atom {
 
   /**
    * Set the position of this atom from point coordinates.
-   * @public
    *
-   * @param {number} x - The desired x coordinate of this atom
-   * @param {number} y - The desired y coordinate of this atom
+   * @param x - The desired x coordinate of this atom
+   * @param y - The desired y coordinate of this atom
    */
-  setPosition( x, y ) {
+  public setPosition( x: number, y: number ): void {
     if ( this.positionProperty.get().x !== x || this.positionProperty.get().y !== y ) {
       this.positionProperty.set( new Vector2( x, y ) );
     }
   }
 
   // serialization support
-  // @public
-  toStateObject() {
+  public toStateObject(): AtomStateObject {
     return {
       representationColor: this.representationColor,
       radius: this.radius,
@@ -88,25 +109,16 @@ class Atom {
     };
   }
 
-  // @static
-  // @public
-  static carbon( options ) { return new Atom( 'gray', 77, 12.011, options ); }
+  public static carbon( options?: AtomOptions ): Atom { return new Atom( 'gray', 77, 12.011, options ); }
 
-  // @static
-  // @public
-  static hydrogen( options ) { return new Atom( 'white', 37, 1, options ); }
+  public static hydrogen( options?: AtomOptions ): Atom { return new Atom( 'white', 37, 1, options ); }
 
-  // @static
-  // @public
-  static nitrogen( options ) { return new Atom( 'blue', 75, 14.00674, options ); }
+  public static nitrogen( options?: AtomOptions ): Atom { return new Atom( 'blue', 75, 14.00674, options ); }
 
-  // @static
-  // @public
-  static oxygen( options ) { return new Atom( PhetColorScheme.RED_COLORBLIND.toCSS(), 73, 12.011, options ); }
+  public static oxygen( options?: AtomOptions ): Atom { return new Atom( PhetColorScheme.RED_COLORBLIND.toCSS(), 73, 12.011, options ); }
 
   // support for deserialization
-  // @public
-  static fromStateObject( stateObject ) {
+  public static fromStateObject( stateObject: AtomStateObject ): Atom {
     return new Atom( stateObject.representationColor, stateObject.radius, stateObject.mass, {
       idOverride: stateObject.uniqueID,
       initialPosition: Vector2.fromStateObject( stateObject.position )
