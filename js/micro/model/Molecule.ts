@@ -30,7 +30,7 @@ import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import Atom, { AtomStateObject } from './atoms/Atom.js';
-import AtomicBond from './atoms/AtomicBond.js';
+import AtomicBond, { AtomicBondStateObject } from './atoms/AtomicBond.js';
 import MicroPhoton from './MicroPhoton.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
@@ -47,14 +47,6 @@ type SelfOptions = {
   initialPosition?: Vector2; // initial position of the molecule's center of gravity
   isForIcon?: boolean; // whether or not this molecule is being used in an icon, which means it doesn't need to be fully instrumented
 } & PickOptional<PhetioObjectOptions, 'tandem'>;
-
-// AtomicBondStateObject type
-// TODO: Move to AtomicBond.ts, see #423
-type AtomicBondStateObject = {
-  atom1ID: number;
-  atom2ID: number;
-  bondCount: number;
-};
 
 // PhET-iO state object, for serialization
 export type MoleculeStateObject = {
@@ -633,7 +625,7 @@ class Molecule {
     stateObject.atomicBonds.forEach( bondStateObject => {
       const atom1 = findAtomWithID( molecule.atoms, bondStateObject.atom1ID );
       const atom2 = findAtomWithID( molecule.atoms, bondStateObject.atom2ID );
-      assert && assert( atom1 && atom2, 'Error: Couldn\'t match atom ID in bond with atoms in molecule' );
+      affirm( atom1 && atom2, 'Error: Couldn\'t match atom ID in bond with atoms in molecule' );
       molecule.addAtomicBond( new AtomicBond( atom1, atom2, { bondCount: bondStateObject.bondCount } ) );
     } );
 

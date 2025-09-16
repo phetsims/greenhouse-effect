@@ -8,33 +8,54 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import merge from '../../../../../phet-core/js/merge.js';
+import optionize from '../../../../../phet-core/js/optionize.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
+import Atom from './Atom.js';
+
+// State object for serialization
+export type AtomicBondStateObject = {
+  atom1ID: number;
+  atom2ID: number;
+  bondCount: number;
+};
+
+type AtomicBondOptions = {
+
+  // Indicates whether this is a single, double, triple, etc. bond.
+  bondCount?: number;
+
+  // if true, the atom will be in the top layer in the visualization, to support 3D looking molecules
+  topLayer?: boolean;
+
+  // offsets for the positions of the bond endpoints, relative to the centers of each atom in model coordinates
+  atom1PositionOffset?: Vector2;
+  atom2PositionOffset?: Vector2;
+};
 
 class AtomicBond {
+  public readonly atom1: Atom;
+  public readonly atom2: Atom;
+  public readonly bondCount: number;
+  public readonly topLayer: boolean;
+  public readonly atom1PositionOffset: Vector2;
+  public readonly atom2PositionOffset: Vector2;
 
   /**
    * Constructor for an Atomic Bond between two atoms.
    *
-   * @param {Atom} atom1 - Atom involved in the bond
-   * @param {Atom} atom2 - Atom involved in the bond
-   * @param {Object} [options]
+   * @param atom1 - Atom involved in the bond
+   * @param atom2 - Atom involved in the bond
+   * @param [providedOptions]
    */
-  constructor( atom1, atom2, options ) {
+  public constructor( atom1: Atom, atom2: Atom, providedOptions: AtomicBondOptions ) {
 
-    options = merge( {
-      // defaults
-      bondCount: 1, // Indicates whether this is a single, double, triple, etc. bond.
-
-      // {boolean} if true, the atom will be in the top layer in the visualization, to support 3D looking molecules
+    const options = optionize<AtomicBondOptions>()( {
+      bondCount: 1,
       topLayer: false,
-
-      // offsets for the positions of the bond endpoints, relative to the centers of each atom in model coordinates
       atom1PositionOffset: new Vector2( 0, 0 ),
       atom2PositionOffset: new Vector2( 0, 0 )
-    }, options );
+    }, providedOptions );
 
-    // @public (read-only)
     this.atom1 = atom1;
     this.atom2 = atom2;
     this.bondCount = options.bondCount;
@@ -43,10 +64,8 @@ class AtomicBond {
     this.atom2PositionOffset = options.atom2PositionOffset;
   }
 
-
   // serialization support
-  // @public
-  toStateObject() {
+  public toStateObject(): AtomicBondStateObject {
     return {
       bondCount: this.bondCount,
       atom1ID: this.atom1.uniqueID,
