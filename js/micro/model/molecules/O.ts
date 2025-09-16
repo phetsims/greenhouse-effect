@@ -11,38 +11,28 @@
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 
 class O extends Molecule {
 
+  private readonly oxygenAtom = Atom.oxygen();
+
   /**
    * Constructor for a single atom of oxygen.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( options?: MoleculeOptions ) {
 
-    // Supertype constructor
     super( options );
 
-    // Instance Data
-    // @private
-    this.oxygenAtom = Atom.oxygen();
-
-    // Configure the base class.
     this.addAtom( this.oxygenAtom );
 
-    // Set the initial offsets.
     this.initializeAtomOffsets();
-
   }
-
 
   /**
    * Initialize and set the center of gravity offsets for the position of this Oxygen atom.
-   * @protected
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, 0 ) );
     this.updateAtomPositions();
   }
