@@ -1,7 +1,7 @@
 // Copyright 2021-2025, University of Colorado Boulder
 
 /**
- * Class that represents CO ( carbon monoxide ) in the model.
+ * Class that represents CO (carbon monoxide) in the model.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -11,7 +11,7 @@ import Vector2 from '../../../../../dot/js/Vector2.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -22,58 +22,50 @@ const VIBRATION_MAGNITUDE = 20; // In picometers.
 
 class CO extends Molecule {
 
+  private readonly carbonAtom = Atom.carbon();
+  private readonly oxygenAtom = Atom.oxygen();
+
   /**
    * Constructor for a carbon monoxide molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
+  public constructor( providedOptions?: MoleculeOptions ) {
 
-    // Supertype constructor
-    super( options );
+    super( providedOptions );
 
-    // @private
-    this.carbonAtom = Atom.carbon();
-    this.oxygenAtom = Atom.oxygen();
-
-    // Configure the base class.
+    // Register atoms and bond
     this.addAtom( this.carbonAtom );
     this.addAtom( this.oxygenAtom );
     this.addAtomicBond( new AtomicBond( this.carbonAtom, this.oxygenAtom, { bondCount: 3 } ) );
 
-    // Set up the photon wavelengths to absorb
+    // Photon–absorption strategies
     this.setPhotonAbsorptionStrategy( WavelengthConstants.MICRO_WAVELENGTH, new RotationStrategy( this ) );
     this.setPhotonAbsorptionStrategy( WavelengthConstants.IR_WAVELENGTH, new VibrationStrategy( this ) );
 
-    // Set the initial offsets.
+    // Initial atom offsets
     this.initializeAtomOffsets();
-
   }
 
 
   /**
    * Define vibration behavior of carbon monoxide.  Set the current angle of vibration,
    * get the vibration offsets, and update the atom positions.
-   * @public
    *
-   * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+   * @param vibrationRadians – Where this molecule is in its vibration cycle (radians).
    */
-  setVibration( vibrationRadians ) {
-
+  public override setVibration( vibrationRadians: number ): void {
     this.currentVibrationRadiansProperty.set( vibrationRadians );
+
     const multFactor = Math.sin( vibrationRadians );
     this.getVibrationAtomOffset( this.carbonAtom ).setXY( VIBRATION_MAGNITUDE * multFactor, 0 );
     this.getVibrationAtomOffset( this.oxygenAtom ).setXY( -VIBRATION_MAGNITUDE * multFactor, 0 );
-    this.updateAtomPositions();
 
+    this.updateAtomPositions();
   }
 
   /**
-   * Initialize the atom offsets for the carbon and oxygen atoms which compose this molecule.
-   * @public
+   * Initialize the atom offsets for the carbon and oxygen atoms composing this molecule.
    */
-  initializeAtomOffsets() {
-
+  protected override initializeAtomOffsets(): void {
     this.addInitialAtomCogOffset( this.carbonAtom, new Vector2( -INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0 ) );
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( INITIAL_CARBON_OXYGEN_DISTANCE / 2, 0 ) );
     this.updateAtomPositions();
