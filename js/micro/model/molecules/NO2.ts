@@ -14,7 +14,7 @@ import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
 import ExcitationStrategy from '../ExcitationStrategy.js';
-import Molecule from '../Molecule.js';
+import Molecule, { MoleculeOptions } from '../Molecule.js';
 import RotationStrategy from '../RotationStrategy.js';
 import VibrationStrategy from '../VibrationStrategy.js';
 import WavelengthConstants from '../WavelengthConstants.js';
@@ -36,31 +36,34 @@ const RAND = {
 };
 
 class NO2 extends Molecule {
+  private readonly nitrogenAtom = Atom.nitrogen();
+  private readonly rightOxygenAtom = Atom.oxygen();
+  private readonly leftOxygenAtom = Atom.oxygen();
+
+  private readonly totalMoleculeMass =
+    this.nitrogenAtom.mass + 2 * this.rightOxygenAtom.mass;
+
+  private readonly initialNitrogenVerticalOffset =
+    INITIAL_MOLECULE_HEIGHT *
+    ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
+
+  private readonly initialOxygenVerticalOffset =
+    -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );
+
+  private readonly initialOxygenHorizontalOffset =
+    NITROGEN_OXYGEN_BOND_LENGTH *
+    Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
+
+  // Tracks the side on which the double bond is shown.
+  private readonly doubleBondOnRight = RAND.nextBoolean();
+
   /**
    * Constructor for a nitrogen dioxide molecule.
-   *
-   * @param {Object} [options]
    */
-  constructor( options ) {
-
-    // Supertype constructor
+  public constructor( options?: MoleculeOptions ) {
     super( options );
 
-    // Instance Data
-    // @private
-    this.nitrogenAtom = Atom.nitrogen();
-    this.rightOxygenAtom = Atom.oxygen();
-    this.leftOxygenAtom = Atom.oxygen();
-    this.totalMoleculeMass = this.nitrogenAtom.mass + ( 2 * this.rightOxygenAtom.mass );
-    this.initialNitrogenVerticalOffset = INITIAL_MOLECULE_HEIGHT * ( ( 2 * this.rightOxygenAtom.mass ) / this.totalMoleculeMass );
-    this.initialOxygenVerticalOffset = -( INITIAL_MOLECULE_HEIGHT - this.initialNitrogenVerticalOffset );
-    this.initialOxygenHorizontalOffset = NITROGEN_OXYGEN_BOND_LENGTH * Math.sin( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 );
-
-    // Tracks the side on which the double bond is shown.  More on this where it is initialized.
-    // @private
-    this.doubleBondOnRight = RAND.nextBoolean();
-
-    // Configure the base class.
+    // Atoms
     this.addAtom( this.nitrogenAtom );
     this.addAtom( this.rightOxygenAtom );
     this.addAtom( this.leftOxygenAtom );
@@ -92,27 +95,22 @@ class NO2 extends Molecule {
   /**
    * Initialize and set the COG positions for each atom in this molecule.  These are the atom positions when the
    * molecule is at rest (not rotating or vibrating).
-   * @private
    */
-  initializeAtomOffsets() {
+  protected override initializeAtomOffsets(): void {
 
     this.addInitialAtomCogOffset( this.nitrogenAtom, new Vector2( 0, this.initialNitrogenVerticalOffset ) );
     this.addInitialAtomCogOffset( this.rightOxygenAtom, new Vector2( this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset ) );
     this.addInitialAtomCogOffset( this.leftOxygenAtom, new Vector2( -this.initialOxygenHorizontalOffset, this.initialOxygenVerticalOffset ) );
 
     this.updateAtomPositions();
-
   }
 
   /**
    * Set the vibration behavior for this NO2 molecule.  Sets the NO2 molecule to a vibrating state then calculates
    * and sets the new position for each atom in the molecule.
-   * @public
-   *
-   * @param {number} vibrationRadians - Where this molecule is in its vibration cycle in radians.
+   * @param vibrationRadians - Where this molecule is in its vibration cycle in radians.
    */
-  setVibration( vibrationRadians ) {
-
+  public override setVibration( vibrationRadians: number ): void {
     this.currentVibrationRadiansProperty.set( vibrationRadians );
     const multFactor = Math.sin( vibrationRadians );
     const maxNitrogenDisplacement = 30;
@@ -129,9 +127,8 @@ class NO2 extends Molecule {
   /**
    * Define the break apart behavior for the NO2 molecule.  Initializes and sets the velocity of constituent
    * molecules.
-   * @protected
    */
-  breakApart() {
+  public override breakApart(): void {
 
     // Create the constituent molecules that result from breaking apart and add them to the activeMolecules observable array.
     const nitrogenMonoxideMolecule = new NO();

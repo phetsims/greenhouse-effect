@@ -40,7 +40,7 @@ class O extends Molecule {
 
   /**
    * Initialize and set the center of gravity offsets for the position of this Oxygen atom.
-   * @private
+   * @protected
    */
   initializeAtomOffsets() {
     this.addInitialAtomCogOffset( this.oxygenAtom, new Vector2( 0, 0 ) );
