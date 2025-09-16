@@ -8,36 +8,32 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Molecule from './Molecule.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
 class VibrationStrategy extends PhotonHoldStrategy {
 
   /**
    * Constructor for the break apart strategy.
-   *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
    */
-  constructor( molecule ) {
+  public constructor( molecule: Molecule ) {
 
     // Supertype constructor
     super( molecule );
 
   }
 
-
   /**
    * Set this molecule to a vibrating state when a photon is absorbed.
-   * @public
    */
-  photonAbsorbed() {
+  public override photonAbsorbed(): void {
     this.molecule.vibratingProperty.set( true );
   }
 
   /**
    * Re-emit the absorbed photon and stop the molecule from vibrating.
-   * @public
    */
-  reemitPhoton() {
+  public override reemitPhoton(): void {
 
     super.reemitPhoton();
     this.molecule.vibratingProperty.set( false );
