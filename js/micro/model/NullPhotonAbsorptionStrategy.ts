@@ -7,16 +7,16 @@
  */
 
 import greenhouseEffect from '../../greenhouseEffect.js';
+import MicroPhoton from './MicroPhoton.js';
+import Molecule from './Molecule.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
 
 class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
 
   /**
    * Constructor for the null absorption strategy.  This strategy does nothing.
-   *
-   * @param {Molecule} molecule - The molecule which will use this strategy.
    */
-  constructor( molecule ) {
+  public constructor( molecule: Molecule ) {
 
     // Supertype constructor
     super( molecule );
@@ -24,23 +24,20 @@ class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
   }
 
   /**
-   * Step method for the null absorption strategy.  This does nothing.
-   * @public
+   * Step method for the null absorption strategy. This does nothing.
    *
-   * @param {number} dt - The incremental time step.
+   * @param dt - The incremental time step.
    */
-  step( dt ) {
+  public override step( dt: number ): void {
     // Does nothing.
   }
 
   /**
    * This strategy never absorbs.
-   * @public
    *
-   * @param {MicroPhoton} photon - The photon being queried for absorption.
-   * @returns {boolean}
+   * @param photon - The photon being queried for absorption.
    */
-  queryAndAbsorbPhoton( photon ) {
+  public override queryAndAbsorbPhoton( photon: MicroPhoton ): boolean {
     return false;
   }
 }
