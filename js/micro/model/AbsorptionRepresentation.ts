@@ -10,13 +10,13 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class AbsorptionRepresentation extends EnumerationValue {
-  static ROTATE = new AbsorptionRepresentation();
-  static VIBRATE = new AbsorptionRepresentation();
-  static EXCITE = new AbsorptionRepresentation();
-  static BREAK_APART = new AbsorptionRepresentation();
-  static NULL = new AbsorptionRepresentation();
+  public static readonly ROTATE = new AbsorptionRepresentation();
+  public static readonly VIBRATE = new AbsorptionRepresentation();
+  public static readonly EXCITE = new AbsorptionRepresentation();
+  public static readonly BREAK_APART = new AbsorptionRepresentation();
+  public static readonly NULL = new AbsorptionRepresentation();
 
-  static enumeration = new Enumeration( AbsorptionRepresentation );
+  public static readonly enumeration = new Enumeration( AbsorptionRepresentation );
 }
 
 greenhouseEffect.register( 'AbsorptionRepresentation', AbsorptionRepresentation );

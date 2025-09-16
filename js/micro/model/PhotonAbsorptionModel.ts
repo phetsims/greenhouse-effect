@@ -428,17 +428,14 @@ class PhotonAbsorptionModel extends PhetioObject {
       photonTarget === PhotonTarget.SINGLE_CH4_MOLECULE ? new CH4( { tandem: tandem.createTandem( 'CH4' ) } ) :
       ( () => { throw new Error( 'Unhandled photon target' ); } )();
 
-    // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
     this.targetMolecule = newMolecule;
 
-    // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
     this.activeMolecules.add( newMolecule );
 
     newMolecule.photonGroup = this.photonGroup;
 
     newMolecule.brokeApartEmitter.addListener( ( constituentMolecule1, constituentMolecule2 ) => {
 
-      // @ts-expect-error - TODO for https://github.com/phetsims/greenhouse-effect/issues/423
       this.activeMolecules.remove( newMolecule );
       this.targetMolecule = null;
       newMolecule.dispose();
