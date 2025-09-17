@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * MicroPhoton absorption strategy that causes a molecule to vibrate after absorbing a photon, and re-emit the photon after
