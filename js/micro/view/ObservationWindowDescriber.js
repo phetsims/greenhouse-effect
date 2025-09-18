@@ -233,7 +233,7 @@ class ObservationWindowDescriber {
     return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
       photonTarget: this.model.photonTargetProperty,
       lightSource: this.model.lightSourceEnumProperty,
-      direction: directionEnum
+      direction: directionEnum.name
     } );
   }
 }
