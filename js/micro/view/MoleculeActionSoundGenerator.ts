@@ -8,9 +8,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
+import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import absorbPhoton_mp3 from '../../../sounds/absorbPhoton_mp3.js';
 import breakApart_mp3 from '../../../sounds/breakApart_mp3.js';
 import energized_mp3 from '../../../sounds/energized_mp3.js';
@@ -21,21 +23,13 @@ import rotationCounterclockwiseSlowMotion_mp3 from '../../../sounds/rotationCoun
 import vibration_mp3 from '../../../sounds/vibration_mp3.js';
 import vibrationSlowMotion_mp3 from '../../../sounds/vibrationSlowMotion_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Molecule from '../model/Molecule.js';
 
 // constants
 const ABSORPTION_TO_ACTIVITY_SOUND_DELAY = 0.2; // in seconds
 
 class MoleculeActionSoundGenerator extends SoundGenerator {
-
-  /**
-   * @param {ObservableArrayDef.<Molecule>}activeMolecules
-   * @param {BooleanProperty} simIsRunningProperty
-   * @param {BooleanProperty} isSlowMotionProperty
-   * @param {Object} [options]
-   */
-  constructor( activeMolecules, simIsRunningProperty, isSlowMotionProperty, options ) {
-
-    options = merge( {}, options );
+  public constructor( activeMolecules: ObservableArray<Molecule>, simIsRunningProperty: Property<boolean>, isSlowMotionProperty: TReadOnlyProperty<boolean>, options?: SoundGeneratorOptions ) {
     super( options );
 
     // photon absorbed sound
@@ -59,7 +53,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
       enabledProperty: simIsRunningProperty
     } );
     moleculeEnergizedLoop.connect( this.soundSourceDestination );
-    const updateMoleculeEnergizedSound = moleculeEnergized => {
+    const updateMoleculeEnergizedSound = ( moleculeEnergized: boolean ) => {
       if ( moleculeEnergized ) {
         moleculeEnergizedLoop.play( ABSORPTION_TO_ACTIVITY_SOUND_DELAY );
       }
@@ -103,7 +97,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     );
     rotateCounterclockwiseSlowMotionLoop.connect( this.soundSourceDestination );
 
-    const updateRotationSound = rotating => {
+    const updateRotationSound = ( rotating: boolean ) => {
       if ( rotating ) {
 
         // Verify that there is only one molecule that needs this sound.  At the time of this writing - mid-March 2020 -
@@ -157,7 +151,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     moleculeVibrationSlowMotionLoop.connect( this.soundSourceDestination );
 
     // function for updating the vibration sound
-    const updateVibrationSound = vibrating => {
+    const updateVibrationSound = ( vibrating: boolean ) => {
       if ( vibrating ) {
 
         // Verify that there is only one molecule that needs this sound.  At the time of this writing - mid-March 2020 -
@@ -212,7 +206,7 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
     } );
 
     // function that adds all of the listeners involved in producing the molecule action sounds
-    const addSoundPlayersToMolecule = molecule => {
+    const addSoundPlayersToMolecule = ( molecule: Molecule ) => {
       molecule.photonAbsorbedEmitter.addListener( photonAbsorbedSoundPlayer );
       molecule.brokeApartEmitter.addListener( breakApartSoundPlayer );
       molecule.highElectronicEnergyStateProperty.link( updateMoleculeEnergizedSound );

@@ -143,7 +143,7 @@ class Molecule {
   public photonGroup: null | PhetioGroup<MicroPhoton, [ number, Vector2 ]>;
 
   // emitter for when a photon is absorbed
-  private readonly photonAbsorbedEmitter: Emitter<[ MicroPhoton ]>;
+  public readonly photonAbsorbedEmitter: Emitter<[ MicroPhoton ]>;
 
   // emitter for when a photon is emitted
   public readonly photonEmittedEmitter: Emitter<[ MicroPhoton ]>;
