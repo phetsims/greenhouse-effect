@@ -7,20 +7,20 @@
  */
 
 import Multilink from '../../../../axon/js/Multilink.js';
+import Property from '../../../../axon/js/Property.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 class MicroScreenSummaryNode extends ScreenSummaryContent {
+  private readonly model: PhotonAbsorptionModel;
+  private readonly returnMoleculeButtonVisibleProperty: Property<boolean>;
 
-  /**
-   * @param {PhotonAbsorptionModel} model
-   * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
-   */
-  constructor( model, returnMoleculeButtonVisibleProperty ) {
+  public constructor( model: PhotonAbsorptionModel, returnMoleculeButtonVisibleProperty: Property<boolean> ) {
     super( {
       additionalContent: [
         GreenhouseEffectMessages.playAreaSummaryMessageProperty,
@@ -28,10 +28,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
       ]
     } );
 
-    // @private {PhotonAbsorptionModel}
     this.model = model;
-
-    // @private {BooleanProperty}
     this.returnMoleculeButtonVisibleProperty = returnMoleculeButtonVisibleProperty;
 
     // dynamic overview that stays up to date with sim
@@ -46,7 +43,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
       model.slowMotionProperty,
       returnMoleculeButtonVisibleProperty
     ];
-    Multilink.multilink( summaryProperties, () => {
+    Multilink.multilinkAny( summaryProperties, () => {
 
       // TODO: Maybe use accessibleName instead if https://github.com/phetsims/scenery/issues/1026 is fixed
       dynamicDescription.innerContent = this.getSummaryString();
@@ -67,15 +64,12 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
    * Get the dynamic summary for the simulation, something like
    * "Currently, Infrared light source is off and points at carbon monoxide molecule." or
    * "Currently, sim is paused on slow speed. Infrared photon emits photons fast and directly at Carbon Monoxide molecule."
-   * @private
-   *
-   * @returns {string}
    */
-  getSummaryString() {
+  private getSummaryString(): string {
     const emitterOn = this.model.photonEmitterOnProperty.get();
 
     const lightSourceEnum = WavelengthConstants.getLightSourceEnum( this.model.photonWavelengthProperty.get() );
-    const timeSpeedEnum = this.model.timeSpeedProperty;
+    const timeSpeedEnumProperty = this.model.timeSpeedProperty;
     const photonTargetEnum = this.model.photonTargetProperty.get();
 
     let finalString = '';
@@ -84,7 +78,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
       if ( emitterOn ) {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOnScreenSummaryPatternMessageProperty, {
           lightSource: lightSourceEnum,
-          simSpeed: timeSpeedEnum,
+          simSpeed: timeSpeedEnumProperty,
           targetMolecule: photonTargetEnum
         } );
       }
@@ -98,14 +92,14 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     else {
       if ( emitterOn ) {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOnScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnum,
+          simSpeed: timeSpeedEnumProperty,
           lightSource: lightSourceEnum,
           targetMolecule: photonTargetEnum
         } );
       }
       else {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnum,
+          simSpeed: timeSpeedEnumProperty,
           lightSource: lightSourceEnum,
           targetMolecule: photonTargetEnum
         } );
