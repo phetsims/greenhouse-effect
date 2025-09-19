@@ -7,35 +7,37 @@
  * @author Jesse Greenberg
  */
 
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Atom from '../model/atoms/Atom.js';
 
 class AtomNode extends Node {
+  private atom: Atom;
+  private modelViewTransform: ModelViewTransform2;
+  private readonly highlightNode: Circle;
 
   /**
    * Constructor for an atom node.
    *
-   * @param {Atom} atom
-   * @param {ModelViewTransform2} modelViewTransform
+   * @param atom - The atom represented by this view node.
+   * @param modelViewTransform - Model-view transformation for positioning.
    */
-  constructor( atom, modelViewTransform ) {
-
-    // supertype constructor
+  public constructor( atom: Atom, modelViewTransform: ModelViewTransform2 ) {
     super();
 
-    // Instance Data
-    this.atom = atom; // @private
-    this.modelViewTransform = modelViewTransform; // @private
+    this.atom = atom;
+    this.modelViewTransform = modelViewTransform;
 
     // Scale the radius to the modelViewTransform.
     const transformedRadius = modelViewTransform.modelToViewDeltaX( atom.radius );
 
     // Create a color gradient which is used when the molecule enters an excitation state.
     const haloGradientPaint = new RadialGradient( 0, 0, 0, 0, 0, transformedRadius * 2 ).addColorStop( 0, 'yellow' ).addColorStop( 1, 'rgba( 255, 255, 51, 0 )' );
-    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } ); // @private
+    this.highlightNode = new Circle( transformedRadius * 2, { fill: haloGradientPaint } );
     // Don't add the highlight halo now - wait until the first time it is used.  This is done for performance reasons.
 
     // Represent the atom as a shaded sphere node.
@@ -51,10 +53,9 @@ class AtomNode extends Node {
 
   /**
    * Highlight this atom to represent that it is in an excited state.
-   * @param {boolean} highlighted
-   * @public
+   * @param highlighted
    */
-  setHighlighted( highlighted ) {
+  public setHighlighted( highlighted: boolean ): void {
     if ( highlighted && !this.hasChild( this.highlightNode ) ) {
       // add the highlight halo the first time it is needed (i.e. lazily) for better performance.
       this.addChild( this.highlightNode );
