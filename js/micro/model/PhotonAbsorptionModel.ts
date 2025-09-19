@@ -70,7 +70,7 @@ const SLOW_SPEED_FACTOR = 0.5;
 
 class PhotonAbsorptionModel extends PhetioObject {
   private readonly modelTandem: Tandem;
-  private readonly photonGroup: PhetioGroup<MicroPhoton, [ number, Vector2 ]>;
+  public readonly photonGroup: PhetioGroup<MicroPhoton, [ number, Vector2 ]>;
 
   // Property that indicates whether photons are being emitted from the photon emitter
   public readonly photonEmitterOnProperty: BooleanProperty;

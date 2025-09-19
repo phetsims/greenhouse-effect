@@ -83,7 +83,7 @@ function findAtomWithID( atomArray: Atom[], id: number ): Atom | null {
 class Molecule {
 
   public readonly highElectronicEnergyStateProperty: Property<boolean>;
-  private readonly centerOfGravityProperty: Property<Vector2>;
+  public readonly centerOfGravityProperty: Property<Vector2>;
 
   // Atoms and bonds that form this molecule.
   private atoms: Atom[];

@@ -11,16 +11,22 @@
 // modules
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import MicroPhoton from '../model/MicroPhoton.js';
+import Molecule from '../model/Molecule.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
@@ -38,14 +44,29 @@ const CORNER_RADIUS = 7;
 const EMITTER_OFFSET = new Vector2( 100, 0 );
 
 class MicroObservationWindow extends Rectangle {
+
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly photonAbsorptionModel: PhotonAbsorptionModel;
+
+  // Width of the 'window frame' which surrounds the observation window.
+  private readonly frameLineWidth: number;
+
+  // keeps track of whether the 'Restore Molecule' button should be visible
+  public readonly returnMoleculeButtonVisibleProperty: BooleanProperty;
+
+  // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
+  // clipping area so that particles have a chance to cleanly slide out of the window before being removed.
+  private readonly particleRemovalBounds: Bounds2;
+
+  private readonly returnMoleculeButton: Node;
+
+  // pdom - describes the state of the observation window
+  private readonly describer: ObservationWindowDescriber;
+
   /**
    * Constructor for a Molecules and Light observation window.
-   *
-   * @param {PhotonAbsorptionModel} photonAbsorptionModel
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Tandem} tandem
    */
-  constructor( photonAbsorptionModel, modelViewTransform, tandem ) {
+  public constructor( photonAbsorptionModel: PhotonAbsorptionModel, modelViewTransform: ModelViewTransform2, tandem: Tandem ) {
 
     // Supertype constructor
     super( 0, 0, 500, 300, CORNER_RADIUS, CORNER_RADIUS, {
@@ -56,13 +77,10 @@ class MicroObservationWindow extends Rectangle {
       accessibleHeading: GreenhouseEffectMessages.observationWindowLabelMessageProperty
     } );
 
-    this.modelViewTransform = modelViewTransform; // @private
-    this.photonAbsorptionModel = photonAbsorptionModel; // @private
-
-    // Width of the 'window frame' which surrounds the observation window.
+    this.modelViewTransform = modelViewTransform;
+    this.photonAbsorptionModel = photonAbsorptionModel;
     this.frameLineWidth = 5;
 
-    // @public (read-only) - keeps track of whether the 'Restore Molecule' button should be visible.
     this.returnMoleculeButtonVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'returnMoleculeButtonVisibleProperty' )
     } );
@@ -90,11 +108,10 @@ class MicroObservationWindow extends Rectangle {
       this.height,
       CORNER_RADIUS,
       CORNER_RADIUS
-    ); // @private
+    );
 
-    // Define bounds for where a particle should be removed from the scene.  Bounds are larger than those of the
-    // clipping area so that particles have a chance to cleanly slide out of the window before being removed.
-    this.particleRemovalBounds = this.bounds.copy().dilate( 20 ); // @private
+
+    this.particleRemovalBounds = this.bounds.copy().dilate( 20 );
 
     // Add the button for restoring molecules that break apart.
     const buttonContent = new Text( buttonNodeReturnMoleculeStringProperty.value, { font: new PhetFont( 13 ) } );
@@ -104,7 +121,7 @@ class MicroObservationWindow extends Rectangle {
     if ( buttonContent.width > maxButtonWidth ) {
       buttonContent.scale( maxButtonWidth / buttonContent.width );
     }
-    // @private
+
     this.returnMoleculeButton = new RectangularPushButton( {
       content: buttonContent,
       baseColor: 'rgb(247, 151, 34)',
@@ -132,7 +149,7 @@ class MicroObservationWindow extends Rectangle {
     this.addChild( this.returnMoleculeButton );
 
     // function for adding a molecule to this window and hooking up a removal listener
-    const addMoleculeToWindow = molecule => {
+    const addMoleculeToWindow = ( molecule: Molecule ) => {
       const moleculeNode = new MoleculeNode( molecule, this.modelViewTransform ); //Create the molecule node.
       moleculeLayer.addChild( moleculeNode );
 
@@ -142,7 +159,7 @@ class MicroObservationWindow extends Rectangle {
       };
       molecule.centerOfGravityProperty.link( centerOfGravityObserver );
 
-      const removalListener = removedMolecule => {
+      const removalListener = ( removedMolecule: Molecule ) => {
         if ( removedMolecule === molecule ) {
           molecule.centerOfGravityProperty.unlink( centerOfGravityObserver );
           moleculeLayer.removeChild( moleculeNode );
@@ -169,7 +186,7 @@ class MicroObservationWindow extends Rectangle {
       };
       addedPhoton.positionProperty.link( photonPositionObserver );
 
-      const removalListener = removedPhoton => {
+      const removalListener = ( removedPhoton: MicroPhoton ) => {
         if ( removedPhoton === addedPhoton ) {
           addedPhoton.positionProperty.hasListener( photonPositionObserver ) && addedPhoton.positionProperty.unlink( photonPositionObserver );
           photonLayer.removeChild( photonNode );
@@ -191,8 +208,6 @@ class MicroObservationWindow extends Rectangle {
       this.returnMoleculeButton.visible = visible;
     } );
 
-    // pdom
-    // @public - generates descriptions for the target molecule
     this.describer = new ObservationWindowDescriber( photonAbsorptionModel, this, modelViewTransform );
 
     // pdom - list that describes the state of contents in the Observation Window
@@ -201,11 +216,14 @@ class MicroObservationWindow extends Rectangle {
     const geometryDescriptionItem = new Node( { tagName: 'li' } );
 
     // pdom - attach listeners that will describe the initial phase of photons passing through the molecule
+    // @ts-expect-error - to be removed when describer is converted to TS
     this.describer.attachInitialPhaseDescriptionListeners( phaseItem );
 
     // pdom - when a new molecule is added to the observation window, add listeners that will generate descriptions
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
+
+      // @ts-expect-error - to be removed when describer is converted to TS
       this.describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
 
       // adding new target molecule, geometry descriptions are accurate
@@ -221,6 +239,8 @@ class MicroObservationWindow extends Rectangle {
         geometryDescriptionItem.visible = false;
       } );
     } );
+
+    // @ts-expect-error - to be removed when describer is converted to TS
     this.describer.attachAbsorptionDescriptionListeners( photonAbsorptionModel.targetMolecule, phaseItem );
 
     // pdom - update geometry descriptions when target changes
@@ -247,9 +267,8 @@ class MicroObservationWindow extends Rectangle {
   /**
    * Update the visibility of the button that restores molecules that have broken apart.  This button should be
    * visible only when one or more molecules are off the screen.
-   * @private
    */
-  moleculeCheckBounds() {
+  private moleculeCheckBounds(): void {
 
     const moleculesToRemove = [];
     for ( let molecule = 0; molecule < this.photonAbsorptionModel.activeMolecules.length; molecule++ ) {
@@ -265,9 +284,8 @@ class MicroObservationWindow extends Rectangle {
   /**
    * Check to see if any photons collide with the observation window.  If there is a collision, remove the photon
    * from the model.
-   * @private
    */
-  photonCheckBounds() {
+  private photonCheckBounds(): void {
 
     const photonsToRemove = this.photonAbsorptionModel.photonGroup.filter( photon => {
       const position = this.modelViewTransform.modelToViewPosition( photon.positionProperty.get() );
@@ -278,11 +296,8 @@ class MicroObservationWindow extends Rectangle {
 
   /**
    * Step the describer, as some descriptions are time dependent.
-   * @public
-   *
-   * @param {number} dt
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.describer.step( dt );
   }
 }
