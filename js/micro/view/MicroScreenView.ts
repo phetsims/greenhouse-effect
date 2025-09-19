@@ -26,6 +26,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import nullSoundPlayer from '../../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../../tambo/js/sharedSoundPlayers.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
@@ -55,11 +56,9 @@ const OBSERVATION_WINDOW_POSITION = new Vector2( 15, 15 );
 
 class MicroScreenView extends ScreenView {
 
-  /**
-   * @param {PhotonAbsorptionModel} photonAbsorptionModel
-   * @param {Tandem} tandem
-   */
-  constructor( photonAbsorptionModel, tandem ) {
+  private observationWindow: MicroObservationWindow;
+
+  public constructor( photonAbsorptionModel: PhotonAbsorptionModel, tandem: Tandem ) {
 
     const modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
@@ -86,7 +85,6 @@ class MicroScreenView extends ScreenView {
       screenSummaryContent: new MicroScreenSummaryNode( photonAbsorptionModel, observationWindow.returnMoleculeButtonVisibleProperty )
     } );
 
-    // @private
     this.observationWindow = observationWindow;
 
     this.addChild( this.observationWindow );
@@ -154,7 +152,6 @@ class MicroScreenView extends ScreenView {
     } );
     this.addChild( timeControlNode );
 
-    // @private
     const lightSpectrumDialog = new LightSpectrumDialog(
       new SpectrumDiagram( tandem.createTandem( 'spectrumButtonLabelText' ) ),
       tandem.createTandem( 'lightSpectrumDialog' )
@@ -247,16 +244,14 @@ class MicroScreenView extends ScreenView {
 
   /**
    * View step, called by joist.
-   * @param {number} dt
-   * @public
    */
-  step( dt ) {
+  public override step( dt: number ): void {
     this.observationWindow.step( dt );
   }
 
   // Alternative Input - no matter where focus is in the document, pressing Alt+L will manually step forward
   // in time
-  static STEP_FORWARD_HOTKEY_DATA = new HotkeyData( {
+  public static readonly STEP_FORWARD_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'alt+l' ],
 
     // TODO: This string lives in molecules-and-light, determine the best way to move it to greenhouse-effect,
