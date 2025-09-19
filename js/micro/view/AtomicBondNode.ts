@@ -8,38 +8,41 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import AtomicBond from '../model/atoms/AtomicBond.js';
 
-// constants that control the width of the bond representation with with respect to the average atom radius.
+// constants that control the width of the bond representation with respect to the average atom radius.
 const BOND_WIDTH_PROPORTION_SINGLE = 0.45;
 const BOND_WIDTH_PROPORTION_DOUBLE = 0.28;
 const BOND_WIDTH_PROPORTION_TRIPLE = 0.24;
 const BOND_COLOR = 'rgb(0, 200, 0)';
 
 class AtomicBondNode extends Node {
+  private atomicBond: AtomicBond;
+  private modelViewTransform: ModelViewTransform2;
+  private atomicBonds: Line[] = [];
+
+  // Calculate the width to use for the bond representation(s)
+  private readonly averageAtomRadius: number;
 
   /**
    * Constructor for an atomic bond node.
    *
-   * @param {AtomicBond} atomicBond
-   * @param {ModelViewTransform2} modelViewTransform
+   * @param atomicBond - The atomic bond model
+   * @param modelViewTransform - The model to view transformation
    */
-  constructor( atomicBond, modelViewTransform ) {
-    assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 );  // Only single through triple bonds currently supported.
+  public constructor( atomicBond: AtomicBond, modelViewTransform: ModelViewTransform2 ) {
+    assert && assert( atomicBond.bondCount > 0 && atomicBond.bondCount <= 3 ); // Only single through triple bonds currently supported.
 
     // supertype constructor
     super();
 
-    // @private
     this.atomicBond = atomicBond;
     this.modelViewTransform = modelViewTransform;
     this.atomicBonds = []; // Array which holds the lines for the atomicBonds.
-
-    // Carry this node through the scope in nested functions.
-
-    // Calculate the width to use for the bond representation(s) // @private
 
     this.averageAtomRadius = modelViewTransform.modelToViewDeltaX( ( atomicBond.atom1.radius + atomicBond.atom2.radius ) / 2 );
 
@@ -61,10 +64,8 @@ class AtomicBondNode extends Node {
    * Draw the initial lines which represent the atomic bonds.  This function should only be called once.  Drawing the
    * lines a single time should provide a performance benefit.  This will also set the bond width for the lines for
    * each case of 1, 2, or 3 atomic bonds.
-   * @private
    */
-  initializeRepresentation() {
-
+  private initializeRepresentation(): void {
     let bondWidth; // Width of the line representing this bond.  Dependent on the number of bonds between the atoms.
     let bond1; // First bond shared by the atoms.
     let bond2; // Second bond shared by the atoms.
@@ -101,7 +102,7 @@ class AtomicBondNode extends Node {
         break;
 
       default:
-        console.error( ` - Error: Can't represent bond number, value = ${this.atomicBond.getBondCount()}` );
+        console.error( ` - Error: Can't represent bond number, value = ${this.atomicBond.bondCount}` );
         assert && assert( false );
         break;
     }
@@ -110,9 +111,8 @@ class AtomicBondNode extends Node {
   /**
    * Update the atomic bond positions by setting the end points of line to the positions of the
    * atoms which share the bond.
-   * @private
    */
-  updateRepresentation() {
+  private updateRepresentation(): void {
 
     // centers of the atoms in view coordinates
     const atom1Position = this.modelViewTransform.modelToViewPosition( this.atomicBond.atom1.positionProperty.get() );
