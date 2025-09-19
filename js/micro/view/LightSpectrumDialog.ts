@@ -11,16 +11,20 @@
  * @author Jesse Greenberg
  */
 
+import Node from '../../../../scenery/js/nodes/Node.js';
 import Dialog from '../../../../sun/js/Dialog.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 
 class LightSpectrumDialog extends Dialog {
 
   /**
-   * @param {Node} content - content for the dialog
-   * @param {Tandem} tandem
+   * Constructor for the LightSpectrumDialog.
+   *
+   * @param content - content for the dialog
+   * @param tandem - tandem for the dialog
    */
-  constructor( content, tandem ) {
+  public constructor( content: Node, tandem: Tandem ) {
     super( content, {
       tandem: tandem
     } );
