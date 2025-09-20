@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * The molecular formula strings for molecules in Molecules and Light. These are formated with subscripts.
