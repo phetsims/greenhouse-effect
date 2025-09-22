@@ -7,27 +7,27 @@
  * @author Jesse Greenberg
  */
 
-import Node from '../../../../scenery/js/nodes/Node.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import Molecule from '../model/Molecule.js';
 import AtomicBondNode from './AtomicBondNode.js';
 import AtomNode from './AtomNode.js';
 
 class MoleculeNode extends Node {
 
+  // Carry this node through the scope in nested functions.
+  private readonly modelViewTransform: ModelViewTransform2;
+
   /**
    * Constructor for a molecule node.
-   *
-   * @param {Molecule} molecule
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
    */
-  constructor( molecule, modelViewTransform, options ) {
+  public constructor( molecule: Molecule, modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
 
     // supertype constructor
-    super( options );
+    super( providedOptions );
 
-    // Carry this node through the scope in nested functions.
-    this.modelViewTransform = modelViewTransform; // @private
+    this.modelViewTransform = modelViewTransform;
 
     // Instance Data
     const atomTopLayer = new Node();
@@ -68,7 +68,7 @@ class MoleculeNode extends Node {
     }
 
     // Link the high energy state to the property in the model.
-    const atomNodes = atomTopLayer.children.concat( atomBottomLayer.children );
+    const atomNodes = atomTopLayer.children.concat( atomBottomLayer.children ) as unknown as AtomNode[];
     molecule.highElectronicEnergyStateProperty.link( () => {
       for ( let i = 0; i < atomNodes.length; i++ ) {
         const atomNode = atomNodes[ i ];
