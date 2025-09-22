@@ -16,12 +16,16 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HighlightPath from '../../../../scenery/js/accessibility/HighlightPath.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
+import Molecule from '../model/Molecule.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -34,6 +38,7 @@ import PhotonTarget from '../model/PhotonTarget.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
+import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 const molecularNamePatternStringProperty = GreenhouseEffectStrings.molecularNamePatternStringProperty;
 
@@ -52,22 +57,22 @@ const HIGHLIGHT_DILATION = 1.5;
 class MoleculeSelectionPanel extends Panel {
 
   /**
-   * @param { PhotonAbsorptionModel } model - The model controlled by this panel.
-   * @param {Tandem} tandem
+   * @param model - The model controlled by this panel.
+   * @param tandem
    */
-  constructor( model, tandem ) {
+  public constructor( model: PhotonAbsorptionModel, tandem: Tandem ) {
 
     let scaleFactor = 1; // Scale factor of the text in this control panel.  Value gets updated as panels are created.
 
     //  Array which holds the formatted text of the control panel.  This will get populated as individual panels are
     //  created.  Storing the text allows us to call on it later for scaling purposes once the scale factor has been
     // calculated.
-    const textList = [];
+    const textList: Node[] = [];
 
     // Function which creates individual panels of the control panel.  Each panel consists of a molecule name, chemical
     // formula, and a visual node representing the molecule.
     // NOTE! As a side-effect, this computes scaleFactor each time it's called.
-    const createRadioButtonContent = ( moleculeName, moleculeFormula, moleculeNode ) => {
+    const createRadioButtonContent = ( moleculeName: string, moleculeFormula: string, moleculeNode: MoleculeNode ) => {
 
       // Create a rectangle which holds the molecular name and representing node.  Rectangle enables the proper layout
       // which is the molecular name aligned to the left of the panel and the molecule node aligned to the right.
@@ -100,7 +105,7 @@ class MoleculeSelectionPanel extends Panel {
       return backgroundRectangle;
     };
 
-    const createElement = ( photonTarget, formulaString, molecule, tandemName, moleculeNodeOptions ) => {
+    const createElement = ( photonTarget: PhotonTarget, formulaString: string, molecule: Molecule, tandemName: string, moleculeNodeOptions?: NodeOptions ): RectangularRadioButtonGroupItem<PhotonTarget> => {
       return {
         createNode: () => createRadioButtonContent( PhotonTarget.getMoleculeName( photonTarget ),
           formulaString, new MoleculeNode( molecule, MODEL_VIEW_TRANSFORM, moleculeNodeOptions ) ),
@@ -125,7 +130,7 @@ class MoleculeSelectionPanel extends Panel {
     const ozoneElement = createElement( PhotonTarget.SINGLE_O3_MOLECULE, MolecularFormulaStrings.O3_FORMULA_STRING, new O3( moleculeOptions ), 'singleO3MoleculeRadioButton' );
 
     // Load the radio button content into an array of object literals which holds the node and value for each button.
-    let radioButtonContent;
+    let radioButtonContent: RectangularRadioButtonGroupItem<PhotonTarget>[];
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
 
       // the specific molecules requested by Open Science Ed
@@ -140,7 +145,7 @@ class MoleculeSelectionPanel extends Panel {
 
     // If necessary, scale down molecule names by the minimum scale factor.
     if ( scaleFactor < 1 ) {
-      _.each( textList, text => { text.scale( scaleFactor ); } );
+      _.each( textList, ( text: Node ) => { text.scale( scaleFactor ); } );
     }
 
     const radioButtonGroup = new RectangularRadioButtonGroup( model.photonTargetProperty, radioButtonContent, {
@@ -166,7 +171,7 @@ class MoleculeSelectionPanel extends Panel {
     radioButtonGroup.groupFocusHighlight = new HighlightPath( Shape.bounds( radioButtonGroup.bounds.dilated( groupCoefficient ) ), {
       outerLineWidth: HighlightPath.GROUP_OUTER_LINE_WIDTH,
       innerLineWidth: HighlightPath.GROUP_INNER_LINE_WIDTH,
-      innerStroke: HighlightPath.FOCUS_COLOR
+      innerStroke: HighlightPath.INNER_FOCUS_COLOR
     } );
 
     super( radioButtonGroup, {
@@ -181,10 +186,8 @@ class MoleculeSelectionPanel extends Panel {
 /**
  * Creates the PDOM label for one of the buttons. Contains the molecular name, molecular formula, and
  * molecular geometry. Will return something like "Carbon Monoxide, CO, Linear"
- * @param {Molecule} molecule
- * @returns {string}
  */
-const createPDOMLabel = molecule => {
+const createPDOMLabel = ( molecule: Molecule ): string => {
   return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculeButtonLabelPatternMessageProperty, {
     photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
