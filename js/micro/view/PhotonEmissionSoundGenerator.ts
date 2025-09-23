@@ -9,10 +9,11 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
-import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
+import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
+import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import photonEmitIr_mp3 from '../../../sounds/photonEmitIr_mp3.js';
 import photonEmitMicrowave_mp3 from '../../../sounds/photonEmitMicrowave_mp3.js';
 import photonEmitUv_mp3 from '../../../sounds/photonEmitUv_mp3.js';
@@ -22,6 +23,7 @@ import photonReleaseMicrowave_mp3 from '../../../sounds/photonReleaseMicrowave_m
 import photonReleaseUv_mp3 from '../../../sounds/photonReleaseUv_mp3.js';
 import photonReleaseVisible_mp3 from '../../../sounds/photonReleaseVisible_mp3.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -36,15 +38,8 @@ const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
 const PLAY_MOLECULE_EMISSION_X_POSITION = 0;
 
 class PhotonEmissionSoundGenerator extends SoundGenerator {
-
-  /**
-   * @param {PhetioGroup} photonGroup
-   * @param {Object} [options]
-   */
-  constructor( photonGroup, options ) {
-
-    options = merge( {}, options );
-    super( options );
+  public constructor( photonGroup: PhetioGroup<MicroPhoton>, providedOptions?: SoundGeneratorOptions ) {
+    super( providedOptions );
 
     const photonInitialEmissionSoundClipOptions = { initialOutputLevel: PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL };
     const photonEmissionFromMoleculeSoundClipOptions = { initialOutputLevel: PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL };
@@ -74,7 +69,7 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
     } );
 
     // map of wavelengths to the sounds used when photons are emitted from the active molecule
-    const photonEmissionFromMoleculeSoundPlayersMap = new Map( [
+    const photonEmissionFromMoleculeSoundPlayersMap = new Map<number, SoundClip>( [
       [
         WavelengthConstants.MICRO_WAVELENGTH,
         new SoundClip( photonReleaseMicrowave_mp3, photonEmissionFromMoleculeSoundClipOptions )
@@ -104,12 +99,16 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
       if ( photonXPosition === PLAY_MOLECULE_EMISSION_X_POSITION ) {
 
         // This photon was just emitted from the active molecule, so play the 'emitted from molecule' sound.
-        photonEmissionFromMoleculeSoundPlayersMap.get( photon.wavelength ).play();
+        const soundClip = photonEmissionFromMoleculeSoundPlayersMap.get( photon.wavelength );
+        affirm( soundClip, `No sound clip found for wavelength: ${photon.wavelength}` );
+        soundClip.play();
       }
       else {
 
         // This photon was just emitted from a light source (e.g. a flashlight), so play the initial emission sound.
-        photonInitialEmissionSoundPlayerMap.get( photon.wavelength ).play();
+        const soundClip = photonInitialEmissionSoundPlayerMap.get( photon.wavelength );
+        affirm( soundClip, `No sound clip found for wavelength: ${photon.wavelength}` );
+        soundClip.play();
       }
     } );
   }
