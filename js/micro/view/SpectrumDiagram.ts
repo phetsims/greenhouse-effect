@@ -7,12 +7,13 @@
  * @author John Blanco
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import merge from '../../../../phet-core/js/merge.js';
-import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import optionize, { combineOptions, EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import ArrowNode, { ArrowNodeOptions } from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
 import PDOMPeer from '../../../../scenery/js/accessibility/pdom/PDOMPeer.js';
@@ -20,10 +21,11 @@ import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Rectangle, { RectangleOptions } from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
@@ -86,13 +88,14 @@ const ARROW_HEAD_WIDTH = 54;
 const ARROW_TAIL_WIDTH = 34;
 
 class SpectrumDiagram extends VBox {
+
   /**
    * Class that contains the diagram of the EM spectrum.  This class includes the arrows, the spectrum strip, the
    * wavelength indicator, etc.  In other words, it is the top level node within which the constituent parts that make
    * up the entire diagram are contained.
    *
    */
-  constructor( tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const children = [];
 
@@ -161,11 +164,9 @@ class SpectrumDiagram extends VBox {
     // pdom - in descriptions, the decreasing wavelength comes before the spectrum
     this.pdomOrder = [ frequencyArrow, decreasingWavelengthNode, spectrum ];
   }
+
+  public static readonly SUBSECTION_WIDTH = SUBSECTION_WIDTH;
 }
-
-
-// @static
-SpectrumDiagram.SUBSECTION_WIDTH = SUBSECTION_WIDTH;
 
 greenhouseEffect.register( 'SpectrumDiagram', SpectrumDiagram );
 
@@ -173,24 +174,26 @@ greenhouseEffect.register( 'SpectrumDiagram', SpectrumDiagram );
  * The labeled arrow in the spectrum window.
  */
 class LabeledArrow extends ArrowNode {
-  /**
-   * @param {number} length - Length of the arrow
-   * @param {string} orientation - options are 'left' or 'right'.  Determines direction of the arrow.
-   * @param {string} captionText - Description of what the arrow node represents.
-   * @param {string} leftColor
-   * @param {string} rightColor
-   * @param {Tandem} tandem
-   * @param {Object} [options]
-   */
-  constructor( length, orientation, captionText, leftColor, rightColor, tandem, options ) {
 
-    options = merge( {
+  /**
+   * @param length - Length of the arrow
+   * @param orientation - options are 'left' or 'right'.  Determines direction of the arrow.
+   * @param captionText - Description of what the arrow node represents.
+   * @param leftColor
+   * @param rightColor
+   * @param tandem
+   * @param [options]
+   */
+  public constructor( length: number, orientation: string, captionText: string, leftColor: string, rightColor: string, tandem: Tandem, providedOptions?: ArrowNodeOptions ) {
+
+    const options = optionize<ArrowNodeOptions, EmptySelfOptions, ArrowNodeOptions>()( {
       headHeight: ARROW_HEAD_HEIGHT,
       headWidth: ARROW_HEAD_WIDTH,
       tailWidth: ARROW_TAIL_WIDTH,
       lineWidth: 2.5,
       tandem: tandem
-    }, options );
+    }, providedOptions );
+
 
     const Orientation = {
       POINTING_LEFT: 'left',
@@ -227,14 +230,13 @@ class LabeledArrow extends ArrowNode {
 greenhouseEffect.register( 'LabeledArrow', LabeledArrow );
 
 class LabeledSpectrumNode extends Node {
+
   /**
    * Class that depicts the frequencies and wavelengths of the EM spectrum and labels the subsections
    * (e.g. "Infrared").
    *
    */
-  constructor( tandem ) {
-
-    // Supertype constructor
+  public constructor( tandem: Tandem ) {
     super( {
 
       // the LabeledSpectrumNode is represented as a nested list describing the various ranges of wavelengths and frequencies
@@ -266,19 +268,19 @@ class LabeledSpectrumNode extends Node {
     }
 
     // Add the various bands, labels include PDOM descriptions
-    addBandLabel( this, 1E3, 1E9, spectrumWindowRadioBandLabelStringProperty.value,
+    addBandLabel( this, 1E3, 1E9, spectrumWindowRadioBandLabelStringProperty,
       spectrumWindowLabelledSpectrumRadioLabelMessageProperty,
       spectrumWindowLabelledSpectrumRadioFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumRadioWavelengthDescriptionMessageProperty
     );
     addBandDivider( this, 1E9 );
-    addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelStringProperty.value,
+    addBandLabel( this, 1E9, 3E11, spectrumWindowMicrowaveBandLabelStringProperty,
       spectrumWindowLabelledSpectrumMicrowaveLabelMessageProperty,
       spectrumWindowLabelledSpectrumMicrowaveFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumMicrowaveWavelengthDescriptionMessageProperty
     );
     addBandDivider( this, 3E11 );
-    addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelStringProperty.value,
+    addBandLabel( this, 3E11, 6E14, spectrumWindowInfraredBandLabelStringProperty,
       spectrumWindowLabelledSpectrumInfraredLabelMessageProperty,
       spectrumWindowLabelledSpectrumInfraredFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumInfraredWavelengthDescriptionMessageProperty
@@ -291,19 +293,19 @@ class LabeledSpectrumNode extends Node {
     wavelengthSpectrumNode.leftTop = new Vector2( getOffsetFromFrequency( 400E12 ), strip.top + strip.lineWidth );
     this.addChild( wavelengthSpectrumNode );
 
-    addBandLabel( this, 1E15, 8E15, spectrumWindowUltravioletBandLabelStringProperty.value,
+    addBandLabel( this, 1E15, 8E15, spectrumWindowUltravioletBandLabelStringProperty,
       spectrumWindowLabelledSpectrumUltravioletLabelMessageProperty,
       spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionMessageProperty
     );
     addBandDivider( this, 1E16 );
-    addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelStringProperty.value,
+    addBandLabel( this, 1E16, 1E19, spectrumWindowXrayBandLabelStringProperty,
       spectrumWindowLabelledSpectrumXrayLabelMessageProperty,
       spectrumWindowLabelledSpectrumXrayFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumXrayWavelengthDescriptionMessageProperty
     );
     addBandDivider( this, 1E19 );
-    addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelStringProperty.value,
+    addBandLabel( this, 1E19, 1E21, spectrumWindowGammaRayBandLabelStringProperty,
       spectrumWindowLabelledSpectrumGammaRayLabelMessageProperty,
       spectrumWindowLabelledSpectrumGammaRayFrequencyDescriptionMessageProperty,
       spectrumWindowLabelledSpectrumGammaRayWavelengthDescriptionMessageProperty
@@ -338,7 +340,7 @@ class LabeledSpectrumNode extends Node {
     this.addChild( visibleBandArrow );
 
     // Add the units and scale for translations
-    const scaleUnits = text => {
+    const scaleUnits = ( text: Node ) => {
       if ( text.width > MAX_UNITS_WIDTH ) {
         text.scale( MAX_UNITS_WIDTH / text.width );
       }
@@ -364,10 +366,9 @@ class LabeledSpectrumNode extends Node {
 /**
  * Convert the given frequency to an offset from the left edge of the spectrum strip.
  *
- * @param {number} frequency - Frequency in Hz.
- * @returns {number}
+ * @param frequency - Frequency in Hz.
  */
-const getOffsetFromFrequency = frequency => {
+const getOffsetFromFrequency = ( frequency: number ): number => {
   assert && assert( frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY );
   const logarithmicRange = log10( MAX_FREQUENCY ) - log10( MIN_FREQUENCY );
   const logarithmicFrequency = log10( frequency );
@@ -377,10 +378,9 @@ const getOffsetFromFrequency = frequency => {
 /**
  * Create a label for the tick marks on the spectrum diagram.
  *
- * @param {number} value -  Wavelength or frequency to be described by the label.
- * @returns {RichText}
+ * @param value -  Wavelength or frequency to be described by the label.
  */
-const createExponentialLabel = value => {
+const createExponentialLabel = ( value: number ): RichText => {
 
   const superscript = Utils.roundSymmetric( log10( value ) );
   return new RichText( `10<sup>${superscript}</sup>`, {
@@ -394,10 +394,9 @@ const createExponentialLabel = value => {
  * Convert the given wavelength to an offset from the left edge of the spectrum strip.  The frequency of an
  * electromagnetic wave is equal to the speed of light divided by the wavelength.
  *
- * @param {number} wavelength - wavelength in meters
- * @returns {number}
+ * @param wavelength - wavelength in meters
  */
-const getOffsetFromWavelength = wavelength => {
+const getOffsetFromWavelength = ( wavelength: number ) => {
   // The constant 299792458 is equal to the speed of light in meters per second.
   return getOffsetFromFrequency( 299792458 / wavelength );
 };
@@ -406,21 +405,21 @@ const getOffsetFromWavelength = wavelength => {
  * Calculate the log base 10 of a value.
  *
  * @param value
- * @returns {number}
  */
-const log10 = value => {
+const log10 = ( value: number ) => {
   return Math.log( value ) / Math.LN10;
 };
 
 /**
  * Add a tick mark for the specified frequency.  Frequency tick marks go on top of the strip.
  *
- * @param {LabeledSpectrumNode} thisNode
- * @param {number} frequency
- * @param {boolean} addLabel - Whether a label should be added to the tick mark.
- * @param {number} bottom - bottom y position of the tick mark.  x position calculated with getOffsetFromFrequency()
+ * @param thisNode
+ * @param frequency
+ * @param bottom - bottom y position of the tick mark.  x position calculated with getOffsetFromFrequency()
+ * @param addLabel - Whether a label should be added to the tick mark.
  */
-const addFrequencyTickMark = ( thisNode, frequency, bottom, addLabel ) => {
+const addFrequencyTickMark = ( thisNode: Node, frequency: number, bottom: number, addLabel: boolean ) => {
+
   // Create and add the tick mark line.
   const tickMarkNode = new Line( 0, 0, 0, -TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
   tickMarkNode.centerBottom = new Vector2( getOffsetFromFrequency( frequency ), bottom );
@@ -438,13 +437,8 @@ const addFrequencyTickMark = ( thisNode, frequency, bottom, addLabel ) => {
 
 /**
  * Add a tick mark for the specified wavelength.  Wavelength tick marks go on the bottom of the strip.
- *
- * @param {LabeledSpectrumNode} thisNode
- * @param {number} wavelength
- * * @param {number} top
- * @param {boolean} addLabel
  */
-const addWavelengthTickMark = ( thisNode, wavelength, top, addLabel ) => {
+const addWavelengthTickMark = ( thisNode: Node, wavelength: number, top: number, addLabel: boolean ): void => {
 
   // Create and add the tick mark line.
   const tickMarkNode = new Line( 0, 0, 0, TICK_MARK_HEIGHT, { stroke: 'black', lineWidth: 2 } );
@@ -463,15 +457,23 @@ const addWavelengthTickMark = ( thisNode, wavelength, top, addLabel ) => {
  * Add a label to a band which sections the spectrum diagram.  Using VBox will format the strings so that new
  * lines do not need to be coded with HTML.
  *
- * @param {LabeledSpectrumNode} thisNode
- * @param {number} lowEndFrequency
- * @param {number} highEndFrequency
- * @param {string} labelString - label string describing the band on the electromagnetic spectrum.
- * @param {string} pdomLabel - label for the content in the PDOM
- * @param {string} frequencyDescription - describes the range of frequencies in the PDOM
- * @param {string} wavelengthDescription - describes the range of wavelengths in the PDOM
+ * @param thisNode
+ * @param lowEndFrequency
+ * @param highEndFrequency
+ * @param labelString - label string describing the band on the electromagnetic spectrum.
+ * @param pdomLabel - label for the content in the PDOM
+ * @param frequencyDescription - describes the range of frequencies in the PDOM
+ * @param wavelengthDescription - describes the range of wavelengths in the PDOM
  */
-const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString, pdomLabel, frequencyDescription, wavelengthDescription ) => {
+const addBandLabel = (
+  thisNode: Node,
+  lowEndFrequency: number,
+  highEndFrequency: number,
+  labelString: TReadOnlyProperty<string>,
+  pdomLabel: TReadOnlyProperty<string>,
+  frequencyDescription: TReadOnlyProperty<string>,
+  wavelengthDescription: TReadOnlyProperty<string>
+) => {
 
   // Argument validation.
   assert && assert( highEndFrequency >= lowEndFrequency );
@@ -507,11 +509,8 @@ const addBandLabel = ( thisNode, lowEndFrequency, highEndFrequency, labelString,
 /**
  * Add a "band divider" at the given frequency.  A band divider is a dotted line that spans the spectrum strip in
  * the vertical direction.
- *
- * @param{LabeledSpectrumNode} thisNode
- * @param {number} frequency
  */
-const addBandDivider = ( thisNode, frequency ) => {
+const addBandDivider = ( thisNode: Node, frequency: number ) => {
   const drawDividerSegment = () => new Line( 0, 0, 0, STRIP_HEIGHT / 9, {
     stroke: 'black',
     lineWidth: 2.5
@@ -523,20 +522,25 @@ const addBandDivider = ( thisNode, frequency ) => {
   }
 };
 
+type AddFrequencyAndLabelDescriptionsOptions = {
+  graphicalDescription?: TReadOnlyProperty<string> | null;
+};
+
 /**
  * Sets and decorates the Node with accessible content describing the wavelengths and frequencies of a particular range.
- * @param {Node} node
- * @param {string} label
- * @param {string} frequencyDescription
- * @param {string} wavelengthDescription
- * @param {Object} [options]
  */
-const addFrequencyAndLabelDescriptions = ( node, label, frequencyDescription, wavelengthDescription, options ) => {
-  options = merge( {
+const addFrequencyAndLabelDescriptions = (
+  node: Node,
+  label: TReadOnlyProperty<string>,
+  frequencyDescription: TReadOnlyProperty<string>,
+  wavelengthDescription: TReadOnlyProperty<string>,
+  providedOptions?: AddFrequencyAndLabelDescriptionsOptions
+) => {
+  const options = optionize<AddFrequencyAndLabelDescriptionsOptions>()( {
 
     // {string|null} optional description for the graphical representation in the simulation for this range of frequency/wavelength
     graphicalDescription: null
-  }, options );
+  }, providedOptions );
 
   // assumes that some ancestor of the Node is an unordered list
   node.containerTagName = 'li';
@@ -567,13 +571,13 @@ class ChirpNode extends Rectangle {
    *
    *  @constructor
    */
-  constructor( options ) {
+  public constructor( providedOptions?: RectangleOptions ) {
 
-    options = merge( {
+    const options = combineOptions<RectangleOptions>( {
       fill: 'rgb(237, 243, 246)',
       lineWidth: 2.5,
       stroke: 'black'
-    }, options );
+    }, providedOptions );
 
     // Create and add the boundary and background.
     const boundingBoxHeight = SUBSECTION_WIDTH * 0.1; // Arbitrary, adjust as needed.
