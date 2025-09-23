@@ -7,54 +7,53 @@
  * @author Jesse Greenberg
  */
 
+import Property from '../../../../axon/js/Property.js';
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
+import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
+import Molecule from '../model/Molecule.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
+import MicroObservationWindow from './MicroObservationWindow.js';
 import MoleculeUtils from './MoleculeUtils.js';
 
 class ObservationWindowAlertManager extends Alerter {
 
-  /**
-   * @param {MicroObservationWindow} observationWindow
-   */
-  constructor( observationWindow ) {
+  // single utterances for categories of information so any one set of utterances
+  // don't spam the user on frequent interaction
+  private readonly photonStateUtterance = new Utterance();
+  private readonly runningStateUtterance = new Utterance();
+  private readonly manualStepUtterance = new Utterance();
+  private readonly photonEmittedUtterance = new Utterance();
+
+  // We only want to describe that constituent molecules are floating away in the steps AFTER the molecule
+  // actually breaks apart to make space for the actual break apart alert
+  private moleculeWasBrokenLastStep = false;
+
+  // Constituent molecules added to the model upon break apart, referenced so that we can
+  // still describe them floating after they have left the observation window
+  private constituentMolecule1: Molecule | null = null;
+  private constituentMolecule2: Molecule | null = null;
+
+  // Null until initialized
+  private model: PhotonAbsorptionModel | null = null;
+
+  public constructor( observationWindow: MicroObservationWindow ) {
 
     super( {
 
       // alerts go through the ObservationWindow itself
       descriptionAlertNode: observationWindow
     } );
-
-    // @private {Utterance} - single utterances for categories of information so any one set of utterances
-    // don't spam the user on frequent interaction
-    this.photonStateUtterance = new Utterance();
-    this.runningStateUtterance = new Utterance();
-    this.manualStepUtterance = new Utterance();
-    this.photonEmittedUtterance = new Utterance();
-
-    // We only want to describe that constituent molecules are floating away in the steps AFTER the molecule
-    // actually breaks apart to make space for the actual break apart alert
-    this.moleculeWasBrokenLastStep = false;
-
-    // {Molecule|null} - Constituent molecules added to the model upon break apart, referenced so that we can
-    // still describe them floating after they have left the observation window
-    this.constituentMolecule1 = null;
-    this.constituentMolecule2 = null;
-
-    // @private {MoleculesAndLightModel}
-    this.model = null;
   }
 
   /**
    * Initialize the alert manager by attaching listers that trigger alerts with various changes to observables.
-   * @public
-   *
-   * @param {PhotonAbsorptionModel} model
-   * @param {BooleanProperty} returnMoleculeButtonVisibleProperty
    */
-  initialize( model, returnMoleculeButtonVisibleProperty ) {
+  public initialize( model: PhotonAbsorptionModel, returnMoleculeButtonVisibleProperty: Property<boolean> ): void {
     this.model = model;
 
     model.photonEmitterOnProperty.lazyLink( on => {
@@ -84,7 +83,7 @@ class ObservationWindowAlertManager extends Alerter {
 
     model.photonEmittedEmitter.addListener( photon => {
       if ( !model.runningProperty.get() ) {
-        this.photonEmittedUtterance.alert = this.getPhotonEmittedAlert( photon );
+        this.photonEmittedUtterance.alert = this.getPhotonEmittedAlert();
         this.addAccessibleResponse( this.photonEmittedUtterance );
       }
     } );
@@ -108,13 +107,8 @@ class ObservationWindowAlertManager extends Alerter {
   /**
    * Get an alert that describes the running state of the simulation. If running and the emitter is off,
    * a hint is returned that prompts the user to turn on the photon emitter.
-   * @private
-   *
-   * @param {boolean} emitterOn
-   * @param {boolean} running
-   * @returns {string}
    */
-  getRunningStateAlert( emitterOn, running ) {
+  private getRunningStateAlert( emitterOn: boolean, running: boolean ): TReadOnlyProperty<string> {
     let alert;
     if ( running && !emitterOn ) {
       alert = GreenhouseEffectMessages.timeControlsSimPlayingHintAlertMessageProperty;
@@ -122,22 +116,14 @@ class ObservationWindowAlertManager extends Alerter {
     else {
       alert = emitterOn ? GreenhouseEffectMessages.timeControlsSimPausedEmitterOnAlertMessageProperty : GreenhouseEffectMessages.timeControlsSimPausedEmitterOffAlertMessageProperty;
     }
-
-    assert && assert( alert );
     return alert;
   }
 
   /**
    * Get an alert that describes the new state of the photon emitter. Depends on play speed and running state
    * of the simulation to remind the user of the time control state.
-   * @public
-   *
-   * @param {boolean} on
-   * @param {boolean} running
-   * @param {boolean} slowMotion
-   * @returns {*}
    */
-  getPhotonEmitterStateAlert( on, running, slowMotion ) {
+  public getPhotonEmitterStateAlert( on: boolean, running: boolean, slowMotion: boolean ): TReadOnlyProperty<string> {
     if ( !on ) {
       return GreenhouseEffectMessages.photonEmitterPhotonsOffMessageProperty;
     }
@@ -164,14 +150,10 @@ class ObservationWindowAlertManager extends Alerter {
   /**
    * Get an alert that describes the photon as it is re-emitted from a molecule. Pretty verbose, so generally only
    * used when paused or in slow motion.
-   * @public
-   *
-   * @param photon
-   * @returns {string}
    */
-  getPhotonEmittedAlert( photon ) {
+  public getPhotonEmittedAlert(): string {
     return FluentUtils.formatMessage( GreenhouseEffectMessages.pausedPhotonEmittedPatternMessageProperty, {
-      lightSource: this.model.lightSourceEnumProperty
+      lightSource: this.model!.lightSourceEnumProperty
     } );
   }
 
@@ -179,12 +161,8 @@ class ObservationWindowAlertManager extends Alerter {
    * Get an alert as a result of the user pressing the StepForwardButton. If nothing is happening in the observation
    * window, returns an alert that gives the user a hint to activate something. Otherwise, may create an alert
    * that describes state of active molecule. But may also not produce any alert.
-   * @private
-   *
-   * @param {PhotonAbsorptionModel} model
-   * @returns {null|string}
    */
-  getManualStepAlert( model ) {
+  private getManualStepAlert( model: PhotonAbsorptionModel ): null | TReadOnlyProperty<string> | string {
     let alert = null;
 
     const emitterOn = model.photonEmitterOnProperty.get();
@@ -195,7 +173,7 @@ class ObservationWindowAlertManager extends Alerter {
       const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
 
       if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
-        alert = GreenhouseEffectMessages.stepHintAlertMessageProperty;
+        alert = GreenhouseEffectMessages.timeControlsStepHintAlertMessageProperty;
       }
       else if ( photonAbsorbed ) {
         if ( targetMolecule.rotatingProperty.get() ) {
@@ -212,7 +190,8 @@ class ObservationWindowAlertManager extends Alerter {
       }
     }
     else if ( this.moleculeWasBrokenLastStep ) {
-      if ( !this.model.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
+      affirm( this.constituentMolecule1 && this.constituentMolecule2, 'constituent molecules should be non-null if molecule was broken last step' );
+      if ( !this.model!.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
         // no target molecule and constituents have been removed
         alert = GreenhouseEffectMessages.moleculePiecesGoneMessageProperty;
@@ -231,13 +210,8 @@ class ObservationWindowAlertManager extends Alerter {
 
   /**
    * A description of the constituent molecules as they float away after a molecule breaks apart.
-   * @public
-   *
-   * @param {Molecule} firstMolecule
-   * @param {Molecule} secondMolecule
-   * @returns {string}
    */
-  getMoleculesFloatingAwayDescription( firstMolecule, secondMolecule ) {
+  public getMoleculesFloatingAwayDescription( firstMolecule: Molecule, secondMolecule: Molecule ): string {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
