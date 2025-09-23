@@ -40,13 +40,13 @@ class PhotonEmitterNode extends Node {
   private readonly model: PhotonAbsorptionModel;
 
   // height of the label requested by Open Sci Ed, will be 0 if not in that mode
-  private readonly openSciEdLabelHeight: number;
+  public readonly openSciEdLabelHeight: number;
 
   // In the "open sci ed" mode, add a label to the photon emitter since there is only one possible light source
   private readonly lightSourceLabel?: Text;
 
   // the 'on' button for the emitter
-  private readonly button: BooleanRoundStickyToggleButton;
+  public readonly button: BooleanRoundStickyToggleButton;
 
   // images for the photon emitter, assigned in updateImage
   private photonEmitterOnImage!: Image;
