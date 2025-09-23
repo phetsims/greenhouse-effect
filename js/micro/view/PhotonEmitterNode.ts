@@ -12,11 +12,13 @@
 
 import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import BooleanRoundStickyToggleButton from '../../../../sun/js/buttons/BooleanRoundStickyToggleButton.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import flashlightOff_png from '../../../images/flashlightOff_png.js';
 import infraredSourceOff_png from '../../../images/infraredSourceOff_png.js';
 import uvSourceOff_png from '../../../images/uvSourceOff_png.js';
@@ -28,33 +30,44 @@ import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryP
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
 const openSciEdEnergySourceStringProperty = GreenhouseEffectStrings.openSciEd.energySourceStringProperty;
 
 class PhotonEmitterNode extends Node {
 
+  private readonly model: PhotonAbsorptionModel;
+
+  // height of the label requested by Open Sci Ed, will be 0 if not in that mode
+  private readonly openSciEdLabelHeight: number;
+
+  // In the "open sci ed" mode, add a label to the photon emitter since there is only one possible light source
+  private readonly lightSourceLabel?: Text;
+
+  // the 'on' button for the emitter
+  private readonly button: BooleanRoundStickyToggleButton;
+
+  // images for the photon emitter, assigned in updateImage
+  private photonEmitterOnImage!: Image;
+  private photonEmitterOffImage!: Image;
+
   /**
    * Constructor for the photon emitter node.
    *
-   * @param {number} width - Desired width of the emitter image in screen coords.
-   * @param {PhotonAbsorptionModel} model
-   * @param {Tandem} tandem
+   * @param width - Desired width of the emitter image in screen coords.
+   * @param model
+   * @param tandem
    */
-  constructor( width, model, tandem ) {
+  public constructor( width: number, model: PhotonAbsorptionModel, tandem: Tandem ) {
 
     // supertype constructor
     super();
 
-    // @private
     this.model = model;
-
-    // @public (read-only) {number} height of the label requested by Open Sci Ed, will be 0 if not in that mode
     this.openSciEdLabelHeight = 0;
 
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
-
-      // add a label to the photon emitter since there is only one possible light source
       this.lightSourceLabel = new Text( openSciEdEnergySourceStringProperty, {
         font: new PhetFont( 11 ),
         fill: 'white',
@@ -65,7 +78,6 @@ class PhotonEmitterNode extends Node {
       this.openSciEdLabelHeight = this.lightSourceLabel.height;
     }
 
-    // create the 'on' button for the emitter
     this.button = new BooleanRoundStickyToggleButton( this.model.photonEmitterOnProperty, {
       radius: 15,
       baseColor: '#33dd33',
@@ -91,6 +103,7 @@ class PhotonEmitterNode extends Node {
 
     model.photonEmitterOnProperty.link( on => {
       if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
+        affirm( this.photonEmitterOnImage, 'on image should be defined when the emitter is on' );
         this.photonEmitterOnImage.visible = on;
       }
 
@@ -106,13 +119,12 @@ class PhotonEmitterNode extends Node {
    * Set the appropriate images based on the current setting for the wavelength of the emitted photons.
    * The emitter is composed of layered 'on' and an 'off' images.
    *
-   * @param {number} emitterWidth
-   * @param {number} photonWavelength - wavelength of emitted photon to determine if a new control slider needs to be added
-   * @param {Tandem} tandem
-   * @param {string} emitterTandemName
-   * @private
+   * @param emitterWidth
+   * @param photonWavelength - wavelength of emitted photon to determine if a new control slider needs to be added
+   * @param tandem
+   * @param emitterTandemName
    */
-  updateImage( emitterWidth, photonWavelength, tandem, emitterTandemName ) {
+  private updateImage( emitterWidth: number, photonWavelength: number, tandem: Tandem, emitterTandemName: string ): void {
 
     // remove any existing children
     this.removeAllChildren();
@@ -149,7 +161,7 @@ class PhotonEmitterNode extends Node {
     this.addChild( this.photonEmitterOnImage );
 
     if ( GreenhouseEffectQueryParameters.openSciEd ) {
-      assert && assert( this.lightSourceLabel, 'label should be defined for Open Sci Ed' );
+      affirm( this.lightSourceLabel, 'label should be defined for Open Sci Ed' );
       this.addChild( this.lightSourceLabel );
       this.lightSourceLabel.centerTop = this.photonEmitterOnImage.centerBottom.plusXY( 0, 5 );
     }
