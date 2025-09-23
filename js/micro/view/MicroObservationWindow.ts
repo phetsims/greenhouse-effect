@@ -50,7 +50,7 @@ class MicroObservationWindow extends Rectangle {
   private readonly photonAbsorptionModel: PhotonAbsorptionModel;
 
   // Width of the 'window frame' which surrounds the observation window.
-  private readonly frameLineWidth: number;
+  public readonly frameLineWidth: number;
 
   // keeps track of whether the 'Restore Molecule' button should be visible
   public readonly returnMoleculeButtonVisibleProperty: BooleanProperty;

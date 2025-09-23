@@ -8,42 +8,43 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import MicroObservationWindow from './MicroObservationWindow.js';
 
 class WindowFrameNode extends CanvasNode {
+
+  private readonly observationWindow: MicroObservationWindow;
+  private readonly lineWidth: number;
+  private readonly innerColor: string;
+  private readonly outerColor: string;
 
   /**
    * Constructor for the molecules and light window frame. This is a border around the observation window.  Similar
    * to a typical stroke though each side of the border has a linear gradient.
    *
-   * @param {MicroObservationWindow} observationWindow
-   * @param {number} lineWidth - width of the window frame, similar to lineWidth for stroke in other scenery objects.
-   * @param {string} innerColor - boundary color on the inside of the window frame.
-   * @param {string} outerColor - boundary color along the outer edge of the window frame.
+   * @param observationWindow
+   * @param lineWidth - width of the window frame, similar to lineWidth for stroke in other scenery objects.
+   * @param innerColor - boundary color on the inside of the window frame.
+   * @param outerColor - boundary color along the outer edge of the window frame.
    */
-  constructor( observationWindow, innerColor, outerColor ) {
+  public constructor( observationWindow: MicroObservationWindow, innerColor: string, outerColor: string ) {
 
     // Set the canvas bounds to the observation window dilated by the desired line width.
     const canvasBounds = observationWindow.bounds.dilated( observationWindow.frameLineWidth );
 
     super( { canvasBounds: canvasBounds } );
 
-    // Set inputs as class variables so they can be used in canvas methods.
-    this.observationWindow = observationWindow; // @private
-    this.lineWidth = observationWindow.frameLineWidth; // @private
-    this.innerColor = innerColor; // @private
-    this.outerColor = outerColor; // @private
-
+    this.observationWindow = observationWindow;
+    this.lineWidth = observationWindow.frameLineWidth;
+    this.innerColor = innerColor;
+    this.outerColor = outerColor;
 
     this.invalidatePaint();
-
   }
 
-  // @param {CanvasRenderingContext2D} context
-  // @override
-  // @protected
-  paintCanvas( context ) {
+  public override paintCanvas( context: CanvasRenderingContext2D ): void {
 
     // Draw the top section of the window frame
     this.drawFrameSide(
@@ -110,16 +111,15 @@ class WindowFrameNode extends CanvasNode {
   /**
    * Draw a corner of the window frame.
    *
-   * @param {string} corner - String describing desired corner of the window frame.
-   * @param {Vector2} radialCenter - Position vector of the radial center of the frame corner.
-   * @param {CanvasRenderingContext2D} context - Context for the canvas methods.
-   * @private
+   * @param corner - String describing desired corner of the window frame.
+   * @param radialCenter - Position vector of the radial center of the frame corner.
+   * @param context - Context for the canvas methods.
    */
-  drawFrameCorner( corner, radialCenter, context ) {
+  private drawFrameCorner( corner: string, radialCenter: Vector2, context: CanvasRenderingContext2D ): void {
 
     // Determine the initial and final angles for arc methods based on input corner.
-    let initialAngle;
-    let finalAngle;
+    let initialAngle: number;
+    let finalAngle: number;
     switch( corner ) {
       case 'topLeft':
         initialAngle = Math.PI;
@@ -139,6 +139,8 @@ class WindowFrameNode extends CanvasNode {
         break;
       default:
         console.error( 'Corner must be one of \'topLeft\', \'topRight\', \'bottomLeft\', \'bottomRight\'.' );
+        initialAngle = 0;
+        finalAngle = 0;
         break;
     }
 
@@ -161,15 +163,14 @@ class WindowFrameNode extends CanvasNode {
    * Function which creates the sections of the frame that span the width.  These sections are the top and
    * bottom of the border.
    *
-   * @param {string} side - String which specifies desired side of the window frame.
-   * @param {number} x - x position of the upper left corner (left bound)
-   * @param {number} y - y position of the upper left corner (top bound)
-   * @param {number} width - Width of the rectangle to the right of the upper left corner
-   * @param {number} height - Height of the rectangle to the
-   * @param {CanvasRenderingContext2D} context - The drawing context
-   * @private
+   * @param side - String which specifies desired side of the window frame.
+   * @param x - x position of the upper left corner (left bound)
+   * @param y - y position of the upper left corner (top bound)
+   * @param width - Width of the rectangle to the right of the upper left corner
+   * @param height - Height of the rectangle to the
+   * @param context - The drawing context
    */
-  drawFrameSide( side, x, y, width, height, context ) {
+  private drawFrameSide( side: string, x: number, y: number, width: number, height: number, context: CanvasRenderingContext2D ): void {
 
     // Create the linear gradient and add some length or height buffers for the window frame pieces.  Parameters of
     // the gradient are dependent on the desired side of the frame.
@@ -200,6 +201,7 @@ class WindowFrameNode extends CanvasNode {
         break;
     }
 
+    affirm( grad, 'gradient should be initialized' );
     grad.addColorStop( 0, this.innerColor );
     grad.addColorStop( 1, this.outerColor );
     context.fillStyle = grad;
