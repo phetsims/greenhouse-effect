@@ -10,10 +10,12 @@
  * @author Jesse Greenberg
  */
 
+import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import Molecule from '../model/Molecule.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
 import CO2 from '../model/molecules/CO2.js';
@@ -29,15 +31,15 @@ import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 
 // constants
 class Geometry extends EnumerationValue {
-  static LINEAR = new Geometry();
-  static BENT = new Geometry();
-  static TETRAHEDRAL = new Geometry();
-  static DIATOMIC = new Geometry();
+  public static readonly LINEAR = new Geometry();
+  public static readonly BENT = new Geometry();
+  public static readonly TETRAHEDRAL = new Geometry();
+  public static readonly DIATOMIC = new Geometry();
 
-  static enumeration = new Enumeration( Geometry );
+  public static readonly enumeration = new Enumeration( Geometry );
 }
 
-const MolecularGeometryMap = new Map();
+const MolecularGeometryMap = new Map<typeof Molecule, Geometry>();
 MolecularGeometryMap.set( CO, Geometry.LINEAR );
 MolecularGeometryMap.set( N2, Geometry.LINEAR );
 MolecularGeometryMap.set( O2, Geometry.LINEAR );
@@ -53,11 +55,8 @@ const MoleculeUtils = {
 
   /**
    * Get the molecular formula for an instance of a Molecule. Returns something like 'CO' or 'N2'.
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
    */
-  getMolecularFormula( molecule ) {
+  getMolecularFormula( molecule: Molecule ): string {
     return molecule instanceof CO ? MolecularFormulaStrings.CO_FORMULA_STRING :
            molecule instanceof N2 ? MolecularFormulaStrings.N2_FORMULA_STRING :
            molecule instanceof O2 ? MolecularFormulaStrings.O2_FORMULA_STRING :
@@ -72,9 +71,8 @@ const MoleculeUtils = {
 
   /**
    * From a molecule, return the equivalent value from the PhotonTarget enumeration.
-   * @param molecule
    */
-  getPhotonTargetEnum( molecule ) {
+  getPhotonTargetEnum( molecule: Molecule ): PhotonTarget | null {
     const targetEnum = molecule instanceof CO ? PhotonTarget.SINGLE_CO_MOLECULE :
                        molecule instanceof N2 ? PhotonTarget.SINGLE_N2_MOLECULE :
                        molecule instanceof O2 ? PhotonTarget.SINGLE_O2_MOLECULE :
@@ -93,8 +91,8 @@ const MoleculeUtils = {
   /**
    * For a given molecule, returns the geometry.
    */
-  getGeometryEnum( molecule ) {
-    return MolecularGeometryMap.get( molecule.constructor );
+  getGeometryEnum( molecule: Molecule ): Geometry {
+    return MolecularGeometryMap.get( molecule.constructor as typeof Molecule )!;
   },
 
   /**
@@ -103,39 +101,30 @@ const MoleculeUtils = {
    *
    * "Linear, molecule with a central atom bonded to one or two other atoms forming a straight line. Bond angle
    * 180 degrees."
-   *
-   * @param {Molecule} molecule
-   * @returns {string}
    */
-  getGeometryDescription( molecule ) {
-    let descriptionString = '';
+  getGeometryDescription( molecule: Molecule ): TReadOnlyProperty<string> {
+    let descriptionStringProperty: TReadOnlyProperty<string>;
 
-    const geometry = MolecularGeometryMap.get( molecule.constructor );
+    const geometry = MolecularGeometryMap.get( molecule.constructor as typeof Molecule );
     if ( geometry === Geometry.LINEAR ) {
-      descriptionString = GreenhouseEffectMessages.linearGeometryDescriptionMessageProperty;
+      descriptionStringProperty = GreenhouseEffectMessages.linearGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.BENT ) {
-      descriptionString = GreenhouseEffectMessages.bentGeometryDescriptionMessageProperty;
+      descriptionStringProperty = GreenhouseEffectMessages.bentGeometryDescriptionMessageProperty;
     }
     else if ( geometry === Geometry.TETRAHEDRAL ) {
-      descriptionString = GreenhouseEffectMessages.tetrahedralGeometryDescriptionMessageProperty;
+      descriptionStringProperty = GreenhouseEffectMessages.tetrahedralGeometryDescriptionMessageProperty;
     }
     else {
       throw new Error( 'requesting geometry label for a geometry that is not registered' );
     }
 
-    return descriptionString;
-  }
+    return descriptionStringProperty;
+  },
+
+  MolecularGeometryMap: MolecularGeometryMap,
+  Geometry: Geometry
 };
-
-// @public
-// @static
-// {Map}
-MoleculeUtils.MolecularGeometryMap = MolecularGeometryMap;
-
-// @public
-// @static
-MoleculeUtils.Geometry = Geometry;
 
 greenhouseEffect.register( 'MoleculeUtils', MoleculeUtils );
 export default MoleculeUtils;

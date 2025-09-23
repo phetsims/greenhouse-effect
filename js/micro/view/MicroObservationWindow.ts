@@ -14,6 +14,7 @@ import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -246,6 +247,7 @@ class MicroObservationWindow extends Rectangle {
     // pdom - update geometry descriptions when target changes
     photonAbsorptionModel.photonTargetProperty.link( () => {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
+      affirm( targetMolecule, 'there should be a target molecule' );
 
       geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectMessages.geometryLabelPatternMessageProperty, {
         geometry: MoleculeUtils.getGeometryEnum( targetMolecule )
