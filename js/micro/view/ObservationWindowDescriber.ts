@@ -18,56 +18,63 @@
  */
 
 import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
+import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import MicroPhoton from '../model/MicroPhoton.js';
+import Molecule from '../model/Molecule.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
+import PhotonTarget from '../model/PhotonTarget.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
+import MicroObservationWindow from './MicroObservationWindow.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
 
 class ObservationWindowDescriber {
 
+  private readonly model: PhotonAbsorptionModel;
+  private readonly modelViewTransform: ModelViewTransform2;
+
+  // state of molecule when we absorb a photon, tracked so that we can accurately describe what
+  // stops happening when the photon is re-emitted - the Molecule Properties tracking these things may have already
+  // reset upon emission so tracking these explicitly is more robust
+  private moleculeVibrating = false;
+  private moleculeRotating = false;
+  private moleculeRotatingClockwise = false;
+  private moleculeRotatingCounterClockwise = false;
+  private moleculeHighElectronicEnergyState = false;
+  private moleculeBrokeApart = false;
+
+  // responsible for general alerts involving things in the observation window
+  private readonly alertManager: ObservationWindowAlertManager;
+
+  // responsible for alerts specifically related to photon/molecule interaction
+  public readonly activeMoleculeAlertManager: ActiveMoleculeAlertManager;
+
+  // while a photon is absorbed the model photonWavelengthProperty may change - we want
+  // to describe the absorbed photon not the photon wavelength currently being emitted
+  private wavelengthOnAbsorption: number;
+
   /**
-   * @param {PhotonAbsorptionModel} model
-   * @param {MicroObservationWindow} observationWindow - the AlertManager sends alerts through this Node
-   * @param {ModelViewTransform2} modelViewTransform
+   * @param model
+   * @param observationWindow - the AlertManager sends alerts through this Node
+   * @param modelViewTransform
    */
-  constructor( model, observationWindow, modelViewTransform ) {
-
-    // @private {PhotonAbsorptionModel}
+  public constructor( model: PhotonAbsorptionModel, observationWindow: MicroObservationWindow, modelViewTransform: ModelViewTransform2 ) {
     this.model = model;
-
-    // @private {ModelViewTransform2} - to describe photon emission motion in scenery coordinate frame
     this.modelViewTransform = modelViewTransform;
 
-    // @private {boolean} - state of molecule when we absorb a photon, tracked so that we can accurately describe what
-    // stops happening when the photon is re-emitted - the Molecule Properties tracking these things may have already
-    // reset upon emission so tracking these explicitly is more robust
-    this.moleculeVibrating = false;
-    this.moleculeRotating = false;
-    this.moleculeRotatingClockwise = false;
-    this.moleculeRotatingCounterClockwise = false;
-    this.moleculeHighElectronicEnergyState = false;
-    this.moleculeBrokeApart = false;
-
-    // @private - responsible for general alerts involving things in the observation window
     this.alertManager = new ObservationWindowAlertManager( observationWindow );
     this.alertManager.initialize( model, observationWindow.returnMoleculeButtonVisibleProperty );
-
-    // @private {ActiveMoleculeAlertManager} - responsible for alerts specifically related to photon/molecule
-    // interaction
     this.activeMoleculeAlertManager = new ActiveMoleculeAlertManager( model, observationWindow, modelViewTransform );
-
-    // @private {number} while a photon is absorbed the model photonWavelengthProperty may change - we want
-    // to describe the absorbed photon not the photon wavelength currently being emitted
     this.wavelengthOnAbsorption = model.photonWavelengthProperty.get();
   }
 
   /**
    * Step the alert manater in time.
-   * @public
-   *
-   * @param {number} dt - in seconds
+   * @param dt - in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.activeMoleculeAlertManager.step( dt );
   }
 
@@ -78,11 +85,8 @@ class ObservationWindowDescriber {
    * When the photon wavelength changes or the light source slider turns on or off, we go back to describing
    * the initial phase where photons pass through the molecule. The only exception is when there is no target
    * molecule - in this case we keep the description that guides the user to the 'return molecule' button.
-   * @public
-   *
-   * @param {Node} descriptionNode
    */
-  attachInitialPhaseDescriptionListeners( descriptionNode ) {
+  public attachInitialPhaseDescriptionListeners( descriptionNode: Node ): void {
     this.model.photonWavelengthProperty.link( photonWavelength => {
       if ( this.model.targetMolecule ) {
         descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
@@ -100,12 +104,8 @@ class ObservationWindowDescriber {
   /**
    * Attach listeners to a Molecule that will update a provided Node's description content. These Properties
    * are fully disposed when the molecule is disposed so listener removal should not be necessary.
-   * @public
-   *
-   * @param {Molecule} molecule
-   * @param {Node} descriptionNode
    */
-  attachAbsorptionDescriptionListeners( molecule, descriptionNode ) {
+  public attachAbsorptionDescriptionListeners( molecule: Molecule, descriptionNode: Node ): void {
 
     // new target molecule added, reset to initial phase description
     if ( molecule === this.model.targetMolecule ) {
@@ -168,7 +168,7 @@ class ObservationWindowDescriber {
       // first addition of a constituent molecule. Must be added on molecule addition because they
       // do not exist in activeMolecules at the time of break apart.
       const addMoleculeRemovalListener = () => {
-        const describeMoleculesRemoved = molecule => {
+        const describeMoleculesRemoved = ( molecule: Molecule ) => {
 
           // only update description if the removed molecule is one of the constituents after a break apart
           if ( molecule === moleculeA || molecule === moleculeB ) {
@@ -196,14 +196,12 @@ class ObservationWindowDescriber {
    * where we describe the absorption.
    *
    * This description is specific to the summary of the observation window.
-   * @private
    *
-   * @param {boolean} emitterOn
-   * @param {number} photonWavelength
-   * @param {PhotonTarget} photonTarget
-   * @returns {string}
+   * @param emitterOn
+   * @param photonWavelength
+   * @param photonTarget
    */
-  getInitialPhaseDescription( emitterOn, photonWavelength, photonTarget ) {
+  private getInitialPhaseDescription( emitterOn: boolean, photonWavelength: number, photonTarget: PhotonTarget ): string {
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
@@ -223,16 +221,16 @@ class ObservationWindowDescriber {
   /**
    * Get a description of the molecule after it emits a photon. Will return something like
    * "Absorbed Infrared photon emitted from Carbon Dioxide molecule up and to the left."
-   * @private
    *
-   * @param {Photon} photon - the emitted photon
-   * @returns {string}
+   * @param photon - the emitted photon
    */
-  getEmissionPhaseDescription( photon ) {
+  private getEmissionPhaseDescription( photon: MicroPhoton ): string {
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
     return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
       photonTarget: this.model.photonTargetProperty,
       lightSource: this.model.lightSourceEnumProperty,
+
+      // @ts-expect-error - see #423, should resolve when TS conversion is complete
       direction: directionEnum.name
     } );
   }

@@ -245,7 +245,7 @@ class ActiveMoleculeAlertManager extends Alerter {
    * representation after absorption. Will return a string like
    * "‪Visible‬ photon absorbed and Nitrogen Dioxide‬ molecule starts glowing."
    */
-  private getHighElectronicEnergyPhaseDescription(): string {
+  public getHighElectronicEnergyPhaseDescription(): string {
     return FluentUtils.formatMessage( GreenhouseEffectMessages.absorptionPhaseMoleculeDescriptionPatternMessageProperty, {
       lightSource: this.photonAbsorptionModel.lightSourceEnumProperty,
       photonTarget: this.photonAbsorptionModel.photonTargetProperty,

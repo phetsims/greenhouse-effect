@@ -217,14 +217,11 @@ class MicroObservationWindow extends Rectangle {
     const geometryDescriptionItem = new Node( { tagName: 'li' } );
 
     // pdom - attach listeners that will describe the initial phase of photons passing through the molecule
-    // @ts-expect-error - to be removed when describer is converted to TS
     this.describer.attachInitialPhaseDescriptionListeners( phaseItem );
 
     // pdom - when a new molecule is added to the observation window, add listeners that will generate descriptions
     // for its state - also add to the initial active molecule
     photonAbsorptionModel.activeMolecules.addItemAddedListener( molecule => {
-
-      // @ts-expect-error - to be removed when describer is converted to TS
       this.describer.attachAbsorptionDescriptionListeners( molecule, phaseItem );
 
       // adding new target molecule, geometry descriptions are accurate
