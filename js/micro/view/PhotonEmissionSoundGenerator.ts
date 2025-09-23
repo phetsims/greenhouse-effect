@@ -9,6 +9,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/sound-generators/SoundGenerator.js';
@@ -38,7 +39,7 @@ const PHOTON_EMISSION_FROM_MOLECULE_OUTPUT_LEVEL = 0.09;
 const PLAY_MOLECULE_EMISSION_X_POSITION = 0;
 
 class PhotonEmissionSoundGenerator extends SoundGenerator {
-  public constructor( photonGroup: PhetioGroup<MicroPhoton>, providedOptions?: SoundGeneratorOptions ) {
+  public constructor( photonGroup: PhetioGroup<MicroPhoton, [ number, Vector2 ]>, providedOptions?: SoundGeneratorOptions ) {
     super( providedOptions );
 
     const photonInitialEmissionSoundClipOptions = { initialOutputLevel: PHOTON_INITIAL_EMISSION_OUTPUT_LEVEL };

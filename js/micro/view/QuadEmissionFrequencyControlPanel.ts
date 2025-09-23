@@ -10,6 +10,7 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -19,6 +20,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import multiSelectionSoundPlayerFactory from '../../../../tambo/js/multiSelectionSoundPlayerFactory.js';
+import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import flashlight_png from '../../../mipmaps/flashlight_png.js';
 import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
@@ -28,6 +30,7 @@ import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import MicroPhoton from '../model/MicroPhoton.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 
@@ -45,19 +48,17 @@ const ARROW_TAIL_WIDTH = 1;
 const ARROW_COLOR = 'black';
 
 // Create a layout box which holds a single panel of this control panel.
-const createRadioButtonContent = ( emitterImage, photonNode ) => {
+const createRadioButtonContent = ( emitterImage: Node, photonNode: Node ): Node => {
   emitterImage.scale( 0.27 ); // Scale emitter image to fit in the panel, scale factor determined empirically.
   return new HBox( { spacing: 10, sizable: false, children: [ emitterImage, photonNode ] } );
 };
 
 class QuadEmissionFrequencyControlPanel extends Node {
+
   /**
    * Constructor for the control panel of emitted photon frequency.
-   *
-   * @param {PhotonAbsorptionModel} photonAbsorptionModel
-   * @param {Tandem} tandem
    */
-  constructor( photonAbsorptionModel, tandem ) {
+  public constructor( photonAbsorptionModel: PhotonAbsorptionModel, tandem: Tandem ) {
 
     // Supertype constructor
     super( {
@@ -137,7 +138,9 @@ class QuadEmissionFrequencyControlPanel extends Node {
 
     // Scale the radio button text.  This is done mostly to support translations.
     // Determine the max width of panels in the radio button group.
-    const panelWidth = _.maxBy( [ microwaveRadioButtonContent, infraredPhotonRadioButtonContent, visiblePhotonRadioButtonContent, ultravioletPhotonRadioButtonContent ], content => content.width ).width;
+    const widestNode = _.maxBy( [ microwaveRadioButtonContent, infraredPhotonRadioButtonContent, visiblePhotonRadioButtonContent, ultravioletPhotonRadioButtonContent ], content => content.width );
+    affirm( widestNode, 'Could not find a widest node' );
+    const panelWidth = widestNode.width;
 
     // Calculate the minimum scale factor that must be applied to each label. Ensures constant font size for all labels.
     let scaleFactor = 1;
@@ -156,7 +159,7 @@ class QuadEmissionFrequencyControlPanel extends Node {
     // Create sound generators for the radio buttons.  This is done because by default the sound generators for radio
     // button groups decrease in pitch from left to right, but these radio buttons will be selecting higher frequency
     // light from left to right, so this seems more intuitive.
-    const radioButtonSoundPlayers = [];
+    const radioButtonSoundPlayers: TSoundPlayer[] = [];
     _.times( radioButtonContent.length, index => {
       radioButtonSoundPlayers.push(
         multiSelectionSoundPlayerFactory.getSelectionSoundPlayer( radioButtonContent.length - index - 1 )
