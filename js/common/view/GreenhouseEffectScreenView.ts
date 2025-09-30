@@ -110,7 +110,6 @@ class GreenhouseEffectScreenView extends ScreenView {
 
     this.resetAllButton = new ResetAllButton( {
       listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
         this.reset();
       },
       right: this.layoutBounds.maxX - GreenhouseEffectConstants.SCREEN_VIEW_X_MARGIN,
