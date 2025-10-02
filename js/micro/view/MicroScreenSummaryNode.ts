@@ -77,31 +77,31 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     if ( this.model.runningProperty.get() ) {
       if ( emitterOn ) {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOnScreenSummaryPatternMessageProperty, {
-          lightSource: lightSourceEnum,
-          simSpeed: timeSpeedEnumProperty,
-          targetMolecule: photonTargetEnum
+          lightSource: lightSourceEnum.name,
+          simSpeed: timeSpeedEnumProperty.value.name,
+          targetMolecule: photonTargetEnum.name
         } );
       }
       else {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOffScreenSummaryPatternMessageProperty, {
-          lightSource: lightSourceEnum,
-          targetMolecule: photonTargetEnum
+          lightSource: lightSourceEnum.name,
+          targetMolecule: photonTargetEnum.name
         } );
       }
     }
     else {
       if ( emitterOn ) {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOnScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnumProperty,
-          lightSource: lightSourceEnum,
-          targetMolecule: photonTargetEnum
+          simSpeed: timeSpeedEnumProperty.value.name,
+          lightSource: lightSourceEnum.name,
+          targetMolecule: photonTargetEnum.name
         } );
       }
       else {
         finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnumProperty,
-          lightSource: lightSourceEnum,
-          targetMolecule: photonTargetEnum
+          simSpeed: timeSpeedEnumProperty.value.name,
+          lightSource: lightSourceEnum.name,
+          targetMolecule: photonTargetEnum.name
         } );
       }
     }

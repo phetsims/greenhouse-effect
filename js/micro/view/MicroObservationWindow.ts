@@ -247,7 +247,7 @@ class MicroObservationWindow extends Rectangle {
       affirm( targetMolecule, 'there should be a target molecule' );
 
       geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectMessages.geometryLabelPatternMessageProperty, {
-        geometry: MoleculeUtils.getGeometryEnum( targetMolecule )
+        geometry: MoleculeUtils.getGeometryEnum( targetMolecule ).name
       } );
       geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );
     } );

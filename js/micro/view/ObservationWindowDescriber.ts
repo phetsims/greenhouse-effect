@@ -206,14 +206,14 @@ class ObservationWindowDescriber {
 
       // no photons moving, indicate to the user to begin firing photons
       return FluentUtils.formatMessage( GreenhouseEffectMessages.photonEmitterOffDescriptionPatternMessageProperty, {
-        lightSource: this.model.lightSourceEnumProperty,
-        targetMolecule: this.model.photonTargetProperty
+        lightSource: this.model.lightSourceEnumProperty.value.name,
+        targetMolecule: this.model.photonTargetProperty.value.name
       } );
     }
     else {
       return FluentUtils.formatMessage( GreenhouseEffectMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
-        lightSource: this.model.lightSourceEnumProperty,
-        targetMolecule: this.model.photonTargetProperty
+        lightSource: this.model.lightSourceEnumProperty.value.name,
+        targetMolecule: this.model.photonTargetProperty.value.name
       } );
     }
   }
@@ -227,8 +227,8 @@ class ObservationWindowDescriber {
   private getEmissionPhaseDescription( photon: MicroPhoton ): string {
     const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
     return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
-      photonTarget: this.model.photonTargetProperty,
-      lightSource: this.model.lightSourceEnumProperty,
+      photonTarget: this.model.photonTargetProperty.value.name,
+      lightSource: this.model.lightSourceEnumProperty.value.name,
 
       // @ts-expect-error - see #423, should resolve when TS conversion is complete
       direction: directionEnum.name

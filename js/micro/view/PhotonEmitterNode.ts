@@ -10,6 +10,7 @@
  * @author Jesse Greenberg
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
@@ -98,7 +99,7 @@ class PhotonEmitterNode extends Node {
     // string pattern changes (dynamic locales).
     this.button.innerContent = new PatternMessageProperty(
       GreenhouseEffectMessages.lightSourceButtonLabelPatternMessageProperty, {
-        lightSource: model.lightSourceEnumProperty
+        lightSource: new DerivedProperty( [ model.lightSourceEnumProperty ], lightSource => lightSource.name )
       } );
 
     model.photonEmitterOnProperty.link( on => {

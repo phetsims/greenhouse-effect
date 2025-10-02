@@ -189,9 +189,9 @@ class MoleculeSelectionPanel extends Panel {
  */
 const createPDOMLabel = ( molecule: Molecule ): string => {
   return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculeButtonLabelPatternMessageProperty, {
-    photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule ),
+    photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule )?.name,
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
-    geometryTitle: MoleculeUtils.getGeometryEnum( molecule )
+    geometryTitle: MoleculeUtils.getGeometryEnum( molecule ).name
   } );
 };
 
