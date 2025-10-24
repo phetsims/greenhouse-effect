@@ -85,6 +85,7 @@ class PhotonEmitterNode extends Node {
 
       // pdom
       appendDescription: true,
+      accessibleRoleConfiguration: 'switch',
 
       tandem: tandem.createTandem( 'button' )
     } );
