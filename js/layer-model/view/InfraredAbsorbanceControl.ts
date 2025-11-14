@@ -58,7 +58,7 @@ export default class InfraredAbsorbanceControl extends VBox {
         // pdom
         labelContent: GreenhouseEffectStrings.infraredAbsorbanceStringProperty,
         labelTagName: 'label',
-        pdomCreateAriaValueText: ( value: number ) => {
+        createAriaValueText: ( value: number ) => {
 
           // just the model value as a percentage
           return StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.absorbanceValuePatternStringProperty, {

@@ -402,7 +402,7 @@ class ConcentrationControl extends VBox {
       keyboardStep: 0.05,
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
-      pdomCreateAriaValueText: ( value: number ) => {
+      createAriaValueText: ( value: number ) => {
         return ConcentrationDescriber.getConcentrationDescriptionWithValue( value, true, false );
       },
 

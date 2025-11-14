@@ -91,7 +91,7 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
           shiftKeyboardStep: averageAllowedAltitudeStep,
           pageKeyboardStep: averageAllowedAltitudeStep * 2,
           mapPropertyValue: constrainAltitude,
-          pdomCreateAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorLayerRelationshipProperty.value}`,
+          createAriaValueText: () => `${sensorAltitudeDescriptionProperty.value} ${fluxSensorLayerRelationshipProperty.value}`,
           descriptionDependencies: [ sensorAltitudeDescriptionProperty, fluxSensorLayerRelationshipProperty ]
         }
       },
