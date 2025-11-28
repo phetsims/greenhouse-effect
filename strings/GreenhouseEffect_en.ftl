@@ -22,7 +22,7 @@
 
 # ..
 # Target molecules (capitalized) NEW-need to adjust existing translations
-# EAMPLE: {Carbon Monoxide⁩}, ⁨CO⁩, ⁨Linear⁩
+# EXAMPLE: {Carbon Monoxide⁩}, ⁨CO⁩, ⁨Linear⁩
 -carbonMonoxideCapitalized = Carbon Monoxide
 -nitrogenCapitalized = Nitrogen
 -oxygenCapitalized = Oxygen
