@@ -76,7 +76,7 @@ export default class LandscapeObservationWindowPDOMNode extends ObservationWindo
       );
 
       // There will not be a description at all if temperature displays are disabled
-      this.surfaceTemperatureItemNode.pdomVisible = !!temperatureDescription;
+      this.surfaceTemperatureItemNode.accessibleVisible = !!temperatureDescription;
       this.surfaceTemperatureItemNode.innerContent = temperatureDescription;
     } );
   }

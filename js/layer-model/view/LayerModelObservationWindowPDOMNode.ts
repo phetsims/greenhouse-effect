@@ -116,7 +116,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
     // Only show the visible photon description when the sun is shining.
     model.sunEnergySource.isShiningProperty.link( isSunShining => {
-      visiblePhotonsListItemNode.pdomVisible = isSunShining;
+      visiblePhotonsListItemNode.accessibleVisible = isSunShining;
     } );
 
     // Create a string Property that will describe the state of the infrared photons.
@@ -199,7 +199,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
     // Only show the infrared photon description when the surface temperature is above the minimum value.
     model.surfaceTemperatureKelvinProperty.link( surfaceTemperature => {
-      infraredPhotonsListItemNode.pdomVisible = surfaceTemperature > model.groundLayer.minimumTemperature;
+      infraredPhotonsListItemNode.accessibleVisible = surfaceTemperature > model.groundLayer.minimumTemperature;
     } );
 
     // Create a scenery Node that will insert a description of the infrared photon concentration into the PDOM.
@@ -216,7 +216,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.surfaceTemperatureKelvinProperty,
         model.numberOfActiveAtmosphereLayersProperty ],
       ( showingAllPhotons, surfaceTemperature, numberOfActiveLayers ) => {
-        infraredPhotonDensityListItemNode.pdomVisible = showingAllPhotons &&
+        infraredPhotonDensityListItemNode.accessibleVisible = showingAllPhotons &&
                                                         surfaceTemperature > model.groundLayer.minimumTemperature &&
                                                         numberOfActiveLayers > 0;
       }
@@ -238,7 +238,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
 
     // Only show the surface temperature description when the surface thermometer is visible.
     model.groundLayer.showTemperatureProperty.link( surfaceThermometerVisible => {
-      surfaceTemperatureListItemNode.pdomVisible = surfaceThermometerVisible;
+      surfaceTemperatureListItemNode.accessibleVisible = surfaceThermometerVisible;
     } );
 
     // Create a set of scenery Nodes that will insert descriptions of the layer temperatures into the PDOM.
@@ -266,7 +266,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
       Multilink.multilink(
         [ atmosphereLayer.isActiveProperty, atmosphereLayer.showTemperatureProperty ],
         ( layerIsActiveProperty, showTemperature ) => {
-          atmosphereLayerListItemNode.pdomVisible = layerIsActiveProperty && showTemperature;
+          atmosphereLayerListItemNode.accessibleVisible = layerIsActiveProperty && showTemperature;
         }
       );
     } );

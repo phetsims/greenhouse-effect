@@ -85,7 +85,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     );
 
     model.sunEnergySource.isShiningProperty.link( isShining => {
-      this.sunlightItemNode.pdomVisible = isShining;
+      this.sunlightItemNode.accessibleVisible = isShining;
     } );
 
     Multilink.multilink( [
@@ -95,7 +95,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     ], ( isShining, showAllPhotons, concentration ) => {
 
       // Without greenhouse gases the density of photons is constant, so hide this statement if concentration is zero.
-      this.densityItemNode.pdomVisible = isShining && showAllPhotons && concentration > 0;
+      this.densityItemNode.accessibleVisible = isShining && showAllPhotons && concentration > 0;
     } );
 
     if ( model.cloud ) {
@@ -118,7 +118,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
           );
 
           // if the sun isn't shining yet, hide this portion of the content
-          this.sunlightItemNode.pdomVisible = isShining;
+          this.sunlightItemNode.accessibleVisible = isShining;
         }
       );
     }
@@ -136,11 +136,11 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
           surfaceTemperature, useHistoricalDescription, false, date, concentration, EnergyRepresentation.PHOTON
         );
         if ( description ) {
-          this.infraredItemNode.pdomVisible = true;
+          this.infraredItemNode.accessibleVisible = true;
           this.infraredItemNode.innerContent = description;
         }
         else {
-          this.infraredItemNode.pdomVisible = false;
+          this.infraredItemNode.accessibleVisible = false;
         }
       }
     );

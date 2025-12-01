@@ -40,7 +40,7 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
           );
 
           // If the sun isn't shining yet, hide this portion of the content.
-          this.sunlightItemNode.pdomVisible = isShining;
+          this.sunlightItemNode.accessibleVisible = isShining;
         }
       );
     }
@@ -68,11 +68,11 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
           EnergyRepresentation.WAVE
         );
         if ( description ) {
-          this.infraredItemNode.pdomVisible = true;
+          this.infraredItemNode.accessibleVisible = true;
           this.infraredItemNode.innerContent = description;
         }
         else {
-          this.infraredItemNode.pdomVisible = false;
+          this.infraredItemNode.accessibleVisible = false;
         }
       } );
   }
