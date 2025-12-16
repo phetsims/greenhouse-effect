@@ -55,7 +55,7 @@ class LayersModelTimeControlNode extends TimeControlNode {
         }
 
         // generic alert about the step button
-        this.addAccessibleResponse(
+        this.addAccessibleContextResponse(
           GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty
         );
       }

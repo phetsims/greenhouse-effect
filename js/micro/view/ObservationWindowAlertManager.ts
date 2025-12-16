@@ -58,7 +58,7 @@ class ObservationWindowAlertManager extends Alerter {
 
     model.photonEmitterOnProperty.lazyLink( on => {
       this.photonStateUtterance.alert = this.getPhotonEmitterStateAlert( on, model.runningProperty.value, model.slowMotionProperty.value );
-      this.addAccessibleResponse( this.photonStateUtterance );
+      this.addAccessibleContextResponse( this.photonStateUtterance );
     } );
 
     model.runningProperty.lazyLink( running => {
@@ -70,21 +70,21 @@ class ObservationWindowAlertManager extends Alerter {
       }
 
       this.runningStateUtterance.alert = this.getRunningStateAlert( model.photonEmitterOnProperty.get(), running );
-      this.addAccessibleResponse( this.runningStateUtterance );
+      this.addAccessibleContextResponse( this.runningStateUtterance );
     } );
 
     model.manualStepEmitter.addListener( () => {
       const alert = this.getManualStepAlert( model );
       if ( alert ) {
         this.manualStepUtterance.alert = alert;
-        this.addAccessibleResponse( this.manualStepUtterance );
+        this.addAccessibleContextResponse( this.manualStepUtterance );
       }
     } );
 
     model.photonEmittedEmitter.addListener( photon => {
       if ( !model.runningProperty.get() ) {
         this.photonEmittedUtterance.alert = this.getPhotonEmittedAlert();
-        this.addAccessibleResponse( this.photonEmittedUtterance );
+        this.addAccessibleContextResponse( this.photonEmittedUtterance );
       }
     } );
 
@@ -99,7 +99,7 @@ class ObservationWindowAlertManager extends Alerter {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        this.addAccessibleResponse( GreenhouseEffectMessages.resetOrChangeMoleculeMessageProperty );
+        this.addAccessibleContextResponse( GreenhouseEffectMessages.resetOrChangeMoleculeMessageProperty );
       }
     } );
   }

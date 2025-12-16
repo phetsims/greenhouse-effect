@@ -144,7 +144,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       if ( vibrating ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getVibrationAlert( molecule );
-        this.addAccessibleResponse( this.absorptionUtterance );
+        this.addAccessibleContextResponse( this.absorptionUtterance );
       }
     } );
 
@@ -153,7 +153,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       if ( rotating ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getRotationAlert( molecule );
-        this.addAccessibleResponse( this.absorptionUtterance );
+        this.addAccessibleContextResponse( this.absorptionUtterance );
       }
     } );
 
@@ -162,7 +162,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       if ( highEnergy ) {
         this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
         this.absorptionUtterance.alert = this.getExcitationAlert();
-        this.addAccessibleResponse( this.absorptionUtterance );
+        this.addAccessibleContextResponse( this.absorptionUtterance );
       }
     } );
 
@@ -170,14 +170,14 @@ class ActiveMoleculeAlertManager extends Alerter {
     molecule.brokeApartEmitter.addListener( ( moleculeA: Molecule, moleculeB: Molecule ) => {
       this.wavelengthOnAbsorption = this.photonAbsorptionModel.photonWavelengthProperty.get();
       this.absorptionUtterance.alert = this.getBreakApartAlert( moleculeA, moleculeB );
-      this.addAccessibleResponse( this.absorptionUtterance );
+      this.addAccessibleContextResponse( this.absorptionUtterance );
     } );
 
     // photon emission - alert this only in slow motion and paused playback
     molecule.photonEmittedEmitter.addListener( photon => {
       if ( !this.photonAbsorptionModel.runningProperty.get() || this.photonAbsorptionModel.slowMotionProperty.get() ) {
         this.absorptionUtterance.alert = this.getEmissionAlert( photon );
-        this.addAccessibleResponse( this.absorptionUtterance );
+        this.addAccessibleContextResponse( this.absorptionUtterance );
       }
     } );
 
@@ -188,7 +188,7 @@ class ActiveMoleculeAlertManager extends Alerter {
       const passThroughAlert = this.getPassThroughAlert( photon, molecule );
       if ( passThroughAlert ) {
         this.absorptionUtterance.alert = passThroughAlert;
-        this.addAccessibleResponse( this.absorptionUtterance );
+        this.addAccessibleContextResponse( this.absorptionUtterance );
       }
 
       if ( this.passThroughCount >= PASS_THROUGH_COUNT_BEFORE_DESCRIPTION ) {
