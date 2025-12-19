@@ -12,7 +12,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
@@ -20,14 +20,14 @@ import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectScreenSummaryContentNode from './GreenhouseEffectScreenSummaryContentNode.js';
 
 // constants
-const currentlyStringProperty = GreenhouseEffectStrings.a11y.currentlyStringProperty;
-const currentlySimIsPausedStringProperty = GreenhouseEffectStrings.a11y.currentlySimIsPausedStringProperty;
-const currentlyNoSunlightStringProperty = GreenhouseEffectStrings.a11y.currentlyNoSunlightStringProperty;
-const currentlySimIsPausedNoSunlightStringProperty = GreenhouseEffectStrings.a11y.currentlySimIsPausedNoSunlightStringProperty;
-const summaryWithTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.summaryWithTemperaturePatternStringProperty;
-const summaryWithoutTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.summaryWithoutTemperaturePatternStringProperty;
-const surfaceTemperaturePatternStringProperty = GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty;
-const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = GreenhouseEffectStrings.a11y.qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty;
+const currentlyStringProperty = GreenhouseEffectFluent.a11y.currentlyStringProperty;
+const currentlySimIsPausedStringProperty = GreenhouseEffectFluent.a11y.currentlySimIsPausedStringProperty;
+const currentlyNoSunlightStringProperty = GreenhouseEffectFluent.a11y.currentlyNoSunlightStringProperty;
+const currentlySimIsPausedNoSunlightStringProperty = GreenhouseEffectFluent.a11y.currentlySimIsPausedNoSunlightStringProperty;
+const summaryWithTemperaturePatternStringProperty = GreenhouseEffectFluent.a11y.summaryWithTemperaturePatternStringProperty;
+const summaryWithoutTemperaturePatternStringProperty = GreenhouseEffectFluent.a11y.summaryWithoutTemperaturePatternStringProperty;
+const surfaceTemperaturePatternStringProperty = GreenhouseEffectFluent.a11y.surfaceTemperaturePatternStringProperty;
+const qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty = GreenhouseEffectFluent.a11y.qualitativeAndQuantitativeTemperatureDescriptionPatternStringProperty;
 
 export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectScreenSummaryContentNode {
   public constructor( model: ConcentrationModel,

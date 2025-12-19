@@ -12,7 +12,7 @@ import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreen
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredPanel from './InfraredPanel.js';
 import LayerModelObservationWindow from './LayerModelObservationWindow.js';
@@ -80,7 +80,7 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
     // Add a Node that will contain the thermometer heading and controls in the PDOM.  This will not appear in the scene
     // graph.
     const thermometerPdomSection = new Node( {
-      accessibleHeading: GreenhouseEffectStrings.a11y.thermometersStringProperty,
+      accessibleHeading: GreenhouseEffectFluent.a11y.thermometersStringProperty,
       pdomOrder: [
         observationWindow.showThermometerCheckbox,
         ...observationWindow.atmosphereLayerNodes

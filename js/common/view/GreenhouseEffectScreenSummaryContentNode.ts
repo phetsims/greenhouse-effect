@@ -11,7 +11,7 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
 export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSummaryContent {
@@ -40,7 +40,7 @@ export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSumm
     this.simStateDescriptionNode = new Node( { tagName: 'p' } );
     const startSunlightHintNode = new Node( {
       tagName: 'p',
-      innerContent: GreenhouseEffectStrings.a11y.startSunlightHintStringProperty
+      innerContent: GreenhouseEffectFluent.a11y.startSunlightHintStringProperty
     } );
 
     this.children = [

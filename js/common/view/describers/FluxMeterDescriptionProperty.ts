@@ -11,7 +11,7 @@ import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import FluxMeter from '../../model/FluxMeter.js';
 import FluxSensorAltitudeDescriptionProperty from './FluxSensorAltitudeDescriptionProperty.js';
 import ValueToStringMapper from './ValueToStringMapper.js';
@@ -20,51 +20,51 @@ const fluxToValueStringMapper = new ValueToStringMapper(
   [
     [
       0,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.noStringProperty
     ],
     [
       2E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty
     ],
     [
       3E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty
     ],
     [
       5E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.veryLowStringProperty
     ],
     [
       10E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.lowStringProperty
     ],
     [
       15E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.lowStringProperty
     ],
     [
       20E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.moderateStringProperty
     ],
     [
       25E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty
     ],
     [
       30E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.highStringProperty
     ],
     [
       35E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.veryHighStringProperty
     ],
     [
       80E6,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty
     ],
     [
       Number.MAX_VALUE,
-      GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty
+      GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty
     ]
   ],
   true
@@ -91,7 +91,7 @@ class FluxMeterDescriptionProperty extends StringProperty {
         fluxMeterModel.fluxSensor.infraredLightUpEnergyRateTracker.energyRateProperty
       ],
       ( altitudeDescription, visibleLightDownFlux, visibleLightUpFlux, irLightDownFlux, irLightUpFlux ) => {
-        this.value = StringUtils.fillIn( GreenhouseEffectStrings.a11y.fluxMeterStateDescriptionStringProperty, {
+        this.value = StringUtils.fillIn( GreenhouseEffectFluent.a11y.fluxMeterStateDescriptionStringProperty, {
           altitude: altitudeDescription,
           incomingSunlightAmount: fluxToValueStringMapper.getStringForValue( visibleLightDownFlux ),
           outgoingSunlightAmount: fluxToValueStringMapper.getStringForValue( visibleLightUpFlux ),

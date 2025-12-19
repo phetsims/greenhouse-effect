@@ -20,7 +20,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import InfraredAbsorbanceSoundPlayer from './InfraredAbsorbanceSoundPlayer.js';
 
 const IR_ABSORBANCE_STEP_SIZE = 0.1;
@@ -37,7 +37,7 @@ export default class InfraredAbsorbanceControl extends VBox {
     soundManager.addSoundGenerator( irAbsorbanceSoundPlayer );
 
     // Label
-    const labelText = new Text( GreenhouseEffectStrings.infraredAbsorbanceStringProperty, {
+    const labelText = new Text( GreenhouseEffectFluent.infraredAbsorbanceStringProperty, {
       font: GreenhouseEffectConstants.LABEL_FONT
     } );
 
@@ -56,16 +56,16 @@ export default class InfraredAbsorbanceControl extends VBox {
         constrainValue: ( value: number ) => Utils.roundToInterval( value, IR_ABSORBANCE_STEP_SIZE ),
 
         // pdom
-        labelContent: GreenhouseEffectStrings.infraredAbsorbanceStringProperty,
+        labelContent: GreenhouseEffectFluent.infraredAbsorbanceStringProperty,
         labelTagName: 'label',
         createAriaValueText: ( value: number ) => {
 
           // just the model value as a percentage
-          return StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.absorbanceValuePatternStringProperty, {
+          return StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.absorbanceValuePatternStringProperty, {
             value: value * 100
           } );
         },
-        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.absorbanceHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.layerModel.absorbanceHelpTextStringProperty,
         keyboardStep: IR_ABSORBANCE_STEP_SIZE,
         shiftKeyboardStep: IR_ABSORBANCE_STEP_SIZE,
         pageKeyboardStep: IR_ABSORBANCE_STEP_SIZE * 2,
@@ -86,7 +86,7 @@ export default class InfraredAbsorbanceControl extends VBox {
     slider.addMajorTick(
       infraredAbsorbanceRange.min,
       new Text(
-        new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
+        new PatternStringProperty( GreenhouseEffectFluent.valuePercentPatternStringProperty, {
           value: infraredAbsorbanceRange.min * 100
         }, {
           tandem: Tandem.OPT_OUT // do not instrument, because it's just a number
@@ -97,7 +97,7 @@ export default class InfraredAbsorbanceControl extends VBox {
     slider.addMajorTick(
       infraredAbsorbanceRange.max,
       new Text(
-        new PatternStringProperty( GreenhouseEffectStrings.valuePercentPatternStringProperty, {
+        new PatternStringProperty( GreenhouseEffectFluent.valuePercentPatternStringProperty, {
           value: infraredAbsorbanceRange.max * 100
         }, {
           tandem: Tandem.OPT_OUT // do not instrument, because it's just a number

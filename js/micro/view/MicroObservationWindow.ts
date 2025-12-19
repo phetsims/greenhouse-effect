@@ -23,7 +23,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
@@ -34,7 +34,7 @@ import MoleculeUtils from './MoleculeUtils.js';
 import ObservationWindowDescriber from './ObservationWindowDescriber.js';
 import PhotonEmitterNode from './PhotonEmitterNode.js';
 
-const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectStrings.ButtonNode.ReturnMoleculeStringProperty;
+const buttonNodeReturnMoleculeStringProperty = GreenhouseEffectFluent.ButtonNode.ReturnMoleculeStringProperty;
 
 // constants
 const PHOTON_EMITTER_WIDTH = 125;

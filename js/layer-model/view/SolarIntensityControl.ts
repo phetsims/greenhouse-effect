@@ -21,7 +21,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import SunlightIntensityDescriptionProperty from './describers/SunlightIntensityDescriptionProperty.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
 
@@ -42,7 +42,7 @@ export default class SolarIntensityControl extends VBox {
     soundManager.addSoundGenerator( solarIntensitySoundPlayer );
 
     // Label
-    const labelText = new Text( GreenhouseEffectStrings.solarIntensityStringProperty, {
+    const labelText = new Text( GreenhouseEffectFluent.solarIntensityStringProperty, {
       font: GreenhouseEffectConstants.LABEL_FONT
     } );
 
@@ -59,8 +59,8 @@ export default class SolarIntensityControl extends VBox {
         keyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
         shiftKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE,
         pageKeyboardStep: SOLAR_INTENSITY_SLIDER_STEP_SIZE * 2,
-        labelContent: GreenhouseEffectStrings.solarIntensityStringProperty,
-        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.solarIntensityHelpTextStringProperty,
+        labelContent: GreenhouseEffectFluent.solarIntensityStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.layerModel.solarIntensityHelpTextStringProperty,
         labelTagName: 'label',
         createAriaValueText: () => sunlightIntensityDescriptionProperty.value,
         valueChangeSoundGeneratorOptions: {
@@ -84,11 +84,11 @@ export default class SolarIntensityControl extends VBox {
       const value = solarIntensityProportionRange.min + index * distanceBetweenMajorTicks;
       let labelText;
       if ( value === 1 ) {
-        labelText = GreenhouseEffectStrings.ourSunStringProperty;
+        labelText = GreenhouseEffectFluent.ourSunStringProperty;
       }
       else {
         labelText = new PatternStringProperty(
-          GreenhouseEffectStrings.valuePercentPatternStringProperty,
+          GreenhouseEffectFluent.valuePercentPatternStringProperty,
           { value: value * 100 },
           { tandem: Tandem.OPT_OUT } // do not instrument, because it's just a number
         );

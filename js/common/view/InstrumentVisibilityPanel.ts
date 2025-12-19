@@ -16,7 +16,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
@@ -73,9 +73,9 @@ class InstrumentVisibilityPanel extends Panel {
 
         if ( sunIsShining ) {
           energyBalanceCheckedUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.energyBalanceCheckedPatternStringProperty,
+            GreenhouseEffectFluent.a11y.energyBalanceCheckedPatternStringProperty,
             {
-              checkedResponse: GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty,
+              checkedResponse: GreenhouseEffectFluent.a11y.energyBalanceCheckedAlertStringProperty,
               outgoingEnergyDescription: EnergyDescriber.getNetEnergyAtAtmosphereDescription(
                 netInflowOfEnergy,
                 inRadiativeBalance
@@ -87,7 +87,7 @@ class InstrumentVisibilityPanel extends Panel {
 
           // If the sun isn't shining, don't include a description of the energy balance.  See
           // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-          energyBalanceCheckedUtterance.alert = GreenhouseEffectStrings.a11y.energyBalanceCheckedAlertStringProperty;
+          energyBalanceCheckedUtterance.alert = GreenhouseEffectFluent.a11y.energyBalanceCheckedAlertStringProperty;
         }
       }
     );
@@ -102,15 +102,15 @@ class InstrumentVisibilityPanel extends Panel {
 
       // checkbox item for controlling the energy balance indicator
       {
-        createNode: () => new Text( GreenhouseEffectStrings.energyBalanceStringProperty, textOptions ),
+        createNode: () => new Text( GreenhouseEffectFluent.energyBalanceStringProperty, textOptions ),
         property: model.energyBalanceVisibleProperty,
         options: {
 
           // pdom
-          accessibleName: GreenhouseEffectStrings.energyBalanceStringProperty,
-          accessibleHelpText: GreenhouseEffectStrings.a11y.energyBalance.accessibleHelpTextStringProperty,
+          accessibleName: GreenhouseEffectFluent.energyBalanceStringProperty,
+          accessibleHelpText: GreenhouseEffectFluent.a11y.energyBalance.accessibleHelpTextStringProperty,
           accessibleContextResponseChecked: energyBalanceCheckedUtterance,
-          accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.energyBalanceUncheckedAlertStringProperty
+          accessibleContextResponseUnchecked: GreenhouseEffectFluent.a11y.energyBalanceUncheckedAlertStringProperty
         },
         tandemName: 'energyBalanceCheckbox'
       }
@@ -135,9 +135,9 @@ class InstrumentVisibilityPanel extends Panel {
 
           if ( sunIsShining && model.fluxMeter!.isSensingFlux() ) {
             fluxMeterCheckedUtterance.alert = StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.fluxMeterCheckedPatternStringProperty,
+              GreenhouseEffectFluent.a11y.fluxMeterCheckedPatternStringProperty,
               {
-                checkedResponse: GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty,
+                checkedResponse: GreenhouseEffectFluent.a11y.fluxMeterCheckedAlertStringProperty,
                 energyFluxDescription: energyFluxDescription
               }
             );
@@ -146,21 +146,21 @@ class InstrumentVisibilityPanel extends Panel {
 
             // If the sun isn't shining, don't include a description of the energy flux.  See
             // https://github.com/phetsims/greenhouse-effect/issues/176 for justification.
-            fluxMeterCheckedUtterance.alert = GreenhouseEffectStrings.a11y.fluxMeterCheckedAlertStringProperty;
+            fluxMeterCheckedUtterance.alert = GreenhouseEffectFluent.a11y.fluxMeterCheckedAlertStringProperty;
           }
         }
       );
 
       checkboxGroupItems.push( {
-        createNode: () => new Text( GreenhouseEffectStrings.fluxMeter.titleStringProperty, textOptions ),
+        createNode: () => new Text( GreenhouseEffectFluent.fluxMeter.titleStringProperty, textOptions ),
         property: model.fluxMeterVisibleProperty,
         options: {
 
           // pdom
-          accessibleName: GreenhouseEffectStrings.fluxMeter.titleStringProperty,
-          accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeter.accessibleHelpTextStringProperty,
+          accessibleName: GreenhouseEffectFluent.fluxMeter.titleStringProperty,
+          accessibleHelpText: GreenhouseEffectFluent.a11y.fluxMeter.accessibleHelpTextStringProperty,
           accessibleContextResponseChecked: fluxMeterCheckedUtterance,
-          accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.fluxMeterUncheckedAlertStringProperty
+          accessibleContextResponseUnchecked: GreenhouseEffectFluent.a11y.fluxMeterUncheckedAlertStringProperty
         },
         tandemName: 'fluxMeterCheckbox'
       } );

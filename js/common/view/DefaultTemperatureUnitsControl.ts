@@ -17,14 +17,14 @@ import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGrou
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 
 export default class DefaultTemperatureUnitsControl extends VBox {
 
   public constructor( defaultTemperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
-    const text = new Text( GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty, {
+    const text = new Text( GreenhouseEffectFluent.defaultTemperatureUnitsStringProperty, {
       font: PreferencesDialogConstants.CONTENT_FONT,
       maxWidth: 500
     } );
@@ -33,19 +33,19 @@ export default class DefaultTemperatureUnitsControl extends VBox {
     const items: AquaRadioButtonGroupItem<TemperatureUnits>[] = [
       createItem(
         TemperatureUnits.KELVIN,
-        GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
+        GreenhouseEffectFluent.temperature.units.kelvinStringProperty,
         tandem,
         'kelvinRadioButton'
       ),
       createItem(
         TemperatureUnits.CELSIUS,
-        GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
+        GreenhouseEffectFluent.temperature.units.celsiusStringProperty,
         tandem,
         'celsiusRadioButton'
       ),
       createItem(
         TemperatureUnits.FAHRENHEIT,
-        GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty,
+        GreenhouseEffectFluent.temperature.units.fahrenheitStringProperty,
         tandem,
         'fahrenheitRadioButton'
       )
@@ -56,7 +56,7 @@ export default class DefaultTemperatureUnitsControl extends VBox {
       phetioVisiblePropertyInstrumented: false,
 
       // pdom
-      accessibleName: GreenhouseEffectStrings.defaultTemperatureUnitsStringProperty
+      accessibleName: GreenhouseEffectFluent.defaultTemperatureUnitsStringProperty
     } );
 
     super( {

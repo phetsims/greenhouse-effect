@@ -13,7 +13,7 @@ import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
 
@@ -26,8 +26,8 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
       homeScreenIcon: GreenhouseEffectIconFactory.createLayerModelHomeScreenIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.layerModelStringProperty,
-      screenButtonsHelpText: GreenhouseEffectStrings.a11y.layerModel.screenButtonsHelpTextStringProperty,
+      name: GreenhouseEffectFluent.screen.layerModelStringProperty,
+      screenButtonsHelpText: GreenhouseEffectFluent.a11y.layerModel.screenButtonsHelpTextStringProperty,
       createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent( { includeFluxMeterHelp: true } ),
       isDisposable: false
     };

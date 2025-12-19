@@ -10,7 +10,7 @@ import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-p
 import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import MicroModel from './model/MicroModel.js';
 import MicroScreenView from './view/MicroScreenView.js';
 
@@ -21,7 +21,7 @@ class MicroScreen extends Screen<MicroModel, MicroScreenView> {
       backgroundColorProperty: new Property( '#C5D6E8' ),
       homeScreenIcon: GreenhouseEffectIconFactory.createMicroScreenHomeIcon(),
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.microStringProperty,
+      name: GreenhouseEffectFluent.screen.microStringProperty,
 
       // TODO: This should use the same content as molecules-and-light, see https://github.com/phetsims/greenhouse-effect/issues/324.
       // MoleculesAndLightKeyboardHelpContent should be moved to this repo.

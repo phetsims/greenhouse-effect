@@ -13,7 +13,7 @@ import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
 import greenhouseEffect from '../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
 
@@ -26,8 +26,8 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
       homeScreenIcon: GreenhouseEffectIconFactory.createPhotonsHomeScreenIcon(),
       maxDT: GreenhouseEffectConstants.MAX_DT,
       tandem: tandem,
-      name: GreenhouseEffectStrings.screen.photonsStringProperty,
-      screenButtonsHelpText: GreenhouseEffectStrings.a11y.photons.screenButtonsHelpTextStringProperty,
+      name: GreenhouseEffectFluent.screen.photonsStringProperty,
+      screenButtonsHelpText: GreenhouseEffectFluent.a11y.photons.screenButtonsHelpTextStringProperty,
       createKeyboardHelpNode: () => new GreenhouseEffectKeyboardHelpContent( { includeFluxMeterHelp: true } ),
       isDisposable: false
     };

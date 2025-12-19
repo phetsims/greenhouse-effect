@@ -18,7 +18,7 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   public constructor( property: Property<boolean>,
@@ -45,15 +45,15 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
       );
     } );
 
-    super( property, GreenhouseEffectStrings.showSurfaceTemperatureStringProperty, {
+    super( property, GreenhouseEffectFluent.showSurfaceTemperatureStringProperty, {
       iconNode: iconNode,
       touchAreaXDilation: 5,
       touchAreaYDilation: 4,
 
       // pdom
-      accessibleHelpText: GreenhouseEffectStrings.a11y.showSurfaceTemperature.accessibleHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.showSurfaceTemperature.accessibleHelpTextStringProperty,
       accessibleContextResponseChecked: checkedUtterance,
-      accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.surfaceTemperatureScaleHiddenStringProperty,
+      accessibleContextResponseUnchecked: GreenhouseEffectFluent.a11y.surfaceTemperatureScaleHiddenStringProperty,
 
       // phetio
       tandem: tandem

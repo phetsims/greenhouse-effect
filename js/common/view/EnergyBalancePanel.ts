@@ -27,7 +27,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import scenery from '../../../../scenery/js/scenery.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 import LayersModel from '../model/LayersModel.js';
@@ -59,15 +59,15 @@ class EnergyBalancePanel extends Panel {
       yMargin: 10,
 
       // pdom
-      accessibleHeading: GreenhouseEffectStrings.energyBalancePanel.titleStringProperty
+      accessibleHeading: GreenhouseEffectFluent.energyBalancePanel.titleStringProperty
     };
 
     // title
-    const titleText = new Text( GreenhouseEffectStrings.energyBalancePanel.titleStringProperty, {
+    const titleText = new Text( GreenhouseEffectFluent.energyBalancePanel.titleStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: 150
     } );
-    const subTitleText = new Text( GreenhouseEffectStrings.energyBalancePanel.subTitleStringProperty, {
+    const subTitleText = new Text( GreenhouseEffectFluent.energyBalancePanel.subTitleStringProperty, {
       font: GreenhouseEffectConstants.CONTENT_FONT,
       maxWidth: 120
     } );
@@ -129,7 +129,7 @@ class EnergyBalancePanel extends Panel {
         if ( !sunIsShining ) {
 
           // describe no flow of energy and a hint to start sunlight to make use of the energy balance panel
-          this.descriptionContent = GreenhouseEffectStrings.a11y.noFlowOfEnergyHintDescriptionStringProperty;
+          this.descriptionContent = GreenhouseEffectFluent.a11y.noFlowOfEnergyHintDescriptionStringProperty;
         }
         else {
           this.descriptionContent = EnergyDescriber.getNetEnergyAtAtmosphereDescription( -netEnergy, inRadiativeBalance );
@@ -208,9 +208,9 @@ class EnergyBalancePlot extends Node {
 
       createLabel: ( value: number ) => {
         return value === inEnergyModelPosition ?
-               new Text( GreenhouseEffectStrings.energyBalancePanel.inStringProperty, labelOptions ) :
-               value === outEnergyModelPosition ? new Text( GreenhouseEffectStrings.energyBalancePanel.outStringProperty, labelOptions ) :
-               new Text( GreenhouseEffectStrings.energyBalancePanel.netStringProperty, labelOptions );
+               new Text( GreenhouseEffectFluent.energyBalancePanel.inStringProperty, labelOptions ) :
+               value === outEnergyModelPosition ? new Text( GreenhouseEffectFluent.energyBalancePanel.outStringProperty, labelOptions ) :
+               new Text( GreenhouseEffectFluent.energyBalancePanel.netStringProperty, labelOptions );
       }
     } );
 

@@ -12,7 +12,7 @@ import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 class InfraredAbsorbingLayersDescriptionProperty extends StringProperty {
   public constructor( numberOfActiveAtmosphereLayersProperty: TRangedProperty ) {
@@ -28,11 +28,11 @@ class InfraredAbsorbingLayersDescriptionProperty extends StringProperty {
         );
 
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.numberOfAbsorbingLayersPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.numberOfAbsorbingLayersPatternStringProperty,
           {
             number: numberOfActiveAtmosphereLayers > 0 ?
                     numberOfActiveAtmosphereLayers :
-                    GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty, // say 'no' for zero
+                    GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.noStringProperty, // say 'no' for zero
             s: numberOfActiveAtmosphereLayers === 1 ? '' : 's' // use plural except for a single layer
           }
         );

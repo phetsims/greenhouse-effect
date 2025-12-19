@@ -22,7 +22,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import Molecule from '../model/Molecule.js';
@@ -40,7 +40,7 @@ import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
 import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
-const molecularNamePatternStringProperty = GreenhouseEffectStrings.molecularNamePatternStringProperty;
+const molecularNamePatternStringProperty = GreenhouseEffectFluent.molecularNamePatternStringProperty;
 
 // constants
 // Model view transform used for creating images of the various molecules. This is basically a null transform except

@@ -9,7 +9,7 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import AbsorbingLayersControl from './AbsorbingLayersControl.js';
 import InfraredAbsorbanceControl from './InfraredAbsorbanceControl.js';
@@ -35,10 +35,10 @@ export default class InfraredPanel extends LayerScreenControlPanel {
       [ absorbingLayersControl, infraredAbsorbanceControl ],
       width,
       layersModel,
-      GreenhouseEffectStrings.infraredStringProperty,
+      GreenhouseEffectFluent.infraredStringProperty,
       {
         tandem: tandem,
-        labelContent: GreenhouseEffectStrings.a11y.layerModel.infraredControlsStringProperty
+        labelContent: GreenhouseEffectFluent.a11y.layerModel.infraredControlsStringProperty
       }
     );
   }

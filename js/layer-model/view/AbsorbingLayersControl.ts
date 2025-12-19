@@ -17,7 +17,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 
 export default class AbsorbingLayersControl extends HBox {
@@ -47,15 +47,15 @@ export default class AbsorbingLayersControl extends HBox {
         phetioVisiblePropertyInstrumented: false,
 
         // pdom
-        labelContent: GreenhouseEffectStrings.absorbingLayersStringProperty,
-        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.absorbingLayersHelpTextStringProperty,
+        labelContent: GreenhouseEffectFluent.absorbingLayersStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.layerModel.absorbingLayersHelpTextStringProperty,
         labelTagName: 'label',
         pageKeyboardStep: 1 // page up/page down have same size as default step
       }
     );
 
     // Label
-    const labelText = new Text( GreenhouseEffectStrings.absorbingLayersStringProperty, {
+    const labelText = new Text( GreenhouseEffectFluent.absorbingLayersStringProperty, {
       font: GreenhouseEffectConstants.LABEL_FONT
     } );
 

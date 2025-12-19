@@ -17,7 +17,7 @@ import TemperatureDescriber from '../../common/view/describers/TemperatureDescri
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import ObservationWindowPDOMNode from '../../common/view/ObservationWindowPDOMNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
 
@@ -50,11 +50,11 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         model.numberOfActiveAtmosphereLayersProperty,
         model.sunEnergySource.proportionateOutputRateProperty,
         model.groundLayer.albedoProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsDescriptionStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.passingThroughLayersPatternStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.solarIntensityPatternStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.sunlightPhotonsDescriptionStringProperty,
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.passingThroughLayersPatternStringProperty,
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.solarIntensityPatternStringProperty,
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty,
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty
       ],
       (
         isSunShining,
@@ -131,24 +131,24 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         // dynamic values. This is a bit silly, and is a good example of the unscalability of the approach of creating
         // descriptions explicitly in the code and using dynamic strings.  See
         // https://github.com/phetsims/greenhouse-effect/issues/383.
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
-        GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryHighStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.highStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.moderateStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.lowStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.veryLowStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatLowStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty,
-        GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty,
-        GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty,
-        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.lowStringProperty,
-        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.moderateStringProperty,
-        GreenhouseEffectStrings.a11y.historicalRelativeDescriptions.highStringProperty,
-        GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
+        GreenhouseEffectFluent.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.extremelyHighStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.veryHighStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.highStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.moderateStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.lowStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.veryLowStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.exceptionallyLowStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.exceptionallyHighStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.somewhatLowStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.somewhatHighStringProperty,
+        GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.extremelyLowStringProperty,
+        GreenhouseEffectFluent.a11y.infraredEmissionIntensityPatternStringProperty,
+        GreenhouseEffectFluent.a11y.historicalRelativeDescriptions.lowStringProperty,
+        GreenhouseEffectFluent.a11y.historicalRelativeDescriptions.moderateStringProperty,
+        GreenhouseEffectFluent.a11y.historicalRelativeDescriptions.highStringProperty,
+        GreenhouseEffectFluent.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty
       ],
       () => {
 
@@ -169,13 +169,13 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
           description += ' ';
           if ( layersInfraredAbsorbance === 1 ) {
             description += StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
+              GreenhouseEffectFluent.a11y.layerModel.observationWindow.allPhotonsAbsorbedPatternStringProperty,
               { s: numberOfActiveAtmosphereLayers > 1 ? 's' : '' }
             );
           }
           else {
             description += StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
+              GreenhouseEffectFluent.a11y.layerModel.observationWindow.percentageOfPhotonsAbsorbedPatternStringProperty,
               {
                 absorbedPercentage: layersInfraredAbsorbance * 100,
                 passThroughPercentage: Utils.roundToInterval( 1 - layersInfraredAbsorbance, 0.01 ) * 100,
@@ -205,7 +205,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
     // Create a scenery Node that will insert a description of the infrared photon concentration into the PDOM.
     const infraredPhotonDensityListItemNode = new Node( { tagName: 'li' } );
     infraredPhotonDensityListItemNode.innerContent =
-      GreenhouseEffectStrings.a11y.photonDensityDescriptionStringProperty.value;
+      GreenhouseEffectFluent.a11y.photonDensityDescriptionStringProperty.value;
     this.addChild( infraredPhotonDensityListItemNode );
 
     // Only show the infrared photon density description when the surface temperature is above the minimum value and
@@ -253,7 +253,7 @@ class LayerModelObservationWindowPDOMNode extends ObservationWindowPDOMNode {
         [ atmosphereLayer.temperatureProperty, model.temperatureUnitsProperty ],
         ( temperature, temperatureUnits ) => {
           atmosphereLayerListItemNode.innerContent = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerTemperaturePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerTemperaturePatternStringProperty,
             {
               layerNumber: index + 1,
               temperatureWithUnits: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, temperatureUnits )

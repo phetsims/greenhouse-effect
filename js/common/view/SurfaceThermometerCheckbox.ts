@@ -14,7 +14,7 @@ import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
@@ -31,21 +31,21 @@ class SurfaceThermometerCheckbox extends GreenhouseEffectCheckbox {
     const checkedUtterance = new Utterance();
     Multilink.multilink( [ temperatureProperty, temperatureUnitsProperty ], ( temperature, units ) => {
       checkedUtterance.alert = StringUtils.fillIn(
-        GreenhouseEffectStrings.a11y.thermometerShownAlertPatternStringProperty,
+        GreenhouseEffectFluent.a11y.thermometerShownAlertPatternStringProperty,
         {
           value: TemperatureDescriber.getQuantitativeTemperatureDescription( temperature, units )
         }
       );
     } );
 
-    super( property, GreenhouseEffectStrings.surfaceThermometerStringProperty, {
+    super( property, GreenhouseEffectFluent.surfaceThermometerStringProperty, {
       iconNode: iconNode,
       touchAreaXDilation: 5,
 
       // pdom
-      accessibleHelpText: GreenhouseEffectStrings.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
       accessibleContextResponseChecked: checkedUtterance,
-      accessibleContextResponseUnchecked: GreenhouseEffectStrings.a11y.thermometerRemovedAlertStringProperty,
+      accessibleContextResponseUnchecked: GreenhouseEffectFluent.a11y.thermometerRemovedAlertStringProperty,
 
       // phet-io
       tandem: tandem

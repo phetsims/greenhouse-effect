@@ -16,7 +16,7 @@ import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureUnits from '../../../common/model/TemperatureUnits.js';
 import TemperatureDescriber from '../../../common/view/describers/TemperatureDescriber.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
 
@@ -40,17 +40,17 @@ class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
         if ( layerNumber === 0 ) {
 
           // This is the ground layer.
-          layerDescription = GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty;
+          layerDescription = GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceStringProperty;
         }
         else {
           layerDescription = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerPatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerPatternStringProperty,
             { layerNumber: layerNumber }
           );
         }
 
         let layerDescriptionString = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerMeasuringSurfacePatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.thermometerMeasuringSurfacePatternStringProperty,
           { surfaceOrLayer: layerDescription }
         );
 

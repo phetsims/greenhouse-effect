@@ -16,7 +16,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 const UNITS_LABEL_MAX_WIDTH = 50;
 
@@ -24,7 +24,7 @@ class TemperatureUnitsControl extends VBox {
   public constructor( temperatureUnitsProperty: Property<TemperatureUnits>, tandem: Tandem ) {
 
     // Create the label that sits above the radio buttons.
-    const text = new Text( GreenhouseEffectStrings.temperatureUnitsStringProperty, {
+    const text = new Text( GreenhouseEffectFluent.temperatureUnitsStringProperty, {
       font: GreenhouseEffectConstants.LABEL_FONT,
       maxWidth: 200
     } );
@@ -38,27 +38,27 @@ class TemperatureUnitsControl extends VBox {
     // Items that describe the radio buttons
     const items: AquaRadioButtonGroupItem<TemperatureUnits>[] = [
       {
-        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.kelvinStringProperty, textOptions ),
+        createNode: () => new Text( GreenhouseEffectFluent.temperature.units.kelvinStringProperty, textOptions ),
         value: TemperatureUnits.KELVIN,
         tandemName: 'kelvinRadioButton',
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.temperatureUnits.kelvinStringProperty
         }
       },
       {
-        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.celsiusStringProperty, textOptions ),
+        createNode: () => new Text( GreenhouseEffectFluent.temperature.units.celsiusStringProperty, textOptions ),
         value: TemperatureUnits.CELSIUS,
         tandemName: 'celsiusRadioButton',
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.temperatureUnits.celsiusStringProperty
         }
       },
       {
-        createNode: () => new Text( GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty, textOptions ),
+        createNode: () => new Text( GreenhouseEffectFluent.temperature.units.fahrenheitStringProperty, textOptions ),
         value: TemperatureUnits.FAHRENHEIT,
         tandemName: 'fahrenheitRadioButton',
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.temperatureUnits.fahrenheitStringProperty
         }
       }
     ];
@@ -76,8 +76,8 @@ class TemperatureUnitsControl extends VBox {
       phetioVisiblePropertyInstrumented: false, // see https://github.com/phetsims/greenhouse-effect/issues/318
 
       // pdom
-      accessibleName: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
-      accessibleHelpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty
+      accessibleName: GreenhouseEffectFluent.a11y.temperatureUnitsLabelStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.temperatureUnitsHelpTextStringProperty
     } );
 
     // Put the label and radio buttons together in the VBox.

@@ -14,7 +14,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import { FluxMeterReadings } from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
 import LayersModel from '../model/LayersModel.js';
@@ -110,16 +110,16 @@ class EnergyFluxAlerter extends Alerter {
     // Monitor the zoom property and trigger an alert when changes occur.
     model.fluxMeter!.zoomFactorProperty.lazyLink( ( zoomFactor, oldZoomFactor ) => {
       const zoomOutString = StringUtils.fillIn(
-        GreenhouseEffectStrings.a11y.fluxMeter.visualScaleZoomedPatternStringProperty,
+        GreenhouseEffectFluent.a11y.fluxMeter.visualScaleZoomedPatternStringProperty,
         {
           inOrOut: zoomFactor > oldZoomFactor ?
-                   GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty :
-                   GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty
+                   GreenhouseEffectFluent.a11y.fluxMeter.inStringProperty :
+                   GreenhouseEffectFluent.a11y.fluxMeter.outStringProperty
         }
       );
 
       // Perform the alert.
-      this.alert( `${zoomOutString} ${GreenhouseEffectStrings.a11y.fluxMeter.noChangeStringProperty.value}` );
+      this.alert( `${zoomOutString} ${GreenhouseEffectFluent.a11y.fluxMeter.noChangeStringProperty.value}` );
     } );
 
     if ( options.motivateEnergyFluxAlertEmitter ) {
@@ -235,11 +235,11 @@ class EnergyFluxAlerter extends Alerter {
             // The flux change is under the minimum threshold for announcing the full description, but an alert needs
             // to be made.  Create one about there being little or no change in the energy flux.
             const littleOrNoChangeString = StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.fluxMeterSmallChangePatternStringProperty,
+              GreenhouseEffectFluent.a11y.fluxMeterSmallChangePatternStringProperty,
               {
                 negligibleOrNo: largestFluxChange < APPRECIABLE_ENERGY_FLUX_CHANGE_THRESHOLD ?
-                                GreenhouseEffectStrings.a11y.qualitativeAmountDescriptions.noStringProperty :
-                                GreenhouseEffectStrings.a11y.negligibleStringProperty
+                                GreenhouseEffectFluent.a11y.qualitativeAmountDescriptions.noStringProperty :
+                                GreenhouseEffectFluent.a11y.negligibleStringProperty
               }
             );
             this.alert( littleOrNoChangeString );

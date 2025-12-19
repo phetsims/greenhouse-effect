@@ -13,7 +13,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
 import LayersModelAlerter, { LayersModelAlerterOptions } from './LayersModelAlerter.js';
@@ -135,19 +135,19 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       if ( numberOfAbsorbingLayersChange > 0 ) {
         if ( numberOfAbsorbingLayersChange > 1 ) {
           this.numberOfLayersChangeUtterance.alert =
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.multipleLayersAddedStringProperty.value;
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.multipleLayersAddedStringProperty.value;
         }
         else if ( numberOfActiveLayers === 1 ) {
 
           // The first layer was added, describe relative to ground layer.
           this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedAboveSurfacePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerAddedAboveSurfacePatternStringProperty,
             { number: numberOfActiveLayers }
           );
         }
         else {
           this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerAddedContextResponsePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerAddedContextResponsePatternStringProperty,
             {
               aboveNumber: numberOfActiveLayers,
               belowNumber: numberOfActiveLayers - 1
@@ -158,11 +158,11 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       else {
         if ( numberOfAbsorbingLayersChange < -1 ) {
           this.numberOfLayersChangeUtterance.alert =
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.multipleLayersRemovedStringProperty.value;
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.multipleLayersRemovedStringProperty.value;
         }
         else {
           this.numberOfLayersChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerRemovedContextResponsePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerRemovedContextResponsePatternStringProperty,
             { number: numberOfActiveLayers + 1 }
           );
         }
@@ -177,10 +177,10 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       // Alert if the solar intensity has changed.
       if ( solarIntensityChange !== 0 ) {
         const moreOrFewerProperty = solarIntensityChange > 0 ?
-                                    GreenhouseEffectStrings.a11y.moreStringProperty :
-                                    GreenhouseEffectStrings.a11y.fewerStringProperty;
+                                    GreenhouseEffectFluent.a11y.moreStringProperty :
+                                    GreenhouseEffectFluent.a11y.fewerStringProperty;
         this.solarIntensityChangeUtterance.alert = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.sunlightPhotonsPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.sunlightPhotonsPatternStringProperty,
           { moreFewer: moreOrFewerProperty }
         );
         this.alert( this.solarIntensityChangeUtterance );
@@ -191,11 +191,11 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         const albedo = this.layerModelModel.groundLayer.albedoProperty.value;
         if ( albedo === 0 ) {
           this.surfaceAlbedoChangeUtterance.alert =
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value;
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceReflectsNoSunlightStringProperty.value;
         }
         else {
           this.surfaceAlbedoChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceReflectsSunlightPercentagePatternStringProperty,
             { percentage: Utils.roundToInterval( albedo * 100, 1 ) }
           );
         }
@@ -211,12 +211,12 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         if ( this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
           if ( currentIRAbsorbance === 1 ) {
             this.infraredAbsorbanceChangeUtterance.alert =
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
+              GreenhouseEffectFluent.a11y.layerModel.observationWindow.fullAbsorptionContextResponseStringProperty.value;
           }
           else {
             const passThroughPercentage = Utils.roundToInterval( 1 - currentIRAbsorbance, 0.01 ) * 100;
             this.infraredAbsorbanceChangeUtterance.alert = StringUtils.fillIn(
-              GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty,
+              GreenhouseEffectFluent.a11y.layerModel.observationWindow.absorptionChangeContextResponsePatternStringProperty,
               {
                 absorbedPercentage: absorbedPercentage,
                 passThroughPercentage: passThroughPercentage
@@ -226,7 +226,7 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         }
         else {
           this.infraredAbsorbanceChangeUtterance.alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.absorptionChangeWithNoLayersContextResponsePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.absorptionChangeWithNoLayersContextResponsePatternStringProperty,
             {
               absorbedPercentage: absorbedPercentage
             }
@@ -239,7 +239,7 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       this.layerModelModel.atmosphereLayers.forEach( ( layer, index ) => {
         if ( layer.isActiveProperty.value && layer.showTemperatureProperty.value && layerReachedEquilibrium[ index ] ) {
           const alert = StringUtils.fillIn(
-            GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerTemperatureStablePatternStringProperty,
+            GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerTemperatureStablePatternStringProperty,
             {
               number: index + 1,
               temperature: TemperatureDescriber.getQuantitativeTemperatureDescription(
@@ -268,8 +268,8 @@ class LayerModelModelAlerter extends LayersModelAlerter {
       let moreOrFewerString = '';
       let alertFromSurfaceStringFirst = true;
 
-      const moreString = GreenhouseEffectStrings.a11y.moreStringProperty.value;
-      const fewerString = GreenhouseEffectStrings.a11y.fewerStringProperty.value;
+      const moreString = GreenhouseEffectFluent.a11y.moreStringProperty.value;
+      const fewerString = GreenhouseEffectFluent.a11y.fewerStringProperty.value;
 
       // Decide what the alert should be. The ordering here will determine precedence if two things change within the
       // same interval.
@@ -288,18 +288,18 @@ class LayerModelModelAlerter extends LayersModelAlerter {
         moreOrFewerString = infraredAbsorbanceChange > 0 ? moreString : fewerString;
       }
 
-      const fromSurfaceAlert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.infraredEnergyEmittedFromSurfacePatternStringProperty, {
+      const fromSurfaceAlert = StringUtils.fillIn( GreenhouseEffectFluent.a11y.infraredEnergyEmittedFromSurfacePatternStringProperty, {
         changeDescription: moreOrFewerString,
-        energyRepresentation: GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty
+        energyRepresentation: GreenhouseEffectFluent.a11y.energyRepresentation.photonsStringProperty
       } );
 
       // The alert that describes IR photons coming back to the surface is only used if there are some active layers
       // in the atmosphere, since otherwise there won't be any IR photons coming back.
       let backToSurfaceAlert = '';
       if ( this.layerModelModel.numberOfActiveAtmosphereLayersProperty.value > 0 ) {
-        backToSurfaceAlert = StringUtils.fillIn( GreenhouseEffectStrings.a11y.infraredEnergyRedirectingPatternStringProperty, {
+        backToSurfaceAlert = StringUtils.fillIn( GreenhouseEffectFluent.a11y.infraredEnergyRedirectingPatternStringProperty, {
           changeDescription: moreOrFewerString,
-          energyRepresentation: GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty
+          energyRepresentation: GreenhouseEffectFluent.a11y.energyRepresentation.photonsStringProperty
         } );
       }
 

@@ -11,7 +11,7 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -23,15 +23,15 @@ class LayersModelTimeControlNode extends TimeControlNode {
 
     // Use slightly different descriptions for the play and pause states depending on whether the step button is used.
     const playingDescriptionProperty = providedOptions.timeSpeedProperty ?
-                                       GreenhouseEffectStrings.a11y.timeControls.playPauseButtonObservationWindowPlayingWithSpeedDescriptionStringProperty :
-                                       GreenhouseEffectStrings.a11y.timeControls.playPauseButtonObservationWindowPlayingDescriptionStringProperty;
+                                       GreenhouseEffectFluent.a11y.timeControls.playPauseButtonObservationWindowPlayingWithSpeedDescriptionStringProperty :
+                                       GreenhouseEffectFluent.a11y.timeControls.playPauseButtonObservationWindowPlayingDescriptionStringProperty;
     const pausedDescriptionProperty = providedOptions.timeSpeedProperty ?
-                                      GreenhouseEffectStrings.a11y.timeControls.playPauseButtonObservationWindowPausedWithSpeedDescriptionStringProperty :
-                                      GreenhouseEffectStrings.a11y.timeControls.playPauseButtonObservationWindowPausedDescriptionStringProperty;
+                                      GreenhouseEffectFluent.a11y.timeControls.playPauseButtonObservationWindowPausedWithSpeedDescriptionStringProperty :
+                                      GreenhouseEffectFluent.a11y.timeControls.playPauseButtonObservationWindowPausedDescriptionStringProperty;
 
     const options = optionize<LayersModelTimeControlNodeOptions, SelfOptions, TimeControlNodeOptions>()( {
       speedRadioButtonGroupOptions: {
-        accessibleHelpText: GreenhouseEffectStrings.a11y.timeControls.speedRadioButtonsDescriptionStringProperty
+        accessibleHelpText: GreenhouseEffectFluent.a11y.timeControls.speedRadioButtonsDescriptionStringProperty
       },
       playPauseStepButtonOptions: {
         stepForwardButtonOptions: {
@@ -56,7 +56,7 @@ class LayersModelTimeControlNode extends TimeControlNode {
 
         // generic alert about the step button
         this.addAccessibleContextResponse(
-          GreenhouseEffectStrings.a11y.timeControls.simPausedEmitterOnAlertStringProperty
+          GreenhouseEffectFluent.a11y.timeControls.simPausedEmitterOnAlertStringProperty
         );
       }
     } );

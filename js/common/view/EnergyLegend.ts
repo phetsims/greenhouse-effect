@@ -19,7 +19,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import EnergyRepresentation from './EnergyRepresentation.js';
@@ -60,9 +60,9 @@ class EnergyLegend extends Panel {
       yMargin: PANEL_MARGIN,
 
       // pdom
-      accessibleHeading: GreenhouseEffectStrings.a11y.energyLegend.titleStringProperty,
+      accessibleHeading: GreenhouseEffectFluent.a11y.energyLegend.titleStringProperty,
       descriptionTagName: 'p',
-      descriptionContent: GreenhouseEffectStrings.a11y.energyLegend.inObservationWindowStringProperty,
+      descriptionContent: GreenhouseEffectFluent.a11y.energyLegend.inObservationWindowStringProperty,
 
       // phet-io
       visiblePropertyOptions: {
@@ -71,7 +71,7 @@ class EnergyLegend extends Panel {
     }, providedOptions );
 
     // title
-    const titleText = new Text( GreenhouseEffectStrings.energyLegend.titleStringProperty, {
+    const titleText = new Text( GreenhouseEffectFluent.energyLegend.titleStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       fill: 'white',
       maxWidth: width - 2 * PANEL_MARGIN
@@ -86,11 +86,11 @@ class EnergyLegend extends Panel {
 
     // labels
     const sunlightText = new Text(
-      GreenhouseEffectStrings.sunlightStringProperty,
+      GreenhouseEffectFluent.sunlightStringProperty,
       labelOptions
     );
     const infraredText = new Text(
-      GreenhouseEffectStrings.infraredStringProperty,
+      GreenhouseEffectFluent.infraredStringProperty,
       labelOptions
     );
 
@@ -103,14 +103,14 @@ class EnergyLegend extends Panel {
       const infraredWavelengths = 2.5;
       sunlightIcon = createWaveIcon( sunlightWavelength, sunlightWavelengths, {
         stroke: GreenhouseEffectColors.sunlightColorProperty,
-        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.wavesSunlightDescriptionStringProperty
+        accessibleName: GreenhouseEffectFluent.a11y.energyLegend.wavesSunlightDescriptionStringProperty
       } );
       infraredIcon = createWaveIcon(
         sunlightWavelength * sunlightWavelengths / infraredWavelengths,
         infraredWavelengths,
         {
           stroke: GreenhouseEffectColors.infraredColorProperty,
-          accessibleName: GreenhouseEffectStrings.a11y.energyLegend.wavesInfraredDescriptionStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.energyLegend.wavesInfraredDescriptionStringProperty
         }
       );
     }
@@ -122,10 +122,10 @@ class EnergyLegend extends Panel {
         tagName: 'li'
       };
       sunlightIcon = new Image( visiblePhoton_png, combineOptions<ImageOptions>( photonIconOptions, {
-        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.photonsSunlightDescriptionStringProperty
+        accessibleName: GreenhouseEffectFluent.a11y.energyLegend.photonsSunlightDescriptionStringProperty
       } ) );
       infraredIcon = new Image( infraredPhoton_png, combineOptions<ImageOptions>( photonIconOptions, {
-        accessibleName: GreenhouseEffectStrings.a11y.energyLegend.photonsInfraredDescriptionStringProperty
+        accessibleName: GreenhouseEffectFluent.a11y.energyLegend.photonsInfraredDescriptionStringProperty
       } ) );
     }
 

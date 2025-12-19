@@ -9,14 +9,14 @@
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
-const inflowToEarthStringProperty = GreenhouseEffectStrings.a11y.inflowToEarthStringProperty;
-const outflowToSpaceStringProperty = GreenhouseEffectStrings.a11y.outflowToSpaceStringProperty;
-const greaterThanStringProperty = GreenhouseEffectStrings.a11y.greaterThanStringProperty;
-const lessThanStringProperty = GreenhouseEffectStrings.a11y.lessThanStringProperty;
-const outgoingEnergyAtAtmospherePatternStringProperty = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmospherePatternStringProperty;
-const outgoingEnergyAtAtmosphereEqualStringProperty = GreenhouseEffectStrings.a11y.outgoingEnergyAtAtmosphereEqualStringProperty;
+const inflowToEarthStringProperty = GreenhouseEffectFluent.a11y.inflowToEarthStringProperty;
+const outflowToSpaceStringProperty = GreenhouseEffectFluent.a11y.outflowToSpaceStringProperty;
+const greaterThanStringProperty = GreenhouseEffectFluent.a11y.greaterThanStringProperty;
+const lessThanStringProperty = GreenhouseEffectFluent.a11y.lessThanStringProperty;
+const outgoingEnergyAtAtmospherePatternStringProperty = GreenhouseEffectFluent.a11y.outgoingEnergyAtAtmospherePatternStringProperty;
+const outgoingEnergyAtAtmosphereEqualStringProperty = GreenhouseEffectFluent.a11y.outgoingEnergyAtAtmosphereEqualStringProperty;
 
 class EnergyDescriber {
 

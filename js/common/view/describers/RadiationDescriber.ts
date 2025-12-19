@@ -7,7 +7,7 @@
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 import GroundLayer from '../../model/GroundLayer.js';
 import EnergyRepresentation from '../EnergyRepresentation.js';
@@ -36,7 +36,7 @@ class RadiationDescriber {
                                                     energyRepresentation: EnergyRepresentation ): string | null {
 
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredEnergyRedirectingPatternStringProperty.value,
+      GreenhouseEffectFluent.a11y.infraredEnergyRedirectingPatternStringProperty.value,
       newConcentration,
       oldConcentration,
       energyRepresentation,
@@ -54,7 +54,7 @@ class RadiationDescriber {
                                                           energyRepresentation: EnergyRepresentation ): string | null {
 
     return RadiationDescriber.getRadiationChangeDescription(
-      GreenhouseEffectStrings.a11y.infraredEnergyEmittedFromSurfacePatternStringProperty.value,
+      GreenhouseEffectFluent.a11y.infraredEnergyEmittedFromSurfacePatternStringProperty.value,
       newConcentration,
       oldConcentration,
       energyRepresentation
@@ -85,26 +85,26 @@ class RadiationDescriber {
     if ( newConcentration !== oldConcentration ) {
       let changeString: string;
       if ( describeNoConcentration && newConcentration === 0 ) {
-        changeString = GreenhouseEffectStrings.a11y.noStringProperty.value;
+        changeString = GreenhouseEffectFluent.a11y.noStringProperty.value;
       }
       else {
 
         if ( newConcentration > oldConcentration ) {
-          changeString = GreenhouseEffectStrings.a11y.moreStringProperty.value;
+          changeString = GreenhouseEffectFluent.a11y.moreStringProperty.value;
         }
         else {
 
           changeString = energyRepresentation === EnergyRepresentation.PHOTON ?
-                         GreenhouseEffectStrings.a11y.fewerStringProperty.value :
-                         GreenhouseEffectStrings.a11y.lessStringProperty.value;
+                         GreenhouseEffectFluent.a11y.fewerStringProperty.value :
+                         GreenhouseEffectFluent.a11y.lessStringProperty.value;
         }
       }
 
       response = StringUtils.fillIn( patternString, {
         changeDescription: changeString,
         energyRepresentation: energyRepresentation === EnergyRepresentation.PHOTON ?
-                              GreenhouseEffectStrings.a11y.energyRepresentation.photonsStringProperty :
-                              GreenhouseEffectStrings.a11y.energyRepresentation.radiationStringProperty
+                              GreenhouseEffectFluent.a11y.energyRepresentation.photonsStringProperty :
+                              GreenhouseEffectFluent.a11y.energyRepresentation.radiationStringProperty
       } );
     }
 
@@ -123,8 +123,8 @@ class RadiationDescriber {
                                                 ConcentrationDescriber.getQualitativeConcentrationDescription( concentration );
 
     const enclosingPhraseProperty = energyRepresentation === EnergyRepresentation.WAVE ?
-                                    GreenhouseEffectStrings.a11y.amountOfPatternStringProperty :
-                                    GreenhouseEffectStrings.a11y.proportionOfPatternStringProperty;
+                                    GreenhouseEffectFluent.a11y.amountOfPatternStringProperty :
+                                    GreenhouseEffectFluent.a11y.proportionOfPatternStringProperty;
 
     return StringUtils.capitalize( StringUtils.fillIn( enclosingPhraseProperty, {
       qualitativeDescription: qualitativeDescriptionOfRedirection
@@ -154,8 +154,8 @@ class RadiationDescriber {
       );
 
       const irDescriptionWithRedirectionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
-                                                          GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty :
-                                                          GreenhouseEffectStrings.a11y.photons.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty;
+                                                          GreenhouseEffectFluent.a11y.waves.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty :
+                                                          GreenhouseEffectFluent.a11y.photons.observationWindow.infraredEmissionIntensityWithRedirectionPatternStringProperty;
 
       if ( concentration > 0 ) {
 
@@ -169,7 +169,7 @@ class RadiationDescriber {
       }
       else if ( energyRepresentation === EnergyRepresentation.PHOTON ) {
         radiationIntensityDescription += ' ' +
-                                         GreenhouseEffectStrings.a11y.photons.observationWindow.noOutgoingInfraredStringProperty.value;
+                                         GreenhouseEffectFluent.a11y.photons.observationWindow.noOutgoingInfraredStringProperty.value;
       }
     }
 
@@ -192,8 +192,8 @@ class RadiationDescriber {
     );
 
     const irEmissionPatternProperty = energyRepresentation === EnergyRepresentation.WAVE ?
-                                      GreenhouseEffectStrings.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
-                                      GreenhouseEffectStrings.a11y.infraredEmissionIntensityPatternStringProperty;
+                                      GreenhouseEffectFluent.a11y.waves.observationWindow.infraredEmissionIntensityPatternStringProperty :
+                                      GreenhouseEffectFluent.a11y.infraredEmissionIntensityPatternStringProperty;
 
     return StringUtils.capitalize( StringUtils.fillIn( irEmissionPatternProperty, { value: intensityDescription } ) );
   }
@@ -208,17 +208,17 @@ class RadiationDescriber {
 
     // Use somewhat different wording when representing light using waves versus photons.
     const sunlightDescriptionProperty = energyRepresentation === EnergyRepresentation.WAVE ?
-                                        GreenhouseEffectStrings.a11y.waves.observationWindow.sunlightWavesTravelFromSpaceStringProperty :
-                                        GreenhouseEffectStrings.a11y.photons.observationWindow.sunlightPhotonsDescriptionStringProperty;
+                                        GreenhouseEffectFluent.a11y.waves.observationWindow.sunlightWavesTravelFromSpaceStringProperty :
+                                        GreenhouseEffectFluent.a11y.photons.observationWindow.sunlightPhotonsDescriptionStringProperty;
 
     let descriptionString;
     if ( !includeCloudReflection && !includeGlacierReflection ) {
       descriptionString = sunlightDescriptionProperty.value;
     }
     else if ( includeCloudReflection && !includeGlacierReflection ) {
-      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
+      descriptionString = StringUtils.fillIn( GreenhouseEffectFluent.a11y.sunlightAndReflectionPatternStringProperty, {
         sunlightDescription: sunlightDescriptionProperty,
-        reflectionDescription: GreenhouseEffectStrings.a11y.cloudRefectionStringProperty
+        reflectionDescription: GreenhouseEffectFluent.a11y.cloudRefectionStringProperty
       } );
     }
     else if ( !includeCloudReflection && includeGlacierReflection ) {
@@ -228,9 +228,9 @@ class RadiationDescriber {
       descriptionString = '';
     }
     else {
-      descriptionString = StringUtils.fillIn( GreenhouseEffectStrings.a11y.sunlightAndReflectionPatternStringProperty, {
+      descriptionString = StringUtils.fillIn( GreenhouseEffectFluent.a11y.sunlightAndReflectionPatternStringProperty, {
         sunlightDescription: sunlightDescriptionProperty,
-        reflectionDescription: GreenhouseEffectStrings.a11y.cloudAndGlacierRefectionStringProperty
+        reflectionDescription: GreenhouseEffectFluent.a11y.cloudAndGlacierRefectionStringProperty
       } );
     }
 

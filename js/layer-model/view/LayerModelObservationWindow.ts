@@ -26,7 +26,7 @@ import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffec
 import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
 import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
 import FluxSensorLayerRelationshipProperty from './describers/FluxSensorLayerRelationshipProperty.js';
@@ -122,15 +122,15 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
 
         // pdom
         showTemperatureCheckboxOptions: {
-          accessibleName: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxLabelPatternStringProperty, {
+          accessibleName: StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerThermometerCheckboxLabelPatternStringProperty, {
             number: presentedIndex
           } ),
-          accessibleHelpText: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
+          accessibleHelpText: StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerThermometerCheckboxHelpTextStringProperty, {
             number: presentedIndex
           } ),
           accessibleContextResponseChecked: checkedContextResponseProperty,
-          accessibleContextResponseUnchecked: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
-            surfaceOrLayer: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.layerPatternStringProperty, {
+          accessibleContextResponseUnchecked: StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
+            surfaceOrLayer: StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.observationWindow.layerPatternStringProperty, {
               layerNumber: presentedIndex
             } )
           } )
@@ -176,11 +176,11 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
       tandem: tandem.createTandem( 'showThermometerCheckbox' ),
 
       // pdom - content for the surface thermometer checkbox
-      accessibleName: GreenhouseEffectStrings.surfaceThermometerStringProperty,
-      accessibleHelpText: GreenhouseEffectStrings.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
+      accessibleName: GreenhouseEffectFluent.surfaceThermometerStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.surfaceThermometer.accessibleHelpTextStringProperty,
       accessibleContextResponseChecked: groundThermometerCheckedContextResponseProperty,
-      accessibleContextResponseUnchecked: StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
-        surfaceOrLayer: GreenhouseEffectStrings.a11y.layerModel.observationWindow.surfaceStringProperty
+      accessibleContextResponseUnchecked: StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.observationWindow.thermometerRemovedFromStringProperty, {
+        surfaceOrLayer: GreenhouseEffectFluent.a11y.layerModel.observationWindow.surfaceStringProperty
       } )
     } );
     this.controlsLayer.addChild( this.showThermometerCheckbox );

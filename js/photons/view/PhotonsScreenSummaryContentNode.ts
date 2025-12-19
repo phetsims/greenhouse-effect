@@ -8,15 +8,15 @@
 
 import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 
 export default class PhotonsScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
   public constructor( model: PhotonsModel ) {
     super(
       model,
-      GreenhouseEffectStrings.a11y.photons.screenSummary.playAreaDescriptionStringProperty,
-      GreenhouseEffectStrings.a11y.photons.screenSummary.controlAreaDescriptionStringProperty
+      GreenhouseEffectFluent.a11y.photons.screenSummary.playAreaDescriptionStringProperty,
+      GreenhouseEffectFluent.a11y.photons.screenSummary.controlAreaDescriptionStringProperty
     );
   }
 }

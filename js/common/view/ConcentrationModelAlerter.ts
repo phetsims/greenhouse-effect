@@ -15,7 +15,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import RadiationDescriber from './describers/RadiationDescriber.js';
@@ -162,9 +162,9 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
       if ( currentControlMode === ConcentrationControlMode.BY_DATE ) {
 
         // Make an alert about the change to the UI that just occurred.
-        this.alert( StringUtils.fillIn( GreenhouseEffectStrings.a11y.concentrationControlReplacedPatternStringProperty, {
-          visibleControl: GreenhouseEffectStrings.a11y.timePeriodRadioButtonGroupStringProperty,
-          replacedControl: GreenhouseEffectStrings.a11y.greenhouseGasConcentrationSliderStringProperty
+        this.alert( StringUtils.fillIn( GreenhouseEffectFluent.a11y.concentrationControlReplacedPatternStringProperty, {
+          visibleControl: GreenhouseEffectFluent.a11y.timePeriodRadioButtonGroupStringProperty,
+          replacedControl: GreenhouseEffectFluent.a11y.greenhouseGasConcentrationSliderStringProperty
         } ) );
 
         // Since the concentration is now being controlled by date, include a description of the selected date.
@@ -173,9 +173,9 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
       else {
 
         // Make an alert about the change to the UI that just occurred.
-        this.alert( StringUtils.fillIn( GreenhouseEffectStrings.a11y.concentrationControlReplacedPatternStringProperty, {
-          visibleControl: GreenhouseEffectStrings.a11y.greenhouseGasConcentrationSliderStringProperty,
-          replacedControl: GreenhouseEffectStrings.a11y.timePeriodRadioButtonGroupStringProperty
+        this.alert( StringUtils.fillIn( GreenhouseEffectFluent.a11y.concentrationControlReplacedPatternStringProperty, {
+          visibleControl: GreenhouseEffectFluent.a11y.greenhouseGasConcentrationSliderStringProperty,
+          replacedControl: GreenhouseEffectFluent.a11y.timePeriodRadioButtonGroupStringProperty
         } ) );
 
         // In manual mode, describe the relative level of concentration.

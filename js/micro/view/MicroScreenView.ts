@@ -29,7 +29,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -43,7 +43,7 @@ import QuadEmissionFrequencyControlPanel from './QuadEmissionFrequencyControlPan
 import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
-const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectStrings.SpectrumWindow.buttonCaptionStringProperty;
+const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectFluent.SpectrumWindow.buttonCaptionStringProperty;
 const spectrumButtonLabelMessageProperty = GreenhouseEffectMessages.spectrumButtonLabelMessageProperty;
 const spectrumButtonDescriptionMessageProperty = GreenhouseEffectMessages.spectrumButtonDescriptionMessageProperty;
 

@@ -15,7 +15,7 @@ import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import AtmosphereLayer from '../../../common/model/AtmosphereLayer.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 type AltitudeData = {
   closestLayerAbove: AtmosphereLayer | null;
@@ -46,7 +46,7 @@ class FluxSensorLayerRelationshipProperty extends StringProperty {
         // If within this threshold to the closest layer below, the sensor is "just above" that layer.
         const indexOfLayer = layers.indexOf( altitudeData.closestLayerBelow! );
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.justAboveLayerPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.justAboveLayerPatternStringProperty,
           { layerNumber: indexOfLayer + 1 }
         );
       }
@@ -55,7 +55,7 @@ class FluxSensorLayerRelationshipProperty extends StringProperty {
         // If within this threshold to the closest layer above, the sensor is "just below" that layer.
         const indexOfLayer = layers.indexOf( altitudeData.closestLayerAbove! );
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.justBelowLayerPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.justBelowLayerPatternStringProperty,
           { layerNumber: indexOfLayer + 1 }
         );
       }
@@ -65,7 +65,7 @@ class FluxSensorLayerRelationshipProperty extends StringProperty {
         const indexOfLayerAbove = layers.indexOf( altitudeData.closestLayerAbove );
         const indexOfLayerBelow = layers.indexOf( altitudeData.closestLayerBelow );
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.betweenLayersPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.betweenLayersPatternStringProperty,
           {
             layerNumber: indexOfLayerBelow + 1,
             nextLayerNumber: indexOfLayerAbove + 1
@@ -77,7 +77,7 @@ class FluxSensorLayerRelationshipProperty extends StringProperty {
         // If the sensor is below the lowest layer, then it is "below layer X".
         const indexOfLayer = layers.indexOf( altitudeData.closestLayerAbove );
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.belowLayerPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.belowLayerPatternStringProperty,
           { layerNumber: indexOfLayer + 1 }
         );
       }
@@ -86,7 +86,7 @@ class FluxSensorLayerRelationshipProperty extends StringProperty {
         // If the sensor is above the highest layer, then it is "above layer X".
         const indexOfLayer = layers.indexOf( altitudeData.closestLayerBelow );
         this.value = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.aboveLayerPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.aboveLayerPatternStringProperty,
           { layerNumber: indexOfLayer + 1 }
         );
       }

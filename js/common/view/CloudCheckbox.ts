@@ -19,7 +19,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
@@ -44,10 +44,10 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
       fill: Color.WHITE
     } );
 
-    super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectStrings.cloudStringProperty, {
+    super( cloudEnabledInManualConcentrationModeProperty, GreenhouseEffectFluent.cloudStringProperty, {
       iconNode: iconNode,
       maxLabelTextWidth: 120,
-      accessibleHelpText: GreenhouseEffectStrings.a11y.cloudCheckboxHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.cloudCheckboxHelpTextStringProperty,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
 

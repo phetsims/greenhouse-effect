@@ -24,7 +24,7 @@ import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phe
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
@@ -37,9 +37,9 @@ import TemperatureReadout from './TemperatureReadout.js';
 // constants
 const THERMOMETER_TO_READOUT_DISTANCE = 15; // in screen coordinates
 const DECIMAL_PLACES_IN_READOUT = GreenhouseEffectQueryParameters.showAdditionalTemperatureDigits ? 3 : 1;
-const kelvinUnitsStringProperty = GreenhouseEffectStrings.temperature.units.kelvinStringProperty;
-const celsiusUnitsStringProperty = GreenhouseEffectStrings.temperature.units.celsiusStringProperty;
-const fahrenheitUnitsStringProperty = GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty;
+const kelvinUnitsStringProperty = GreenhouseEffectFluent.temperature.units.kelvinStringProperty;
+const celsiusUnitsStringProperty = GreenhouseEffectFluent.temperature.units.celsiusStringProperty;
+const fahrenheitUnitsStringProperty = GreenhouseEffectFluent.temperature.units.fahrenheitStringProperty;
 
 class ReadoutType extends EnumerationValue {
   public static readonly SELECTABLE = new ReadoutType();
@@ -141,7 +141,7 @@ class ThermometerAndReadout extends Node {
       // A Node that wraps the comboBox with additional markup to match the requested heading levels. There is an h3
       // for the label so that the button itself is an h4 under it.
       const comboBoxWrapper = new Node( {
-        accessibleHeading: GreenhouseEffectStrings.a11y.temperatureOptionsLabelStringProperty
+        accessibleHeading: GreenhouseEffectFluent.a11y.temperatureOptionsLabelStringProperty
       } );
 
       const comboBox = new ComboBox( unitsProperty, comboBoxItems, options.listParentNode || this, {
@@ -155,8 +155,8 @@ class ThermometerAndReadout extends Node {
         centerTop: thermometerNode.centerBottom.plusXY( 0, THERMOMETER_TO_READOUT_DISTANCE ),
 
         // pdom
-        accessibleHeading: GreenhouseEffectStrings.a11y.temperatureUnitsLabelStringProperty,
-        accessibleHelpText: GreenhouseEffectStrings.a11y.temperatureUnitsHelpTextStringProperty,
+        accessibleHeading: GreenhouseEffectFluent.a11y.temperatureUnitsLabelStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.temperatureUnitsHelpTextStringProperty,
 
         // phet-io
         tandem: options.tandem.createTandem( 'comboBox' )
@@ -207,7 +207,7 @@ class ThermometerAndReadout extends Node {
           maxWidth: 120
         },
         valuePattern: new PatternStringProperty(
-          GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+          GreenhouseEffectFluent.temperature.units.valueUnitsPatternStringProperty,
           { units: unitsStringProperty }
         ),
         phetioVisiblePropertyInstrumented: false

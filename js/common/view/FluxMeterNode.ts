@@ -43,7 +43,7 @@ import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/ac
 import Panel from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import FluxMeter from '../model/FluxMeter.js';
@@ -53,9 +53,9 @@ import LayersModel from '../model/LayersModel.js';
 import FluxMeterDescriptionProperty from './describers/FluxMeterDescriptionProperty.js';
 import FluxMeterSoundGenerator from './FluxMeterSoundGenerator.js';
 
-const sunlightStringProperty = GreenhouseEffectStrings.sunlightStringProperty;
-const infraredStringProperty = GreenhouseEffectStrings.infraredStringProperty;
-const energyFluxStringProperty = GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty;
+const sunlightStringProperty = GreenhouseEffectFluent.sunlightStringProperty;
+const infraredStringProperty = GreenhouseEffectFluent.infraredStringProperty;
+const energyFluxStringProperty = GreenhouseEffectFluent.fluxMeter.energyFluxStringProperty;
 
 const METER_SPACING = 8; // spacing used in a few places for layout, in view coordinates
 const SENSOR_STROKE_COLOR = 'rgb(254,153,18)';
@@ -134,7 +134,7 @@ class FluxMeterNode extends Node {
       fluxSensorNodeOptions: {},
 
       // pdom
-      accessibleHeading: GreenhouseEffectStrings.fluxMeter.energyFluxStringProperty,
+      accessibleHeading: GreenhouseEffectFluent.fluxMeter.energyFluxStringProperty,
       accessibleHeadingIncrement: 2 // Because the observation window has a focusable heading and cannot use accessibleHeading
     }, providedOptions );
 
@@ -202,8 +202,8 @@ class FluxMeterNode extends Node {
         buttonOptions: {
           baseColor: PhetColorScheme.PHET_LOGO_BLUE
         },
-        accessibleHelpTextZoomIn: GreenhouseEffectStrings.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
-        accessibleHelpTextZoomOut: GreenhouseEffectStrings.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
+        accessibleHelpTextZoomIn: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
+        accessibleHelpTextZoomOut: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
         tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
         visiblePropertyOptions: {
           phetioFeatured: true
@@ -211,12 +211,12 @@ class FluxMeterNode extends Node {
       } );
       contentChildren.push( this.zoomButtonGroup );
       this.zoomButtonGroup.zoomInButton.accessibleName = StringUtils.fillIn(
-        GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
-        { inOrOut: StringUtils.capitalize( GreenhouseEffectStrings.a11y.fluxMeter.inStringProperty.value ) }
+        GreenhouseEffectFluent.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
+        { inOrOut: StringUtils.capitalize( GreenhouseEffectFluent.a11y.fluxMeter.inStringProperty.value ) }
       );
       this.zoomButtonGroup.zoomOutButton.accessibleName = StringUtils.fillIn(
-        GreenhouseEffectStrings.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
-        { inOrOut: StringUtils.capitalize( GreenhouseEffectStrings.a11y.fluxMeter.outStringProperty.value ) }
+        GreenhouseEffectFluent.a11y.fluxMeter.energyFluxRangeZoomPatternStringProperty,
+        { inOrOut: StringUtils.capitalize( GreenhouseEffectFluent.a11y.fluxMeter.outStringProperty.value ) }
       );
     }
     else {
@@ -570,8 +570,8 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
       keyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 10,
       shiftKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 20,
       pageKeyboardStep: LayersModel.HEIGHT_OF_ATMOSPHERE / 5,
-      accessibleName: GreenhouseEffectStrings.a11y.fluxMeterAltitudeStringProperty,
-      accessibleHelpText: GreenhouseEffectStrings.a11y.fluxMeterHelpTextStringProperty,
+      accessibleName: GreenhouseEffectFluent.a11y.fluxMeterAltitudeStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.fluxMeterHelpTextStringProperty,
       ariaOrientation: Orientation.VERTICAL,
       phetioInputEnabledPropertyInstrumented: true, // see https://github.com/phetsims/greenhouse-effect/issues/312
       phetioFeatured: true // see https://github.com/phetsims/greenhouse-effect/issues/312

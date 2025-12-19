@@ -11,12 +11,12 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import GreenhouseEffectPreferencesNode from './common/view/GreenhouseEffectPreferencesNode.js';
-import GreenhouseEffectStrings from './GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from './GreenhouseEffectFluent.js';
 import LayerModelScreen from './layer-model/LayerModelScreen.js';
 import PhotonsScreen from './photons/PhotonsScreen.js';
 import WavesScreen from './waves/WavesScreen.js';
 
-const greenhouseEffectTitleStringProperty = GreenhouseEffectStrings[ 'greenhouse-effect' ].titleStringProperty;
+const greenhouseEffectTitleStringProperty = GreenhouseEffectFluent[ 'greenhouse-effect' ].titleStringProperty;
 
 const simOptions: SimOptions = {
 

@@ -21,7 +21,7 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 
 const SURFACE_ALBEDO_SLIDER_STEP_SIZE = 0.1;
@@ -41,7 +41,7 @@ export default class SurfaceAlbedoControl extends VBox {
     soundManager.addSoundGenerator( surfaceAlbedoSoundPlayer );
 
     // Label
-    const labelText = new Text( GreenhouseEffectStrings.surfaceAlbedoStringProperty, {
+    const labelText = new Text( GreenhouseEffectFluent.surfaceAlbedoStringProperty, {
       font: GreenhouseEffectConstants.LABEL_FONT
     } );
 
@@ -55,9 +55,9 @@ export default class SurfaceAlbedoControl extends VBox {
         keyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
         shiftKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE,
         pageKeyboardStep: SURFACE_ALBEDO_SLIDER_STEP_SIZE * 2,
-        labelContent: GreenhouseEffectStrings.surfaceAlbedoStringProperty,
+        labelContent: GreenhouseEffectFluent.surfaceAlbedoStringProperty,
         labelTagName: 'label',
-        accessibleHelpText: GreenhouseEffectStrings.a11y.layerModel.surfaceAlbedoHelpTextStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.layerModel.surfaceAlbedoHelpTextStringProperty,
         valueChangeSoundGeneratorOptions: {
           numberOfMiddleThresholds: 8,
           minSoundPlayer: surfaceAlbedoSoundPlayer,

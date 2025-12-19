@@ -19,7 +19,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
@@ -59,9 +59,9 @@ class TemperatureReadout extends NumberDisplay {
       [
         options.numberDisplayEnabledProperty,
         unitsProperty,
-        GreenhouseEffectStrings.temperature.units.kelvinStringProperty,
-        GreenhouseEffectStrings.temperature.units.celsiusStringProperty,
-        GreenhouseEffectStrings.temperature.units.fahrenheitStringProperty
+        GreenhouseEffectFluent.temperature.units.kelvinStringProperty,
+        GreenhouseEffectFluent.temperature.units.celsiusStringProperty,
+        GreenhouseEffectFluent.temperature.units.fahrenheitStringProperty
       ],
       ( numberDisplayEnabled, units, kelvinUnitsString, celsiusUnitsString, fahrenheitUnitsString ) => {
         return !numberDisplayEnabled ? '' :
@@ -73,7 +73,7 @@ class TemperatureReadout extends NumberDisplay {
 
     // Set the pattern that will be used to display the value.
     options.valuePattern = new PatternStringProperty(
-      GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
+      GreenhouseEffectFluent.temperature.units.valueUnitsPatternStringProperty,
       { units: unitsStringProperty }
     );
 

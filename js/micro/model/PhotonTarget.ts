@@ -10,16 +10,16 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
-const controlPanelCarbonDioxideStringProperty = GreenhouseEffectStrings.ControlPanel.CarbonDioxideStringProperty;
-const controlPanelCarbonMonoxideStringProperty = GreenhouseEffectStrings.ControlPanel.CarbonMonoxideStringProperty;
-const controlPanelMethaneStringProperty = GreenhouseEffectStrings.ControlPanel.MethaneStringProperty;
-const controlPanelNitrogenDioxideStringProperty = GreenhouseEffectStrings.ControlPanel.NitrogenDioxideStringProperty;
-const controlPanelNitrogenStringProperty = GreenhouseEffectStrings.ControlPanel.NitrogenStringProperty;
-const controlPanelOxygenStringProperty = GreenhouseEffectStrings.ControlPanel.OxygenStringProperty;
-const controlPanelOzoneStringProperty = GreenhouseEffectStrings.ControlPanel.OzoneStringProperty;
-const controlPanelWaterStringProperty = GreenhouseEffectStrings.ControlPanel.WaterStringProperty;
+const controlPanelCarbonDioxideStringProperty = GreenhouseEffectFluent.ControlPanel.CarbonDioxideStringProperty;
+const controlPanelCarbonMonoxideStringProperty = GreenhouseEffectFluent.ControlPanel.CarbonMonoxideStringProperty;
+const controlPanelMethaneStringProperty = GreenhouseEffectFluent.ControlPanel.MethaneStringProperty;
+const controlPanelNitrogenDioxideStringProperty = GreenhouseEffectFluent.ControlPanel.NitrogenDioxideStringProperty;
+const controlPanelNitrogenStringProperty = GreenhouseEffectFluent.ControlPanel.NitrogenStringProperty;
+const controlPanelOxygenStringProperty = GreenhouseEffectFluent.ControlPanel.OxygenStringProperty;
+const controlPanelOzoneStringProperty = GreenhouseEffectFluent.ControlPanel.OzoneStringProperty;
+const controlPanelWaterStringProperty = GreenhouseEffectFluent.ControlPanel.WaterStringProperty;
 
 class PhotonTarget extends EnumerationValue {
   public static readonly SINGLE_CO_MOLECULE = new PhotonTarget();

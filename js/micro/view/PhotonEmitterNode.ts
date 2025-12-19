@@ -29,12 +29,12 @@ import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
-const openSciEdEnergySourceStringProperty = GreenhouseEffectStrings.openSciEd.energySourceStringProperty;
+const openSciEdEnergySourceStringProperty = GreenhouseEffectFluent.openSciEd.energySourceStringProperty;
 
 class PhotonEmitterNode extends Node {
 

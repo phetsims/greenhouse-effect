@@ -20,7 +20,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
@@ -142,7 +142,7 @@ class LayersModelAlerter extends Alerter {
 
         // The thermometer is not currently visible, so just describe the units and leave out the temperature.
         alertMessage = StringUtils.fillIn(
-          GreenhouseEffectStrings.a11y.layerModel.observationWindow.temperatureUnitsPatternStringProperty,
+          GreenhouseEffectFluent.a11y.layerModel.observationWindow.temperatureUnitsPatternStringProperty,
           { temperatureUnits: TemperatureDescriber.getTemperatureUnitsString( model.temperatureUnitsProperty.value ) }
         );
       }
@@ -152,7 +152,7 @@ class LayersModelAlerter extends Alerter {
     // Alert when the sun starts shining. This alert is unrelated to concentration and temperature alerts that happen
     // in the polling, so it can stay in a linked listener.
     model.sunEnergySource.isShiningProperty.lazyLink( () => {
-      this.alert( GreenhouseEffectStrings.a11y.sunlightStartedStringProperty );
+      this.alert( GreenhouseEffectFluent.a11y.sunlightStartedStringProperty );
     } );
 
     // Monitor the "playing" state and reset the accumulated time since the last alert when changes occur.  This keeps

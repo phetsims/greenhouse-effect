@@ -16,7 +16,7 @@ import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 class SunlightIntensityDescriptionProperty extends StringProperty {
   public constructor( intensityProperty: TRangedProperty ) {
@@ -27,10 +27,10 @@ class SunlightIntensityDescriptionProperty extends StringProperty {
       const describedIntensityPercentage = Utils.toFixedNumber( intensity, 2 ) * 100;
 
       if ( describedIntensityPercentage === 100 ) {
-        this.value = GreenhouseEffectStrings.a11y.layerModel.sameAsOurSunStringProperty.value;
+        this.value = GreenhouseEffectFluent.a11y.layerModel.sameAsOurSunStringProperty.value;
       }
       else {
-        this.value = StringUtils.fillIn( GreenhouseEffectStrings.a11y.layerModel.percentOfOurSunPatternStringProperty, {
+        this.value = StringUtils.fillIn( GreenhouseEffectFluent.a11y.layerModel.percentOfOurSunPatternStringProperty, {
           value: describedIntensityPercentage
         } );
       }

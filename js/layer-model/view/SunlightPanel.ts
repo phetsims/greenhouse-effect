@@ -9,7 +9,7 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import LayerScreenControlPanel from './LayerScreenControlPanel.js';
 import SolarIntensityControl from './SolarIntensityControl.js';
@@ -39,10 +39,10 @@ export default class SunlightPanel extends LayerScreenControlPanel {
       [ solarIntensityControl, surfaceAlbedoControl ],
       width,
       layersModel,
-      GreenhouseEffectStrings.sunlightStringProperty,
+      GreenhouseEffectFluent.sunlightStringProperty,
       {
         tandem: tandem,
-        labelContent: GreenhouseEffectStrings.a11y.layerModel.sunlightControlsStringProperty
+        labelContent: GreenhouseEffectFluent.a11y.layerModel.sunlightControlsStringProperty
       }
     );
   }

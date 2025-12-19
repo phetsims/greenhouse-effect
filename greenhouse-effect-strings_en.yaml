@@ -1,0 +1,386 @@
+greenhouse-effect.title:                              Greenhouse Effect
+screen.waves:                                         Waves
+screen.photons:                                       Photons
+screen.layerModel:                                    Layer Model
+screen.micro:                                         Micro
+surfaceThermometer:                                   Surface Thermometer
+showSurfaceTemperature:                               Show Surface Temperature
+morePhotons:                                          More Photons
+solarIntensity:                                       Solar Intensity
+ourSun:                                               Our Sun
+surfaceAlbedo:                                        Surface Albedo
+cloud:                                                Cloud
+startSunlight:                                        Start Sunlight
+energyLegend.title:                                   Energy
+sunlight:                                             Sunlight
+infrared:                                             Infrared
+infraredAbsorbance:                                   Infrared Absorbance
+valuePercentPattern:                                  '{{value}}%'
+sliderAndFluxMeterControls:                           Slider and Flux Meter Controls
+concentrationPanel.greenhouseGasConcentration:        Greenhouse Gas Concentration
+fluxMeter.title:                                      Flux Meter
+fluxMeter.energyFlux:                                 Energy Flux
+concentrationPanel.lots:                              Lots
+concentrationPanel.none:                              None
+concentrationPanel.iceAge:                            Ice Age
+energyBalancePanel.title:                             Energy Balance
+energyBalancePanel.subTitle:                          Top of Atmosphere
+energyBalancePanel.in:                                In
+energyBalancePanel.out:                               Out
+energyBalancePanel.net:                               Net
+temperature.units.kelvin:                             K
+temperature.units.celsius:                            °C
+temperature.units.fahrenheit:                         °F
+temperature.units.valueUnitsPattern:                  '{{value}} {{units}}'
+defaultTemperatureUnits:                              Default Temperature Units
+concentrationPanel.carbonDioxideConcentrationPattern: 'CO<sub>2</sub>: {{value}} ppm'
+concentrationPanel.methaneConcentrationPattern:       'CH<sub>4</sub>: {{value}} ppb'
+concentrationPanel.nitrousOxideConcentrationPattern:  'N<sub>2</sub>O: {{value}} ppb'
+QuadWavelengthSelector.Microwave:                     Microwave
+QuadWavelengthSelector.Infrared:                      Infrared
+QuadWavelengthSelector.Visible:                       Visible
+QuadWavelengthSelector.Ultraviolet:                   Ultraviolet
+QuadWavelengthSelector.HigherEnergy:                  Higher Energy
+molecularNamePattern:                                 '{0} ({1})'
+ControlPanel.CarbonMonoxide:                          Carbon Monoxide
+ControlPanel.Nitrogen:                                Nitrogen
+ControlPanel.Oxygen:                                  Oxygen
+ControlPanel.CarbonDioxide:                           Carbon Dioxide
+ControlPanel.Methane:                                 Methane
+ControlPanel.NitrogenDioxide:                         Nitrogen Dioxide
+ControlPanel.Ozone:                                   Ozone
+ControlPanel.Water:                                   Water
+ButtonNode.ReturnMolecule:                            Reset Molecule
+SpectrumWindow.buttonCaption:                         Light Spectrum Diagram
+SpectrumWindow.title:                                 Light Spectrum
+SpectrumWindow.frequencyArrowLabel:                   Increasing frequency and energy
+SpectrumWindow.wavelengthArrowLabel:                  Increasing wavelength
+SpectrumWindow.radioBandLabel:                        Radio
+SpectrumWindow.microwaveBandLabel:                    Microwave
+SpectrumWindow.infraredBandLabel:                     Infrared
+SpectrumWindow.ultravioletBandLabel:                  |-
+                                                      Ultra-
+                                                      violet
+SpectrumWindow.xrayBandLabel:                         X-ray
+SpectrumWindow.gammaRayBandLabel:                     |-
+                                                      Gamma
+                                                      ray
+SpectrumWindow.visibleBandLabel:                      Visible
+SpectrumWindow.cyclesPerSecondUnits:                  Hz
+SpectrumWindow.metersUnits:                           m
+openSciEd.energySource:                               Energy from Earth’s Surface
+energyBalance:                                        Energy Balance
+absorbingLayers:                                      Absorbing Layers
+temperatureUnits:                                     Temperature Units
+a11y:
+  observationWindowLabel:                                  Observation Window
+  energyBalance:
+    accessibleHelpText: Measure incoming and outgoing energy at top of atmosphere.
+  fluxMeter:
+    accessibleHelpText:         Measure incoming and outgoing energy throughout atmosphere.
+    zoomButtonHelpText:         Adjust visual range.
+    energyFluxRangeZoomPattern: Energy Flux Range Zoom {{inOrOut}}
+    in:                         in
+    out:                        out
+    visualScaleZoomedPattern:   Visual scale zoomed {{inOrOut}}.
+    noChange:                   No change in energy flux.
+  fluxMeterUncheckedAlert:                                 Energy Flux hidden.
+  fluxMeterCheckedAlert:                                   Energy Flux added to Observation Window.
+  morePhotonsCheckedAlert:                                 Displaying more photons in observation window.
+  morePhotonsUncheckedAlert:                               Displaying fewer photons in observation window.
+  morePhotonsHelpText:                                     Displays more photons in observation window.
+  fluxMeterCheckedPattern:                                 '{{checkedResponse}} {{energyFluxDescription}}'
+  fluxMeterStateDescription:                               >-
+                                                           {{altitude}}, {{incomingSunlightAmount}} incoming sunlight and
+                                                           {{outgoingSunlightAmount}} outgoing sunlight. {{outgoingInfraredAmount}}
+                                                           outgoing infrared and {{incomingInfraredAmount}} incoming infrared.
+  fluxMeterAltitude:                                       Flux Meter Altitude
+  fluxMeterHelpText:                                       Measure energy flux at different altitudes.
+  fluxMeterSmallChangePattern:                             '{{negligibleOrNo}} change in energy flux'
+  negligible:                                              negligible
+  aboveCloud:                                              above cloud
+  belowCloud:                                              below cloud
+  surfaceThermometer:
+    accessibleHelpText: Measure Earth’s surface temperature.
+  carbonDioxidePPMPattern:                                 Carbon dioxide {{value}} parts per million
+  methanePPMPattern:                                       Methane {{value}} parts per billion
+  nitrousOxidePPMPattern:                                  Nitrous oxide {{value}} parts per billion
+  showSurfaceTemperature:
+    accessibleHelpText: Describe temperature on a scale.
+  surfaceTemperatureScaleHidden:                           Surface temperature scale hidden.
+  historicalRelativeDescriptions:
+    high:     historically high
+    moderate: historically moderate
+    low:      historically low
+  historicalLevelsOfGreenhouseGassesPattern:               '{{historical}} levels of greenhouse gases in atmosphere.'
+  temperatureOptionsLabel:                                 Temperature Options
+  temperatureUnitsLabel:                                   Temperature Units
+  temperatureUnitsHelpText:                                Select temperature units.
+  temperatureUnits:
+    kelvin:     Kelvin
+    celsius:    degrees Celsius
+    fahrenheit: degrees Fahrenheit
+  qualitativeAmountDescriptions:
+    'no':              'no'
+    extremelyLow:      extremely low
+    exceptionallyLow:  exceptionally low
+    veryLow:           very low
+    low:               low
+    somewhatLow:       somewhat low
+    moderate:          moderate
+    somewhatHigh:      somewhat high
+    high:              high
+    veryHigh:          very high
+    exceptionallyHigh: exceptionally high
+    extremelyHigh:     extremely high
+    max:               max
+  qualitativeAltitudeDescriptions:
+    nearSurface:     near surface
+    veryLow:         at very low altitude
+    low:             at low altitude
+    moderate:        at moderate altitude
+    high:            at high altitude
+    veryHigh:        at very high altitude
+    topOfAtmosphere: at top of the atmosphere
+  amountOfPattern:                                         '{{qualitativeDescription}} amount of'
+  proportionOfPattern:                                     '{{qualitativeDescription}} proportion of'
+  levelsOfPattern:                                         '{{qualitativeDescription}} levels of'
+  timePeriodDescriptions:
+    iceAge:         ice age
+    seventeenFifty: year seventeen fifty
+    nineteenFifty:  year nineteen fifty
+    twentyTwenty:   year twenty twenty
+  sky:
+    skyDescriptionPattern:          The sky is {{cloudDescription}}.
+    cloudy:                         cloudy
+    clear:                          clear
+    cloudAddedAlert:                Cloud added to sky.
+    someSunlightReflectedAlert:     Some sunlight reflecting back to space.
+    cloudRemovedAlert:              Cloud removed from sky.
+    allSunlightReachesSurfaceAlert: All sunlight reaching surface.
+    cloudAlertPattern:              '{{addedOrRemoved}} {{receivedOrReflected}}'
+  energyLegend:
+    title:                      Energy Legend
+    inObservationWindow:        'In observation window:'
+    wavesSunlightDescription:   'Sunlight radiation: yellow waves, wavelength shorter than infrared'
+    wavesInfraredDescription:   'Infrared radiation: red waves, wavelength longer than sunlight'
+    photonsSunlightDescription: 'Sunlight radiation: yellow photons'
+    photonsInfraredDescription: 'Infrared radiation: red photons'
+  infraredEnergyRedirectingPattern:                        >-
+                                                           {{changeDescription}} infrared {{energyRepresentation}} redirecting back to
+                                                           surface.
+  infraredEnergyEmittedFromSurfacePattern:                 >-
+                                                           {{changeDescription}} infrared {{energyRepresentation}} emitting from
+                                                           surface.
+  more:                                                    More
+  less:                                                    Less
+  'no':                                                    'No'
+  fewer:                                                   Fewer
+  energyRepresentation:
+    photons:   photons
+    radiation: radiation
+  inflowToEarth:                                           inflow to Earth
+  outflowToSpace:                                          outflow to space
+  outgoingEnergyAtAtmospherePattern:                       >-
+                                                           Outgoing energy is {{greaterThanOrLessThan}} incoming energy at top of
+                                                           atmosphere, net energy {{inflowOrOutflow}}.
+  outgoingEnergyAtAtmosphereEqual:                         Outgoing energy is equal to incoming energy at top of atmosphere.
+  noFlowOfEnergyHintDescription:                           No flow of energy. Start sunlight to explore energy balance.
+  lessThan:                                                less than
+  greaterThan:                                             greater than
+  currently:                                               Currently,
+  currentlySimIsPaused:                                    Currently, sim is paused.
+  currentlyNoSunlight:                                     Currently, no sunlight in observation window.
+  currentlySimIsPausedNoSunlight:                          Currently, sim is paused. No sunlight in observation window.
+  surfaceTemperaturePattern:                               Earth's surface temperature is {{temperatureDescription}}
+  infraredEmissionIntensityPattern:                        '{{value}} amount of infrared photons emit from surface and travel to space.'
+  photonDensityDescription:                                Higher density of infrared photons near surface.
+  waves:
+    screenButtonsHelpText: Explore greenhouse effect with wave representation.
+    screenSummary:
+      playAreaDescription:    >-
+                              The Play Area is an observation window showing a scene extending from
+                              the surface of the Earth to outer space. Experiment with the greenhouse
+                              gas concentration or explore and compare historical time periods. It
+                              also has controls to add a cloud and measure the energy balance.
+      controlAreaDescription: >-
+                              The Control Area has options for displaying the surface temperature of
+                              Earth. You can pause the action that happens in the observation window.
+    observationWindow:
+      infraredEmissionIntensityPattern:                >-
+                                                       Infrared waves emit with {{value}} intensity from surface and travel to
+                                                       space.
+      infraredEmissionIntensityWithRedirectionPattern: >-
+                                                       {{surfaceEmission}} {{value}} infrared energy is redirecting back to
+                                                       surface.
+      sunlightWavesTravelFromSpace:                    Sunlight waves travel from space to surface.
+  photons:
+    screenButtonsHelpText: Explore greenhouse effect with photon representation.
+    screenSummary:
+      playAreaDescription:    >-
+                              The Play Area is an observation window showing a scene extending from
+                              the surface of the Earth to outer space.  Experiment with the greenhouse
+                              gas concentration or explore and compare historical time periods. It
+                              also has controls to add a cloud and measure the energy balance or
+                              energy flux.
+      controlAreaDescription: >-
+                              The Control Area has options for displaying the surface temperature of
+                              Earth. You can control how fast the action happens in the observation
+                              window including buttons to pause and step forward.
+    observationWindow:
+      sunlightPhotonsDescription:                      Sunlight photons travel from space to surface.
+      infraredEmissionIntensityWithRedirectionPattern: >-
+                                                       {{surfaceEmission}} {{value}} infrared photons are redirecting back to
+                                                       surface.
+      noOutgoingInfrared:                              No infrared photons are redirecting back to surface.
+      infraredDescriptionPattern:                      '{{incomingInfraredDescription}} {{outgoingInfraredDescription}}'
+  layerModel:
+    screenButtonsHelpText:   Experiment with infrared absorbing layers in the atmosphere.
+    screenSummary:
+      playAreaDescription:    >-
+                              The Play Area is an observation window showing a scene extending from
+                              the surface of the Earth to outer space.  It has controls to adjust the
+                              solar intensity, surface albedo, and to add infrared absorbing layers to
+                              the atmosphere. It also has controls to measure the energy balance and
+                              energy flux.
+      controlAreaDescription: >-
+                              The Control Area has options for changing the temperature units. You can
+                              control how fast the action happens in the observation window including
+                              buttons to pause and step forward.
+    sameAsOurSun:            same as our Sun
+    percentOfOurSunPattern:  '{{value}}% of our Sun'
+    surfaceAlbedoHelpText:   Set reflectance of Earth’s surface.
+    sunlightControls:        Sunlight Controls
+    solarIntensityHelpText:  Set intensity of incoming sunlight.
+    infraredControls:        Infrared Controls
+    absorbingLayersHelpText: Add or remove infrared absorbing layers from atmosphere.
+    absorbanceValuePattern:  '{{value}}%'
+    absorbanceHelpText:      Set infrared absorbance of all layers.
+    observationWindow:
+      numberOfAbsorbingLayersPattern:                     '{{number}} infrared absorbing layer{{s}} in atmosphere'
+      sunlightPhotonsDescription:                         Sunlight photons travel from space to surface
+      passingThroughLayersPattern:                        passing through layer{{s}}
+      solarIntensityPattern:                              Solar intensity is {{percentage}}% of our sun.
+      surfaceReflectsNoSunlight:                          Surface reflects no sunlight back into space.
+      surfaceReflectsSunlightPercentagePattern:           Surface reflects {{percentage}}% of sunlight back into space.
+      layerThermometerCheckboxLabelPattern:               Layer {{number}} Thermometer
+      layerThermometerCheckboxHelpText:                   Measure Layer {{number}} temperature.
+      allPhotonsAbsorbedPattern:                          >-
+                                                          All infrared photons are absorbed by layer{{s}} and re-emitted randomly
+                                                          up or down.
+      percentageOfPhotonsAbsorbedPattern:                 >-
+                                                          {{absorbedPercentage}}% of infrared photons are absorbed by layer{{s}}
+                                                          and re-emitted randomly up or down while {{passThroughPercentage}}% are
+                                                          passing through layer{{s}}.
+      layerTemperaturePattern:                            Layer {{layerNumber}} temperature is {{temperatureWithUnits}}.
+      justAboveLayerPattern:                              just above layer {{layerNumber}}
+      justBelowLayerPattern:                              just below layer {{layerNumber}}
+      betweenLayersPattern:                               between layers {{layerNumber}} and {{nextLayerNumber}}
+      aboveLayerPattern:                                  above layer {{layerNumber}}
+      belowLayerPattern:                                  below layer {{layerNumber}}
+      thermometerMeasuringSurfacePattern:                 Thermometer measuring {{surfaceOrLayer}}
+      surface:                                            surface
+      layerPattern:                                       layer {{layerNumber}}
+      thermometerRemovedFrom:                             Thermometer removed from {{surfaceOrLayer}}.
+      sunlightPhotonsPattern:                             '{{moreFewer}} sunlight photons entering atmosphere.'
+      multipleLayersAdded:                                Multiple layers added.
+      multipleLayersRemoved:                              Multiple layers removed.
+      layerAddedAboveSurfacePattern:                      Layer {{number}} added above surface.
+      layerAddedContextResponsePattern:                   Layer {{aboveNumber}} added above layer {{belowNumber}}.
+      layerRemovedContextResponsePattern:                 Layer {{number}} removed.
+      layerTemperatureStablePattern:                      Layer {{number}} temperature stable at {{temperature}}.
+      fullAbsorptionContextResponse:                      All layers now absorbing 100% of infrared photons.
+      absorptionChangeContextResponsePattern:             >-
+                                                          All layers now absorbing {{absorbedPercentage}}% of infrared photons,
+                                                          {{passThroughPercentage}}% passing through layers.
+      absorptionChangeWithNoLayersContextResponsePattern: >-
+                                                          No absorbing layers. Added layers will absorb {{absorbedPercentage}}% of
+                                                          infrared photons.
+      temperatureUnitsPattern:                            Temperature units {{temperatureUnits}}
+  greenhouseGasesInAtmospherePattern:                      '{{valueDescription}} greenhouse gases in atmosphere.'
+  greenhouseGasesValuePattern:                             '{{valueDescription}} greenhouse gases.'
+  timePeriodPattern:                                       the time period is the {{timePeriodDescription}}.
+  summaryWithTemperaturePattern:                           >-
+                                                           {{currentlyDescription}} {{concentrationDescription}}
+                                                           {{temperatureDescription}}. {{skyDescription}}
+  summaryWithoutTemperaturePattern:                        '{{currentlyDescription}} {{concentrationDescription}} {{skyDescription}}'
+  qualitativeAndQuantitativeTemperatureDescriptionPattern: '{{qualitativeDescription}}, {{quantitativeDescription}}'
+  timePeriodDescriptionPattern:                            '{{timePeriod}} and {{description}}'
+  thereAreManyHomesAndFactories:                           there are many homes and factories
+  thereAreAFewHomesAndFactories:                           there are a few homes and factories
+  thereIsAFarm:                                            there is a farm
+  thereIsALargeGlacier:                                    there is a large glacier
+  manyHomesAndFactories:                                   many homes and factories
+  aFewHomesAndFactories:                                   a few homes and factories
+  aFarm:                                                   a farm
+  aLargeGlacier:                                           a large glacier
+  timePeriodChangeDescriptionPattern:                      Time period is the {{timePeriodDescription}}.
+  nowLevelsOfConcentrationPattern:                         Now {{value}} greenhouse gases.
+  qualitativeConcentrationChangeDescriptionPattern:        Greenhouse gas levels {{comparativeDescription}} than {{year}}.
+  higher:                                                  higher
+  muchHigher:                                              much higher
+  significantlyHigher:                                     significantly higher
+  lower:                                                   lower
+  muchLower:                                               much lower
+  significantlyLower:                                      significantly lower
+  concentrationControlReplacedPattern:                     '{{replacedControl}} replaced with {{visibleControl}}.'
+  greenhouseGasConcentrationSlider:                        Greenhouse Gas Concentration slider
+  timePeriodRadioButtonGroup:                              Time Period radio button group
+  energyBalanceCheckedAlert:                               Energy Balance added to Observation Window.
+  energyBalanceCheckedPattern:                             '{{checkedResponse}} {{outgoingEnergyDescription}}'
+  energyBalanceUncheckedAlert:                             Energy Balance hidden.
+  thermometers:                                            Thermometers
+  thermometerShownAlertPattern:                            Thermometer measuring surface temperature, {{value}}.
+  thermometerRemovedAlert:                                 Thermometer removed.
+  qualitativeSurfaceTemperaturePattern:                    Surface temperature is {{description}}.
+  observationWindowTimePeriodPattern:                      Now {{timePeriodDescription}}.
+  sunlightAndReflectionPattern:                            '{{sunlightDescription}} {{reflectionDescription}}'
+  cloudRefection:                                          Cloud reflects some sunlight back into space.
+  cloudAndGlacierRefection:                                Cloud and glacier reflect some sunlight back into space.
+  surfaceTemperatureIsQuantitativePattern:                 The surface temperature is {{value}}.
+  surfaceTemperatureIsQualitativePattern:                  The surface temperature is {{description}}.
+  surfaceTemperatureIsQuantitativeAndQualitativePattern:   The surface temperature is {{description}}, {{value}}.
+  startSunlightHint:                                       Start sunlight to play.
+  startSunlightButtonHelpText:                             Start sunlight to begin observations.
+  sunlightStarted:                                         Sunlight started.
+  cloudCheckboxHelpText:                                   Experiment with or without cloudy sky.
+  surfaceTemperatureChangeWithValuePattern:                Surface temperature {{qualitativeDescription}}, now {{temperature}}.
+  surfaceTemperatureChangeWithoutValuePattern:             Surface temperature {{qualitativeDescription}}.
+  temperatureChangeWithValuePattern:                       '{{qualitativeDescription}}, now {{temperature}}.'
+  temperatureChangeWithoutValuePattern:                    '{{qualitativeDescription}}.'
+  surfaceTemperatureStable:                                Surface temperature stable.
+  surfaceTemperatureStableWithDescription:                 Surface temperature stable and {{qualitativeDescription}}.
+  surfaceTemperatureStableWithValue:                       Surface temperature stable at {{quantitativeDescription}}.
+  surfaceTemperatureStableWithDescriptionAndValue:         >-
+                                                           Surface temperature stable and {{qualitativeDescription}} at
+                                                           {{quantitativeDescription}}.
+  warming:                                                 warming
+  cooling:                                                 cooling
+  stabilizing:                                             stabilizing
+  concentrationPanel:
+    title:                  Greenhouse Gas Exploration Controls
+    experimentMode:         Experiment Mode
+    experimentModeHelpText: >-
+                            Explore a wide range of concentrations from none to lots or zoom in to
+                            compare historical time periods.
+    byConcentration:        By concentration
+    byTimePeriod:           By time period
+    timePeriod:
+      label:              Time Period
+      accessibleHelpText: Compare greenhouse gas levels at different historical time periods.
+      yearTwentyTwenty:   Year Twenty Twenty
+      yearNineteenFifty:  Year Nineteen Fifty
+      yearSeventeenFifty: Year Seventeen Fifty
+      iceAge:             Ice Age
+    concentration:
+      greenhouseGasConcentration:  Greenhouse Gas Concentration
+      concentrationSliderHelpText: Adjust amount of greenhouse gases in the atmosphere.
+  timeControls:
+    simPausedEmitterOnAlert:                                     Sim paused. Play to continue exploration.
+    playPauseButtonObservationWindowPlayingDescription:          Pause action in observation window.
+    playPauseButtonObservationWindowPausedDescription:           Resume action in observation window.
+    playPauseButtonObservationWindowPlayingWithSpeedDescription: >-
+                                                                 Pause action in observation window for closer observations or to step
+                                                                 forward little by little.
+    playPauseButtonObservationWindowPausedWithSpeedDescription:  Resume action in observation window or step forward little by little.
+    speedRadioButtonsDescription:                                For slower observations play sim on slow speed.

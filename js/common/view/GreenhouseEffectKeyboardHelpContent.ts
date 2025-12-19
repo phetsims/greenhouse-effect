@@ -14,7 +14,7 @@ import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keybo
 import TimeControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 type SelfOptions = {
 
@@ -33,7 +33,7 @@ class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
     // The slider help section is somewhat different when the flux meter information is included.
     const sliderHelpSectionOptions = options.includeFluxMeterHelp ?
       {
-        headingStringProperty: GreenhouseEffectStrings.sliderAndFluxMeterControlsStringProperty,
+        headingStringProperty: GreenhouseEffectFluent.sliderAndFluxMeterControlsStringProperty,
 
         // The following option essentially removes the word "slider" so that the dialog just says "Adjust" and not
         // "Adjust Slider".  By making it a fixed property, we are not allowing it to be translated, which is intentional.

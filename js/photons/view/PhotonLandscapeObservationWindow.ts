@@ -20,7 +20,7 @@ import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonsLandscapeObservationWindowPDOMNode from './PhotonsLandscapeObservationWindowPDOMNode.js';
 
@@ -43,7 +43,7 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
     // Create a description of the relationship between the flux sensor and the cloud.  If the cloud is not enabled the
     // description will be an empty string.
     const fluxSensorAndCloudDescriptionProperty = new DerivedProperty(
-      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty, GreenhouseEffectStrings.a11y.aboveCloudStringProperty, GreenhouseEffectStrings.a11y.belowCloudStringProperty ],
+      [ cloudModel.enabledProperty, fluxSensor.altitudeProperty, GreenhouseEffectFluent.a11y.aboveCloudStringProperty, GreenhouseEffectFluent.a11y.belowCloudStringProperty ],
       ( cloudEnabled, sensorAltitude, aboveCloudString, belowCloudString ) => {
         let description = '';
         if ( cloudEnabled ) {

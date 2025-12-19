@@ -20,7 +20,7 @@ import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
 import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 
 const ITEM_NODE_OPTIONS = { tagName: 'li' };
@@ -39,7 +39,7 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
 
     super( model, model.sunEnergySource.isShiningProperty );
 
-    this.densityItemNode.innerContent = GreenhouseEffectStrings.a11y.photonDensityDescriptionStringProperty;
+    this.densityItemNode.innerContent = GreenhouseEffectFluent.a11y.photonDensityDescriptionStringProperty;
 
     // This Node holds the overall description of concentration. In a 'p' under the concentration item so that the
     // concentration item can also hold a sublist with additional descriptions.
@@ -60,9 +60,9 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     this.insertChild( this.indexOfChild( this.surfaceTemperatureItemNode ), this.densityItemNode );
 
     const gasConcentrations = new GreenhouseGasConcentrations( model.dateProperty );
-    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.carbonDioxideConcentrationProperty, this.carbonDioxidePPMItemNode, GreenhouseEffectStrings.a11y.carbonDioxidePPMPatternStringProperty );
-    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.methaneConcentrationProperty, this.methanePPMItemNode, GreenhouseEffectStrings.a11y.methanePPMPatternStringProperty );
-    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.nitrousOxideConcentrationProperty, this.nitrousOxidePPMItemNode, GreenhouseEffectStrings.a11y.nitrousOxidePPMPatternStringProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.carbonDioxideConcentrationProperty, this.carbonDioxidePPMItemNode, GreenhouseEffectFluent.a11y.carbonDioxidePPMPatternStringProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.methaneConcentrationProperty, this.methanePPMItemNode, GreenhouseEffectFluent.a11y.methanePPMPatternStringProperty );
+    PhotonsLandscapeObservationWindowPDOMNode.registerConcentrationListener( gasConcentrations.nitrousOxideConcentrationProperty, this.nitrousOxidePPMItemNode, GreenhouseEffectFluent.a11y.nitrousOxidePPMPatternStringProperty );
 
     // Gas concentration descriptions are only visible when in time period mode.
     model.concentrationControlModeProperty.link( concentrationControlMode => {

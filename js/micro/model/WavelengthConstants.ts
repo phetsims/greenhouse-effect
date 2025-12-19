@@ -10,12 +10,12 @@
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
-const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.InfraredStringProperty;
-const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.MicrowaveStringProperty;
-const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.UltravioletStringProperty;
-const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
+const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.InfraredStringProperty;
+const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.MicrowaveStringProperty;
+const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.UltravioletStringProperty;
+const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.VisibleStringProperty;
 
 // An enumeration describing one of the possible values for the wavelength of a photon.
 export class Wavelength extends EnumerationValue {

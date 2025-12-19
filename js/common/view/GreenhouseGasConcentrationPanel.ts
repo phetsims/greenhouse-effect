@@ -36,7 +36,7 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
@@ -45,12 +45,12 @@ import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
 import GreenhouseGasConcentrations from './GreenhouseGasConcentrations.js';
 
 // constants
-const lotsStringProperty = GreenhouseEffectStrings.concentrationPanel.lotsStringProperty;
-const noneStringProperty = GreenhouseEffectStrings.concentrationPanel.noneStringProperty;
-const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
-const methaneConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.methaneConcentrationPatternStringProperty;
-const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectStrings.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
-const iceAgeStringProperty = GreenhouseEffectStrings.concentrationPanel.iceAgeStringProperty;
+const lotsStringProperty = GreenhouseEffectFluent.concentrationPanel.lotsStringProperty;
+const noneStringProperty = GreenhouseEffectFluent.concentrationPanel.noneStringProperty;
+const carbonDioxideConcentrationPatternStringProperty = GreenhouseEffectFluent.concentrationPanel.carbonDioxideConcentrationPatternStringProperty;
+const methaneConcentrationPatternStringProperty = GreenhouseEffectFluent.concentrationPanel.methaneConcentrationPatternStringProperty;
+const nitrousOxideConcentrationPatternStringProperty = GreenhouseEffectFluent.concentrationPanel.nitrousOxideConcentrationPatternStringProperty;
+const iceAgeStringProperty = GreenhouseEffectFluent.concentrationPanel.iceAgeStringProperty;
 
 // Height in view coordinates of the concentration slider track (when controlling concentration by value) and the
 // concentration meter graphic (when controlling by date). These are the same height so that the positions of values
@@ -123,14 +123,14 @@ class GreenhouseGasConcentrationPanel extends Panel {
       fill: GreenhouseEffectColors.controlPanelBackgroundColorProperty,
 
       // pdom
-      accessibleHeading: GreenhouseEffectStrings.a11y.concentrationPanel.titleStringProperty,
+      accessibleHeading: GreenhouseEffectFluent.a11y.concentrationPanel.titleStringProperty,
 
       // phet-io
       visiblePropertyOptions: { phetioFeatured: true }
     }, providedOptions );
 
     // title for the whole panel
-    const titleText = new Text( GreenhouseEffectStrings.concentrationPanel.greenhouseGasConcentrationStringProperty, {
+    const titleText = new Text( GreenhouseEffectFluent.concentrationPanel.greenhouseGasConcentrationStringProperty, {
       font: GreenhouseEffectConstants.TITLE_FONT,
       maxWidth: width - PANEL_MARGINS * 2
     } );
@@ -216,7 +216,7 @@ class DateControl extends HBox {
         createNode: () => new Text( STRING_2020, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_2020,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.yearTwentyTwentyStringProperty
         },
         tandemName: 'twentyTwentyRadioButton'
       },
@@ -224,7 +224,7 @@ class DateControl extends HBox {
         createNode: () => new Text( STRING_1950, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1950,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.yearNineteenFiftyStringProperty
         },
         tandemName: 'nineteenFiftyRadioButton'
       },
@@ -232,7 +232,7 @@ class DateControl extends HBox {
         createNode: () => new Text( STRING_1750, LABEL_OPTIONS ),
         value: ConcentrationDate.YEAR_1750,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.yearSeventeenFiftyStringProperty
         },
         tandemName: 'seventeenFiftyRadioButton'
       },
@@ -240,7 +240,7 @@ class DateControl extends HBox {
         createNode: () => new Text( iceAgeStringProperty, LABEL_OPTIONS ),
         value: ConcentrationDate.ICE_AGE,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.iceAgeStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.iceAgeStringProperty
         },
         tandemName: 'iceAgeRadioButton'
       }
@@ -251,8 +251,8 @@ class DateControl extends HBox {
       combineOptions<RectangularRadioButtonGroupOptions>( {
 
         // pdom
-        accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.labelStringProperty,
-        accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.timePeriod.accessibleHelpTextStringProperty,
+        accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.labelStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.concentrationPanel.timePeriod.accessibleHelpTextStringProperty,
 
         // phet-io
         tandem: tandem.createTandem( 'dateRadioButtonGroup' )
@@ -396,9 +396,9 @@ class ConcentrationControl extends VBox {
       soundGenerator: sliderSoundGenerator,
 
       // pdom
-      labelContent: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.greenhouseGasConcentrationStringProperty,
+      labelContent: GreenhouseEffectFluent.a11y.concentrationPanel.concentration.greenhouseGasConcentrationStringProperty,
       labelTagName: 'label',
-      accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty,
+      accessibleHelpText: GreenhouseEffectFluent.a11y.concentrationPanel.concentration.concentrationSliderHelpTextStringProperty,
       keyboardStep: 0.05,
       shiftKeyboardStep: 0.01, // finer grain
       pageKeyboardStep: 0.2, // coarser grain,
@@ -519,7 +519,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         } ),
         value: ConcentrationControlMode.BY_VALUE,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.byConcentrationStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.byConcentrationStringProperty
         },
         tandemName: 'byValueRadioButton'
       },
@@ -527,7 +527,7 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         createNode: () => dateIcon,
         value: ConcentrationControlMode.BY_DATE,
         options: {
-          accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.byTimePeriodStringProperty
+          accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.byTimePeriodStringProperty
         },
         tandemName: 'byDateRadioButton'
       }
@@ -550,8 +550,8 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
         },
 
         // pdom
-        accessibleName: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeStringProperty,
-        accessibleHelpText: GreenhouseEffectStrings.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
+        accessibleName: GreenhouseEffectFluent.a11y.concentrationPanel.experimentModeStringProperty,
+        accessibleHelpText: GreenhouseEffectFluent.a11y.concentrationPanel.experimentModeHelpTextStringProperty,
 
         // phet-io
         tandem: tandem

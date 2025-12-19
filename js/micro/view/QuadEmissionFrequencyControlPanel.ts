@@ -27,18 +27,18 @@ import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import MicroPhotonNode from './MicroPhotonNode.js';
 
-const quadWavelengthSelectorHigherEnergyStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.HigherEnergyStringProperty;
-const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.InfraredStringProperty;
-const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.MicrowaveStringProperty;
-const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.UltravioletStringProperty;
-const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectStrings.QuadWavelengthSelector.VisibleStringProperty;
+const quadWavelengthSelectorHigherEnergyStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.HigherEnergyStringProperty;
+const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.InfraredStringProperty;
+const quadWavelengthSelectorMicrowaveStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.MicrowaveStringProperty;
+const quadWavelengthSelectorUltravioletStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.UltravioletStringProperty;
+const quadWavelengthSelectorVisibleStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.VisibleStringProperty;
 
 // Description data for the 'Energy Arrow'
 const ARROW_LENGTH = 200;

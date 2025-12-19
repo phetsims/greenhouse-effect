@@ -8,7 +8,7 @@
 
 import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import WavesModel from '../model/WavesModel.js';
 
 class WavesScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
@@ -16,8 +16,8 @@ class WavesScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
   public constructor( model: WavesModel ) {
     super(
       model,
-      GreenhouseEffectStrings.a11y.waves.screenSummary.playAreaDescriptionStringProperty,
-      GreenhouseEffectStrings.a11y.waves.screenSummary.controlAreaDescriptionStringProperty
+      GreenhouseEffectFluent.a11y.waves.screenSummary.playAreaDescriptionStringProperty,
+      GreenhouseEffectFluent.a11y.waves.screenSummary.controlAreaDescriptionStringProperty
     );
   }
 }

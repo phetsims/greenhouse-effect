@@ -11,7 +11,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseEffectScreenSummaryContentNode from '../../common/view/GreenhouseEffectScreenSummaryContentNode.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
 
@@ -22,8 +22,8 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
     // The superclass takes care of some of the static parts of the description.
     super(
       model,
-      GreenhouseEffectStrings.a11y.layerModel.screenSummary.playAreaDescriptionStringProperty,
-      GreenhouseEffectStrings.a11y.layerModel.screenSummary.controlAreaDescriptionStringProperty
+      GreenhouseEffectFluent.a11y.layerModel.screenSummary.playAreaDescriptionStringProperty,
+      GreenhouseEffectFluent.a11y.layerModel.screenSummary.controlAreaDescriptionStringProperty
     );
 
     // a string Property that describes the number of infrared-absorbing layers in the atmosphere
@@ -37,14 +37,14 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
       [
         model.temperatureUnitsProperty,
         model.surfaceTemperatureKelvinProperty,
-        GreenhouseEffectStrings.temperature.units.valueUnitsPatternStringProperty,
-        GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty,
-        GreenhouseEffectStrings.a11y.temperatureUnits.kelvinStringProperty,
-        GreenhouseEffectStrings.a11y.temperatureUnits.celsiusStringProperty,
-        GreenhouseEffectStrings.a11y.temperatureUnits.fahrenheitStringProperty
+        GreenhouseEffectFluent.temperature.units.valueUnitsPatternStringProperty,
+        GreenhouseEffectFluent.a11y.surfaceTemperaturePatternStringProperty,
+        GreenhouseEffectFluent.a11y.temperatureUnits.kelvinStringProperty,
+        GreenhouseEffectFluent.a11y.temperatureUnits.celsiusStringProperty,
+        GreenhouseEffectFluent.a11y.temperatureUnits.fahrenheitStringProperty
       ],
       ( temperatureUnits, temperatureInKelvin ) => {
-        return StringUtils.fillIn( GreenhouseEffectStrings.a11y.surfaceTemperaturePatternStringProperty, {
+        return StringUtils.fillIn( GreenhouseEffectFluent.a11y.surfaceTemperaturePatternStringProperty, {
           temperatureDescription: TemperatureDescriber.getQuantitativeTemperatureDescription(
             temperatureInKelvin,
             temperatureUnits
@@ -63,9 +63,9 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
         model.groundLayer.showTemperatureProperty,
         infraredAbsorbingLayersPhraseProperty,
         surfaceTemperaturePhraseProperty,
-        GreenhouseEffectStrings.a11y.currentlyNoSunlightStringProperty,
-        GreenhouseEffectStrings.a11y.currentlySimIsPausedStringProperty,
-        GreenhouseEffectStrings.a11y.currentlyStringProperty
+        GreenhouseEffectFluent.a11y.currentlyNoSunlightStringProperty,
+        GreenhouseEffectFluent.a11y.currentlySimIsPausedStringProperty,
+        GreenhouseEffectFluent.a11y.currentlyStringProperty
       ],
       (
         isPlaying,

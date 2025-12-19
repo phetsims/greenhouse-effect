@@ -11,7 +11,7 @@ import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import greenhouseEffect from '../../../greenhouseEffect.js';
-import GreenhouseEffectStrings from '../../../GreenhouseEffectStrings.js';
+import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import LayersModel from '../../model/LayersModel.js';
 import ValueToStringMapper from './ValueToStringMapper.js';
 
@@ -23,31 +23,31 @@ class FluxSensorAltitudeDescriptionProperty extends StringProperty {
       [
         [
           LayersModel.HEIGHT_OF_ATMOSPHERE * 0.05,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.nearSurfaceStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.nearSurfaceStringProperty
         ],
         [
           LayersModel.HEIGHT_OF_ATMOSPHERE * 0.2,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.veryLowStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.veryLowStringProperty
         ],
         [
           LayersModel.HEIGHT_OF_ATMOSPHERE * 0.4,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.lowStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.lowStringProperty
         ],
         [
           LayersModel.HEIGHT_OF_ATMOSPHERE * 0.6,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.moderateStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.moderateStringProperty
         ],
         [
           LayersModel.HEIGHT_OF_ATMOSPHERE * 0.8,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.highStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.highStringProperty
         ],
         [
           altitudeProperty.rangeProperty.value.max,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.veryHighStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.veryHighStringProperty
         ],
         [
           Number.MAX_VALUE,
-          GreenhouseEffectStrings.a11y.qualitativeAltitudeDescriptions.topOfAtmosphereStringProperty
+          GreenhouseEffectFluent.a11y.qualitativeAltitudeDescriptions.topOfAtmosphereStringProperty
         ]
       ]
     );
