@@ -1,4 +1,4 @@
-// Copyright 2023-2024, University of Colorado Boulder
+// Copyright 2023-2025, University of Colorado Boulder
 
 /**
  * A derived property that describes the altitude of the flux meter's sensor in qualitative language.  This is intended
