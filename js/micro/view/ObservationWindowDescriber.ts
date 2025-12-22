@@ -25,6 +25,7 @@ import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import PhotonTarget from '../model/PhotonTarget.js';
+import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import MicroObservationWindow from './MicroObservationWindow.js';
 import ObservationWindowAlertManager from './ObservationWindowAlertManager.js';
@@ -225,7 +226,7 @@ class ObservationWindowDescriber {
    */
   private getEmissionPhaseDescription( photon: MicroPhoton ): string {
     return GreenhouseEffectFluent.a11y.micro.emissionPhaseDescriptionPattern.format( {
-      lightSource: this.model.lightSourceStringProperty,
+      lightSource: WavelengthConstants.getLightSourceStringType( photon.wavelength ),
       photonTarget: this.model.photonTargetStringProperty,
       direction: ActiveMoleculeAlertManager.getPhotonDirectionDescriptionString( photon )
     } );

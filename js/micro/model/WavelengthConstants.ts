@@ -32,15 +32,32 @@ export class Wavelength extends EnumerationValue {
 // NOTE: Ideally, these would replace the Wavelength enum above, but that would break the phet-io API.
 export type LightSource = 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight';
 
+const SUNLIGHT_WAVELENGTH = 400E-9; // Ported from the original JAVA version, but not used in Molecules And Light
+const MICRO_WAVELENGTH = 0.2;
+const IR_WAVELENGTH = 850E-9;
+const VISIBLE_WAVELENGTH = 580E-9;
+const UV_WAVELENGTH = 100E-9;
+const DEBUG_WAVELENGTH = 1;
+
+// Map from wavelength value to light source string type
+const WAVELENGTH_TO_LIGHT_SOURCE: Record<number, LightSource> = {
+  [ MICRO_WAVELENGTH ]: 'microwave',
+  [ IR_WAVELENGTH ]: 'infrared',
+  [ VISIBLE_WAVELENGTH ]: 'visible',
+  [ UV_WAVELENGTH ]: 'ultraviolet',
+  [ SUNLIGHT_WAVELENGTH ]: 'sunlight'
+};
+
 const WavelengthConstants = {
 
   // all values in meters
-  SUNLIGHT_WAVELENGTH: 400E-9, // Ported from the original JAVA version, but not used in Molecules And Light
-  MICRO_WAVELENGTH: 0.2,
-  IR_WAVELENGTH: 850E-9,
-  VISIBLE_WAVELENGTH: 580E-9,
-  UV_WAVELENGTH: 100E-9,
-  DEBUG_WAVELENGTH: 1,
+  SUNLIGHT_WAVELENGTH: SUNLIGHT_WAVELENGTH,
+  MICRO_WAVELENGTH: MICRO_WAVELENGTH,
+  IR_WAVELENGTH: IR_WAVELENGTH,
+  VISIBLE_WAVELENGTH: VISIBLE_WAVELENGTH,
+  UV_WAVELENGTH: UV_WAVELENGTH,
+  DEBUG_WAVELENGTH: DEBUG_WAVELENGTH,
+
 
   getLightSourceValueString( wavelength: number ): LightSource {
     if ( wavelength === this.MICRO_WAVELENGTH ) {
@@ -99,6 +116,13 @@ const WavelengthConstants = {
       return quadWavelengthSelectorUltravioletStringProperty.value;
     }
     throw new Error( 'Unknown wavelength' );
+  },
+
+  /**
+   * Maps the wavelength to the correct light source string type.
+   */
+  getLightSourceStringType( wavelength: number ): LightSource {
+    return WAVELENGTH_TO_LIGHT_SOURCE[ wavelength ];
   },
 
   /**
