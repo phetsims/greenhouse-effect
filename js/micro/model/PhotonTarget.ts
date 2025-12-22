@@ -21,6 +21,8 @@ const controlPanelOxygenStringProperty = GreenhouseEffectFluent.ControlPanel.Oxy
 const controlPanelOzoneStringProperty = GreenhouseEffectFluent.ControlPanel.OzoneStringProperty;
 const controlPanelWaterStringProperty = GreenhouseEffectFluent.ControlPanel.WaterStringProperty;
 
+// A string type representing the photon target names.
+// NOTE: Ideally, this would replace the EnumerationValue entirely, but that would break the phet-io API.
 export type PhotonTargetString =
   'singleCOMolecule' |
   'singleN2Molecule' |
@@ -59,6 +61,13 @@ class PhotonTarget extends EnumerationValue {
 
   }
 
+  /**
+   * Map PhotonTarget -> a string enumration value for it. This is most helpful for description, as we can map
+   * the enumeration values to a string value for a fluent selector.
+   *
+   * NOTE: Ideally, this would replace the EnumerationValue entirely, but that would break the phet-io API.
+   * @param photonTarget
+   */
   public static getPhotonTargetString( photonTarget: PhotonTarget ): PhotonTargetString {
     return photonTarget === PhotonTarget.SINGLE_CO_MOLECULE ? 'singleCOMolecule' :
            photonTarget === PhotonTarget.SINGLE_N2_MOLECULE ? 'singleN2Molecule' :

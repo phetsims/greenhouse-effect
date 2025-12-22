@@ -27,6 +27,9 @@ export class Wavelength extends EnumerationValue {
   public static readonly enumeration = new Enumeration( Wavelength );
 }
 
+// A string representation of the light source types. Mostly used for accessibility as these are fluent
+// selector values.
+// NOTE: Ideally, these would replace the Wavelength enum above, but that would break the phet-io API.
 export type LightSource = 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight';
 
 const WavelengthConstants = {

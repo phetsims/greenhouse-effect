@@ -102,6 +102,9 @@ const MoleculeUtils = {
     return targetEnum;
   },
 
+  /**
+   * Maps molecule to a string representation of the PhotonTarget enumeration value.
+   */
   getPhotonTargetString( molecule: Molecule ): PhotonTargetString {
     return molecule instanceof CO ? 'singleCOMolecule' :
            molecule instanceof N2 ? 'singleN2Molecule' :
