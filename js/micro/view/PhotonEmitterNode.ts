@@ -10,9 +10,11 @@
  * @author Jesse Greenberg
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import HotkeyData from '../../../../scenery/js/input/HotkeyData.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -171,6 +173,13 @@ class PhotonEmitterNode extends Node {
       this.addChild( this.button );
     }
   }
+
+  // Although this is just a button, there is a row of keyboard help information for this important interaction.
+  public static readonly HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'space', 'enter' ],
+    keyboardHelpDialogLabelStringProperty: new Property( 'TODO, create an entry for this in greenhouse-effect when we work on the micro screen.' ),
+    repoName: greenhouseEffect.name
+  } );
 }
 
 greenhouseEffect.register( 'PhotonEmitterNode', PhotonEmitterNode );
