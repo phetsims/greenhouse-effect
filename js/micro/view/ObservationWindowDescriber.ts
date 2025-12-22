@@ -24,7 +24,6 @@ import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
-import PhotonTarget from '../model/PhotonTarget.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 import ActiveMoleculeAlertManager from './ActiveMoleculeAlertManager.js';
 import MicroObservationWindow from './MicroObservationWindow.js';
@@ -89,14 +88,21 @@ class ObservationWindowDescriber {
   public attachInitialPhaseDescriptionListeners( descriptionNode: Node ): void {
     this.model.photonWavelengthProperty.link( photonWavelength => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get(), photonWavelength, this.model.photonTargetProperty.get() );
+        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
       }
     } );
 
     // when the molecule turns on or off, reset description content to initial description
     this.model.photonEmitterOnProperty.link( on => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( on, this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+        descriptionNode.innerContent = this.getInitialPhaseDescription( on );
+      }
+    } );
+
+    // When the model is reset, return to the initial phase description.
+    this.model.resetEmitter.addListener( () => {
+      if ( this.model.targetMolecule ) {
+        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
       }
     } );
   }
@@ -109,7 +115,7 @@ class ObservationWindowDescriber {
 
     // new target molecule added, reset to initial phase description
     if ( molecule === this.model.targetMolecule ) {
-      descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get(), this.model.photonWavelengthProperty.get(), this.model.photonTargetProperty.get() );
+      descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
     }
 
     // vibration
@@ -196,12 +202,8 @@ class ObservationWindowDescriber {
    * where we describe the absorption.
    *
    * This description is specific to the summary of the observation window.
-   *
-   * @param emitterOn
-   * @param photonWavelength
-   * @param photonTarget
    */
-  private getInitialPhaseDescription( emitterOn: boolean, photonWavelength: number, photonTarget: PhotonTarget ): string {
+  private getInitialPhaseDescription( emitterOn: boolean ): string {
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
