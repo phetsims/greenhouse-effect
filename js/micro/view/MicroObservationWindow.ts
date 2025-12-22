@@ -10,7 +10,6 @@
 
 // modules
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
@@ -24,7 +23,6 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Tandem from '../../../../tandem/js/Tandem.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -75,7 +73,7 @@ class MicroObservationWindow extends Rectangle {
 
       // pdom
       tagName: 'div',
-      accessibleHeading: GreenhouseEffectMessages.observationWindowLabelMessageProperty
+      accessibleHeading: GreenhouseEffectFluent.a11y.micro.observationWindowLabelStringProperty
     } );
 
     this.modelViewTransform = modelViewTransform;
@@ -246,8 +244,8 @@ class MicroObservationWindow extends Rectangle {
       const targetMolecule = photonAbsorptionModel.targetMolecule;
       affirm( targetMolecule, 'there should be a target molecule' );
 
-      geometryLabelItem.accessibleName = FluentUtils.formatMessage( GreenhouseEffectMessages.geometryLabelPatternMessageProperty, {
-        geometry: MoleculeUtils.getGeometryEnum( targetMolecule ).name
+      geometryLabelItem.accessibleName = GreenhouseEffectFluent.a11y.micro.geometryLabelPattern.format( {
+        geometry: MoleculeUtils.getGeometryString( targetMolecule )
       } );
       geometryDescriptionItem.accessibleName = MoleculeUtils.getGeometryDescription( targetMolecule );
     } );

@@ -27,7 +27,7 @@ export class Wavelength extends EnumerationValue {
   public static readonly enumeration = new Enumeration( Wavelength );
 }
 
-type LightSource = 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight';
+export type LightSource = 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight';
 
 const WavelengthConstants = {
 
@@ -38,6 +38,22 @@ const WavelengthConstants = {
   VISIBLE_WAVELENGTH: 580E-9,
   UV_WAVELENGTH: 100E-9,
   DEBUG_WAVELENGTH: 1,
+
+  getLightSourceValueString( wavelength: number ): LightSource {
+    if ( wavelength === this.MICRO_WAVELENGTH ) {
+      return 'microwave';
+    }
+    if ( wavelength === this.IR_WAVELENGTH ) {
+      return 'infrared';
+    }
+    if ( wavelength === this.VISIBLE_WAVELENGTH ) {
+      return 'visible';
+    }
+    if ( wavelength === this.UV_WAVELENGTH ) {
+      return 'ultraviolet';
+    }
+    throw new Error( 'Unknown wavelength' );
+  },
 
   // Given a wavelength, look up the tandem name for an emitter
   // This is required because the simulation is driven by the wavelength value.  If this code is too unmaintainable,

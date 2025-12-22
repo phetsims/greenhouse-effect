@@ -17,11 +17,10 @@
  * @author Jesse Greenberg
  */
 
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -156,7 +155,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = FluentUtils.formatMessage( GreenhouseEffectMessages.breakApartDescriptionWithFloatPatternMessageProperty, {
+      descriptionNode.innerContent = GreenhouseEffectFluent.a11y.micro.breakApartDescriptionWithFloatPattern.format( {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -175,7 +174,7 @@ class ObservationWindowDescriber {
 
             // cant use this here because the active molecule
             if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
-              descriptionNode.innerContent = GreenhouseEffectMessages.moleculePiecesGoneMessageProperty;
+              descriptionNode.innerContent = GreenhouseEffectFluent.a11y.micro.moleculePiecesGoneStringProperty;
             }
           }
         };
@@ -205,15 +204,15 @@ class ObservationWindowDescriber {
     if ( !emitterOn ) {
 
       // no photons moving, indicate to the user to begin firing photons
-      return FluentUtils.formatMessage( GreenhouseEffectMessages.photonEmitterOffDescriptionPatternMessageProperty, {
-        lightSource: this.model.lightSourceEnumProperty.value.name,
-        targetMolecule: this.model.photonTargetProperty.value.name
+      return GreenhouseEffectFluent.a11y.micro.photonEmitterOffDescriptionPattern.format( {
+        lightSource: this.model.lightSourceStringProperty,
+        photonTarget: this.model.photonTargetStringProperty
       } );
     }
     else {
-      return FluentUtils.formatMessage( GreenhouseEffectMessages.inactiveAndPassesPhaseDescriptionPatternMessageProperty, {
-        lightSource: this.model.lightSourceEnumProperty.value.name,
-        targetMolecule: this.model.photonTargetProperty.value.name
+      return GreenhouseEffectFluent.a11y.micro.inactiveAndPassesPhaseDescriptionPattern.format( {
+        lightSource: this.model.lightSourceStringProperty,
+        photonTarget: this.model.photonTargetStringProperty
       } );
     }
   }
@@ -225,13 +224,10 @@ class ObservationWindowDescriber {
    * @param photon - the emitted photon
    */
   private getEmissionPhaseDescription( photon: MicroPhoton ): string {
-    const directionEnum = ActiveMoleculeAlertManager.getPhotonDirectionDescription( photon );
-    return FluentUtils.formatMessage( GreenhouseEffectMessages.emissionPhaseDescriptionPatternMessageProperty, {
-      photonTarget: this.model.photonTargetProperty.value.name,
-      lightSource: this.model.lightSourceEnumProperty.value.name,
-
-      // @ts-expect-error - see #423, should resolve when TS conversion is complete
-      direction: directionEnum.name
+    return GreenhouseEffectFluent.a11y.micro.emissionPhaseDescriptionPattern.format( {
+      lightSource: this.model.lightSourceStringProperty,
+      photonTarget: this.model.photonTargetStringProperty,
+      direction: ActiveMoleculeAlertManager.getPhotonDirectionDescriptionString( photon )
     } );
   }
 }

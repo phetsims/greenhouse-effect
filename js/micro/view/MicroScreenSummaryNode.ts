@@ -8,13 +8,12 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import Property from '../../../../axon/js/Property.js';
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
+import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
-import WavelengthConstants from '../model/WavelengthConstants.js';
 
 class MicroScreenSummaryNode extends ScreenSummaryContent {
   private readonly model: PhotonAbsorptionModel;
@@ -23,8 +22,8 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
   public constructor( model: PhotonAbsorptionModel, returnMoleculeButtonVisibleProperty: Property<boolean> ) {
     super( {
       additionalContent: [
-        GreenhouseEffectMessages.playAreaSummaryMessageProperty,
-        GreenhouseEffectMessages.controlAreaSummaryMessageProperty
+        GreenhouseEffectFluent.a11y.micro.playAreaSummaryStringProperty,
+        GreenhouseEffectFluent.a11y.micro.controlAreaSummaryStringProperty
       ]
     } );
 
@@ -56,7 +55,7 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
-    const interactionHint = new Node( { tagName: 'p', innerContent: GreenhouseEffectMessages.interactionHintMessageProperty } );
+    const interactionHint = new Node( { tagName: 'p', innerContent: GreenhouseEffectFluent.a11y.micro.interactionHintStringProperty } );
     this.addChild( interactionHint );
   }
 
@@ -68,47 +67,46 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
   private getSummaryString(): string {
     const emitterOn = this.model.photonEmitterOnProperty.get();
 
-    const lightSourceEnum = WavelengthConstants.getLightSourceEnum( this.model.photonWavelengthProperty.get() );
     const timeSpeedEnumProperty = this.model.timeSpeedProperty;
-    const photonTargetEnum = this.model.photonTargetProperty.get();
+    const simSpeed = timeSpeedEnumProperty.value === TimeSpeed.SLOW ? 'slow' : 'normal';
 
     let finalString = '';
 
     if ( this.model.runningProperty.get() ) {
       if ( emitterOn ) {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOnScreenSummaryPatternMessageProperty, {
-          lightSource: lightSourceEnum.name,
-          simSpeed: timeSpeedEnumProperty.value.name,
-          targetMolecule: photonTargetEnum.name
+        finalString = GreenhouseEffectFluent.a11y.micro.dynamicPlayingEmitterOnScreenSummaryPattern.format( {
+          lightSource: this.model.lightSourceStringProperty,
+          photonTarget: this.model.photonTargetStringProperty,
+          speed: simSpeed
         } );
       }
       else {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPlayingEmitterOffScreenSummaryPatternMessageProperty, {
-          lightSource: lightSourceEnum.name,
-          targetMolecule: photonTargetEnum.name
+        finalString = GreenhouseEffectFluent.a11y.micro.dynamicPlayingEmitterOffScreenSummaryPattern.format( {
+          lightSource: this.model.lightSourceStringProperty,
+          photonTarget: this.model.photonTargetStringProperty
         } );
       }
     }
     else {
       if ( emitterOn ) {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOnScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnumProperty.value.name,
-          lightSource: lightSourceEnum.name,
-          targetMolecule: photonTargetEnum.name
+        finalString = GreenhouseEffectFluent.a11y.micro.dynamicPausedEmitterOnScreenSummaryPattern.format( {
+          speed: simSpeed,
+          lightSource: this.model.lightSourceStringProperty,
+          photonTarget: this.model.photonTargetStringProperty
         } );
       }
       else {
-        finalString = FluentUtils.formatMessage( GreenhouseEffectMessages.dynamicPausedEmitterOffScreenSummaryPatternMessageProperty, {
-          simSpeed: timeSpeedEnumProperty.value.name,
-          lightSource: lightSourceEnum.name,
-          targetMolecule: photonTargetEnum.name
+        finalString = GreenhouseEffectFluent.a11y.micro.dynamicPausedEmitterOffScreenSummaryPattern.format( {
+          speed: simSpeed,
+          lightSource: this.model.lightSourceStringProperty,
+          photonTarget: this.model.photonTargetStringProperty
         } );
       }
     }
 
     // if the "New Molecule" button is visible, include a description of its existence in the screen summary
     if ( this.returnMoleculeButtonVisibleProperty.get() ) {
-      return FluentUtils.formatMessage( GreenhouseEffectMessages.screenSummaryWithHintPatternMessageProperty, {
+      return GreenhouseEffectFluent.a11y.micro.screenSummaryWithHintPattern.format( {
         summary: finalString
       } );
     }

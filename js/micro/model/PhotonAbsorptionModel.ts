@@ -42,8 +42,8 @@ import N2 from './molecules/N2.js';
 import NO2 from './molecules/NO2.js';
 import O2 from './molecules/O2.js';
 import O3 from './molecules/O3.js';
-import PhotonTarget from './PhotonTarget.js';
-import WavelengthConstants, { Wavelength } from './WavelengthConstants.js';
+import PhotonTarget, { PhotonTargetString } from './PhotonTarget.js';
+import WavelengthConstants, { LightSource, Wavelength } from './WavelengthConstants.js';
 
 // constants
 
@@ -80,8 +80,12 @@ class PhotonAbsorptionModel extends PhetioObject {
   // A Property whose value is the enumeration for the current wavelength of emitted photons.
   public readonly lightSourceEnumProperty: TReadOnlyProperty<Wavelength>;
 
+  public readonly lightSourceStringProperty: TReadOnlyProperty<LightSource>;
+
   // The target of the photon emitter.
   public readonly photonTargetProperty: Property<PhotonTarget>;
+
+  public readonly photonTargetStringProperty: TReadOnlyProperty<PhotonTargetString>;
 
   // A reference to the current target molecule, determined from the
   // photonTargetProperty. If the molecule breaks apart this will become null again.
@@ -147,6 +151,10 @@ class PhotonAbsorptionModel extends PhetioObject {
       return WavelengthConstants.getLightSourceEnum( wavelength );
     } );
 
+    this.lightSourceStringProperty = new DerivedProperty( [ this.photonWavelengthProperty ], wavelength => {
+      return WavelengthConstants.getLightSourceValueString( wavelength );
+    } );
+
     // Link the model's active molecule to the photon target property.  Note that this wiring must be done after the
     // listeners for the activeMolecules observable array have been implemented.
     this.photonTargetProperty = new Property<PhotonTarget>( initialPhotonTarget, {
@@ -155,6 +163,10 @@ class PhotonAbsorptionModel extends PhetioObject {
       phetioValueType: EnumerationIO( PhotonTarget ),
       validValues: PhotonTarget.enumeration.values,
       hasListenerOrderDependencies: true
+    } );
+
+    this.photonTargetStringProperty = new DerivedProperty( [ this.photonTargetProperty ], photonTarget => {
+      return PhotonTarget.getPhotonTargetString( photonTarget );
     } );
 
     this.targetMolecule = null;

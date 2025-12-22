@@ -955,6 +955,433 @@
       "speedRadioButtonsDescription": {
         "value": "For slower observations play sim on slow speed."
       }
+    },
+    "micro": {
+      "microwaveCapitalized": {
+        "value": "Microwave"
+      },
+      "infraredCapitalized": {
+        "value": "Infrared"
+      },
+      "visibleCapitalized": {
+        "value": "Visible"
+      },
+      "ultravioletCapitalized": {
+        "value": "Ultraviolet"
+      },
+      "microwave": {
+        "value": "microwave"
+      },
+      "infrared": {
+        "value": "infrared"
+      },
+      "visible": {
+        "value": "visible"
+      },
+      "ultraviolet": {
+        "value": "ultraviolet"
+      },
+      "carbonMonoxideCapitalized": {
+        "value": "Carbon Monoxide"
+      },
+      "nitrogenCapitalized": {
+        "value": "Nitrogen"
+      },
+      "oxygenCapitalized": {
+        "value": "Oxygen"
+      },
+      "carbonDioxideCapitalized": {
+        "value": "Carbon Dioxide"
+      },
+      "methaneCapitalized": {
+        "value": "Methane"
+      },
+      "waterCapitalized": {
+        "value": "Water"
+      },
+      "nitrogenDioxideCapitalized": {
+        "value": "Nitrogen Dioxide"
+      },
+      "ozoneCapitalized": {
+        "value": "Ozone"
+      },
+      "carbonMonoxide": {
+        "value": "carbon monoxide"
+      },
+      "nitrogen": {
+        "value": "nitrogen"
+      },
+      "oxygen": {
+        "value": "oxygen"
+      },
+      "carbonDioxide": {
+        "value": "carbon dioxide"
+      },
+      "methane": {
+        "value": "methane"
+      },
+      "water": {
+        "value": "water"
+      },
+      "nitrogenDioxide": {
+        "value": "nitrogen dioxide"
+      },
+      "ozone": {
+        "value": "ozone"
+      },
+      "bendUpAndDown": {
+        "value": "bend up and down"
+      },
+      "stretchBackAndForth": {
+        "value": "stretch back and forth"
+      },
+      "glows": {
+        "value": "glows"
+      },
+      "rotatesClockwise": {
+        "value": "rotates clockwise"
+      },
+      "rotatesCounterClockwise": {
+        "value": "rotates counter-clockwise"
+      },
+      "left": {
+        "value": "left"
+      },
+      "right": {
+        "value": "right"
+      },
+      "up": {
+        "value": "up"
+      },
+      "down": {
+        "value": "down"
+      },
+      "upAndToTheLeft": {
+        "value": "up and to the left"
+      },
+      "upAndToTheRight": {
+        "value": "up and to the right"
+      },
+      "downAndToTheLeft": {
+        "value": "down and to the left"
+      },
+      "downAndToTheRight": {
+        "value": "down and to the right"
+      },
+      "direction": {
+        "value": "{ $direction ->\n  [left] { a11y_micro_left }\n  [right] { a11y_micro_right }\n  [up] { a11y_micro_up }\n  [down] { a11y_micro_down }\n  [upAndToTheLeft] { a11y_micro_upAndToTheLeft }\n  [upAndToTheRight] { a11y_micro_upAndToTheRight }\n  [downAndToTheLeft] { a11y_micro_downAndToTheLeft }\n  *[downAndToTheRight] { a11y_micro_downAndToTheRight }\n}"
+      },
+      "unknown": {
+        "value": "UNKNOWN"
+      },
+      "playAreaSummary": {
+        "value": "The Play Area is an observation window set up with a light source and a molecule. It has options for light source and molecule."
+      },
+      "controlAreaSummary": {
+        "value": "The Control Area has options for how fast the action happens in the observation window including buttons to pause and step forward. You can also access details about the light spectrum and reset the sim."
+      },
+      "interactionHint": {
+        "value": "Turn light source on to explore."
+      },
+      "targetPhrase": {
+        "value": "{ $speed ->\n  [normal] directly at\n  *[slow] on slow speed directly at\n}"
+      },
+      "dynamicPlayingEmitterOnScreenSummaryPattern": {
+        "value": "Currently, { a11y_micro_lightSource_lowercase } light source emits photons { a11y_micro_targetPhrase } { a11y_micro_photonTarget } molecule."
+      },
+      "dynamicPlayingEmitterOffScreenSummaryPattern": {
+        "value": "Currently, { a11y_micro_lightSource_lowercase } light source is off and points directly at { a11y_micro_photonTarget } molecule."
+      },
+      "pausedPhrase": {
+        "value": "{ $speed ->\n  [normal] is paused\n  *[slow] is paused on slow speed\n}"
+      },
+      "dynamicPausedEmitterOnScreenSummaryPattern": {
+        "value": "Currently, sim { a11y_micro_pausedPhrase }. { a11y_micro_lightSource_capitalized } light source emits photons directly at { a11y_micro_photonTarget } molecule."
+      },
+      "dynamicPausedEmitterOffScreenSummaryPattern": {
+        "value": "Currently, sim { a11y_micro_pausedPhrase }. { a11y_micro_lightSource_capitalized } light source is off and points directly at { a11y_micro_photonTarget } molecule."
+      },
+      "screenSummaryWithHintPattern": {
+        "value": "{ $summary } Reset or change molecule."
+      },
+      "observationWindowLabel": {
+        "value": "Observation Window"
+      },
+      "photonEmitterOffDescriptionPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } light source is off and points directly at { a11y_micro_photonTarget } molecule."
+      },
+      "inactiveAndPassesPhaseDescriptionPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon passes through { a11y_micro_photonTarget } molecule."
+      },
+      "lightSource": {
+        "lowercase": {
+          "value": "{ $lightSource ->\n  [microwave] microwave\n  [infrared] infrared\n  [visible] visible\n  [ultraviolet] ultraviolet\n  *[sunlight] sunlight\n}"
+        },
+        "capitalized": {
+          "value": "{ $lightSource ->\n  [microwave] Microwave\n  [infrared] Infrared\n  [visible] Visible\n  [ultraviolet] Ultraviolet\n  *[sunlight] Sunlight\n}"
+        }
+      },
+      "photonTarget": {
+        "value": "{ $photonTarget ->\n  [singleCOMolecule] { a11y_micro_carbonMonoxide }\n  [singleN2Molecule] { a11y_micro_nitrogen }\n  [singleO2Molecule] { a11y_micro_oxygen }\n  [singleCO2Molecule] { a11y_micro_carbonDioxide }\n  [singleCH4Molecule] { a11y_micro_methane }\n  [singleH2OMolecule] { a11y_micro_water }\n  [singleNO2Molecule] { a11y_micro_nitrogenDioxide }\n  *[singleO3Molecule] { a11y_micro_ozone }\n}"
+      },
+      "photonTargetCapitalized": {
+        "value": "{ $photonTarget ->\n  [singleCOMolecule] { a11y_micro_carbonMonoxideCapitalized }\n  [singleN2Molecule] { a11y_micro_nitrogenCapitalized }\n  [singleO2Molecule] { a11y_micro_oxygenCapitalized }\n  [singleCO2Molecule] { a11y_micro_carbonDioxideCapitalized }\n  [singleCH4Molecule] { a11y_micro_methaneCapitalized }\n  [singleH2OMolecule] { a11y_micro_waterCapitalized }\n  [singleNO2Molecule] { a11y_micro_nitrogenDioxideCapitalized }\n  *[singleO3Molecule] { a11y_micro_ozoneCapitalized }\n}"
+      },
+      "bendingRepresentation": {
+        "value": "{ $representation ->\n  [bendUpAndDown] { a11y_micro_bendUpAndDown }\n  *[stretchBackAndForth] { a11y_micro_stretchBackAndForth }\n}"
+      },
+      "excitedRepresentation": {
+        "value": "{ $representation ->\n  [rotatesClockwise] { a11y_micro_rotatesClockwise }\n  [rotatesCounterClockwise] { a11y_micro_rotatesCounterClockwise }\n  *[glows] { a11y_micro_glows }\n}"
+      },
+      "absorptionPhaseBondsDescriptionPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon absorbed, bonds of { a11y_micro_photonTarget } molecule { a11y_micro_bendingRepresentation }."
+      },
+      "absorptionPhaseMoleculeDescriptionPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon absorbed, { a11y_micro_photonTarget } molecule { a11y_micro_excitedRepresentation }."
+      },
+      "breakApartPhaseDescriptionPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon absorbed, { a11y_micro_photonTarget } molecule breaks into { $firstMolecule } and { $secondMolecule }."
+      },
+      "geometry": {
+        "value": "{ $geometry ->\n  [linear] linear\n  [bent] bent\n  [tetrahedral] tetrahedral\n  *[diatomic] diatomic\n}"
+      },
+      "geometryCapitalized": {
+        "value": "{ $geometry ->\n  [linear] Linear\n  [bent] Bent\n  [tetrahedral] Tetrahedral\n  *[diatomic] Diatomic\n}"
+      },
+      "geometryLabelPattern": {
+        "value": "This molecule has { a11y_micro_geometry } geometry."
+      },
+      "linearGeometryDescription": {
+        "value": "Linear, a molecule with two or three atoms bonded to form a straight line. Bond angle is 180 degrees."
+      },
+      "bentGeometryDescription": {
+        "value": "Bent, molecule with a central atom bonded to two other atoms that form an angle. Bond angle varies below 120 degrees."
+      },
+      "tetrahedralGeometryDescription": {
+        "value": "Tetrahedral, molecule with a central atom bonded to four other atoms forming a tetrahedron with 109.5° angles between them, like four-sided dice."
+      },
+      "lightSourceButtonLabelPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } Light Source"
+      },
+      "lightSourceButtonPressedHelpText": {
+        "value": "Turn light source off to stop photons."
+      },
+      "lightSourceButtonUnpressedHelpText": {
+        "value": "Turn light source on to start photons."
+      },
+      "lightSources": {
+        "value": "Light Sources"
+      },
+      "lightSourceRadioButtonHelpText": {
+        "value": "Choose light source for observation window ordered low to high energy."
+      },
+      "molecules": {
+        "value": "Molecules"
+      },
+      "moleculesRadioButtonHelpText": {
+        "value": "Choose molecule for observation window."
+      },
+      "moleculeButtonLabelPattern": {
+        "value": "{ a11y_micro_photonTargetCapitalized }, { $molecularFormula }, { a11y_micro_geometryCapitalized }"
+      },
+      "emissionPhaseDescriptionPattern": {
+        "value": "Absorbed { a11y_micro_lightSource_lowercase } photon emitted from { a11y_micro_photonTarget } molecule { a11y_micro_direction }."
+      },
+      "shortStretchingAlert": {
+        "value": "Stretching."
+      },
+      "longStretchingAlert": {
+        "value": "Bonds of molecule stretch back and forth."
+      },
+      "shortBendingAlert": {
+        "value": "Bending."
+      },
+      "longBendingAlert": {
+        "value": "Bonds of molecule bend up and down."
+      },
+      "shortRotatingAlert": {
+        "value": "Rotating."
+      },
+      "longRotatingAlert": {
+        "value": "Molecule rotates."
+      },
+      "shortGlowingAlert": {
+        "value": "Glowing."
+      },
+      "longGlowingAlert": {
+        "value": "Molecule glows."
+      },
+      "breaksApartAlertPattern": {
+        "value": "Molecule breaks apart into { $firstMolecule } and { $secondMolecule }."
+      },
+      "pausedEmittingPattern": {
+        "value": "Absorbed photon emitted from molecule { a11y_micro_direction }."
+      },
+      "pausedPassingPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon passes through { a11y_micro_photonTarget } molecule."
+      },
+      "slowMotionPassingPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photons passing through { a11y_micro_photonTarget } molecule."
+      },
+      "photonPasses": {
+        "value": "Photon passes."
+      },
+      "photonsPassing": {
+        "value": "Photons passing."
+      },
+      "slowMotionVibratingPattern": {
+        "value": "Photon absorbed. Bonds of molecule { a11y_micro_bendingRepresentation }."
+      },
+      "shortExcitedRepresentation": {
+        "value": "{ $representation ->\n  [bendUpAndDown] Bending\n  [stretchBackAndForth] Stretching\n  [rotatesClockwise] Rotating clockwise\n  [rotatesCounterClockwise] Rotating counter-clockwise\n  [rotates] Rotating\n  *[glows] Glowing\n}"
+      },
+      "slowMotionAbsorbedShortPattern": {
+        "value": "Photon absorbed. { a11y_micro_shortExcitedRepresentation }."
+      },
+      "slowMotionAbsorbedMoleculeExcitedPattern": {
+        "value": "Photon absorbed. Molecule { a11y_micro_excitedRepresentation }."
+      },
+      "slowMotionBreakApartPattern": {
+        "value": "Photon absorbed. Molecule breaks apart. { $firstMolecule } and { $secondMolecule } float away."
+      },
+      "moleculesFloatingAwayPattern": {
+        "value": "{ $firstMolecule } and { $secondMolecule } floating away."
+      },
+      "breakApartDescriptionWithFloatPattern": {
+        "value": "{ $description } { $floatDescription }"
+      },
+      "moleculePiecesGone": {
+        "value": "Molecule pieces gone. Reset or change molecule."
+      },
+      "slowMotionEmittedPattern": {
+        "value": "Photon emitted { a11y_micro_direction }."
+      },
+      "resetOrChangeMolecule": {
+        "value": "Reset or change molecule."
+      },
+      "photonEmitterPhotonsOff": {
+        "value": "Photons off."
+      },
+      "photonEmitterPhotonsOn": {
+        "value": "Photons on."
+      },
+      "photonEmitterPhotonsOnSlowSpeed": {
+        "value": "Photons on slow speed."
+      },
+      "photonEmitterPhotonsOnSimPaused": {
+        "value": "Photons on. Sim paused."
+      },
+      "photonEmitterPhotonsOnSlowSpeedSimPaused": {
+        "value": "Photons on slow speed. Sim paused."
+      },
+      "pausedPhotonEmittedPattern": {
+        "value": "{ a11y_micro_lightSource_capitalized } photon leaves light source."
+      },
+      "timeControlsSimPausedEmitterOnAlert": {
+        "value": "Sim paused. Play to continue exploration."
+      },
+      "timeControlsSimPausedEmitterOffAlert": {
+        "value": "Sim paused. Light source off."
+      },
+      "timeControlsSimPlayingHintAlert": {
+        "value": "Turn light source on to play sim."
+      },
+      "timeControlsPlayPauseButtonPlayingWithSpeedDescription": {
+        "value": "Pause sim to step forward little by little, or keep playing sim at chosen sim speed."
+      },
+      "timeControlsPlayPauseButtonPausedWithSpeedDescription": {
+        "value": "Step forward little by little, or play sim at chosen sim speed."
+      },
+      "timeControlsStepHintAlert": {
+        "value": "Turn light source on to use Step Forward."
+      },
+      "spectrumButtonLabel": {
+        "value": "Light Spectrum Diagram"
+      },
+      "spectrumButtonDescription": {
+        "value": "Examine details of full light spectrum."
+      },
+      "spectrumWindowDescription": {
+        "value": "The Light Spectrum shows the relative energy of the different classifications of light waves as defined by their characteristic wavelengths (measured in meters) and frequencies (measured in Hertz or inverse seconds)."
+      },
+      "spectrumWindowEnergyDescription": {
+        "value": "The order from lowest energy (lowest frequency and largest wavelength) to highest energy (highest frequency and smallest wavelength) is Radio, Microwave, Infrared, Visible, Ultraviolet, X-ray, and Gamma ray."
+      },
+      "spectrumWindowSinWaveDescription": {
+        "value": "A sine wave decreasing in wavelength (as measured by the distance from peak to peak) and increasing frequency (as measured by the number of waves per time interval) from Radio to Gamma Ray."
+      },
+      "spectrumWindowLabelledSpectrumLabel": {
+        "value": "Frequency and Wavelength Ranges"
+      },
+      "spectrumWindowLabelledSpectrumDescription": {
+        "value": "In detail, the frequency and wavelength ranges for each spectrum, listed from lowest to highest energy:"
+      },
+      "spectrumWindowLabelledSpectrumRadioLabel": {
+        "value": "Radio, large range:"
+      },
+      "spectrumWindowLabelledSpectrumMicrowaveLabel": {
+        "value": "Microwave, medium range:"
+      },
+      "spectrumWindowLabelledSpectrumInfraredLabel": {
+        "value": "Infrared, medium range:"
+      },
+      "spectrumWindowLabelledSpectrumVisibleLabel": {
+        "value": "Visible, tiny range:"
+      },
+      "spectrumWindowLabelledSpectrumUltravioletLabel": {
+        "value": "Ultraviolet, small range:"
+      },
+      "spectrumWindowLabelledSpectrumXrayLabel": {
+        "value": "X-ray, medium range:"
+      },
+      "spectrumWindowLabelledSpectrumGammaRayLabel": {
+        "value": "Gamma ray, medium range:"
+      },
+      "spectrumWindowLabelledSpectrumRadioFrequencyDescription": {
+        "value": "Frequencies less than 10 to the 4 Hertz to 10 to the 9 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumRadioWavelengthDescription": {
+        "value": "Wavelengths greater than 10 to the 4 meters to 5 times 10 to the negative 1 meters."
+      },
+      "spectrumWindowLabelledSpectrumMicrowaveFrequencyDescription": {
+        "value": "Frequencies 10 to the 9 to 5 times 10 to the 11 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumMicrowaveWavelengthDescription": {
+        "value": "Wavelengths 10 to the negative 1 to 10 to the negative 3 meters."
+      },
+      "spectrumWindowLabelledSpectrumInfraredFrequencyDescription": {
+        "value": "Frequencies 5 times 10 to the 11 to 4 times 10 to the 14 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumInfraredWavelengthDescription": {
+        "value": "Wavelengths 10 to the negative 3 to 7 times 10 to the negative 7 meters."
+      },
+      "spectrumWindowLabelledSpectrumVisibleFrequencyDescription": {
+        "value": "Frequencies 4 times 10 to the 14 to 7 times 10 to the 14 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumVisibleWavelengthDescription": {
+        "value": "Wavelengths 7 times 10 to the negative 7 to 4 times 10 to the negative 7 meters."
+      },
+      "spectrumWindowLabelledSpectrumVisibleGraphicalDescription": {
+        "value": "Shown as a rainbow starting with red and ending with violet (red, yellow, green, blue, indigo, violet)."
+      },
+      "spectrumWindowLabelledSpectrumUltravioletFrequencyDescription": {
+        "value": "Frequencies 10 to the 15 to 10 to the 16 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumUltravioletWavelengthDescription": {
+        "value": "Wavelengths 4 times 10 to the negative 7 to 10 to the negative 8 meters."
+      },
+      "spectrumWindowLabelledSpectrumXrayFrequencyDescription": {
+        "value": "Frequencies 10 to the 16 to 10 to the 19 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumXrayWavelengthDescription": {
+        "value": "Wavelengths 10 to the negative 8 to 5 times 10 to the negative 11 meters."
+      },
+      "spectrumWindowLabelledSpectrumGammaRayFrequencyDescription": {
+        "value": "Frequencies 10 to the 19 Hertz to greater than 10 to the 20 Hertz."
+      },
+      "spectrumWindowLabelledSpectrumGammaRayWavelengthDescription": {
+        "value": "Wavelengths 5 times 10 to the negative 11 meters to less than 10 to the negative 12 meters."
+      }
     }
   }
 }

@@ -10,8 +10,6 @@
  * @author Jesse Greenberg
  */
 
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import PatternMessageProperty from '../../../../chipper/js/browser/PatternMessageProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -30,7 +28,6 @@ import uvSource_png from '../../../mipmaps/uvSource_png.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
@@ -98,10 +95,9 @@ class PhotonEmitterNode extends Node {
 
     // pdom - update button label when the light source changes, or when the
     // string pattern changes (dynamic locales).
-    this.button.innerContent = new PatternMessageProperty(
-      GreenhouseEffectMessages.lightSourceButtonLabelPatternMessageProperty, {
-        lightSource: new DerivedProperty( [ model.lightSourceEnumProperty ], lightSource => lightSource.name )
-      } );
+    this.button.innerContent = GreenhouseEffectFluent.a11y.micro.lightSourceButtonLabelPattern.format( {
+      lightSource: model.lightSourceStringProperty
+    } );
 
     model.photonEmitterOnProperty.link( on => {
       if ( model.photonWavelengthProperty.get() !== WavelengthConstants.MICRO_WAVELENGTH ) {
@@ -111,8 +107,8 @@ class PhotonEmitterNode extends Node {
 
       // pdom - update the help text for the emitter
       this.button.descriptionContent = on ?
-                                       GreenhouseEffectMessages.lightSourceButtonPressedHelpTextMessageProperty :
-                                       GreenhouseEffectMessages.lightSourceButtonUnpressedHelpTextMessageProperty;
+                                       GreenhouseEffectFluent.a11y.micro.lightSourceButtonPressedHelpTextStringProperty :
+                                       GreenhouseEffectFluent.a11y.micro.lightSourceButtonUnpressedHelpTextStringProperty;
     } );
   }
 

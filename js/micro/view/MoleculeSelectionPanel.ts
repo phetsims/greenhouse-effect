@@ -7,24 +7,21 @@
  * @author Jesse Greenberg
  */
 
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HighlightPath from '../../../../scenery/js/accessibility/HighlightPath.js';
+import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Panel from '../../../../sun/js/Panel.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
-import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import Molecule from '../model/Molecule.js';
 import CH4 from '../model/molecules/CH4.js';
 import CO from '../model/molecules/CO.js';
@@ -34,11 +31,11 @@ import N2 from '../model/molecules/N2.js';
 import NO2 from '../model/molecules/NO2.js';
 import O2 from '../model/molecules/O2.js';
 import O3 from '../model/molecules/O3.js';
+import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import PhotonTarget from '../model/PhotonTarget.js';
 import MolecularFormulaStrings from './MolecularFormulaStrings.js';
 import MoleculeNode from './MoleculeNode.js';
 import MoleculeUtils from './MoleculeUtils.js';
-import { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 
 const molecularNamePatternStringProperty = GreenhouseEffectFluent.molecularNamePatternStringProperty;
 
@@ -177,8 +174,8 @@ class MoleculeSelectionPanel extends Panel {
     super( radioButtonGroup, {
       fill: 'black',
       tandem: tandem,
-      accessibleHeading: GreenhouseEffectMessages.moleculesMessageProperty,
-      descriptionContent: GreenhouseEffectMessages.moleculesRadioButtonHelpTextMessageProperty
+      accessibleHeading: GreenhouseEffectFluent.a11y.micro.moleculesStringProperty,
+      descriptionContent: GreenhouseEffectFluent.a11y.micro.moleculesRadioButtonHelpTextStringProperty
     } );
   }
 }
@@ -188,10 +185,10 @@ class MoleculeSelectionPanel extends Panel {
  * molecular geometry. Will return something like "Carbon Monoxide, CO, Linear"
  */
 const createPDOMLabel = ( molecule: Molecule ): string => {
-  return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculeButtonLabelPatternMessageProperty, {
-    photonTarget: MoleculeUtils.getPhotonTargetEnum( molecule )?.name,
+  return GreenhouseEffectFluent.a11y.micro.moleculeButtonLabelPattern.format( {
+    photonTarget: MoleculeUtils.getPhotonTargetString( molecule ),
     molecularFormula: MoleculeUtils.getMolecularFormula( molecule ),
-    geometryTitle: MoleculeUtils.getGeometryEnum( molecule ).name
+    geometry: MoleculeUtils.getGeometryString( molecule )
   } );
 };
 

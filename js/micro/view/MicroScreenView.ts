@@ -30,7 +30,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import LightSpectrumDialog from './LightSpectrumDialog.js';
@@ -44,8 +43,8 @@ import SpectrumDiagram from './SpectrumDiagram.js';
 import WindowFrameNode from './WindowFrameNode.js';
 
 const spectrumWindowButtonCaptionStringProperty = GreenhouseEffectFluent.SpectrumWindow.buttonCaptionStringProperty;
-const spectrumButtonLabelMessageProperty = GreenhouseEffectMessages.spectrumButtonLabelMessageProperty;
-const spectrumButtonDescriptionMessageProperty = GreenhouseEffectMessages.spectrumButtonDescriptionMessageProperty;
+const spectrumButtonLabelMessageProperty = GreenhouseEffectFluent.a11y.micro.spectrumButtonLabelStringProperty;
+const spectrumButtonDescriptionMessageProperty = GreenhouseEffectFluent.a11y.micro.spectrumButtonDescriptionStringProperty;
 
 // constants
 // Model-view transform for intermediate coordinates.
@@ -126,8 +125,8 @@ class MicroScreenView extends ScreenView {
       playPauseStepButtonOptions: {
 
         // pdom
-        playingHelpText: GreenhouseEffectMessages.timeControlsPlayPauseButtonPlayingWithSpeedDescriptionMessageProperty,
-        pausedHelpText: GreenhouseEffectMessages.timeControlsPlayPauseButtonPausedWithSpeedDescriptionMessageProperty,
+        playingHelpText: GreenhouseEffectFluent.a11y.micro.timeControlsPlayPauseButtonPlayingWithSpeedDescriptionStringProperty,
+        pausedHelpText: GreenhouseEffectFluent.a11y.micro.timeControlsPlayPauseButtonPausedWithSpeedDescriptionStringProperty,
 
         playPauseButtonOptions: {
           radius: 23

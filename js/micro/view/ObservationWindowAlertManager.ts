@@ -9,12 +9,11 @@
 
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import FluentUtils from '../../../../chipper/js/browser/FluentUtils.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import greenhouseEffect from '../../greenhouseEffect.js';
-import GreenhouseEffectMessages from '../../strings/GreenhouseEffectMessages.js';
+import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import Molecule from '../model/Molecule.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 import MicroObservationWindow from './MicroObservationWindow.js';
@@ -99,7 +98,7 @@ class ObservationWindowAlertManager extends Alerter {
 
       // pdom - announce to the user when the button becomes visible
       if ( visible && model.runningProperty.get() ) {
-        this.addAccessibleContextResponse( GreenhouseEffectMessages.resetOrChangeMoleculeMessageProperty );
+        this.addAccessibleContextResponse( GreenhouseEffectFluent.a11y.micro.resetOrChangeMoleculeStringProperty );
       }
     } );
   }
@@ -111,10 +110,10 @@ class ObservationWindowAlertManager extends Alerter {
   private getRunningStateAlert( emitterOn: boolean, running: boolean ): TReadOnlyProperty<string> {
     let alert;
     if ( running && !emitterOn ) {
-      alert = GreenhouseEffectMessages.timeControlsSimPlayingHintAlertMessageProperty;
+      alert = GreenhouseEffectFluent.a11y.micro.timeControlsSimPlayingHintAlertStringProperty;
     }
     else {
-      alert = emitterOn ? GreenhouseEffectMessages.timeControlsSimPausedEmitterOnAlertMessageProperty : GreenhouseEffectMessages.timeControlsSimPausedEmitterOffAlertMessageProperty;
+      alert = emitterOn ? GreenhouseEffectFluent.a11y.micro.timeControlsSimPausedEmitterOnAlertStringProperty : GreenhouseEffectFluent.a11y.micro.timeControlsSimPausedEmitterOffAlertStringProperty;
     }
     return alert;
   }
@@ -125,23 +124,23 @@ class ObservationWindowAlertManager extends Alerter {
    */
   public getPhotonEmitterStateAlert( on: boolean, running: boolean, slowMotion: boolean ): TReadOnlyProperty<string> {
     if ( !on ) {
-      return GreenhouseEffectMessages.photonEmitterPhotonsOffMessageProperty;
+      return GreenhouseEffectFluent.a11y.micro.photonEmitterPhotonsOffStringProperty;
     }
     else {
       if ( !running ) {
         if ( slowMotion ) {
-          return GreenhouseEffectMessages.photonEmitterPhotonsOnSlowSpeedSimPausedMessageProperty;
+          return GreenhouseEffectFluent.a11y.micro.photonEmitterPhotonsOnSlowSpeedSimPausedStringProperty;
         }
         else {
-          return GreenhouseEffectMessages.photonEmitterPhotonsOnSimPausedMessageProperty;
+          return GreenhouseEffectFluent.a11y.micro.photonEmitterPhotonsOnSimPausedStringProperty;
         }
       }
       else {
         if ( slowMotion ) {
-          return GreenhouseEffectMessages.photonEmitterPhotonsOnSlowSpeedMessageProperty;
+          return GreenhouseEffectFluent.a11y.micro.photonEmitterPhotonsOnSlowSpeedStringProperty;
         }
         else {
-          return GreenhouseEffectMessages.photonEmitterPhotonsOnMessageProperty;
+          return GreenhouseEffectFluent.a11y.micro.photonEmitterPhotonsOnStringProperty;
         }
       }
     }
@@ -152,8 +151,8 @@ class ObservationWindowAlertManager extends Alerter {
    * used when paused or in slow motion.
    */
   public getPhotonEmittedAlert(): string {
-    return FluentUtils.formatMessage( GreenhouseEffectMessages.pausedPhotonEmittedPatternMessageProperty, {
-      lightSource: this.model!.lightSourceEnumProperty
+    return GreenhouseEffectFluent.a11y.micro.pausedPhotonEmittedPattern.format( {
+      lightSource: this.model!.lightSourceStringProperty
     } );
   }
 
@@ -173,19 +172,19 @@ class ObservationWindowAlertManager extends Alerter {
       const photonAbsorbed = targetMolecule.isPhotonAbsorbed();
 
       if ( !emitterOn && !hasPhotons && !photonAbsorbed ) {
-        alert = GreenhouseEffectMessages.timeControlsStepHintAlertMessageProperty;
+        alert = GreenhouseEffectFluent.a11y.micro.timeControlsStepHintAlertStringProperty;
       }
       else if ( photonAbsorbed ) {
         if ( targetMolecule.rotatingProperty.get() ) {
-          alert = GreenhouseEffectMessages.shortRotatingAlertMessageProperty;
+          alert = GreenhouseEffectFluent.a11y.micro.shortRotatingAlertStringProperty;
         }
         else if ( targetMolecule.vibratingProperty.get() ) {
           alert = targetMolecule.vibratesByStretching() ?
-                  GreenhouseEffectMessages.shortStretchingAlertMessageProperty :
-                  GreenhouseEffectMessages.shortBendingAlertMessageProperty;
+                  GreenhouseEffectFluent.a11y.micro.shortStretchingAlertStringProperty :
+                  GreenhouseEffectFluent.a11y.micro.shortBendingAlertStringProperty;
         }
         else if ( targetMolecule.highElectronicEnergyStateProperty.get() ) {
-          alert = GreenhouseEffectMessages.shortGlowingAlertMessageProperty;
+          alert = GreenhouseEffectFluent.a11y.micro.shortGlowingAlertStringProperty;
         }
       }
     }
@@ -194,7 +193,7 @@ class ObservationWindowAlertManager extends Alerter {
       if ( !this.model!.hasBothConstituentMolecules( this.constituentMolecule1, this.constituentMolecule2 ) ) {
 
         // no target molecule and constituents have been removed
-        alert = GreenhouseEffectMessages.moleculePiecesGoneMessageProperty;
+        alert = GreenhouseEffectFluent.a11y.micro.moleculePiecesGoneStringProperty;
       }
       else {
 
@@ -215,7 +214,7 @@ class ObservationWindowAlertManager extends Alerter {
     const firstMolecularFormula = MoleculeUtils.getMolecularFormula( firstMolecule );
     const secondMolecularFormula = MoleculeUtils.getMolecularFormula( secondMolecule );
 
-    return FluentUtils.formatMessage( GreenhouseEffectMessages.moleculesFloatingAwayPatternMessageProperty, {
+    return GreenhouseEffectFluent.a11y.micro.moleculesFloatingAwayPattern.format( {
       firstMolecule: firstMolecularFormula,
       secondMolecule: secondMolecularFormula
     } );
