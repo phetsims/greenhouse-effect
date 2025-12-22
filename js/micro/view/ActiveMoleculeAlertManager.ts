@@ -540,7 +540,7 @@ class ActiveMoleculeAlertManager extends Alerter {
   }
 
   public static getPhotonDirectionDescriptionString( photon: MicroPhoton ): DirectionString {
-    const emissionAngle = Math.atan2( -photon.vy, photon.vx );
+    const emissionAngle = Math.atan2( photon.vy, photon.vx );
 
     // Use the emissionAngle to return one of the direction strings
     // Normalize to [0, 2PI)
@@ -574,16 +574,6 @@ class ActiveMoleculeAlertManager extends Alerter {
     else {
       return 'downAndToTheRight'; // ~315°
     }
-  }
-
-  /**
-   * Get a DescriptionEnum for the direction of the photon's movement, based on its velocity.
-   */
-  public static getPhotonDirectionDescription( photon: MicroPhoton ): EnumerationDeprecated {
-
-    // Negate the velocity in the y direction so the description is accurate for our coordinate frame.
-    const emissionAngle = Math.atan2( -photon.vy, photon.vx );
-    return MovementAlerter.getDirectionEnumerableFromAngle( emissionAngle );
   }
 }
 
