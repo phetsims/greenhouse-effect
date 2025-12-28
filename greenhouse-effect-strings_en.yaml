@@ -335,8 +335,8 @@ a11y:
   qualitativeSurfaceTemperaturePattern:                    Surface temperature is {{description}}.
   observationWindowTimePeriodPattern:                      Now {{timePeriodDescription}}.
   sunlightAndReflectionPattern:                            '{{sunlightDescription}} {{reflectionDescription}}'
-  cloudRefection:                                          Cloud reflects some sunlight back into space.
-  cloudAndGlacierRefection:                                Cloud and glacier reflect some sunlight back into space.
+  cloudReflection:                                         Cloud reflects some sunlight back into space.
+  cloudAndGlacierReflection:                               Cloud and glacier reflect some sunlight back into space.
   surfaceTemperatureIsQuantitativePattern:                 The surface temperature is {{value}}.
   surfaceTemperatureIsQualitativePattern:                  The surface temperature is {{description}}.
   surfaceTemperatureIsQuantitativeAndQualitativePattern:   The surface temperature is {{description}}, {{value}}.
@@ -680,16 +680,16 @@ a11y:
     # ..........
     # Context responses for when an absorbed photon is emitted from molecule,
     # includes direction of emission.
-    # NOTE: Alo used in state descriptions.
+    # NOTE: Also used in state descriptions.
     # EXAMPLE: Absorbed {microwave} photon emitted from {carbon monoxide} molecule {down and to the right}.
     emissionPhaseDescriptionPattern: Absorbed { a11y.micro.lightSource.lowercase } photon emitted from { a11y.micro.photonTarget } molecule { a11y.micro.direction }.
 
     # ..........
     # Context Responses for molecule excitations
-    # LONG responses occur once, then a SHORT response repeats reducing verbocity.
+    # LONG responses occur once, then a SHORT response repeats reducing verbosity.
     # When on slow speed or when paused and using step-through, responses can also be LONG.
 
-    # Streching
+    # Stretching
     # EXAMPLE SHORT: {Stretching}.
     # EXAMPLE LONG: {Bonds of molecule stretch back and forth}.
     shortStretchingAlert:                                           Stretching.
@@ -730,7 +730,7 @@ a11y:
     # EXAMPLE: {Ultraviolet⁩} photons passing through ⁨{carbon monoxide⁩} molecule.
     slowMotionPassingPattern:                                       '{ a11y.micro.lightSource.capitalized } photons passing through { a11y.micro.photonTarget } molecule.'
 
-    # Photon passes, a singualr pass is described when using step-through with paused sim.
+    # Photon passes, a singular pass is described when using step-through with paused sim.
     photonPasses:                                                   Photon passes.
 
     # Photons passing, continuous passes are described on normal when no excitation is possible.
@@ -795,7 +795,7 @@ a11y:
     photonEmitterPhotonsOnSimPaused:                                Photons on. Sim paused.
     photonEmitterPhotonsOnSlowSpeedSimPaused:                       Photons on slow speed. Sim paused.
 
-    # Photon leaves light source, LONG only when using step-through with puased sim.
+    # Photon leaves light source, LONG only when using step-through with paused sim.
     # EXAMPLE: {Visible⁩} photon leaves light source.
     pausedPhotonEmittedPattern:                                     '{ a11y.micro.lightSource.capitalized } photon leaves light source.'
 
@@ -859,7 +859,7 @@ a11y:
     spectrumWindowLabelledSpectrumVisibleWavelengthDescription:     Wavelengths 7 times 10 to the negative 7 to 4 times 10 to the negative 7 meters.
     spectrumWindowLabelledSpectrumVisibleGraphicalDescription:      Shown as a rainbow starting with red and ending with violet (red, yellow, green, blue, indigo, violet).
 
-    # Ultravilolet
+    # Ultraviolet
     spectrumWindowLabelledSpectrumUltravioletFrequencyDescription:  Frequencies 10 to the 15 to 10 to the 16 Hertz.
     spectrumWindowLabelledSpectrumUltravioletWavelengthDescription: Wavelengths 4 times 10 to the negative 7 to 10 to the negative 8 meters.
 

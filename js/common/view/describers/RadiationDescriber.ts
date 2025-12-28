@@ -218,7 +218,7 @@ class RadiationDescriber {
     else if ( includeCloudReflection && !includeGlacierReflection ) {
       descriptionString = StringUtils.fillIn( GreenhouseEffectFluent.a11y.sunlightAndReflectionPatternStringProperty, {
         sunlightDescription: sunlightDescriptionProperty,
-        reflectionDescription: GreenhouseEffectFluent.a11y.cloudRefectionStringProperty
+        reflectionDescription: GreenhouseEffectFluent.a11y.cloudReflectionStringProperty
       } );
     }
     else if ( !includeCloudReflection && includeGlacierReflection ) {
@@ -230,7 +230,7 @@ class RadiationDescriber {
     else {
       descriptionString = StringUtils.fillIn( GreenhouseEffectFluent.a11y.sunlightAndReflectionPatternStringProperty, {
         sunlightDescription: sunlightDescriptionProperty,
-        reflectionDescription: GreenhouseEffectFluent.a11y.cloudAndGlacierRefectionStringProperty
+        reflectionDescription: GreenhouseEffectFluent.a11y.cloudAndGlacierReflectionStringProperty
       } );
     }
 

@@ -831,10 +831,10 @@
     "sunlightAndReflectionPattern": {
       "value": "{{sunlightDescription}} {{reflectionDescription}}"
     },
-    "cloudRefection": {
+    "cloudReflection": {
       "value": "Cloud reflects some sunlight back into space."
     },
-    "cloudAndGlacierRefection": {
+    "cloudAndGlacierReflection": {
       "value": "Cloud and glacier reflect some sunlight back into space."
     },
     "surfaceTemperatureIsQuantitativePattern": {

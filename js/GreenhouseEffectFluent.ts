@@ -219,8 +219,8 @@ addToMapIfDefined( 'a11y_energyBalanceCheckedAlert', 'a11y.energyBalanceCheckedA
 addToMapIfDefined( 'a11y_energyBalanceUncheckedAlert', 'a11y.energyBalanceUncheckedAlertStringProperty' );
 addToMapIfDefined( 'a11y_thermometers', 'a11y.thermometersStringProperty' );
 addToMapIfDefined( 'a11y_thermometerRemovedAlert', 'a11y.thermometerRemovedAlertStringProperty' );
-addToMapIfDefined( 'a11y_cloudRefection', 'a11y.cloudRefectionStringProperty' );
-addToMapIfDefined( 'a11y_cloudAndGlacierRefection', 'a11y.cloudAndGlacierRefectionStringProperty' );
+addToMapIfDefined( 'a11y_cloudReflection', 'a11y.cloudReflectionStringProperty' );
+addToMapIfDefined( 'a11y_cloudAndGlacierReflection', 'a11y.cloudAndGlacierReflectionStringProperty' );
 addToMapIfDefined( 'a11y_startSunlightHint', 'a11y.startSunlightHintStringProperty' );
 addToMapIfDefined( 'a11y_startSunlightButtonHelpText', 'a11y.startSunlightButtonHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_sunlightStarted', 'a11y.sunlightStartedStringProperty' );
@@ -741,8 +741,8 @@ const GreenhouseEffectFluent = {
     qualitativeSurfaceTemperaturePatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.qualitativeSurfaceTemperaturePatternStringProperty' ),
     observationWindowTimePeriodPatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.observationWindowTimePeriodPatternStringProperty' ),
     sunlightAndReflectionPatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.sunlightAndReflectionPatternStringProperty' ),
-    cloudRefectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_cloudRefection', _.get( GreenhouseEffectStrings, 'a11y.cloudRefectionStringProperty' ) ),
-    cloudAndGlacierRefectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_cloudAndGlacierRefection', _.get( GreenhouseEffectStrings, 'a11y.cloudAndGlacierRefectionStringProperty' ) ),
+    cloudReflectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_cloudReflection', _.get( GreenhouseEffectStrings, 'a11y.cloudReflectionStringProperty' ) ),
+    cloudAndGlacierReflectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_cloudAndGlacierReflection', _.get( GreenhouseEffectStrings, 'a11y.cloudAndGlacierReflectionStringProperty' ) ),
     surfaceTemperatureIsQuantitativePatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.surfaceTemperatureIsQuantitativePatternStringProperty' ),
     surfaceTemperatureIsQualitativePatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.surfaceTemperatureIsQualitativePatternStringProperty' ),
     surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty: _.get( GreenhouseEffectStrings, 'a11y.surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty' ),
@@ -969,14 +969,14 @@ const GreenhouseEffectFluent = {
       _comment_98: new FluentComment( {"comment":"..........","associatedKey":"emissionPhaseDescriptionPattern"} ),
       _comment_99: new FluentComment( {"comment":"Context responses for when an absorbed photon is emitted from molecule,","associatedKey":"emissionPhaseDescriptionPattern"} ),
       _comment_100: new FluentComment( {"comment":"includes direction of emission.","associatedKey":"emissionPhaseDescriptionPattern"} ),
-      _comment_101: new FluentComment( {"comment":"NOTE: Alo used in state descriptions.","associatedKey":"emissionPhaseDescriptionPattern"} ),
+      _comment_101: new FluentComment( {"comment":"NOTE: Also used in state descriptions.","associatedKey":"emissionPhaseDescriptionPattern"} ),
       _comment_102: new FluentComment( {"comment":"EXAMPLE: Absorbed {microwave} photon emitted from {carbon monoxide} molecule {down and to the right}.","associatedKey":"emissionPhaseDescriptionPattern"} ),
       emissionPhaseDescriptionPattern: new FluentPattern<{ direction: 'left' | 'right' | 'up' | 'down' | 'upAndToTheLeft' | 'upAndToTheRight' | 'downAndToTheLeft' | 'downAndToTheRight' | TReadOnlyProperty<'left' | 'right' | 'up' | 'down' | 'upAndToTheLeft' | 'upAndToTheRight' | 'downAndToTheLeft' | 'downAndToTheRight'>, lightSource: 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight' | TReadOnlyProperty<'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight'>, photonTarget: 'singleCOMolecule' | 'singleN2Molecule' | 'singleO2Molecule' | 'singleCO2Molecule' | 'singleCH4Molecule' | 'singleH2OMolecule' | 'singleNO2Molecule' | 'singleO3Molecule' | TReadOnlyProperty<'singleCOMolecule' | 'singleN2Molecule' | 'singleO2Molecule' | 'singleCO2Molecule' | 'singleCH4Molecule' | 'singleH2OMolecule' | 'singleNO2Molecule' | 'singleO3Molecule'> }>( fluentSupport.bundleProperty, 'a11y_micro_emissionPhaseDescriptionPattern', _.get( GreenhouseEffectStrings, 'a11y.micro.emissionPhaseDescriptionPatternStringProperty' ), [{"name":"direction","variants":["left","right","up","down","upAndToTheLeft","upAndToTheRight","downAndToTheLeft","downAndToTheRight"]},{"name":"lightSource","variants":["microwave","infrared","visible","ultraviolet","sunlight"]},{"name":"photonTarget","variants":["singleCOMolecule","singleN2Molecule","singleO2Molecule","singleCO2Molecule","singleCH4Molecule","singleH2OMolecule","singleNO2Molecule","singleO3Molecule"]}] ),
       _comment_103: new FluentComment( {"comment":"..........","associatedKey":"shortStretchingAlert"} ),
       _comment_104: new FluentComment( {"comment":"Context Responses for molecule excitations","associatedKey":"shortStretchingAlert"} ),
-      _comment_105: new FluentComment( {"comment":"LONG responses occur once, then a SHORT response repeats reducing verbocity.","associatedKey":"shortStretchingAlert"} ),
+      _comment_105: new FluentComment( {"comment":"LONG responses occur once, then a SHORT response repeats reducing verbosity.","associatedKey":"shortStretchingAlert"} ),
       _comment_106: new FluentComment( {"comment":"When on slow speed or when paused and using step-through, responses can also be LONG.","associatedKey":"shortStretchingAlert"} ),
-      _comment_107: new FluentComment( {"comment":"Streching","associatedKey":"shortStretchingAlert"} ),
+      _comment_107: new FluentComment( {"comment":"Stretching","associatedKey":"shortStretchingAlert"} ),
       _comment_108: new FluentComment( {"comment":"EXAMPLE SHORT: {Stretching}.","associatedKey":"shortStretchingAlert"} ),
       _comment_109: new FluentComment( {"comment":"EXAMPLE LONG: {Bonds of molecule stretch back and forth}.","associatedKey":"shortStretchingAlert"} ),
       shortStretchingAlertStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_shortStretchingAlert', _.get( GreenhouseEffectStrings, 'a11y.micro.shortStretchingAlertStringProperty' ) ),
@@ -1009,7 +1009,7 @@ const GreenhouseEffectFluent = {
       _comment_126: new FluentComment( {"comment":"Photons passing, LONG when on slow speed","associatedKey":"slowMotionPassingPattern"} ),
       _comment_127: new FluentComment( {"comment":"EXAMPLE: {Ultraviolet⁩} photons passing through ⁨{carbon monoxide⁩} molecule.","associatedKey":"slowMotionPassingPattern"} ),
       slowMotionPassingPattern: new FluentPattern<{ lightSource: 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight' | TReadOnlyProperty<'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight'>, photonTarget: 'singleCOMolecule' | 'singleN2Molecule' | 'singleO2Molecule' | 'singleCO2Molecule' | 'singleCH4Molecule' | 'singleH2OMolecule' | 'singleNO2Molecule' | 'singleO3Molecule' | TReadOnlyProperty<'singleCOMolecule' | 'singleN2Molecule' | 'singleO2Molecule' | 'singleCO2Molecule' | 'singleCH4Molecule' | 'singleH2OMolecule' | 'singleNO2Molecule' | 'singleO3Molecule'> }>( fluentSupport.bundleProperty, 'a11y_micro_slowMotionPassingPattern', _.get( GreenhouseEffectStrings, 'a11y.micro.slowMotionPassingPatternStringProperty' ), [{"name":"lightSource","variants":["microwave","infrared","visible","ultraviolet","sunlight"]},{"name":"photonTarget","variants":["singleCOMolecule","singleN2Molecule","singleO2Molecule","singleCO2Molecule","singleCH4Molecule","singleH2OMolecule","singleNO2Molecule","singleO3Molecule"]}] ),
-      _comment_128: new FluentComment( {"comment":"Photon passes, a singualr pass is described when using step-through with paused sim.","associatedKey":"photonPasses"} ),
+      _comment_128: new FluentComment( {"comment":"Photon passes, a singular pass is described when using step-through with paused sim.","associatedKey":"photonPasses"} ),
       photonPassesStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_photonPasses', _.get( GreenhouseEffectStrings, 'a11y.micro.photonPassesStringProperty' ) ),
       _comment_129: new FluentComment( {"comment":"Photons passing, continuous passes are described on normal when no excitation is possible.","associatedKey":"photonsPassing"} ),
       photonsPassingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_photonsPassing', _.get( GreenhouseEffectStrings, 'a11y.micro.photonsPassingStringProperty' ) ),
@@ -1050,7 +1050,7 @@ const GreenhouseEffectFluent = {
       photonEmitterPhotonsOnSlowSpeedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_photonEmitterPhotonsOnSlowSpeed', _.get( GreenhouseEffectStrings, 'a11y.micro.photonEmitterPhotonsOnSlowSpeedStringProperty' ) ),
       photonEmitterPhotonsOnSimPausedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_photonEmitterPhotonsOnSimPaused', _.get( GreenhouseEffectStrings, 'a11y.micro.photonEmitterPhotonsOnSimPausedStringProperty' ) ),
       photonEmitterPhotonsOnSlowSpeedSimPausedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_photonEmitterPhotonsOnSlowSpeedSimPaused', _.get( GreenhouseEffectStrings, 'a11y.micro.photonEmitterPhotonsOnSlowSpeedSimPausedStringProperty' ) ),
-      _comment_152: new FluentComment( {"comment":"Photon leaves light source, LONG only when using step-through with puased sim.","associatedKey":"pausedPhotonEmittedPattern"} ),
+      _comment_152: new FluentComment( {"comment":"Photon leaves light source, LONG only when using step-through with paused sim.","associatedKey":"pausedPhotonEmittedPattern"} ),
       _comment_153: new FluentComment( {"comment":"EXAMPLE: {Visible⁩} photon leaves light source.","associatedKey":"pausedPhotonEmittedPattern"} ),
       pausedPhotonEmittedPattern: new FluentPattern<{ lightSource: 'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight' | TReadOnlyProperty<'microwave' | 'infrared' | 'visible' | 'ultraviolet' | 'sunlight'> }>( fluentSupport.bundleProperty, 'a11y_micro_pausedPhotonEmittedPattern', _.get( GreenhouseEffectStrings, 'a11y.micro.pausedPhotonEmittedPatternStringProperty' ), [{"name":"lightSource","variants":["microwave","infrared","visible","ultraviolet","sunlight"]}] ),
       _comment_154: new FluentComment( {"comment":"..........","associatedKey":"timeControlsSimPausedEmitterOnAlert"} ),
@@ -1101,7 +1101,7 @@ const GreenhouseEffectFluent = {
       spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_spectrumWindowLabelledSpectrumVisibleFrequencyDescription', _.get( GreenhouseEffectStrings, 'a11y.micro.spectrumWindowLabelledSpectrumVisibleFrequencyDescriptionStringProperty' ) ),
       spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_spectrumWindowLabelledSpectrumVisibleWavelengthDescription', _.get( GreenhouseEffectStrings, 'a11y.micro.spectrumWindowLabelledSpectrumVisibleWavelengthDescriptionStringProperty' ) ),
       spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_spectrumWindowLabelledSpectrumVisibleGraphicalDescription', _.get( GreenhouseEffectStrings, 'a11y.micro.spectrumWindowLabelledSpectrumVisibleGraphicalDescriptionStringProperty' ) ),
-      _comment_173: new FluentComment( {"comment":"Ultravilolet","associatedKey":"spectrumWindowLabelledSpectrumUltravioletFrequencyDescription"} ),
+      _comment_173: new FluentComment( {"comment":"Ultraviolet","associatedKey":"spectrumWindowLabelledSpectrumUltravioletFrequencyDescription"} ),
       spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_spectrumWindowLabelledSpectrumUltravioletFrequencyDescription', _.get( GreenhouseEffectStrings, 'a11y.micro.spectrumWindowLabelledSpectrumUltravioletFrequencyDescriptionStringProperty' ) ),
       spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_micro_spectrumWindowLabelledSpectrumUltravioletWavelengthDescription', _.get( GreenhouseEffectStrings, 'a11y.micro.spectrumWindowLabelledSpectrumUltravioletWavelengthDescriptionStringProperty' ) ),
       _comment_174: new FluentComment( {"comment":"X-ray","associatedKey":"spectrumWindowLabelledSpectrumXrayFrequencyDescription"} ),

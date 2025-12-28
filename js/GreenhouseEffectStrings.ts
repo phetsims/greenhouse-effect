@@ -344,8 +344,8 @@ type StringsType = {
     'qualitativeSurfaceTemperaturePatternStringProperty': LocalizedStringProperty;
     'observationWindowTimePeriodPatternStringProperty': LocalizedStringProperty;
     'sunlightAndReflectionPatternStringProperty': LocalizedStringProperty;
-    'cloudRefectionStringProperty': LocalizedStringProperty;
-    'cloudAndGlacierRefectionStringProperty': LocalizedStringProperty;
+    'cloudReflectionStringProperty': LocalizedStringProperty;
+    'cloudAndGlacierReflectionStringProperty': LocalizedStringProperty;
     'surfaceTemperatureIsQuantitativePatternStringProperty': LocalizedStringProperty;
     'surfaceTemperatureIsQualitativePatternStringProperty': LocalizedStringProperty;
     'surfaceTemperatureIsQuantitativeAndQualitativePatternStringProperty': LocalizedStringProperty;
