@@ -202,8 +202,12 @@ class FluxMeterNode extends Node {
         buttonOptions: {
           baseColor: PhetColorScheme.PHET_LOGO_BLUE
         },
-        accessibleHelpTextZoomIn: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
-        accessibleHelpTextZoomOut: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty,
+        zoomInButtonOptions: {
+          accessibleHelpText: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty
+        },
+        zoomOutButtonOptions: {
+          accessibleHelpText: GreenhouseEffectFluent.a11y.fluxMeter.zoomButtonHelpTextStringProperty
+        },
         tandem: options.tandem.createTandem( 'zoomButtonGroup' ),
         visiblePropertyOptions: {
           phetioFeatured: true
