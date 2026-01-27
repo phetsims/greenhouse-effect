@@ -37,6 +37,9 @@ class LayersModelTimeControlNode extends TimeControlNode {
         stepForwardButtonOptions: {
           listener: () => model.stepModel( 1 / 60 ) // assuming 60 fps
         },
+        playPauseButtonOptions: {
+          accessibleContextResponseOff: GreenhouseEffectFluent.a11y.timeControls.simPausedEmitterOnAlertStringProperty
+        },
         playingHelpText: playingDescriptionProperty,
         pausedHelpText: pausedDescriptionProperty
       }
@@ -53,11 +56,6 @@ class LayersModelTimeControlNode extends TimeControlNode {
           // happen via the phet-io API, so we have to handle it.  Force the sun to start shining in response.
           model.sunEnergySource.isShiningProperty.value = true;
         }
-
-        // generic alert about the step button
-        this.addAccessibleContextResponse(
-          GreenhouseEffectFluent.a11y.timeControls.simPausedEmitterOnAlertStringProperty
-        );
       }
     } );
 
