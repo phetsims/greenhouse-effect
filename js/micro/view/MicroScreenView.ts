@@ -129,7 +129,12 @@ class MicroScreenView extends ScreenView {
         pausedHelpText: GreenhouseEffectFluent.a11y.micro.timeControlsPlayPauseButtonPausedWithSpeedDescriptionStringProperty,
 
         playPauseButtonOptions: {
-          radius: 23
+          radius: 23,
+
+          // Different strings are used depending on whether the light source is on. These responses
+          // are handled by the alerter, so disable the default accessible context responses.
+          accessibleContextResponseOn: null,
+          accessibleContextResponseOff: null
         },
         stepForwardButtonOptions: {
           radius: 15,
