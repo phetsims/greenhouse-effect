@@ -1278,7 +1278,7 @@
         "value": "{ a11y_micro_lightSource_capitalized } photon leaves light source."
       },
       "timeControlsSimPausedEmitterOnAlert": {
-        "value": "Sim paused. Play to continue exploration."
+        "value": "Sim paused. Step forward for detailed exploration."
       },
       "timeControlsSimPausedEmitterOffAlert": {
         "value": "Sim paused. Light source off."

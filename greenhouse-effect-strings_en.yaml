@@ -802,7 +802,7 @@ a11y:
     # ..........
     # Context responses for the Pause/Play Control.
     # Responses provide guidance on how to continue when sim is paused or light source is off.
-    timeControlsSimPausedEmitterOnAlert:                            Sim paused. Play to continue exploration.
+    timeControlsSimPausedEmitterOnAlert:                            Sim paused. Step forward for detailed exploration.
     timeControlsSimPausedEmitterOffAlert:                           Sim paused. Light source off.
     timeControlsSimPlayingHintAlert:                                Turn light source on to play sim.
     timeControlsPlayPauseButtonPlayingWithSpeedDescription:         Pause sim to step forward little by little, or keep playing sim at chosen sim speed.
