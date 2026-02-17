@@ -139,6 +139,10 @@ class MicroScreenView extends ScreenView {
         stepForwardButtonOptions: {
           radius: 15,
 
+          // Disable the default response. This simulation uses very custom logic for the responses related to the
+          // step forward button.
+          accessibleContextResponse: null,
+
           // assuming 60 frames per second
           listener: () => { photonAbsorptionModel.manualStep( 1 / 60 ); }
         }
