@@ -11,9 +11,6 @@
  * energy phase is described. The initial state description for photons passing through the molecule is
  * not re-applied until the photon wavelength or target molecule changes again.
  *
- * TODO: accessibleName was replaced throughout with innerContent because of https://github.com/phetsims/scenery/issues/1026
- * If that issue is fixed, accessibleName can be used again
- *
  * @author Jesse Greenberg
  */
 
@@ -88,21 +85,21 @@ class ObservationWindowDescriber {
   public attachInitialPhaseDescriptionListeners( descriptionNode: Node ): void {
     this.model.photonWavelengthProperty.link( photonWavelength => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
+        descriptionNode.accessibleName = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
       }
     } );
 
     // when the molecule turns on or off, reset description content to initial description
     this.model.photonEmitterOnProperty.link( on => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( on );
+        descriptionNode.accessibleName = this.getInitialPhaseDescription( on );
       }
     } );
 
     // When the model is reset, return to the initial phase description.
     this.model.resetEmitter.addListener( () => {
       if ( this.model.targetMolecule ) {
-        descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
+        descriptionNode.accessibleName = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
       }
     } );
   }
@@ -115,7 +112,7 @@ class ObservationWindowDescriber {
 
     // new target molecule added, reset to initial phase description
     if ( molecule === this.model.targetMolecule ) {
-      descriptionNode.innerContent = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
+      descriptionNode.accessibleName = this.getInitialPhaseDescription( this.model.photonEmitterOnProperty.get() );
     }
 
     // vibration
@@ -124,7 +121,7 @@ class ObservationWindowDescriber {
 
       if ( this.moleculeVibrating ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.activeMoleculeAlertManager.getVibrationPhaseDescription( vibrationRadians );
+        descriptionNode.accessibleName = this.activeMoleculeAlertManager.getVibrationPhaseDescription( vibrationRadians );
       }
     } );
 
@@ -135,7 +132,7 @@ class ObservationWindowDescriber {
 
       if ( rotating ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.activeMoleculeAlertManager.getRotationPhaseDescription();
+        descriptionNode.accessibleName = this.activeMoleculeAlertManager.getRotationPhaseDescription();
       }
     } );
 
@@ -145,13 +142,13 @@ class ObservationWindowDescriber {
 
       if ( highEnergy ) {
         this.wavelengthOnAbsorption = this.model.photonWavelengthProperty.get();
-        descriptionNode.innerContent = this.activeMoleculeAlertManager.getHighElectronicEnergyPhaseDescription();
+        descriptionNode.accessibleName = this.activeMoleculeAlertManager.getHighElectronicEnergyPhaseDescription();
       }
     } );
 
     // re-emission
     molecule.photonEmittedEmitter.addListener( photon => {
-      descriptionNode.innerContent = this.getEmissionPhaseDescription( photon );
+      descriptionNode.accessibleName = this.getEmissionPhaseDescription( photon );
     } );
 
     // break apart
@@ -162,7 +159,7 @@ class ObservationWindowDescriber {
       const breakApartDescription = this.activeMoleculeAlertManager.getBreakApartPhaseDescription( moleculeA, moleculeB );
       const floatingAwayDescription = this.alertManager.getMoleculesFloatingAwayDescription( moleculeA, moleculeB );
 
-      descriptionNode.innerContent = GreenhouseEffectFluent.a11y.micro.breakApartDescriptionWithFloatPattern.format( {
+      descriptionNode.accessibleName = GreenhouseEffectFluent.a11y.micro.breakApartDescriptionWithFloatPattern.format( {
         description: breakApartDescription,
         floatDescription: floatingAwayDescription
       } );
@@ -181,7 +178,7 @@ class ObservationWindowDescriber {
 
             // cant use this here because the active molecule
             if ( !this.model.hasBothConstituentMolecules( moleculeA, moleculeB ) ) {
-              descriptionNode.innerContent = GreenhouseEffectFluent.a11y.micro.moleculePiecesGoneStringProperty;
+              descriptionNode.accessibleName = GreenhouseEffectFluent.a11y.micro.moleculePiecesGoneStringProperty;
             }
           }
         };

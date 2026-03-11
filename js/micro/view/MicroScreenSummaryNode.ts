@@ -44,18 +44,17 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
     ];
     Multilink.multilinkAny( summaryProperties, () => {
 
-      // TODO: Maybe use accessibleName instead if https://github.com/phetsims/scenery/issues/1026 is fixed
-      dynamicDescription.innerContent = this.getSummaryString();
+      dynamicDescription.accessibleName = this.getSummaryString();
     } );
 
     // In addition to the above Properties, update summary when molecules are removed (which may not update the photon
     // target) to describe empty space.
     model.activeMolecules.addItemRemovedListener( () => {
-      dynamicDescription.innerContent = this.getSummaryString();
+      dynamicDescription.accessibleName = this.getSummaryString();
     } );
 
     // interaction hint, add a hint about the "Play" button if sim is paused
-    const interactionHint = new Node( { tagName: 'p', innerContent: GreenhouseEffectFluent.a11y.micro.interactionHintStringProperty } );
+    const interactionHint = new Node( { tagName: 'p', accessibleName: GreenhouseEffectFluent.a11y.micro.interactionHintStringProperty } );
     this.addChild( interactionHint );
   }
 
