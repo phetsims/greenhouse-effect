@@ -35,7 +35,7 @@ const UTTERANCE_OPTIONS = {
 
   // Delay the utterances a bit to give the utterance queue an opportunity to consolidate them if there are several
   // that are close in time.  This helps prevent large batches of duplicated alerts.  Value empirically determined.
-  alertStableDelay: 1500
+  alertDelay: 1500
 };
 
 class LayerModelModelAlerter extends LayersModelAlerter {

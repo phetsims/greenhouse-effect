@@ -44,7 +44,7 @@ assert && assert(
   'delay will cause alerts to be out of order'
 );
 const DATE_CHANGE_UTTERANCE_OPTIONS = {
-  alertStableDelay: ALERT_DELAY_AFTER_CHANGING_DATE * 1000 // UtteranceQueue uses ms
+  alertDelay: ALERT_DELAY_AFTER_CHANGING_DATE * 1000 // UtteranceQueue uses ms
 };
 
 // The parts of the concentration model that are periodically described as they change over time.
