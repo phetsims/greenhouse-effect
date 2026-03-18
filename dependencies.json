@@ -13,7 +13,7 @@
     "branch": "HEAD"
   },
   "brand": {
-    "sha": "3c08ee09963c15161a28e149569908c2e98cb880",
+    "sha": "a168685230f7bebafa6447fc3a2eb304235ecfec",
     "branch": "HEAD"
   },
   "chipper": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "greenhouse-effect": {
-    "sha": "fc143e45aa22ddb4ad570c8f0acf9cfb6761c1cc",
+    "sha": "f815dbb12caf5aa9d699375a98f42194afcede68",
     "branch": "1.0"
   },
   "joist": {
