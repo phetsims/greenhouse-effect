@@ -541,4 +541,6 @@ type StringsType = {
 
 const GreenhouseEffectStrings = getStringModule( 'GREENHOUSE_EFFECT' ) as StringsType;
 
+greenhouseEffect.register( 'GreenhouseEffectStrings', GreenhouseEffectStrings );
+
 export default GreenhouseEffectStrings;
