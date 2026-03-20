@@ -18,7 +18,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import ArrayIO from '../../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const DEFAULT_ACCUMULATION_PERIOD = 1; // in seconds
@@ -170,7 +169,5 @@ type EnergyInfoQueueItemStateObject = {
   _dt: number;
   _energy: number;
 };
-
-greenhouseEffect.register( 'EnergyRateTracker', EnergyRateTracker );
 
 export default EnergyRateTracker;

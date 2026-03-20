@@ -11,7 +11,6 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import EnergyRateTracker from './EnergyRateTracker.js';
@@ -59,5 +58,4 @@ class SpaceEnergySink {
   }
 }
 
-greenhouseEffect.register( 'SpaceEnergySink', SpaceEnergySink );
 export default SpaceEnergySink;

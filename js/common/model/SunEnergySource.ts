@@ -15,7 +15,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
@@ -128,5 +127,4 @@ class SunEnergySource {
   public static readonly OUTPUT_ENERGY_RATE = OUTPUT_ENERGY_RATE;
 }
 
-greenhouseEffect.register( 'SunEnergySource', SunEnergySource );
 export default SunEnergySource;

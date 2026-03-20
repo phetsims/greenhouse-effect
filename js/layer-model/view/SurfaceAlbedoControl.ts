@@ -20,7 +20,6 @@ import { SliderOptions } from '../../../../sun/js/Slider.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import SurfaceAlbedoSoundPlayer from './SurfaceAlbedoSoundPlayer.js';
 
@@ -93,5 +92,3 @@ export default class SurfaceAlbedoControl extends VBox {
     } );
   }
 }
-
-greenhouseEffect.register( 'SurfaceAlbedoControl', SurfaceAlbedoControl );

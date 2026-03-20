@@ -15,7 +15,6 @@ import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import GroundLayer from '../../common/model/GroundLayer.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from '../../waves/model/Wave.js';
 import EMWaveSource, { EMWaveSourceOptions } from './EMWaveSource.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
@@ -88,5 +87,4 @@ class GroundWaveSource extends EMWaveSource {
   }
 }
 
-greenhouseEffect.register( 'GroundWaveSource', GroundWaveSource );
 export default GroundWaveSource;

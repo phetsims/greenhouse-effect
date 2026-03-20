@@ -22,7 +22,6 @@ import SpriteImage from '../../../scenery/js/util/SpriteImage.js';
 import SpriteInstance, { SpriteInstanceTransformType } from '../../../scenery/js/util/SpriteInstance.js';
 import infraredPhoton_png from '../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../images/visiblePhoton_png.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import isVisible from './model/isVisible.js';
 import LayersModel from './model/LayersModel.js';
 import { ShowState } from './model/Photon.js';
@@ -149,5 +148,4 @@ class PhotonSprites extends Sprites {
   }
 }
 
-greenhouseEffect.register( 'PhotonSprites', PhotonSprites );
 export default PhotonSprites;

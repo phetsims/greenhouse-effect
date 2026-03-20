@@ -13,7 +13,6 @@ import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/soun
 import wavesIrReemissionLoop_mp3 from '../../../sounds/wavesIrReemissionLoop_mp3.js';
 import wavesIrReemissionStartingSound_mp3 from '../../../sounds/wavesIrReemissionStartingSound_mp3.js';
 import isInfrared from '../../common/model/isInfrared.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WavesScreenView from './WavesScreenView.js';
 
@@ -119,5 +118,4 @@ class InfraredWavesSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'InfraredWavesSoundGenerator', InfraredWavesSoundGenerator );
 export default InfraredWavesSoundGenerator;

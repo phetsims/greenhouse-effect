@@ -19,7 +19,6 @@ import RadiationDescriber from '../../common/view/describers/RadiationDescriber.
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import GreenhouseGasConcentrations from '../../common/view/GreenhouseGasConcentrations.js';
 import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 
@@ -167,5 +166,3 @@ export default class PhotonsLandscapeObservationWindowPDOMNode extends Landscape
     } );
   }
 }
-
-greenhouseEffect.register( 'PhotonsLandscapeObservationWindowPDOMNode', PhotonsLandscapeObservationWindowPDOMNode );

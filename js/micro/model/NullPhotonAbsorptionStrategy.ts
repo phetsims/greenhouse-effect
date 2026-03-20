@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
@@ -41,7 +40,5 @@ class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
     return false;
   }
 }
-
-greenhouseEffect.register( 'NullPhotonAbsorptionStrategy', NullPhotonAbsorptionStrategy );
 
 export default NullPhotonAbsorptionStrategy;

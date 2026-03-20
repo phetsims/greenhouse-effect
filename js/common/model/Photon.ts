@@ -16,7 +16,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
 // constants
@@ -162,6 +161,5 @@ export type PhotonStateObject = {
   showState: string;
 };
 
-greenhouseEffect.register( 'Photon', Photon );
 export { ShowState };
 export default Photon;

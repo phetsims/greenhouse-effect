@@ -28,7 +28,6 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ObjectLiteralIO from '../../../../tandem/js/types/ObjectLiteralIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Atom, { AtomStateObject } from './atoms/Atom.js';
 import AtomicBond, { AtomicBondStateObject } from './atoms/AtomicBond.js';
 import MicroPhoton from './MicroPhoton.js';
@@ -652,7 +651,5 @@ class Molecule {
     }
   } );
 }
-
-greenhouseEffect.register( 'Molecule', Molecule );
 
 export default Molecule;

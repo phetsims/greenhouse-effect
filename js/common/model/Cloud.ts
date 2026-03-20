@@ -22,7 +22,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import isVisible from './isVisible.js';
@@ -149,5 +148,4 @@ class Cloud extends PhetioObject {
   }
 }
 
-greenhouseEffect.register( 'Cloud', Cloud );
 export default Cloud;

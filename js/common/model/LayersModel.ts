@@ -25,7 +25,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceArrayIO from '../../../../tandem/js/types/ReferenceArrayIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectUtils from '../GreenhouseEffectUtils.js';
 import AtmosphereLayer, { AtmosphereLayerOptions } from './AtmosphereLayer.js';
@@ -406,5 +405,4 @@ type LayersModelStateObject = {
 
 export type { LayersModelStateObject };
 
-greenhouseEffect.register( 'LayersModel', LayersModel );
 export default LayersModel;

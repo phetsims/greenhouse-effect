@@ -15,7 +15,6 @@ import { ParallelDOMOptions } from '../../../../scenery/js/accessibility/pdom/Pa
 import { NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = EmptySelfOptions;
 export type ShowTemperatureCheckboxOptions = SelfOptions & NodeTranslationOptions & ParallelDOMOptions &
@@ -48,5 +47,4 @@ class ShowTemperatureCheckbox extends Checkbox {
   }
 }
 
-greenhouseEffect.register( 'ShowTemperatureCheckbox', ShowTemperatureCheckbox );
 export default ShowTemperatureCheckbox;

@@ -14,7 +14,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = EmptySelfOptions;
 export type GreenhouseEffectModelOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
@@ -84,5 +83,4 @@ class GreenhouseEffectModel extends PhetioObject implements TModel {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectModel', GreenhouseEffectModel );
 export default GreenhouseEffectModel;

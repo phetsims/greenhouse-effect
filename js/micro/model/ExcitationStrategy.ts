@@ -8,7 +8,6 @@
  * @author Jesse Greenberg
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from './Molecule.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
@@ -27,7 +26,5 @@ class ExcitationStrategy extends PhotonHoldStrategy {
     this.molecule.highElectronicEnergyStateProperty.set( false );
   }
 }
-
-greenhouseEffect.register( 'ExcitationStrategy', ExcitationStrategy );
 
 export default ExcitationStrategy;

@@ -21,7 +21,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
@@ -298,7 +297,5 @@ class MicroObservationWindow extends Rectangle {
     this.describer.step( dt );
   }
 }
-
-greenhouseEffect.register( 'MicroObservationWindow', MicroObservationWindow );
 
 export default MicroObservationWindow;

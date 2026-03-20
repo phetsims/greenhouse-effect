@@ -23,7 +23,6 @@ import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from './Cloud.js';
 import GroundLayer from './GroundLayer.js';
 import LayersModel, { LayersModelOptions, LayersModelStateObject } from './LayersModel.js';
@@ -260,6 +259,5 @@ export type { ConcentrationModelStateObject };
 export { ConcentrationControlMode };
 export { ConcentrationDate };
 
-greenhouseEffect.register( 'ConcentrationModel', ConcentrationModel );
 export type { ConcentrationModelOptions };
 export default ConcentrationModel;

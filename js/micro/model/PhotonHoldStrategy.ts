@@ -10,7 +10,6 @@
 
 
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
@@ -78,7 +77,5 @@ class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
     console.error( 'Error: photonAbsorbed function should be implemented by descendant absorption strategies.' );
   }
 }
-
-greenhouseEffect.register( 'PhotonHoldStrategy', PhotonHoldStrategy );
 
 export default PhotonHoldStrategy;

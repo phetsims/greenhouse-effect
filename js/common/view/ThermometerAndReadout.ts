@@ -23,7 +23,6 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import ThermometerNode, { ThermometerNodeOptions } from '../../../../scenery-phet/js/ThermometerNode.js';
 import Node, { NodeOptions, NodeTranslationOptions } from '../../../../scenery/js/nodes/Node.js';
 import ComboBox, { ComboBoxItem } from '../../../../sun/js/ComboBox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -220,7 +219,5 @@ class ThermometerAndReadout extends Node {
   // static values
   public static ReadoutType = ReadoutType;
 }
-
-greenhouseEffect.register( 'ThermometerAndReadout', ThermometerAndReadout );
 
 export default ThermometerAndReadout;

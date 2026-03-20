@@ -9,7 +9,6 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 const quadWavelengthSelectorInfraredStringProperty = GreenhouseEffectFluent.QuadWavelengthSelector.InfraredStringProperty;
@@ -144,7 +143,5 @@ const WavelengthConstants = {
     throw new Error( 'Unknown wavelength' );
   }
 };
-
-greenhouseEffect.register( 'WavelengthConstants', WavelengthConstants );
 
 export default WavelengthConstants;

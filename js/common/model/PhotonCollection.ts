@@ -20,7 +20,6 @@ import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import GroundLayer from './GroundLayer.js';
@@ -368,5 +367,4 @@ const firstLetterToUpper = ( stringToAlter: string ) => {
   return `${leadingChar.toUpperCase()}${stringToAlter.slice( 1 )}`;
 };
 
-greenhouseEffect.register( 'PhotonCollection', PhotonCollection );
 export default PhotonCollection;

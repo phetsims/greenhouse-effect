@@ -20,7 +20,6 @@ import { SliderOptions } from '../../../../sun/js/Slider.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import SunlightIntensityDescriptionProperty from './describers/SunlightIntensityDescriptionProperty.js';
 import SolarIntensitySoundPlayer from './SolarIntensitySoundPlayer.js';
@@ -112,5 +111,3 @@ export default class SolarIntensityControl extends VBox {
     } );
   }
 }
-
-greenhouseEffect.register( 'SolarIntensityControl', SolarIntensityControl );

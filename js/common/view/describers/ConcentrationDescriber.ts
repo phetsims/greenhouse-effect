@@ -8,7 +8,6 @@
 import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 
@@ -404,5 +403,4 @@ class ConcentrationDescriber {
   }
 }
 
-greenhouseEffect.register( 'ConcentrationDescriber', ConcentrationDescriber );
 export default ConcentrationDescriber;

@@ -8,7 +8,6 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import LayerScreenControlPanel from './LayerScreenControlPanel.js';
@@ -47,5 +46,3 @@ export default class SunlightPanel extends LayerScreenControlPanel {
     );
   }
 }
-
-greenhouseEffect.register( 'SunlightPanel', SunlightPanel );

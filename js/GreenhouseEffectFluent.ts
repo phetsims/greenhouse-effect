@@ -1115,5 +1115,3 @@ const GreenhouseEffectFluent = {
 };
 
 export default GreenhouseEffectFluent;
-
-greenhouseEffect.register('GreenhouseEffectFluent', GreenhouseEffectFluent);

@@ -17,7 +17,6 @@ import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import EnergyAbsorbingEmittingLayer from '../model/EnergyAbsorbingEmittingLayer.js';
 
 type SelfOptions = {
@@ -62,7 +61,5 @@ class LayerDebugNode extends Node {
     super( options );
   }
 }
-
-greenhouseEffect.register( 'LayerDebugNode', LayerDebugNode );
 
 export default LayerDebugNode;

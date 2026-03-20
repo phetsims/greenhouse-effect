@@ -19,7 +19,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import IOType from '../../../../tandem/js/types/IOType.js';
 import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import Photon from './Photon.js';
@@ -322,5 +321,4 @@ type PhotonAbsorbingEmittingLayerStateObject = {
 
 export type { PhotonAbsorbingEmittingLayerStateObject };
 
-greenhouseEffect.register( 'PhotonAbsorbingEmittingLayer', PhotonAbsorbingEmittingLayer );
 export default PhotonAbsorbingEmittingLayer;

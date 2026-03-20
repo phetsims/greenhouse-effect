@@ -10,7 +10,6 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import CanvasNode from '../../../../scenery/js/nodes/CanvasNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroObservationWindow from './MicroObservationWindow.js';
 
 class WindowFrameNode extends CanvasNode {
@@ -209,7 +208,5 @@ class WindowFrameNode extends CanvasNode {
 
   }
 }
-
-greenhouseEffect.register( 'WindowFrameNode', WindowFrameNode );
 
 export default WindowFrameNode;

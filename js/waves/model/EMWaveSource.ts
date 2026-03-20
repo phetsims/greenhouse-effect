@@ -14,7 +14,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
 
@@ -137,5 +136,4 @@ class EMWaveSource {
   }
 }
 
-greenhouseEffect.register( 'EMWaveSource', EMWaveSource );
 export default EMWaveSource;

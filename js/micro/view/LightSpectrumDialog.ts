@@ -14,7 +14,6 @@
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Dialog from '../../../../sun/js/Dialog.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class LightSpectrumDialog extends Dialog {
 
@@ -31,5 +30,4 @@ class LightSpectrumDialog extends Dialog {
   }
 }
 
-greenhouseEffect.register( 'LightSpectrumDialog', LightSpectrumDialog );
 export default LightSpectrumDialog;

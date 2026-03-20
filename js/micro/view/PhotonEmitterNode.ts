@@ -182,6 +182,4 @@ class PhotonEmitterNode extends Node {
   } );
 }
 
-greenhouseEffect.register( 'PhotonEmitterNode', PhotonEmitterNode );
-
 export default PhotonEmitterNode;

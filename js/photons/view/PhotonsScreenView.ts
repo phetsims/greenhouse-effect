@@ -15,7 +15,6 @@ import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConc
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonLandscapeObservationWindow from './PhotonLandscapeObservationWindow.js';
 import PhotonsScreenSummaryContentNode from './PhotonsScreenSummaryContentNode.js';
@@ -116,5 +115,4 @@ class PhotonsScreenView extends GreenhouseEffectScreenView {
   }
 }
 
-greenhouseEffect.register( 'PhotonsScreenView', PhotonsScreenView );
 export default PhotonsScreenView;

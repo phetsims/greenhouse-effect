@@ -17,7 +17,6 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/ConcentrationModel.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseEffectCheckbox from '../../common/view/GreenhouseEffectCheckbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
@@ -61,5 +60,4 @@ class ShowSurfaceTemperatureCheckbox extends GreenhouseEffectCheckbox {
   }
 }
 
-greenhouseEffect.register( 'ShowSurfaceTemperatureCheckbox', ShowSurfaceTemperatureCheckbox );
 export default ShowSurfaceTemperatureCheckbox;

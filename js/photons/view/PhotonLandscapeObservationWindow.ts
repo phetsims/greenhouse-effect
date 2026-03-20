@@ -19,7 +19,6 @@ import FluxSensorAltitudeDescriptionProperty from '../../common/view/describers/
 import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 import PhotonsLandscapeObservationWindowPDOMNode from './PhotonsLandscapeObservationWindowPDOMNode.js';
@@ -121,5 +120,4 @@ class PhotonLandscapeObservationWindow extends LandscapeObservationWindow {
   }
 }
 
-greenhouseEffect.register( 'PhotonLandscapeObservationWindow', PhotonLandscapeObservationWindow );
 export default PhotonLandscapeObservationWindow;

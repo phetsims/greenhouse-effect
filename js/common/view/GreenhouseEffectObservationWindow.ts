@@ -33,7 +33,6 @@ import BooleanIO from '../../../../tandem/js/types/BooleanIO.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import startSunlightChord_mp3 from '../../../sounds/startSunlightChord_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import LayersModel from '../model/LayersModel.js';
@@ -401,7 +400,5 @@ class GreenhouseEffectObservationWindow extends Node {
   public static readonly CONTROL_AND_INSTRUMENT_INSET: number = CONTROL_AND_INSTRUMENT_INSET;
   public static readonly EXPECTED_MAX_TEMPERATURE = EXPECTED_MAX_TEMPERATURE;
 }
-
-greenhouseEffect.register( 'GreenhouseEffectObservationWindow', GreenhouseEffectObservationWindow );
 
 export default GreenhouseEffectObservationWindow;

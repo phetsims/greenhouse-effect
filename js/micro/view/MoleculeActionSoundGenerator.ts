@@ -22,7 +22,6 @@ import rotationCounterclockwise_mp3 from '../../../sounds/rotationCounterclockwi
 import rotationCounterclockwiseSlowMotion_mp3 from '../../../sounds/rotationCounterclockwiseSlowMotion_mp3.js';
 import vibration_mp3 from '../../../sounds/vibration_mp3.js';
 import vibrationSlowMotion_mp3 from '../../../sounds/vibrationSlowMotion_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from '../model/Molecule.js';
 
 // constants
@@ -245,5 +244,4 @@ class MoleculeActionSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'MoleculeActionSoundGenerator', MoleculeActionSoundGenerator );
 export default MoleculeActionSoundGenerator;

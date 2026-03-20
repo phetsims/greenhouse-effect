@@ -15,7 +15,6 @@ import affirm from '../../../../perennial-alias/js/browser-and-node/affirm.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Alerter from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
@@ -575,5 +574,4 @@ class ActiveMoleculeAlertManager extends Alerter {
   }
 }
 
-greenhouseEffect.register( 'ActiveMoleculeAlertManager', ActiveMoleculeAlertManager );
 export default ActiveMoleculeAlertManager;

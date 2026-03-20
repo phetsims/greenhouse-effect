@@ -17,7 +17,6 @@ import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
 import EnergyDirection from './EnergyDirection.js';
 import energyPacketCrossedAltitude from './energyPacketCrossedAltitude.js';
@@ -202,5 +201,4 @@ class FluxSensor extends PhetioObject {
   public static readonly MEASUREMENT_ACCUMULATION_TIME = 1;
 }
 
-greenhouseEffect.register( 'FluxSensor', FluxSensor );
 export default FluxSensor;

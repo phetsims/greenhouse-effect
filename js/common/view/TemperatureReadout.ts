@@ -18,7 +18,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import NumberDisplay, { NumberDisplayOptions } from '../../../../scenery-phet/js/NumberDisplay.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
@@ -91,7 +90,5 @@ class TemperatureReadout extends NumberDisplay {
   }
 
 }
-
-greenhouseEffect.register( 'TemperatureReadout', TemperatureReadout );
 
 export default TemperatureReadout;

@@ -11,7 +11,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreenView.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import MorePhotonsCheckbox from '../../common/view/MorePhotonsCheckbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredPanel from './InfraredPanel.js';
@@ -112,5 +111,4 @@ class LayerModelScreenView extends GreenhouseEffectScreenView {
   }
 }
 
-greenhouseEffect.register( 'LayerModelScreenView', LayerModelScreenView );
 export default LayerModelScreenView;

@@ -16,7 +16,6 @@ import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioO
 import Tandem from '../../../../tandem/js/Tandem.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = {
   initialPosition?: Vector2;
@@ -98,7 +97,5 @@ class MicroPhoton extends PhetioObject {
     }
   );
 }
-
-greenhouseEffect.register( 'MicroPhoton', MicroPhoton );
 
 export default MicroPhoton;

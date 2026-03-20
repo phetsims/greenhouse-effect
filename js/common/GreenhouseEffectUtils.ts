@@ -6,8 +6,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../greenhouseEffect.js';
-
 const GreenhouseEffectUtils = {
 
   /**
@@ -25,5 +23,4 @@ const GreenhouseEffectUtils = {
   }
 };
 
-greenhouseEffect.register( 'GreenhouseEffectUtils', GreenhouseEffectUtils );
 export default GreenhouseEffectUtils;

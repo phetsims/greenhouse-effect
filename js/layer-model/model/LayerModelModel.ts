@@ -19,7 +19,6 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import { ConcentrationModelStateObject } from '../../common/model/ConcentrationModel.js';
 import LayersModel, { LayersModelOptions } from '../../common/model/LayersModel.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = EmptySelfOptions;
 type LayerModelModelOptions = SelfOptions & LayersModelOptions;
@@ -144,5 +143,4 @@ class LayerModelModel extends LayersModel {
   } );
 }
 
-greenhouseEffect.register( 'LayerModelModel', LayerModelModel );
 export default LayerModelModel;

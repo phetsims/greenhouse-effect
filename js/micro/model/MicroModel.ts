@@ -5,7 +5,6 @@
  */
 
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import PhotonAbsorptionModel from './PhotonAbsorptionModel.js';
 import PhotonTarget from './PhotonTarget.js';
 
@@ -15,5 +14,4 @@ class MicroModel extends PhotonAbsorptionModel {
   }
 }
 
-greenhouseEffect.register( 'MicroModel', MicroModel );
 export default MicroModel;

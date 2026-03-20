@@ -11,7 +11,6 @@ import { ConcentrationControlMode, ConcentrationDate } from '../../common/model/
 import RadiationDescriber from '../../common/view/describers/RadiationDescriber.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import LandscapeObservationWindowPDOMNode from '../../common/view/LandscapeObservationWindowPDOMNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 
 class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowPDOMNode {
@@ -78,5 +77,4 @@ class WaveLandscapeObservationWindowPDOMNode extends LandscapeObservationWindowP
   }
 }
 
-greenhouseEffect.register( 'WaveLandscapeObservationWindowPDOMNode', WaveLandscapeObservationWindowPDOMNode );
 export default WaveLandscapeObservationWindowPDOMNode;

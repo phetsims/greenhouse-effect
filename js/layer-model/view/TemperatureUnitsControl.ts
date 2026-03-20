@@ -15,7 +15,6 @@ import AquaRadioButtonGroup, { AquaRadioButtonGroupItem } from '../../../../sun/
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 const UNITS_LABEL_MAX_WIDTH = 50;
@@ -94,5 +93,4 @@ class TemperatureUnitsControl extends VBox {
   }
 }
 
-greenhouseEffect.register( 'TemperatureUnitsControl', TemperatureUnitsControl );
 export default TemperatureUnitsControl;

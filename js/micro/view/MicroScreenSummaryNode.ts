@@ -11,7 +11,6 @@ import Property from '../../../../axon/js/Property.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import TimeSpeed from '../../../../scenery-phet/js/TimeSpeed.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
 
@@ -115,5 +114,4 @@ class MicroScreenSummaryNode extends ScreenSummaryContent {
   }
 }
 
-greenhouseEffect.register( 'MicroScreenSummaryNode', MicroScreenSummaryNode );
 export default MicroScreenSummaryNode;

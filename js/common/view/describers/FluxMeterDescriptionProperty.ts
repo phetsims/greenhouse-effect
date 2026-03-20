@@ -10,7 +10,6 @@
 import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import FluxMeter from '../../model/FluxMeter.js';
 import FluxSensorAltitudeDescriptionProperty from './FluxSensorAltitudeDescriptionProperty.js';
@@ -103,5 +102,4 @@ class FluxMeterDescriptionProperty extends StringProperty {
   }
 }
 
-greenhouseEffect.register( 'FluxMeterDescriptionProperty', FluxMeterDescriptionProperty );
 export default FluxMeterDescriptionProperty;

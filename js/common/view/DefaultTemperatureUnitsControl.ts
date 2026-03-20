@@ -16,7 +16,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import { AquaRadioButtonGroupItem } from '../../../../sun/js/AquaRadioButtonGroup.js';
 import VerticalAquaRadioButtonGroup from '../../../../sun/js/VerticalAquaRadioButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
 
@@ -97,5 +96,3 @@ const createItem = ( value: TemperatureUnits,
     }
   };
 };
-
-greenhouseEffect.register( 'DefaultTemperatureUnitsControl', DefaultTemperatureUnitsControl );

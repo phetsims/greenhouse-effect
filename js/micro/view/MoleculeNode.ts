@@ -9,7 +9,6 @@
 
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node, { NodeOptions } from '../../../../scenery/js/nodes/Node.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from '../model/Molecule.js';
 import AtomicBondNode from './AtomicBondNode.js';
 import AtomNode from './AtomNode.js';
@@ -77,7 +76,5 @@ class MoleculeNode extends Node {
     } );
   }
 }
-
-greenhouseEffect.register( 'MoleculeNode', MoleculeNode );
 
 export default MoleculeNode;

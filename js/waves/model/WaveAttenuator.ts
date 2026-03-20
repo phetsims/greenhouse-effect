@@ -11,7 +11,6 @@
 import Disposable from '../../../../axon/js/Disposable.js';
 import IOType from '../../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WaveAttenuator {
 
@@ -60,5 +59,4 @@ export type WaveAttenuatorStateObject = {
   distanceFromStart: number;
 };
 
-greenhouseEffect.register( 'WaveAttenuator', WaveAttenuator );
 export default WaveAttenuator;

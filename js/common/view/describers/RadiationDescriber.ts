@@ -6,7 +6,6 @@
  */
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import { ConcentrationDate } from '../../model/ConcentrationModel.js';
 import GroundLayer from '../../model/GroundLayer.js';
@@ -238,5 +237,4 @@ class RadiationDescriber {
   }
 }
 
-greenhouseEffect.register( 'RadiationDescriber', RadiationDescriber );
 export default RadiationDescriber;

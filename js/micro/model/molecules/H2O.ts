@@ -8,7 +8,6 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule, { MoleculeOptions } from '../Molecule.js';
@@ -91,7 +90,5 @@ class H2O extends Molecule {
     this.updateAtomPositions();
   }
 }
-
-greenhouseEffect.register( 'H2O', H2O );
 
 export default H2O;

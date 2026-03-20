@@ -7,7 +7,6 @@
  * @author Jesse Greenberg
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from './Molecule.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
@@ -40,7 +39,5 @@ class VibrationStrategy extends PhotonHoldStrategy {
     this.molecule.setVibration( 0 );
   }
 }
-
-greenhouseEffect.register( 'VibrationStrategy', VibrationStrategy );
 
 export default VibrationStrategy;

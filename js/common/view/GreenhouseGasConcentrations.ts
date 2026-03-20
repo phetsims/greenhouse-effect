@@ -10,7 +10,6 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import { ConcentrationDate } from '../model/ConcentrationModel.js';
 
 // gas concentration maps - all values in Parts Per Million (PPM)
@@ -70,5 +69,4 @@ class GreenhouseGasConcentrations {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseGasConcentrations', GreenhouseGasConcentrations );
 export default GreenhouseGasConcentrations;

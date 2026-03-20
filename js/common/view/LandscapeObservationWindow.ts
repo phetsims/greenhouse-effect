@@ -31,7 +31,6 @@ import iceAgeLandscapeForeground_png from '../../../images/iceAgeLandscapeForegr
 import twentyTwentiesLandscapeBackground_png from '../../../images/twentyTwentiesLandscapeBackground_png.js';
 import twentyTwentiesLandscapeForeground_png from '../../../images/twentyTwentiesLandscapeForeground_png.js';
 import unadornedLandscape_png from '../../../images/unadornedLandscape_png.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
@@ -275,5 +274,4 @@ class LandscapeObservationWindow extends GreenhouseEffectObservationWindow {
   }
 }
 
-greenhouseEffect.register( 'LandscapeObservationWindow', LandscapeObservationWindow );
 export default LandscapeObservationWindow;

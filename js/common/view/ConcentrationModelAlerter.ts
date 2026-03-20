@@ -14,7 +14,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import ConcentrationDescriber from './describers/ConcentrationDescriber.js';
@@ -264,5 +263,4 @@ class ConcentrationModelAlerter extends LayersModelAlerter {
   }
 }
 
-greenhouseEffect.register( 'ConcentrationModelAlerter', ConcentrationModelAlerter );
 export default ConcentrationModelAlerter;

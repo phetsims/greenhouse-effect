@@ -7,7 +7,6 @@
  */
 
 import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import PhotonsModel from '../model/PhotonsModel.js';
 
@@ -20,5 +19,3 @@ export default class PhotonsScreenSummaryContentNode extends LandscapeScreenSumm
     );
   }
 }
-
-greenhouseEffect.register( 'PhotonsScreenSummaryContentNode', PhotonsScreenSummaryContentNode );

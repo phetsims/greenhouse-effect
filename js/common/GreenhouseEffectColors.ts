@@ -56,5 +56,4 @@ const GreenhouseEffectColors = {
   )
 };
 
-greenhouseEffect.register( 'GreenhouseEffectColors', GreenhouseEffectColors );
 export default GreenhouseEffectColors;

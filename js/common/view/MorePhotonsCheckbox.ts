@@ -9,7 +9,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectCheckbox from './GreenhouseEffectCheckbox.js';
 
@@ -33,5 +32,4 @@ class MorePhotonsCheckbox extends GreenhouseEffectCheckbox {
   }
 }
 
-greenhouseEffect.register( 'MorePhotonsCheckbox', MorePhotonsCheckbox );
 export default MorePhotonsCheckbox;

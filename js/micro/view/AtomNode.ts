@@ -12,7 +12,6 @@ import ShadedSphereNode from '../../../../scenery-phet/js/ShadedSphereNode.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../../scenery/js/util/RadialGradient.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Atom from '../model/atoms/Atom.js';
 
 class AtomNode extends Node {
@@ -69,7 +68,5 @@ class AtomNode extends Node {
     this.highlightNode.opacity = highlighted ? 0.99 : 0;
   }
 }
-
-greenhouseEffect.register( 'AtomNode', AtomNode );
 
 export default AtomNode;

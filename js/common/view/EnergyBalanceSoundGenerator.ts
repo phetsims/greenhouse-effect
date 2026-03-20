@@ -14,7 +14,6 @@ import SoundGenerator, { SoundGeneratorOptions } from '../../../../tambo/js/soun
 import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import energyBalanceBlip_mp3 from '../../../sounds/energyBalanceBlip_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const HIGHER_SOUND_PLAYBACK_RATE = Math.pow( 2, 1 / 6 );
@@ -152,5 +151,4 @@ class EnergyBalanceSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'EnergyBalanceSoundGenerator', EnergyBalanceSoundGenerator );
 export default EnergyBalanceSoundGenerator;

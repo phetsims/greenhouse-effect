@@ -15,7 +15,6 @@ import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import emptyApartmentBedroom06Resampled_mp3 from '../../../../tambo/sounds/emptyApartmentBedroom06Resampled_mp3.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -88,5 +87,4 @@ class SurfaceAlbedoSoundPlayer extends SoundGenerator implements TSoundPlayer {
   }
 }
 
-greenhouseEffect.register( 'SurfaceAlbedoSoundPlayer', SurfaceAlbedoSoundPlayer );
 export default SurfaceAlbedoSoundPlayer;

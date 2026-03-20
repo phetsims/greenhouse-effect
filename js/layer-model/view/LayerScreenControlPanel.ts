@@ -16,7 +16,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 
 // constants
@@ -69,5 +68,3 @@ export default class LayerScreenControlPanel extends Panel {
     super( content, options );
   }
 }
-
-greenhouseEffect.register( 'LayerScreenControlPanel', LayerScreenControlPanel );

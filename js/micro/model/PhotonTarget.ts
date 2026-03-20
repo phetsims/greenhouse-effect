@@ -9,7 +9,6 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 const controlPanelCarbonDioxideStringProperty = GreenhouseEffectFluent.ControlPanel.CarbonDioxideStringProperty;
@@ -81,5 +80,4 @@ class PhotonTarget extends EnumerationValue {
   }
 }
 
-greenhouseEffect.register( 'PhotonTarget', PhotonTarget );
 export default PhotonTarget;

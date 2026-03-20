@@ -23,7 +23,6 @@ import photonReleaseIr_mp3 from '../../../sounds/photonReleaseIr_mp3.js';
 import photonReleaseMicrowave_mp3 from '../../../sounds/photonReleaseMicrowave_mp3.js';
 import photonReleaseUv_mp3 from '../../../sounds/photonReleaseUv_mp3.js';
 import photonReleaseVisible_mp3 from '../../../sounds/photonReleaseVisible_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
@@ -115,5 +114,4 @@ class PhotonEmissionSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'PhotonEmissionSoundGenerator', PhotonEmissionSoundGenerator );
 export default PhotonEmissionSoundGenerator;

@@ -11,7 +11,6 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Line from '../../../../scenery/js/nodes/Line.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import AtomicBond from '../model/atoms/AtomicBond.js';
 
 // constants that control the width of the bond representation with respect to the average atom radius.
@@ -181,7 +180,5 @@ class AtomicBondNode extends Node {
     }
   }
 }
-
-greenhouseEffect.register( 'AtomicBondNode', AtomicBondNode );
 
 export default AtomicBondNode;

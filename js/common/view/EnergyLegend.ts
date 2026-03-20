@@ -18,7 +18,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -196,5 +195,4 @@ const createWaveIcon = ( wavelength: number, wavelengthsToDraw: number, options?
   return new Path( waveShape, options );
 };
 
-greenhouseEffect.register( 'EnergyLegend', EnergyLegend );
 export default EnergyLegend;

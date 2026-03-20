@@ -19,7 +19,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
@@ -345,5 +344,4 @@ class LayersModelAlerter extends Alerter {
   }
 }
 
-greenhouseEffect.register( 'LayersModelAlerter', LayersModelAlerter );
 export default LayersModelAlerter;

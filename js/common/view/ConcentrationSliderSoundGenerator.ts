@@ -16,7 +16,6 @@ import ValueChangeSoundPlayer from '../../../../tambo/js/sound-generators/ValueC
 import soundManager from '../../../../tambo/js/soundManager.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import sliderMovement_mp3 from '../../../sounds/sliderMovement_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class ConcentrationSliderSoundGenerator extends ValueChangeSoundPlayer {
 
@@ -125,7 +124,5 @@ class SliderMiddleRangeSoundGenerator extends SoundGenerator implements TSoundPl
     // does nothing in this class, but is needed for the TSoundPlayer interface
   }
 }
-
-greenhouseEffect.register( 'ConcentrationSliderSoundGenerator', ConcentrationSliderSoundGenerator );
 
 export default ConcentrationSliderSoundGenerator;

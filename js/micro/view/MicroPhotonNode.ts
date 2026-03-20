@@ -14,7 +14,6 @@ import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import microwavePhoton_png from '../../../images/microwavePhoton_png.js';
 import ultravioletPhoton_png from '../../../images/ultravioletPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import WavelengthConstants from '../model/WavelengthConstants.js';
 
@@ -52,7 +51,5 @@ class MicroPhotonNode extends Node {
     } );
   }
 }
-
-greenhouseEffect.register( 'MicroPhotonNode', MicroPhotonNode );
 
 export default MicroPhotonNode;

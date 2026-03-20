@@ -28,7 +28,6 @@ import GroundLayer from '../../common/model/GroundLayer.js';
 import isInfrared from '../../common/model/isInfrared.js';
 import isVisible from '../../common/model/isVisible.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GroundWaveSource from './GroundWaveSource.js';
 import SunWaveSource from './SunWaveSource.js';
 import Wave, { WaveCreatorArguments, WaveOptions } from './Wave.js';
@@ -549,6 +548,5 @@ type WaveAtmosphereInteractionStateObject = {
   emittedWave: ReferenceIOState;
 };
 
-greenhouseEffect.register( 'WavesModel', WavesModel );
 export type { WaveModelOptions };
 export default WavesModel;

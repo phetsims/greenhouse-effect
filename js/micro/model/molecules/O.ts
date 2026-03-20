@@ -9,7 +9,6 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import Molecule, { MoleculeOptions } from '../Molecule.js';
 
@@ -37,7 +36,5 @@ class O extends Molecule {
     this.updateAtomPositions();
   }
 }
-
-greenhouseEffect.register( 'O', O );
 
 export default O;

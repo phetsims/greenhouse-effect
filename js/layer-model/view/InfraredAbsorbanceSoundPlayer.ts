@@ -14,7 +14,6 @@ import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import layerModelBaseSliderSound_mp3 from '../../../sounds/layerModelBaseSliderSound_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -97,5 +96,4 @@ class InfraredAbsorbanceSoundPlayer extends SoundGenerator implements TSoundPlay
   }
 }
 
-greenhouseEffect.register( 'InfraredAbsorbanceSoundPlayer', InfraredAbsorbanceSoundPlayer );
 export default InfraredAbsorbanceSoundPlayer;

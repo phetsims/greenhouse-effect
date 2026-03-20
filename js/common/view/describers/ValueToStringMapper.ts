@@ -8,7 +8,6 @@
  */
 
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 
 class ValueToStringMapper {
 
@@ -42,5 +41,4 @@ class ValueToStringMapper {
   }
 }
 
-greenhouseEffect.register( 'ValueToStringMapper', ValueToStringMapper );
 export default ValueToStringMapper;

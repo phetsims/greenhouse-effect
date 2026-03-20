@@ -16,7 +16,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import SoundGenerator from '../../../../tambo/js/sound-generators/SoundGenerator.js';
 import temperatureBaseAmbience4Octaves_mp3 from '../../../sounds/temperatureBaseAmbience4Octaves_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const FILTER_FREQUENCY_RANGE = new Range( 120, 2500 );
@@ -83,5 +82,4 @@ class TemperatureSoundGeneratorFiltered extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'TemperatureSoundGeneratorFiltered', TemperatureSoundGeneratorFiltered );
 export default TemperatureSoundGeneratorFiltered;

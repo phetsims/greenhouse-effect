@@ -21,7 +21,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import infraredPhoton_png from '../../../images/infraredPhoton_png.js';
 import visiblePhoton_png from '../../../images/visiblePhoton_png.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 
@@ -257,5 +256,4 @@ class GreenhouseEffectIconFactory {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectIconFactory', GreenhouseEffectIconFactory );
 export default GreenhouseEffectIconFactory;

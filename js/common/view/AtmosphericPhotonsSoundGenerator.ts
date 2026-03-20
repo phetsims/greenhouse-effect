@@ -11,7 +11,6 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import SoundClip from '../../../../tambo/js/sound-generators/SoundClip.js';
 import emissionOfInfraredPhotonFromAtmosphere_mp3 from '../../../sounds/emissionOfInfraredPhotonFromAtmosphere_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import isInfrared from '../model/isInfrared.js';
 import Photon from '../model/Photon.js';
 import PhotonCollection from '../model/PhotonCollection.js';
@@ -52,5 +51,3 @@ export default class AtmosphericPhotonsSoundGenerator extends SoundClip {
     } );
   }
 }
-
-greenhouseEffect.register( 'AtmosphericPhotonsSoundGenerator', AtmosphericPhotonsSoundGenerator );

@@ -12,7 +12,6 @@ import GreenhouseEffectColors from '../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import WavesModel from './model/WavesModel.js';
 import WavesScreenView from './view/WavesScreenView.js';
@@ -40,5 +39,4 @@ class WavesScreen extends Screen<WavesModel, WavesScreenView> {
   }
 }
 
-greenhouseEffect.register( 'WavesScreen', WavesScreen );
 export default WavesScreen;

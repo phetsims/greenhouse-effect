@@ -12,7 +12,6 @@ import GreenhouseEffectColors from '../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import LayerModelModel from './model/LayerModelModel.js';
 import LayerModelScreenView from './view/LayerModelScreenView.js';
@@ -40,5 +39,4 @@ class LayerModelScreen extends Screen<LayerModelModel, LayerModelScreenView> {
   }
 }
 
-greenhouseEffect.register( 'LayerModelScreen', LayerModelScreen );
 export default LayerModelScreen;

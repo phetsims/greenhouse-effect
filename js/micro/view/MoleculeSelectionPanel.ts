@@ -20,7 +20,6 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectQueryParameters from '../../common/GreenhouseEffectQueryParameters.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import Molecule from '../model/Molecule.js';
 import CH4 from '../model/molecules/CH4.js';
@@ -192,5 +191,4 @@ const createPDOMLabel = ( molecule: Molecule ): string => {
   } );
 };
 
-greenhouseEffect.register( 'MoleculeSelectionPanel', MoleculeSelectionPanel );
 export default MoleculeSelectionPanel;

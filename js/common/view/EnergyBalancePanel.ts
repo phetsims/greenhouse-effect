@@ -24,7 +24,6 @@ import Orientation from '../../../../phet-core/js/Orientation.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import scenery from '../../../../scenery/js/scenery.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
@@ -246,5 +245,4 @@ class EnergyBalancePlot extends Node {
   }
 }
 
-scenery.register( 'EnergyBalancePanel', EnergyBalancePanel );
 export default EnergyBalancePanel;

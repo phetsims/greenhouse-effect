@@ -16,7 +16,6 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import TimeControlNode from '../../../../scenery-phet/js/TimeControlNode.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
@@ -168,5 +167,4 @@ class GreenhouseEffectScreenView extends ScreenView {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectScreenView', GreenhouseEffectScreenView );
 export default GreenhouseEffectScreenView;

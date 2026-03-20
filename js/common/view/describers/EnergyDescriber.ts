@@ -8,7 +8,6 @@
  */
 
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 const inflowToEarthStringProperty = GreenhouseEffectFluent.a11y.inflowToEarthStringProperty;
@@ -51,5 +50,4 @@ class EnergyDescriber {
   }
 }
 
-greenhouseEffect.register( 'EnergyDescriber', EnergyDescriber );
 export default EnergyDescriber;

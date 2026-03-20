@@ -18,7 +18,6 @@ import ColorProperty from '../../../../scenery/js/util/ColorProperty.js';
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Wave, { WaveCreatorArguments } from '../model/Wave.js';
 import WavesModel from '../model/WavesModel.js';
 
@@ -243,8 +242,6 @@ class WavesCanvasNode extends CanvasNode {
     return propagationAngle > 0 ? -rotatedYPosition : rotatedYPosition;
   }
 }
-
-greenhouseEffect.register( 'WavesCanvasNode', WavesCanvasNode );
 
 // Helper function that maps the wave intensity to a line width value used to render the wave.
 const waveIntensityToLineWidth = ( waveIntensity: number ): number => {

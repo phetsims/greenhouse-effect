@@ -13,7 +13,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Alerter, { AlerterOptions } from '../../../../scenery-phet/js/accessibility/describers/Alerter.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import { FluxMeterReadings } from '../model/FluxMeter.js';
 import FluxSensor from '../model/FluxSensor.js';
@@ -274,5 +273,4 @@ class EnergyFluxAlerter extends Alerter {
   }
 }
 
-greenhouseEffect.register( 'EnergyFluxAlerter', EnergyFluxAlerter );
 export default EnergyFluxAlerter;

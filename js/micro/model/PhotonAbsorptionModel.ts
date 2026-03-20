@@ -31,7 +31,6 @@ import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import PhetioObject from '../../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationIO from '../../../../tandem/js/types/EnumerationIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
 import CH4 from './molecules/CH4.js';
@@ -474,7 +473,5 @@ class PhotonAbsorptionModel extends PhetioObject {
 
   public static readonly PHOTON_VELOCITY = PHOTON_VELOCITY;
 }
-
-greenhouseEffect.register( 'PhotonAbsorptionModel', PhotonAbsorptionModel );
 
 export default PhotonAbsorptionModel;

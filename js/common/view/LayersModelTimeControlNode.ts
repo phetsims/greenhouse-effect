@@ -10,7 +10,6 @@
 
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import TimeControlNode, { TimeControlNodeOptions } from '../../../../scenery-phet/js/TimeControlNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 
@@ -67,5 +66,4 @@ class LayersModelTimeControlNode extends TimeControlNode {
   }
 }
 
-greenhouseEffect.register( 'LayersModelTimeControlNode', LayersModelTimeControlNode );
 export default LayersModelTimeControlNode;

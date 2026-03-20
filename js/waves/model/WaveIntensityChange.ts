@@ -15,7 +15,6 @@ import IOType from '../../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class WaveIntensityChange {
 
@@ -84,5 +83,4 @@ export type WaveIntensityChangeStateObject = {
   anchoredTo: null | ReferenceIOState;
 };
 
-greenhouseEffect.register( 'WaveIntensityChange', WaveIntensityChange );
 export default WaveIntensityChange;

@@ -8,7 +8,6 @@
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import AbsorbingLayersControl from './AbsorbingLayersControl.js';
@@ -43,5 +42,3 @@ export default class InfraredPanel extends LayerScreenControlPanel {
     );
   }
 }
-
-greenhouseEffect.register( 'InfraredPanel', InfraredPanel );

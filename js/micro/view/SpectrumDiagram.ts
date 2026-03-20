@@ -26,7 +26,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../../scenery/js/util/LinearGradient.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 const spectrumWindowCyclesPerSecondUnitsStringProperty = GreenhouseEffectFluent.SpectrumWindow.cyclesPerSecondUnitsStringProperty;
@@ -167,8 +166,6 @@ class SpectrumDiagram extends VBox {
   public static readonly SUBSECTION_WIDTH = SUBSECTION_WIDTH;
 }
 
-greenhouseEffect.register( 'SpectrumDiagram', SpectrumDiagram );
-
 /**
  * The labeled arrow in the spectrum window.
  */
@@ -225,8 +222,6 @@ class LabeledArrow extends ArrowNode {
     this.addChild( label );
   }
 }
-
-greenhouseEffect.register( 'LabeledArrow', LabeledArrow );
 
 class LabeledSpectrumNode extends Node {
 

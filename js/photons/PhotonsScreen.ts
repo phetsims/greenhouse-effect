@@ -12,7 +12,6 @@ import GreenhouseEffectColors from '../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../common/GreenhouseEffectConstants.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
 import GreenhouseEffectKeyboardHelpContent from '../common/view/GreenhouseEffectKeyboardHelpContent.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import PhotonsModel from './model/PhotonsModel.js';
 import PhotonsScreenView from './view/PhotonsScreenView.js';
@@ -40,5 +39,4 @@ class PhotonsScreen extends Screen<PhotonsModel, PhotonsScreenView> {
   }
 }
 
-greenhouseEffect.register( 'PhotonsScreen', PhotonsScreen );
 export default PhotonsScreen;

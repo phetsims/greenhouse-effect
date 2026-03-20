@@ -24,7 +24,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Cloud from '../model/Cloud.js';
 
 // constants
@@ -380,5 +379,4 @@ class CloudNode extends Node {
   }
 }
 
-greenhouseEffect.register( 'CloudNode', CloudNode );
 export default CloudNode;

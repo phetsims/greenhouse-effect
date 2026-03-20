@@ -9,7 +9,6 @@ import Screen from '../../../joist/js/Screen.js';
 import SliderControlsAndBasicActionsKeyboardHelpContent from '../../../scenery-phet/js/keyboard/help/SliderControlsAndBasicActionsKeyboardHelpContent.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import GreenhouseEffectIconFactory from '../common/view/GreenhouseEffectIconFactory.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../GreenhouseEffectFluent.js';
 import MicroModel from './model/MicroModel.js';
 import MicroScreenView from './view/MicroScreenView.js';
@@ -36,5 +35,4 @@ class MicroScreen extends Screen<MicroModel, MicroScreenView> {
   }
 }
 
-greenhouseEffect.register( 'MicroScreen', MicroScreen );
 export default MicroScreen;

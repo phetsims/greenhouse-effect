@@ -25,7 +25,6 @@ import EnergyFluxAlerter from '../../common/view/EnergyFluxAlerter.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import LayerModelModelAlerter from '../../common/view/LayerModelModelAlerter.js';
 import ThermometerAndReadout from '../../common/view/ThermometerAndReadout.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import AtmosphereLayerNode, { AtmosphereLayerNodeOptions } from './AtmosphereLayerNode.js';
@@ -299,5 +298,4 @@ class LayerModelObservationWindow extends GreenhouseEffectObservationWindow {
   }
 }
 
-greenhouseEffect.register( 'LayerModelObservationWindow', LayerModelObservationWindow );
 export default LayerModelObservationWindow;

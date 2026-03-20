@@ -6,7 +6,6 @@
  * @author Jesse Greenberg
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from './Molecule.js';
 import NullPhotonAbsorptionStrategy from './NullPhotonAbsorptionStrategy.js';
 import PhotonAbsorptionStrategy from './PhotonAbsorptionStrategy.js';
@@ -34,7 +33,5 @@ class BreakApartStrategy extends PhotonAbsorptionStrategy {
       new NullPhotonAbsorptionStrategy( this.molecule );
   }
 }
-
-greenhouseEffect.register( 'BreakApartStrategy', BreakApartStrategy );
 
 export default BreakApartStrategy;

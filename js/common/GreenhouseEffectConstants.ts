@@ -11,7 +11,6 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import { SliderOptions } from '../../../sun/js/Slider.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 
 const HORIZONTAL_SLIDER_THUMB_SIZE = new Dimension2( 13, 26 );
 
@@ -71,5 +70,4 @@ const GreenhouseEffectConstants = {
   TICK_MARK_TEXT_OPTIONS: TICK_MARK_TEXT_OPTIONS
 };
 
-greenhouseEffect.register( 'GreenhouseEffectConstants', GreenhouseEffectConstants );
 export default GreenhouseEffectConstants;

@@ -15,7 +15,6 @@ import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureUnits from '../../../common/model/TemperatureUnits.js';
 import TemperatureDescriber from '../../../common/view/describers/TemperatureDescriber.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
@@ -68,5 +67,4 @@ class LayerTemperatureCheckedDescriptionProperty extends StringProperty {
   }
 }
 
-greenhouseEffect.register( 'LayerTemperatureCheckedDescriptionProperty', LayerTemperatureCheckedDescriptionProperty );
 export default LayerTemperatureCheckedDescriptionProperty;

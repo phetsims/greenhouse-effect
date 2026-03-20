@@ -13,7 +13,6 @@
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import VBox, { VBoxOptions } from '../../../../scenery/js/layout/nodes/VBox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectPreferences from '../model/GreenhouseEffectPreferences.js';
 import DefaultTemperatureUnitsControl from './DefaultTemperatureUnitsControl.js';
 
@@ -42,5 +41,3 @@ export default class GreenhouseEffectPreferencesNode extends VBox {
     this.children = [ defaultTemperatureUnitsControl ];
   }
 }
-
-greenhouseEffect.register( 'GreenhouseEffectPreferencesNode', GreenhouseEffectPreferencesNode );

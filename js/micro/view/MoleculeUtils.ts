@@ -13,7 +13,6 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import Molecule from '../model/Molecule.js';
 import CH4 from '../model/molecules/CH4.js';
@@ -158,5 +157,4 @@ const MoleculeUtils = {
   Geometry: Geometry
 };
 
-greenhouseEffect.register( 'MoleculeUtils', MoleculeUtils );
 export default MoleculeUtils;

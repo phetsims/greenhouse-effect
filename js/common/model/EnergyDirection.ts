@@ -9,7 +9,6 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 const UP_VECTOR = new Vector2( 0, 1 );
 const DOWN_VECTOR = new Vector2( 0, -1 );
@@ -43,5 +42,4 @@ class EnergyDirection extends EnumerationValue {
   public static readonly enumeration = new Enumeration( EnergyDirection );
 }
 
-greenhouseEffect.register( 'EnergyDirection', EnergyDirection );
 export default EnergyDirection;

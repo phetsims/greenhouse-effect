@@ -35,7 +35,6 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem, Rectangul
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VSlider from '../../../../sun/js/VSlider.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -559,5 +558,4 @@ class ConcentrationControlModeRadioButtonGroup extends RectangularRadioButtonGro
   }
 }
 
-greenhouseEffect.register( 'GreenhouseGasConcentrationPanel', GreenhouseGasConcentrationPanel );
 export default GreenhouseGasConcentrationPanel;

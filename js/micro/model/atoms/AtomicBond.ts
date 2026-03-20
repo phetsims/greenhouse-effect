@@ -9,7 +9,6 @@
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
 import optionize from '../../../../../phet-core/js/optionize.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from './Atom.js';
 
 // State object for serialization
@@ -73,7 +72,5 @@ class AtomicBond {
     };
   }
 }
-
-greenhouseEffect.register( 'AtomicBond', AtomicBond );
 
 export default AtomicBond;

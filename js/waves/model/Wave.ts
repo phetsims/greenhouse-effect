@@ -19,7 +19,6 @@ import MapIO, { MapStateObject } from '../../../../tandem/js/types/MapIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../../tandem/js/types/ReferenceIO.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import WaveAttenuator, { WaveAttenuatorStateObject } from './WaveAttenuator.js';
 import WaveIntensityChange, { WaveIntensityChangeStateObject } from './WaveIntensityChange.js';
 import WavesModel from './WavesModel.js';
@@ -610,5 +609,4 @@ type WaveStateObject = {
   _renderingWavelength: number;
 };
 
-greenhouseEffect.register( 'Wave', Wave );
 export default Wave;

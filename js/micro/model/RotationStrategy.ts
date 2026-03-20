@@ -9,7 +9,6 @@
  */
 
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import Molecule from './Molecule.js';
 import PhotonHoldStrategy from './PhotonHoldStrategy.js';
 
@@ -45,7 +44,5 @@ class RotationStrategy extends PhotonHoldStrategy {
     this.molecule.rotatingProperty.set( false );
   }
 }
-
-greenhouseEffect.register( 'RotationStrategy', RotationStrategy );
 
 export default RotationStrategy;

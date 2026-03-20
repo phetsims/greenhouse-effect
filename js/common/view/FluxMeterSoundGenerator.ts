@@ -17,7 +17,6 @@ import SoundLevelEnum from '../../../../tambo/js/SoundLevelEnum.js';
 import irFluxDownA_mp3 from '../../../sounds/irFluxDownA_mp3.js';
 import irFluxDownB_mp3 from '../../../sounds/irFluxDownB_mp3.js';
 import irFluxUp_mp3 from '../../../sounds/irFluxUp_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 // amount of time before starting to fade where flux change is below the threshold, in seconds
 const PRE_FADE_TIME = 0.25;
@@ -232,5 +231,4 @@ class FluxMeterSoundGenerator extends SoundGenerator {
   }
 }
 
-greenhouseEffect.register( 'FluxMeterSoundGenerator', FluxMeterSoundGenerator );
 export default FluxMeterSoundGenerator;

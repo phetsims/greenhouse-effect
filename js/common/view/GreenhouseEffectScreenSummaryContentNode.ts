@@ -10,7 +10,6 @@
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import ScreenSummaryContent from '../../../../joist/js/ScreenSummaryContent.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectModel from '../model/GreenhouseEffectModel.js';
 
@@ -51,5 +50,3 @@ export default class GreenhouseEffectScreenSummaryContentNode extends ScreenSumm
     ];
   }
 }
-
-greenhouseEffect.register( 'GreenhouseEffectScreenSummaryContentNode', GreenhouseEffectScreenSummaryContentNode );

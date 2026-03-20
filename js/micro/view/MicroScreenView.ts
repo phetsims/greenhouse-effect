@@ -270,5 +270,4 @@ class MicroScreenView extends ScreenView {
   } );
 }
 
-greenhouseEffect.register( 'MicroScreenView', MicroScreenView );
 export default MicroScreenView;

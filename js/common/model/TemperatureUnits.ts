@@ -8,7 +8,6 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class TemperatureUnits extends EnumerationValue {
   public static readonly KELVIN = new TemperatureUnits();
@@ -21,5 +20,4 @@ class TemperatureUnits extends EnumerationValue {
   } );
 }
 
-greenhouseEffect.register( 'TemperatureUnits', TemperatureUnits );
 export default TemperatureUnits;

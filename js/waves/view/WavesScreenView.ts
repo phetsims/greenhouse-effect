@@ -17,7 +17,6 @@ import GreenhouseEffectScreenView from '../../common/view/GreenhouseEffectScreen
 import GreenhouseGasConcentrationPanel from '../../common/view/GreenhouseGasConcentrationPanel.js';
 import LayersModelTimeControlNode from '../../common/view/LayersModelTimeControlNode.js';
 import SurfaceThermometerCheckbox from '../../common/view/SurfaceThermometerCheckbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import InfraredWavesSoundGenerator from './InfraredWavesSoundGenerator.js';
 import ShowSurfaceTemperatureCheckbox from './ShowSurfaceTemperatureCheckbox.js';
@@ -146,7 +145,5 @@ class WavesScreenView extends GreenhouseEffectScreenView {
     super.reset();
   }
 }
-
-greenhouseEffect.register( 'WavesScreenView', WavesScreenView );
 
 export default WavesScreenView;

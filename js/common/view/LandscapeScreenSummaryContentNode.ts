@@ -11,7 +11,6 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate } from '../model/ConcentrationModel.js';
 import TemperatureUnits from '../model/TemperatureUnits.js';
@@ -186,5 +185,3 @@ export default class LandscapeScreenSummaryContentNode extends GreenhouseEffectS
     return descriptionString;
   }
 }
-
-greenhouseEffect.register( 'LandscapeScreenSummaryContentNode', LandscapeScreenSummaryContentNode );

@@ -16,7 +16,6 @@ import soundManager from '../../../../tambo/js/soundManager.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import GreenhouseEffectColors from '../../common/GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import NumberOfLayersSoundPlayer from './NumberOfLayersSoundPlayer.js';
 
@@ -67,5 +66,3 @@ export default class AbsorbingLayersControl extends HBox {
     } );
   }
 }
-
-greenhouseEffect.register( 'AbsorbingLayersControl', AbsorbingLayersControl );

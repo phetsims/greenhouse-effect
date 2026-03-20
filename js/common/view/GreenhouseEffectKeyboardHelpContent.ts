@@ -13,7 +13,6 @@ import KeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/Keybo
 import SliderControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/SliderControlsKeyboardHelpSection.js';
 import TimeControlsKeyboardHelpSection from '../../../../scenery-phet/js/keyboard/help/TimeControlsKeyboardHelpSection.js';
 import TwoColumnKeyboardHelpContent, { TwoColumnKeyboardHelpContentOptions } from '../../../../scenery-phet/js/keyboard/help/TwoColumnKeyboardHelpContent.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 
 type SelfOptions = {
@@ -55,5 +54,4 @@ class GreenhouseEffectKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectKeyboardHelpContent', GreenhouseEffectKeyboardHelpContent );
 export default GreenhouseEffectKeyboardHelpContent;

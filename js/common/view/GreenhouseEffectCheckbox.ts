@@ -16,7 +16,6 @@ import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox, { CheckboxOptions } from '../../../../sun/js/Checkbox.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 // constants
 const LABEL_ICON_SPACING = 10;
@@ -65,5 +64,4 @@ class GreenhouseEffectCheckbox extends Checkbox {
   }
 }
 
-greenhouseEffect.register( 'GreenhouseEffectCheckbox', GreenhouseEffectCheckbox );
 export default GreenhouseEffectCheckbox;

@@ -10,7 +10,6 @@
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import Sprite from '../../../scenery/js/util/Sprite.js';
 import SpriteInstance, { SpriteInstanceTransformType } from '../../../scenery/js/util/SpriteInstance.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 import Photon from './model/Photon.js';
 
 class PhotonSpriteInstance extends SpriteInstance {
@@ -58,5 +57,4 @@ class PhotonSpriteInstance extends SpriteInstance {
   }
 }
 
-greenhouseEffect.register( 'PhotonSpriteInstance', PhotonSpriteInstance );
 export default PhotonSpriteInstance;

@@ -8,7 +8,6 @@
  */
 
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
 import Molecule, { MoleculeOptions } from '../Molecule.js';
@@ -71,7 +70,5 @@ class CO extends Molecule {
     this.updateAtomPositions();
   }
 }
-
-greenhouseEffect.register( 'CO', CO );
 
 export default CO;

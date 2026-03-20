@@ -10,7 +10,6 @@
 import Multilink from '../../../../../axon/js/Multilink.js';
 import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import LayersModel from '../../model/LayersModel.js';
 import ValueToStringMapper from './ValueToStringMapper.js';
@@ -63,5 +62,4 @@ class FluxSensorAltitudeDescriptionProperty extends StringProperty {
   }
 }
 
-greenhouseEffect.register( 'FluxSensorAltitudeDescriptionProperty', FluxSensorAltitudeDescriptionProperty );
 export default FluxSensorAltitudeDescriptionProperty;

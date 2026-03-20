@@ -12,7 +12,6 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import PhetioGroup from '../../../../tandem/js/PhetioGroup.js';
 import GreenhouseEffectConstants from '../../common/GreenhouseEffectConstants.js';
 import LayersModel from '../../common/model/LayersModel.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import EMWaveSource, { EMWaveSourceOptions } from '../../waves/model/EMWaveSource.js';
 import Wave, { WaveCreatorArguments } from './Wave.js';
 import WaveSourceSpec from './WaveSourceSpec.js';
@@ -60,5 +59,4 @@ class SunWaveSource extends EMWaveSource {
   }
 }
 
-greenhouseEffect.register( 'SunWaveSource', SunWaveSource );
 export default SunWaveSource;

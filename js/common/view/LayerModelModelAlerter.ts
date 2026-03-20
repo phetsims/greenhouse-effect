@@ -12,7 +12,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../../layer-model/model/LayerModelModel.js';
 import TemperatureDescriber from './describers/TemperatureDescriber.js';
@@ -328,5 +327,4 @@ class LayerModelModelAlerter extends LayersModelAlerter {
   }
 }
 
-greenhouseEffect.register( 'LayerModelModelAlerter', LayerModelModelAlerter );
 export default LayerModelModelAlerter;

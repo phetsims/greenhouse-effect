@@ -15,7 +15,6 @@ import StringProperty from '../../../../../axon/js/StringProperty.js';
 import TRangedProperty from '../../../../../axon/js/TRangedProperty.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 class SunlightIntensityDescriptionProperty extends StringProperty {
@@ -38,5 +37,4 @@ class SunlightIntensityDescriptionProperty extends StringProperty {
   }
 }
 
-greenhouseEffect.register( 'SunlightIntensityDescriptionProperty', SunlightIntensityDescriptionProperty );
 export default SunlightIntensityDescriptionProperty;

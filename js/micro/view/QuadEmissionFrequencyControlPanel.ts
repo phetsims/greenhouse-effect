@@ -26,7 +26,6 @@ import flashlight_png from '../../../mipmaps/flashlight_png.js';
 import infraredSource_png from '../../../mipmaps/infraredSource_png.js';
 import microwaveSource_png from '../../../mipmaps/microwaveSource_png.js';
 import uvSource_png from '../../../mipmaps/uvSource_png.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import PhotonAbsorptionModel from '../model/PhotonAbsorptionModel.js';
@@ -210,7 +209,5 @@ class QuadEmissionFrequencyControlPanel extends Node {
     this.addChild( energyText );
   }
 }
-
-greenhouseEffect.register( 'QuadEmissionFrequencyControlPanel', QuadEmissionFrequencyControlPanel );
 
 export default QuadEmissionFrequencyControlPanel;

@@ -18,7 +18,6 @@ import Shape from '../../../../kite/js/Shape.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import { ConcentrationControlMode } from '../model/ConcentrationModel.js';
 import CloudNode from './CloudNode.js';
@@ -64,5 +63,4 @@ class CloudCheckbox extends GreenhouseEffectCheckbox {
   }
 }
 
-greenhouseEffect.register( 'CloudCheckbox', CloudCheckbox );
 export default CloudCheckbox;

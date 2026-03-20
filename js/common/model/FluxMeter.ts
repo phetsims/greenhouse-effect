@@ -19,7 +19,6 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import WithRequired from '../../../../phet-core/js/types/WithRequired.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
 import AtmosphereLayer from './AtmosphereLayer.js';
 import EMEnergyPacket from './EMEnergyPacket.js';
@@ -211,5 +210,4 @@ class FluxMeter extends PhetioObject {
   }
 }
 
-greenhouseEffect.register( 'FluxMeter', FluxMeter );
 export default FluxMeter;

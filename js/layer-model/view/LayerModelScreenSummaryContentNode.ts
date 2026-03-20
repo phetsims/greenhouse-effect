@@ -10,7 +10,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import TemperatureDescriber from '../../common/view/describers/TemperatureDescriber.js';
 import GreenhouseEffectScreenSummaryContentNode from '../../common/view/GreenhouseEffectScreenSummaryContentNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayerModelModel from '../model/LayerModelModel.js';
 import InfraredAbsorbingLayersDescriptionProperty from './describers/InfraredAbsorbingLayersDescriptionProperty.js';
@@ -118,5 +117,3 @@ export default class LayerModelScreenSummaryContentNode extends GreenhouseEffect
     } );
   }
 }
-
-greenhouseEffect.register( 'LayerModelScreenSummaryContentNode', LayerModelScreenSummaryContentNode );

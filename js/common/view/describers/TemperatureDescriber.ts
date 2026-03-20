@@ -8,7 +8,6 @@
 import Range from '../../../../../dot/js/Range.js';
 import Utils from '../../../../../dot/js/Utils.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 import GreenhouseEffectUtils from '../../GreenhouseEffectUtils.js';
 import TemperatureUnits from '../../model/TemperatureUnits.js';
@@ -316,5 +315,4 @@ class TemperatureDescriber {
   }
 }
 
-greenhouseEffect.register( 'TemperatureDescriber', TemperatureDescriber );
 export default TemperatureDescriber;

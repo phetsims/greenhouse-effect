@@ -10,7 +10,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectQueryParameters from '../GreenhouseEffectQueryParameters.js';
 import TemperatureUnits from './TemperatureUnits.js';
 
@@ -39,5 +38,4 @@ const GreenhouseEffectPreferences = {
   } )
 };
 
-greenhouseEffect.register( 'GreenhouseEffectPreferences', GreenhouseEffectPreferences );
 export default GreenhouseEffectPreferences;

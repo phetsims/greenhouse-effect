@@ -14,7 +14,6 @@ import StringProperty from '../../../../../axon/js/StringProperty.js';
 import { TReadOnlyProperty } from '../../../../../axon/js/TReadOnlyProperty.js';
 import StringUtils from '../../../../../phetcommon/js/util/StringUtils.js';
 import AtmosphereLayer from '../../../common/model/AtmosphereLayer.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../../GreenhouseEffectFluent.js';
 
 type AltitudeData = {
@@ -154,5 +153,4 @@ const compareAltitudeToLayers = (
   return altitudeData;
 };
 
-greenhouseEffect.register( 'FluxSensorLayerRelationshipProperty', FluxSensorLayerRelationshipProperty );
 export default FluxSensorLayerRelationshipProperty;

@@ -16,7 +16,6 @@ import ConcentrationModel, { ConcentrationControlMode, ConcentrationDate, Concen
 import isVisible from '../../common/model/isVisible.js';
 import Photon from '../../common/model/Photon.js';
 import PhotonCollection from '../../common/model/PhotonCollection.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 type SelfOptions = EmptySelfOptions;
 type PhotonModelOptions = SelfOptions & ConcentrationModelOptions;
@@ -179,6 +178,5 @@ type PhotonsModelSelfStateObject = {
 };
 type PhotonsModelStateObject = PhotonsModelSelfStateObject & ConcentrationModelStateObject;
 
-greenhouseEffect.register( 'PhotonsModel', PhotonsModel );
 export type { PhotonModelOptions };
 export default PhotonsModel;

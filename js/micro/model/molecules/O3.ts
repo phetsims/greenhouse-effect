@@ -9,7 +9,6 @@
 
 import dotRandom from '../../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../../dot/js/Vector2.js';
-import greenhouseEffect from '../../../greenhouseEffect.js';
 import Atom from '../atoms/Atom.js';
 import AtomicBond from '../atoms/AtomicBond.js';
 import BreakApartStrategy from '../BreakApartStrategy.js';
@@ -151,7 +150,5 @@ class O3 extends Molecule {
     );
   }
 }
-
-greenhouseEffect.register( 'O3', O3 );
 
 export default O3;

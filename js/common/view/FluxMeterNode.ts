@@ -42,7 +42,6 @@ import ColorProperty from '../../../../scenery/js/util/ColorProperty.js';
 import AccessibleSlider, { AccessibleSliderOptions } from '../../../../sun/js/accessibility/AccessibleSlider.js';
 import Panel from '../../../../sun/js/Panel.js';
 import soundManager from '../../../../tambo/js/soundManager.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import GreenhouseEffectColors from '../GreenhouseEffectColors.js';
 import GreenhouseEffectConstants from '../GreenhouseEffectConstants.js';
@@ -604,5 +603,4 @@ class FluxSensorNode extends AccessibleSlider( Node, 0 ) {
   }
 }
 
-greenhouseEffect.register( 'FluxMeterNode', FluxMeterNode );
 export default FluxMeterNode;

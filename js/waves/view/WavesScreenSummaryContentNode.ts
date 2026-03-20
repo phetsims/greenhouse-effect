@@ -7,7 +7,6 @@
  */
 
 import LandscapeScreenSummaryContentNode from '../../common/view/LandscapeScreenSummaryContentNode.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import WavesModel from '../model/WavesModel.js';
 
@@ -21,7 +20,5 @@ class WavesScreenSummaryContentNode extends LandscapeScreenSummaryContentNode {
     );
   }
 }
-
-greenhouseEffect.register( 'WavesScreenSummaryContentNode', WavesScreenSummaryContentNode );
 
 export default WavesScreenSummaryContentNode;

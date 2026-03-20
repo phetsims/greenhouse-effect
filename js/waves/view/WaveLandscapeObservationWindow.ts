@@ -12,7 +12,6 @@ import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import EnergyRepresentation from '../../common/view/EnergyRepresentation.js';
 import GreenhouseEffectObservationWindow from '../../common/view/GreenhouseEffectObservationWindow.js';
 import LandscapeObservationWindow, { LandscapeObservationWindowOptions } from '../../common/view/LandscapeObservationWindow.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import WavesModel from '../model/WavesModel.js';
 import WaveLandscapeObservationWindowPDOMNode from './WaveLandscapeObservationWindowPDOMNode.js';
 import WavesCanvasNode from './WavesCanvasNode.js';
@@ -60,5 +59,4 @@ class WaveLandscapeObservationWindow extends LandscapeObservationWindow {
   }
 }
 
-greenhouseEffect.register( 'WaveLandscapeObservationWindow', WaveLandscapeObservationWindow );
 export default WaveLandscapeObservationWindow;

@@ -7,8 +7,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import greenhouseEffect from '../../greenhouseEffect.js';
-
 class MovingSampleWindow {
 
   // the period of time over which the recorded values are averaged
@@ -96,7 +94,5 @@ class Sample {
     this.dt = dt;
   }
 }
-
-greenhouseEffect.register( 'MovingSampleWindow', MovingSampleWindow );
 
 export default MovingSampleWindow;

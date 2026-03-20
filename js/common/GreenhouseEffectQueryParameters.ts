@@ -7,7 +7,6 @@
  */
 
 import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
-import greenhouseEffect from '../greenhouseEffect.js';
 
 const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
 
@@ -41,7 +40,5 @@ const GreenhouseEffectQueryParameters = QueryStringMachine.getAll( {
   // show representations of the energy absorbing/emitting layers on the screens where they are usually not visible
   showAllLayers: { type: 'flag' }
 } );
-
-greenhouseEffect.register( 'GreenhouseEffectQueryParameters', GreenhouseEffectQueryParameters );
 
 export default GreenhouseEffectQueryParameters;

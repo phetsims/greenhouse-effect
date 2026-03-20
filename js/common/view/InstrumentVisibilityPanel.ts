@@ -15,7 +15,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import VerticalCheckboxGroup, { VerticalCheckboxGroupItem, VerticalCheckboxGroupOptions } from '../../../../sun/js/VerticalCheckboxGroup.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import LayersModel from '../model/LayersModel.js';
 import EnergyDescriber from './describers/EnergyDescriber.js';
@@ -174,7 +173,5 @@ class InstrumentVisibilityPanel extends Panel {
     super( checkboxGroup, options );
   }
 }
-
-greenhouseEffect.register( 'InstrumentVisibilityPanel', InstrumentVisibilityPanel );
 
 export default InstrumentVisibilityPanel;

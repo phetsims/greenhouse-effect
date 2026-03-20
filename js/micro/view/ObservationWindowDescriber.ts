@@ -16,7 +16,6 @@
 
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import GreenhouseEffectFluent from '../../GreenhouseEffectFluent.js';
 import MicroPhoton from '../model/MicroPhoton.js';
 import Molecule from '../model/Molecule.js';
@@ -232,5 +231,4 @@ class ObservationWindowDescriber {
   }
 }
 
-greenhouseEffect.register( 'ObservationWindowDescriber', ObservationWindowDescriber );
 export default ObservationWindowDescriber;

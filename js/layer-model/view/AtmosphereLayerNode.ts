@@ -21,7 +21,6 @@ import AtmosphereLayer from '../../common/model/AtmosphereLayer.js';
 import EnergyAbsorbingEmittingLayer from '../../common/model/EnergyAbsorbingEmittingLayer.js';
 import TemperatureUnits from '../../common/model/TemperatureUnits.js';
 import TemperatureReadout from '../../common/view/TemperatureReadout.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import ShowTemperatureCheckbox, { ShowTemperatureCheckboxOptions } from './ShowTemperatureCheckbox.js';
 
 // constants
@@ -133,7 +132,5 @@ class AtmosphereLayerNode extends Node {
 
   public static readonly TEMPERATURE_DISPLAY_DEFAULT_INDENT = TEMPERATURE_DISPLAY_DEFAULT_INDENT;
 }
-
-greenhouseEffect.register( 'AtmosphereLayerNode', AtmosphereLayerNode );
 
 export default AtmosphereLayerNode;

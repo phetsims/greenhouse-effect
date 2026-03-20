@@ -16,7 +16,6 @@
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 import MicroPhoton from './MicroPhoton.js';
 import Molecule from './Molecule.js';
 
@@ -79,7 +78,5 @@ class PhotonAbsorptionStrategy {
     throw new Error( 'step should be implemented in descendant photon absorption strategies.' );
   }
 }
-
-greenhouseEffect.register( 'PhotonAbsorptionStrategy', PhotonAbsorptionStrategy );
 
 export default PhotonAbsorptionStrategy;

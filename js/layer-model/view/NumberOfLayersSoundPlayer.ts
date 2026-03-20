@@ -15,7 +15,6 @@ import TSoundPlayer from '../../../../tambo/js/TSoundPlayer.js';
 import oneAbsorbingLayer_mp3 from '../../../sounds/oneAbsorbingLayer_mp3.js';
 import threeAbsorbingLayers_mp3 from '../../../sounds/threeAbsorbingLayers_mp3.js';
 import twoAbsorbingLayers_mp3 from '../../../sounds/twoAbsorbingLayers_mp3.js';
-import greenhouseEffect from '../../greenhouseEffect.js';
 
 class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
 
@@ -64,5 +63,4 @@ class NumberOfLayersSoundPlayer extends SoundGenerator implements TSoundPlayer {
   }
 }
 
-greenhouseEffect.register( 'NumberOfLayersSoundPlayer', NumberOfLayersSoundPlayer );
 export default NumberOfLayersSoundPlayer;
