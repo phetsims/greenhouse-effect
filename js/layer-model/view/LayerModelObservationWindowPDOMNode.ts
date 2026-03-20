@@ -1,4 +1,4 @@
-// Copyright 2023-2025, University of Colorado Boulder
+// Copyright 2023-2026, University of Colorado Boulder
 
 /**
  * Responsible for PDOM content related to the observation window used in the waves screen.  This is mostly an
