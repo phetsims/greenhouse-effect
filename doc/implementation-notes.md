@@ -29,7 +29,7 @@ bugs or usability issues are reported and need to be addressed. This document is
 simulation's architecture, a sort of "forest for the trees" view. The devil is, of course, in the details, and the code
 itself should be considered the "ground truth".
 
-The reader is encouraged to read the [model document](https://github.com/phetsims/greenhouse-effect/blob/main/doc/model.md) before proceeding if they haven't already done so.
+The reader is encouraged to read the [model document](model.md) before proceeding if they haven't already done so.
 
 ## Overview
 
